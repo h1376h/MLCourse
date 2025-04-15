@@ -1,0 +1,41 @@
+# Hamed environment files
+hamed/
+
+# Media output folders
+media/
+**/media/
+
+# NLTK data
+nltk_data/
+
+# Dataset directory
+data/
+
+# Text files
+*.txt
+!requirements.txt
+
+# PDF files
+*.pdf
+
+# Lectures and slides
+andrew_lectures/
+other_slides/
+
+# Codes
+code/
+
+# Output directory
+output/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Manim cache
+*.manimcache
+.DS_Store
+
+# Obsidian files
+ML_Obsidian_Vault/.obsidian/
