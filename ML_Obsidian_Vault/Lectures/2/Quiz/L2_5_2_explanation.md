@@ -23,21 +23,22 @@ We need to apply Bayes' theorem to find the probability of having the disease gi
 ### Step 2: Applying Bayes' Theorem
 
 Let's define our variables:
-- P(D) = 0.01 (disease prevalence, prior probability)
-- P(+|D) = 0.95 (sensitivity, probability of positive test given disease)
-- P(-|¬D) = 0.90 (specificity, probability of negative test given no disease)
-- P(+|¬D) = 0.10 (false positive rate, 1 - specificity)
+- $P(D) = 0.01$ (disease prevalence, prior probability)
+- $P(+|D) = 0.95$ (sensitivity, probability of positive test given disease)
+- $P(-|\neg D) = 0.90$ (specificity, probability of negative test given no disease)
+- $P(+|\neg D) = 0.10$ (false positive rate, 1 - specificity)
 
 Bayes' theorem states:
-P(D|+) = [P(+|D) × P(D)] / P(+)
+$$P(D|+) = \frac{P(+|D) \times P(D)}{P(+)}$$
 
-Where P(+) = P(+|D) × P(D) + P(+|¬D) × P(¬D)
+Where $P(+)$ is the total probability of a positive test:
+$$P(+) = P(+|D) \times P(D) + P(+|\neg D) \times P(\neg D)$$
 
-Calculating P(+):
-P(+) = 0.95 × 0.01 + 0.10 × 0.99 = 0.0095 + 0.099 = 0.1085
+Calculating $P(+)$:
+$$P(+) = 0.95 \times 0.01 + 0.10 \times 0.99 = 0.0095 + 0.099 = 0.1085$$
 
-Now we can calculate P(D|+):
-P(D|+) = (0.95 × 0.01) / 0.1085 = 0.0095 / 0.1085 = 0.0876
+Now we can calculate $P(D|+)$:
+$$P(D|+) = \frac{0.95 \times 0.01}{0.1085} = \frac{0.0095}{0.1085} = 0.0876$$
 
 Therefore, despite a positive test result, there's only an 8.76% chance the person has the disease.
 
@@ -49,15 +50,15 @@ From the diagram, we can see:
 - Among 10,000 people, about 100 will have the disease and 9,900 will not
 - Of those with the disease, 95 will test positive (true positives)
 - Of those without the disease, 990 will test positive (false positives)
-- This gives us a positive predictive value (PPV) of 95/(95+990) = 8.76%
+- This gives us a positive predictive value (PPV) of $95/(95+990) = 8.76\%$
 
 ### Step 3: Updated Probability After Second Positive Test
 
-For the second test, our prior probability is now the posterior from the first test: P(D) = 0.0876.
+For the second test, our prior probability is now the posterior from the first test: $P(D) = 0.0876$.
 
 Applying Bayes' theorem again:
-- P(+) = 0.95 × 0.0876 + 0.10 × 0.9124 = 0.1744
-- P(D|+,+) = (0.95 × 0.0876) / 0.1744 = 0.4769
+$$P(+) = 0.95 \times 0.0876 + 0.10 \times 0.9124 = 0.1744$$
+$$P(D|+,+) = \frac{0.95 \times 0.0876}{0.1744} = 0.4769$$
 
 After two positive tests, the probability of having the disease rises to 47.69%.
 
