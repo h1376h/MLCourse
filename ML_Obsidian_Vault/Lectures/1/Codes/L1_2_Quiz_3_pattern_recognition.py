@@ -67,12 +67,10 @@ print("   - Image size standardization")
 digits = load_digits()
 X, y = digits.data, digits.target
 
-# Create a figure with multiple subplots
-fig = plt.figure(figsize=(15, 10))
-gs = gridspec.GridSpec(2, 3, height_ratios=[1, 1])
+# Create separate figures for digit recognition
 
-# Plot 1: Sample digits
-ax1 = plt.subplot(gs[0, 0])
+# Figure 1: Sample digits
+plt.figure(figsize=(8, 8))
 fig_indices = np.random.choice(len(X), 25, replace=False)
 for i, idx in enumerate(fig_indices[:25]):
     plt.subplot(5, 5, i + 1)
@@ -80,9 +78,14 @@ for i, idx in enumerate(fig_indices[:25]):
     plt.title(f"Digit: {y[idx]}")
     plt.axis('off')
 plt.suptitle('Sample Handwritten Digits', fontsize=14)
+plt.tight_layout()
+file_path = os.path.join(save_dir, "digit_samples.png")
+plt.savefig(file_path, dpi=300, bbox_inches='tight')
+plt.close()
+print(f"Figure saved to: {file_path}")
 
-# Plot 2: Feature visualization using PCA
-ax2 = plt.subplot(gs[0, 1:])
+# Figure 2: Feature visualization using PCA
+plt.figure(figsize=(10, 6))
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X)
 colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', 
@@ -93,11 +96,17 @@ for i in range(10):
 plt.title('PCA: Digits Projected to 2D', fontsize=14)
 plt.xlabel('Principal Component 1')
 plt.ylabel('Principal Component 2')
-plt.legend(loc='upper right', bbox_to_anchor=(1.3, 1))
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.tight_layout()
+file_path = os.path.join(save_dir, "digit_pca.png")
+plt.savefig(file_path, dpi=300, bbox_inches='tight')
+plt.close()
+print(f"Figure saved to: {file_path}")
 
-# Plot 3: CNN architecture (simplified visualization)
-ax3 = plt.subplot(gs[1, :])
-ax3.axis('off')
+# Figure 3: CNN architecture visualization
+plt.figure(figsize=(12, 6))
+ax = plt.gca()
+ax.axis('off')
 
 # Draw CNN architecture
 def draw_layer(ax, x, y, width, height, color, text):
@@ -107,18 +116,18 @@ def draw_layer(ax, x, y, width, height, color, text):
 
 # Simplified CNN architecture
 # Input layer
-draw_layer(ax3, 0.05, 0.2, 0.1, 0.6, '#a1dab4', 'Input\n28x28\nImage')
+draw_layer(ax, 0.05, 0.2, 0.1, 0.6, '#a1dab4', 'Input\n28x28\nImage')
 
 # Convolutional layers
-draw_layer(ax3, 0.2, 0.15, 0.1, 0.7, '#41b6c4', 'Conv\n3x3\nFilters')
-draw_layer(ax3, 0.35, 0.1, 0.1, 0.8, '#41b6c4', 'Conv\n3x3\nFilters')
+draw_layer(ax, 0.2, 0.15, 0.1, 0.7, '#41b6c4', 'Conv\n3x3\nFilters')
+draw_layer(ax, 0.35, 0.1, 0.1, 0.8, '#41b6c4', 'Conv\n3x3\nFilters')
 
 # Pooling layer
-draw_layer(ax3, 0.5, 0.2, 0.1, 0.6, '#2c7fb8', 'Max\nPooling\n2x2')
+draw_layer(ax, 0.5, 0.2, 0.1, 0.6, '#2c7fb8', 'Max\nPooling\n2x2')
 
 # Fully connected layers
-draw_layer(ax3, 0.65, 0.3, 0.1, 0.4, '#253494', 'Fully\nConnected\n128')
-draw_layer(ax3, 0.8, 0.35, 0.1, 0.3, '#253494', 'Output\n10\nClasses')
+draw_layer(ax, 0.65, 0.3, 0.1, 0.4, '#253494', 'Fully\nConnected\n128')
+draw_layer(ax, 0.8, 0.35, 0.1, 0.3, '#253494', 'Output\n10\nClasses')
 
 # Add arrows
 arrows = [
@@ -130,13 +139,12 @@ arrows = [
 ]
 
 for start_x, start_y, end_x, end_y in arrows:
-    ax3.annotate("", xy=(end_x, end_y), xytext=(start_x, start_y),
+    ax.annotate("", xy=(end_x, end_y), xytext=(start_x, start_y),
                 arrowprops=dict(arrowstyle="->", color='black', lw=1.5))
 
-ax3.set_title('Convolutional Neural Network Architecture for Digit Recognition', fontsize=14)
-
+plt.title('Convolutional Neural Network Architecture for Digit Recognition', fontsize=14)
 plt.tight_layout()
-file_path = os.path.join(save_dir, "digit_recognition.png")
+file_path = os.path.join(save_dir, "digit_cnn_architecture.png")
 plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
@@ -196,31 +204,40 @@ y = labels.astype(int)
 # Split the data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)
 
-# Create a figure with multiple plots
-fig, axs = plt.subplots(2, 2, figsize=(15, 12))
+# Figure 1: Transaction amount vs. time of day
+plt.figure(figsize=(8, 6))
+scatter = plt.scatter(X[:, 1], X[:, 0], c=y, alpha=0.6, 
+                   cmap=ListedColormap(['#1f77b4', '#d62728']),
+                   s=np.log1p(X[:, 0])*5)
+plt.title('Transaction Amount vs. Time of Day', fontsize=12)
+plt.xlabel('Time of Day (hour)')
+plt.ylabel('Transaction Amount ($)')
+plt.xlim(0, 24)
+legend1 = plt.legend(*scatter.legend_elements(), title="Transaction Type")
+plt.gca().add_artist(legend1)
+plt.tight_layout()
+file_path = os.path.join(save_dir, "fraud_amount_time.png")
+plt.savefig(file_path, dpi=300, bbox_inches='tight')
+plt.close()
+print(f"Figure saved to: {file_path}")
 
-# Plot 1: Transaction amount vs. time of day
-scatter = axs[0, 0].scatter(X[:, 1], X[:, 0], c=y, alpha=0.6, 
-                          cmap=ListedColormap(['#1f77b4', '#d62728']),
-                          s=np.log1p(X[:, 0])*5)
-axs[0, 0].set_title('Transaction Amount vs. Time of Day', fontsize=12)
-axs[0, 0].set_xlabel('Time of Day (hour)')
-axs[0, 0].set_ylabel('Transaction Amount ($)')
-axs[0, 0].set_xlim(0, 24)
-legend1 = axs[0, 0].legend(*scatter.legend_elements(), title="Transaction Type")
-axs[0, 0].add_artist(legend1)
+# Figure 2: Transaction amount vs. distance from home
+plt.figure(figsize=(8, 6))
+scatter = plt.scatter(X[:, 2], X[:, 0], c=y, alpha=0.6, 
+                   cmap=ListedColormap(['#1f77b4', '#d62728']),
+                   s=np.log1p(X[:, 0])*5)
+plt.title('Transaction Amount vs. Distance from Home', fontsize=12)
+plt.xlabel('Distance from Home (miles)')
+plt.ylabel('Transaction Amount ($)')
+legend2 = plt.legend(*scatter.legend_elements(), title="Transaction Type")
+plt.gca().add_artist(legend2)
+plt.tight_layout()
+file_path = os.path.join(save_dir, "fraud_amount_distance.png")
+plt.savefig(file_path, dpi=300, bbox_inches='tight')
+plt.close()
+print(f"Figure saved to: {file_path}")
 
-# Plot 2: Transaction amount vs. distance from home
-scatter = axs[0, 1].scatter(X[:, 2], X[:, 0], c=y, alpha=0.6, 
-                          cmap=ListedColormap(['#1f77b4', '#d62728']),
-                          s=np.log1p(X[:, 0])*5)
-axs[0, 1].set_title('Transaction Amount vs. Distance from Home', fontsize=12)
-axs[0, 1].set_xlabel('Distance from Home (miles)')
-axs[0, 1].set_ylabel('Transaction Amount ($)')
-legend2 = axs[0, 1].legend(*scatter.legend_elements(), title="Transaction Type")
-axs[0, 1].add_artist(legend2)
-
-# Plot 3: Decision boundary (simplified)
+# Figure 3: Decision boundary
 # Train a simple classifier
 clf = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
 clf.fit(X_train[:, [1, 2]], y_train)  # Using only time and distance
@@ -236,32 +253,39 @@ Z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])[:, 1]
 Z = Z.reshape(xx.shape)
 
 # Plot decision boundary
-contour = axs[1, 0].contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.RdBu_r)
-axs[1, 0].scatter(X[:, 1], X[:, 2], c=y, alpha=0.8, 
-                cmap=ListedColormap(['#1f77b4', '#d62728']))
-axs[1, 0].set_title('Decision Boundary: Time vs. Distance', fontsize=12)
-axs[1, 0].set_xlabel('Time of Day (hour)')
-axs[1, 0].set_ylabel('Distance from Home (miles)')
-axs[1, 0].set_xlim(0, 24)
+plt.figure(figsize=(8, 6))
+contour = plt.contourf(xx, yy, Z, alpha=0.3, cmap=plt.cm.RdBu_r)
+plt.scatter(X[:, 1], X[:, 2], c=y, alpha=0.8, 
+           cmap=ListedColormap(['#1f77b4', '#d62728']))
+plt.title('Decision Boundary: Time vs. Distance', fontsize=12)
+plt.xlabel('Time of Day (hour)')
+plt.ylabel('Distance from Home (miles)')
+plt.xlim(0, 24)
+plt.colorbar(contour, label='Fraud Probability')
+plt.tight_layout()
+file_path = os.path.join(save_dir, "fraud_decision_boundary.png")
+plt.savefig(file_path, dpi=300, bbox_inches='tight')
+plt.close()
+print(f"Figure saved to: {file_path}")
 
-# Plot 4: Feature importance
+# Figure 4: Feature importance
 # Train a classifier on all features
 full_clf = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
 full_clf.fit(X_train, y_train)
 importances = full_clf.feature_importances_
 feature_names = ['Transaction Amount', 'Time of Day', 'Distance from Home']
 
+plt.figure(figsize=(8, 6))
 indices = np.argsort(importances)
-axs[1, 1].barh(range(len(indices)), importances[indices], color='#2ca02c')
-axs[1, 1].set_yticks(range(len(indices)))
-axs[1, 1].set_yticklabels([feature_names[i] for i in indices])
-axs[1, 1].set_title('Feature Importance for Fraud Detection', fontsize=12)
-axs[1, 1].set_xlabel('Relative Importance')
-
+plt.barh(range(len(indices)), importances[indices], color='#2ca02c')
+plt.yticks(range(len(indices)), [feature_names[i] for i in indices])
+plt.title('Feature Importance for Fraud Detection', fontsize=12)
+plt.xlabel('Relative Importance')
 plt.tight_layout()
-file_path = os.path.join(save_dir, "fraud_detection.png")
+file_path = os.path.join(save_dir, "fraud_feature_importance.png")
 plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
+print(f"Figure saved to: {file_path}")
 
-# Create a partial file, to be continued in part 2 
+# Create a partial file, to be continued in part 2

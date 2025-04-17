@@ -17,7 +17,11 @@ Pattern recognition is a fundamental aspect of machine learning. For each of the
 
 Handwritten digit recognition is a classic pattern recognition problem where the goal is to identify which digit (0-9) is represented in a given image.
 
-![Handwritten Digit Recognition](../Images/L1_2_Quiz_3/digit_recognition.png)
+![Sample Handwritten Digits](../Images/L1_2_Quiz_3/digit_samples.png)
+
+![PCA Visualization of Digits](../Images/L1_2_Quiz_3/digit_pca.png)
+
+![CNN Architecture](../Images/L1_2_Quiz_3/digit_cnn_architecture.png)
 
 **Key Challenges:**
 - Variations in handwriting styles across different individuals
@@ -58,7 +62,13 @@ Handwritten digit recognition is a classic pattern recognition problem where the
 
 Fraud detection involves identifying unauthorized or suspicious transactions in a sea of legitimate ones, making it both a classification problem and an anomaly detection challenge.
 
-![Fraud Detection](../Images/L1_2_Quiz_3/fraud_detection.png)
+![Transaction Amount vs Time](../Images/L1_2_Quiz_3/fraud_amount_time.png)
+
+![Transaction Amount vs Distance](../Images/L1_2_Quiz_3/fraud_amount_distance.png)
+
+![Decision Boundary](../Images/L1_2_Quiz_3/fraud_decision_boundary.png)
+
+![Feature Importance](../Images/L1_2_Quiz_3/fraud_feature_importance.png)
 
 **Key Challenges:**
 - Highly imbalanced data (fraud typically <1% of transactions)
@@ -190,4 +200,4 @@ Pattern recognition approaches vary significantly based on the type of data and 
 
 4. **Seasonal Pattern Analysis** applies time series methods to decompose retail data into trend, seasonal, and irregular components, identifying patterns at multiple time scales.
 
-What unifies these diverse approaches is the fundamental goal of extracting meaningful patterns from noisy data, and the need to develop custom solutions tailored to the specific characteristics of each problem domain. 
+What unifies these diverse approaches is the fundamental goal of extracting meaningful patterns from noisy data, and the need to develop custom solutions tailored to the specific characteristics of each problem domain.
