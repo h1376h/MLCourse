@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 23 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 22 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -301,20 +301,6 @@ For a detailed explanation of these fill-in-the-blank questions, see [Question 1
 ## Question 20
 
 ### Problem Statement
-Provide brief answers to the following questions about concentration inequalities.
-
-#### Task
-1. State the Markov inequality and explain its practical implications.
-2. How does Chebyshev's inequality improve upon Markov's inequality?
-3. What does Hoeffding's inequality tell us about the convergence of sample means?
-4. How can concentration inequalities be applied to evaluate the generalization error in machine learning models?
-5. Compare and contrast the assumptions required for applying the Law of Large Numbers versus the Central Limit Theorem.
-
-For a detailed explanation of these short answer questions, see [Question 20: Concentration Inequalities](L2_1_23_explanation.md).
-
-## Question 21
-
-### Problem Statement
 Match each probability distribution with its most appropriate application scenario.
 
 #### Task
@@ -338,9 +324,9 @@ H) Beta
 7. Modeling the number of successes in a fixed number of independent trials
 8. Representing a random variable that is equally likely to take any value in a range
 
-For a detailed explanation of this matching exercise, see [Question 21: Distribution Applications](L2_1_24_explanation.md).
+For a detailed explanation of this matching exercise, see [Question 20: Distribution Applications](L2_1_24_explanation.md).
 
-## Question 22
+## Question 21
 
 ### Problem Statement
 Random variables $X$ and $Y$ have the following joint probability mass function:
@@ -357,9 +343,9 @@ c(x+y) & \text{for } x \in \{0,1,2\} \text{ and } y \in \{0,1\} \\
 4. Calculate the conditional probability mass function $P(Y|X=1)$.
 5. Compute $E[X|Y=1]$ and interpret its meaning.
 
-For a detailed explanation of this problem, see [Question 22: Joint Distributions Analysis](L2_1_26_explanation.md).
+For a detailed explanation of this problem, see [Question 21: Joint Distributions Analysis](L2_1_26_explanation.md).
 
-## Question 23
+## Question 22
 
 ### Problem Statement
 In a machine learning context, consider three events:
@@ -374,4 +360,4 @@ In a machine learning context, consider three events:
 4. How does conditional independence differ from marginal independence?
 5. How might violating a conditional independence assumption impact a machine learning model's performance?
 
-For a detailed explanation of this problem, see [Question 23: Conditional Independence in ML](L2_1_27_explanation.md).
+For a detailed explanation of this problem, see [Question 22: Conditional Independence in ML](L2_1_27_explanation.md).
