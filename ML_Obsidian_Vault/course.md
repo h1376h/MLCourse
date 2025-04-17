@@ -20,7 +20,7 @@
   - ⭐ Examples: [[L1_2_Problem_Identification]]
   - 📚 Special Examples (Slides): Coming Soon
 - 1.3: Generalization Concepts
-  - ⭐ Quiz: [[L1_3_Quiz]]
+  - 📚 Quiz: [[L1_3_Quiz]]
   - 📚 Examples: Coming Soon
   - 📚 Special Examples (Slides): Coming Soon
 - 1.4: Well-posed Learning Problems
