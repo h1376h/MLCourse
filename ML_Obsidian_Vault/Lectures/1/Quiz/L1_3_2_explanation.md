@@ -104,8 +104,6 @@ The script `L1_3_2_bias_variance.py` simulates the tradeoff:
 
 ## Visual Explanations
 
-## Visual Explanations
-
 ### Model Complexity Effects
 ![Model Fits with Different Complexity](../Images/L1_3_Quiz_2/model_complexity_fits.png)
 *Figure 1: Example fits showing underfitting (degree 1, teal), good fit (degree 4, gold), and overfitting (degree 15, red).*
