@@ -104,13 +104,29 @@ The script `L1_3_2_bias_variance.py` simulates the tradeoff:
 
 ## Visual Explanations
 
+## Visual Explanations
+
 ### Model Complexity Effects
 ![Model Fits with Different Complexity](../Images/L1_3_Quiz_2/model_complexity_fits.png)
 *Figure 1: Example fits showing underfitting (degree 1, teal), good fit (degree 4, gold), and overfitting (degree 15, red).*
 
-### Tradeoff Visualization
+### Bias-Variance Tradeoff
 ![Bias-Variance Tradeoff Plot](../Images/L1_3_Quiz_2/bias_variance_tradeoff_plot.png)
 *Figure 2: Bias² (blue) decreases while Variance (red) increases with complexity. Total Error (black) minimizes at intermediate complexity.*
+
+### Bias Illustration
+![Bias Illustration with Degree 1](../Images/L1_3_Quiz_2/bias_illustration_deg1.png)
+*Figure 3: Low complexity model (degree 1) showing high bias - consistent underfitting across different training sets.*
+
+![Bias Illustration with Degree 10](../Images/L1_3_Quiz_2/bias_illustration_deg10.png)
+*Figure 4: High complexity model (degree 10) showing low bias - better average fit to the true function.*
+
+### Variance Illustration
+![Variance Illustration with Degree 1](../Images/L1_3_Quiz_2/variance_illustration_deg1.png)
+*Figure 5: Low complexity model (degree 1) showing low variance - predictions are stable across different training sets.*
+
+![Variance Illustration with Degree 10](../Images/L1_3_Quiz_2/variance_illustration_deg10.png)
+*Figure 6: High complexity model (degree 10) showing high variance - predictions vary significantly with different training sets.*
 
 ## Key Insights
 
