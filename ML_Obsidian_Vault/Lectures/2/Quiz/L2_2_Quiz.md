@@ -18,6 +18,8 @@ Consider a discrete random variable $X$ with the following probability distribut
 3. If we have another random variable $Y$ with the same possible values but is deterministic (i.e., one outcome has probability 1), what is its entropy?
 4. Explain why the uniform distribution has maximum entropy among all distributions over the same set of values
 
+For a detailed explanation of this question, see [Question 1: Entropy Calculations and Properties](L2_2_1_explanation.md).
+
 ## Question 2
 
 ### Problem Statement
@@ -30,6 +32,8 @@ Consider two distributions $P$ and $Q$ over the same discrete random variable $X
 2. Calculate the KL divergence $D_{KL}(Q||P)$
 3. Calculate the cross-entropy $H(P, Q)$
 4. Explain why $D_{KL}(P||Q) \neq D_{KL}(Q||P)$ and what this means in practice
+
+For a detailed explanation of this question, see [Question 2: KL Divergence and Cross-Entropy](L2_2_2_explanation.md).
 
 ## Question 3
 
@@ -47,6 +51,8 @@ Consider two discrete random variables $X$ and $Y$ with the following joint prob
 3. Calculate the joint entropy $H(X, Y)$
 4. Calculate the mutual information $I(X; Y)$ and interpret what it means about the relationship between $X$ and $Y$
 
+For a detailed explanation of this question, see [Question 3: Joint Entropy and Mutual Information](L2_2_3_explanation.md).
+
 ## Question 4
 
 ### Problem Statement
@@ -58,6 +64,8 @@ In a classification problem, we have a binary classifier that outputs the probab
 3. Calculate the KL divergence between the true distribution and predicted distribution
 4. Explain how minimizing the cross-entropy loss relates to maximum likelihood estimation
 
+For a detailed explanation of this question, see [Question 4: Cross-Entropy Loss in Classification](L2_2_4_explanation.md).
+
 ## Question 5
 
 ### Problem Statement
@@ -67,6 +75,8 @@ Consider a fair coin toss ($P(\text{heads}) = 0.5$, $P(\text{tails}) = 0.5$).
 1. Calculate the entropy of this distribution
 2. If we have a biased coin with $P(\text{heads}) = 0.8$, what is its entropy?
 3. Explain why the fair coin has higher entropy than the biased coin
+
+For a detailed explanation of this question, see [Question 5: Entropy in Coin Tosses](L2_2_5_explanation.md).
 
 ## Question 6
 
@@ -94,3 +104,5 @@ Consider a simple binary classification problem where:
 2. Calculate the entropy $H(P)$
 3. Calculate the KL divergence $D_{KL}(P||Q)$
 4. Verify that $H(P, Q) = H(P) + D_{KL}(P||Q)$ 
+
+For a detailed explanation of this question, see [Question 7: Cross-Entropy, Entropy, and KL Divergence Relationship](L2_2_7_explanation.md). 
