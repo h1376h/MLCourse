@@ -37,7 +37,7 @@
   - 📚 Examples: [[L2_1_Examples|Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.2: Information Theory and Entropy
-  - ⭐ Quiz: [[L2_2_Quiz]]
+  - 📚 Quiz: [[L2_2_Quiz]]
   - 📚 Examples: Coming Soon
   - 📚 Special Examples (Slides): Coming Soon
 - 2.3: Statistical Estimation Basics
