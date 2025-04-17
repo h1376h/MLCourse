@@ -271,3 +271,19 @@ A machine learning model is trained on a dataset where 60% of the samples are fr
 4. If we balance the dataset to have 50% samples from each class, what would be the new expected accuracy?
 
 For a detailed explanation of this problem, including the application of the Law of Total Expectation and Law of Total Variance, see [Question 18: Expected Model Performance](L2_1_18_explanation.md). 
+
+## Question 19
+
+### Problem Statement
+Consider a random sample $X_1, X_2, \ldots, X_n$ from a normal population $N(\mu, 1)$.
+
+#### Task
+What is the expected value of the following statistic?
+
+**Options:**
+A) $\mu^2 + 1$
+B) $\mu + 1$
+C) $\mu^2$
+D) $\mu - 1$
+
+For a detailed explanation, see [Question 19: Expected Value of Statistics in Normal Distribution](L2_1_19_explanation.md). 
