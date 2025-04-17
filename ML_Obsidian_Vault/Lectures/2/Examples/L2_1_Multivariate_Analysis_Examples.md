@@ -60,5 +60,5 @@ For practice multiple-choice questions on multivariate analysis, see:
 2. [[L2_1_Linear_Transformation|Linear Transformation]]: Examples of applying and analyzing linear transformations of multivariate data
 3. [[L2_1_Mahalanobis_Distance|Mahalanobis Distance]]: Examples of computing Mahalanobis distance for outlier detection
 4. [[L2_1_PCA|Principal Component Analysis]]: Examples of dimensionality reduction using PCA
-5. [[L2_3_Multivariate_Regression|Multivariate Regression]]: Examples of regression with multiple predictor variables
+5. [[L3_3_Multivariate_Regression|Multivariate Regression]]: Examples of regression with multiple predictor variables
 6. [[L2_1_Hotellings_T2|Hotelling's T² Test]]: Examples of multivariate hypothesis testing for comparing mean vectors 

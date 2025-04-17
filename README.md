@@ -7,6 +7,7 @@ A curated collection of machine learning materials, examples, and notes.
 - **ML_Obsidian_Vault/**: Knowledge base containing structured ML notes
   - **Lectures/**: Detailed lecture notes and materials
   - **index.md**: Main entry point for the Obsidian vault
+  - **course.md**: Comprehensive structured guide with questions, examples, and slide references
   - **README.md**: Instructions for using the Obsidian vault
 
 - **code/**: Implementation of ML algorithms and examples
@@ -44,7 +45,8 @@ scipy>=1.15.2
 
 ## Usage
 
-- Open the Obsidian vault in `ML_Obsidian_Vault` and start with `index.md`
+- Open the Obsidian vault in `ML_Obsidian_Vault` and start with `course.md` for a structured learning path
+- **Recommended**: Use `course.md` as your primary resource with its organized questions, examples, and slide references
 - Run code examples from the `ML_Obsidian_Vault/Code` directory
 - Use lecture materials as reference for deeper understanding
 - Store your personal notes and slides in the appropriate directories that are ignored by git

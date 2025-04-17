@@ -203,4 +203,4 @@ In practice, one might first perform the Hotelling's T² test to determine if th
 ## Related Topics
 - [[L2_1_Mean_Covariance|Mean Vector and Covariance Matrix]]: Fundamental statistics used in Hotelling's T² test
 - [[L2_1_Mahalanobis_Distance|Mahalanobis Distance]]: The squared Mahalanobis distance is closely related to the T² statistic
-- [[L2_3_Multivariate_Regression|Multivariate Regression]]: Hotelling's T² can be used for testing coefficients in multivariate regression 
+- [[L3_3_Multivariate_Regression|Multivariate Regression]]: Hotelling's T² can be used for testing coefficients in multivariate regression 

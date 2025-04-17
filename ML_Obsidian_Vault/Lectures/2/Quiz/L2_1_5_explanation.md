@@ -24,16 +24,16 @@ The solution involves applying Bayes' theorem to calculate the positive predicti
   This is the probability that the model predicts disease X (B) given that the patient does not have disease X (not A).
 
 ### Step 2: Calculate P(B) using the law of total probability
-P(B) = P(B|A)P(A) + P(B|not A)P(not A)
-P(B) = 0.92 × 0.05 + 0.08 × 0.95
-P(B) = 0.046 + 0.076 = 0.122
+$P(B) = P(B|A)P(A) + P(B|not A)P(not A)$
+$P(B) = 0.92 × 0.05 + 0.08 × 0.95$
+$P(B) = 0.046 + 0.076 = 0.122$
 
 The probability of a positive test result is 0.122 or 12.2%.
 
 ### Step 3: Calculate P(A|B) using Bayes' theorem
-P(A|B) = [P(B|A) × P(A)] / P(B)
-P(A|B) = (0.92 × 0.05) / 0.122
-P(A|B) = 0.046 / 0.122 = 0.377
+$P(A|B) = [P(B|A) × P(A)] / P(B)$
+$P(A|B) = (0.92 × 0.05) / 0.122$
+$P(A|B) = 0.046 / 0.122 = 0.377$
 
 The positive predictive value (PPV) is 0.377 or 37.7%.
 

@@ -1,5 +1,6 @@
-# Hamed environment files
+# Environment files
 hamed/
+ml_env/
 
 # Media output folders
 media/

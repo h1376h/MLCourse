@@ -103,27 +103,27 @@ Therefore, our model predicts that a patient taking 175mg of vitamin C daily wou
 ## Visual Explanations
 
 ### Regression Line
-![Linear Regression: Cold Duration vs. Vitamin C Intake](../Images/L3_1_Quiz_14/fig1_regression_line.png)
+![Linear Regression: Cold Duration vs. Vitamin C Intake](../Images/L3_2_Quiz_14/fig1_regression_line.png)
 
 This figure shows the observed data points (blue) and the fitted regression line (red). The green point represents our prediction for a vitamin C intake of 175mg. We can clearly see the negative relationship between vitamin C intake and cold duration—as intake increases, duration decreases. The high R² value of 0.9643 indicates that about 96.4% of the variation in cold duration can be explained by vitamin C intake.
 
 ### Residuals Plot
-![Residuals Plot](../Images/L3_1_Quiz_14/fig2_residuals_plot.png)
+![Residuals Plot](../Images/L3_2_Quiz_14/fig2_residuals_plot.png)
 
 The residuals plot shows the differences between the observed cold durations and those predicted by our model. The residuals appear to be randomly distributed around zero, which is a good indication that our linear model is appropriate for this data. There's no obvious pattern that would suggest a more complex model is needed.
 
 ### Actual vs. Predicted Values
-![Actual vs. Predicted Values](../Images/L3_1_Quiz_14/fig3_actual_vs_predicted.png)
+![Actual vs. Predicted Values](../Images/L3_2_Quiz_14/fig3_actual_vs_predicted.png)
 
 This plot compares the actual observed cold durations with those predicted by our model. The points lie close to the diagonal line, indicating good predictive accuracy. We can see that patients 1-4 have predictions that closely match their actual cold durations, while there's a bit more deviation for patients 5 and 6.
 
 ### Effectiveness Visualization
-![Effectiveness of Vitamin C in Reducing Cold Duration](../Images/L3_1_Quiz_14/fig4_effectiveness_visualization.png)
+![Effectiveness of Vitamin C in Reducing Cold Duration](../Images/L3_2_Quiz_14/fig4_effectiveness_visualization.png)
 
 This bar chart visualizes the predicted cold duration for different vitamin C intake levels, ranging from 0 to 500mg. The arrows between bars show the consistent reduction of approximately 1.71 days for each additional 100mg of vitamin C. This helps us understand the practical significance of the slope coefficient.
 
 ### Prediction Visualization
-![Prediction of Cold Duration for 175mg Vitamin C](../Images/L3_1_Quiz_14/fig5_prediction_visualization.png)
+![Prediction of Cold Duration for 175mg Vitamin C](../Images/L3_2_Quiz_14/fig5_prediction_visualization.png)
 
 This figure focuses on our prediction for a patient with a vitamin C intake of 175mg. The prediction (4.67 days) is shown as a green point on the regression line. The shaded region represents an approximate confidence band, indicating the uncertainty in our predictions.
 

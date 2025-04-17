@@ -14,6 +14,8 @@ For each of the following real-world scenarios, identify whether it is a classif
 3. Identifying groups of similar customer profiles from demographic and purchasing data
 4. Reducing the number of features in a high-dimensional gene expression dataset while preserving the most important patterns
 
+For a detailed explanation of this problem, including learning problem categorization and formulation techniques, see [Question 1: Learning Problem Identification](L1_2_1_explanation.md).
+
 ## Question 2
 
 ### Problem Statement
@@ -26,6 +28,8 @@ Consider a business problem: A retail company wants to optimize its marketing st
 4. Describe how you would evaluate the success of your solution
 5. Discuss potential challenges and limitations
 
+For a detailed explanation of this problem, including business problem formulation and evaluation strategies, see [Question 2: Marketing Optimization Problem](L1_2_2_explanation.md).
+
 ## Question 3
 
 ### Problem Statement
@@ -37,6 +41,8 @@ Pattern recognition is a fundamental aspect of machine learning. For each of the
 3. Recognizing emotions in facial expressions
 4. Identifying seasonal patterns in retail sales data
 
+For a detailed explanation of this problem, including pattern recognition techniques and appropriate algorithms, see [Question 3: Pattern Recognition Approaches](L1_2_3_explanation.md).
+
 ## Question 4
 
 ### Problem Statement
@@ -47,4 +53,6 @@ Consider a healthcare application: Predicting whether a patient is likely to be 
 2. Identify the input features you would use (be specific)
 3. Define the target variable precisely
 4. Discuss the ethical considerations and potential biases in this application
-5. Describe how you would validate the model before deployment in a clinical setting 
+5. Describe how you would validate the model before deployment in a clinical setting
+
+For a detailed explanation of this problem, including healthcare machine learning applications and ethical considerations, see [Question 4: Healthcare Prediction Problem](L1_2_4_explanation.md). 

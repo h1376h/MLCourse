@@ -2,6 +2,12 @@
 
 Welcome to the unofficial course materials for Machine Learning. This knowledge base contains lecture notes, assignments, and supplementary resources to help you succeed in the course.
 
+## Navigation Options
+
+This vault offers two ways to navigate the content:
+1. **Comprehensive View (Current File)**: This index contains all lectures, readings, and supplementary materials.
+2. **Questions & Quizzes View**: For exam preparation, see [[course|Questions and Quizzes]] which focuses exclusively on practice questions and exercises.
+
 ## Course Information
 
 - **Instructor**: Dr. Zahra Rahimi

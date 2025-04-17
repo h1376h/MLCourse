@@ -14,7 +14,7 @@ This module introduces the fundamental concepts of machine learning, including d
 ### Lecture 1.2: Identifying Learning Problems
 - Pattern Recognition: Techniques for identifying patterns in data
 - Learning Problem Formulation: How to formulate real-world problems as learning tasks
-- [[L1_2_Application_Examples]]: Real-world applications of machine learning
+- [[L1_2_Problem_Identification]]: How to identify if a problem is suitable for ML
 - Required Reading: Chapter 1.4 of "Pattern Recognition and Machine Learning" by Bishop
 - Quiz: [[L1_2_Quiz]]: Test your understanding of learning problem formulation
 
@@ -28,7 +28,7 @@ This module introduces the fundamental concepts of machine learning, including d
 ### Lecture 1.4: Well-posed Learning Problems
 - [[L1_4_ML_Fundamentals]]: Core theoretical foundations
 - [[L1_4_Well_Posed_Examples]]: Examples of properly formulated learning problems
-- [[L1_4_Problem_Identification]]: How to identify if a problem is suitable for ML
+- [[L1_4_Application_Examples]]: Real-world applications of machine learning
 - Required Reading: Chapter 1.7 of "Pattern Recognition and Machine Learning" by Bishop
 - Quiz: [[L1_4_Quiz]]: Test your understanding of well-posed learning problems
 
