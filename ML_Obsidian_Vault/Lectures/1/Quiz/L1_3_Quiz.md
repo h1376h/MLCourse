@@ -16,6 +16,8 @@ Consider the following learning scenarios and identify whether each is more like
 
 For each case, explain your reasoning and suggest an approach to improve the model's performance.
 
+For a detailed explanation of this problem, including underfitting and overfitting concepts and mitigation strategies, see [Question 1: Underfitting vs Overfitting](L1_3_1_explanation.md).
+
 ## Question 2
 
 ### Problem Statement
@@ -31,6 +33,8 @@ The bias-variance tradeoff is a fundamental concept in machine learning.
    c. k-nearest neighbors with k=1
    d. Support vector machine with a linear kernel
 
+For a detailed explanation of this problem, including bias-variance decomposition and model complexity analysis, see [Question 2: Bias-Variance Tradeoff](L1_3_2_explanation.md).
+
 ## Question 3
 
 ### Problem Statement
@@ -42,6 +46,8 @@ Regularization is a key technique to prevent overfitting in machine learning mod
 3. Describe how increasing the regularization parameter affects the model's complexity and performance
 4. For a linear regression model with 100 features where many features are suspected to be irrelevant, would you recommend L1 or L2 regularization? Explain your reasoning
 
+For a detailed explanation of this problem, including regularization techniques and their effects on model performance, see [Question 3: Regularization Techniques](L1_3_3_explanation.md).
+
 ## Question 4
 
 ### Problem Statement
@@ -51,4 +57,6 @@ Consider a classification problem where you are trying to predict whether a cust
 1. Describe how you would split your data into training, validation, and test sets, and explain the purpose of each
 2. Explain how k-fold cross-validation works and why it might be preferred over a simple train-test split
 3. If your model achieves 95% accuracy on the training data but only 75% on the test data, what might be happening? What strategies would you employ to address this issue?
-4. If your dataset is imbalanced (e.g., only 5% of customers churn), discuss how this might affect your evaluation metrics and what techniques you could use to address this challenge 
+4. If your dataset is imbalanced (e.g., only 5% of customers churn), discuss how this might affect your evaluation metrics and what techniques you could use to address this challenge
+
+For a detailed explanation of this problem, including model validation strategies and handling imbalanced datasets, see [Question 4: Model Validation and Evaluation](L1_3_4_explanation.md). 
