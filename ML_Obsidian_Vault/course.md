@@ -36,11 +36,8 @@
 - 2.1: Probability Fundamentals
   - ⭐ Quiz: [[L2_1_Quiz_course]]
   - 📚 Examples: [[L2_1_Examples|Examples]]
-  - 📚 Special Examples (Slides): Coming Soon
 - 2.2: Information Theory and Entropy
   - 📚 Quiz: [[L2_2_Quiz]]
-  - 📚 Examples: Coming Soon
-  - 📚 Special Examples (Slides): Coming Soon
 - 2.3: Statistical Estimation Basics
   - ⭐ Quiz: [[L2_3_Quiz_course]]
   - 📚 Examples: [[L2_3_Likelihood_Examples|Likelihood Examples]]
@@ -48,7 +45,7 @@
   - 📚 Special Examples (Slides): Coming Soon
 - 2.4: Maximum Likelihood Estimation
   - ⭐ Quiz: [[L2_4_Quiz]]
-  - 📚 Examples: Coming Soon
+  - ⭐ Examples: [[L2_4_MLE_Examples|MLE Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.5: Bayesian Approach to ML
   - ⭐ Quiz: [[L2_5_Quiz]]
