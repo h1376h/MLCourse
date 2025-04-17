@@ -133,7 +133,6 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 #### Task
 1. The likelihood function represents the probability of observing the data given the parameters.
 2. If two estimators have the same variance, the one with lower bias will always have lower Mean Squared Error (MSE).
-3. An estimator that achieves the Cramér-Rao lower bound is considered efficient.
 
 For a detailed explanation of this question, see [Question 11: Statistical Estimation Fundamentals](L2_3_11_explanation.md).
 
