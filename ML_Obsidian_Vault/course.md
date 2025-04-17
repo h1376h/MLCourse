@@ -42,7 +42,7 @@
   - 📚 Examples: Coming Soon
   - 📚 Special Examples (Slides): Coming Soon
 - 2.3: Statistical Estimation Basics
-  - ⭐ Quiz: [[L2_3_Quiz]]
+  - ⭐ Quiz: [[L2_3_Quiz_course]]
   - 📚 Examples: Coming Soon
   - 📚 Special Examples (Slides): Coming Soon
 - 2.4: Maximum Likelihood Estimation
