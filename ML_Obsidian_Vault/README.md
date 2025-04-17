@@ -13,15 +13,24 @@ This Obsidian vault contains machine learning examples and notes organized by to
    - Select the `ML_Obsidian_Vault` folder
 
 3. **Start Exploring**:
-   - Open the `index.md` file to see the main entry points
+   - Open the `course.md` file for a comprehensive structured guide
    - Use the graph view (click the graph icon in the left sidebar) to visualize connections
    - Click on any `[[linked_notes]]` to navigate between concepts
 
 ## Structure
 
 - **Lectures/**: Contains lecture materials on machine learning topics
-- **index.md**: Main entry point and navigation hub for the vault
+- **course.md**: Primary resource with organized questions, examples, and slide references
+- **index.md**: Navigation hub for the vault
 - **README.md**: This file with instructions for using the vault
+
+## Recommended Approach
+
+- **Start with course.md**: This file provides a comprehensive, structured approach to the material with:
+  - Questions and quizzes for each topic
+  - Practical examples for each concept
+  - Specific slide references for targeted study
+  - Links to detailed content
 
 ## Adding Your Own Content
 
