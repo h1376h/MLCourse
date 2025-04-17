@@ -104,9 +104,9 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider a Bayesian inference problem where we want to determine if a coin is fair.
 
 #### Task
-1. If our prior belief is represented by a Beta(3,3) distribution and we observe 5 heads out of 8 coin flips, what is the posterior distribution?
+1. If our prior belief is represented by a $\text{Beta}(3,3)$ distribution and we observe 5 heads out of 8 coin flips, what is the posterior distribution?
 2. What is the posterior mean probability of the coin showing heads?
-3. How does this posterior mean compare to the maximum likelihood estimate (5/8)?
+3. How does this posterior mean compare to the maximum likelihood estimate $(5/8)$?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Prior and Posterior Comparison](L2_5_8_explanation.md).
 
@@ -137,10 +137,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ## Question 11
 
 ### Problem Statement
-A soil scientist is developing a Bayesian model to predict soil nutrient content. Based on previous studies at similar sites, the nutrient concentration follows a normal distribution with unknown mean μ.
+A soil scientist is developing a Bayesian model to predict soil nutrient content. Based on previous studies at similar sites, the nutrient concentration follows a normal distribution with unknown mean $\mu$.
 
 #### Task
-1. If the scientist uses a normal prior for μ with mean 25 ppm and variance 4, and then collects 6 samples with measurements {22, 27, 24, 23, 26, 25} ppm and known measurement variance σ² = 9, what is the posterior distribution for μ?
+1. If the scientist uses a normal prior for $\mu$ with mean 25 ppm and variance 4, and then collects 6 samples with measurements $\{22, 27, 24, 23, 26, 25\}$ ppm and known measurement variance $\sigma^2 = 9$, what is the posterior distribution for $\mu$?
 2. Calculate the posterior mean and variance.
 3. Compare how the posterior would differ if an uninformative prior had been used instead.
 
@@ -149,11 +149,11 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ## Question 12
 
 ### Problem Statement
-In astronomy, researchers are modeling the number of exoplanets in different star systems. They believe the count follows a Poisson distribution with an unknown rate parameter λ.
+In astronomy, researchers are modeling the number of exoplanets in different star systems. They believe the count follows a Poisson distribution with an unknown rate parameter $\lambda$.
 
 #### Task
-1. Given that Gamma is the conjugate prior for the Poisson distribution, express the posterior distribution if the prior is Gamma(α=2, β=0.5) and observations from 5 star systems show {3, 1, 4, 2, 5} exoplanets.
-2. What is the posterior mean of λ?
+1. Given that Gamma is the conjugate prior for the Poisson distribution, express the posterior distribution if the prior is $\text{Gamma}(\alpha=2, \beta=0.5)$ and observations from 5 star systems show $\{3, 1, 4, 2, 5\}$ exoplanets.
+2. What is the posterior mean of $\lambda$?
 3. What is the posterior predictive probability of finding exactly 3 exoplanets in the next observed star system?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: Posterior Predictive Distribution](L2_5_12_explanation.md).
