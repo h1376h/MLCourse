@@ -205,12 +205,12 @@ This precisely describes a deterministic random variable, where the outcome is k
 ## Conclusion
 Based on the definitions and properties of fundamental information-theoretic measures:
 
-| Statement                                                                                             | Truth Value | Justification                                                           |
-| :---------------------------------------------------------------------------------------------------- | :---------- | :---------------------------------------------------------------------- |
-| 1. The KL divergence between two identical probability distributions is always zero.                  | TRUE        | $D_{KL}(P || P) = \sum P(x) \log(P(x)/P(x)) = \sum P(x) \log(1) = 0$      |
-| 2. The entropy of a uniform distribution is always higher than any other distribution over the same set. | TRUE        | Maximum Entropy Principle; any deviation reduces uncertainty.           |
-| 3. Mutual information $I(X;Y)$ is always non-negative.                                                | TRUE        | $I(X;Y) = D_{KL}(P(X,Y) || P(X)P(Y)) \ge 0$ by Gibbs' inequality.     |
-| 4. Cross-entropy is always greater than or equal to the entropy of the true distribution.             | TRUE        | $H(P,Q) = H(P) + D_{KL}(P || Q)$, and $D_{KL}(P || Q) \ge 0$.          |
-| 5. If the entropy of a random variable $X$ is zero, then $X$ must be deterministic.                   | TRUE        | $H(P)=0$ only if one $P(x_i)=1$ and all others are 0.                 |
+| Statement | Truth Value | Key Points | Practical Applications |
+|-----------|-------------|------------|----------------------|
+| KL divergence between identical distributions is zero | TRUE | - Measures information difference between distributions - Zero when distributions are identical - Foundation for many ML metrics | - Used in model evaluation - Important in variational inference - Basis for cross-entropy loss |
+| Uniform distribution has highest entropy | TRUE | - Maximum uncertainty principle - Uniform distribution has no bias - Any skew reduces entropy | - Guides probability assignments - Used in feature engineering - Important in decision theory |
+| Mutual information I(X;Y) is non-negative | TRUE | - Measures shared information - Based on KL divergence - Zero for independent variables | - Feature selection - Measuring variable relationships - Information bottleneck method |
+| Cross-entropy ≥ entropy of true distribution | TRUE | - Combines entropy and KL divergence - Minimum when Q = P - Used in ML optimization | - Loss function in classification - Model training objective - Information theoretic bound |
+| Zero entropy implies deterministic variable | TRUE | - Zero entropy means certainty - No randomness or uncertainty - Perfect prediction possible | - Perfect classification case - Theoretical limit - Benchmark for uncertainty |
 
-All five statements are TRUE, reflecting core properties of KL divergence, entropy, mutual information, and cross-entropy. 
+All five statements are TRUE, reflecting core properties of KL divergence, entropy, mutual information, and cross-entropy.
