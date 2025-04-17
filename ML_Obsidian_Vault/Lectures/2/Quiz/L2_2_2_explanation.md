@@ -25,13 +25,16 @@ Let's first visualize and understand the two distributions we are working with:
 ![KL Divergence Components](../Images/L2_2_Quiz_2/kl_comparison.png)
 *Figure 2: Detailed comparison showing the relative differences between P and Q.*
 
-### Task 1: Calculate the KL Divergence $D_{KL}(P||Q)$
+### Step 2: Calculate KL Divergence $D_{KL}(P||Q)$
 
 The Kullback-Leibler (KL) divergence from $P$ to $Q$ is defined as:
 
 $$D_{KL}(P||Q) = \sum_{x} P(x) \log \frac{P(x)}{Q(x)}$$
 
 Let's calculate this step by step:
+
+![KL Divergence P to Q](../Images/L2_2_Quiz_2/kl_pq_terms.png)
+*Figure 3: Visualization of the terms contributing to D_KL(P||Q).*
 
 For $x = 0$:
 $P(X = 0) \log_2\frac{P(X = 0)}{Q(X = 0)} = 0.7 \times \log_2\frac{0.7}{0.5} = 0.7 \times \log_2(1.4) = 0.7 \times 0.4855 = 0.3399$
@@ -42,13 +45,14 @@ $P(X = 1) \log_2\frac{P(X = 1)}{Q(X = 1)} = 0.3 \times \log_2\frac{0.3}{0.5} = 0
 Adding these terms:
 $D_{KL}(P||Q) = 0.3399 + (-0.2211) = 0.1187$ bits
 
-Therefore, $D_{KL}(P||Q) = 0.1187$ bits.
-
-### Task 2: Calculate the KL Divergence $D_{KL}(Q||P)$
+### Step 3: Calculate KL Divergence $D_{KL}(Q||P)$
 
 For the reverse KL divergence, we calculate:
 
 $$D_{KL}(Q||P) = \sum_{x} Q(x) \log \frac{Q(x)}{P(x)}$$
+
+![KL Divergence Q to P](../Images/L2_2_Quiz_2/kl_qp_terms.png)
+*Figure 4: Visualization of the terms contributing to D_KL(Q||P).*
 
 For $x = 0$:
 $Q(X = 0) \log_2\frac{Q(X = 0)}{P(X = 0)} = 0.5 \times \log_2\frac{0.5}{0.7} = 0.5 \times \log_2(0.7143) = 0.5 \times (-0.4854) = -0.2427$
@@ -59,13 +63,14 @@ $Q(X = 1) \log_2\frac{Q(X = 1)}{P(X = 1)} = 0.5 \times \log_2\frac{0.5}{0.3} = 0
 Adding these terms:
 $D_{KL}(Q||P) = (-0.2427) + 0.3685 = 0.1258$ bits
 
-Therefore, $D_{KL}(Q||P) = 0.1258$ bits.
-
-### Task 3: Calculate the Cross-Entropy $H(P, Q)$
+### Step 4: Calculate Cross-Entropy $H(P, Q)$
 
 The cross-entropy between distributions $P$ and $Q$ is defined as:
 
 $$H(P, Q) = -\sum_{x} P(x) \log Q(x)$$
+
+![Cross-Entropy Terms](../Images/L2_2_Quiz_2/cross_entropy_terms.png)
+*Figure 5: Visualization of the terms contributing to the cross-entropy H(P,Q).*
 
 Let's calculate this step by step:
 
@@ -78,9 +83,10 @@ $-P(X = 1) \log_2 Q(X = 1) = -0.3 \times \log_2(0.5) = 0.3 \times 1 = 0.3$
 Adding these terms:
 $H(P, Q) = 0.7 + 0.3 = 1.0$ bits
 
-Therefore, $H(P, Q) = 1.0$ bits.
+![Relationship Visualization](../Images/L2_2_Quiz_2/relationship.png)
+*Figure 6: Visualization of the relationship between entropy, KL divergence, and cross-entropy.*
 
-We can also verify the important relationship that $H(P, Q) = H(P) + D_{KL}(P||Q)$, where $H(P)$ is the entropy of distribution $P$:
+We can verify the important relationship that $H(P, Q) = H(P) + D_{KL}(P||Q)$, where $H(P)$ is the entropy of distribution $P$:
 
 $$H(P) = -\sum_{x} P(x) \log P(x)$$
 
@@ -90,9 +96,7 @@ $H(P) = -0.7 \times \log_2(0.7) - 0.3 \times \log_2(0.3) = 0.8813$ bits
 Verifying the relationship:
 $H(P) + D_{KL}(P||Q) = 0.8813 + 0.1187 = 1.0$ bits
 
-This confirms that $H(P, Q) = H(P) + D_{KL}(P||Q)$.
-
-### Task 4: Explain why $D_{KL}(P||Q) \neq D_{KL}(Q||P)$ and what this means in practice
+### Step 5: Analyze KL Divergence Asymmetry
 
 From our calculations, we see that:
 - $D_{KL}(P||Q) = 0.1187$ bits
@@ -101,6 +105,33 @@ From our calculations, we see that:
 The difference is $0.0071$ bits, demonstrating that KL divergence is not symmetric.
 
 ![KL Divergence Surface](../Images/L2_2_Quiz_2/kl_divergence_surface.png)
+*Figure 7: Surface plot showing the asymmetric nature of KL divergence.*
+
+![Comprehensive Visualization](../Images/L2_2_Quiz_2/comprehensive_visualization.png)
+*Figure 8: Comprehensive visualization showing all aspects of the KL divergence and cross-entropy calculations.*
+
+## Key Insights
+
+### Theoretical Understanding
+- KL divergence measures information loss when approximating one distribution with another
+- Cross-entropy combines the entropy of P with the KL divergence from P to Q
+- The asymmetry of KL divergence has important implications for distribution approximation
+
+### Practical Applications
+- Used in machine learning for comparing probability distributions
+- Important in variational inference and distribution optimization
+- Helps in understanding model compression and information loss
+
+### Common Pitfalls
+- Assuming KL divergence is symmetric
+- Confusing cross-entropy with KL divergence
+- Overlooking the relationship between entropy and KL divergence
+
+## Conclusion
+- Successfully calculated KL divergence in both directions: $D_{KL}(P||Q) = 0.1187$ bits, $D_{KL}(Q||P) = 0.1258$ bits
+- Computed cross-entropy $H(P,Q) = 1.0$ bits
+- Demonstrated and explained the asymmetric nature of KL divergence
+- Verified the relationship $H(P,Q) = H(P) + D_{KL}(P||Q)$
 
 #### Explanation:
 
