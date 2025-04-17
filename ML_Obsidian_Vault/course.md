@@ -30,7 +30,7 @@
 
 ### Lecture 2: Probability and Statistical Foundations
 - 2.1: Probability Fundamentals
-  - ⭐ Quiz: [[L2_1_Quiz]]
+  - ⭐ Quiz: [[L2_1_Quiz_course]]
   - 📚 Examples: [[L2_1_Examples|Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.2: Information Theory and Entropy
