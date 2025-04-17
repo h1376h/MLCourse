@@ -7,6 +7,7 @@
 ## Legend
 - ⭐ Required materials
 - 📚 Optional materials
+- 🚫 Materials not included in the course
 
 ## Course Structure
 
@@ -53,9 +54,9 @@
   - 📚 Examples: Coming Soon
   - 📚 Special Examples (Slides): Coming Soon
 - 2.6: Monte Carlo Methods and Sampling
-  - 📚 Quiz: L2_6_Quiz
-  - 📚 Examples: Coming Soon
-  - 📚 Special Examples (Slides): Coming Soon
+  - 🚫 Quiz: L2_6_Quiz
+  - 🚫 Examples: Coming Soon
+  - 🚫 Special Examples (Slides): Coming Soon
 - 2.7: Maximum A Posteriori and Full Bayesian Inference
   - ⭐ Quiz: [[L2_7_Quiz]]
   - 📚 Examples: Coming Soon
