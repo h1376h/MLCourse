@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 18 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 28 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -287,3 +287,162 @@ C) $\mu^2$
 D) $\mu - 1$
 
 For a detailed explanation, see [Question 19: Expected Value of Statistics in Normal Distribution](L2_1_19_explanation.md). 
+
+## Question 20
+
+### Problem Statement
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
+
+#### Task
+1. If two events $A$ and $B$ are independent, then $P(A \cap B) = P(A) \times P(B)$.
+2. The variance of a random variable can be negative.
+3. For any continuous random variable $X$, $P(X = a) = 0$ for any specific value $a$.
+4. If the correlation coefficient between random variables $X$ and $Y$ is 0, then $X$ and $Y$ must be independent.
+5. The Law of Large Numbers guarantees that as sample size increases, the sample mean will exactly equal the population mean.
+
+For a detailed explanation of these true/false questions, see [Question 20: Probability Fundamentals True/False](L2_1_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+For each question, select the single best answer.
+
+#### Task
+1. Which of the following random variables is most likely to be modeled using a Poisson distribution?
+   A) The number of customers arriving at a store in one hour
+   B) The height of adult males in a population
+   C) The time until a radioactive particle decays
+   D) The proportion of defective items in a manufacturing batch
+
+2. The property of a statistical estimator that states its expected value equals the true parameter value is called:
+   A) Consistency
+   B) Efficiency
+   C) Unbiasedness
+   D) Sufficiency
+
+3. When calculating the probability of a union of three events $P(A \cup B \cup C)$, which of the following must be subtracted to avoid double-counting?
+   A) $P(A \cap B)$, $P(B \cap C)$, and $P(A \cap C)$
+   B) Only $P(A \cap B \cap C)$
+   C) $P(A \cap B)$, $P(B \cap C)$, $P(A \cap C)$, and then add $P(A \cap B \cap C)$
+   D) The expected value of all three events
+
+For a detailed explanation of these multiple choice questions, see [Question 21: Probability Multiple Choice](L2_1_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+Complete each statement with the appropriate mathematical expression or term.
+
+#### Task
+1. The probability density function of a standard normal distribution is given by $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+2. For two independent random variables $X$ and $Y$, the variance of their sum $X + Y$ equals $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+3. If $X$ follows a binomial distribution with parameters $n$ and $p$, then the expected value of $X$ is $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ and its variance is $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+4. The conditional probability $P(A|B)$ can be expressed in terms of $P(B|A)$ using $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ theorem.
+5. The covariance between random variables $X$ and $Y$ can be calculated using the formula $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+
+For a detailed explanation of these fill-in-the-blank questions, see [Question 22: Probability Fill-in-the-Blank](L2_1_22_explanation.md).
+
+## Question 23
+
+### Problem Statement
+Provide brief answers to the following questions about concentration inequalities.
+
+#### Task
+1. State the Markov inequality and explain its practical implications.
+2. How does Chebyshev's inequality improve upon Markov's inequality?
+3. What does Hoeffding's inequality tell us about the convergence of sample means?
+4. How can concentration inequalities be applied to evaluate the generalization error in machine learning models?
+5. Compare and contrast the assumptions required for applying the Law of Large Numbers versus the Central Limit Theorem.
+
+For a detailed explanation of these short answer questions, see [Question 23: Concentration Inequalities](L2_1_23_explanation.md).
+
+## Question 24
+
+### Problem Statement
+Match each probability distribution with its most appropriate application scenario.
+
+#### Task
+**Distributions:**
+A) Bernoulli
+B) Binomial
+C) Geometric
+D) Poisson
+E) Exponential
+F) Normal
+G) Uniform
+H) Beta
+
+**Application Scenarios:**
+1. Modeling the number of rare events occurring in a fixed time interval
+2. Representing the probability of success in a single trial
+3. Modeling the number of trials needed until the first success
+4. Representing the distribution of errors in physical measurements
+5. Modeling the prior distribution of a probability parameter
+6. Representing the waiting time between events in a Poisson process
+7. Modeling the number of successes in a fixed number of independent trials
+8. Representing a random variable that is equally likely to take any value in a range
+
+For a detailed explanation of this matching exercise, see [Question 24: Distribution Applications](L2_1_24_explanation.md).
+
+## Question 25
+
+### Problem Statement
+Provide a mathematical proof for each of the following statements:
+
+#### Task
+1. The sum of two independent normally distributed random variables is also normally distributed.
+2. For any random variable $X$ with finite mean $\mu$ and variance $\sigma^2$, prove that $E[(X - \mu)^2] = \sigma^2$.
+3. Prove that if random variables $X$ and $Y$ are independent, then $\text{Cov}(X, Y) = 0$.
+4. Derive the formula for the variance of a binomial random variable with parameters $n$ and $p$.
+
+For a detailed explanation of these proof exercises, see [Question 25: Probability Proofs](L2_1_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+Random variables $X$ and $Y$ have the following joint probability mass function:
+
+$$P(X=x, Y=y) = \begin{cases}
+c(x+y) & \text{for } x \in \{0,1,2\} \text{ and } y \in \{0,1\} \\
+0 & \text{otherwise}
+\end{cases}$$
+
+#### Task
+1. Find the value of the constant $c$.
+2. Calculate the marginal probability mass functions for $X$ and $Y$.
+3. Determine if $X$ and $Y$ are independent.
+4. Calculate the conditional probability mass function $P(Y|X=1)$.
+5. Compute $E[X|Y=1]$ and interpret its meaning.
+
+For a detailed explanation of this problem, see [Question 26: Joint Distributions Analysis](L2_1_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+In a machine learning context, consider three events:
+- $A$: "The input feature $X$ exceeds threshold $t$"
+- $B$: "The model prediction is positive"
+- $C$: "The true label is positive"
+
+#### Task
+1. Explain what it means for events $A$ and $B$ to be conditionally independent given event $C$.
+2. If $A$ and $B$ are conditionally independent given $C$, write the mathematical equation expressing this relationship.
+3. In a classification scenario, provide an example where conditional independence might be a reasonable assumption.
+4. How does conditional independence differ from marginal independence?
+5. How might violating a conditional independence assumption impact a machine learning model's performance?
+
+For a detailed explanation of this problem, see [Question 27: Conditional Independence in ML](L2_1_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+A neural network is trained on batches of data, where each batch contains 64 samples. The loss for a single sample has a mean of 0.5 and a standard deviation of 0.2.
+
+#### Task
+1. Using the Law of Large Numbers, what happens to the average batch loss as the number of training iterations approaches infinity?
+2. Apply the Central Limit Theorem to characterize the distribution of the average loss per batch.
+3. Calculate the probability that the average loss for a batch is less than 0.48.
+4. If we increase the batch size to 256, how does this affect the standard deviation of the average batch loss?
+5. Explain how the Central Limit Theorem relates to the concept of reducing variance in stochastic gradient descent.
+
+For a detailed explanation of this problem, see [Question 28: Limit Theorems in Neural Networks](L2_1_28_explanation.md). 
