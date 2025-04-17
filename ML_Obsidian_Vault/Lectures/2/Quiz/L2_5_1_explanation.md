@@ -32,7 +32,7 @@ $$f(\theta; 2, 2) = \frac{\theta^{2-1} (1-\theta)^{2-1}}{B(2, 2)} = 6\theta(1-\t
 
 This is a symmetric distribution centered at 0.5, reflecting a prior belief that the coin is likely fair but allowing for some uncertainty.
 
-![Prior Distribution](../Images/L2_5_1/prior_distribution.png)
+![Prior Distribution](../Images/L2_5_Quiz_1/prior_distribution.png)
 
 The Beta(2, 2) prior has the following properties:
 - Mean = $\frac{\alpha}{\alpha+\beta} = \frac{2}{2+2} = 0.5$
@@ -60,7 +60,7 @@ $$L(\theta | \text{data}) \propto \theta^7 (1-\theta)^3$$
 
 The likelihood function peaks at the maximum likelihood estimate (MLE), which is $\frac{k}{n} = \frac{7}{10} = 0.7$.
 
-![Likelihood Function](../Images/L2_5_1/likelihood_function.png)
+![Likelihood Function](../Images/L2_5_Quiz_1/likelihood_function.png)
 
 ### Step 3: Calculating the Posterior Distribution
 
@@ -84,7 +84,7 @@ The posterior distribution has the following properties:
 - Posterior Variance = $\frac{\alpha'\beta'}{(\alpha'+\beta')^2(\alpha'+\beta'+1)} = \frac{9 \times 5}{14^2 \times 15} = \frac{45}{2940} = 0.0153$
 - Posterior Standard Deviation = $\sqrt{0.0153} = 0.1237$
 
-![Posterior Distribution](../Images/L2_5_1/posterior_distribution.png)
+![Posterior Distribution](../Images/L2_5_Quiz_1/posterior_distribution.png)
 
 ### Step 4: Calculating the 95% Credible Interval
 
@@ -96,7 +96,7 @@ For our Beta(9, 5) posterior:
 
 Therefore, the 95% credible interval is [0.3857, 0.8614].
 
-![Credible Interval](../Images/L2_5_1/credible_interval.png)
+![Credible Interval](../Images/L2_5_Quiz_1/credible_interval.png)
 
 This means that given our prior beliefs and the observed data, we are 95% confident that the true probability of the coin landing heads lies between 0.3857 and 0.8614.
 
@@ -104,7 +104,7 @@ This means that given our prior beliefs and the observed data, we are 95% confid
 
 The figure below shows how our belief about $\theta$ was updated by incorporating the observed data.
 
-![Comparison of Distributions](../Images/L2_5_1/comparison.png)
+![Comparison of Distributions](../Images/L2_5_Quiz_1/comparison.png)
 
 - The prior (blue line) represents our initial belief centered at 0.5.
 - The likelihood (green line) represents what the data suggests, with a peak at the MLE of 0.7.
@@ -116,7 +116,7 @@ Notice that the posterior is shifted towards the likelihood compared to the prio
 
 The choice of prior can significantly impact the posterior distribution, especially with limited data. Let's compare how different priors would affect our inference:
 
-![Different Priors](../Images/L2_5_1/different_priors.png)
+![Different Priors](../Images/L2_5_Quiz_1/different_priors.png)
 
 The figure shows:
 - Different prior distributions (top left)
