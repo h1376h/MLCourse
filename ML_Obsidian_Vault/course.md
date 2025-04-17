@@ -17,7 +17,7 @@
   - 📚 Special Examples (Slides): Coming Soon
 - 1.2: Identifying Learning Problems
   - ⭐ Quiz: [[L1_2_Quiz]]
-  - 📚 Examples: Coming Soon
+  - ⭐ Examples: [[L1_2_Problem_Identification]]
   - 📚 Special Examples (Slides): Coming Soon
 - 1.3: Generalization Concepts
   - ⭐ Quiz: [[L1_3_Quiz]]
@@ -25,8 +25,11 @@
   - 📚 Special Examples (Slides): Coming Soon
 - 1.4: Well-posed Learning Problems
   - ⭐ Quiz: [[L1_4_Quiz]]
-  - 📚 Examples: Coming Soon
+  - ⭐ Examples: [[L1_4_Well_Posed_Examples]]
+  - ⭐ Examples: [[L1_4_Application_Examples]]
   - 📚 Special Examples (Slides): Coming Soon
+- Worksheets:
+  - 📚 [[L1_Worksheet_1]]
 
 ### Lecture 2: Probability and Statistical Foundations
 - 2.1: Probability Fundamentals

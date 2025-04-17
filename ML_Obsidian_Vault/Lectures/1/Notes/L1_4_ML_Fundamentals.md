@@ -54,6 +54,6 @@ This definition provides a framework for understanding and evaluating machine le
 
 ### Examples and Exercises
 - [[Examples/L1_4_Well_Posed_Examples|Basic Examples]] - 10 examples of well-posed learning problems
-- [[Examples/L1_2_Application_Examples|Real-world Applications]] - Detailed analysis of ML applications
-- [[Examples/L1_4_Problem_Identification|Learning Problem Identification]] - Examples of what makes a good ML problem
+- [[Examples/L1_4_Application_Examples|Real-world Applications]] - Detailed analysis of ML applications
+- [[Examples/L1_2_Problem_Identification|Learning Problem Identification]] - Examples of what makes a good ML problem
 - [[Examples/L1_Worksheet_1|Practice Worksheet]] - Exercises to practice identifying T, E, and P 
