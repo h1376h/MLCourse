@@ -64,20 +64,24 @@ For a detailed explanation of this question, see [Question 4: MSE and Bias-Varia
 ## Question 5
 
 ### Problem Statement
-A sufficient statistic for a parameter contains all the information about that parameter that is present in the data. 
+Is the sample mean a sufficient statistic for the parameter $\mu$ of a normal distribution with known variance?
 
-#### Task
-Is the sample mean a sufficient statistic for the parameter $\mu$ of a normal distribution with known variance? Explain your answer in one sentence.
+### Task
+1. Determine if the sample mean $\bar{X}$ is a sufficient statistic for $\mu$ in a normal distribution with known variance $\sigma^2$.
+2. Prove your answer using the factorization theorem.
+3. Explain the implications of your findings.
 
 For a detailed explanation of this question, see [Question 5: Sufficient Statistics](L2_3_5_explanation.md).
 
 ## Question 6
 
 ### Problem Statement
-The Fisher Information quantifies how much information a random variable carries about an unknown parameter.
-
-#### Task
 For a Bernoulli distribution with parameter $p$, write down the Fisher Information $I(p)$.
+
+### Task
+1. Define the Fisher Information and its significance.
+2. Derive the Fisher Information $I(p)$ for a Bernoulli distribution.
+3. Interpret the meaning of the result in practical terms.
 
 For a detailed explanation of this question, see [Question 6: Fisher Information](L2_3_6_explanation.md).
 
