@@ -43,7 +43,8 @@
   - 📚 Special Examples (Slides): Coming Soon
 - 2.3: Statistical Estimation Basics
   - ⭐ Quiz: [[L2_3_Quiz_course]]
-  - 📚 Examples: Coming Soon
+  - 📚 Examples: [[L2_3_Likelihood_Examples|Likelihood Examples]]
+  - 📚 Examples: [[L2_3_Probability_vs_Likelihood_Examples|Probability vs Likelihood Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.4: Maximum Likelihood Estimation
   - ⭐ Quiz: [[L2_4_Quiz]]
@@ -81,7 +82,7 @@
   - 📚 Special Examples (Slides): Coming Soon
 - 3.3: Multiple Linear Regression
   - ⭐ Quiz: [[L2_2_Quiz]]
-  - 📚 Examples: Coming Soon
+  - 📚 Examples: [[L3_3_Multivariate_Regression|Multivariate Regression Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 3.4: Optimization Techniques
   - ⭐ Quiz: [[L2_2_Quiz]]

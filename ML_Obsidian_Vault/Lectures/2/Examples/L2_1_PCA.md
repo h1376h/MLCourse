@@ -247,5 +247,5 @@ python3 ML_Obsidian_Vault/Lectures/2/Codes/1_MA_pca_examples.py
 ## Related Topics
 - [[L2_1_Mean_Covariance|Mean Vector and Covariance Matrix]]: Fundamental for understanding PCA
 - [[L2_1_Linear_Transformation|Linear Transformation]]: PCA is a special case of linear transformation
-- [[L2_3_Multivariate_Regression|Multivariate Regression]]: PCA can help address multicollinearity in regression
+- [[L3_3_Multivariate_Regression|Multivariate Regression]]: PCA can help address multicollinearity in regression
 - [[L2_1_Eigenvalue_Decomposition|Eigenvalue Decomposition]]: The mathematical foundation of PCA 
