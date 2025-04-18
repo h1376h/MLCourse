@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 14 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 17 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -200,14 +200,53 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ### Problem Statement
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
+#### Task
 1. When the posterior distribution is symmetric and unimodal, the MAP estimate and the posterior mean are identical.
-
 2. Bayesian model averaging can never perform worse than selecting the single best model according to posterior probability.
-
 3. As the number of data points approaches infinity, the influence of the prior on the posterior distribution approaches zero.
-
 4. The Bayesian Information Criterion (BIC) provides a closer approximation to the log marginal likelihood than the Akaike Information Criterion (AIC).
-
 5. Variational inference methods always converge to the exact posterior distribution given enough computational resources.
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: MAP and Bayesian Inference Concepts](L2_7_14_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: MAP and Bayesian Inference Concepts](L2_7_14_explanation.md).
+
+## Question 15
+
+### Problem Statement
+Suppose you're modeling the time between arrivals at a hospital emergency room. You've collected data on 10 inter-arrival times (in minutes): $\{12.1, 8.3, 15.7, 9.2, 10.5, 7.8, 14.2, 11.9, 13.4, 9.8\}$.
+
+#### Task
+1. Assuming an exponential distribution with parameter $\lambda$ (rate), calculate the MLE for $\lambda$
+2. Using a Gamma(2, 4) prior for $\lambda$, derive the posterior distribution
+3. Calculate the MAP estimate for $\lambda$
+4. Using the full posterior distribution, find the probability that the next inter-arrival time will be greater than 15 minutes
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 15: Posterior Predictive Distribution](L2_7_15_explanation.md).
+
+## Question 16
+
+### Problem Statement
+You're comparing three different classifiers $C_1$, $C_2$, and $C_3$ for a medical diagnosis problem. After testing, you assign posterior probabilities $P(C_1|D) = 0.4$, $P(C_2|D) = 0.35$, and $P(C_3|D) = 0.25$. For a new patient with symptoms $\mathbf{x}$, the models predict the probability of disease as:
+- $C_1$: $P(\text{disease}|\mathbf{x}, C_1) = 0.75$
+- $C_2$: $P(\text{disease}|\mathbf{x}, C_2) = 0.65$
+- $C_3$: $P(\text{disease}|\mathbf{x}, C_3) = 0.85$
+
+#### Task
+1. Calculate the model-averaged probability of disease for this patient using Bayesian Model Averaging
+2. If the treatment threshold is 0.7 (treat if probability > 0.7), what would be your decision using Bayesian Model Averaging?
+3. If you had to select a single model using the MAP approach, which model would you choose and what would be your treatment decision?
+4. Briefly explain one advantage and one disadvantage of using Bayesian Model Averaging in this medical context
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 16: Bayesian Model Averaging in Practice](L2_7_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+You have a neural network with weights $\mathbf{w}$ and a dataset $\mathcal{D}$. The log-likelihood is $\log p(\mathcal{D}|\mathbf{w})$ and you want to approximate the posterior $p(\mathbf{w}|\mathcal{D})$ using Laplace approximation.
+
+#### Task
+1. Explain the key idea behind Laplace approximation of the posterior
+2. If $\hat{\mathbf{w}}_{MAP}$ is the MAP estimate and $\mathbf{H}$ is the Hessian of the negative log-posterior at $\hat{\mathbf{w}}_{MAP}$, write the Laplace approximation formula for $p(\mathbf{w}|\mathcal{D})$
+3. How would you use this approximation to estimate the predictive distribution $p(y_{new}|\mathbf{x}_{new}, \mathcal{D})$ for a new input $\mathbf{x}_{new}$?
+4. Compare the computational efficiency of this approach with MCMC sampling for the same problem
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Laplace Approximation](L2_7_17_explanation.md). 
