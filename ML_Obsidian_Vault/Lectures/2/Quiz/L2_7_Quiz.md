@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 19 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 20 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -286,4 +286,26 @@ Consider a scenario where we observe count data $D = \{x_1, x_2, ..., x_N\}$, su
 2. Take the derivative of $\log P(D|\lambda) + \log P(\lambda)$ with respect to the parameter $\lambda$.
 3. Set the derivative equal to zero and solve for $\lambda$ - call this maximizing value $\lambda_{MAP}$.
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: MAP Estimation with Poisson-Gamma Model](L2_7_19_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: MAP Estimation with Poisson-Gamma Model](L2_7_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+The graphs below illustrate various functions derived from the (not given) joint PDF of two random variables X and Y, each of which is defined in the range [0, 4].
+
+![f_X|Y(1|Y=y)](../Images/L2_7_Quiz_20/graph1_f_X_given_Y.png)
+![f_Y(y)](../Images/L2_7_Quiz_20/graph2_f_Y.png)
+![E(Y|X=x)](../Images/L2_7_Quiz_20/graph3_E_Y_given_X.png)
+![f_Y|X(y|X=1)](../Images/L2_7_Quiz_20/graph4_f_Y_given_X.png)
+![f_X(x)](../Images/L2_7_Quiz_20/graph5_f_X.png)
+![E(X|Y=y)](../Images/L2_7_Quiz_20/graph6_E_X_given_Y.png)
+
+#### Task
+Using only the information provided in these graphs (i.e., without any extra computation), determine:
+
+1. The maximum likelihood (ML) estimate of $Y$ given that $X=1$
+2. The maximum a posteriori (MAP) estimate of $Y$ given that $X=1$
+3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=1$
+4. Explain the relationship between these three estimates and why they might differ in this case.
+
+For a detailed explanation of this problem, including analysis of joint PDFs, marginal distributions, and the relationship between different estimators, see [Question 20: Joint PDF and Bayesian Estimation](L2_7_20_explanation.md). 
