@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 18 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 19 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -274,4 +274,16 @@ Assume that the parameters: $\sigma^2$, $\sigma_A^2$, and $\mu_A$ are constant a
 1. Determine the MAP estimator for the parameter A.
 2. If $\sigma_A^2$ was extremely large, what would the estimator look like?
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Normal MAP Estimation](L2_7_18_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Normal MAP Estimation](L2_7_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Consider a scenario where we observe count data $D = \{x_1, x_2, ..., x_N\}$, such as the number of events occurring in fixed time intervals. Assume these counts come from $N$ independent and identically distributed Poisson random variables with rate parameter $\lambda$. In Bayesian statistics, we model our prior belief about $\lambda$ using a Gamma distribution with shape parameter $\alpha$ and rate parameter $\beta$.
+
+#### Task
+1. Write out the log-posterior $\log P(\lambda|D) \propto \log P(D|\lambda) + \log P(\lambda)$.
+2. Take the derivative of $\log P(D|\lambda) + \log P(\lambda)$ with respect to the parameter $\lambda$.
+3. Set the derivative equal to zero and solve for $\lambda$ - call this maximizing value $\lambda_{MAP}$.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: MAP Estimation with Poisson-Gamma Model](L2_7_19_explanation.md). 
