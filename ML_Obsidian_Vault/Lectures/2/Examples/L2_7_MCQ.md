@@ -192,6 +192,23 @@ $$E[f(\theta)|D] = \int f(\theta)p(\theta|D)d\theta$$
 
 This integral becomes increasingly difficult to compute as the dimension of $\theta$ increases, often requiring sophisticated sampling or approximation methods.
 
+### Question 13
+Instead of the Bayes estimator, one can also use the MAP (maximum a posteriori estimator) in order to get a point estimate of the parameter of interest $\theta$ based on data. Which of the following expressions define the MAP?
+
+**Options:**
+A) $\arg \underset{\theta}{\max} \log L(\theta)p(\theta)$
+B) $\arg \underset{\theta}{\max} \log p(\theta)$
+C) $\arg \underset{\theta}{\max} p(\text{data})$
+D) $\arg \underset{\theta}{\max} \log L(\theta)$
+
+**Answer:** A
+
+**Explanation:** The MAP estimator maximizes the posterior probability $p(\theta|\text{data})$, which is proportional to the product of the likelihood $L(\theta)$ and the prior $p(\theta)$. Taking the logarithm (which preserves the maximum), we get:
+
+$$\log(L(\theta)p(\theta)) = \log L(\theta) + \log p(\theta)$$
+
+Therefore, $\arg \underset{\theta}{\max} \log L(\theta)p(\theta)$ correctly defines the MAP estimator.
+
 ## Related Topics
 
 - [[L2_4_MCQ|Maximum Likelihood Estimation Multiple Choice Questions]]
