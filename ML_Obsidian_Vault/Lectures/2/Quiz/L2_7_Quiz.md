@@ -6,12 +6,12 @@ This quiz contains 17 questions covering various topics from Lecture 2.7 on Maxi
 ## Question 1
 
 ### Problem Statement
-Consider a binomial likelihood with parameter θ representing the probability of success. We observe data D = 8 successes out of n = 20 trials.
+Consider a binomial likelihood with parameter $\theta$ representing the probability of success. We observe data $D = 8$ successes out of $n = 20$ trials.
 
 #### Task
-1. Using a Beta(2, 2) prior for θ, derive the posterior distribution
-2. Calculate the Maximum A Posteriori (MAP) estimate for θ
-3. Calculate the Maximum Likelihood Estimate (MLE) for θ
+1. Using a $\text{Beta}(2, 2)$ prior for $\theta$, derive the posterior distribution
+2. Calculate the Maximum A Posteriori (MAP) estimate for $\theta$
+3. Calculate the Maximum Likelihood Estimate (MLE) for $\theta$
 4. Compare the MAP and MLE estimates and explain why they differ
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: MAP vs MLE for Binomial Data](L2_7_1_explanation.md).
@@ -19,12 +19,12 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ## Question 2
 
 ### Problem Statement
-Consider a normal distribution with unknown mean μ and known variance σ² = 4. We observe data X = {7.2, 6.8, 8.3, 7.5, 6.9}.
+Consider a normal distribution with unknown mean $\mu$ and known variance $\sigma^2 = 4$. We observe data $X = \{7.2, 6.8, 8.3, 7.5, 6.9\}$.
 
 #### Task
-1. If we use a normal prior N(7, 1) for μ, derive the posterior distribution
-2. Calculate the MAP estimate for μ
-3. Derive the full Bayesian posterior predictive distribution for a new observation X_{new}
+1. If we use a normal prior $N(7, 1)$ for $\mu$, derive the posterior distribution
+2. Calculate the MAP estimate for $\mu$
+3. Derive the full Bayesian posterior predictive distribution for a new observation $X_{new}$
 4. Calculate the 95% prediction interval for a new observation
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 2: Bayesian Inference for Normal Mean](L2_7_2_explanation.md).
@@ -33,18 +33,18 @@ For a detailed explanation of this problem, including step-by-step solutions and
 
 ### Problem Statement
 Consider two competing models for a dataset:
-- Model 1: Normal distribution with unknown mean μ₁ and known variance σ₁² = 2
-- Model 2: Normal distribution with unknown mean μ₂ and known variance σ₂² = 4
+- Model 1: Normal distribution with unknown mean $\mu_1$ and known variance $\sigma_1^2 = 2$
+- Model 2: Normal distribution with unknown mean $\mu_2$ and known variance $\sigma_2^2 = 4$
 
 We use the following priors:
-- μ₁ ~ N(0, 1)
-- μ₂ ~ N(0, 2)
+- $\mu_1 \sim N(0, 1)$
+- $\mu_2 \sim N(0, 2)$
 
-We observe data X = {1.5, 2.3, 1.8, 2.5, 1.9}.
+We observe data $X = \{1.5, 2.3, 1.8, 2.5, 1.9\}$.
 
 #### Task
-1. Calculate the posterior distribution for μ₁ under Model 1
-2. Calculate the posterior distribution for μ₂ under Model 2
+1. Calculate the posterior distribution for $\mu_1$ under Model 1
+2. Calculate the posterior distribution for $\mu_2$ under Model 2
 3. Calculate the marginal likelihood (evidence) for each model
 4. Calculate the Bayes factor and interpret the result for model comparison
 
@@ -53,21 +53,21 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ## Question 4
 
 ### Problem Statement
-Consider a linear regression model y = βx + ε where ε ~ N(0, σ²) with known σ² = 1. We observe the following data points (x, y):
-{(1, 2.1), (2, 3.8), (3, 5.2), (4, 6.9), (5, 8.3)}
+Consider a linear regression model $y = \beta x + \varepsilon$ where $\varepsilon \sim N(0, \sigma^2)$ with known $\sigma^2 = 1$. We observe the following data points $(x, y)$:
+$\{(1, 2.1), (2, 3.8), (3, 5.2), (4, 6.9), (5, 8.3)\}$
 
 #### Task
-1. If we use a normal prior β ~ N(1, 0.5) for the slope parameter, derive the posterior distribution
-2. Calculate the MAP estimate for β
-3. Calculate the MLE for β
-4. Derive the posterior predictive distribution for a new observation y_{new} given x_{new} = 6
+1. If we use a normal prior $\beta \sim N(1, 0.5)$ for the slope parameter, derive the posterior distribution
+2. Calculate the MAP estimate for $\beta$
+3. Calculate the MLE for $\beta$
+4. Derive the posterior predictive distribution for a new observation $y_{new}$ given $x_{new} = 6$
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: Bayesian Linear Regression](L2_7_4_explanation.md).
 
 ## Question 5
 
 ### Problem Statement
-True or False: When using a uniform prior (e.g., Beta(1,1) for a probability parameter), the MAP estimate is identical to the MLE.
+True or False: When using a uniform prior (e.g., $\text{Beta}(1,1)$ for a probability parameter), the MAP estimate is identical to the MLE.
 
 #### Task
 1. Determine whether the statement is true or false
@@ -216,7 +216,7 @@ Suppose you're modeling the time between arrivals at a hospital emergency room. 
 
 #### Task
 1. Assuming an exponential distribution with parameter $\lambda$ (rate), calculate the MLE for $\lambda$
-2. Using a Gamma(2, 4) prior for $\lambda$, derive the posterior distribution
+2. Using a $\text{Gamma}(2, 4)$ prior for $\lambda$, derive the posterior distribution
 3. Calculate the MAP estimate for $\lambda$
 4. Using the full posterior distribution, find the probability that the next inter-arrival time will be greater than 15 minutes
 
