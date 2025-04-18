@@ -308,4 +308,26 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=1$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
-For a detailed explanation of this problem, including analysis of joint PDFs, marginal distributions, and the relationship between different estimators, see [Question 20: Joint PDF and Bayesian Estimation](L2_7_20_explanation.md). 
+For a detailed explanation of this problem, including analysis of joint PDFs, marginal distributions, and the relationship between different estimators, see [Question 20: Joint PDF and Bayesian Estimation](L2_7_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+The graphs below illustrate various functions derived from the (not given) joint PDF of two random variables X and Y, each of which is defined in the range [0, 4].
+
+![f_X|Y(2|Y=y)](../Images/L2_7_Quiz_21/graph1_f_X_given_Y.png)
+![f_Y(y)](../Images/L2_7_Quiz_21/graph2_f_Y.png)
+![E(Y|X=x)](../Images/L2_7_Quiz_21/graph3_E_Y_given_X.png)
+![f_Y|X(y|X=2)](../Images/L2_7_Quiz_21/graph4_f_Y_given_X.png)
+![f_X(x)](../Images/L2_7_Quiz_21/graph5_f_X.png)
+![E(X|Y=y)](../Images/L2_7_Quiz_21/graph6_E_X_given_Y.png)
+
+#### Task
+Using only the information provided in these graphs (i.e., without any extra computation), determine:
+
+1. The maximum likelihood (ML) estimate of $Y$ given that $X=2$
+2. The maximum a posteriori (MAP) estimate of $Y$ given that $X=2$
+3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=2$
+4. Explain the relationship between these three estimates and why they might differ in this case.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights on how bimodal distributions affect Bayesian estimation, see [Question 21: Joint PDF and Bayesian Estimation with Bimodal Distribution](L2_7_21_explanation.md). 
