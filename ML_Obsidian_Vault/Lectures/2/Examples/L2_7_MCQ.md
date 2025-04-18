@@ -196,10 +196,10 @@ This integral becomes increasingly difficult to compute as the dimension of $\th
 Instead of the Bayes estimator, one can also use the MAP (maximum a posteriori estimator) in order to get a point estimate of the parameter of interest $\theta$ based on data. Which of the following expressions define the MAP?
 
 **Options:**
-A) $\arg \underset{\theta}{\max} \log L(\theta)p(\theta)$
-B) $\arg \underset{\theta}{\max} \log p(\theta)$
-C) $\arg \underset{\theta}{\max} p(\text{data})$
-D) $\arg \underset{\theta}{\max} \log L(\theta)$
+A) $\underset{\theta}{\operatorname{argmax}} \log L(\theta)p(\theta)$
+B) $\underset{\theta}{\operatorname{argmax}} \log p(\theta)$
+C) $\underset{\theta}{\operatorname{argmax}} p(\text{data})$
+D) $\underset{\theta}{\operatorname{argmax}} \log L(\theta)$
 
 **Answer:** A
 
@@ -207,12 +207,12 @@ D) $\arg \underset{\theta}{\max} \log L(\theta)$
 
 $$\log(L(\theta)p(\theta)) = \log L(\theta) + \log p(\theta)$$
 
-Therefore, $\arg \underset{\theta}{\max} \log L(\theta)p(\theta)$ correctly defines the MAP estimator.
+Therefore, $\underset{\theta}{\operatorname{argmax}} \log L(\theta)p(\theta)$ correctly defines the MAP estimator.
 
 ### Question 14
 Maximum a posteriori (MAP) classifies labels with the highest posterior probability value. Using Bayes Rule, we can find the solution as
 
-$$\arg \max_Y \frac{p(X|Y)p(Y)}{p(X)}$$
+$$\underset{Y}{\operatorname{argmax}} \frac{p(X|Y)p(Y)}{p(X)}$$
 
 Now, pick the correct statements about the maximum likelihood (ML) solution.
 
