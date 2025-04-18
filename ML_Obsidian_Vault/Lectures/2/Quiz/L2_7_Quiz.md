@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 17 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 18 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -249,4 +249,29 @@ You have a neural network with weights $\mathbf{w}$ and a dataset $\mathcal{D}$.
 3. How would you use this approximation to estimate the predictive distribution $p(y_{new}|\mathbf{x}_{new}, \mathcal{D})$ for a new input $\mathbf{x}_{new}$?
 4. Compare the computational efficiency of this approach with MCMC sampling for the same problem
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Laplace Approximation](L2_7_17_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Laplace Approximation](L2_7_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+You are given N, I.I.D samples for the books "standard problem":
+
+$$x_i = A + n_i$$
+
+We wish to estimate the parameter "A" using Maximum A Posteriori Estimation.
+
+We know that the distribution of the samples is given by:
+
+$$f(x|A) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x_i-A)^2}{2\sigma^2}}$$
+
+We also have the following Bayesian Prior Distribution for A:
+
+$$f(A) = \frac{1}{\sqrt{2\pi\sigma_A^2}}e^{-\frac{(A-\mu_A)^2}{2\sigma_A^2}}$$
+
+Assume that the parameters: $\sigma^2$, $\sigma_A^2$, and $\mu_A$ are constant and are known.
+
+#### Task
+1. Determine the MAP estimator for the parameter A.
+2. If $\sigma_A^2$ was extremely large, what would the estimator look like?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Normal MAP Estimation](L2_7_18_explanation.md). 

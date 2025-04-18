@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 10 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 11 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -144,3 +144,28 @@ You're comparing three different classifiers $C_1$, $C_2$, and $C_3$ for a medic
 4. Briefly explain one advantage and one disadvantage of using Bayesian Model Averaging in this medical context
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Bayesian Model Averaging in Practice](L2_7_16_explanation.md).
+
+## Question 11
+
+### Problem Statement
+You are given N, I.I.D samples for the books "standard problem":
+
+$$x_i = A + n_i$$
+
+We wish to estimate the parameter "A" using Maximum A Posteriori Estimation.
+
+We know that the distribution of the samples is given by:
+
+$$f(x|A) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x_i-A)^2}{2\sigma^2}}$$
+
+We also have the following Bayesian Prior Distribution for A:
+
+$$f(A) = \frac{1}{\sqrt{2\pi\sigma_A^2}}e^{-\frac{(A-\mu_A)^2}{2\sigma_A^2}}$$
+
+Assume that the parameters: $\sigma^2$, $\sigma_A^2$, and $\mu_A$ are constant and are known.
+
+#### Task
+1. Determine the MAP estimator for the parameter A.
+2. If $\sigma_A^2$ was extremely large, what would the estimator look like?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Normal MAP Estimation](L2_7_18_explanation.md). 
