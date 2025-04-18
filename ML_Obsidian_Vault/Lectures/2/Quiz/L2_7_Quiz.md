@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 5 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 14 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -74,4 +74,140 @@ True or False: When using a uniform prior (e.g., Beta(1,1) for a probability par
 2. Explain your reasoning mathematically
 3. Provide a simple example that illustrates your answer
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: MAP and MLE Relationship](L2_7_5_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: MAP and MLE Relationship](L2_7_5_explanation.md).
+
+## Question 6
+
+### Problem Statement
+Consider a logistic regression model with log-posterior:
+
+$$\log p(\mathbf{w}|\mathcal{D}) = \sum_{i=1}^{n} [y_i \log(\sigma(\mathbf{w}^T\mathbf{x}_i)) + (1-y_i)\log(1-\sigma(\mathbf{w}^T\mathbf{x}_i))] - \frac{\lambda}{2}\|\mathbf{w}\|^2 + C$$
+
+where $\sigma(z) = \frac{1}{1+e^{-z}}$ is the sigmoid function, $\mathbf{w}$ are the model parameters, and $C$ is a constant.
+
+#### Task
+1. Identify the prior distribution on $\mathbf{w}$ implied by this log-posterior
+2. If we have a single data point with $\mathbf{x} = [1, 2]^T$ and $y = 1$, write the gradient $\nabla_{\mathbf{w}} \log p(\mathbf{w}|\mathcal{D})$ for $\mathbf{w} = [0, 0]^T$
+3. Describe one optimization technique suitable for finding the MAP estimate in this scenario
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 6: Log Posterior Optimization](L2_7_6_explanation.md).
+
+## Question 7
+
+### Problem Statement
+Consider the following regularized loss functions used in machine learning:
+
+1. Ridge Regression: $L(\mathbf{w}) = \|\mathbf{y} - \mathbf{X}\mathbf{w}\|^2 + \lambda\|\mathbf{w}\|^2$
+2. Lasso Regression: $L(\mathbf{w}) = \|\mathbf{y} - \mathbf{X}\mathbf{w}\|^2 + \lambda\|\mathbf{w}\|_1$
+
+#### Task
+1. Show that Ridge Regression can be interpreted as MAP estimation with a specific prior on $\mathbf{w}$. What is this prior?
+2. Show that Lasso Regression can be interpreted as MAP estimation with a different prior on $\mathbf{w}$. What is this prior?
+3. For $\lambda = 10$, sketch the shape of both priors in 2D (for a 2-dimensional weight vector)
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 7: Regularization as MAP](L2_7_7_explanation.md).
+
+## Question 8
+
+### Problem Statement
+You have a posterior distribution over a parameter $\theta$ that is a mixture of two normal distributions:
+
+$$p(\theta|D) = 0.7 \cdot \mathcal{N}(\theta|2, 1) + 0.3 \cdot \mathcal{N}(\theta|5, 0.5)$$
+
+#### Task
+1. Generate 5 samples from this posterior distribution using a rejection sampling approach
+2. Briefly explain how Markov Chain Monte Carlo (MCMC) could be used to sample from this distribution
+3. Would importance sampling be effective for this distribution? Why or why not?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Posterior Sampling](L2_7_8_explanation.md).
+
+## Question 9
+
+### Problem Statement
+You are trying to predict tomorrow's weather (sunny or rainy) using three different models:
+- Model 1: Predicts sunny with probability 0.7
+- Model 2: Predicts sunny with probability 0.8
+- Model 3: Predicts sunny with probability 0.6
+
+Based on historical data, you assign posterior probabilities to these models:
+$P(M_1|D) = 0.5$, $P(M_2|D) = 0.3$, and $P(M_3|D) = 0.2$.
+
+#### Task
+1. Calculate the Bayesian Model Averaged prediction for tomorrow being sunny
+2. If tomorrow actually turns out to be rainy, how would the posterior probabilities of each model change?
+3. What advantage does Bayesian Model Averaging have over simply selecting the highest probability model?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: Bayesian Model Averaging](L2_7_9_explanation.md).
+
+## Question 10
+
+### Problem Statement
+Consider comparing two models:
+- $M_1$: Linear regression with 3 parameters
+- $M_2$: Polynomial regression with 8 parameters
+
+Both models are fit to $n = 50$ data points, with resulting maximum log-likelihoods:
+$\log p(D|M_1, \hat{\theta}_1) = -75$
+$\log p(D|M_2, \hat{\theta}_2) = -65$
+
+#### Task
+1. Calculate the BIC value for each model
+2. Which model would be selected according to BIC? Explain why
+3. How does BIC penalize model complexity compared to AIC (Akaike Information Criterion)?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Bayesian Information Criterion](L2_7_10_explanation.md).
+
+## Question 11
+
+### Problem Statement
+Consider a simple coin-flipping model with parameter $\theta$ representing the probability of heads. We observe data $D = \{H, H, T, H, T\}$ (3 heads, 2 tails).
+
+#### Task
+1. Using a uniform prior ($\text{Beta}(1,1)$) for $\theta$, compute the marginal likelihood $p(D)$
+2. Using a more informative prior ($\text{Beta}(10,10)$) for $\theta$, compute the marginal likelihood $p(D)$
+3. Explain how these marginal likelihood values could be used for model comparison
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Marginal Likelihood Computation](L2_7_11_explanation.md).
+
+## Question 12
+
+### Problem Statement
+Consider a bivariate normal posterior distribution for parameters $\theta_1$ and $\theta_2$:
+
+$$p(\theta_1, \theta_2|D) \propto \exp\left(-\frac{1}{2}\begin{pmatrix}\theta_1 - 3 \\ \theta_2 - 2\end{pmatrix}^T \begin{pmatrix}4 & 1 \\ 1 & 2\end{pmatrix}^{-1} \begin{pmatrix}\theta_1 - 3 \\ \theta_2 - 2\end{pmatrix}\right)$$
+
+#### Task
+1. Write a factorized variational approximation $q(\theta_1, \theta_2) = q_1(\theta_1)q_2(\theta_2)$ where both $q_1$ and $q_2$ are normal distributions
+2. Explain the key limitation of this factorized approximation for this particular posterior
+3. Briefly describe how the ELBO (Evidence Lower BOund) is used in variational inference
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: Variational Inference](L2_7_12_explanation.md).
+
+## Question 13
+
+### Problem Statement
+You wish to apply full Bayesian inference to a deep neural network with 1 million parameters.
+
+#### Task
+1. Identify and briefly explain two major computational challenges in applying full Bayesian inference to this model
+2. Compare the computational requirements of MAP estimation versus full Bayesian inference for this model
+3. Suggest one practical approximation method that could make Bayesian inference more tractable for this model
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 13: Computational Considerations](L2_7_13_explanation.md).
+
+## Question 14
+
+### Problem Statement
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
+
+1. When the posterior distribution is symmetric and unimodal, the MAP estimate and the posterior mean are identical.
+
+2. Bayesian model averaging can never perform worse than selecting the single best model according to posterior probability.
+
+3. As the number of data points approaches infinity, the influence of the prior on the posterior distribution approaches zero.
+
+4. The Bayesian Information Criterion (BIC) provides a closer approximation to the log marginal likelihood than the Akaike Information Criterion (AIC).
+
+5. Variational inference methods always converge to the exact posterior distribution given enough computational resources.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: MAP and Bayesian Inference Concepts](L2_7_14_explanation.md). 
