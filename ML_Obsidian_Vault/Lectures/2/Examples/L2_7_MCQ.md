@@ -83,7 +83,7 @@ In a study comparing two treatments, the Bayes factor $\text{BF}_{12} = 8$ means
 **Options:**
 A) Treatment 1 is 8 times more effective than Treatment 2
 B) The data are 8 times more likely under Model 1 than Model 2
-C) The posterior odds are 8 times the prior odds
+C) The posterior odds are always 8 regardless of the prior odds
 D) The probability of Model 1 being correct is 8 times that of Model 2
 
 **Answer:** B
@@ -92,7 +92,7 @@ D) The probability of Model 1 being correct is 8 times that of Model 2
 
 $$\text{BF}_{12} = \frac{p(D|M_1)}{p(D|M_2)} = 8$$
 
-where $p(D|M_i)$ is the marginal likelihood of the data under model $M_i$.
+where $p(D|M_i)$ is the marginal likelihood of the data under model $M_i$. Option A is incorrect as the Bayes factor concerns the likelihood of data, not treatment effectiveness. Option C is incorrect because the posterior odds equal the Bayes factor multiplied by the prior odds, not just the Bayes factor alone. Option D is incorrect because posterior probabilities depend on both the Bayes factor and the prior probabilities.
 
 ### Question 7
 Variational Inference is a technique for approximating complex posterior distributions in Bayesian inference. Which of the following statements about Variational Inference is FALSE?
@@ -176,7 +176,7 @@ $$p(D|M) = \int p(D|\theta,M)p(\theta|M)d\theta$$
 where $p(D|\theta,M)$ is the likelihood and $p(\theta|M)$ is the prior under model $M$.
 
 ### Question 12
-What is a key computational challenge in implementing full Bayesian inference for complex models?
+What is the most significant computational challenge in implementing full Bayesian inference for complex models?
 
 **Options:**
 A) Storing the full posterior distribution in memory
@@ -186,11 +186,11 @@ D) Determining appropriate point estimates
 
 **Answer:** B
 
-**Explanation:** Computing high-dimensional integrals required for posterior expectations is a major computational challenge in implementing full Bayesian inference for complex models. The posterior expectation of a function $f(\theta)$ is:
+**Explanation:** Computing high-dimensional integrals required for posterior expectations is the most significant computational challenge in implementing full Bayesian inference for complex models. The posterior expectation of a function $f(\theta)$ is:
 
 $$E[f(\theta)|D] = \int f(\theta)p(\theta|D)d\theta$$
 
-This integral becomes increasingly difficult to compute as the dimension of $\theta$ increases, often requiring sophisticated sampling or approximation methods.
+This integral becomes increasingly difficult to compute as the dimension of $\theta$ increases, often requiring sophisticated sampling or approximation methods like MCMC. While memory limitations (Option A) can be an issue, they are generally addressed through sampling approaches. Options C and D are not unique challenges to Bayesian inference compared to the fundamental challenge of computing these integrals.
 
 ### Question 13
 Instead of the Bayes estimator, one can also use the MAP (maximum a posteriori estimator) in order to get a point estimate of the parameter of interest $\theta$ based on data. Which of the following expressions define the MAP?
