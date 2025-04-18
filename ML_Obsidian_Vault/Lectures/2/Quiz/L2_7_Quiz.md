@@ -37,8 +37,8 @@ Consider two competing models for a dataset:
 - Model 2: Normal distribution with unknown mean $\mu_2$ and known variance $\sigma_2^2 = 4$
 
 We use the following priors:
-- $\mu_1 \sim N(0, 1)$
-- $\mu_2 \sim N(0, 2)$
+- $\mu_1 \sim \mathcal{N}(0, 1)$
+- $\mu_2 \sim \mathcal{N}(0, 2)$
 
 We observe data $X = \{1.5, 2.3, 1.8, 2.5, 1.9\}$.
 

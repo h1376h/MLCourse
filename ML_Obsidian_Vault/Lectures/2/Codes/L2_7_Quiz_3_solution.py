@@ -220,6 +220,40 @@ if bayes_factor > 1:
 else:
     print(f"The data favor Model 2 over Model 1 by a factor of {1/bayes_factor:.2f}.")
 
+# Add a new visualization showing the data points and likelihood functions
+print_step_header(4.5, "Data Visualization with Model Likelihoods")
+
+# Create a visualization of the data and model likelihoods
+x_range = np.linspace(-2, 6, 1000)
+
+# Create a figure
+plt.figure(figsize=(10, 6))
+
+# Plot likelihood functions for both models using the posterior means
+likelihood1 = norm.pdf(x_range, posterior_mean1, np.sqrt(likelihood_var1))
+likelihood2 = norm.pdf(x_range, posterior_mean2, np.sqrt(likelihood_var2))
+
+plt.plot(x_range, likelihood1, 'b-', label=f'Model 1: N({posterior_mean1:.4f}, {likelihood_var1})', linewidth=2)
+plt.plot(x_range, likelihood2, 'r--', label=f'Model 2: N({posterior_mean2:.4f}, {likelihood_var2})', linewidth=2)
+
+# Plot data points as a scatter plot and as a histogram
+plt.scatter(data, np.zeros_like(data) - 0.02, color='g', s=100, marker='o', label='Data Points')
+
+# Add a small histogram to show data distribution
+plt.hist(data, bins=10, alpha=0.3, density=True, color='g')
+
+plt.xlabel('x', fontsize=12)
+plt.ylabel('Probability Density', fontsize=12)
+plt.title('Data Points and Model Likelihood Functions', fontsize=14)
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Save the figure
+file_path = os.path.join(save_dir, "data_and_likelihoods.png")
+plt.savefig(file_path, dpi=300, bbox_inches='tight')
+print(f"\nFigure saved to: {file_path}")
+
 # Step 5: Summary
 print_step_header(5, "Summary of Results")
 
