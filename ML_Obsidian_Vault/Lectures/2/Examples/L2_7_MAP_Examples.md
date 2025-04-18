@@ -26,7 +26,7 @@ Where:
 ## Practice Questions
 
 For practice multiple-choice questions on Maximum A Posteriori estimation, see:
-- [[L2_7_MAP_MCQ|MAP Multiple Choice Questions]]
+- [[L2_7_MCQ|MAP Multiple Choice Questions]]
 
 ## Examples
 

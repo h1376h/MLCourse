@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 4 questions from different topics covered in section 2.6 of the lectures on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 5 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -14,6 +14,8 @@ Consider a binomial likelihood with parameter θ representing the probability of
 3. Calculate the Maximum Likelihood Estimate (MLE) for θ
 4. Compare the MAP and MLE estimates and explain why they differ
 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: MAP vs MLE for Binomial Data](L2_7_1_explanation.md).
+
 ## Question 2
 
 ### Problem Statement
@@ -24,6 +26,8 @@ Consider a normal distribution with unknown mean μ and known variance σ² = 4.
 2. Calculate the MAP estimate for μ
 3. Derive the full Bayesian posterior predictive distribution for a new observation X_{new}
 4. Calculate the 95% prediction interval for a new observation
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 2: Bayesian Inference for Normal Mean](L2_7_2_explanation.md).
 
 ## Question 3
 
@@ -44,6 +48,8 @@ We observe data X = {1.5, 2.3, 1.8, 2.5, 1.9}.
 3. Calculate the marginal likelihood (evidence) for each model
 4. Calculate the Bayes factor and interpret the result for model comparison
 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 3: Bayesian Model Comparison](L2_7_3_explanation.md).
+
 ## Question 4
 
 ### Problem Statement
@@ -54,4 +60,18 @@ Consider a linear regression model y = βx + ε where ε ~ N(0, σ²) with known
 1. If we use a normal prior β ~ N(1, 0.5) for the slope parameter, derive the posterior distribution
 2. Calculate the MAP estimate for β
 3. Calculate the MLE for β
-4. Derive the posterior predictive distribution for a new observation y_{new} given x_{new} = 6 
+4. Derive the posterior predictive distribution for a new observation y_{new} given x_{new} = 6
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: Bayesian Linear Regression](L2_7_4_explanation.md).
+
+## Question 5
+
+### Problem Statement
+True or False: When using a uniform prior (e.g., Beta(1,1) for a probability parameter), the MAP estimate is identical to the MLE.
+
+#### Task
+1. Determine whether the statement is true or false
+2. Explain your reasoning mathematically
+3. Provide a simple example that illustrates your answer
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: MAP and MLE Relationship](L2_7_5_explanation.md). 
