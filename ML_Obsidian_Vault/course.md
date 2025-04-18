@@ -56,7 +56,7 @@
   - 🚫 Examples: Coming Soon
   - 🚫 Special Examples (Slides): Coming Soon
 - 2.7: Maximum A Posteriori and Full Bayesian Inference
-  - ⭐ Quiz: [[L2_7_Quiz]]
+  - ⭐ Quiz: [[L2_7_Quiz_course]]
   - ⭐ Examples: [[L2_7_MAP_Examples|MAP Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.8: Statistical Hypothesis Testing for ML
