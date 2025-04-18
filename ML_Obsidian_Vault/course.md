@@ -60,13 +60,13 @@
   - ⭐ Examples: [[L2_7_MAP_Examples|MAP Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.8: Statistical Hypothesis Testing for ML
-  - ⭐ Quiz: L2_8_Quiz
-  - 📚 Examples: Coming Soon
-  - 📚 Special Examples (Slides): Coming Soon
+  - 🚫 Quiz: L2_8_Quiz
+  - 🚫 Examples: Coming Soon
+  - 🚫 Special Examples (Slides): Coming Soon
 - 2.9: Advanced Probabilistic Topics in ML
-  - ⭐ Quiz: L2_9_Quiz
-  - 📚 Examples: Coming Soon
-  - 📚 Special Examples (Slides): Coming Soon
+  - 🚫 Quiz: L2_9_Quiz
+  - 🚫 Examples: Coming Soon
+  - 🚫 Special Examples (Slides): Coming Soon
 
 ### Lecture 3: Linear Regression
 - 3.1: Linear Regression Fundamentals
