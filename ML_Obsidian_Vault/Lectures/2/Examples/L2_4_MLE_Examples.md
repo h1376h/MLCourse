@@ -31,7 +31,7 @@ Where:
 ## Practice Questions
 
 For practice multiple-choice questions on Maximum Likelihood Estimation, see:
-- [[L2_4_MLE_MCQ|MLE Multiple Choice Questions]]
+- [[L2_4_MCQ|MLE Multiple Choice Questions]]
 
 ## Examples
 

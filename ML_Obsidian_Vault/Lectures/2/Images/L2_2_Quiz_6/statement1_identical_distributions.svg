@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Title -->
+  <text x="200" y="30" text-anchor="middle" font-size="16" font-family="Arial">KL Divergence Between Identical Distributions</text>
+  
+  <!-- Axes -->
+  <line x1="50" y1="250" x2="350" y2="250" stroke="black" stroke-width="2"/>
+  <line x1="50" y1="250" x2="50" y2="50" stroke="black" stroke-width="2"/>
+  
+  <!-- X-axis label -->
+  <text x="200" y="280" text-anchor="middle" font-size="12">Outcomes</text>
+  
+  <!-- Y-axis label -->
+  <text x="20" y="150" text-anchor="middle" font-size="12" transform="rotate(-90,20,150)">Probability</text>
+  
+  <!-- Distribution P -->
+  <path d="M 50 250 L 100 150 L 150 200 L 200 100 L 250 200 L 300 150 L 350 250" fill="none" stroke="blue" stroke-width="2"/>
+  
+  <!-- Distribution Q (identical to P) -->
+  <path d="M 50 250 L 100 150 L 150 200 L 200 100 L 250 200 L 300 150 L 350 250" fill="none" stroke="red" stroke-width="2" stroke-dasharray="5,5"/>
+  
+  <!-- Legend -->
+  <rect x="260" y="60" width="80" height="40" fill="white" stroke="black"/>
+  <line x1="270" y1="75" x2="290" y2="75" stroke="blue" stroke-width="2"/>
+  <text x="295" y="78" font-size="10">P(x)</text>
+  <line x1="270" y1="95" x2="290" y2="95" stroke="red" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="295" y="98" font-size="10">Q(x)</text>
+  
+  <!-- KL Divergence = 0 annotation -->
+  <text x="200" y="50" text-anchor="middle" font-size="14" fill="green">KL(P||Q) = 0</text>
+</svg>
