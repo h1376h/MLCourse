@@ -209,6 +209,23 @@ $$\log(L(\theta)p(\theta)) = \log L(\theta) + \log p(\theta)$$
 
 Therefore, $\arg \underset{\theta}{\max} \log L(\theta)p(\theta)$ correctly defines the MAP estimator.
 
+### Question 14
+Maximum a posteriori (MAP) classifies labels with the highest posterior probability value. Using Bayes Rule, we can find the solution as
+
+$$\arg \max_Y \frac{p(X|Y)p(Y)}{p(X)}$$
+
+Now, pick the correct statements about the maximum likelihood (ML) solution.
+
+**Options:**
+A) ML ignores the prior and evidence to reach the simple solution.
+B) ML ignores the evidence for the simple solution.
+C) As we cannot ignore the prior and evidence, ML solution is equivalent to the MAP.
+D) ML is equivalent to MAP when the prior distribution is uniform.
+
+**Answer:** A, B, D
+
+**Explanation:** Maximum likelihood estimation focuses solely on maximizing the likelihood function $p(X|Y)$. Option A is correct because ML ignores both the prior $p(Y)$ and the evidence $p(X)$ from Bayes' rule. Option B is also correct since ML specifically ignores the evidence term $p(X)$ in the denominator. Option C is incorrect because ML and MAP are generally different unless the prior is uniform. Option D is correct because when the prior $p(Y)$ is uniform (constant for all values of $Y$), the MAP estimate becomes equivalent to the ML estimate since the uniform prior doesn't influence which value of $Y$ maximizes the posterior probability.
+
 ## Related Topics
 
 - [[L2_4_MCQ|Maximum Likelihood Estimation Multiple Choice Questions]]
