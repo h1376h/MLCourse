@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 22 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 23 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -361,3 +361,31 @@ In a machine learning context, consider three events:
 5. How might violating a conditional independence assumption impact a machine learning model's performance?
 
 For a detailed explanation of this problem, see [Question 22: Conditional Independence in ML](L2_1_27_explanation.md).
+
+## Question 23
+
+### Problem Statement
+Below are visualizations of four different probability distributions (A-D) that are commonly used in machine learning. Each distribution has distinct characteristics and properties that make it suitable for different modeling tasks.
+
+![Distributions](../Images/L2_1_Quiz_29/distributions.png)
+
+The following figure shows samples drawn from each of these distributions:
+
+![Sample Data](../Images/L2_1_Quiz_29/sample_data.png)
+
+And the figure below shows the PMF/PDF and CDF for each distribution:
+
+![Distribution Properties](../Images/L2_1_Quiz_29/distributions_properties.png)
+
+#### Task
+1. Identify each of the distributions A, B, C, and D. Name the distribution and specify its key parameters.
+2. For each distribution, write the formula for its PMF or PDF.
+3. Calculate the mean and variance for each distribution using the parameters you identified.
+4. Match each distribution with its most appropriate application from the following list:
+   - Modeling the number of classification errors in a fixed number of predictions
+   - Modeling the time between system failures
+   - Modeling the arrival of rare events (e.g., fraudulent transactions)
+   - Modeling measurement errors in a physical system
+5. For each distribution, explain one key property that distinguishes it from the others (e.g., support, symmetry, relationship between mean and variance).
+
+For a detailed explanation of this problem, including distribution identification, property analysis, and applications, see [Question 23: Probability Distribution Identification and Properties](L2_1_29_explanation.md).

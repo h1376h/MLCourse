@@ -41,3 +41,4 @@ For practice multiple-choice questions on Maximum Likelihood Estimation, see:
 4. [[L2_4_MLE_Bernoulli|Bernoulli Distribution MLE]]: Examples of MLE for Bernoulli distributions
 5. [[L2_4_MLE_Poisson|Poisson Distribution MLE]]: Examples of MLE for Poisson distributions
 6. [[L2_4_MLE_Multinomial|Multinomial Distribution MLE]]: Examples of MLE for Multinomial distributions
+7. [[L2_4_MLE_Visual|Visual Examples]]: Visual Examples of MLE

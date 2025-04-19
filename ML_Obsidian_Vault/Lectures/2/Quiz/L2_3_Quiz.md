@@ -1,7 +1,7 @@
 # Lecture 2.3: Statistical Estimation Basics Quiz
 
 ## Overview
-This quiz contains 13 questions from different topics covered in section 2.3 of the lectures on Likelihood and Estimation.
+This quiz contains 15 questions from different topics covered in section 2.3 of the lectures on Likelihood and Estimation.
 
 ## Question 1
 
@@ -160,3 +160,49 @@ For a random sample $X_1, X_2, \ldots, X_n$ from a distribution with unknown mea
 Calculate the bias and variance of this estimator.
 
 For a detailed explanation of this question, see [Question 13: Bias and Variance of Estimators](L2_3_13_explanation.md).
+
+## Question 14
+
+### Problem Statement
+The figures below illustrate various functions related to the likelihood-based estimation of a parameter $\lambda$ from an exponential distribution. The data used to generate these graphs was a random sample of size 100 from an exponential distribution with true parameter $\lambda = 2.0$.
+
+![Log-Likelihood Function](../Images/L2_3_Quiz_14/graph1_log_likelihood.png)
+![Score Function](../Images/L2_3_Quiz_14/graph2_score_function.png)
+![Fisher Information](../Images/L2_3_Quiz_14/graph3_fisher_information.png)
+![Bias Comparison](../Images/L2_3_Quiz_14/graph4_bias_comparison.png)
+![Cramér-Rao Bound](../Images/L2_3_Quiz_14/graph5_cramer_rao.png)
+
+#### Task
+Using only the information provided in these graphs, answer the following questions:
+
+1. Based on Graph 1, what is the approximate maximum likelihood estimate (MLE) of $\lambda$?
+2. Using Graph 2, explain how the score function relates to finding the MLE, and verify your answer from question 1.
+3. From Graph 3, determine the Fisher Information $I(\lambda)$ when $\lambda = 2.0$. What does this tell you about the precision of the estimate?
+4. Examining Graph 4, compare the bias properties of the Maximum Likelihood Estimator (MLE) and the Method of Moments (MoM) estimator for the exponential distribution parameter. Which estimator appears to be unbiased?
+5. According to Graph 5, how does the Cramér-Rao lower bound for the variance of an unbiased estimator of $\lambda$ change as the sample size increases? What is the approximate value of this bound when the sample size is 50?
+6. Using all the provided information, briefly explain the relationship between the log-likelihood function, the score function, and the Fisher information in the context of parameter estimation.
+
+For a detailed explanation of this question, see [Question 14: Visual Analysis of Likelihood and Estimators](L2_3_14_explanation.md).
+
+## Question 15
+
+### Problem Statement
+A researcher has collected 50 data points on a continuous random variable X, which takes values between 0 and 1. The researcher wants to determine the best probabilistic model for this data by comparing three different distribution families: Beta, Normal, and Exponential. The following figures show different aspects of the likelihood analysis.
+
+![Data Histogram](../Images/L2_3_Quiz_15/graph1_data_histogram.png)
+![Beta Log-Likelihood Contour](../Images/L2_3_Quiz_15/graph2_beta_loglik_contour.png)
+![Log-Likelihood Comparisons](../Images/L2_3_Quiz_15/graph3_loglik_comparisons.png)
+![Fitted PDFs](../Images/L2_3_Quiz_15/graph4_fitted_pdfs.png)
+![Probability vs Likelihood](../Images/L2_3_Quiz_15/graph5_probability_vs_likelihood.png)
+![Likelihood Ratio Comparison](../Images/L2_3_Quiz_15/graph6_likelihood_ratio.png)
+
+#### Task
+Using only the information provided in these graphs, answer the following questions:
+
+1. Based on Figure 3, explain how the likelihood function responds to changes in parameter values for each distribution model. Why does the likelihood function peak at certain parameter values?
+2. According to Figure 6, which distribution family best fits the observed data? Explain your reasoning.
+3. Looking at Figure 4, visually assess how well each fitted distribution matches the observed data histogram.
+4. Using Figure 5, explain the key difference between probability and likelihood in your own words.
+5. Based on all the information provided, which distribution would you recommend using to model this data? Justify your answer.
+
+For a detailed explanation of this question, see [Question 15: Likelihood Functions and Distribution Fitting](L2_3_15_explanation.md).

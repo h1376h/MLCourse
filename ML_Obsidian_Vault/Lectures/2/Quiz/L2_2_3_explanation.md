@@ -8,7 +8,7 @@ Consider two discrete random variables $X$ and $Y$ with the following joint prob
 | $X = 0$ | 0.3     | 0.2     |
 | $X = 1$ | 0.1     | 0.4     |
 
-## Tasks
+### Task
 1. Calculate the entropy of $X$, $H(X)$
 2. Calculate the entropy of $Y$, $H(Y)$
 3. Calculate the joint entropy $H(X, Y)$

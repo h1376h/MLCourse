@@ -1,7 +1,7 @@
 # Lecture 2.4: Maximum Likelihood Estimation Quiz
 
 ## Overview
-This quiz contains 20 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
+This quiz contains 21 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
 
 ## Question 1
 
@@ -322,4 +322,21 @@ A restaurant manager is analyzing the number of customers who walk in without re
 3. Calculate the probability of having exactly 11 walk-in customers on a given evening using your MLE estimate
 4. Calculate a 95% confidence interval for λ
 
-For a detailed explanation, see [Question 20: MLE for Poisson Distribution in Customer Analysis](L2_4_20_explanation.md). 
+For a detailed explanation, see [Question 20: MLE for Poisson Distribution in Customer Analysis](L2_4_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+The following figure illustrates Maximum Likelihood Estimation (MLE) applied to two different probability distributions: Normal and Poisson. Each row represents a different distribution, while the columns show the data with fitted distributions and the corresponding likelihood functions.
+
+![MLE Visual Analysis](../Images/L2_4_Quiz_21/mle_visual_question.png)
+
+#### Task
+Given the visualizations:
+
+1. For the normal distribution (panels a and b), what is the relationship between the sample mean and the maximum likelihood estimate (MLE)? Explain why this relationship exists
+2. For the Poisson distribution (panels c and d), analyze the difference between the MLE fit and the true distribution. What parameter is being estimated, and what is the formula for the MLE estimator?
+3. Examine the likelihood functions in panels (b) and (d). Explain how these functions are used to determine the MLE, and discuss the uncertainty associated with each estimate.
+4. The dataset for the normal distribution has a true mean of $\mu = 25.0$ but an MLE of approximately $\hat{\mu}_{MLE} \approx 23.9$. Explain this discrepancy in terms of sampling error and the properties of maximum likelihood estimators.
+
+For a detailed explanation, see [Question 21: Visual Analysis of Maximum Likelihood Estimation](L2_4_21_explanation.md). 

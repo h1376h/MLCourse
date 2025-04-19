@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 15 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 18 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -168,7 +168,7 @@ Assume that the parameters: $\sigma^2$, $\sigma_A^2$, and $\mu_A$ are constant a
 1. Determine the MAP estimator for the parameter A.
 2. If $\sigma_A^2$ was extremely large, what would the estimator look like?
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Normal MAP Estimation](L2_7_18_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Normal MAP Estimation](L2_7_18_explanation.md).
 
 ## Question 12
 
@@ -180,7 +180,7 @@ Consider a scenario where we observe count data $D = \{x_1, x_2, ..., x_N\}$, su
 2. Take the derivative of $\log P(D|\lambda) + \log P(\lambda)$ with respect to the parameter $\lambda$.
 3. Set the derivative equal to zero and solve for $\lambda$ - call this maximizing value $\lambda_{MAP}$.
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: MAP Estimation with Poisson-Gamma Model](L2_7_19_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: MAP Estimation with Poisson-Gamma Model](L2_7_19_explanation.md).
 
 ## Question 13
 
@@ -202,7 +202,7 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=1$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
-For a detailed explanation of this problem, including analysis of joint PDFs, marginal distributions, and the relationship between different estimators, see [Question 13: Joint PDF and Bayesian Estimation](L2_7_20_explanation.md). 
+For a detailed explanation of this problem, including analysis of joint PDFs, marginal distributions, and the relationship between different estimators, see [Question 13: Joint PDF and Bayesian Estimation](L2_7_20_explanation.md).
 
 ## Question 14
 
@@ -224,7 +224,7 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=2$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights on how bimodal distributions affect Bayesian estimation, see [Question 14: Joint PDF and Bayesian Estimation with Bimodal Distribution](L2_7_21_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights on how bimodal distributions affect Bayesian estimation, see [Question 14: Joint PDF and Bayesian Estimation with Bimodal Distribution](L2_7_21_explanation.md).
 
 ## Question 15
 
@@ -248,4 +248,118 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=2$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
-For a detailed explanation of this problem, including the relationships between different estimators, see [Question 15: Simple Distributions and Bayesian Estimation](L2_7_22_explanation.md). 
+For a detailed explanation of this problem, including the relationships between different estimators, see [Question 15: Simple Distributions and Bayesian Estimation](L2_7_22_explanation.md).
+
+## Question 16
+
+### Problem Statement
+The graphs below illustrate various functions derived from the (not given) joint PDF of two random variables X and Y, each of which is defined in the range [0, 4].
+
+![f_X|Y(3|Y=y)](../Images/L2_7_Quiz_23/graph1_f_X_given_Y.png)
+![f_Y(y)](../Images/L2_7_Quiz_23/graph2_f_Y.png)
+![E(Y|X=x)](../Images/L2_7_Quiz_23/graph3_E_Y_given_X.png)
+![f_Y|X(y|X=3)](../Images/L2_7_Quiz_23/graph4_f_Y_given_X.png)
+![f_X(x)](../Images/L2_7_Quiz_23/graph5_f_X.png)
+![E(X|Y=y)](../Images/L2_7_Quiz_23/graph6_E_X_given_Y.png)
+
+#### Task
+Using only the information provided in these graphs (i.e., without any extra computation), determine:
+
+1. The maximum likelihood (ML) estimate of $Y$ given that $X=3$
+2. Describe whether the maximum a posteriori (MAP) estimate of $Y$ given that $X=3$ would be higher or lower than the ML estimate, and explain why
+3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=3$
+4. Explain the relationship between these three estimates and why they might differ in this case.
+
+For a detailed explanation of this problem, including analysis of multimodal distributions and their effects on Bayesian estimators, see [Question 16: Joint PDF and Bayesian Inference with Multimodal Distributions](L2_7_23_explanation.md).
+
+## Question 17
+
+### Problem Statement
+Consider a scenario where we're estimating an unknown parameter $\theta$ with the following information:
+
+1. We have collected 5 data points from a normal distribution $\mathcal{N}(\theta, 4)$ (where the variance is known to be 4)
+2. The sample mean of our data is $\bar{x} = 7$
+3. We're exploring the effect of different prior beliefs about $\theta$ on our MAP estimates
+
+The graphs below illustrate different functions involved in Bayesian estimation:
+
+![Likelihood Function](../Images/L2_7_Quiz_24/graph1_likelihood.png)
+![Weak Prior](../Images/L2_7_Quiz_24/graph2_weak_prior.png)
+![Medium Prior](../Images/L2_7_Quiz_24/graph3_medium_prior.png)
+![Strong Prior](../Images/L2_7_Quiz_24/graph4_strong_prior.png)
+![Posterior with Weak Prior](../Images/L2_7_Quiz_24/graph5_posterior_weak.png)
+![Posterior with Medium Prior](../Images/L2_7_Quiz_24/graph6_posterior_medium.png)
+![Posterior with Strong Prior](../Images/L2_7_Quiz_24/graph7_posterior_strong.png)
+![Posterior Comparison](../Images/L2_7_Quiz_24/graph8_posterior_comparison.png)
+
+#### Task
+1. Identify the maximum likelihood estimate (MLE) for $\theta$ based on the observed data.
+2. For each of the three priors (weak, medium, and strong), calculate approximately how far the MAP estimate deviates from the MLE.
+3. Explain the pattern you observe in how the MAP estimates relate to both the prior mean and the MLE as the prior becomes stronger.
+4. If you were to collect 20 more data points (for a total of 25) with the same sample mean, how would you expect the three MAP estimates to change relative to the MLE? Explain your reasoning.
+
+For a detailed explanation of this problem, including analysis of prior strength and its effect on MAP estimation, see [Question 17: Prior Strength and MAP Estimation](L2_7_24_explanation.md).
+
+## Question 18
+
+### Problem Statement
+You are analyzing data from a coin-flipping experiment where you observed 60 heads out of 100 flips. You want to estimate θ, the probability of getting heads, using different approaches including Maximum Likelihood Estimation (MLE) and Maximum A Posteriori (MAP) estimation with various priors.
+
+Below are several visualizations to help you understand how different prior distributions affect Bayesian estimation:
+
+![Likelihood Function](../Images/L2_7_Quiz_25/likelihood.png)
+*Figure 1: Likelihood function for the observed data (60 heads in 100 flips). The vertical red dashed line marks the position of maximum likelihood.*
+
+![Uniform Prior: Beta(1,1)](../Images/L2_7_Quiz_25/prior_uniform.png)
+*Figure 2: Uniform Prior - Beta(1,1) distribution.*
+
+![Prior Biased toward Tails: Beta(3,7)](../Images/L2_7_Quiz_25/prior_tails.png)
+*Figure 3: Prior Biased toward Tails - Beta(3,7) distribution.*
+
+![Prior Biased toward Heads: Beta(7,3)](../Images/L2_7_Quiz_25/prior_heads.png)
+*Figure 4: Prior Biased toward Heads - Beta(7,3) distribution.*
+
+![Prior with Strong Belief in Fair Coin: Beta(50,50)](../Images/L2_7_Quiz_25/prior_fair.png)
+*Figure 5: Prior with Strong Belief in Fair Coin - Beta(50,50) distribution with peak at θ=0.5.*
+
+![Posterior with Uniform Prior](../Images/L2_7_Quiz_25/posterior_uniform.png)
+*Figure 6: Posterior with Uniform Prior. Blue vertical line shows MAP estimate (θ=0.600); red vertical line shows MLE (θ=0.600).*
+
+![Posterior with Tails-Biased Prior](../Images/L2_7_Quiz_25/posterior_tails.png)
+*Figure 7: Posterior with Tails-Biased Prior. Green vertical line shows MAP estimate (θ=0.574); red vertical line shows MLE (θ=0.600).*
+
+![Posterior with Heads-Biased Prior](../Images/L2_7_Quiz_25/posterior_heads.png)
+*Figure 8: Posterior with Heads-Biased Prior. Red dashed line shows MAP estimate (θ=0.611); red dotted line shows MLE (θ=0.600).*
+
+![Posterior with Fair Coin Prior](../Images/L2_7_Quiz_25/posterior_fair.png)
+*Figure 9: Posterior with Fair Coin Prior. Magenta vertical line shows MAP estimate (θ=0.551); red vertical line shows MLE (θ=0.600).*
+
+![Comparison of All Posteriors](../Images/L2_7_Quiz_25/posterior_comparison.png)
+*Figure 10: Comparison of all posterior distributions with their respective MAP estimates (vertical dashed lines in corresponding colors) and the MLE (solid black vertical line at θ=0.600).*
+
+![Evolution of Posterior with Increasing Data](../Images/L2_7_Quiz_25/posterior_evolution.png)
+*Figure 11: Evolution of the posterior starting from Beta(3,7) prior as more data is collected, maintaining a 60% heads ratio. Different colors represent increasing sample sizes from 5 flips to 500 flips, and the dashed lines indicate the corresponding MAP estimates. Note how the MAP estimates converge toward the MLE (θ=0.600) as data increases.*
+
+![Different Bayesian Estimators](../Images/L2_7_Quiz_25/bayesian_estimators.png)
+*Figure 12: Different Bayesian estimators for the posterior with uniform prior. Red vertical line shows MAP estimate (θ=0.600, optimizing 0-1 loss); green vertical line shows posterior mean (θ=0.598, optimizing squared loss); purple vertical line shows posterior median (θ=0.599, optimizing absolute loss).*
+
+#### Task
+Using only the information provided in these figures:
+
+1. Identify the Maximum Likelihood Estimate (MLE) for θ based on the observed data.
+2. For each of the four priors (Uniform, Tails-Biased, Heads-Biased, and Fair Coin), determine the MAP estimate for θ.
+3. Explain how the choice of prior affects the MAP estimate relative to the MLE.
+4. Based on Figure 11 (Evolution of Posterior), explain what happens to the MAP estimate as more data is collected (while maintaining the same ratio of heads to total flips). The figure shows MAP estimates for the following data points:
+   - 3 heads, 2 tails (MAP = 0.364)
+   - 6 heads, 4 tails (MAP = 0.416)
+   - 15 heads, 10 tails (MAP = 0.486)
+   - 30 heads, 20 tails (MAP = 0.525)
+   - 60 heads, 40 tails (MAP = 0.554)
+   - 150 heads, 100 tails (MAP = 0.577)
+   - 300 heads, 200 tails (MAP = 0.588)
+5. From Figure 12 (Different Bayesian Estimators), identify the posterior mean and median, and explain why they might differ from the MAP estimate. The figure shows:
+   - MAP (0-1 Loss): θ = 0.600
+   - Mean (Squared Loss): θ = 0.598
+   - Median (Absolute Loss): θ = 0.599
+
+For a detailed explanation of this problem, including analysis of how different priors affect MAP estimation and the relationships between various Bayesian estimators, see [Question 18: Effect of Priors on MAP Estimation for Coin Flips](L2_7_25_explanation.md).

@@ -1,7 +1,7 @@
 # Lecture 2.3: Statistical Estimation Basics Quiz
 
 ## Overview
-This quiz contains 10 questions from different topics covered in section 2.3 of the lectures on Likelihood and Estimation.
+This quiz contains 11 questions from different topics covered in section 2.3 of the lectures on Likelihood and Estimation.
 
 ## Question 1
 
@@ -125,3 +125,26 @@ For a random sample $X_1, X_2, \ldots, X_n$ from a distribution with unknown mea
 Calculate the bias and variance of this estimator.
 
 For a detailed explanation of this question, see [Question 10: Bias and Variance of Estimators](L2_3_13_explanation.md).
+
+## Question 11
+
+### Problem Statement
+A researcher has collected 50 data points on a continuous random variable X, which takes values between 0 and 1. The researcher wants to determine the best probabilistic model for this data by comparing three different distribution families: Beta, Normal, and Exponential. The following figures show different aspects of the likelihood analysis.
+
+![Data Histogram](../Images/L2_3_Quiz_15/graph1_data_histogram.png)
+![Beta Log-Likelihood Contour](../Images/L2_3_Quiz_15/graph2_beta_loglik_contour.png)
+![Log-Likelihood Comparisons](../Images/L2_3_Quiz_15/graph3_loglik_comparisons.png)
+![Fitted PDFs](../Images/L2_3_Quiz_15/graph4_fitted_pdfs.png)
+![Probability vs Likelihood](../Images/L2_3_Quiz_15/graph5_probability_vs_likelihood.png)
+![Likelihood Ratio Comparison](../Images/L2_3_Quiz_15/graph6_likelihood_ratio.png)
+
+#### Task
+Using only the information provided in these graphs, answer the following questions:
+
+1. Based on Figure 3, explain how the likelihood function responds to changes in parameter values for each distribution model. Why does the likelihood function peak at certain parameter values?
+2. According to Figure 6, which distribution family best fits the observed data? Explain your reasoning.
+3. Looking at Figure 4, visually assess how well each fitted distribution matches the observed data histogram.
+4. Using Figure 5, explain the key difference between probability and likelihood in your own words.
+5. Based on all the information provided, which distribution would you recommend using to model this data? Justify your answer.
+
+For a detailed explanation of this question, see [Question 11: Likelihood Functions and Distribution Fitting](L2_3_15_explanation.md).
