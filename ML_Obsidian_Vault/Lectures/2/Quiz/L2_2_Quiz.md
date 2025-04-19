@@ -1,7 +1,7 @@
 # Lecture 2.2: Information Theory and Entropy Quiz
 
 ## Overview
-This quiz contains 7 questions from different topics covered in section 2.2 of the lectures on Information Theory and Entropy.
+This quiz contains 8 questions from different topics covered in section 2.2 of the lectures on Information Theory and Entropy.
 
 ## Question 1
 
@@ -105,4 +105,23 @@ Consider a simple binary classification problem where:
 3. Calculate the KL divergence $D_{KL}(P||Q)$
 4. Verify that $H(P, Q) = H(P) + D_{KL}(P||Q)$ 
 
-For a detailed explanation of this question, see [Question 7: Cross-Entropy, Entropy, and KL Divergence Relationship](L2_2_7_explanation.md). 
+For a detailed explanation of this question, see [Question 7: Cross-Entropy, Entropy, and KL Divergence Relationship](L2_2_7_explanation.md).
+
+## Question 8
+
+### Problem Statement
+The graphs below illustrate various concepts related to information theory and entropy. Each visualization represents different aspects of information-theoretic measures for discrete probability distributions.
+
+![Entropy of Different Distributions](../Images/L2_2_Quiz_8/entropy_distributions.png)
+![KL Divergence from Uniform Distribution](../Images/L2_2_Quiz_8/kl_divergence.png)
+![Mutual Information in Joint Distributions](../Images/L2_2_Quiz_8/mutual_information.png)
+
+#### Task
+Using only the information provided in these graphs (i.e., without any extra computation), determine:
+
+1. Rank the entropy values of distributions A, B, C, and D from highest to lowest.
+2. Rank the KL divergence values from uniform to distributions P, Q, R, and S from smallest to largest.
+3. Rank the mutual information values of joint distributions W, X, Y, and Z from lowest to highest.
+4. Explain the relationship between the visual characteristics of these distributions and their information-theoretic measures.
+
+For a detailed explanation of this question, see [Question 8: Visual Information Theory](L2_2_8_explanation.md). 
