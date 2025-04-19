@@ -479,7 +479,7 @@ Suppose we have samples $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ from a Berno
 1. Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
 2. Suppose you are asked to select $\theta$ from the set $\{0.2, 0.5, 0.7\}$. Which value would be chosen according to the MLE principle?
 3. Now assume a discrete prior $\pi_{\theta}(0.2) = 0.1$, $\pi_{\theta}(0.5) = 0.01$, $\pi_{\theta}(0.7) = 0.89$. What is $\hat{\theta}_{MAP}$?
-4. Compare the MAP and MLE estimates from parts (b) and (c). Explain why they differ and discuss how the prior affects the parameter estimation when working with small sample sizes.
-5. Suppose you collect additional samples and now have a total of 100 samples with 40 ones and 60 zeros. Calculate the new $\hat{\theta}_{MAP}$ using the same prior as in part (c). Compare this result with your answer from part (c) and explain how the influence of the prior changes as the sample size increases.
+4. Compare the MAP and MLE estimates from parts (2) and (3). Explain why they differ and discuss how the prior affects the parameter estimation when working with small sample sizes.
+5. Suppose you collect additional samples and now have a total of 100 samples with 40 ones and 60 zeros. Calculate the new $\hat{\theta}_{MAP}$ using the same prior as in part (3). Compare this result with your answer from part (3) and explain how the influence of the prior changes as the sample size increases.
 
 For a detailed explanation, see [Question 26: MLE and MAP for Bernoulli Distribution with Small Sample](L2_7_26_explanation.md).
