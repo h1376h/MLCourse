@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 18 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 19 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -363,3 +363,17 @@ Using only the information provided in these figures:
    - Median (Absolute Loss): θ = 0.599
 
 For a detailed explanation of this problem, including analysis of how different priors affect MAP estimation and the relationships between various Bayesian estimators, see [Question 18: Effect of Priors on MAP Estimation for Coin Flips](L2_7_25_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Suppose we have samples $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ from a Bernoulli distribution with unknown parameter $\theta$, where $\theta \in (0, 1)$.
+
+#### Task
+1. Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
+2. Suppose you are asked to select $\theta$ from the set $\{0.2, 0.5, 0.7\}$. Which value would be chosen according to the MLE principle?
+3. Now assume a discrete prior $\pi_{\theta}(0.2) = 0.1$, $\pi_{\theta}(0.5) = 0.01$, $\pi_{\theta}(0.7) = 0.89$. What is $\hat{\theta}_{MAP}$?
+4. Compare the MAP and MLE estimates from parts (2) and (3). Explain why they differ and discuss how the prior affects the parameter estimation when working with small sample sizes.
+5. Suppose you collect additional samples and now have a total of 100 samples with 40 ones and 60 zeros. Calculate the new $\hat{\theta}_{MAP}$ using the same prior as in part (3). Compare this result with your answer from part (3) and explain how the influence of the prior changes as the sample size increases.
+
+For a detailed explanation, see [Question 19: MLE and MAP for Bernoulli Distribution with Small Sample](L2_7_26_explanation.md).
