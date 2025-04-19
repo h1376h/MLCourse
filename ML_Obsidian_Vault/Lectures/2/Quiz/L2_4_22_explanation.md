@@ -4,7 +4,8 @@
 Suppose we have samples $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ from a Bernoulli distribution with unknown parameter $\theta$, where $\theta \in (0, 1)$.
 
 ### Task
-Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
+1. Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
+2. Suppose you are asked to select $\theta$ from the set $\{0.2, 0.5, 0.7\}$. Which value would be chosen according to the MLE principle?
 
 ## Understanding the Problem
 The Bernoulli distribution is a discrete probability distribution that models binary outcomes with two possible results: success (1) or failure (0). Each trial is independent with a constant probability of success, denoted by the parameter $\theta$. The Maximum Likelihood Estimation (MLE) approach allows us to estimate this parameter by finding the value of $\theta$ that maximizes the likelihood of observing our given sample data.
@@ -81,16 +82,27 @@ $$\frac{d^2\ell}{d\theta^2} = -\frac{2}{(0.4)^2} - \frac{3}{(0.6)^2} = -\frac{2}
 
 Since the second derivative is negative, our critical point is indeed a maximum.
 
-### Step 7: Calculate additional statistics
-The standard error of the MLE is:
+### Step 7: Selecting the best candidate value
+For the second task, we need to select $\theta$ from the set $\{0.2, 0.5, 0.7\}$ according to the MLE principle. We use the same likelihood function $L(\theta) = \theta^2 (1-\theta)^3$ to evaluate each candidate:
 
-$$SE(\hat{\theta}) = \sqrt{\frac{\hat{\theta}(1-\hat{\theta})}{n}} = \sqrt{\frac{0.4 \times 0.6}{5}} = \sqrt{0.048} \approx 0.2191$$
+$$L(0.2) = (0.2)^2 \times (1-0.2)^3 = 0.04 \times 0.512 = 0.02048$$
+$$L(0.5) = (0.5)^2 \times (1-0.5)^3 = 0.25 \times 0.125 = 0.03125$$
+$$L(0.7) = (0.7)^2 \times (1-0.7)^3 = 0.49 \times 0.027 = 0.01323$$
 
-The approximate 95% confidence interval is:
+Comparing these likelihood values:
+- $L(0.2) = 0.02048$
+- $L(0.5) = 0.03125$ (highest)
+- $L(0.7) = 0.01323$
 
-$$\hat{\theta} \pm 1.96 \times SE(\hat{\theta}) = 0.4 \pm 1.96 \times 0.2191 = 0.4 \pm 0.4294 = (0, 0.8294)$$
+Since $L(0.5)$ is highest among the three candidates, according to the MLE principle, we would select $\theta = 0.5$ from the given set.
 
-Note that we've bounded the lower end at 0 since $\theta$ must be non-negative.
+Note that this is different from our unconstrained MLE of $\hat{\theta}_{MLE} = 0.4$. When restricted to a discrete set of candidate values, we select the value that yields the highest likelihood, which in this case is $0.5$.
+
+Relative likelihood comparisons:
+- $L(0.2)/L(0.5) \approx 0.6554$ (meaning 0.2 is about 65.54% as likely as 0.5)
+- $L(0.7)/L(0.5) \approx 0.4234$ (meaning 0.7 is about 42.34% as likely as 0.5)
+
+This analysis confirms that $\theta = 0.5$ is the best choice among the given candidates.
 
 ## Visual Explanations
 
@@ -154,6 +166,24 @@ Likelihood and log-likelihood values at selected points:
 
 We can see that both the likelihood and log-likelihood reach their maximum values at $\theta = 0.40$, confirming our analytical solution.
 
+### Comparison of Candidate Values
+![Candidate Comparison](../Images/L2_4_Quiz_22/candidate_comparison.png)
+
+This visualization directly addresses the second task by comparing the likelihood values for the three candidate values $\theta \in \{0.2, 0.5, 0.7\}$. The top panel shows the likelihood function, and the bottom panel shows the log-likelihood function. Each candidate value is marked with a distinct point, and the best candidate ($\theta = 0.5$) is highlighted with a star.
+
+**Details from the code output:**
+For our candidate set $\{0.2, 0.5, 0.7\}$, the likelihood values are:
+- $\theta = 0.2$: $L(0.2) = 0.02048000$, $\ell(0.2) = -3.888306$
+- $\theta = 0.5$: $L(0.5) = 0.03125000$, $\ell(0.5) = -3.465736$ (best candidate)
+- $\theta = 0.7$: $L(0.7) = 0.01323000$, $\ell(0.7) = -4.325268$
+
+Comparison of candidates:
+- $\theta = 0.2$ is 0.6554 times as likely as the best candidate
+- $\theta = 0.5$ is the best choice
+- $\theta = 0.7$ is 0.4234 times as likely as the best candidate
+
+While the true MLE is $\hat{\theta}_{MLE} = 0.4$, when restricted to the discrete set $\{0.2, 0.5, 0.7\}$, the value $\theta = 0.5$ provides the highest likelihood and is therefore the selected estimate.
+
 ## Key Insights
 
 ### Mathematical Properties
@@ -178,6 +208,8 @@ We can see that both the likelihood and log-likelihood reach their maximum value
 - When using the MLE estimate for prediction, we get:
   - $P(X=0|\theta=0.4000) = 0.6000$
   - $P(X=1|\theta=0.4000) = 0.4000$
+- When restricted to a discrete set of candidate values, we select the one with the highest likelihood
+- In our case, when restricted to $\{0.2, 0.5, 0.7\}$, the MLE principle selects $\theta = 0.5$
 
 ## Conclusion
 
@@ -185,4 +217,6 @@ The maximum likelihood estimator for the parameter $\theta$ of the Bernoulli dis
 
 The standard error of our estimate is $0.2191$, and the approximate 95% confidence interval is $(0.0000, 0.8294)$. This wide interval reflects the considerable uncertainty associated with estimating a parameter from a small sample size.
 
-The MLE provides an intuitive and statistically principled method for parameter estimation, and in the case of the Bernoulli distribution, the MLE has a simple form: the proportion of successes in the sample. While our small sample size means there's considerable uncertainty in this estimate, the MLE represents the most plausible value based on the observed data. 
+The MLE provides an intuitive and statistically principled method for parameter estimation, and in the case of the Bernoulli distribution, the MLE has a simple form: the proportion of successes in the sample. While our small sample size means there's considerable uncertainty in this estimate, the MLE represents the most plausible value based on the observed data.
+
+For the second task, when restricted to choosing from the set $\{0.2, 0.5, 0.7\}$, the MLE principle selects $\theta = 0.5$ as this value maximizes the likelihood function among the given candidates. This demonstrates how the MLE approach can be applied both to find an optimal value in a continuous range and to select the best option from a discrete set of candidates. 

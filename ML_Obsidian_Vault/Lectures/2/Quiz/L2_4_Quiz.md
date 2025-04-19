@@ -347,6 +347,7 @@ For a detailed explanation, see [Question 21: Visual Analysis of Maximum Likelih
 Suppose we have samples $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ from a Bernoulli distribution with unknown parameter $\theta$, where $\theta \in (0, 1)$.
 
 #### Task
-Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
+1. Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
+2. Suppose you are asked to select $\theta$ from the set $\{0.2, 0.5, 0.7\}$. Which value would be chosen according to the MLE principle?
 
 For a detailed explanation, see [Question 22: MLE for Bernoulli Distribution with Small Sample](L2_4_22_explanation.md). 

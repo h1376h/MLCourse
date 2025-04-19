@@ -208,6 +208,112 @@ def print_step_by_step_derivation(samples):
     print(f"At θ = {p_mle:.4f}, d²ℓ/dθ² = -{k}/{p_mle**2:.4f} - {n-k}/{(1-p_mle)**2:.4f} < 0")
     print("Since the second derivative is negative, this is indeed a maximum.")
 
+def compare_candidate_values(samples, candidate_values, save_path=None):
+    """Compare likelihood values for candidate θ values and identify the best one according to MLE."""
+    # Calculate MLE for reference
+    mle = calculate_mle(samples)
+    
+    # Create figure
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10))
+    
+    # Create a range of p values for the full curve
+    p_range = np.linspace(0.001, 0.999, 1000)
+    
+    # Compute likelihood and log-likelihood for each p value
+    likelihoods = [compute_likelihood(p, samples) for p in p_range]
+    log_likelihoods = [compute_log_likelihood(p, samples) for p in p_range]
+    
+    # Calculate likelihoods for candidate values
+    candidate_likelihoods = [compute_likelihood(p, samples) for p in candidate_values]
+    candidate_log_likelihoods = [compute_log_likelihood(p, samples) for p in candidate_values]
+    
+    # Find best candidate
+    best_idx = np.argmax(candidate_likelihoods)
+    best_candidate = candidate_values[best_idx]
+    
+    # Plot likelihood function
+    ax1.plot(p_range, likelihoods, 'b-', linewidth=2, label='Likelihood Function')
+    
+    # Plot candidate points
+    colors = ['green', 'orange', 'purple']
+    markers = ['o', 's', '^']
+    
+    for i, (p, l) in enumerate(zip(candidate_values, candidate_likelihoods)):
+        marker_style = markers[i % len(markers)]
+        color = colors[i % len(colors)]
+        ax1.plot(p, l, marker=marker_style, markersize=10, color=color,
+                label=f'θ = {p} (L = {l:.6f})')
+    
+    # Highlight the best candidate
+    ax1.plot(best_candidate, candidate_likelihoods[best_idx], 'r*', markersize=15,
+            label=f'Best Candidate: θ = {best_candidate}')
+    
+    # Plot MLE for reference
+    mle_likelihood = compute_likelihood(mle, samples)
+    ax1.axvline(x=mle, color='red', linestyle='--', 
+               label=f'True MLE θ̂ = {mle:.2f}')
+    ax1.plot(mle, mle_likelihood, 'ro', markersize=8)
+    
+    ax1.set_xlabel('θ')
+    ax1.set_ylabel('Likelihood L(θ)')
+    ax1.set_title('Likelihood Function with Candidate Values')
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+    
+    # Plot log-likelihood function
+    ax2.plot(p_range, log_likelihoods, 'g-', linewidth=2, label='Log-Likelihood Function')
+    
+    # Plot candidate points on log-likelihood
+    for i, (p, ll) in enumerate(zip(candidate_values, candidate_log_likelihoods)):
+        marker_style = markers[i % len(markers)]
+        color = colors[i % len(colors)]
+        ax2.plot(p, ll, marker=marker_style, markersize=10, color=color,
+                label=f'θ = {p} (ℓ = {ll:.6f})')
+    
+    # Highlight the best candidate
+    ax2.plot(best_candidate, candidate_log_likelihoods[best_idx], 'r*', markersize=15,
+            label=f'Best Candidate: θ = {best_candidate}')
+    
+    # Plot MLE for reference
+    mle_log_likelihood = compute_log_likelihood(mle, samples)
+    ax2.axvline(x=mle, color='red', linestyle='--', 
+               label=f'True MLE θ̂ = {mle:.2f}')
+    ax2.plot(mle, mle_log_likelihood, 'ro', markersize=8)
+    
+    ax2.set_xlabel('θ')
+    ax2.set_ylabel('Log-Likelihood ℓ(θ)')
+    ax2.set_title('Log-Likelihood Function with Candidate Values')
+    ax2.legend()
+    ax2.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    
+    if save_path:
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+        print(f"Figure saved to {save_path}")
+    
+    plt.close()
+    
+    # Print comparison results
+    print("\n=== Candidate Values Comparison ===")
+    print("According to the MLE principle, we choose the value that maximizes the likelihood function.")
+    print(f"The true MLE from the continuous range is: θ̂ = {mle:.4f} with L({mle:.4f}) = {mle_likelihood:.8f}")
+    print("\nComparison of candidate values:")
+    
+    # Create a table of results
+    headers = ["Candidate θ", "Likelihood L(θ)", "Log-Likelihood ℓ(θ)", "Comparison with Best"]
+    print(f"{headers[0]:<15} {headers[1]:<20} {headers[2]:<20} {headers[3]:<20}")
+    print("-" * 75)
+    
+    best_l = candidate_likelihoods[best_idx]
+    for i, p in enumerate(candidate_values):
+        l_value = candidate_likelihoods[i]
+        ll_value = candidate_log_likelihoods[i]
+        comparison = "BEST CHOICE" if i == best_idx else f"{l_value/best_l:.4f} times as likely"
+        print(f"{p:<15.4f} {l_value:<20.8f} {ll_value:<20.6f} {comparison:<20}")
+    
+    return best_candidate
+
 def main():
     """Main function to generate all visualizations for Question 22."""
     # Create directory for saving images
@@ -245,7 +351,13 @@ def main():
                            save_path=os.path.join(save_dir, "likelihood_functions.png"))
     print("3. Likelihood functions visualization created")
     
-    # 4. Print step-by-step derivation
+    # 4. Compare candidate values
+    candidate_values = [0.2, 0.5, 0.7]
+    best_candidate = compare_candidate_values(samples, candidate_values,
+                                            save_path=os.path.join(save_dir, "candidate_comparison.png"))
+    print(f"4. Candidate comparison visualization created. Best candidate: θ = {best_candidate}")
+    
+    # 5. Print step-by-step derivation
     print_step_by_step_derivation(samples)
     
     print(f"\n=== Summary ===")
@@ -263,9 +375,14 @@ def main():
     print(f"Approximate 95% Confidence Interval: ({ci_lower:.4f}, {ci_upper:.4f})")
     
     # Calculate probability mass function at different values
-    print(f"\nProbability Mass Function at different values with θ = {mle:.4f}:")
+    print(f"\nProbability Mass Function at MLE value θ = {mle:.4f}:")
     print(f"P(X=0|θ={mle:.4f}) = {1-mle:.4f}")
     print(f"P(X=1|θ={mle:.4f}) = {mle:.4f}")
+    
+    # Summary of second task
+    print(f"\n=== Second Task Summary ===")
+    print(f"When restricted to choosing θ from the set {candidate_values}, the MLE principle selects:")
+    print(f"θ = {best_candidate}")
 
 if __name__ == "__main__":
     main() 
