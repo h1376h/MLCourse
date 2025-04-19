@@ -5,7 +5,7 @@ Consider a simple binary classification problem where:
 - The true distribution $P$ has $P(y=1) = 0.7$ and $P(y=0) = 0.3$
 - The predicted distribution $Q$ has $Q(y=1) = 0.6$ and $Q(y=0) = 0.4$
 
-## Task
+### Task
 1. Calculate the cross-entropy $H(P, Q)$
 2. Calculate the entropy $H(P)$
 3. Calculate the KL divergence $D_{KL}(P||Q)$

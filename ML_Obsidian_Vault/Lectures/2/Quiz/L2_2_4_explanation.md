@@ -3,7 +3,7 @@
 ## Problem Statement
 In a classification problem, we have a binary classifier that outputs the probability of the positive class. The true labels are $y$ and the predicted probabilities are $\hat{y}$.
 
-## Tasks
+### Task
 1. Write down the formula for the cross-entropy loss between the true labels and predicted probabilities
 2. If we have 4 samples with true labels $y = [1, 0, 1, 0]$ and predicted probabilities $\hat{y} = [0.8, 0.3, 0.6, 0.2]$, calculate the cross-entropy loss
 3. Calculate the KL divergence between the true distribution and predicted distribution

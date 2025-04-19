@@ -6,7 +6,7 @@ We are examining entropy in binary random variables using coin tosses:
 - A fair coin has P(heads) = 0.5, P(tails) = 0.5
 - A biased coin has P(heads) = 0.8, P(tails) = 0.2
 
-## Tasks
+### Tasks
 
 1. Calculate the entropy of the fair coin distribution.
 2. Calculate the entropy of the biased coin distribution.

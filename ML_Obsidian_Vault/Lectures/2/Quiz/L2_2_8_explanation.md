@@ -7,7 +7,7 @@ The graphs below illustrate various concepts related to information theory and e
 ![KL Divergence from Uniform Distribution](../Images/L2_2_Quiz_8/kl_divergence.png)
 ![Mutual Information in Joint Distributions](../Images/L2_2_Quiz_8/mutual_information.png)
 
-## Task
+### Task
 Using only the information provided in these graphs (i.e., without any extra computation), determine:
 
 1. Rank the entropy values of distributions A, B, C, and D from highest to lowest.

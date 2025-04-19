@@ -140,7 +140,7 @@ Using only the information provided in these visualizations, answer the followin
 1. Identify the channel (A, B, C, or D) with the highest information transmission capacity and explain why.
 2. Rank the four channels in terms of their mutual information values from highest to lowest.
 3. For distribution R, explain why it has the lowest entropy among all distributions P, Q, R, and S.
-4. Explain why the KL divergence D_KL(P||Q) is not equal to D_KL(Q||P) based on the visualization.
+4. Explain why the KL divergence $D_{KL}(P||Q)$ is not equal to $D_{KL}(Q||P)$ based on the visualization.
 5. Identify which channel can be described as a "completely random" channel, and explain your reasoning.
 
 For a detailed explanation of this question, see [Question 9: Information Theory in Communication Channels](L2_2_9_explanation.md). 
