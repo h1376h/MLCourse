@@ -123,6 +123,7 @@ We want to estimate the true temperature in a room using a sensor with known err
 - Prior variance: $\sigma_0^2 = 4$ °C²
 - Observed readings: [23, 24, 26] °C
 - Number of observations: $N = 3$
+- Sample mean: $(23 + 24 + 26)/3 = 24.33$ °C
 - Data variance: $\sigma^2 = 1$ °C²
 
 $$r = \frac{\sigma_0^2}{\sigma^2} = \frac{4}{1} = 4$$
@@ -130,9 +131,16 @@ $$r = \frac{\sigma_0^2}{\sigma^2} = \frac{4}{1} = 4$$
 ##### Step 2: Calculate the MAP estimate
 $$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum x^{(i)}}{1 + r \times N} = \frac{25 + 4 \times 73}{1 + 4 \times 3} = \frac{317}{13} = 24.38 \text{ °C}$$
 
-The MAP estimate of 24.38 °C is between our prior belief (25 °C) and the sample mean (24.33 °C), reflecting a balanced view of the true temperature based on both prior knowledge and sensor readings.
+The MAP estimate of 24.38 °C is between our prior belief (25 °C) and the sample mean (24.33 °C), but much closer to the sample mean. This indicates that our observations have significantly influenced our estimate despite having a strong prior belief.
 
-![Sensor Measurement MAP Estimation](../Images/sensor_map.png)
+##### Step 3: Analysis and Interpretation
+In this case, the variance ratio (r = 4) indicates we trust our sensor readings more than our prior expectation. The MAP estimate (24.38 °C) is closer to our sample mean (24.33 °C) than to our prior (25 °C), showing that the data has more influence on our final estimate.
+
+For temperature control applications, knowing that the true temperature is likely around 24.38 °C (which falls within typical comfort zones of 22-26 °C) means no adjustment to heating or cooling systems is needed.
+
+![Sensor Measurement MAP Estimation](../Images/sensor_map_enhanced.png)
+
+The above visualization shows the prior distribution (blue), likelihood from observed data (green), and posterior distribution (red). The vertical lines indicate the MAP estimate (black dashed) and MLE estimate (green dashed). The gray shaded region represents the comfort zone (22-26 °C).
 
 ## Special Cases of MAP Estimation
 
@@ -149,11 +157,11 @@ When we have perfect prior knowledge ($\sigma_0^2 \to 0$), the MAP estimate igno
 $$\hat{\mu}_{MAP} \to \mu_0$$
 
 ### 3. Equal Confidence
-When we have equal confidence in our prior and the data ($\frac{\sigma_0^2}{\sigma^2} = 1$), the MAP estimate is a simple average of the prior mean and the data mean:
+When we have equal confidence in our prior and the data ($\frac{\sigma_0^2}{\sigma^2} = 1$), the MAP estimate is a weighted average where the prior mean has weight 1 and each observation has weight 1:
 
 $$\hat{\mu}_{MAP} = \frac{\mu_0 + \sum_{i=1}^N x^{(i)}}{1 + N}$$
 
-## MAP Estimation Quiz
+## MAP Estimation Questions
 
 ### Quiz Example 1: Thermometer Calibration
 
@@ -175,82 +183,105 @@ $$r = \frac{\sigma_0^2}{\sigma^2} = \frac{0.64}{0.25} = 2.56$$
 ##### Step 2: Calculate the MAP estimate
 $$\hat{\mu}_{MAP} = \frac{\mu_0 + r \times N \times \bar{x}}{1 + r \times N} = \frac{1.5 + 2.56 \times 4 \times 1.5}{1 + 2.56 \times 4} = \frac{16.86}{11.24} = 1.5 \text{ °C}$$
 
-The MAP estimate of 1.5°C exactly matches both the prior mean and the sample mean. This coincidence occurred because the sample mean exactly matched the prior mean, confirming our prior belief.
+The MAP estimate of 1.5°C exactly matches both the prior mean and the sample mean. This coincidence occurred because the sample mean exactly matched the prior mean, confirming our prior belief. If the sample mean had been different from the prior, the MAP estimate would have fallen between them, weighted according to our confidence in each.
 
-### TRUE/FALSE Questions
+### True/False Questions
 
-**Question 1**: As the number of observations increases to infinity, the MAP estimate will always converge to the Maximum Likelihood Estimate (MLE) regardless of the prior distribution.
+**Question 1**: As the number of observations increases to infinity, the MAP estimate will always converge to the Maximum Likelihood Estimate regardless of the prior distribution.
 
 **Answer**: TRUE
 
-**Explanation**: As N approaches infinity, the influence of the prior diminishes, and the data dominates the estimation. This can be seen directly from the MAP formula where the term with the sum of observations grows proportionally with N, eventually overwhelming the prior term.
+**Explanation**: As N approaches infinity, the influence of the prior diminishes, and the data dominates the estimation. This can be seen from the MAP formula where the term with the observations grows proportionally with N, eventually overwhelming the prior term.
 
-**Question 2**: The MAP estimate is always between the prior mean and the sample mean.
+**Question 2**: The regularization effect of MAP estimation comes from the prior distribution.
+
+**Answer**: TRUE
+
+**Explanation**: In MAP estimation, the prior distribution acts as a regularizer that penalizes certain parameter values. This is why MAP estimation with a Gaussian prior on parameters corresponds to L2 regularization in machine learning models.
+
+**Question 3**: In the context of normal distributions with known variance, if the prior variance equals the data variance, the MAP estimate will always be the average of the prior mean and the sample mean.
 
 **Answer**: FALSE
 
-**Explanation**: While the MAP estimate is often between the prior mean and sample mean, it can actually be outside this range in certain cases, especially when using non-conjugate or asymmetric priors.
+**Explanation**: When prior variance equals data variance, the MAP estimate becomes a weighted average where the prior mean has weight 1 and each observation has weight 1. The result depends on the number of observations and is not simply the average of prior mean and sample mean.
 
-**Question 3**: MAP estimation is equivalent to adding a regularization term to Maximum Likelihood Estimation.
-
-**Answer**: TRUE
-
-**Explanation**: The negative log of the prior probability can be viewed as a regularization term added to the negative log-likelihood. For example, a Gaussian prior on parameters corresponds to L2 regularization.
-
-**Question 4**: In MAP estimation, a higher prior variance always results in an estimate closer to the MLE.
+**Question 4**: MAP estimation is considered a "compromise" between MLE and pure Bayesian inference.
 
 **Answer**: TRUE
 
-**Explanation**: As the prior variance increases, we express less confidence in our prior knowledge, giving more weight to the observed data. In the limit as prior variance approaches infinity, MAP becomes identical to MLE.
+**Explanation**: While MLE only uses data and full Bayesian inference considers the entire posterior distribution, MAP combines prior information with data but still produces a point estimate, making it a middle ground between the two approaches.
 
 ### Multiple Choice Questions
 
-**Question 1**: When the variance ratio r = σ₀²/σ² is very small (approaching zero), what happens to the MAP estimate?
+**Question 1**: When calculating the MAP estimate for a normal distribution with known variance, which of the following components is NOT needed?
 
-A) It approaches the sample mean (MLE)  
-B) It approaches the prior mean  
-C) It becomes the arithmetic average of the prior mean and sample mean  
-D) It approaches zero
+A) The prior mean  
+B) The sample median  
+C) The prior variance  
+D) The data variance
 
-**Answer**: B) It approaches the prior mean
+**Answer**: B) The sample median
 
-**Explanation**: When r = σ₀²/σ² approaches zero, it means we have very high confidence in our prior (very small prior variance) compared to the data variance. In this case, the MAP formula simplifies to approximately μ₀, showing that we trust our prior belief more than the observed data.
+**Explanation**: The MAP formula for normal distributions with known variance uses the prior mean, prior variance, sum of observations (or sample mean and count), and data variance. The sample median is not part of this calculation.
 
-**Question 2**: What is the relationship between MAP estimation and Bayesian inference?
+**Question 2**: Which of the following best describes the relationship between MAP and regularization in machine learning?
 
-A) They are completely different approaches with no relationship  
-B) MAP is a special case of Bayesian inference that returns only a point estimate  
-C) Bayesian inference is a special case of MAP estimation  
-D) MAP always produces the mean of the posterior distribution
+A) They are unrelated concepts  
+B) MAP is a special case of regularization  
+C) Regularization is a special case of MAP  
+D) Certain types of regularization can be interpreted as performing MAP estimation
 
-**Answer**: B) MAP is a special case of Bayesian inference that returns only a point estimate
+**Answer**: D) Certain types of regularization can be interpreted as performing MAP estimation
 
-**Explanation**: While full Bayesian inference considers the entire posterior distribution, MAP estimation finds only the mode (peak) of the posterior distribution, resulting in a single point estimate rather than capturing the full uncertainty.
+**Explanation**: L2 regularization corresponds to MAP estimation with a Gaussian prior, while L1 regularization corresponds to MAP with a Laplace prior. This connection provides a Bayesian interpretation for common regularization techniques.
 
-**Question 3**: Which of the following is NOT a characteristic of MAP estimation?
+**Question 3**: In a sensor fusion scenario with two sensors measuring the same quantity, how could MAP estimation be useful?
 
-A) It combines prior knowledge with observed data  
-B) It always produces the mean of the posterior distribution  
-C) It can be viewed as regularized MLE  
-D) It converges to MLE as the number of observations grows large
+A) It cannot be applied to sensor fusion problems  
+B) It can combine measurements from both sensors optimally considering their different error characteristics  
+C) It always selects the reading from the more accurate sensor  
+D) It simply averages the readings from both sensors
 
-**Answer**: B) It always produces the mean of the posterior distribution
+**Answer**: B) It can combine measurements from both sensors optimally considering their different error characteristics
 
-**Explanation**: MAP produces the mode (maximum) of the posterior distribution, not necessarily the mean. For symmetric distributions like the normal, the mode equals the mean, but for skewed distributions, they differ.
+**Explanation**: MAP estimation provides a principled way to combine measurements from multiple sensors by treating one sensor's reading as the prior and the other as new data, or by combining both as data with a separate prior belief.
 
-**Question 4**: If our prior mean is 10 with variance 4, our data variance is 1, and we observe the values [12, 14, 13] (with a sample mean of 13), the MAP estimate is approximately:
+**Question 4**: If the variance ratio (r = σ₀²/σ²) in MAP estimation equals 9, what does this indicate about our trust in the prior versus the data?
 
-A) 10 (equal to the prior mean)  
-B) 13 (equal to the sample mean)  
-C) 11.5 (halfway between prior and sample means)  
-D) 12.5 (weighted average favoring the sample mean)
+A) We trust the prior 9 times more than the data  
+B) We trust the data 9 times more than the prior  
+C) We trust the prior and data equally  
+D) The ratio doesn't relate to trust levels
 
-**Answer**: D) 12.5 (weighted average favoring the sample mean)
+**Answer**: B) We trust the data 9 times more than the prior
 
-**Explanation**: Using the MAP formula with μ₀ = 10, σ₀² = 4, σ² = 1, N = 3, and sample mean = 13, we get:
-r = 4/1 = 4
-MAP = (10 + 4×3×13)/(1 + 4×3) = (10 + 156)/(1 + 12) = 166/13 ≈ 12.5
-The estimate is closer to the sample mean because the variance ratio favors the observed data.
+**Explanation**: A variance ratio greater than 1 indicates more trust in the data than the prior. With r = 9, each data point has 9 times more influence on the MAP estimate than we would expect if we trusted the prior and data equally.
+
+### Numerical Problem
+
+**Question**: A quality control engineer is monitoring the diameter of manufactured bearings. Based on the machine specifications, bearings should have a diameter of 10.0 mm with a process variance of 0.04 mm². The engineer measures 5 randomly selected bearings and gets: [10.2, 10.15, 10.25, 10.1, 10.3] mm. The measurement device has a known variance of 0.01 mm². Calculate the MAP estimate of the true process mean.
+
+**Solution**:
+
+Using the MAP formula with:
+- Prior mean: μ₀ = 10.0 mm
+- Prior variance: σ₀² = 0.04 mm²
+- Data: [10.2, 10.15, 10.25, 10.1, 10.3] mm
+- Sample mean: (10.2 + 10.15 + 10.25 + 10.1 + 10.3)/5 = 10.2 mm
+- Data variance: σ² = 0.01 mm²
+- Number of observations: N = 5
+
+Step 1: Calculate the variance ratio
+r = σ₀²/σ² = 0.04/0.01 = 4
+
+Step 2: Calculate the MAP estimate
+MAP = (μ₀ + r × sum(data))/(1 + r × N)
+    = (10.0 + 4 × 51.0)/(1 + 4 × 5)
+    = (10.0 + 204.0)/(1 + 20)
+    = 214.0/21
+    = 10.19 mm
+
+The MAP estimate indicates that the true process mean is likely 10.19 mm, which suggests the machine might need recalibration as it's producing bearings larger than the specification of 10.0 mm.
 
 ## Key Insights
 
