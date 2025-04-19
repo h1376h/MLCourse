@@ -53,8 +53,8 @@ def load_normal_samples(true_mean=5.0, true_std=2.0, sample_sizes=[10, 30, 100, 
 
 def plot_sampling_distribution(estimation_results, true_mean=5.0, true_var=4.0, save_path=None):
     """
-    Create a comprehensive visualization of the sampling distributions of MLEs
-    for different sample sizes, illustrating key statistical properties.
+    Create a visualization of the sampling distributions of MLEs
+    for different sample sizes, without explanatory text annotations.
     """
     sample_sizes = sorted(list(estimation_results.keys()))
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']  # Blue, Orange, Green, Red
@@ -77,11 +77,11 @@ def plot_sampling_distribution(estimation_results, true_mean=5.0, true_var=4.0, 
         # Plot the density
         axs[0].plot(x, kde, color=colors[i], linewidth=2, label=f'n = {n}')
         
-        # Add vertical line for mean and annotation
+        # Add vertical line for mean
         std_error = np.std(means)
         axs[0].axvline(x=true_mean, color='black', linestyle='--', linewidth=1.5)
         
-        # Add annotation about standard error
+        # Add annotation about standard error (simplified)
         axs[0].annotate(f'SE(n={n}) = {std_error:.4f}', 
                       xy=(true_mean + 0.5, 0.7 * max(kde) * (4-i)/4),
                       xytext=(true_mean + 0.5, 0.7 * max(kde) * (4-i)/4),
@@ -95,15 +95,6 @@ def plot_sampling_distribution(estimation_results, true_mean=5.0, true_var=4.0, 
                  label=f'True Mean: {true_mean}')
     axs[0].grid(True, alpha=0.3)
     axs[0].legend(fontsize=10)
-    
-    # Add theoretical note
-    axs[0].text(0.02, 0.98, 
-               "Key Properties:\n" +
-               "• Unbiased: E[μ̂] = μ\n" +
-               "• Efficient: Achieves CRLB\n" +
-               "• SE(μ̂) = σ/√n (decreases with √n)",
-               transform=axs[0].transAxes, fontsize=10, verticalalignment='top',
-               bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
     
     # Plot for variance estimator 
     for i, n in enumerate(sample_sizes):
@@ -135,7 +126,7 @@ def plot_sampling_distribution(estimation_results, true_mean=5.0, true_var=4.0, 
             axs[1].plot(x_unbiased, kde_unbiased, color='purple', linewidth=2, linestyle='--',
                       label=f'Unbiased (n = {n})')
         
-        # Add annotation about bias for larger sample sizes
+        # Add annotation about bias for larger sample sizes (simplified)
         if n >= 100:
             mean_var = np.mean(variances)
             bias = mean_var - true_var
@@ -154,15 +145,6 @@ def plot_sampling_distribution(estimation_results, true_mean=5.0, true_var=4.0, 
     axs[1].grid(True, alpha=0.3)
     axs[1].legend(fontsize=10)
     
-    # Add theoretical note for variance
-    axs[1].text(0.02, 0.98, 
-               "Key Properties:\n" +
-               "• Biased: E[σ̂²] = (n-1)σ²/n\n" +
-               "• Bias decreases as n increases\n" +
-               "• The unbiased estimator is s² = n/(n-1) · σ̂²",
-               transform=axs[1].transAxes, fontsize=10, verticalalignment='top',
-               bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
-    
     # Overall figure title
     plt.suptitle('Sampling Distributions of Normal MLEs', fontsize=16, y=0.98)
     
@@ -179,7 +161,7 @@ def plot_sampling_distribution(estimation_results, true_mean=5.0, true_var=4.0, 
 def plot_mle_properties(estimation_results, true_mean=5.0, true_var=4.0, save_path=None):
     """
     Create a visualization of key MLE properties (consistency, efficiency, bias)
-    for normal distribution estimators.
+    for normal distribution estimators, without explanatory text annotations.
     """
     sample_sizes = sorted(list(estimation_results.keys()))
     
@@ -267,13 +249,6 @@ def plot_mle_properties(estimation_results, true_mean=5.0, true_var=4.0, save_pa
     axs[1, 0].grid(True, alpha=0.3)
     axs[1, 0].legend(fontsize=10)
     
-    # Add annotation about efficiency
-    axs[1, 0].text(0.05, 0.2, "Standard Error decreases as 1/√n\n" +
-                  "This is the theoretical optimal rate\n" +
-                  "confirming the mean estimator is efficient",
-                  transform=axs[1, 0].transAxes, fontsize=10,
-                  bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
-    
     # Plot 4: MSE decomposition (Bias^2 + Variance)
     ax4 = axs[1, 1]
     width = 0.35
@@ -323,7 +298,8 @@ def plot_mle_properties(estimation_results, true_mean=5.0, true_var=4.0, save_pa
 def create_asymptotic_normality_visualization(estimation_results, save_path=None):
     """
     Visualize the asymptotic normality of the MLE estimators by comparing
-    the sampling distribution to the theoretical normal approximation.
+    the sampling distribution to the theoretical normal approximation,
+    without explanatory text annotations.
     """
     # Focus on the variance estimator as it's not exactly normal for small samples
     sample_sizes = sorted(list(estimation_results.keys()))
@@ -371,20 +347,13 @@ def create_asymptotic_normality_visualization(estimation_results, save_path=None
         axs[i].grid(True, alpha=0.3)
         axs[i].legend(fontsize=9)
         
-        # Add annotation about normality
-        axs[i].text(0.05, 0.9, f"KL Divergence from Normal: {kl_div:.4f}\n" +
-                  f"{'Closer to normal' if kl_div < 0.1 else 'Deviation from normal'}",
+        # Add simple annotation without detailed explanation
+        axs[i].text(0.05, 0.9, f"KL Divergence: {kl_div:.4f}",
                   transform=axs[i].transAxes, fontsize=9,
                   bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
     
     # Overall figure title
     plt.suptitle('Asymptotic Normality of Variance Estimator', fontsize=16, y=0.98)
-    
-    # Add explanation in the center
-    fig.text(0.5, 0.01, 
-            "As sample size increases, the distribution of the MLE approaches a normal distribution\n" +
-            "This property is known as asymptotic normality and is a key feature of MLEs",
-            ha='center', fontsize=12, bbox=dict(facecolor='white', alpha=0.8))
     
     # Adjust layout
     plt.tight_layout(rect=[0, 0.05, 1, 0.96])
@@ -395,6 +364,71 @@ def create_asymptotic_normality_visualization(estimation_results, save_path=None
         print(f"Asymptotic normality plot saved to {save_path}")
     
     plt.close()
+
+def get_explanation_text():
+    """
+    Return a dictionary with all the explanatory text for Example 3.
+    This includes text that was previously embedded in the images.
+    """
+    explanations = {
+        'sampling_distribution': {
+            'mean_properties': "Key Properties of the Mean Estimator:\n"
+                             "• Unbiased: E[μ̂] = μ\n"
+                             "• Efficient: Achieves the Cramér-Rao Lower Bound\n"
+                             "• Standard Error: SE(μ̂) = σ/√n (decreases proportionally to 1/√n)",
+            'variance_properties': "Key Properties of the Variance Estimator:\n"
+                                "• Biased: E[σ̂²] = (n-1)σ²/n\n"
+                                "• Bias decreases as n increases\n"
+                                "• The unbiased estimator is s² = n/(n-1) · σ̂²"
+        },
+        'mle_properties': {
+            'efficiency': "Standard Error decreases as 1/√n\n"
+                         "This is the theoretical optimal rate\n"
+                         "confirming the mean estimator is efficient",
+            'consistency': "As sample size increases, the estimates converge to the true parameter values\n"
+                         "This property is known as consistency and is a fundamental property of MLEs",
+            'bias_variance': "The mean estimator is unbiased for all sample sizes\n"
+                           "The variance estimator is biased, but the bias decreases with sample size\n"
+                           "The MSE can be decomposed into Bias² + Variance components"
+        },
+        'asymptotic_normality': {
+            'general': "As sample size increases, the distribution of the MLE approaches a normal distribution\n"
+                     "This property is known as asymptotic normality and is a key feature of MLEs\n"
+                     "For normal distribution mean, the estimator is exactly normally distributed for all sample sizes\n"
+                     "For variance, the distribution approaches normality as sample size increases",
+            'mathematical': "Mathematically, as n → ∞, √n(θ̂ - θ) → N(0, I(θ)⁻¹)\n"
+                         "where I(θ) is the Fisher Information\n"
+                         "This means the estimator is asymptotically normal with a variance that achieves the CRLB"
+        },
+        'formulas': {
+            'mean_mle': "μ̂ = (1/n) ∑ xᵢ",
+            'variance_mle': "σ̂² = (1/n) ∑ (xᵢ - μ̂)²",
+            'variance_unbiased': "s² = [1/(n-1)] ∑ (xᵢ - μ̂)²",
+            'mean_se': "SE(μ̂) = σ/√n",
+            'variance_se': "SE(σ̂²) ≈ σ²√(2/(n-1))"
+        },
+        'steps_explanation': {
+            'step1': "Step 1: We begin by examining the sampling distribution of the maximum likelihood estimators for the normal distribution parameters (mean and variance).",
+            'step2': "Step 2: We observe how these distributions change as the sample size increases, demonstrating the consistency property of MLEs.",
+            'step3': "Step 3: We analyze the bias and efficiency of the estimators, noting that the sample mean is unbiased while the MLE for variance is biased.",
+            'step4': "Step 4: We demonstrate the asymptotic normality property, showing that as sample size increases, the sampling distribution of the estimators approaches a normal distribution.",
+            'step5': "Step 5: We quantify the efficiency by observing that the standard error decreases proportionally to 1/√n, which is the optimal rate according to the Cramér-Rao lower bound."
+        },
+        'theoretical_details': {
+            'consistency_math': "A sequence of estimators θ̂ₙ is consistent for parameter θ if:\n"
+                             "plim(θ̂ₙ) = θ, or equivalently, for any ε > 0:\n"
+                             "lim(n→∞) P(|θ̂ₙ - θ| > ε) = 0",
+            'efficiency_math': "An estimator is efficient if its variance achieves the Cramér-Rao lower bound:\n"
+                             "Var(θ̂) ≥ 1/I(θ), where I(θ) is the Fisher Information.\n"
+                             "For the normal mean, I(μ) = n/σ², so the bound is σ²/n.",
+            'normal_likelihood': "The likelihood function for a normal sample is:\n"
+                               "L(μ,σ²|x₁,...,xₙ) = ∏(i=1 to n) (1/√(2πσ²)) * exp(-(xᵢ-μ)²/(2σ²))",
+            'log_likelihood': "The log-likelihood function is:\n"
+                            "ℓ(μ,σ²) = -n/2 * log(2πσ²) - 1/(2σ²) * ∑(xᵢ-μ)²"
+        }
+    }
+    
+    return explanations
 
 def generate_answer_materials():
     """Generate answer materials for the MLE visual question on normal distribution"""
@@ -444,10 +478,89 @@ def generate_answer_materials():
         save_path=asymp_norm_path
     )
     
+    # Get the explanatory text
+    explanations = get_explanation_text()
+    
+    # Print the explanations in a markdown-friendly format for easy inclusion
+    print("\n\n==================== MARKDOWN TEXT FOR EXAMPLE 3 ====================\n")
+    
+    # Print the steps
+    print("#### Analysis Steps:")
+    for step_key in sorted(explanations['steps_explanation'].keys()):
+        print(f"{explanations['steps_explanation'][step_key]}")
+    print("\n")
+    
+    # Print the sampling distribution properties
+    print("#### Key Properties of Maximum Likelihood Estimators for Normal Distribution:")
+    print("##### Mean Estimator Properties:")
+    print(explanations['sampling_distribution']['mean_properties'].replace("•", "*"))
+    print("\n##### Variance Estimator Properties:")
+    print(explanations['sampling_distribution']['variance_properties'].replace("•", "*"))
+    print("\n")
+    
+    # Print the MLE properties
+    print("#### MLE Statistical Properties:")
+    print("##### Consistency:")
+    print(explanations['mle_properties']['consistency'])
+    print("\n##### Efficiency:")
+    print(explanations['mle_properties']['efficiency'])
+    print("\n##### Bias and Variance Trade-off:")
+    print(explanations['mle_properties']['bias_variance'])
+    print("\n")
+    
+    # Print the asymptotic normality
+    print("#### Asymptotic Normality:")
+    print(explanations['asymptotic_normality']['general'])
+    print("\n##### Mathematical Formulation:")
+    print(explanations['asymptotic_normality']['mathematical'])
+    print("\n")
+    
+    # Print the theoretical details
+    print("#### Theoretical Details:")
+    print("##### Consistency (Mathematical Definition):")
+    print(explanations['theoretical_details']['consistency_math'])
+    print("\n##### Efficiency and Cramér-Rao Lower Bound:")
+    print(explanations['theoretical_details']['efficiency_math'])
+    print("\n")
+    
+    # Print key formulas in LaTeX format for the markdown
+    print("#### Key Formulas:")
+    print("$$" + explanations['formulas']['mean_mle'].replace("μ̂", "\\hat{\\mu}").replace("∑", "\\sum_{i=1}^n").replace("xᵢ", "x_i") + "$$")
+    print("\n$$" + explanations['formulas']['variance_mle'].replace("σ̂²", "\\hat{\\sigma}^2").replace("∑", "\\sum_{i=1}^n").replace("xᵢ", "x_i").replace("μ̂", "\\hat{\\mu}") + "$$")
+    print("\n$$" + explanations['formulas']['variance_unbiased'].replace("∑", "\\sum_{i=1}^n").replace("xᵢ", "x_i").replace("μ̂", "\\hat{\\mu}") + "$$")
+    print("\n##### Standard Errors:")
+    print("$$" + explanations['formulas']['mean_se'].replace("μ̂", "\\hat{\\mu}").replace("√", "\\sqrt") + "$$")
+    print("\n$$" + explanations['formulas']['variance_se'].replace("σ̂²", "\\hat{\\sigma}^2").replace("≈", "\\approx").replace("√", "\\sqrt") + "$$")
+    print("\n")
+    
+    # Print the likelihood functions
+    print("#### Likelihood Functions for Normal Distribution:")
+    print("##### Likelihood Function:")
+    print("$$" + explanations['theoretical_details']['normal_likelihood']
+          .replace("∏", "\\prod")
+          .replace("(i=1 to n)", "_{i=1}^n")
+          .replace("π", "\\pi")
+          .replace("σ²", "\\sigma^2")
+          .replace("√", "\\sqrt")
+          .replace("xᵢ", "x_i")
+          .replace("μ", "\\mu")
+          .replace("exp", "\\exp") + "$$")
+    print("\n##### Log-Likelihood Function:")
+    print("$$" + explanations['theoretical_details']['log_likelihood']
+          .replace("ℓ", "\\ell")
+          .replace("π", "\\pi")
+          .replace("σ²", "\\sigma^2")
+          .replace("∑", "\\sum_{i=1}^n")
+          .replace("xᵢ", "x_i")
+          .replace("μ", "\\mu") + "$$")
+    print("\n")
+    
+    print("==================== END OF MARKDOWN TEXT ====================\n\n")
+    
     print("MLE Visual Answer Example 3 materials generated successfully!")
     
-    return estimation_results, answer_dir
+    return estimation_results, explanations, answer_dir
 
 if __name__ == "__main__":
     # Generate all the answer materials
-    estimation_results, answer_dir = generate_answer_materials() 
+    estimation_results, explanations, answer_dir = generate_answer_materials() 

@@ -430,6 +430,64 @@ def plot_sufficient_statistic_demonstration(save_path=None):
     
     plt.close()
 
+def get_explanation_text():
+    """
+    Return a dictionary with all the explanatory text for Example 4.
+    This includes text that was previously embedded in the images.
+    """
+    explanations = {
+        'sampling_distribution': {
+            'general': "The sampling distribution of the Bernoulli MLE (p̂) shows how our estimate varies across different samples.\n"
+                     "Key characteristics:\n"
+                     "• It is discrete for small sample sizes (can only take values k/n)\n"
+                     "• It approaches a normal distribution as sample size increases\n"
+                     "• The standard error decreases at a rate of 1/√n",
+            'mathematical': "For Bernoulli distribution with parameter p:\n"
+                          "• MLE: p̂ = (1/n) ∑ xᵢ (sample mean)\n"
+                          "• Standard Error: SE(p̂) = √[p(1-p)/n]\n"
+                          "• The distribution of p̂ is actually Binomial(n,p)/n"
+        },
+        'mle_properties': {
+            'consistency': "Consistency means that as the sample size increases, the MLE converges to the true parameter value.\n"
+                         "For Bernoulli MLE:\n"
+                         "• The estimate p̂ gets closer to the true p as n increases\n"
+                         "• The confidence interval narrows at a rate of 1/√n",
+            'unbiasedness': "The Bernoulli MLE is unbiased, meaning E[p̂] = p for all sample sizes.\n"
+                          "This can be proven mathematically:\n"
+                          "• E[p̂] = E[(1/n) ∑ xᵢ] = (1/n) ∑ E[xᵢ] = (1/n) · n · p = p",
+            'efficiency': "The Bernoulli MLE is efficient - it achieves the Cramér-Rao lower bound.\n"
+                        "The standard error decreases at the optimal rate of 1/√n\n"
+                        "The theoretical minimum variance is p(1-p)/n, which is exactly what the MLE achieves",
+            'mse': "The Mean Squared Error (MSE) can be decomposed into Bias² + Variance\n"
+                 "For Bernoulli MLE:\n"
+                 "• Bias² is approximately 0 (unbiased estimator)\n"
+                 "• Variance dominates the MSE\n"
+                 "• MSE decreases at a rate of 1/n as sample size increases"
+        },
+        'sufficient_statistic': {
+            'explanation': "A sufficient statistic contains all the information in the sample relevant to estimating the parameter.\n"
+                         "For Bernoulli distribution, the sum ∑ xᵢ (or equivalently, the sample mean) is sufficient for p.\n\n"
+                         "What this means:\n"
+                         "• Different samples with the same sum will yield the same MLE p̂\n"
+                         "• The order of observations doesn't matter, only the count of successes\n"
+                         "• The likelihood function depends on the data only through the sufficient statistic",
+            'mathematical': "Mathematically, by the Fisher-Neyman factorization theorem:\n"
+                          "• The likelihood function can be written as L(p|x) = g(∑ xᵢ, p) · h(x)\n"
+                          "• For Bernoulli: L(p|x) = p^(∑ xᵢ) · (1-p)^(n-∑ xᵢ)\n"
+                          "• This confirms that ∑ xᵢ is sufficient for p"
+        },
+        'formulas': {
+            'bernoulli_pmf': "P(X = x) = p^x · (1-p)^(1-x) for x ∈ {0,1}",
+            'mle_formula': "p̂ = (1/n) ∑ xᵢ = (number of 1s) / (total observations)",
+            'likelihood': "L(p|x₁,...,xₙ) = ∏ p^xᵢ · (1-p)^(1-xᵢ) = p^(∑ xᵢ) · (1-p)^(n-∑ xᵢ)",
+            'log_likelihood': "ℓ(p) = (∑ xᵢ) · log(p) + (n - ∑ xᵢ) · log(1-p)",
+            'fisher_information': "I(p) = n/[p(1-p)]",
+            'crlb': "Var(p̂) ≥ 1/I(p) = p(1-p)/n"
+        }
+    }
+    
+    return explanations
+
 def generate_answer_materials():
     """Generate answer materials for the MLE visual question on Bernoulli distribution"""
     # Set up paths
@@ -463,10 +521,33 @@ def generate_answer_materials():
     sufficiency_path = os.path.join(answer_dir, "ex4_sufficient_statistic.png")
     plot_sufficient_statistic_demonstration(save_path=sufficiency_path)
     
-    print("MLE Visual Answer Example 4 materials generated successfully!")
+    # Get the explanatory text
+    explanations = get_explanation_text()
     
-    return data_dict, sampling_results, answer_dir
+    # Print the explanations (this will be added to the markdown)
+    print("\nExplanatory Text for Example 4:")
+    print("\n===== Sampling Distribution Properties =====")
+    print(explanations['sampling_distribution']['general'])
+    print("\n" + explanations['sampling_distribution']['mathematical'])
+    
+    print("\n===== MLE Properties =====")
+    print(explanations['mle_properties']['consistency'])
+    print("\n" + explanations['mle_properties']['unbiasedness'])
+    print("\n" + explanations['mle_properties']['efficiency'])
+    print("\n" + explanations['mle_properties']['mse'])
+    
+    print("\n===== Sufficient Statistic =====")
+    print(explanations['sufficient_statistic']['explanation'])
+    print("\n" + explanations['sufficient_statistic']['mathematical'])
+    
+    print("\n===== Key Formulas =====")
+    for name, formula in explanations['formulas'].items():
+        print(f"{name}: {formula}")
+    
+    print("\nMLE Visual Answer Example 4 materials generated successfully!")
+    
+    return data_dict, sampling_results, explanations, answer_dir
 
 if __name__ == "__main__":
     # Generate all the answer materials
-    data_dict, sampling_results, answer_dir = generate_answer_materials() 
+    data_dict, sampling_results, explanations, answer_dir = generate_answer_materials() 

@@ -182,24 +182,36 @@ The normal distribution has true parameter values:
 - Mean ($\mu$) = 5.0
 - Variance ($\sigma^2$) = 4.0 (Standard deviation $\sigma$ = 2.0)
 
-Examine how the estimates change as the sample size increases:
+First, let's examine how the consistency of the MLE estimates changes as the sample size increases:
 
-![MLE Consistency Visualization](../Images/MLE_Visual_Question/mle_consistency.png)
+![MLE Consistency Visualization](../Images/MLE_Visual_Question/ex3_mle_consistency.png)
 
-And how the log-likelihood surface changes with sample size:
+Next, observe how the sampling distribution of the estimators becomes more concentrated with larger sample sizes:
 
-![Normal Log-Likelihood Surface (n=10)](../Images/MLE_Visual_Question/normal_loglik_n10.png)
-![Normal Log-Likelihood Surface (n=100)](../Images/MLE_Visual_Question/normal_loglik_n100.png)
+![Sampling Distribution Visualization](../Images/MLE_Visual_Question/ex3_sampling_distribution.png)
+
+The MLE exhibits important statistical properties that can be visualized across different sample sizes:
+
+![MLE Properties Visualization](../Images/MLE_Visual_Question/ex3_mle_properties.png)
+
+The asymptotic normality property, where the distribution of standardized estimator approaches a normal distribution, is demonstrated below:
+
+![Asymptotic Normality Visualization](../Images/MLE_Visual_Question/ex3_asymptotic_normality.png)
+
+Finally, examine how the log-likelihood surface changes with sample size - becoming sharper and more concentrated around the true parameter values as the sample size increases:
+
+![Normal Log-Likelihood Surface (n=10)](../Images/MLE_Visual_Question/ex3_normal_loglik_n10.png)
+![Normal Log-Likelihood Surface (n=100)](../Images/MLE_Visual_Question/ex3_normal_loglik_n100.png)
 
 #### Solution
 
 This example illustrates several key properties of MLE:
 
-1. **Consistency**: As the sample size increases, the estimates converge to the true parameter values (μ=5.0, σ²=4.0).
+1. **Consistency**: As the sample size increases, the estimates converge to the true parameter values (μ=5.0, σ²=4.0). The sampling distributions below show how the distributions of both the mean and variance estimators become more concentrated around the true values with larger sample sizes.
 
 ![Sampling Distribution of Estimates](../Images/MLE_Visual_Answer/ex3_sampling_distribution.png)
 
-2. **Efficiency**: The variance of the estimates decreases with larger samples, making the estimator more precise. For the normal distribution, the sample mean is an efficient estimator, achieving the Cramér-Rao lower bound.
+2. **Efficiency**: The variance of the estimates decreases with larger samples, making the estimator more precise. For the normal distribution, the sample mean is an efficient estimator, achieving the Cramér-Rao lower bound. This is visualized in the properties plot below, where we can see the variance decrease at the optimal rate.
 
 3. **Asymptotic Normality**: The sampling distribution of the estimators approaches a normal distribution as sample size increases, regardless of the underlying data distribution (though for normal data, the estimator is exactly normally distributed for all sample sizes).
 
@@ -219,6 +231,22 @@ This example illustrates several key properties of MLE:
    - More Gaussian in shape (related to asymptotic normality of MLE)
 
 This example provides intuitive understanding of why MLEs are widely used in statistics: they converge to the true parameter values with increasing data and do so with optimal efficiency.
+
+##### Key Mathematical Properties:
+
+For a normal distribution with parameters μ and σ², the MLEs are:
+
+$$\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^n x_i$$
+
+$$\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^n (x_i - \hat{\mu}_{MLE})^2$$
+
+The standard errors of these estimators are:
+
+$$SE(\hat{\mu}_{MLE}) = \frac{\sigma}{\sqrt{n}}$$
+
+$$SE(\hat{\sigma}^2_{MLE}) \approx \sigma^2\sqrt{\frac{2}{n-1}}$$
+
+These properties are visually demonstrated in the plots above, showing how both the bias and variance of the estimators improve with increased sample size, and how the sampling distribution approaches normality.
 
 ---
 
