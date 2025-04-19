@@ -1,7 +1,7 @@
 # Lecture 2.4: Maximum Likelihood Estimation Quiz
 
 ## Overview
-This quiz contains 23 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
+This quiz contains 25 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
 
 ## Question 1
 
@@ -363,3 +363,26 @@ $$p_X(k; \theta) = \theta^k (1-\theta)^{1-k}, \quad k = 0, 1; \quad 0 < \theta <
 Find the maximum likelihood estimate for $\theta$.
 
 For a detailed explanation, see [Question 23: MLE for Bernoulli Distribution](L2_4_23_explanation.md).
+
+## Question 24
+
+### Problem Statement
+Consider the exponential random variable $X$ with parameter $\lambda > 0$:
+
+$$P_X(x) = \lambda \exp\{-\lambda x\}, \quad x \geq 0$$
+
+#### Task
+Given a sample $\mathcal{D} = \{x_1, \ldots, x_n\}$, what is the ML estimate of $\lambda$?
+
+For a detailed explanation, see [Question 24: MLE for Exponential Distribution](L2_4_24_explanation.md).
+
+## Question 25
+
+### Problem Statement
+Let $X_1, ..., X_n$ be iid from the distribution with pdf
+$$f(x) = \frac{3x^2}{\theta^3}, \quad 0 \leq x \leq \theta.$$
+
+#### Task
+Find the MLE of $\theta$.
+
+For a detailed explanation, see [Question 25: MLE for Power Distribution](L2_4_25_explanation.md).
