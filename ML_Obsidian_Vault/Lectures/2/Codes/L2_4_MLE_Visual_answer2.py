@@ -294,23 +294,26 @@ def compare_log_likelihoods(fitting_results, save_dir=None):
     
     bars = plt.bar(distributions, log_likelihoods, color=colors, edgecolor='navy')
     
-    # Add data labels
+    # Add data labels - fix: handle potential NaN or infinity values
+    offset = min(0.01 * abs(min([ll for ll in log_likelihoods if np.isfinite(ll)])), 1.0)
     for bar, ll in zip(bars, log_likelihoods):
-        plt.text(bar.get_x() + bar.get_width()/2, 
-                 bar.get_height() + (abs(min(log_likelihoods)) * 0.01), 
-                 f'{ll:.1f}', 
-                 ha='center', va='bottom', fontsize=10)
+        if np.isfinite(ll) and np.isfinite(bar.get_height()):
+            plt.text(bar.get_x() + bar.get_width()/2, 
+                     bar.get_height() + offset, 
+                     f'{ll:.1f}', 
+                     ha='center', va='bottom', fontsize=10)
+        else:
+            # Handle non-finite values (inf, -inf, nan)
+            plt.text(bar.get_x() + bar.get_width()/2, 
+                     0,  # Place text at the base
+                     f'N/A', 
+                     ha='center', va='bottom', fontsize=10)
     
-    # Add title and labels
+    # Add title and labels with simpler design
     plt.title('Comparison of Maximum Log-Likelihoods', fontsize=14)
     plt.xlabel('Distribution', fontsize=12)
     plt.ylabel('Log-Likelihood', fontsize=12)
     plt.grid(axis='y', alpha=0.3)
-    
-    # Add explanatory text
-    plt.text(0, max(log_likelihoods) * 0.9, 
-             'Higher values indicate better fit\nNegative Binomial has the highest log-likelihood',
-             bbox=dict(facecolor='white', alpha=0.7), fontsize=10)
     
     # Save the figure if a directory is provided
     if save_dir:

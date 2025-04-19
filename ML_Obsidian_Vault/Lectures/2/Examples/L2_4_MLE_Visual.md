@@ -22,19 +22,23 @@ The peak of the likelihood surface corresponds to the maximum likelihood estimat
 
 The following examples demonstrate MLE techniques with visual aids:
 
-- **Example 1: Continuous Distribution Identification**: Identify the most appropriate continuous distribution for a dataset and estimate its parameters using MLE.
-- **Example 2: Discrete Distribution and Overdispersion**: Identify the best discrete distribution for count data, with focus on handling overdispersion.
-- **Example 3: Normal Distribution MLE Properties**: Examine how MLE properties like consistency and efficiency manifest visually with different sample sizes.
-- **Example 4: Bernoulli MLE and Sample Size Effects**: Visualize how the likelihood function changes with different observed data and sample sizes for a Bernoulli distribution.
-- **Example 5: Exponential Family and Sufficient Statistics**: Demonstrate how sufficient statistics capture all necessary information for parameter estimation in exponential family distributions.
+- **Example 1**: Continuous Distribution Identification - Identify the most appropriate continuous distribution for a dataset and estimate its parameters using MLE.
+- **Example 2**: Discrete Distribution and Overdispersion - Identify the best discrete distribution for count data, with focus on handling overdispersion.
+- **Example 3**: Normal Distribution MLE Properties - Examine how MLE properties like consistency and efficiency manifest visually with different sample sizes.
+- **Example 4**: Bernoulli MLE and Sample Size Effects - Visualize how the likelihood function changes with different observed data and sample sizes for a Bernoulli distribution.
+- **Example 5**: Exponential Family and Sufficient Statistics - Demonstrate how sufficient statistics capture all necessary information for parameter estimation in exponential family distributions.
 
 ---
 
-### Example 1: Continuous Distribution Identification
+## Example 1: Continuous Distribution Identification
 
-#### Problem Statement
+### Problem Statement
 
-You are given a dataset that follows an unknown continuous distribution. Your task is to identify which of the following distributions best fits the data using MLE: Normal, Exponential, Gamma, or Beta.
+You are given a dataset that follows an unknown continuous distribution. Your task is to:
+
+1. Identify which of the following distributions best fits the data using MLE: Normal, Exponential, Gamma, or Beta
+2. Estimate the parameters of the best-fitting distribution
+3. Explain why the chosen distribution is most appropriate
 
 The data histogram below shows the data distribution:
 
@@ -48,64 +52,95 @@ You can analyze the log-likelihood surfaces for each distribution. The maximum p
 
 **3D Log-Likelihood Surfaces:**
 
-*   **Normal Distribution:** Parameters: $\mu$ (mean), $\sigma$ (std dev)
-    ![Normal Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_normal_likelihood_surface.png)
+* **Normal Distribution:** Parameters: $\mu$ (mean), $\sigma$ (std dev)
+  ![Normal Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_normal_likelihood_surface.png)
 
-*   **Exponential Distribution:** Parameter: $\lambda$ (rate)
-    ![Exponential Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_exponential_likelihood_surface.png)
+* **Exponential Distribution:** Parameter: $\lambda$ (rate)
+  ![Exponential Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_exponential_likelihood_surface.png)
 
-*   **Gamma Distribution:** Parameters: $k$ (shape), $\theta$ (scale)
-    ![Gamma Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_gamma_likelihood_surface.png)
+* **Gamma Distribution:** Parameters: $k$ (shape), $\theta$ (scale)
+  ![Gamma Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_gamma_likelihood_surface.png)
 
-*   **Beta Distribution:** Parameters: $\alpha$, $\beta$ (data normalized to [0, 1] for fitting)
-    ![Beta Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_beta_likelihood_surface.png)
+* **Beta Distribution:** Parameters: $\alpha$, $\beta$ (data normalized to [0, 1] for fitting)
+  ![Beta Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_beta_likelihood_surface.png)
 
 **2D Log-Likelihood Contours:**
 
 For a clearer visualization, here are the 2D contour plots for each distribution:
 
-*   **Normal Distribution:** Parameters: $\mu$ (mean), $\sigma$ (std dev)
-    ![Normal Distribution Likelihood Contours Example 1](../Images/MLE_Visual_Question/ex1_normal_likelihood_contour.png)
+* **Normal Distribution:** Parameters: $\mu$ (mean), $\sigma$ (std dev)
+  ![Normal Distribution Likelihood Contours Example 1](../Images/MLE_Visual_Question/ex1_normal_likelihood_contour.png)
 
-*   **Gamma Distribution:** Parameters: $k$ (shape), $\theta$ (scale)
-    ![Gamma Distribution Likelihood Contours Example 1](../Images/MLE_Visual_Question/ex1_gamma_likelihood_contour.png)
+* **Gamma Distribution:** Parameters: $k$ (shape), $\theta$ (scale)
+  ![Gamma Distribution Likelihood Contours Example 1](../Images/MLE_Visual_Question/ex1_gamma_likelihood_contour.png)
 
-*   **Beta Distribution:** Parameters: $\alpha$, $\beta$ (data normalized to [0, 1] for fitting)
-    ![Beta Distribution Likelihood Contours Example 1](../Images/MLE_Visual_Question/ex1_beta_likelihood_contour.png)
+* **Beta Distribution:** Parameters: $\alpha$, $\beta$ (data normalized to [0, 1] for fitting)
+  ![Beta Distribution Likelihood Contours Example 1](../Images/MLE_Visual_Question/ex1_beta_likelihood_contour.png)
 
-#### Solution
+### Solution
 
-Based on the data histogram and likelihood surfaces, we need to determine which distribution is most appropriate for this dataset.
+#### Step 1: Evaluate Visual Fit of Distributions
 
-The gamma distribution shows the best fit for several reasons:
+First, we need to visually assess how well each distribution matches the shape of the data histogram:
 
-1. **Visual fit assessment**: The gamma distribution curve matches the shape of the histogram most closely, capturing the right-skewed nature of the data.
+- The data appears to be right-skewed and strictly positive
+- The normal distribution is symmetric, but our data has clear right skew
+- The exponential distribution is too rigid (single parameter) to capture the data's shape
+- The gamma distribution seems to follow the histogram shape closely
+- The beta distribution (after normalization) doesn't appear to match well
 
-2. **Data characteristics**: The data is clearly right-skewed and strictly positive, which matches the gamma distribution's domain and flexibility.
+#### Step 2: Compare Log-Likelihood Values
 
-3. **Log-likelihood comparison**: The gamma distribution achieves the highest log-likelihood value among all candidates.
+Next, we quantitatively compare the distributions using their maximum log-likelihood values:
 
 ![Log-Likelihood Comparison Example 1](../Images/MLE_Visual_Answer/ex1_log_likelihood_comparison.png)
 
-The contour plot for the gamma distribution shows how the shape and scale parameters interact, with a clear maximum at the MLE estimates:
+The gamma distribution achieves the highest log-likelihood value (-381.77), which is substantially higher than the normal (-412.96), exponential (-418.51), and beta (-1000.00) distributions.
+
+#### Step 3: Analyze Likelihood Surface for Gamma Distribution
+
+The contour plot for the gamma distribution shows how the shape and scale parameters interact:
 
 ![Gamma Likelihood Contours Example 1](../Images/MLE_Visual_Answer/ex1_gamma_likelihood_contours.png)
 
-The estimated parameters for the gamma distribution are:
-- **Shape (k): 2.48**
-- **Scale (θ): 1.20**
+The surface has a clear maximum at the MLE estimates:
+- **Shape parameter (k)**: 2.48
+- **Scale parameter (θ)**: 1.20
 
-This example demonstrates how to use both visual assessment and numerical likelihood values to select the most appropriate distribution for data.
+The shape of the contours also reveals:
+- Some correlation between parameters (elongated contours)
+- Reasonably precise estimates (contours not too spread out)
+- The true parameters (k=2.0, θ=1.5) are within the high-likelihood region
+
+#### Step 4: Final Analysis and Conclusion
+
+The gamma distribution is the most appropriate choice for this dataset for several reasons:
+
+1. **Statistical evidence**: The gamma distribution has the highest log-likelihood value, indicating it provides the best statistical fit to the data.
+
+2. **Data characteristics**: The data is right-skewed and strictly positive, which matches the gamma distribution's domain and flexibility.
+
+3. **Parameter interpretation**: The estimated shape parameter (k=2.48) indicates moderate right skew, while the scale parameter (θ=1.20) controls the spread of the distribution.
 
 ![Simplified Explanation Example 1](../Images/MLE_Visual_Answer/ex1_simplified_explanation.png)
 
+This example demonstrates how to select the most appropriate distribution by combining:
+- Visual assessment of distributional fit
+- Quantitative comparison of log-likelihood values
+- Analysis of the likelihood surface properties
+- Consideration of the data's inherent characteristics
+
 ---
 
-### Example 2: Discrete Distribution and Overdispersion
+## Example 2: Discrete Distribution and Overdispersion
 
-#### Problem Statement
+### Problem Statement
 
-You have a dataset of count data (discrete non-negative integers) and need to determine which distribution fits it best: Poisson, Negative Binomial, Normal, or Beta.
+You have a dataset of count data (discrete non-negative integers) and need to:
+
+1. Determine which distribution among Poisson, Negative Binomial, Normal, and Beta best fits the data
+2. Identify if the data exhibits overdispersion and explain its implications for model selection
+3. Estimate the parameters of the most appropriate distribution
 
 The data histogram shows the count distribution:
 
@@ -121,68 +156,110 @@ An important consideration for count data is the relationship between mean and v
 
 **3D Log-Likelihood Surfaces:**
 
-*   **Poisson Distribution:** Parameter: $\lambda$ (rate)
-    ![Poisson Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_poisson_likelihood_surface.png)
+* **Poisson Distribution:** Parameter: $\lambda$ (rate)
+  ![Poisson Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_poisson_likelihood_surface.png)
 
-*   **Negative Binomial Distribution:** Parameters: $n$ (number of failures), $p$ (success probability)
-    ![Negative Binomial Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_nbinom_likelihood_surface.png)
+* **Negative Binomial Distribution:** Parameters: $r$ (number of failures), $p$ (success probability)
+  ![Negative Binomial Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_nbinom_likelihood_surface.png)
 
-*   **Normal Distribution:** Parameters: $\mu$ (mean), $\sigma$ (std dev)
-    ![Normal Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_normal_likelihood_surface.png)
+* **Normal Distribution:** Parameters: $\mu$ (mean), $\sigma$ (std dev)
+  ![Normal Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_normal_likelihood_surface.png)
 
-*   **Beta Distribution:** Parameters: $\alpha$, $\beta$ (data normalized for fitting)
-    ![Beta Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_beta_likelihood_surface.png)
+* **Beta Distribution:** Parameters: $\alpha$, $\beta$ (data normalized for fitting)
+  ![Beta Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_beta_likelihood_surface.png)
 
 **2D Log-Likelihood Contours:**
 
-*   **Negative Binomial Distribution:** Parameters: $n$ (number of failures), $p$ (success probability)
-    ![Negative Binomial Likelihood Contours Example 2](../Images/MLE_Visual_Question/ex2_nbinom_likelihood_contour.png)
+* **Negative Binomial Distribution:** Parameters: $r$ (number of failures), $p$ (success probability)
+  ![Negative Binomial Likelihood Contours Example 2](../Images/MLE_Visual_Question/ex2_nbinom_likelihood_contour.png)
 
-*   **Normal Distribution:** Parameters: $\mu$ (mean), $\sigma$ (std dev)
-    ![Normal Likelihood Contours Example 2](../Images/MLE_Visual_Question/ex2_normal_likelihood_contour.png)
+* **Normal Distribution:** Parameters: $\mu$ (mean), $\sigma$ (std dev)
+  ![Normal Likelihood Contours Example 2](../Images/MLE_Visual_Question/ex2_normal_likelihood_contour.png)
 
-#### Solution
+### Solution
 
-The key insight for this example is recognizing that the data exhibits **overdispersion** - where the variance is larger than the mean. This is common in real-world count data but can't be modeled by the Poisson distribution.
+#### Step 1: Identify Data Characteristics
 
-The comparison of distributions shows that the Negative Binomial distribution provides the best fit:
+First, we examine the key characteristics of our count data:
+- The data consists of non-negative integers
+- The distribution appears somewhat right-skewed
+- We need to check if the data exhibits overdispersion
+
+#### Step 2: Check for Overdispersion
+
+In count data, overdispersion occurs when the variance exceeds the mean:
+- For our data: mean ≈ 3.27, variance ≈ 5.12
+- Variance/mean ratio ≈ 1.56 > 1
+- This confirms that the data exhibits overdispersion
+
+The Poisson distribution assumes equal mean and variance, so it's likely not appropriate for this overdispersed data.
+
+#### Step 3: Compare Distribution Fits
+
+The comparison of distributions shows visual differences in how they fit the data:
 
 ![Distribution Comparison Example 2](../Images/MLE_Visual_Answer/ex2_distribution_comparison.png)
 
-The log-likelihood comparison confirms this numerically:
+Observations:
+- The Negative Binomial distribution captures the data shape better than others
+- The Poisson distribution doesn't account for the extra variability
+- The Normal distribution allows negative values (inappropriate for count data)
+- The Beta distribution is defined on [0,1] and requires normalization (not ideal for counts)
+
+#### Step 4: Compare Log-Likelihood Values
+
+Quantitative comparison of log-likelihood values:
 
 ![Log-Likelihood Comparison Example 2](../Images/MLE_Visual_Answer/ex2_log_likelihood_comparison.png)
 
-The most compelling evidence comes from comparing how each distribution handles the mean-variance relationship:
+The Negative Binomial has the highest log-likelihood (-326.75), confirming it provides the best statistical fit.
+
+#### Step 5: Analyze Mean-Variance Relationship
+
+The most compelling evidence comes from how each distribution handles the mean-variance relationship:
 
 ![Overdispersion Comparison Example 2](../Images/MLE_Visual_Answer/ex2_overdispersion_comparison.png)
 
-Here we can see:
-1. The observed data has a variance significantly higher than its mean
-2. The Poisson distribution forces variance = mean (cannot model overdispersion)
-3. The Negative Binomial allows variance > mean, accurately capturing the overdispersion
+This visualization demonstrates:
+- The observed data has variance > mean (overdispersion)
+- The Poisson distribution forces variance = mean (cannot model overdispersion)
+- The Negative Binomial allows variance > mean, accurately capturing the overdispersion
 
-The estimated parameters for the negative binomial distribution are:
-- **n (failures): 5**
-- **p (success probability): 0.60**
+#### Step 6: Parameter Estimation and Conclusion
 
-This visualization further explains the concept:
+The estimated parameters for the Negative Binomial distribution are:
+- **r (number of failures)**: 5
+- **p (success probability)**: 0.60
+
+These parameters give a mean of $r(1-p)/p ≈ 3.33$ and variance of $r(1-p)/p^2 ≈ 5.56$, which closely match our data statistics.
 
 ![Simplified Explanation Example 2](../Images/MLE_Visual_Answer/ex2_simplified_explanation.png)
 
+The Negative Binomial distribution is the most appropriate choice because:
+1. It properly accounts for overdispersion in the data
+2. It achieves the highest log-likelihood
+3. It's designed for count data (unlike Normal or Beta)
+4. Its parameters have meaningful interpretations in the context of count processes
+
+This example illustrates the importance of accounting for overdispersion in count data analysis, a common requirement in fields like ecology, epidemiology, and text analysis.
+
 ---
 
-### Example 3: Normal Distribution MLE Properties
+## Example 3: Normal Distribution MLE Properties
 
-#### Problem Statement
+### Problem Statement
 
-You are investigating how MLE properties manifest visually when estimating the parameters of a normal distribution across different sample sizes.
+You need to investigate how MLE properties manifest visually when estimating the parameters of a normal distribution across different sample sizes. Specifically:
+
+1. Visualize how the consistency and efficiency of MLE estimates change with increasing sample size
+2. Demonstrate the asymptotic normality property of MLEs
+3. Illustrate how the log-likelihood surface changes with sample size
 
 The normal distribution has true parameter values:
 - Mean ($\mu$) = 5.0
 - Variance ($\sigma^2$) = 4.0 (Standard deviation $\sigma$ = 2.0)
 
-First, let's examine how the consistency of the MLE estimates changes as the sample size increases:
+First, let's examine how the consistency of the MLE estimates changes as sample size increases:
 
 ![MLE Consistency Visualization](../Images/MLE_Visual_Question/ex3_mle_consistency.png)
 
@@ -203,36 +280,66 @@ Finally, examine how the log-likelihood surface changes with sample size - becom
 ![Normal Log-Likelihood Surface (n=10)](../Images/MLE_Visual_Question/ex3_normal_loglik_n10.png)
 ![Normal Log-Likelihood Surface (n=100)](../Images/MLE_Visual_Question/ex3_normal_loglik_n100.png)
 
-#### Solution
+### Solution
 
-This example illustrates several key properties of MLE:
+#### Step 1: Analyze Sampling Distribution of Estimators
 
-1. **Consistency**: As the sample size increases, the estimates converge to the true parameter values (μ=5.0, σ²=4.0). The sampling distributions below show how the distributions of both the mean and variance estimators become more concentrated around the true values with larger sample sizes.
+We begin by examining how the distributions of the sample mean and variance estimators change with increasing sample size:
 
 ![Sampling Distribution of Estimates](../Images/MLE_Visual_Answer/ex3_sampling_distribution.png)
 
-2. **Efficiency**: The variance of the estimates decreases with larger samples, making the estimator more precise. For the normal distribution, the sample mean is an efficient estimator, achieving the Cramér-Rao lower bound. This is visualized in the properties plot below, where we can see the variance decrease at the optimal rate.
+Key observations:
+- For small samples (n=10), the distributions are relatively wide
+- As sample size increases, both distributions become more concentrated around the true values
+- The mean estimator is centered at the true mean (μ=5.0) for all sample sizes
+- The variance estimator shows slight bias for small samples, but this bias decreases with larger samples
 
-3. **Asymptotic Normality**: The sampling distribution of the estimators approaches a normal distribution as sample size increases, regardless of the underlying data distribution (though for normal data, the estimator is exactly normally distributed for all sample sizes).
+#### Step 2: Evaluate MLE Consistency
 
-![Asymptotic Normality Demonstration](../Images/MLE_Visual_Answer/ex3_asymptotic_normality.png)
+The consistency property states that as sample size increases, the estimator converges to the true parameter value:
 
-4. **Properties of Specific Estimators**: For the normal distribution, we can observe that:
-   - The sample mean is an unbiased estimator of μ
-   - The sample variance with divisor n (the MLE) is a biased estimator of σ²
-   - The bias decreases as sample size increases
-   - The variance of both estimators decreases proportionally to 1/n
+$$\lim_{n \to \infty} P(|\hat{\theta} - \theta| > \epsilon) = 0 \text{ for any } \epsilon > 0$$
+
+The plots visually confirm this property:
+- Mean estimates concentrate tightly around μ=5.0 as n increases
+- Variance estimates converge to σ²=4.0 as n increases
+- The probability of large deviations from true values diminishes with larger samples
+
+#### Step 3: Assess Estimator Efficiency
+
+Efficiency refers to how quickly the variance of the estimator decreases with increasing sample size:
 
 ![MLE Properties Visualization](../Images/MLE_Visual_Answer/ex3_mle_properties.png)
 
-5. **Log-likelihood Surface**: As sample size increases, the peak of the log-likelihood surface becomes:
-   - Sharper (indicating increased precision)
-   - More concentrated around the true parameter values
-   - More Gaussian in shape (related to asymptotic normality of MLE)
+For normal distribution parameters:
+- The variance of the mean estimator decreases at rate $\sigma^2/n$ (optimal rate)
+- The variance of the variance estimator decreases proportionally to $2\sigma^4/n$
+- Both estimators achieve the Cramér-Rao lower bound asymptotically
 
-This example provides intuitive understanding of why MLEs are widely used in statistics: they converge to the true parameter values with increasing data and do so with optimal efficiency.
+#### Step 4: Demonstrate Asymptotic Normality
 
-##### Key Mathematical Properties:
+The asymptotic normality property states that the standardized estimator approaches a normal distribution as sample size increases:
+
+![Asymptotic Normality Demonstration](../Images/MLE_Visual_Answer/ex3_asymptotic_normality.png)
+
+Mathematically:
+$$\sqrt{n}(\hat{\theta} - \theta) \stackrel{d}{\rightarrow} N(0, I(\theta)^{-1})$$
+
+Where $I(\theta)$ is the Fisher Information. The plots demonstrate:
+- The standardized estimators follow normal distributions more closely with larger samples
+- For normal distribution, the mean estimator is exactly normally distributed for all n
+- The variance estimator approaches normality as n increases
+
+#### Step 5: Analyze Log-Likelihood Surface Changes
+
+As sample size increases, the log-likelihood surface changes in three key ways:
+1. The peak becomes sharper (indicating increased precision)
+2. The surface becomes more concentrated around the true parameter values
+3. The contours become more elliptical (approaching the asymptotic normal approximation)
+
+This visual representation helps explain why MLEs become more precise with larger samples.
+
+#### Step 6: Summarize Mathematical Properties
 
 For a normal distribution with parameters μ and σ², the MLEs are:
 
@@ -246,17 +353,23 @@ $$SE(\hat{\mu}_{MLE}) = \frac{\sigma}{\sqrt{n}}$$
 
 $$SE(\hat{\sigma}^2_{MLE}) \approx \sigma^2\sqrt{\frac{2}{n-1}}$$
 
-These properties are visually demonstrated in the plots above, showing how both the bias and variance of the estimators improve with increased sample size, and how the sampling distribution approaches normality.
+These properties are visually demonstrated in the plots, showing how both the bias and variance of the estimators improve with increased sample size, and how the sampling distribution approaches normality.
+
+This example provides an intuitive understanding of why MLEs are widely used in statistics: they converge to the true parameter values with increasing data and do so with optimal efficiency.
 
 ---
 
-### Example 4: Bernoulli MLE and Sample Size Effects
+## Example 4: Bernoulli MLE and Sample Size Effects
 
-#### Problem Statement
+### Problem Statement
 
-Consider a scenario where we're estimating the probability parameter $p$ of a Bernoulli distribution using MLE. We want to visualize how the likelihood function changes with different observed data and sample sizes.
+In this example, you'll explore the estimation of the probability parameter $p$ in a Bernoulli distribution using Maximum Likelihood Estimation (MLE). Your tasks are to:
 
-In our example, we're analyzing a biased coin where each flip results in either heads (1) or tails (0). The probability of heads is the unknown parameter $p$ we want to estimate.
+1. Visualize how the likelihood function changes with different sample sizes
+2. Demonstrate key properties of the Bernoulli MLE (consistency, efficiency, unbiasedness)
+3. Illustrate the concept of sufficient statistics for the Bernoulli parameter
+
+Consider a scenario where we're analyzing a biased coin where each flip results in either heads (1) or tails (0). The probability of heads is the unknown parameter $p$ we want to estimate.
 
 We have several datasets with different sample sizes and proportions of heads:
 
@@ -266,40 +379,95 @@ Let's explore the likelihood and log-likelihood functions for different observed
 
 ![Bernoulli Likelihood Functions](../Images/MLE_Visual_Question/ex4_bernoulli_likelihood.png)
 
-#### Solution
+### Solution
+
+#### Step 1: Understand the Bernoulli MLE Formula
 
 For a Bernoulli distribution, the MLE for the probability parameter $p$ is simply the sample proportion of successes:
 
-$$\hat{p}_{MLE} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
+$$\hat{p}_{MLE} = \frac{1}{n}\sum_{i=1}^{n} x_i = \frac{\text{number of successes}}{\text{total observations}}$$
 
-The visualization demonstrates several important properties of MLE:
+This is derived by maximizing the likelihood function:
 
-1. **Sampling Distribution**: As sample size increases, the sampling distribution of the MLE becomes more concentrated around the true parameter value, demonstrating consistency.
+$$L(p) = \prod_{i=1}^{n} p^{x_i}(1-p)^{1-x_i} = p^{\sum x_i}(1-p)^{n-\sum x_i}$$
+
+Taking the log and setting the derivative equal to zero yields the MLE formula above.
+
+#### Step 2: Analyze Sampling Distribution of the MLE
+
+As sample size increases, the sampling distribution of the MLE becomes more concentrated around the true parameter value:
 
 ![Bernoulli MLE Sampling Distribution](../Images/MLE_Visual_Answer/ex4_sampling_distribution.png)
 
-2. **Key MLE Properties**: The Bernoulli MLE exhibits the three fundamental properties:
-   - **Unbiasedness**: E[p̂] = p (The expected value of the estimator equals the true parameter)
-   - **Consistency**: As n increases, the distribution concentrates around the true value
-   - **Efficiency**: The variance decreases at the optimal rate of p(1-p)/n
+Key observations:
+- For small samples (n=10), the distribution is discrete and relatively spread out
+- With moderate samples (n=50), the distribution approaches a normal shape
+- With large samples (n=100), the distribution is nearly normal and tightly concentrated
+- The standard deviation decreases at a rate proportional to $1/\sqrt{n}$
+
+#### Step 3: Identify Key MLE Properties
+
+The Bernoulli MLE exhibits three fundamental properties:
 
 ![Bernoulli MLE Properties](../Images/MLE_Visual_Answer/ex4_mle_properties.png)
 
-3. **Sufficient Statistics**: The sum of successes (or equivalently, the sample proportion) is a sufficient statistic for the Bernoulli parameter. This means that all the information in the sample relevant to the parameter is contained in this single value.
+1. **Unbiasedness**: $E[\hat{p}] = p$
+   - The expected value of the estimator equals the true parameter
+   - This is true for all sample sizes
+
+2. **Consistency**: As n increases, the distribution concentrates around the true value
+   - The probability of large errors diminishes as sample size grows
+   - The standard error decreases at rate $\sqrt{p(1-p)/n}$
+
+3. **Efficiency**: The variance decreases at the optimal rate
+   - The estimator achieves the Cramér-Rao lower bound: $Var(\hat{p}) = p(1-p)/n$
+   - No other unbiased estimator can have lower variance
+
+#### Step 4: Demonstrate Sufficient Statistics
+
+A sufficient statistic contains all information in the data relevant to estimating the parameter:
 
 ![Sufficient Statistics Demonstration](../Images/MLE_Visual_Answer/ex4_sufficient_statistic.png)
 
-This example highlights that different datasets with the same sufficient statistic yield identical likelihood functions and therefore the same MLE. This property can be formally demonstrated using the Fisher-Neyman factorization theorem.
+For the Bernoulli distribution:
+- The sum of successes $\sum_{i=1}^{n} x_i$ is a sufficient statistic for $p$
+- Different datasets with the same sum yield identical likelihood functions and MLEs
+- Only the count of successes matters, not the specific pattern of 0s and 1s
 
-The Bernoulli distribution is one of the simplest probability models but provides clear visual intuition for key MLE properties using one of the most fundamental probability distributions.
+This can be proven using the Fisher-Neyman factorization theorem:
+$$L(p|x) = p^{\sum x_i}(1-p)^{n-\sum x_i} = g(\sum x_i, p) \cdot h(x)$$
+
+Where $g(\sum x_i, p) = p^{\sum x_i}(1-p)^{n-\sum x_i}$ and $h(x) = 1$.
+
+#### Step 5: Understand Likelihood Function Behavior
+
+Analyzing the likelihood functions:
+- The likelihood function peaks at $\hat{p} = \sum x_i/n$
+- As sample size increases, the peak becomes sharper
+- The log-likelihood function is concave, simplifying optimization
+- The curvature of the log-likelihood at the maximum is related to the precision of the estimate
+
+#### Step 6: Practical Implications
+
+The Bernoulli MLE properties have important practical implications:
+- For small samples, the estimate may have substantial error
+- Larger samples provide much more precise estimates
+- The standard error can be used to construct confidence intervals
+- With a sufficient statistic, we can compress data for more efficient computation
+
+This example illustrates that even the simplest probability model (Bernoulli) provides clear visual intuition for key MLE properties and demonstrates the power of sufficient statistics for data reduction.
 
 ---
 
-### Example 5: Exponential Family and Sufficient Statistics
+## Example 5: Exponential Family and Sufficient Statistics
 
-#### Problem Statement
+### Problem Statement
 
-This example demonstrates how sufficient statistics capture all necessary information for parameter estimation in exponential family distributions.
+This example demonstrates how sufficient statistics capture all necessary information for parameter estimation in exponential family distributions. Your tasks are to:
+
+1. Show that the sample mean is a sufficient statistic for the rate parameter of an exponential distribution
+2. Demonstrate that different datasets with the same mean yield the same MLE
+3. Compare analytical and numerical approaches to finding the MLE
 
 Consider we are modeling waiting times in a service queue using an exponential distribution with parameter $\lambda$:
 
@@ -313,11 +481,11 @@ Let's visualize how the log-likelihood function depends on different aspects of 
 
 ![Likelihood Dependency Visualization](../Images/MLE_Visual_Question/ex5_likelihood_dependency.png)
 
-#### Solution
+### Solution
 
 We'll explore this problem through a step-by-step approach to demonstrate the concept of sufficient statistics for the exponential distribution.
 
-##### Step 1: Data Exploration and MLE Formula
+#### Step 1: Data Exploration and MLE Formula
 
 For the exponential distribution, the MLE for the rate parameter $\lambda$ has a simple closed-form solution:
 
@@ -325,13 +493,13 @@ $$\hat{\lambda}_{MLE} = \frac{1}{\bar{x}}$$
 
 where $\bar{x}$ is the sample mean. This formula can be derived by maximizing the log-likelihood function:
 
-$$\ell(\lambda) = n\log(\lambda) - \lambda\sum_{i=1}^n x_i$$
+$$\ell(\lambda) = n\log(\lambda) - \lambda\sum_{i=1}^n x_i = n\log(\lambda) - \lambda \cdot n \cdot \bar{x}$$
 
 Our 50 observations have a sample mean of approximately 2.1, giving an MLE estimate of $\hat{\lambda} \approx 0.476$.
 
 ![Data and MLE Estimation](../Images/MLE_Visual_Answer/ex5_step1_data_and_mle.png)
 
-##### Step 2: Understanding the Log-Likelihood Function
+#### Step 2: Understanding the Log-Likelihood Function
 
 The log-likelihood function for exponential data shows a clear maximum at $\lambda = 1/\bar{x}$. Notice how the function depends only on the sum of observations (or equivalently, the mean) and not on individual data points.
 
@@ -341,7 +509,7 @@ The figure below shows the log-likelihood function for our data, with both the n
 
 ![Log-Likelihood Function](../Images/MLE_Visual_Answer/ex5_step2_log_likelihood.png)
 
-##### Step 3: Different Distributions with Same Sufficient Statistic
+#### Step 3: Different Distributions with Same Sufficient Statistic
 
 A key insight: if two datasets have the same sufficient statistic (sample mean), they will yield the same MLE, regardless of their individual values or distribution shapes.
 
@@ -353,7 +521,7 @@ To demonstrate this, we've created four datasets with different distributions bu
 
 ![Different Distributions with Same Mean](../Images/MLE_Visual_Answer/ex5_step3_different_distributions.png)
 
-##### Step 4: Comparing Likelihood Functions
+#### Step 4: Comparing Likelihood Functions
 
 When we plot the log-likelihood functions for all four datasets, we see they produce nearly identical curves with maxima at almost the same values, despite having very different distributions.
 
@@ -361,11 +529,13 @@ This demonstrates that the sample mean is a sufficient statistic for the exponen
 
 ![Likelihood Function Comparison](../Images/MLE_Visual_Answer/ex5_step4_likelihood_comparison.png)
 
-##### Step 5: Analytical vs. Numerical MLE
+#### Step 5: Analytical vs. Numerical MLE
 
 Finally, we compare the analytical MLE formula ($\hat{\lambda} = 1/\bar{x}$) with the numerical maximum of the log-likelihood function for each dataset. The values are virtually identical, confirming our theoretical understanding.
 
 ![Analytical vs. Numerical MLE](../Images/MLE_Visual_Answer/ex5_step5_analytical_vs_numerical.png)
+
+#### Step 6: Understanding the Exponential Family Connection
 
 This property comes from the fact that the exponential distribution belongs to the exponential family, which has the general form:
 
@@ -378,6 +548,14 @@ For the exponential distribution:
 - $A(\lambda) = -\log(\lambda)$
 
 The key takeaway is that we can compress our dataset into just the sufficient statistic (sample mean) without losing any information for MLE estimation. This is a powerful property for data reduction and statistical inference.
+
+The practical implications are significant:
+- We can summarize large datasets with a single value
+- We can combine datasets by using weighted means
+- Computational efficiency is greatly improved
+- Privacy is enhanced as we don't need to store raw data
+
+This example demonstrates the deep connection between exponential family distributions, sufficient statistics, and maximum likelihood estimation.
 
 ---
 
@@ -394,9 +572,10 @@ The key takeaway is that we can compress our dataset into just the sufficient st
 - Domain-specific knowledge (like overdispersion in count data) is crucial for selecting appropriate models.
 
 ### Visually Understanding MLE Properties
-- Consistency: Estimates converge to true values with increasing sample size
-- Efficiency: Estimates become more precise (less variance) with larger samples
-- Likelihood surfaces become more peaked and concentrated with more data
+- **Consistency**: Estimates converge to true values with increasing sample size
+- **Efficiency**: Estimates become more precise (less variance) with larger samples
+- **Asymptotic Normality**: Estimator distribution approaches normal as sample size increases
+- **Likelihood surfaces**: Become more peaked and concentrated with more data
 
 ## Related Topics
 
