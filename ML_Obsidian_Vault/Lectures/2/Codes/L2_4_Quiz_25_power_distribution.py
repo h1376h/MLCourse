@@ -165,57 +165,32 @@ def plot_likelihood(samples, img_dir):
     print("This is because the likelihood increases as θ approaches the maximum sample value from above,")
     print("but becomes zero if θ is less than any observed value (as samples must be in the range [0,θ]).")
 
-def plot_step_by_step_derivation(img_dir):
+def print_step_by_step_derivation():
     """
-    Create a step-by-step visual derivation of the MLE for this distribution.
+    Print a step-by-step derivation of the MLE for this distribution.
     """
-    fig, ax = plt.subplots(figsize=(12, 10))
-    plt.axis('off')
+    print("\n=== Step-by-Step Derivation of the MLE ===")
+    print("Step 1: Write out the likelihood function")
+    print("For n i.i.d. samples from f(x|θ) = 3x²/θ³ for 0 ≤ x ≤ θ:")
+    print("L(θ) = ∏(i=1 to n) f(x_i|θ) = ∏(i=1 to n) 3x_i²/θ³ = 3^n/θ^(3n) × ∏(i=1 to n) x_i²")
+    print("Note: This formula is valid only when 0 ≤ x_i ≤ θ for all i. Otherwise, L(θ) = 0.\n")
     
-    derivation_text = [
-        r"Step 1: Write out the likelihood function",
-        r"For $n$ i.i.d. samples from $f(x|\theta) = \frac{3x^2}{\theta^3}$ for $0 \leq x \leq \theta$:",
-        r"$L(\theta) = \prod_{i=1}^{n} f(x_i|\theta) = \prod_{i=1}^{n} \frac{3x_i^2}{\theta^3} = \frac{3^n}{\theta^{3n}} \prod_{i=1}^{n} x_i^2$",
-        r"Note: This formula is valid only when $0 \leq x_i \leq \theta$ for all $i$. Otherwise, $L(\theta) = 0$.",
-        r"",
-        r"Step 2: Take the logarithm to get the log-likelihood function",
-        r"$\ell(\theta) = \ln L(\theta) = n\ln(3) + 2\sum_{i=1}^{n}\ln(x_i) - 3n\ln(\theta)$",
-        r"",
-        r"Step 3: Find critical points by taking the derivative",
-        r"$\frac{d\ell}{d\theta} = -\frac{3n}{\theta}$",
-        r"This is always negative for $\theta > 0$, so there is no critical point.",
-        r"",
-        r"Step 4: Consider the domain constraints",
-        r"The likelihood function is only valid when $\theta \geq \max(x_1, x_2, ..., x_n)$",
-        r"Since $\frac{d\ell}{d\theta} < 0$, the log-likelihood is strictly decreasing in $\theta$.",
-        r"Therefore, the maximum occurs at the smallest valid value of $\theta$, which is $\max(x_1, x_2, ..., x_n)$.",
-        r"",
-        r"Step 5: Write the MLE formula",
-        r"$\hat{\theta}_{MLE} = \max(x_1, x_2, ..., x_n)$"
-    ]
+    print("Step 2: Take the logarithm to get the log-likelihood function")
+    print("ℓ(θ) = ln L(θ) = n×ln(3) + 2×∑(i=1 to n)ln(x_i) - 3n×ln(θ)\n")
     
-    y_position = 0.95
-    for i, line in enumerate(derivation_text):
-        if line == "":
-            y_position -= 0.03
-            continue
-            
-        if i == 0 or "Step" in line:
-            weight = 'bold'
-            fontsize = 14
-        else:
-            weight = 'normal'
-            fontsize = 12
-            
-        plt.text(0.05, y_position, line, ha='left', va='top', 
-                 transform=ax.transAxes, fontsize=fontsize, weight=weight)
-        y_position -= 0.05
+    print("Step 3: Find critical points by taking the derivative")
+    print("dℓ/dθ = -3n/θ")
+    print("This is always negative for θ > 0, so there is no critical point.\n")
     
-    plt.savefig(os.path.join(img_dir, 'mle_derivation.png'), dpi=300, bbox_inches='tight')
-    plt.close()
+    print("Step 4: Consider the domain constraints")
+    print("The likelihood function is only valid when θ ≥ max(x_1, x_2, ..., x_n)")
+    print("Since dℓ/dθ < 0, the log-likelihood is strictly decreasing in θ.")
+    print("Therefore, the maximum occurs at the smallest valid value of θ, which is max(x_1, x_2, ..., x_n).\n")
     
-    print("\nStep-by-step MLE derivation image created.")
-    print("The derivation shows why the MLE for this distribution is the maximum observed value in the sample.")
+    print("Step 5: Write the MLE formula")
+    print("θ̂_MLE = max(x_1, x_2, ..., x_n)")
+    
+    print("\nThe derivation shows why the MLE for this distribution is the maximum observed value in the sample.")
 
 def plot_sample_distribution(samples, theta_true, img_dir):
     """
@@ -369,8 +344,8 @@ def main():
     # Plot likelihood and find MLE
     plot_likelihood(samples, save_dir)
     
-    # Plot step-by-step derivation
-    plot_step_by_step_derivation(save_dir)
+    # Print the step-by-step derivation instead of creating an image
+    print_step_by_step_derivation()
     
     # Plot sample distribution
     plot_sample_distribution(samples, true_theta, save_dir)

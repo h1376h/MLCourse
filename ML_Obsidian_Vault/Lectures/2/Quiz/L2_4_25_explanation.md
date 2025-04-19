@@ -127,9 +127,31 @@ This figure shows the probability density function $f(x|\theta) = \frac{3x^2}{\t
 The top panel shows the likelihood function and the bottom panel shows the log-likelihood function for different values of $\theta$, given our simulated data. Both functions reach their maximum at $\theta = 4.949338$, which is the maximum observed value in our sample. Notice that both functions are strictly decreasing for $\theta > \hat{\theta}_{MLE}$, as our derivation predicted.
 
 ### Step-by-Step Derivation
-![MLE Derivation](../Images/L2_4_Quiz_25/mle_derivation.png)
+**Step 1: Write out the likelihood function**  
+For $n$ i.i.d. samples from $f(x|\theta) = \frac{3x^2}{\theta^3}$ for $0 \leq x \leq \theta$:
 
-This figure presents the step-by-step mathematical derivation of the MLE for this distribution, highlighting why the maximum occurs at the maximum observed value in the sample.
+$$L(\theta) = \prod_{i=1}^{n} f(x_i|\theta) = \prod_{i=1}^{n} \frac{3x_i^2}{\theta^3} = \frac{3^n}{\theta^{3n}} \prod_{i=1}^{n} x_i^2$$
+
+Note: This formula is valid only when $0 \leq x_i \leq \theta$ for all $i$. Otherwise, $L(\theta) = 0$.
+
+**Step 2: Take the logarithm to get the log-likelihood function**
+
+$$\ell(\theta) = \ln L(\theta) = n\ln(3) + 2\sum_{i=1}^{n}\ln(x_i) - 3n\ln(\theta)$$
+
+**Step 3: Find critical points by taking the derivative**
+
+$$\frac{d\ell}{d\theta} = -\frac{3n}{\theta}$$
+
+This is always negative for $\theta > 0$, so there is no critical point.
+
+**Step 4: Consider the domain constraints**  
+The likelihood function is only valid when $\theta \geq \max(x_1, x_2, ..., x_n)$. Since $\frac{d\ell}{d\theta} < 0$, the log-likelihood is strictly decreasing in $\theta$. Therefore, the maximum occurs at the smallest valid value of $\theta$, which is $\max(x_1, x_2, ..., x_n)$.
+
+**Step 5: Write the MLE formula**
+
+$$\hat{\theta}_{MLE} = \max(x_1, x_2, ..., x_n)$$
+
+This derivation shows why the MLE for this distribution is simply the maximum observed value in the sample.
 
 ### Sample Distribution
 ![Sample Distribution](../Images/L2_4_Quiz_25/sample_distribution.png)
