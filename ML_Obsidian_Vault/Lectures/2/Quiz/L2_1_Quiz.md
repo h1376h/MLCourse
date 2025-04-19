@@ -473,4 +473,4 @@ And the figure below shows the PMF/PDF and CDF for each distribution:
    - Modeling measurement errors in a physical system
 5. For each distribution, explain one key property that distinguishes it from the others (e.g., support, symmetry, relationship between mean and variance).
 
-For a detailed explanation of this problem, including distribution identification, property analysis, and applications, see [Question 29: Probability Distribution Identification and Properties](L2_1_29_explanation.md). 
+For a detailed explanation of this problem, including distribution identification, property analysis, and applications, see [Question 29: Probability Distribution Identification and Properties](L2_1_29_explanation.md).

@@ -6,15 +6,11 @@ This document provides practical examples of Maximum A Posteriori (MAP) estimati
 
 For estimating the mean of a normal distribution with known variance, the MAP formula is:
 
-$$
-\hat{\mu}_{MAP} = \frac{\mu_0 + \frac{\sigma_0^2}{\sigma^2}\sum_{i=1}^N x^{(i)}}{1 + \frac{\sigma_0^2}{\sigma^2}N}
-$$
+$$\hat{\mu}_{MAP} = \frac{\mu_0 + \frac{\sigma_0^2}{\sigma^2}\sum_{i=1}^N x^{(i)}}{1 + \frac{\sigma_0^2}{\sigma^2}N}$$
 
 This can be simplified by defining the variance ratio $r = \frac{\sigma_0^2}{\sigma^2}$:
 
-$$
-\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum_{i=1}^N x^{(i)}}{1 + r \times N}
-$$
+$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum_{i=1}^N x^{(i)}}{1 + r \times N}$$
 
 Where:
 - $\hat{\mu}_{MAP}$ = MAP estimate
@@ -25,7 +21,7 @@ Where:
 - $N$ = Number of observations
 - $r$ = Variance ratio
 
-## Real-World Application Examples
+## Examples
 
 The following examples demonstrate MAP estimation for different real-world applications:
 
@@ -33,6 +29,10 @@ The following examples demonstrate MAP estimation for different real-world appli
 - **Online Learning Scores**: Estimating a student's true skill level 
 - **Manufacturing Process**: Quality control in component production
 - **Sensor Measurement**: Estimating true temperature with error-prone sensors
+- **Student Skill Level**: Estimating true skill from quiz scores
+- **Weather Forecasting**: Estimating temperature from multiple sensors
+- **Manufacturing QC**: Monitoring bearing diameter in production
+- **Thermometer Calibration**: Estimating measurement bias
 
 ### Example 1: Student Height
 
@@ -52,18 +52,18 @@ We'll apply the MAP formula to combine our prior belief with the observed height
 ##### Step 1: Define the prior and data parameters
 - Prior mean: $\mu_0 = 170$ cm
 - Prior variance: $\sigma_0^2 = 25$ cm²
-- Observed heights: [165, 173, 168, 180, 172] cm
+- Observed heights: $[165, 173, 168, 180, 172]$ cm
 - Number of observations: $N = 5$
 - Data variance: $\sigma^2 = 20$ cm²
 
 $$r = \frac{\sigma_0^2}{\sigma^2} = \frac{25}{20} = 1.25$$
 
 ##### Step 2: Calculate the MAP estimate
-$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum x^{(i)}}{1 + r \times N} = \frac{170 + 1.25 \times 858}{1 + 1.25 \times 5} = \frac{1242.5}{7.25} = 171.38 \text{ cm}$$
+$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum_{i=1}^N x^{(i)}}{1 + r \times N} = \frac{170 + 1.25 \times 858}{1 + 1.25 \times 5} = \frac{1242.5}{7.25} = 171.38 \text{ cm}$$
 
 Therefore, our best estimate of the true average height is 171.38 cm, which lies between our prior belief (170 cm) and the sample mean (171.6 cm), slightly closer to the sample mean because we trust the data slightly more than our prior.
 
-![Student Height MAP Estimation](../Images/student_height_map.png)
+![[student_height_map.png]]
 
 ### Example 2: Online Learning Scores
 
@@ -75,18 +75,18 @@ We want to estimate a student's true skill level in an online learning platform 
 ##### Step 1: Define the prior and data parameters
 - Prior mean (average score): $\mu_0 = 70$ (out of 100)
 - Prior variance: $\sigma_0^2 = 100$
-- Observed scores: [85, 82, 90, 88]
+- Observed scores: $[85, 82, 90, 88]$
 - Number of observations: $N = 4$
 - Data variance: $\sigma^2 = 64$
 
 $$r = \frac{\sigma_0^2}{\sigma^2} = \frac{100}{64} = 1.5625$$
 
 ##### Step 2: Calculate the MAP estimate
-$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum x^{(i)}}{1 + r \times N} = \frac{70 + 1.5625 \times 345}{1 + 1.5625 \times 4} = \frac{609.06}{7.25} = 84.01$$
+$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum_{i=1}^N x^{(i)}}{1 + r \times N} = \frac{70 + 1.5625 \times 345}{1 + 1.5625 \times 4} = \frac{609.06}{7.25} = 84.01$$
 
 The MAP estimate of 84.01 suggests the student's true skill level is well above the average (70), but slightly below their recent performance average (86.25).
 
-![Online Learning MAP Estimation](../Images/online_learning_map.png)
+![[online_learning_map.png]]
 
 ### Example 3: Manufacturing Process Quality Control
 
@@ -98,18 +98,18 @@ We want to estimate the true dimension of components in a manufacturing process 
 ##### Step 1: Define the prior and data parameters
 - Prior mean (design specification): $\mu_0 = 50$ mm
 - Prior variance: $\sigma_0^2 = 0.04$ mm²
-- Observed measurements: [50.2, 50.3, 50.1, 50.25, 50.15] mm
+- Observed measurements: $[50.2, 50.3, 50.1, 50.25, 50.15]$ mm
 - Number of observations: $N = 5$
 - Data variance: $\sigma^2 = 0.01$ mm²
 
 $$r = \frac{\sigma_0^2}{\sigma^2} = \frac{0.04}{0.01} = 4$$
 
 ##### Step 2: Calculate the MAP estimate
-$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum x^{(i)}}{1 + r \times N} = \frac{50 + 4 \times 251}{1 + 4 \times 5} = \frac{1054}{21} = 50.19 \text{ mm}$$
+$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum_{i=1}^N x^{(i)}}{1 + r \times N} = \frac{50 + 4 \times 251}{1 + 4 \times 5} = \frac{1054}{21} = 50.19 \text{ mm}$$
 
 The MAP estimate of 50.19 mm indicates that the true component dimension is slightly larger than the design specification (50.0 mm), but within acceptable tolerance.
 
-![Manufacturing Process MAP Estimation](../Images/manufacturing_map.png)
+![[manufacturing_map.png]]
 
 ### Example 4: Sensor Measurement
 
@@ -121,162 +121,306 @@ We want to estimate the true temperature in a room using a sensor with known err
 ##### Step 1: Define the prior and data parameters
 - Prior mean (expected temperature): $\mu_0 = 25$ °C
 - Prior variance: $\sigma_0^2 = 4$ °C²
-- Observed readings: [23, 24, 26] °C
+- Observed readings: $[23, 24, 26]$ °C
 - Number of observations: $N = 3$
-- Sample mean: $(23 + 24 + 26)/3 = 24.33$ °C
+- Sample mean: $\frac{23 + 24 + 26}{3} = 24.33$ °C
 - Data variance: $\sigma^2 = 1$ °C²
 
 $$r = \frac{\sigma_0^2}{\sigma^2} = \frac{4}{1} = 4$$
 
 ##### Step 2: Calculate the MAP estimate
-$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum x^{(i)}}{1 + r \times N} = \frac{25 + 4 \times 73}{1 + 4 \times 3} = \frac{317}{13} = 24.38 \text{ °C}$$
-
-The MAP estimate of 24.38 °C is between our prior belief (25 °C) and the sample mean (24.33 °C), but much closer to the sample mean. This indicates that our observations have significantly influenced our estimate despite having a strong prior belief.
+$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum_{i=1}^N x^{(i)}}{1 + r \times N} = \frac{25 + 4 \times 73}{1 + 4 \times 3} = \frac{317}{13} = 24.38 \text{ °C}$$
 
 ##### Step 3: Analysis and Interpretation
-In this case, the variance ratio (r = 4) indicates we trust our sensor readings more than our prior expectation. The MAP estimate (24.38 °C) is closer to our sample mean (24.33 °C) than to our prior (25 °C), showing that the data has more influence on our final estimate.
+In this case, the variance ratio ($r = 4$) indicates we trust our sensor readings more than our prior expectation. The MAP estimate (24.38 °C) is closer to our sample mean (24.33 °C) than to our prior (25 °C), showing that the data has more influence on our final estimate.
 
 For temperature control applications, knowing that the true temperature is likely around 24.38 °C (which falls within typical comfort zones of 22-26 °C) means no adjustment to heating or cooling systems is needed.
 
-![Sensor Measurement MAP Estimation](../Images/sensor_map_enhanced.png)
+![[sensor_map_enhanced.png]]
 
 The above visualization shows the prior distribution (blue), likelihood from observed data (green), and posterior distribution (red). The vertical lines indicate the MAP estimate (black dashed) and MLE estimate (green dashed). The gray shaded region represents the comfort zone (22-26 °C).
 
-## Example 5: True/False Questions on MAP Estimation
+### Example 5: Stock Return Prediction
 
-**Question 1**: As the number of observations increases to infinity, the MAP estimate will always converge to the Maximum Likelihood Estimate regardless of the prior distribution.
+#### Problem Statement
+We want to estimate the true future stock return based on historical averages and recent performance. In this case, the variance ratio is less than 1, which means we trust our prior more than the observed data.
+
+#### Solution
+
+##### Step 1: Define the prior and data parameters
+- Prior mean (historical average): $\mu_0 = 5.0\%$ (return percentage)
+- Prior variance: $\sigma_0^2 = 4$ 
+- Observed returns: $[8.2, 7.5, 9.1, 7.8, 8.4, 7.9]\%$
+- Number of observations: $N = 6$
+- Sample mean: $\frac{8.2 + 7.5 + 9.1 + 7.8 + 8.4 + 7.9}{6} = 8.15\%$
+- Data variance: $\sigma^2 = 10$ 
+
+Variance ratio: $r = \frac{\sigma_0^2}{\sigma^2} = \frac{4}{10} = 0.4$
+
+##### Step 2: Calculate the MAP estimate
+$$\begin{align}
+\hat{\mu}_{MAP} &= \frac{\mu_0 + r \times \sum_{i=1}^N x^{(i)}}{1 + r \times N} \\
+&= \frac{5.0 + 0.4 \times 48.9}{1 + 0.4 \times 6} \\
+&= \frac{5.0 + 19.56}{1 + 2.4} \\
+&= \frac{24.56}{3.4} \\
+&= 7.22\%
+\end{align}$$
+
+#### Analysis
+The MAP estimate (7.22%) falls between the historical average (5.0%) and the recent average (8.15%), but is closer to the historical average. This is because the variance ratio is less than 1, indicating we trust our prior knowledge more than the new data.
+
+This example demonstrates an important property of MAP estimation: when the variance ratio is less than 1, the MAP estimate is pulled more strongly toward the prior mean. This can be desirable in financial forecasting where recent fluctuations might not be as reliable as long-term trends.
+
+![[stock_returns_map.png]]
+
+In investment strategy, this MAP estimate would suggest that while recent returns have been higher than historical averages, a conservative approach would be to expect future returns closer to 7.22% rather than the more optimistic recent average of 8.15%.
+
+### Example 6: Understanding the Variance Ratio
+
+#### Problem Statement
+Let's explore how the variance ratio ($r = \frac{\sigma_0^2}{\sigma^2}$) influences MAP estimates. A pharmaceutical company has prior knowledge about the effectiveness of a drug, believing its efficacy score is 60 (on a scale of 0-100) with a variance of 16. They run a clinical trial with 4 patients who show efficacy scores of [70, 75, 68, 73]. The measurement variance is 4. Calculate and compare MAP estimates for three scenarios: (1) original variances, (2) higher prior uncertainty, and (3) lower measurement error.
+
+#### Solution
+
+##### Scenario 1: Original Parameters
+- Prior mean: $\mu_0 = 60$ (prior belief)
+- Prior variance: $\sigma_0^2 = 16$
+- Observed scores: $[70, 75, 68, 73]$
+- Sample mean: $\frac{70 + 75 + 68 + 73}{4} = 71.5$
+- Data variance: $\sigma^2 = 4$
+- Number of observations: $N = 4$
+
+Variance ratio: $r = \frac{\sigma_0^2}{\sigma^2} = \frac{16}{4} = 4$
+
+The MAP estimate:
+$$\begin{align}
+\hat{\mu}_{MAP} &= \frac{\mu_0 + r \times \sum_{i=1}^N x^{(i)}}{1 + r \times N} \\
+&= \frac{60 + 4 \times 286}{1 + 4 \times 4} \\
+&= \frac{60 + 1144}{1 + 16} \\
+&= \frac{1204}{17} \\
+&= 70.82
+\end{align}$$
+
+##### Scenario 2: Higher Prior Uncertainty (σ₀² = 64)
+Variance ratio: $r = \frac{\sigma_0^2}{\sigma^2} = \frac{64}{4} = 16$
+
+The MAP estimate:
+$$\begin{align}
+\hat{\mu}_{MAP} &= \frac{60 + 16 \times 286}{1 + 16 \times 4} \\
+&= \frac{60 + 4576}{1 + 64} \\
+&= \frac{4636}{65} \\
+&= 71.32
+\end{align}$$
+
+##### Scenario 3: Lower Measurement Error (σ² = 1)
+Variance ratio: $r = \frac{\sigma_0^2}{\sigma^2} = \frac{16}{1} = 16$
+
+The MAP estimate:
+$$\begin{align}
+\hat{\mu}_{MAP} &= \frac{60 + 16 \times 286}{1 + 16 \times 4} \\
+&= \frac{60 + 4576}{1 + 64} \\
+&= \frac{4636}{65} \\
+&= 71.32
+\end{align}$$
+
+#### Analysis
+- In Scenario 1 (r = 4): The MAP estimate (70.82) lies between the prior (60) and sample mean (71.5), closer to the data.
+- In Scenario 2 (r = 16): With higher prior uncertainty, the MAP estimate (71.32) moves closer to the sample mean.
+- In Scenario 3 (r = 16): With lower measurement error, we also get r = 16 and the same MAP estimate as Scenario 2.
+
+This demonstrates that the variance ratio is what matters in determining how much weight to give to the data versus the prior. Higher r values give more weight to the data, either because we're less certain about our prior (higher σ₀²) or more confident in our measurements (lower σ²).
+
+![[variance_ratio_map.png]]
+
+### Example 7: Convergence to MLE with Large Samples
+
+#### Problem Statement
+Demonstrate how MAP estimation converges to Maximum Likelihood Estimation as sample size increases. We'll simulate a scenario where we're estimating the mean customer spending at a retail store. Our prior belief is that customers spend $80 on average with a variance of 25. The actual spending per customer has a variance of 100.
+
+#### Solution
+
+##### Small sample size (N = 3)
+- Prior mean: $\mu_0 = 80$ (prior belief)
+- Prior variance: $\sigma_0^2 = 25$
+- Observed spending: $[95, 90, 105]$
+- Sample mean: $\frac{95 + 90 + 105}{3} = 96.67$
+- Data variance: $\sigma^2 = 100$
+- Number of observations: $N = 3$
+
+$$r = \frac{\sigma_0^2}{\sigma^2} = \frac{25}{100} = 0.25$$
+
+$$\hat{\mu}_{MAP} = \frac{80 + 0.25 \times 290}{1 + 0.25 \times 3} = \frac{80 + 72.5}{1 + 0.75} = \frac{152.5}{1.75} = 87.14$$
+
+The MAP estimate (87.14) is significantly pulled toward the prior mean of 80.
+
+##### Medium sample size (N = 10)
+Now assume we have 10 customers with spending data: [95, 90, 105, 98, 92, 101, 97, 94, 99, 103]
+
+Sample mean = 97.4
+
+$$\hat{\mu}_{MAP} = \frac{80 + 0.25 \times 974}{1 + 0.25 \times 10} = \frac{80 + 243.5}{1 + 2.5} = \frac{323.5}{3.5} = 92.43$$
+
+The MAP estimate (92.43) is closer to the sample mean.
+
+##### Large sample size (N = 100)
+With 100 customers and the same sample mean of 97.4:
+
+$$\hat{\mu}_{MAP} = \frac{80 + 0.25 \times 9740}{1 + 0.25 \times 100} = \frac{80 + 2435}{1 + 25} = \frac{2515}{26} = 96.73$$
+
+The MAP estimate (96.73) is now very close to the MLE estimate (sample mean = 97.4).
+
+#### Analysis
+As N increases, the MAP estimate converges to the sample mean (MLE estimate):
+- N = 3: MAP = 87.14 (far from MLE = 96.67)
+- N = 10: MAP = 92.43 (closer to MLE = 97.4)
+- N = 100: MAP = 96.73 (very close to MLE = 97.4)
+
+This demonstrates a key theoretical property of MAP estimation: as the sample size grows, the influence of the prior diminishes, and the data dominates the estimation.
+
+![[convergence_map.png]]
+
+### Example 8: When Prior and Data Conflict
+
+#### Problem Statement
+Let's explore a scenario where the prior belief and the observed data are in significant conflict. A school district has a prior belief that the average standardized test score is 75 (out of 100) with a variance of 9. A new cohort of 5 students takes the test and scores [50, 55, 45, 52, 48]. The test has a known variance of 16. Calculate the MAP estimate and compare with different prior strengths.
+
+#### Solution
+
+##### Step 1: Define the standard parameters
+- Prior mean: $\mu_0 = 75$ (historical average)
+- Prior variance: $\sigma_0^2 = 9$
+- Observed scores: $[50, 55, 45, 52, 48]$
+- Sample mean: $\frac{50 + 55 + 45 + 52 + 48}{5} = 50$
+- Data variance: $\sigma^2 = 16$
+- Number of observations: $N = 5$
+
+##### Step 2: Calculate the variance ratio
+$$r = \frac{\sigma_0^2}{\sigma^2} = \frac{9}{16} = 0.5625$$
+
+##### Step 3: Calculate the MAP estimate
+$$\begin{align}
+\hat{\mu}_{MAP} &= \frac{\mu_0 + r \times \sum_{i=1}^N x^{(i)}}{1 + r \times N} \\
+&= \frac{75 + 0.5625 \times 250}{1 + 0.5625 \times 5} \\
+&= \frac{75 + 140.625}{1 + 2.8125} \\
+&= \frac{215.625}{3.8125} \\
+&= 56.56
+\end{align}$$
+
+##### Step 4: Alternative scenarios with different prior strengths
+
+###### Weak prior (σ₀² = 36)
+$$r = \frac{36}{16} = 2.25$$
+$$\hat{\mu}_{MAP} = \frac{75 + 2.25 \times 250}{1 + 2.25 \times 5} = \frac{75 + 562.5}{1 + 11.25} = \frac{637.5}{12.25} = 52.04$$
+
+###### Strong prior (σ₀² = 4)
+$$r = \frac{4}{16} = 0.25$$
+$$\hat{\mu}_{MAP} = \frac{75 + 0.25 \times 250}{1 + 0.25 \times 5} = \frac{75 + 62.5}{1 + 1.25} = \frac{137.5}{2.25} = 61.11$$
+
+#### Analysis
+- With standard prior (r = 0.5625): MAP = 56.56, between sample mean (50) and prior (75)
+- With weak prior (r = 2.25): MAP = 52.04, closer to sample mean
+- With strong prior (r = 0.25): MAP = 61.11, closer to prior mean
+
+This example demonstrates how MAP handles the conflict between prior beliefs and observed data. The stronger our prior belief (smaller σ₀²), the more the MAP estimate resists changing despite contradicting evidence. Conversely, a weaker prior allows the estimate to adapt more readily to surprising data.
+
+![[conflict_map.png]]
+
+### Example 9: MAP Estimation in Medical Diagnosis
+
+#### Problem Statement
+A diagnostic test is being developed for a medical condition. Based on preliminary studies, researchers believe the test has a true positive rate of 85% with a variance of 0.0036. In a clinical trial, the test correctly identifies the condition in 22 out of 30 patients known to have the disease. Calculate the MAP estimate of the true positive rate.
+
+#### Solution
+
+##### Step 1: Frame the problem in terms of probability
+We're estimating a probability (true positive rate), which we'll denote as θ. This is technically a Bernoulli parameter:
+- Prior mean: $\mu_0 = 0.85$ (prior belief of true positive rate)
+- Prior variance: $\sigma_0^2 = 0.0036$
+- Observed data: 22 successes out of 30 trials
+- Sample mean: $\frac{22}{30} = 0.7333$
+- Data variance: $\sigma^2 = \frac{\theta(1-\theta)}{n} \approx \frac{0.85 \times 0.15}{30} = 0.00425$
+- Number of observations: $N = 1$ (we treat the entire trial as a single observation)
+
+##### Step 2: Calculate the variance ratio
+$$r = \frac{\sigma_0^2}{\sigma^2} = \frac{0.0036}{0.00425} = 0.847$$
+
+##### Step 3: Calculate the MAP estimate
+For this Bernoulli scenario, we can still use the normal approximation:
+
+$$\begin{align}
+\hat{\theta}_{MAP} &= \frac{\mu_0 + r \times N \times \text{sample mean}}{1 + r \times N} \\
+&= \frac{0.85 + 0.847 \times 1 \times 0.7333}{1 + 0.847 \times 1} \\
+&= \frac{0.85 + 0.621}{1 + 0.847} \\
+&= \frac{1.471}{1.847} \\
+&= 0.7964
+\end{align}$$
+
+##### Step 4: Beta-Binomial analysis (more accurate for Bernoulli)
+The normal approximation is convenient but not ideal for probabilities. A more precise approach would use a Beta prior with a Binomial likelihood:
+
+If the prior mean is 0.85 and variance is 0.0036, this corresponds to a Beta distribution with parameters:
+$$\alpha = 85.4, \beta = 15.1$$
+
+The posterior is then Beta(85.4 + 22, 15.1 + 8) = Beta(107.4, 23.1)
+The MAP estimate from this Beta posterior is:
+$$\hat{\theta}_{MAP} = \frac{\alpha - 1}{\alpha + \beta - 2} = \frac{107.4 - 1}{107.4 + 23.1 - 2} = \frac{106.4}{128.5} = 0.828$$
+
+#### Analysis
+The MAP estimate of 0.80 (or 0.828 using the more precise Beta-Binomial approach) lies between the prior belief (0.85) and the observed rate (0.73). This balanced estimate would be crucial in determining whether the test meets clinical standards for sensitivity and whether additional studies are needed.
+
+This example illustrates how MAP estimation can be applied to binomial problems like diagnostic testing, providing a principled way to update beliefs based on clinical trial results.
+
+![[medical_map.png]]
+
+### Example 10: True/False Questions on MAP Estimation
+
+#### Problem Statement
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
+
+1. As the number of observations increases to infinity, the MAP estimate will always converge to the Maximum Likelihood Estimate regardless of the prior distribution.
+2. The regularization effect of MAP estimation comes from the prior distribution.
+3. In the context of normal distributions with known variance, if the prior variance equals the data variance, the MAP estimate will always be the average of the prior mean and the sample mean.
+4. MAP estimation is considered a "compromise" between MLE and pure Bayesian inference.
+5. A higher variance ratio ($r = \frac{\sigma_0^2}{\sigma^2}$) in MAP estimation means we trust our prior more than the data.
+6. The MAP estimate will always lie between the prior mean and the sample mean.
+
+#### Solution
+
+##### Statement 1
 
 **Answer**: TRUE
 
-**Explanation**: As N approaches infinity, the influence of the prior diminishes, and the data dominates the estimation. This can be seen from the MAP formula where the term with the observations grows proportionally with N, eventually overwhelming the prior term.
+**Explanation**: As $N$ approaches infinity, the influence of the prior diminishes, and the data dominates the estimation. This can be seen from the MAP formula where the term with the observations grows proportionally with $N$, eventually overwhelming the prior term.
 
-**Question 2**: The regularization effect of MAP estimation comes from the prior distribution.
+##### Statement 2
 
 **Answer**: TRUE
 
 **Explanation**: In MAP estimation, the prior distribution acts as a regularizer that penalizes certain parameter values. This is why MAP estimation with a Gaussian prior on parameters corresponds to L2 regularization in machine learning models.
 
-**Question 3**: In the context of normal distributions with known variance, if the prior variance equals the data variance, the MAP estimate will always be the average of the prior mean and the sample mean.
+##### Statement 3
 
 **Answer**: FALSE
 
 **Explanation**: When prior variance equals data variance, the MAP estimate becomes a weighted average where the prior mean has weight 1 and each observation has weight 1. The result depends on the number of observations and is not simply the average of prior mean and sample mean.
 
-**Question 4**: MAP estimation is considered a "compromise" between MLE and pure Bayesian inference.
+##### Statement 4
 
 **Answer**: TRUE
 
 **Explanation**: While MLE only uses data and full Bayesian inference considers the entire posterior distribution, MAP combines prior information with data but still produces a point estimate, making it a middle ground between the two approaches.
 
-**Question 5**: A higher variance ratio (r = σ₀²/σ²) in MAP estimation means we trust our prior more than the data.
+##### Statement 5
 
 **Answer**: FALSE
 
 **Explanation**: A higher variance ratio means we trust the data more than the prior. The formula gives more weight to the data term when the prior variance is large relative to the data variance.
 
-**Question 6**: The MAP estimate will always lie between the prior mean and the sample mean.
+##### Statement 6
 
 **Answer**: TRUE
 
 **Explanation**: For normal distributions with known variance, the MAP estimate is a weighted average of the prior mean and sample mean, so it must lie between these two values.
-
-## Example 6: MAP Numerical Problems
-
-**Problem 1**: An online learning platform is estimating a student's true skill level. Based on historical data, new students have an average skill rating of 65 (out of 100) with a variance of 36. A particular student takes 3 quizzes and scores [75, 78, 72]. The quiz scores have a known variance of 9. Calculate the MAP estimate of the student's true skill level.
-
-**Solution**:
-
-Using the MAP formula with:
-- Prior mean: μ₀ = 65 (historical average)
-- Prior variance: σ₀² = 36
-- Observed scores: [75, 78, 72]
-- Sample mean: (75 + 78 + 72)/3 = 75
-- Data variance: σ² = 9
-- Number of observations: N = 3
-
-Step 1: Calculate the variance ratio
-r = σ₀²/σ² = 36/9 = 4
-
-Step 2: Calculate the MAP estimate
-MAP = (μ₀ + r × sum(data))/(1 + r × N)
-    = (65 + 4 × 225)/(1 + 4 × 3)
-    = (65 + 900)/(1 + 12)
-    = 965/13
-    = 74.23
-
-The MAP estimate of the student's true skill level is 74.23, which is closer to the observed quiz average (75) than the prior mean (65), indicating that the observation data has strongly influenced our estimate.
-
-**Problem 2**: A weather forecasting system is estimating the true temperature in a location. Based on historical patterns, the expected temperature for today is 22°C with a variance of 1.44°C². Current sensor readings from three stations show temperatures of [20.5°C, 19.8°C, 20.2°C]. The sensor measurement variance is known to be 0.36°C². Calculate the MAP estimate of the true temperature.
-
-**Solution**:
-
-Using the MAP formula with:
-- Prior mean: μ₀ = 22°C (historical expectation)
-- Prior variance: σ₀² = 1.44°C²
-- Observed temperatures: [20.5°C, 19.8°C, 20.2°C]
-- Sample mean: (20.5 + 19.8 + 20.2)/3 = 20.17°C
-- Data variance: σ² = 0.36°C²
-- Number of observations: N = 3
-
-Step 1: Calculate the variance ratio
-r = σ₀²/σ² = 1.44/0.36 = 4
-
-Step 2: Calculate the MAP estimate
-MAP = (μ₀ + r × sum(data))/(1 + r × N)
-    = (22 + 4 × 60.5)/(1 + 4 × 3)
-    = (22 + 242)/(1 + 12)
-    = 264/13
-    = 20.31°C
-
-The MAP estimate of 20.31°C is much closer to the observed average (20.17°C) than to the prior expectation (22°C), suggesting that the sensor readings have provided strong evidence that today's temperature is lower than historically expected.
-
-**Problem 3**: A quality control engineer is monitoring the diameter of manufactured bearings. Based on the machine specifications, bearings should have a diameter of 10.0 mm with a process variance of 0.04 mm². The engineer measures 5 randomly selected bearings and gets: [10.2, 10.15, 10.25, 10.1, 10.3] mm. The measurement device has a known variance of 0.01 mm². Calculate the MAP estimate of the true process mean.
-
-**Solution**:
-
-Using the MAP formula with:
-- Prior mean: μ₀ = 10.0 mm
-- Prior variance: σ₀² = 0.04 mm²
-- Data: [10.2, 10.15, 10.25, 10.1, 10.3] mm
-- Sample mean: (10.2 + 10.15 + 10.25 + 10.1 + 10.3)/5 = 10.2 mm
-- Data variance: σ² = 0.01 mm²
-- Number of observations: N = 5
-
-Step 1: Calculate the variance ratio
-r = σ₀²/σ² = 0.04/0.01 = 4
-
-Step 2: Calculate the MAP estimate
-MAP = (μ₀ + r × sum(data))/(1 + r × N)
-    = (10.0 + 4 × 51.0)/(1 + 4 × 5)
-    = (10.0 + 204.0)/(1 + 20)
-    = 214.0/21
-    = 10.19 mm
-
-The MAP estimate indicates that the true process mean is likely 10.19 mm, which suggests the machine might need recalibration as it's producing bearings larger than the specification of 10.0 mm.
-
-**Problem 4**: You are calibrating a new thermometer. Based on the manufacturer's specifications, you believe the thermometer has a bias of around +1.5°C with a variance of 0.64 (σ₀² = 0.64). You test the thermometer against a reference thermometer and get the following differences: +1.2°C, +1.8°C, +1.3°C, and +1.7°C. Assuming measurement noise with variance 0.25 (σ² = 0.25), calculate the MAP estimate of the true bias.
-
-**Solution**:
-
-Using the MAP formula with:
-- Prior mean: μ₀ = 1.5°C (manufacturer's specification)
-- Prior variance: σ₀² = 0.64°C²
-- Observed differences: [1.2, 1.8, 1.3, 1.7]°C
-- Number of observations: N = 4
-- Sample mean: (1.2 + 1.8 + 1.3 + 1.7)/4 = 1.5°C
-- Data variance: σ² = 0.25°C²
-
-Step 1: Calculate the variance ratio
-r = σ₀²/σ² = 0.64/0.25 = 2.56
-
-Step 2: Calculate the MAP estimate
-MAP = (μ₀ + r × N × sample_mean)/(1 + r × N)
-    = (1.5 + 2.56 × 4 × 1.5)/(1 + 2.56 × 4)
-    = (1.5 + 15.36)/(1 + 10.24)
-    = 16.86/11.24
-    = 1.5°C
-
-The MAP estimate of 1.5°C exactly matches both the prior mean and the sample mean. This coincidence occurred because the sample mean exactly matched the prior mean, confirming our prior belief. If the sample mean had been different from the prior, the MAP estimate would have fallen between them, weighted according to our confidence in each.
 
 ## Key Insights
 
@@ -284,16 +428,22 @@ The MAP estimate of 1.5°C exactly matches both the prior mean and the sample me
 - MAP estimation provides a principled way to combine prior knowledge with observed data
 - The influence of prior vs. data depends on their relative variances
 - MAP estimation can be seen as a regularized version of MLE, where the prior serves as a regularizer
+- As sample size increases, the MAP estimate converges to the MLE estimate
+- MAP provides a point estimate, unlike full Bayesian inference which uses the entire posterior distribution
 
 ### Practical Applications
 - MAP is useful when we have limited data but reliable prior knowledge
 - It provides more robust estimates than MLE, especially with small sample sizes
-- The variance ratio ($\frac{\sigma_0^2}{\sigma^2}$) determines how much we trust our prior vs. the data
+- The variance ratio ($r = \frac{\sigma_0^2}{\sigma^2}$) determines how much we trust our prior vs. the data
+- MAP can be interpreted as regularized maximum likelihood in machine learning contexts
+- MAP estimates can be computed efficiently even for complex models
 
 ### Common Pitfalls
 - Using an inappropriate prior can bias the estimates
 - Assuming normal distributions when data may not be normally distributed
 - Forgetting to account for the variance of both the prior and the data
+- Overconfidence in prior beliefs can lead to resistance to data evidence
+- Misinterpreting the variance ratio's impact on weighting prior vs. data
 
 ## Running the Examples
 
@@ -301,6 +451,7 @@ You can run all the examples using:
 
 ```bash
 python3 ML_Obsidian_Vault/Lectures/2/Codes/map_formula_examples.py
+python3 ML_Obsidian_Vault/Lectures/2/Codes/map_visualization.py
 ```
 
 ## Related Topics
@@ -309,3 +460,4 @@ python3 ML_Obsidian_Vault/Lectures/2/Codes/map_formula_examples.py
 - [[L2_4_Maximum_Likelihood|Maximum Likelihood]]: Comparison with MLE approach
 - [[L2_5_Bayesian_Inference|Bayesian Inference]]: Theoretical foundation of MAP estimation
 - [[L2_7_MAP_Normal|Normal Distribution MAP]]: Specialized examples for normal distributions 
+- [[L2_7_MAP_Formula_Explanation|MAP Formula Explanation]]: Detailed explanation of the MAP formula

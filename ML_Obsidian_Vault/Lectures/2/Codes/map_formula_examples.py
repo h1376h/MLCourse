@@ -392,12 +392,74 @@ def example_sensor_measurement(save_dir):
     
     return map_estimate
 
+def example_stock_prediction(save_dir):
+    """Example: Estimating true stock returns based on historical and recent data."""
+    # Prior knowledge: Historical average return of a stock
+    mu0 = 5.0  # % return (historical average)
+    sigma0_sq = 4  # variance in prior belief
+    
+    # Observed data: Recent daily returns
+    new_data = [8.2, 7.5, 9.1, 7.8, 8.4, 7.9]  # recent returns in %
+    
+    # Known variance in daily returns
+    sigma_sq = 10  # variance in daily returns
+    
+    # Print problem setup
+    print("\n" + "=" * 50)
+    print("EXAMPLE: STOCK RETURN PREDICTION")
+    print("=" * 50)
+    print(f"Prior belief: Historical average return is {mu0}% (variance: {sigma0_sq})")
+    print(f"Observed data: Recent daily returns: {new_data}%")
+    print(f"Known return variance: {sigma_sq}")
+    
+    # Calculate and print MAP estimate
+    map_estimate = normal_map_estimate(mu0, sigma0_sq, new_data, sigma_sq)
+    data_mean = np.mean(new_data)
+    
+    # Step-by-step calculation for educational purposes
+    N = len(new_data)
+    ratio = sigma0_sq / sigma_sq
+    numerator = mu0 + ratio * sum(new_data)
+    denominator = 1 + ratio * N
+    
+    print("\nStep-by-step MAP calculation:")
+    print(f"1. Calculate variance ratio: σ₀²/σ² = {sigma0_sq}/{sigma_sq} = {ratio:.4f}")
+    print(f"2. Calculate numerator: μ₀ + (σ₀²/σ²)∑x = {mu0} + {ratio:.4f} × {sum(new_data)} = {numerator:.4f}")
+    print(f"3. Calculate denominator: 1 + (σ₀²/σ²)N = 1 + {ratio:.4f} × {N} = {denominator:.4f}")
+    print(f"4. Final MAP estimate: {numerator:.4f}/{denominator:.4f} = {map_estimate:.2f}%")
+    
+    print(f"\nComparison:")
+    print(f"- MAP estimate: {map_estimate:.2f}%")
+    print(f"- Sample mean (recent average): {data_mean:.2f}%")
+    print(f"- Prior mean (historical average): {mu0:.2f}%")
+    
+    # Analysis of the result
+    print("\nAnalysis:")
+    if map_estimate > mu0:
+        print(f"The MAP estimate ({map_estimate:.2f}%) is higher than the historical average ({mu0:.2f}%),")
+        print(f"suggesting recent performance is better than the historical trend.")
+    else:
+        print(f"The MAP estimate ({map_estimate:.2f}%) is lower than the historical average ({mu0:.2f}%),")
+        print(f"suggesting recent performance is worse than the historical trend.")
+    
+    print(f"\nSince the variance ratio ({ratio:.4f}) is less than 1, we trust our prior more than the new data.")
+    print(f"This means our MAP estimate is closer to the historical average than to the recent average.")
+    
+    # Visualize the result
+    save_path = os.path.join(save_dir, "stock_returns_map.png")
+    visualize_normal_map(mu0, sigma0_sq, new_data, sigma_sq, 
+                        title="Stock Return Prediction Using MAP",
+                        save_path=save_path)
+    
+    return map_estimate
+
 def run_all_examples(save_dir):
     """Run all MAP estimation examples."""
     example_student_height(save_dir)
     example_online_learning_score(save_dir)
     example_manufacturing_process(save_dir)
     example_sensor_measurement(save_dir)
+    example_stock_prediction(save_dir)  # New example with ratio < 1
 
 if __name__ == "__main__":
     # Use relative path for save directory
