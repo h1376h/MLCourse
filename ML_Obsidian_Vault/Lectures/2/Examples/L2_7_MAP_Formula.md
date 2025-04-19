@@ -142,50 +142,7 @@ For temperature control applications, knowing that the true temperature is likel
 
 The above visualization shows the prior distribution (blue), likelihood from observed data (green), and posterior distribution (red). The vertical lines indicate the MAP estimate (black dashed) and MLE estimate (green dashed). The gray shaded region represents the comfort zone (22-26 °C).
 
-## Special Cases of MAP Estimation
-
-MAP estimation has interesting special cases that provide theoretical insights:
-
-### 1. No Prior Knowledge
-When we have no prior knowledge ($\sigma_0^2 \to \infty$), the MAP estimate reduces to the Maximum Likelihood Estimate (MLE):
-
-$$\hat{\mu}_{MAP} \to \frac{1}{N}\sum_{i=1}^N x^{(i)} = \hat{\mu}_{MLE}$$
-
-### 2. Perfect Prior Knowledge
-When we have perfect prior knowledge ($\sigma_0^2 \to 0$), the MAP estimate ignores the data and equals the prior mean:
-
-$$\hat{\mu}_{MAP} \to \mu_0$$
-
-### 3. Equal Confidence
-When we have equal confidence in our prior and the data ($\frac{\sigma_0^2}{\sigma^2} = 1$), the MAP estimate is a weighted average where the prior mean has weight 1 and each observation has weight 1:
-
-$$\hat{\mu}_{MAP} = \frac{\mu_0 + \sum_{i=1}^N x^{(i)}}{1 + N}$$
-
-## MAP Estimation Questions
-
-### Quiz Example 1: Thermometer Calibration
-
-#### Problem Statement
-You are calibrating a new thermometer. Based on the manufacturer's specifications, you believe the thermometer has a bias of around +1.5°C with a variance of 0.64 (σ₀² = 0.64). You test the thermometer against a reference thermometer and get the following differences: +1.2°C, +1.8°C, +1.3°C, and +1.7°C. Assuming measurement noise with variance 0.25 (σ² = 0.25), calculate the MAP estimate of the true bias.
-
-#### Solution
-
-##### Step 1: Define the prior and data parameters
-- Prior mean: $\mu_0 = 1.5$ °C (manufacturer's specification)
-- Prior variance: $\sigma_0^2 = 0.64$ °C²
-- Observed differences: [1.2, 1.8, 1.3, 1.7] °C
-- Number of observations: $N = 4$
-- Sample mean: $(1.2 + 1.8 + 1.3 + 1.7)/4 = 6.0/4 = 1.5$ °C
-- Data variance: $\sigma^2 = 0.25$ °C²
-
-$$r = \frac{\sigma_0^2}{\sigma^2} = \frac{0.64}{0.25} = 2.56$$
-
-##### Step 2: Calculate the MAP estimate
-$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \times N \times \bar{x}}{1 + r \times N} = \frac{1.5 + 2.56 \times 4 \times 1.5}{1 + 2.56 \times 4} = \frac{16.86}{11.24} = 1.5 \text{ °C}$$
-
-The MAP estimate of 1.5°C exactly matches both the prior mean and the sample mean. This coincidence occurred because the sample mean exactly matched the prior mean, confirming our prior belief. If the sample mean had been different from the prior, the MAP estimate would have fallen between them, weighted according to our confidence in each.
-
-### True/False Questions
+## Example 5: True/False Questions on MAP Estimation
 
 **Question 1**: As the number of observations increases to infinity, the MAP estimate will always converge to the Maximum Likelihood Estimate regardless of the prior distribution.
 
@@ -211,55 +168,69 @@ The MAP estimate of 1.5°C exactly matches both the prior mean and the sample me
 
 **Explanation**: While MLE only uses data and full Bayesian inference considers the entire posterior distribution, MAP combines prior information with data but still produces a point estimate, making it a middle ground between the two approaches.
 
-### Multiple Choice Questions
+**Question 5**: A higher variance ratio (r = σ₀²/σ²) in MAP estimation means we trust our prior more than the data.
 
-**Question 1**: When calculating the MAP estimate for a normal distribution with known variance, which of the following components is NOT needed?
+**Answer**: FALSE
 
-A) The prior mean  
-B) The sample median  
-C) The prior variance  
-D) The data variance
+**Explanation**: A higher variance ratio means we trust the data more than the prior. The formula gives more weight to the data term when the prior variance is large relative to the data variance.
 
-**Answer**: B) The sample median
+**Question 6**: The MAP estimate will always lie between the prior mean and the sample mean.
 
-**Explanation**: The MAP formula for normal distributions with known variance uses the prior mean, prior variance, sum of observations (or sample mean and count), and data variance. The sample median is not part of this calculation.
+**Answer**: TRUE
 
-**Question 2**: Which of the following best describes the relationship between MAP and regularization in machine learning?
+**Explanation**: For normal distributions with known variance, the MAP estimate is a weighted average of the prior mean and sample mean, so it must lie between these two values.
 
-A) They are unrelated concepts  
-B) MAP is a special case of regularization  
-C) Regularization is a special case of MAP  
-D) Certain types of regularization can be interpreted as performing MAP estimation
+## Example 6: MAP Numerical Problems
 
-**Answer**: D) Certain types of regularization can be interpreted as performing MAP estimation
+**Problem 1**: An online learning platform is estimating a student's true skill level. Based on historical data, new students have an average skill rating of 65 (out of 100) with a variance of 36. A particular student takes 3 quizzes and scores [75, 78, 72]. The quiz scores have a known variance of 9. Calculate the MAP estimate of the student's true skill level.
 
-**Explanation**: L2 regularization corresponds to MAP estimation with a Gaussian prior, while L1 regularization corresponds to MAP with a Laplace prior. This connection provides a Bayesian interpretation for common regularization techniques.
+**Solution**:
 
-**Question 3**: In a sensor fusion scenario with two sensors measuring the same quantity, how could MAP estimation be useful?
+Using the MAP formula with:
+- Prior mean: μ₀ = 65 (historical average)
+- Prior variance: σ₀² = 36
+- Observed scores: [75, 78, 72]
+- Sample mean: (75 + 78 + 72)/3 = 75
+- Data variance: σ² = 9
+- Number of observations: N = 3
 
-A) It cannot be applied to sensor fusion problems  
-B) It can combine measurements from both sensors optimally considering their different error characteristics  
-C) It always selects the reading from the more accurate sensor  
-D) It simply averages the readings from both sensors
+Step 1: Calculate the variance ratio
+r = σ₀²/σ² = 36/9 = 4
 
-**Answer**: B) It can combine measurements from both sensors optimally considering their different error characteristics
+Step 2: Calculate the MAP estimate
+MAP = (μ₀ + r × sum(data))/(1 + r × N)
+    = (65 + 4 × 225)/(1 + 4 × 3)
+    = (65 + 900)/(1 + 12)
+    = 965/13
+    = 74.23
 
-**Explanation**: MAP estimation provides a principled way to combine measurements from multiple sensors by treating one sensor's reading as the prior and the other as new data, or by combining both as data with a separate prior belief.
+The MAP estimate of the student's true skill level is 74.23, which is closer to the observed quiz average (75) than the prior mean (65), indicating that the observation data has strongly influenced our estimate.
 
-**Question 4**: If the variance ratio (r = σ₀²/σ²) in MAP estimation equals 9, what does this indicate about our trust in the prior versus the data?
+**Problem 2**: A weather forecasting system is estimating the true temperature in a location. Based on historical patterns, the expected temperature for today is 22°C with a variance of 1.44°C². Current sensor readings from three stations show temperatures of [20.5°C, 19.8°C, 20.2°C]. The sensor measurement variance is known to be 0.36°C². Calculate the MAP estimate of the true temperature.
 
-A) We trust the prior 9 times more than the data  
-B) We trust the data 9 times more than the prior  
-C) We trust the prior and data equally  
-D) The ratio doesn't relate to trust levels
+**Solution**:
 
-**Answer**: B) We trust the data 9 times more than the prior
+Using the MAP formula with:
+- Prior mean: μ₀ = 22°C (historical expectation)
+- Prior variance: σ₀² = 1.44°C²
+- Observed temperatures: [20.5°C, 19.8°C, 20.2°C]
+- Sample mean: (20.5 + 19.8 + 20.2)/3 = 20.17°C
+- Data variance: σ² = 0.36°C²
+- Number of observations: N = 3
 
-**Explanation**: A variance ratio greater than 1 indicates more trust in the data than the prior. With r = 9, each data point has 9 times more influence on the MAP estimate than we would expect if we trusted the prior and data equally.
+Step 1: Calculate the variance ratio
+r = σ₀²/σ² = 1.44/0.36 = 4
 
-### Numerical Problem
+Step 2: Calculate the MAP estimate
+MAP = (μ₀ + r × sum(data))/(1 + r × N)
+    = (22 + 4 × 60.5)/(1 + 4 × 3)
+    = (22 + 242)/(1 + 12)
+    = 264/13
+    = 20.31°C
 
-**Question**: A quality control engineer is monitoring the diameter of manufactured bearings. Based on the machine specifications, bearings should have a diameter of 10.0 mm with a process variance of 0.04 mm². The engineer measures 5 randomly selected bearings and gets: [10.2, 10.15, 10.25, 10.1, 10.3] mm. The measurement device has a known variance of 0.01 mm². Calculate the MAP estimate of the true process mean.
+The MAP estimate of 20.31°C is much closer to the observed average (20.17°C) than to the prior expectation (22°C), suggesting that the sensor readings have provided strong evidence that today's temperature is lower than historically expected.
+
+**Problem 3**: A quality control engineer is monitoring the diameter of manufactured bearings. Based on the machine specifications, bearings should have a diameter of 10.0 mm with a process variance of 0.04 mm². The engineer measures 5 randomly selected bearings and gets: [10.2, 10.15, 10.25, 10.1, 10.3] mm. The measurement device has a known variance of 0.01 mm². Calculate the MAP estimate of the true process mean.
 
 **Solution**:
 
@@ -282,6 +253,30 @@ MAP = (μ₀ + r × sum(data))/(1 + r × N)
     = 10.19 mm
 
 The MAP estimate indicates that the true process mean is likely 10.19 mm, which suggests the machine might need recalibration as it's producing bearings larger than the specification of 10.0 mm.
+
+**Problem 4**: You are calibrating a new thermometer. Based on the manufacturer's specifications, you believe the thermometer has a bias of around +1.5°C with a variance of 0.64 (σ₀² = 0.64). You test the thermometer against a reference thermometer and get the following differences: +1.2°C, +1.8°C, +1.3°C, and +1.7°C. Assuming measurement noise with variance 0.25 (σ² = 0.25), calculate the MAP estimate of the true bias.
+
+**Solution**:
+
+Using the MAP formula with:
+- Prior mean: μ₀ = 1.5°C (manufacturer's specification)
+- Prior variance: σ₀² = 0.64°C²
+- Observed differences: [1.2, 1.8, 1.3, 1.7]°C
+- Number of observations: N = 4
+- Sample mean: (1.2 + 1.8 + 1.3 + 1.7)/4 = 1.5°C
+- Data variance: σ² = 0.25°C²
+
+Step 1: Calculate the variance ratio
+r = σ₀²/σ² = 0.64/0.25 = 2.56
+
+Step 2: Calculate the MAP estimate
+MAP = (μ₀ + r × N × sample_mean)/(1 + r × N)
+    = (1.5 + 2.56 × 4 × 1.5)/(1 + 2.56 × 4)
+    = (1.5 + 15.36)/(1 + 10.24)
+    = 16.86/11.24
+    = 1.5°C
+
+The MAP estimate of 1.5°C exactly matches both the prior mean and the sample mean. This coincidence occurred because the sample mean exactly matched the prior mean, confirming our prior belief. If the sample mean had been different from the prior, the MAP estimate would have fallen between them, weighted according to our confidence in each.
 
 ## Key Insights
 
