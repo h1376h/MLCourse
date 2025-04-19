@@ -23,6 +23,16 @@ Maximum Likelihood Estimation (MLE) is a fundamental method in statistical infer
 
 Given a set of observations $x = (x_1, x_2, \ldots, x_n)$ and a statistical model with parameters $\theta$, MLE finds the parameter values that maximize the likelihood function $L(\theta|x)$, which is the probability of observing the data given the parameter values.
 
+Formally, we can write the MLE as:
+
+$$\hat{\theta}_{MLE} = \underset{\theta}{\operatorname{argmax}}\ p(D|\theta)$$
+
+Where:
+- $\hat{\theta}_{MLE}$ is the MLE estimate
+- $\theta$ represents the parameter(s) being estimated
+- $D$ is the observed data
+- $p(D|\theta)$ is the likelihood function
+
 For each distribution, we need to:
 1. Formulate the likelihood function based on the probability density/mass function
 2. Take the logarithm to obtain the log-likelihood function (for computational and analytical convenience)
@@ -40,6 +50,12 @@ For Bernoulli distribution, each observation $X_i$ takes value 1 with probabilit
 $$P(X=x|\theta) = \theta^x (1-\theta)^{1-x}, \quad x \in \{0,1\}$$
 
 We have $N$ independent observations, with $m$ successes (1's) and $N-m$ failures (0's).
+
+We want to find:
+
+$$\hat{\theta}_{MLE} = \underset{\theta}{\operatorname{argmax}}\ p(D|\theta)$$
+
+Where $D$ represents our observed Bernoulli trials.
 
 #### Step 2: Formulate the Likelihood Function
 Since observations are independent, the likelihood function is the product of individual probabilities:
@@ -90,6 +106,12 @@ For any valid $\theta \in (0,1)$, both terms are negative, making the entire exp
 The multinomial distribution generalizes the Bernoulli to $K$ categories. Each observation falls into exactly one of $K$ categories with probabilities $\theta_1, \theta_2, \ldots, \theta_K$, where $\sum_{k=1}^{K} \theta_k = 1$.
 
 For $N$ independent trials, let $N_k$ be the count of observations in category $k$, with $\sum_{k=1}^{K} N_k = N$.
+
+We want to find:
+
+$$\hat{\theta}_{k,MLE} = \underset{\theta_1,\theta_2,...,\theta_K}{\operatorname{argmax}}\ p(D|\theta_1,\theta_2,...,\theta_K)$$
+
+subject to the constraint $\sum_{k=1}^{K} \theta_k = 1$.
 
 The PMF of the multinomial distribution is:
 
@@ -148,6 +170,12 @@ $$f(x|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x-\mu)^2}
 
 We have $N$ independent observations from this distribution.
 
+We want to find:
+
+$$\hat{\mu}_{MLE} = \underset{\mu}{\operatorname{argmax}}\ p(D|\mu)$$
+
+Where $D$ represents our observed data from the Gaussian distribution.
+
 #### Step 2: Formulate the Likelihood Function
 The likelihood function is:
 
@@ -198,6 +226,12 @@ For a Gaussian distribution with unknown mean $\mu$ and variance $\sigma^2$, the
 $$f(x|\mu, \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$
 
 We have $N$ independent observations.
+
+We want to find:
+
+$$\hat{\mu}_{MLE}, \hat{\sigma}^2_{MLE} = \underset{\mu,\sigma^2}{\operatorname{argmax}}\ p(D|\mu,\sigma^2)$$
+
+Where $D$ represents our observed data from the Gaussian distribution.
 
 #### Step 2: Formulate the Likelihood Function
 The likelihood function is:
