@@ -299,7 +299,7 @@ The Bernoulli distribution is one of the simplest probability models but provide
 
 #### Problem Statement
 
-This example visually demonstrates how sufficient statistics capture all necessary information for parameter estimation in exponential family distributions.
+This example demonstrates how sufficient statistics capture all necessary information for parameter estimation in exponential family distributions.
 
 Consider we are modeling waiting times in a service queue using an exponential distribution with parameter $\lambda$:
 
@@ -315,29 +315,69 @@ Let's visualize how the log-likelihood function depends on different aspects of 
 
 #### Solution
 
-The exponential distribution belongs to the exponential family, which has the important property that its sufficient statistic is simply the sum of the observations (or equivalently, the sample mean).
+We'll explore this problem through a step-by-step approach to demonstrate the concept of sufficient statistics for the exponential distribution.
 
-This visualization confirms that the MLE depends only on the sample mean, not on individual data points:
+##### Step 1: Data Exploration and MLE Formula
 
-![Sufficient Statistics Demonstration](../Images/MLE_Visual_Answer/ex5_sufficient_statistics.png)
-
-We can see that datasets with the same sample mean produce identical likelihood functions, despite having different individual values. The MLE for the exponential distribution is:
+For the exponential distribution, the MLE for the rate parameter $\lambda$ has a simple closed-form solution:
 
 $$\hat{\lambda}_{MLE} = \frac{1}{\bar{x}}$$
 
-where $\bar{x}$ is the sample mean.
+where $\bar{x}$ is the sample mean. This formula can be derived by maximizing the log-likelihood function:
 
-This example illustrates important MLE concepts:
+$$\ell(\lambda) = n\log(\lambda) - \lambda\sum_{i=1}^n x_i$$
 
-1. **Sufficient statistics**: Quantities that capture all relevant information for parameter estimation.
+Our 50 observations have a sample mean of approximately 2.1, giving an MLE estimate of $\hat{\lambda} \approx 0.476$.
 
-2. **Data reduction**: We can compress our dataset to just the sufficient statistic without losing information for MLE.
+![Data and MLE Estimation](../Images/MLE_Visual_Answer/ex5_step1_data_and_mle.png)
 
-3. **Exponential family properties**: Members of this family have natural sufficient statistics and closed-form MLE solutions.
+##### Step 2: Understanding the Log-Likelihood Function
 
-For our example data, the sample mean is 2.1, giving an MLE estimate of $\hat{\lambda} = 0.476$.
+The log-likelihood function for exponential data shows a clear maximum at $\lambda = 1/\bar{x}$. Notice how the function depends only on the sum of observations (or equivalently, the mean) and not on individual data points.
 
-The visualization shows that different datasets (colored differently) with the same sufficient statistic value produce identical likelihood functions, demonstrating why sufficient statistics are so powerful in statistical inference.
+$$\ell(\lambda) = n\log(\lambda) - \lambda\sum_{i=1}^n x_i = n\log(\lambda) - \lambda \cdot n \cdot \bar{x}$$
+
+The figure below shows the log-likelihood function for our data, with both the numerical maximum and the analytical solution (1/mean) marked.
+
+![Log-Likelihood Function](../Images/MLE_Visual_Answer/ex5_step2_log_likelihood.png)
+
+##### Step 3: Different Distributions with Same Sufficient Statistic
+
+A key insight: if two datasets have the same sufficient statistic (sample mean), they will yield the same MLE, regardless of their individual values or distribution shapes.
+
+To demonstrate this, we've created four datasets with different distributions but the same mean:
+1. Original exponential data
+2. Uniform distribution 
+3. Bimodal distribution
+4. Gamma distribution (with different shape parameter)
+
+![Different Distributions with Same Mean](../Images/MLE_Visual_Answer/ex5_step3_different_distributions.png)
+
+##### Step 4: Comparing Likelihood Functions
+
+When we plot the log-likelihood functions for all four datasets, we see they produce nearly identical curves with maxima at almost the same values, despite having very different distributions.
+
+This demonstrates that the sample mean is a sufficient statistic for the exponential distribution - it contains all the information needed for parameter estimation.
+
+![Likelihood Function Comparison](../Images/MLE_Visual_Answer/ex5_step4_likelihood_comparison.png)
+
+##### Step 5: Analytical vs. Numerical MLE
+
+Finally, we compare the analytical MLE formula ($\hat{\lambda} = 1/\bar{x}$) with the numerical maximum of the log-likelihood function for each dataset. The values are virtually identical, confirming our theoretical understanding.
+
+![Analytical vs. Numerical MLE](../Images/MLE_Visual_Answer/ex5_step5_analytical_vs_numerical.png)
+
+This property comes from the fact that the exponential distribution belongs to the exponential family, which has the general form:
+
+$$f(x|\theta) = h(x) \exp(\eta(\theta) \cdot T(x) - A(\theta))$$
+
+For the exponential distribution:
+- $h(x) = 1$
+- $T(x) = x$ (the sufficient statistic)
+- $\eta(\lambda) = -\lambda$
+- $A(\lambda) = -\log(\lambda)$
+
+The key takeaway is that we can compress our dataset into just the sufficient statistic (sample mean) without losing any information for MLE estimation. This is a powerful property for data reduction and statistical inference.
 
 ---
 
