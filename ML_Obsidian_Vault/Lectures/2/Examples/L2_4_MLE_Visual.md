@@ -25,6 +25,8 @@ The following examples demonstrate MLE techniques with visual aids:
 - **Example 1: Continuous Distribution Identification**: Identify the most appropriate continuous distribution for a dataset and estimate its parameters using MLE.
 - **Example 2: Discrete Distribution and Overdispersion**: Identify the best discrete distribution for count data, with focus on handling overdispersion.
 - **Example 3: Normal Distribution MLE Properties**: Examine how MLE properties like consistency and efficiency manifest visually with different sample sizes.
+- **Example 4: Bernoulli MLE and Sample Size Effects**: Visualize how the likelihood function changes with different observed data and sample sizes for a Bernoulli distribution.
+- **Example 5: Exponential Family and Sufficient Statistics**: Demonstrate how sufficient statistics capture all necessary information for parameter estimation in exponential family distributions.
 
 ---
 
@@ -178,7 +180,7 @@ You are investigating how MLE properties manifest visually when estimating the p
 
 The normal distribution has true parameter values:
 - Mean ($\mu$) = 5.0
-- Variance ($\sigma^2$) = 4.0
+- Variance ($\sigma^2$) = 4.0 (Standard deviation $\sigma$ = 2.0)
 
 Examine how the estimates change as the sample size increases:
 
@@ -195,19 +197,28 @@ This example illustrates several key properties of MLE:
 
 1. **Consistency**: As the sample size increases, the estimates converge to the true parameter values (μ=5.0, σ²=4.0).
 
-![Sampling Distribution of Estimates](../Images/MLE_Visual_Answer/sampling_distribution.png)
+![Sampling Distribution of Estimates](../Images/MLE_Visual_Answer/ex3_sampling_distribution.png)
 
-2. **Efficiency**: The variance of the estimates decreases with larger samples, making the estimator more precise.
+2. **Efficiency**: The variance of the estimates decreases with larger samples, making the estimator more precise. For the normal distribution, the sample mean is an efficient estimator, achieving the Cramér-Rao lower bound.
 
-3. **Log-likelihood surface shape**: As sample size increases, the peak of the log-likelihood surface becomes:
+3. **Asymptotic Normality**: The sampling distribution of the estimators approaches a normal distribution as sample size increases, regardless of the underlying data distribution (though for normal data, the estimator is exactly normally distributed for all sample sizes).
+
+![Asymptotic Normality Demonstration](../Images/MLE_Visual_Answer/ex3_asymptotic_normality.png)
+
+4. **Properties of Specific Estimators**: For the normal distribution, we can observe that:
+   - The sample mean is an unbiased estimator of μ
+   - The sample variance with divisor n (the MLE) is a biased estimator of σ²
+   - The bias decreases as sample size increases
+   - The variance of both estimators decreases proportionally to 1/n
+
+![MLE Properties Visualization](../Images/MLE_Visual_Answer/ex3_mle_properties.png)
+
+5. **Log-likelihood Surface**: As sample size increases, the peak of the log-likelihood surface becomes:
    - Sharper (indicating increased precision)
    - More concentrated around the true parameter values
    - More Gaussian in shape (related to asymptotic normality of MLE)
 
-In statistical terms, these visualizations show that for the normal distribution:
-- The sample mean is an unbiased estimator of μ
-- The sample variance with divisor n (the MLE) is a biased estimator of σ²
-- Both estimators become more precise with increasing sample size
+This example provides intuitive understanding of why MLEs are widely used in statistics: they converge to the true parameter values with increasing data and do so with optimal efficiency.
 
 ---
 
@@ -235,24 +246,24 @@ $$\hat{p}_{MLE} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
 
 The visualization demonstrates several important properties of MLE:
 
-![Bernoulli MLE Properties](../Images/MLE_Visual_Answer/ex4_bernoulli_mle_properties.png)
+1. **Sampling Distribution**: As sample size increases, the sampling distribution of the MLE becomes more concentrated around the true parameter value, demonstrating consistency.
 
-1. **Effect of sample size**: As sample size increases (from n=10 to n=100), the likelihood function becomes more peaked, indicating higher certainty in our estimate.
+![Bernoulli MLE Sampling Distribution](../Images/MLE_Visual_Answer/ex4_sampling_distribution.png)
 
-2. **MLE as sample proportion**: The peak of each likelihood function occurs exactly at the proportion of successes in the data.
+2. **Key MLE Properties**: The Bernoulli MLE exhibits the three fundamental properties:
+   - **Unbiasedness**: E[p̂] = p (The expected value of the estimator equals the true parameter)
+   - **Consistency**: As n increases, the distribution concentrates around the true value
+   - **Efficiency**: The variance decreases at the optimal rate of p(1-p)/n
 
-3. **Log-likelihood vs likelihood**: The log-likelihood is smoother and computationally more stable, but has the same maximum point as the likelihood function.
+![Bernoulli MLE Properties](../Images/MLE_Visual_Answer/ex4_mle_properties.png)
 
-We can also visualize the sampling distribution of the MLE for different true values of $p$:
+3. **Sufficient Statistics**: The sum of successes (or equivalently, the sample proportion) is a sufficient statistic for the Bernoulli parameter. This means that all the information in the sample relevant to the parameter is contained in this single value.
 
-![Bernoulli MLE Sampling Distribution](../Images/MLE_Visual_Answer/ex4_bernoulli_sampling.png)
+![Sufficient Statistics Demonstration](../Images/MLE_Visual_Answer/ex4_sufficient_statistic.png)
 
-This shows that the MLE is:
-- **Unbiased**: The mean of the sampling distribution is centered at the true parameter value
-- **Asymptotically efficient**: As sample size increases, the variance of the estimator decreases
-- **Consistent**: The estimator converges to the true value as sample size approaches infinity
+This example highlights that different datasets with the same sufficient statistic yield identical likelihood functions and therefore the same MLE. This property can be formally demonstrated using the Fisher-Neyman factorization theorem.
 
-This simple example provides clear visual intuition for key MLE properties using one of the most fundamental probability distributions.
+The Bernoulli distribution is one of the simplest probability models but provides clear visual intuition for key MLE properties using one of the most fundamental probability distributions.
 
 ---
 
