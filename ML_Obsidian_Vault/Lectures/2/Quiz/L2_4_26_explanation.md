@@ -21,7 +21,7 @@ Provide a detailed mathematical proof for each of the following maximum likeliho
 ## Understanding the Problem
 Maximum Likelihood Estimation (MLE) is a fundamental method in statistical inference for fitting a statistical model to data and providing estimates for the model's parameters. The principle of maximum likelihood estimation states that we should choose parameter values that make the observed data most probable.
 
-Given a set of observations $x = (x_1, x_2, \ldots, x_n)$ and a statistical model with parameters $\theta$, MLE finds the parameter values that maximize the likelihood function $L(\theta|x)$, which is the probability of observing the data given the parameter values.
+Given a set of observations $x = (x^{(1)}, x^{(2)}, \ldots, x^{(n)})$ and a statistical model with parameters $\theta$, MLE finds the parameter values that maximize the likelihood function $L(\theta|x)$, which is the probability of observing the data given the parameter values.
 
 Formally, we can write the MLE as:
 
@@ -45,7 +45,7 @@ For each distribution, we need to:
 ### Part 1: MLE for Bernoulli Distribution
 
 #### Step 1: Understand the Data and Model
-For Bernoulli distribution, each observation $X_i$ takes value 1 with probability $\theta$ and 0 with probability $1-\theta$. The probability mass function (PMF) is:
+For Bernoulli distribution, each observation $X^{(i)}$ takes value 1 with probability $\theta$ and 0 with probability $1-\theta$. The probability mass function (PMF) is:
 
 $$P(X=x|\theta) = \theta^x (1-\theta)^{1-x}, \quad x \in \{0,1\}$$
 
@@ -60,13 +60,13 @@ Where $D$ represents our observed Bernoulli trials.
 #### Step 2: Formulate the Likelihood Function
 Since observations are independent, the likelihood function is the product of individual probabilities:
 
-$$L(\theta) = \prod_{i=1}^{N} P(X_i=x_i|\theta) = \prod_{i=1}^{N} \theta^{x_i} (1-\theta)^{1-x_i}$$
+$$L(\theta) = \prod_{i=1}^{N} P(X^{(i)}=x^{(i)}|\theta) = \prod_{i=1}^{N} \theta^{x^{(i)}} (1-\theta)^{1-x^{(i)}}$$
 
 This simplifies to:
 
 $$L(\theta) = \theta^m (1-\theta)^{N-m}$$
 
-where $m = \sum_{i=1}^{N} x_i$ is the number of successes.
+where $m = \sum_{i=1}^{N} x^{(i)}$ is the number of successes.
 
 #### Step 3: Take the Logarithm
 The log-likelihood function is:
@@ -179,33 +179,33 @@ Where $D$ represents our observed data from the Gaussian distribution.
 #### Step 2: Formulate the Likelihood Function
 The likelihood function is:
 
-$$L(\mu) = \prod_{i=1}^{N} f(x_i|\mu, \sigma^2) = \prod_{i=1}^{N} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x_i-\mu)^2}{2\sigma^2}\right)$$
+$$L(\mu) = \prod_{i=1}^{N} f(x^{(i)}|\mu, \sigma^2) = \prod_{i=1}^{N} \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x^{(i)}-\mu)^2}{2\sigma^2}\right)$$
 
-$$L(\mu) = \left(\frac{1}{\sqrt{2\pi\sigma^2}}\right)^N \exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^{N}(x_i-\mu)^2\right)$$
+$$L(\mu) = \left(\frac{1}{\sqrt{2\pi\sigma^2}}\right)^N \exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^{N}(x^{(i)}-\mu)^2\right)$$
 
 #### Step 3: Take the Logarithm
 The log-likelihood function is:
 
-$$\ell(\mu) = -\frac{N}{2}\log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{N}(x_i-\mu)^2$$
+$$\ell(\mu) = -\frac{N}{2}\log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{N}(x^{(i)}-\mu)^2$$
 
-Since the first term is constant with respect to $\mu$, maximizing $\ell(\mu)$ is equivalent to minimizing $\sum_{i=1}^{N}(x_i-\mu)^2$.
+Since the first term is constant with respect to $\mu$, maximizing $\ell(\mu)$ is equivalent to minimizing $\sum_{i=1}^{N}(x^{(i)}-\mu)^2$.
 
 #### Step 4: Find Critical Points
 Taking the derivative with respect to $\mu$:
 
-$$\frac{d\ell}{d\mu} = \frac{1}{\sigma^2}\sum_{i=1}^{N}(x_i-\mu) = 0$$
+$$\frac{d\ell}{d\mu} = \frac{1}{\sigma^2}\sum_{i=1}^{N}(x^{(i)}-\mu) = 0$$
 
 #### Step 5: Solve for the MLE
 Solving for $\mu$:
 
-$$\sum_{i=1}^{N}(x_i-\mu) = 0$$
-$$\sum_{i=1}^{N}x_i - N\mu = 0$$
-$$N\mu = \sum_{i=1}^{N}x_i$$
-$$\mu = \frac{1}{N}\sum_{i=1}^{N}x_i$$
+$$\sum_{i=1}^{N}(x^{(i)}-\mu) = 0$$
+$$\sum_{i=1}^{N}x^{(i)} - N\mu = 0$$
+$$N\mu = \sum_{i=1}^{N}x^{(i)}$$
+$$\mu = \frac{1}{N}\sum_{i=1}^{N}x^{(i)}$$
 
 Therefore, the maximum likelihood estimator for the mean is:
 
-$$\hat{\mu}_{MLE} = \frac{1}{N}\sum_{i=1}^{N}x_i$$
+$$\hat{\mu}_{MLE} = \frac{1}{N}\sum_{i=1}^{N}x^{(i)}$$
 
 This is simply the sample mean.
 
@@ -236,36 +236,36 @@ Where $D$ represents our observed data from the Gaussian distribution.
 #### Step 2: Formulate the Likelihood Function
 The likelihood function is:
 
-$$L(\mu, \sigma^2) = \prod_{i=1}^{N} f(x_i|\mu, \sigma^2) = \left(\frac{1}{\sqrt{2\pi\sigma^2}}\right)^N \exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^{N}(x_i-\mu)^2\right)$$
+$$L(\mu, \sigma^2) = \prod_{i=1}^{N} f(x^{(i)}|\mu, \sigma^2) = \left(\frac{1}{\sqrt{2\pi\sigma^2}}\right)^N \exp\left(-\frac{1}{2\sigma^2}\sum_{i=1}^{N}(x^{(i)}-\mu)^2\right)$$
 
 #### Step 3: Take the Logarithm
 The log-likelihood function is:
 
-$$\ell(\mu, \sigma^2) = -\frac{N}{2}\log(2\pi) - \frac{N}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{N}(x_i-\mu)^2$$
+$$\ell(\mu, \sigma^2) = -\frac{N}{2}\log(2\pi) - \frac{N}{2}\log(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^{N}(x^{(i)}-\mu)^2$$
 
 #### Step 4: Find Critical Points
 Taking partial derivatives and setting them to zero:
 
-$$\frac{\partial \ell}{\partial \mu} = \frac{1}{\sigma^2}\sum_{i=1}^{N}(x_i-\mu) = 0$$
+$$\frac{\partial \ell}{\partial \mu} = \frac{1}{\sigma^2}\sum_{i=1}^{N}(x^{(i)}-\mu) = 0$$
 
-$$\frac{\partial \ell}{\partial \sigma^2} = -\frac{N}{2\sigma^2} + \frac{1}{2(\sigma^2)^2}\sum_{i=1}^{N}(x_i-\mu)^2 = 0$$
+$$\frac{\partial \ell}{\partial \sigma^2} = -\frac{N}{2\sigma^2} + \frac{1}{2(\sigma^2)^2}\sum_{i=1}^{N}(x^{(i)}-\mu)^2 = 0$$
 
 #### Step 5: Solve for the MLEs
 From the first equation:
 
-$$\sum_{i=1}^{N}(x_i-\mu) = 0 \quad \Rightarrow \quad \mu = \frac{1}{N}\sum_{i=1}^{N}x_i$$
+$$\sum_{i=1}^{N}(x^{(i)}-\mu) = 0 \quad \Rightarrow \quad \mu = \frac{1}{N}\sum_{i=1}^{N}x^{(i)}$$
 
 This gives us $\hat{\mu}_{MLE}$, the sample mean.
 
 From the second equation:
 
-$$\frac{N}{2\sigma^2} = \frac{1}{2(\sigma^2)^2}\sum_{i=1}^{N}(x_i-\mu)^2$$
-$$N(\sigma^2) = \sum_{i=1}^{N}(x_i-\mu)^2$$
-$$\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x_i-\mu)^2$$
+$$\frac{N}{2\sigma^2} = \frac{1}{2(\sigma^2)^2}\sum_{i=1}^{N}(x^{(i)}-\mu)^2$$
+$$N(\sigma^2) = \sum_{i=1}^{N}(x^{(i)}-\mu)^2$$
+$$\sigma^2 = \frac{1}{N}\sum_{i=1}^{N}(x^{(i)}-\mu)^2$$
 
 Substituting $\mu = \hat{\mu}_{MLE}$:
 
-$$\hat{\sigma}^2_{MLE} = \frac{1}{N}\sum_{i=1}^{N}(x_i-\hat{\mu}_{MLE})^2$$
+$$\hat{\sigma}^2_{MLE} = \frac{1}{N}\sum_{i=1}^{N}(x^{(i)}-\hat{\mu}_{MLE})^2$$
 
 #### Step 6: Verify These Are Maximum Values
 The Hessian matrix of second partial derivatives can be shown to be negative definite at the critical point, confirming our solution is a maximum.
@@ -277,7 +277,7 @@ $$E[\hat{\sigma}^2_{MLE}] = \frac{N-1}{N}\sigma^2 = \sigma^2 - \frac{\sigma^2}{N
 
 The unbiased estimator is:
 
-$$s^2 = \frac{1}{N-1}\sum_{i=1}^{N}(x_i-\hat{\mu}_{MLE})^2$$
+$$s^2 = \frac{1}{N-1}\sum_{i=1}^{N}(x^{(i)}-\hat{\mu}_{MLE})^2$$
 
 The bias diminishes as sample size increases.
 
@@ -341,8 +341,8 @@ In this analysis, we've derived and proven the maximum likelihood estimators for
 
 - **Bernoulli Distribution**: $\hat{\theta}_{MLE} = \frac{m}{N}$ (proportion of successes)
 - **Multinomial Distribution**: $\hat{\theta}_{k,MLE} = \frac{N_k}{N}$ (proportion in each category)
-- **Gaussian Mean (Known Variance)**: $\hat{\mu}_{MLE} = \frac{1}{N}\sum_{i=1}^{N}x_i$ (sample mean)
-- **Gaussian Variance (Unknown Mean)**: $\hat{\sigma}^2_{MLE} = \frac{1}{N}\sum_{i=1}^{N}(x_i-\hat{\mu}_{MLE})^2$ (biased sample variance)
+- **Gaussian Mean (Known Variance)**: $\hat{\mu}_{MLE} = \frac{1}{N}\sum_{i=1}^{N}x^{(i)}$ (sample mean)
+- **Gaussian Variance (Unknown Mean)**: $\hat{\sigma}^2_{MLE} = \frac{1}{N}\sum_{i=1}^{N}(x^{(i)}-\hat{\mu}_{MLE})^2$ (biased sample variance)
 
 Maximum likelihood estimation provides a systematic approach to parameter estimation that:
 1. Is widely applicable across different statistical models
