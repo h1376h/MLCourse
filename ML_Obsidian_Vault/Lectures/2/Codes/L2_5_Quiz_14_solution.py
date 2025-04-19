@@ -9,8 +9,7 @@ from matplotlib.gridspec import GridSpec
 script_dir = os.path.dirname(os.path.abspath(__file__))
 images_dir = os.path.join(os.path.dirname(script_dir), "Images")
 save_dir = os.path.join(images_dir, "L2_5_Quiz_14")
-solutions_dir = os.path.join(save_dir, "solutions")
-os.makedirs(solutions_dir, exist_ok=True)
+os.makedirs(save_dir, exist_ok=True)
 
 # Set plot style
 plt.style.use('seaborn-v0_8-whitegrid')
@@ -106,7 +105,7 @@ plt.legend(fontsize=10)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 
-file_path = os.path.join(solutions_dir, "prior_influence_analysis.png")
+file_path = os.path.join(save_dir, "prior_influence_analysis.png")
 plt.savefig(file_path, dpi=300, bbox_inches='tight')
 print(f"\nPrior influence analysis saved to: {file_path}")
 
@@ -156,7 +155,7 @@ plt.legend(fontsize=10)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 
-file_path = os.path.join(solutions_dir, "credible_interval_analysis.png")
+file_path = os.path.join(save_dir, "credible_interval_analysis.png")
 plt.savefig(file_path, dpi=300, bbox_inches='tight')
 print(f"Credible interval analysis saved to: {file_path}")
 
@@ -229,7 +228,7 @@ plt.legend(fontsize=10)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 
-file_path = os.path.join(solutions_dir, "bayesian_updating_analysis.png")
+file_path = os.path.join(save_dir, "bayesian_updating_analysis.png")
 plt.savefig(file_path, dpi=300, bbox_inches='tight')
 print(f"Bayesian updating analysis saved to: {file_path}")
 
@@ -282,7 +281,7 @@ plt.legend(fontsize=10)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
 
-file_path = os.path.join(solutions_dir, "expected_value_analysis.png")
+file_path = os.path.join(save_dir, "expected_value_analysis.png")
 plt.savefig(file_path, dpi=300, bbox_inches='tight')
 print(f"Expected value analysis saved to: {file_path}")
 
@@ -379,8 +378,8 @@ ax4.grid(True, alpha=0.3)
 plt.suptitle('Visual Bayesian Inference and Prior Selection - Solution Summary', fontsize=16)
 plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust for the suptitle
 
-file_path = os.path.join(solutions_dir, "summary_visualization.png")
+file_path = os.path.join(save_dir, "summary_visualization.png")
 plt.savefig(file_path, dpi=300, bbox_inches='tight')
 print(f"Summary visualization saved to: {file_path}")
 
-print("\nAll solution visualizations saved in:", solutions_dir) 
+print("\nAll solution visualizations saved in:", save_dir) 

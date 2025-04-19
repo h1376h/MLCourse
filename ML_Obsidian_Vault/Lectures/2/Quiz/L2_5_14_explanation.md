@@ -23,6 +23,8 @@ Using only the information provided in these visualizations:
 
 To determine which prior has the strongest influence on the posterior, we need to examine how much the posterior distributions differ from each other and from what the likelihood function alone would suggest.
 
+![Prior Influence Analysis](../Images/L2_5_Quiz_14/prior_influence_analysis.png)
+
 From the "Posterior Distributions" graph, we can observe:
 - The three posterior distributions (red, green, and blue) have distinct peaks and shapes
 - The green curve (from $\text{Beta}(5,2)$ prior) is shifted furthest to the right
@@ -42,19 +44,32 @@ This is because:
 2. This prior contradicts the likelihood function, which suggests $\theta$ is around 0.6
 3. The resulting posterior is a compromise between the prior and the likelihood, with a notable shift toward the prior
 
+For a quantitative comparison, we can look at the shift in mode:
+- Prior 1 ($\text{Beta}(2,5)$): Mode shifts from 0.6 to approximately 0.47, a shift of 0.13
+- Prior 2 ($\text{Beta}(5,2)$): Mode shifts from 0.6 to approximately 0.67, a shift of 0.07
+- Prior 3 ($\text{Beta}(3,3)$): Mode shifts from 0.6 to approximately 0.57, a shift of 0.03
+
+The red curve (Prior 1) shows the largest shift, confirming it has the strongest influence.
+
 ### Step 2: Determining the 90% Credible Interval
 
-From the "Credible Intervals" graph, we can directly observe the 90% credible interval for the posterior based on the $\text{Beta}(3,3)$ prior (blue curve).
+![Credible Interval Analysis](../Images/L2_5_Quiz_14/credible_interval_analysis.png)
 
-The interval is bounded by the blue dashed vertical lines, which are at approximately:
-- Lower bound: $\theta \approx 0.40$
-- Upper bound: $\theta \approx 0.75$
+From the "Credible Intervals" graph, we can directly observe the 90% credible interval for the posterior based on the $\text{Beta}(3,3)$ prior (blue curve). The interval is now clearly annotated in the graph.
 
-Therefore, the 90% credible interval is approximately **$[0.40, 0.75]$**.
+The interval is bounded by the blue dashed vertical lines, which are at:
+- Lower bound: $\theta = 0.3596$
+- Upper bound: $\theta = 0.7563$
 
-This means that, given our prior belief ($\text{Beta}(3,3)$) and the observed data (6 heads out of 10 flips), we are 90% confident that the true value of $\theta$ lies between 0.40 and 0.75.
+Therefore, the 90% credible interval is **$[0.3596, 0.7563]$**.
+
+This means that, given our prior belief ($\text{Beta}(3,3)$) and the observed data (6 heads out of 10 flips), we are 90% confident that the true value of $\theta$ lies between 0.3596 and 0.7563.
+
+The posterior distribution is $\text{Beta}(9,7)$, which is derived by adding the number of heads (6) to the alpha parameter of the prior (3) and the number of tails (4) to the beta parameter of the prior (3).
 
 ### Step 3: Assessing Impact of Prior vs. Data
+
+![Bayesian Updating Analysis](../Images/L2_5_Quiz_14/bayesian_updating_analysis.png)
 
 The "Bayesian Updating" graph shows how our belief about $\theta$ evolves as we collect more data, starting with a $\text{Beta}(2,2)$ prior.
 
@@ -72,9 +87,20 @@ When comparing the effect of the prior to the effect of the data:
 
 Therefore, in this case, the **observed data has a greater impact** on the final posterior than the initial prior.
 
+We can quantify this by looking at the changes in the mean:
+- Initial prior mean: 0.5000
+- Final posterior mean: 0.8750
+- Data-only estimate (MLE): 1.0000
+- Distance from prior to posterior: 0.3750
+- Distance from MLE to posterior: 0.1250
+
+Since the posterior is closer to the MLE than to the prior mean, we can conclude that the data has a stronger influence than the prior in this case.
+
 This demonstrates the principle that as more data is collected, the influence of the prior diminishes, and the posterior is increasingly dominated by the likelihood (data).
 
 ### Step 4: Calculating Expected Value of $\theta$
+
+![Expected Value Analysis](../Images/L2_5_Quiz_14/expected_value_analysis.png)
 
 For a $\text{Beta}(\alpha,\beta)$ distribution, the expected value (mean) is given by:
 
@@ -86,11 +112,21 @@ For the posterior distribution based on the $\text{Beta}(5,2)$ prior with 6 head
 - Posterior parameters: $\alpha_{post} = 5 + 6 = 11$, $\beta_{post} = 2 + 4 = 6$
 
 Therefore:
-$$E[\theta] = \frac{11}{11 + 6} = \frac{11}{17} \approx 0.65$$
+$$E[\theta] = \frac{11}{11 + 6} = \frac{11}{17} \approx 0.6471$$
 
-The expected value of $\theta$ for this posterior is approximately **$0.65$**.
+The expected value of $\theta$ for this posterior is approximately **$0.6471$**.
 
-This can be verified from the "Posterior Distributions" graph, where the dashed green vertical line (marking the mean of the green curve) is at approximately $\theta = 0.65$.
+This can be verified from the "Posterior Distributions" graph, where the dashed green vertical line (marking the mean of the green curve) is at approximately $\theta = 0.65$ and is now explicitly annotated on the graph.
+
+### Summary Visualization
+
+![Summary Visualization](../Images/L2_5_Quiz_14/summary_visualization.png)
+
+The summary visualization above provides a comprehensive view of all key aspects of this problem:
+1. The influence of different priors on the posterior distributions
+2. The 90% credible interval for the $\text{Beta}(3,3)$ posterior
+3. The Bayesian updating process showing how data dominates the prior with more observations
+4. The expected value of $\theta$ for the $\text{Beta}(5,2)$ posterior
 
 ## Key Insights
 
