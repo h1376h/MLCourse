@@ -39,11 +39,13 @@ The following examples demonstrate MAP estimation for different real-world appli
 #### Problem Statement
 We want to estimate the average height of students in a class based on prior knowledge and a small sample of measured heights.
 
-In this example:
-- We have prior knowledge about average student height
-- We assume heights follow a normal distribution
-- We're trying to estimate the true mean height
-- We have a small sample of measured heights
+Given:
+- Prior belief about average student height: $\mu_0 = 170$ cm
+- Prior variance: $\sigma_0^2 = 25$ cm²
+- Observed heights from five randomly selected students: $[165, 173, 168, 180, 172]$ cm
+- Known population variance: $\sigma^2 = 20$ cm²
+
+Calculate the MAP estimate for the true average height of students in the class.
 
 #### Solution
 
@@ -68,7 +70,15 @@ Therefore, our best estimate of the true average height is 171.38 cm, which lies
 ### Example 2: Online Learning Scores
 
 #### Problem Statement
-We want to estimate a student's true skill level in an online learning platform based on prior knowledge of average scores and recent quiz results.
+An online learning platform wants to estimate a student's true skill level based on prior knowledge of average scores and recent quiz results.
+
+Given:
+- Prior belief about average score for this difficulty level: $\mu_0 = 70$ (out of 100)
+- Prior variance: $\sigma_0^2 = 100$
+- Student's recent quiz scores: $[85, 82, 90, 88]$
+- Known quiz score variance due to question variation: $\sigma^2 = 64$
+
+Calculate the MAP estimate for the student's true skill level.
 
 #### Solution
 
@@ -91,7 +101,15 @@ The MAP estimate of 84.01 suggests the student's true skill level is well above 
 ### Example 3: Manufacturing Process Quality Control
 
 #### Problem Statement
-We want to estimate the true dimension of components in a manufacturing process using design specifications and actual measurements.
+A manufacturing company wants to estimate the true dimension of components in a production process using design specifications and actual measurements.
+
+Given:
+- Design specification (prior mean): $\mu_0 = 50$ mm
+- Prior variance: $\sigma_0^2 = 0.04$ mm²
+- Observed measurements from five randomly selected components: $[50.2, 50.3, 50.1, 50.25, 50.15]$ mm
+- Known measurement error variance: $\sigma^2 = 0.01$ mm²
+
+Calculate the MAP estimate for the true component dimension in the manufacturing process.
 
 #### Solution
 
@@ -114,7 +132,15 @@ The MAP estimate of 50.19 mm indicates that the true component dimension is slig
 ### Example 4: Sensor Measurement
 
 #### Problem Statement
-We want to estimate the true temperature in a room using a sensor with known error characteristics, combining expected temperature with actual readings.
+A building management system needs to estimate the true temperature in a room using a sensor with known error characteristics. The system combines expected temperature from weather forecast and building conditions with actual sensor readings.
+
+Given:
+- Expected temperature (prior mean): $\mu_0 = 25$ °C
+- Prior variance: $\sigma_0^2 = 4$ °C²
+- Observed temperature readings from the sensor: $[23, 24, 26]$ °C
+- Known sensor error variance: $\sigma^2 = 1$ °C²
+
+Calculate the MAP estimate for the true temperature in the room. What decision should be made for the temperature control system if the comfort zone is 22-26 °C?
 
 #### Solution
 
@@ -143,17 +169,25 @@ The above visualization shows the prior distribution (blue), likelihood from obs
 ### Example 5: Stock Return Prediction
 
 #### Problem Statement
-We want to estimate the true future stock return based on historical averages and recent performance. In this case, the variance ratio is less than 1, which means we trust our prior more than the observed data.
+An investment analyst wants to estimate the true future stock return for a particular company based on historical data and recent performance.
+
+Given:
+- Historical average return (prior mean): $\mu_0 = 5.0\%$
+- Prior variance: $\sigma_0^2 = 4$
+- Recent observed daily returns: $[8.2, 7.5, 9.1, 7.8, 8.4, 7.9]\%$
+- Known variance in daily returns: $\sigma^2 = 10$
+
+Calculate the MAP estimate for the true stock return. How does this estimate compare to both the historical average and the recent average?
 
 #### Solution
 
 ##### Step 1: Define the prior and data parameters
-- Prior mean (historical average): $\mu_0 = 5.0\%$ (return percentage)
-- Prior variance: $\sigma_0^2 = 4$ 
+- Prior mean (historical average): $\mu_0 = 5.0\%$
+- Prior variance: $\sigma_0^2 = 4$
 - Observed returns: $[8.2, 7.5, 9.1, 7.8, 8.4, 7.9]\%$
 - Number of observations: $N = 6$
 - Sample mean: $\frac{8.2 + 7.5 + 9.1 + 7.8 + 8.4 + 7.9}{6} = 8.15\%$
-- Data variance: $\sigma^2 = 10$ 
+- Data variance: $\sigma^2 = 10$
 
 Variance ratio: $r = \frac{\sigma_0^2}{\sigma^2} = \frac{4}{10} = 0.4$
 
