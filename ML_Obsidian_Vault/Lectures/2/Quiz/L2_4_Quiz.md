@@ -1,7 +1,7 @@
 # Lecture 2.4: Maximum Likelihood Estimation Quiz
 
 ## Overview
-This quiz contains 22 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
+This quiz contains 23 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
 
 ## Question 1
 
@@ -351,3 +351,15 @@ Suppose we have samples $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ from a Berno
 2. Suppose you are asked to select $\theta$ from the set $\{0.2, 0.5, 0.7\}$. Which value would be chosen according to the MLE principle?
 
 For a detailed explanation, see [Question 22: MLE for Bernoulli Distribution with Small Sample](L2_4_22_explanation.md).
+
+## Question 23
+
+### Problem Statement
+A random sample of size $8$ — $X_1 = 1$, $X_2 = 0$, $X_3 = 1$, $X_4 = 1$, $X_5 = 0$, $X_6 = 1$, $X_7 = 1$, and $X_8 = 0$ — is taken from the probability function:
+
+$$p_X(k; \theta) = \theta^k (1-\theta)^{1-k}, \quad k = 0, 1; \quad 0 < \theta < 1$$
+
+#### Task
+Find the maximum likelihood estimate for $\theta$.
+
+For a detailed explanation, see [Question 23: MLE for Bernoulli Distribution](L2_4_23_explanation.md).
