@@ -44,6 +44,20 @@ To help you decide, fitted curves for all four candidate distributions are shown
 
 You can analyze the log-likelihood surfaces for each distribution. The maximum point (red dot) on each surface corresponds to the MLE parameter estimates.
 
+**3D Log-Likelihood Surfaces:**
+
+*   **Normal Distribution:** Parameters: $\mu$ (mean), $\sigma$ (std dev)
+    ![Normal Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_normal_likelihood_surface.png)
+
+*   **Exponential Distribution:** Parameter: $\lambda$ (rate)
+    ![Exponential Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_exponential_likelihood_surface.png)
+
+*   **Gamma Distribution:** Parameters: $k$ (shape), $\theta$ (scale)
+    ![Gamma Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_gamma_likelihood_surface.png)
+
+*   **Beta Distribution:** Parameters: $\alpha$, $\beta$ (data normalized to [0, 1] for fitting)
+    ![Beta Distribution Likelihood Surface Example 1](../Images/MLE_Visual_Question/ex1_beta_likelihood_surface.png)
+
 **2D Log-Likelihood Contours:**
 
 For a clearer visualization, here are the 2D contour plots for each distribution:
@@ -102,6 +116,20 @@ To help with your analysis, fitted curves for all candidate distributions are sh
 An important consideration for count data is the relationship between mean and variance:
 
 ![Variance-Mean Relationship Example 2](../Images/MLE_Visual_Question/ex2_variance_mean_relationship.png)
+
+**3D Log-Likelihood Surfaces:**
+
+*   **Poisson Distribution:** Parameter: $\lambda$ (rate)
+    ![Poisson Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_poisson_likelihood_surface.png)
+
+*   **Negative Binomial Distribution:** Parameters: $n$ (number of failures), $p$ (success probability)
+    ![Negative Binomial Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_nbinom_likelihood_surface.png)
+
+*   **Normal Distribution:** Parameters: $\mu$ (mean), $\sigma$ (std dev)
+    ![Normal Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_normal_likelihood_surface.png)
+
+*   **Beta Distribution:** Parameters: $\alpha$, $\beta$ (data normalized for fitting)
+    ![Beta Likelihood Surface Example 2](../Images/MLE_Visual_Question/ex2_beta_likelihood_surface.png)
 
 **2D Log-Likelihood Contours:**
 
