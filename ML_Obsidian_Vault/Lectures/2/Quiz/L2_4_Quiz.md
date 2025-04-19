@@ -1,7 +1,7 @@
 # Lecture 2.4: Maximum Likelihood Estimation Quiz
 
 ## Overview
-This quiz contains 25 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
+This quiz contains 26 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
 
 ## Question 1
 
@@ -386,3 +386,32 @@ $$f(x) = \frac{3x^2}{\theta^3}, \quad 0 \leq x \leq \theta.$$
 Find the MLE of $\theta$.
 
 For a detailed explanation, see [Question 25: MLE for Power Distribution](L2_4_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+Maximum Likelihood Estimation (MLE) yields fundamental estimator formulas for common probability distributions. For each of the following distributions, prove that the given formula is indeed the maximum likelihood estimator.
+
+#### Task
+Provide a detailed mathematical proof for each of the following maximum likelihood estimators:
+
+1. For a sample of $N$ independent Bernoulli trials with $m$ successes, prove that the MLE for the success probability $\theta$ is:
+   $$\hat{\theta}_{MLE} = \frac{m}{N}$$
+
+2. For a multinomial distribution with $K$ categories and counts $N_1, N_2, \ldots, N_K$ (where $\sum_{k=1}^{K} N_k = N$), prove that the MLE for probability $\theta_k$ of category $k$ is:
+   $$\hat{\theta}_{k,MLE} = \frac{N_k}{N}$$
+
+3. For a sample of $N$ independent observations from a Gaussian distribution with unknown mean $\mu$ and known variance $\sigma^2$, prove that the MLE for $\mu$ is:
+   $$\hat{\mu}_{MLE} = \frac{1}{N}\sum_{i=1}^{N}x^{(i)}$$
+
+4. For a sample of $N$ independent observations from a Gaussian distribution with unknown mean $\mu$ and unknown variance $\sigma^2$, prove that the MLE for $\sigma^2$ is:
+   $$\hat{\sigma}^2_{MLE} = \frac{1}{N}\sum_{i=1}^{N}(x^{(i)}-\hat{\mu}_{MLE})^2$$
+
+For each proof, you should:
+- Write down the likelihood function
+- Take the logarithm to obtain the log-likelihood function
+- Find the critical points by taking derivatives and setting them equal to zero
+- Verify that these critical points are indeed maxima
+- Interpret the result in the context of the distribution
+
+For a detailed explanation, see [Question 26: Proving Common Maximum Likelihood Estimators](L2_4_26_explanation.md).
