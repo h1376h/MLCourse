@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 17 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 18 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -298,4 +298,68 @@ The graphs below illustrate different functions involved in Bayesian estimation:
 3. Explain the pattern you observe in how the MAP estimates relate to both the prior mean and the MLE as the prior becomes stronger.
 4. If you were to collect 20 more data points (for a total of 25) with the same sample mean, how would you expect the three MAP estimates to change relative to the MLE? Explain your reasoning.
 
-For a detailed explanation of this problem, including analysis of prior strength and its effect on MAP estimation, see [Question 17: Prior Strength and MAP Estimation](L2_7_24_explanation.md). 
+For a detailed explanation of this problem, including analysis of prior strength and its effect on MAP estimation, see [Question 17: Prior Strength and MAP Estimation](L2_7_24_explanation.md).
+
+## Question 18
+
+### Problem Statement
+You are analyzing data from a coin-flipping experiment where you observed 60 heads out of 100 flips. You want to estimate θ, the probability of getting heads, using different approaches including Maximum Likelihood Estimation (MLE) and Maximum A Posteriori (MAP) estimation with various priors.
+
+Below are several visualizations to help you understand how different prior distributions affect Bayesian estimation:
+
+![Likelihood Function](../Images/L2_7_Quiz_25/likelihood.png)
+*Figure 1: Likelihood function for the observed data (60 heads in 100 flips). The vertical red dashed line marks the position of maximum likelihood.*
+
+![Uniform Prior: Beta(1,1)](../Images/L2_7_Quiz_25/prior_uniform.png)
+*Figure 2: Uniform Prior - Beta(1,1) distribution.*
+
+![Prior Biased toward Tails: Beta(3,7)](../Images/L2_7_Quiz_25/prior_tails.png)
+*Figure 3: Prior Biased toward Tails - Beta(3,7) distribution.*
+
+![Prior Biased toward Heads: Beta(7,3)](../Images/L2_7_Quiz_25/prior_heads.png)
+*Figure 4: Prior Biased toward Heads - Beta(7,3) distribution.*
+
+![Prior with Strong Belief in Fair Coin: Beta(50,50)](../Images/L2_7_Quiz_25/prior_fair.png)
+*Figure 5: Prior with Strong Belief in Fair Coin - Beta(50,50) distribution with peak at θ=0.5.*
+
+![Posterior with Uniform Prior](../Images/L2_7_Quiz_25/posterior_uniform.png)
+*Figure 6: Posterior with Uniform Prior. Blue vertical line shows MAP estimate (θ=0.600); red vertical line shows MLE (θ=0.600).*
+
+![Posterior with Tails-Biased Prior](../Images/L2_7_Quiz_25/posterior_tails.png)
+*Figure 7: Posterior with Tails-Biased Prior. Green vertical line shows MAP estimate (θ=0.574); red vertical line shows MLE (θ=0.600).*
+
+![Posterior with Heads-Biased Prior](../Images/L2_7_Quiz_25/posterior_heads.png)
+*Figure 8: Posterior with Heads-Biased Prior. Red dashed line shows MAP estimate (θ=0.611); red dotted line shows MLE (θ=0.600).*
+
+![Posterior with Fair Coin Prior](../Images/L2_7_Quiz_25/posterior_fair.png)
+*Figure 9: Posterior with Fair Coin Prior. Magenta vertical line shows MAP estimate (θ=0.551); red vertical line shows MLE (θ=0.600).*
+
+![Comparison of All Posteriors](../Images/L2_7_Quiz_25/posterior_comparison.png)
+*Figure 10: Comparison of all posterior distributions with their respective MAP estimates (vertical dashed lines in corresponding colors) and the MLE (solid black vertical line at θ=0.600).*
+
+![Evolution of Posterior with Increasing Data](../Images/L2_7_Quiz_25/posterior_evolution.png)
+*Figure 11: Evolution of the posterior starting from Beta(3,7) prior as more data is collected, maintaining a 60% heads ratio. Different colors represent increasing sample sizes from 5 flips to 500 flips, and the dashed lines indicate the corresponding MAP estimates. Note how the MAP estimates converge toward the MLE (θ=0.600) as data increases.*
+
+![Different Bayesian Estimators](../Images/L2_7_Quiz_25/bayesian_estimators.png)
+*Figure 12: Different Bayesian estimators for the posterior with uniform prior. Red vertical line shows MAP estimate (θ=0.600, optimizing 0-1 loss); green vertical line shows posterior mean (θ=0.598, optimizing squared loss); purple vertical line shows posterior median (θ=0.599, optimizing absolute loss).*
+
+#### Task
+Using only the information provided in these figures:
+
+1. Identify the Maximum Likelihood Estimate (MLE) for θ based on the observed data. (The MLE value can be seen in Figure 1.)
+2. For each of the four priors (Uniform, Tails-Biased, Heads-Biased, and Fair Coin), determine the MAP estimate for θ. (These values can be directly read from the captions of Figures 6-9.)
+3. Explain how the choice of prior affects the MAP estimate relative to the MLE. (Compare the MAP values from Figures 6-9 with the MLE value from Figure 1.)
+4. Based on Figure 11 (Evolution of Posterior), explain what happens to the MAP estimate as more data is collected (while maintaining the same ratio of heads to total flips). The figure shows MAP estimates for the following data points:
+   - 3 heads, 2 tails (MAP = 0.364)
+   - 6 heads, 4 tails (MAP = 0.416)
+   - 15 heads, 10 tails (MAP = 0.486)
+   - 30 heads, 20 tails (MAP = 0.525)
+   - 60 heads, 40 tails (MAP = 0.554)
+   - 150 heads, 100 tails (MAP = 0.577)
+   - 300 heads, 200 tails (MAP = 0.588)
+5. From Figure 12 (Different Bayesian Estimators), identify the posterior mean and median, and explain why they might differ from the MAP estimate. The figure shows:
+   - MAP (0-1 Loss): θ = 0.600
+   - Mean (Squared Loss): θ = 0.598
+   - Median (Absolute Loss): θ = 0.599
+
+For a detailed explanation of this problem, including analysis of how different priors affect MAP estimation and the relationships between various Bayesian estimators, see [Question 18: Effect of Priors on MAP Estimation for Coin Flips](L2_7_25_explanation.md).
