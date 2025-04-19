@@ -212,7 +212,20 @@ In investment strategy, this MAP estimate would suggest that while recent return
 ### Example 6: Understanding the Variance Ratio
 
 #### Problem Statement
-Let's explore how the variance ratio ($r = \frac{\sigma_0^2}{\sigma^2}$) influences MAP estimates. A pharmaceutical company has prior knowledge about the effectiveness of a drug, believing its efficacy score is 60 (on a scale of 0-100) with a variance of 16. They run a clinical trial with 4 patients who show efficacy scores of [70, 75, 68, 73]. The measurement variance is 4. Calculate and compare MAP estimates for three scenarios: (1) original variances, (2) higher prior uncertainty, and (3) lower measurement error.
+A pharmaceutical company is evaluating the efficacy of a new drug in their clinical trials. They need to understand how different levels of uncertainty in prior knowledge and measurement accuracy affect the MAP estimate.
+
+Given:
+- Prior belief about drug efficacy score: $\mu_0 = 60$ (on a scale of 0-100)
+- Prior variance: $\sigma_0^2 = 16$
+- Observed efficacy scores from 4 patients: $[70, 75, 68, 73]$
+- Measurement variance: $\sigma^2 = 4$
+
+Calculate the MAP estimate for the drug's true efficacy score under the following three scenarios:
+1. Original parameters as given above
+2. Higher prior uncertainty: $\sigma_0^2 = 64$ (less confidence in prior)
+3. Lower measurement error: $\sigma^2 = 1$ (more accurate measurements)
+
+For each scenario, determine how the changing variance ratio affects the MAP estimate's proximity to either the prior mean or the sample mean.
 
 #### Solution
 
@@ -269,7 +282,18 @@ This demonstrates that the variance ratio is what matters in determining how muc
 ### Example 7: Convergence to MLE with Large Samples
 
 #### Problem Statement
-Demonstrate how MAP estimation converges to Maximum Likelihood Estimation as sample size increases. We'll simulate a scenario where we're estimating the mean customer spending at a retail store. Our prior belief is that customers spend $80 on average with a variance of 25. The actual spending per customer has a variance of 100.
+A retail analytics company wants to estimate the average customer spending at a store chain. As they collect more data, they want to understand how the influence of prior beliefs diminishes with increasing sample size.
+
+Given:
+- Prior belief about average customer spending: $\mu_0 = 80$ dollars
+- Prior variance: $\sigma_0^2 = 25$ dollars²
+- Known variance in individual customer spending: $\sigma^2 = 100$ dollars²
+- Three different datasets representing different sample sizes:
+  1. Small sample (N=3): $[95, 90, 105]$ dollars
+  2. Medium sample (N=10): $[95, 90, 105, 98, 92, 101, 97, 94, 99, 103]$ dollars
+  3. Large sample (N=100): This would be 100 observations with the same sample mean of $97.4$ dollars
+
+Calculate the MAP estimate for each of the three sample sizes. How does the MAP estimate change as the sample size increases? Compare each MAP estimate with the corresponding MLE estimate (sample mean) and explain the relationship.
 
 #### Solution
 
@@ -316,7 +340,19 @@ This demonstrates a key theoretical property of MAP estimation: as the sample si
 ### Example 8: When Prior and Data Conflict
 
 #### Problem Statement
-Let's explore a scenario where the prior belief and the observed data are in significant conflict. A school district has a prior belief that the average standardized test score is 75 (out of 100) with a variance of 9. A new cohort of 5 students takes the test and scores [50, 55, 45, 52, 48]. The test has a known variance of 16. Calculate the MAP estimate and compare with different prior strengths.
+An education researcher faces a situation where new test data significantly conflicts with historical averages. The researcher needs to determine how different strengths of prior belief affect the MAP estimate when confronted with surprising evidence.
+
+Given:
+- Prior belief about average standardized test score: $\mu_0 = 75$ (out of 100)
+- Prior variance: $\sigma_0^2 = 9$
+- Observed test scores from a new cohort of 5 students: $[50, 55, 45, 52, 48]$
+- Known test variance: $\sigma^2 = 16$
+
+Calculate the MAP estimate for the true average test score using the given parameters. Then recalculate the MAP estimate under the following scenarios:
+1. Weak prior (less confidence in historical data): $\sigma_0^2 = 36$
+2. Strong prior (high confidence in historical data): $\sigma_0^2 = 4$
+
+How does the strength of the prior belief affect the MAP estimate when the observed data strongly contradicts the prior? Which estimate would you recommend the researcher use, and why?
 
 #### Solution
 
@@ -362,12 +398,23 @@ This example demonstrates how MAP handles the conflict between prior beliefs and
 ### Example 9: MAP Estimation in Medical Diagnosis
 
 #### Problem Statement
-A diagnostic test is being developed for a medical condition. Based on preliminary studies, researchers believe the test has a true positive rate of 85% with a variance of 0.0036. In a clinical trial, the test correctly identifies the condition in 22 out of 30 patients known to have the disease. Calculate the MAP estimate of the true positive rate.
+A biotech company is developing a diagnostic test for a rare disease. They need to estimate the true sensitivity (true positive rate) of their test for regulatory approval.
+
+Given:
+- Prior belief about test sensitivity: $\mu_0 = 0.85$ (85%)
+- Prior variance: $\sigma_0^2 = 0.0036$
+- Clinical trial results: The test correctly identified 22 out of 30 patients known to have the disease
+- Observed sample mean: $\frac{22}{30} = 0.733$ (73.3%)
+
+Calculate the MAP estimate of the test's true sensitivity using:
+1. The normal approximation approach
+2. The more accurate Beta-Binomial approach (where the Beta prior parameters can be derived from the given mean and variance)
+
+Which approach is more appropriate for this problem and why? Would you recommend this test for clinical use if the regulatory requirement is at least 80% sensitivity?
 
 #### Solution
 
-##### Step 1: Frame the problem in terms of probability
-We're estimating a probability (true positive rate), which we'll denote as θ. This is technically a Bernoulli parameter:
+##### Step 1: Define the standard parameters
 - Prior mean: $\mu_0 = 0.85$ (prior belief of true positive rate)
 - Prior variance: $\sigma_0^2 = 0.0036$
 - Observed data: 22 successes out of 30 trials
