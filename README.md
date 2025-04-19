@@ -50,6 +50,8 @@ scipy>=1.15.2
 - Use the lecture materials as reference for deeper understanding
 - Store your personal notes and code in the appropriate directories that are ignored by git
 
+![Obsidian Interface](screenshot.png)
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
