@@ -346,9 +346,9 @@ Below are several visualizations to help you understand how different prior dist
 #### Task
 Using only the information provided in these figures:
 
-1. Identify the Maximum Likelihood Estimate (MLE) for θ based on the observed data. (The MLE value can be seen in Figure 1.)
-2. For each of the four priors (Uniform, Tails-Biased, Heads-Biased, and Fair Coin), determine the MAP estimate for θ. (These values can be directly read from the captions of Figures 6-9.)
-3. Explain how the choice of prior affects the MAP estimate relative to the MLE. (Compare the MAP values from Figures 6-9 with the MLE value from Figure 1.)
+1. Identify the Maximum Likelihood Estimate (MLE) for θ based on the observed data.
+2. For each of the four priors (Uniform, Tails-Biased, Heads-Biased, and Fair Coin), determine the MAP estimate for θ.
+3. Explain how the choice of prior affects the MAP estimate relative to the MLE.
 4. Based on Figure 11 (Evolution of Posterior), explain what happens to the MAP estimate as more data is collected (while maintaining the same ratio of heads to total flips). The figure shows MAP estimates for the following data points:
    - 3 heads, 2 tails (MAP = 0.364)
    - 6 heads, 4 tails (MAP = 0.416)
