@@ -402,10 +402,10 @@ Provide a detailed mathematical proof for each of the following maximum likeliho
    $$\hat{\theta}_{k,MLE} = \frac{N_k}{N}$$
 
 3. For a sample of $N$ independent observations from a Gaussian distribution with unknown mean $\mu$ and known variance $\sigma^2$, prove that the MLE for $\mu$ is:
-   $$\hat{\mu}_{MLE} = \frac{1}{N}\sum_{i=1}^{N}x_i$$
+   $$\hat{\mu}_{MLE} = \frac{1}{N}\sum_{i=1}^{N}x^{(i)}$$
 
 4. For a sample of $N$ independent observations from a Gaussian distribution with unknown mean $\mu$ and unknown variance $\sigma^2$, prove that the MLE for $\sigma^2$ is:
-   $$\hat{\sigma}^2_{MLE} = \frac{1}{N}\sum_{i=1}^{N}(x_i-\hat{\mu}_{MLE})^2$$
+   $$\hat{\sigma}^2_{MLE} = \frac{1}{N}\sum_{i=1}^{N}(x^{(i)}-\hat{\mu}_{MLE})^2$$
 
 For each proof, you should:
 - Write down the likelihood function
