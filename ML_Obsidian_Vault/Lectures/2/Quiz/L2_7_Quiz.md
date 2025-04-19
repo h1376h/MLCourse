@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 22 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 23 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -354,4 +354,26 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=2$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
-For a detailed explanation of this problem, including the relationships between different estimators, see [Question 22: Simple Distributions and Bayesian Estimation](L2_7_22_explanation.md). 
+For a detailed explanation of this problem, including the relationships between different estimators, see [Question 22: Simple Distributions and Bayesian Estimation](L2_7_22_explanation.md).
+
+## Question 23
+
+### Problem Statement
+The graphs below illustrate various functions derived from the (not given) joint PDF of two random variables X and Y, each of which is defined in the range [0, 4].
+
+![f_X|Y(3|Y=y)](../Images/L2_7_Quiz_23/graph1_f_X_given_Y.png)
+![f_Y(y)](../Images/L2_7_Quiz_23/graph2_f_Y.png)
+![E(Y|X=x)](../Images/L2_7_Quiz_23/graph3_E_Y_given_X.png)
+![f_Y|X(y|X=3)](../Images/L2_7_Quiz_23/graph4_f_Y_given_X.png)
+![f_X(x)](../Images/L2_7_Quiz_23/graph5_f_X.png)
+![E(X|Y=y)](../Images/L2_7_Quiz_23/graph6_E_X_given_Y.png)
+
+#### Task
+Using only the information provided in these graphs (i.e., without any extra computation), determine:
+
+1. The maximum likelihood (ML) estimate of $Y$ given that $X=3$
+2. Describe whether the maximum a posteriori (MAP) estimate of $Y$ given that $X=3$ would be higher or lower than the ML estimate, and explain why
+3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=3$
+4. Explain the relationship between these three estimates and why they might differ in this case.
+
+For a detailed explanation of this problem, including analysis of multimodal distributions and their effects on Bayesian estimators, see [Question 23: Joint PDF and Bayesian Inference with Multimodal Distributions](L2_7_23_explanation.md). 
