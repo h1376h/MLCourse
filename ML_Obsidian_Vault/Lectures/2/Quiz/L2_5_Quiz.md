@@ -1,7 +1,7 @@
 # Lecture 2.5: Bayesian Approach to ML Quiz
 
 ## Overview
-This quiz contains 13 questions from different topics covered in section 2.5 of the lectures on Bayesian Framework.
+This quiz contains 14 questions from different topics covered in section 2.5 of the lectures on Bayesian Framework.
 
 ## Question 1
 
@@ -168,4 +168,25 @@ A music streaming service is analyzing user preferences across different genres.
 2. If the service has limited computational resources, how could empirical Bayes be used as an alternative to full Bayesian inference?
 3. Describe one key difference between Bayesian credible intervals and frequentist confidence intervals in interpreting user preference data.
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 13: Hierarchical Models and Empirical Bayes](L2_5_13_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 13: Hierarchical Models and Empirical Bayes](L2_5_13_explanation.md).
+
+## Question 14
+
+### Problem Statement
+The graphs below illustrate various aspects of Bayesian inference for estimating the probability parameter $\theta$ of a biased coin, where we've observed 6 heads out of 10 coin flips.
+
+![Prior Distributions](../Images/L2_5_Quiz_14/prior_distributions.png)
+![Likelihood Functions](../Images/L2_5_Quiz_14/likelihood_functions.png)
+![Posterior Distributions](../Images/L2_5_Quiz_14/posterior_distributions.png)
+![Credible Intervals](../Images/L2_5_Quiz_14/credible_intervals.png)
+![Bayesian Updating](../Images/L2_5_Quiz_14/bayesian_updating.png)
+
+#### Task
+Using only the information provided in these visualizations:
+
+1. Which prior distribution ($\text{Beta}(2,5)$, $\text{Beta}(5,2)$, or $\text{Beta}(3,3)$) has the strongest influence on the posterior distribution? Explain your reasoning.
+2. For the posterior based on the $\text{Beta}(3,3)$ prior, determine the 90% credible interval for $\theta$.
+3. Based on the Bayesian updating graph, which has a greater impact on the final posterior: the initial prior or the observed data? Explain why.
+4. Determine the expected value of $\theta$ for the posterior distribution that uses the $\text{Beta}(5,2)$ prior.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: Visual Bayesian Inference and Prior Selection](L2_5_14_explanation.md). 
