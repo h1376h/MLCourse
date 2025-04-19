@@ -1,7 +1,7 @@
 # Lecture 2.2: Information Theory and Entropy Quiz
 
 ## Overview
-This quiz contains 8 questions from different topics covered in section 2.2 of the lectures on Information Theory and Entropy.
+This quiz contains 9 questions from different topics covered in section 2.2 of the lectures on Information Theory and Entropy.
 
 ## Question 1
 
@@ -124,4 +124,23 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. Rank the mutual information values of joint distributions W, X, Y, and Z from lowest to highest.
 4. Explain the relationship between the visual characteristics of these distributions and their information-theoretic measures.
 
-For a detailed explanation of this question, see [Question 8: Visual Information Theory](L2_2_8_explanation.md). 
+For a detailed explanation of this question, see [Question 8: Visual Information Theory](L2_2_8_explanation.md).
+
+## Question 9
+
+### Problem Statement
+The visualizations below illustrate various concepts from information theory applied to binary communication channels and probability distributions. Each visualization represents different aspects of entropy, mutual information, cross-entropy, and KL divergence.
+
+![Channel Entropy and Mutual Information](../Images/L2_2_Quiz_9/channel_entropy_demo.png)
+![Cross-Entropy and KL Divergence](../Images/L2_2_Quiz_9/cross_entropy_kl_demo.png)
+
+#### Task
+Using only the information provided in these visualizations, answer the following questions:
+
+1. Identify the channel (A, B, C, or D) with the highest information transmission capacity and explain why.
+2. Rank the four channels in terms of their mutual information values from highest to lowest.
+3. For distribution R, explain why it has the lowest entropy among all distributions P, Q, R, and S.
+4. Explain why the KL divergence D_KL(P||Q) is not equal to D_KL(Q||P) based on the visualization.
+5. Identify which channel can be described as a "completely random" channel, and explain your reasoning.
+
+For a detailed explanation of this question, see [Question 9: Information Theory in Communication Channels](L2_2_9_explanation.md). 
