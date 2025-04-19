@@ -730,10 +730,7 @@ python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_answer5.py
 
 ## Related Topics
 
-- [[L2_4_MLE_Introduction|MLE Introduction]]: Fundamental principles
-- [[L2_4_MLE_Theory|MLE Theory]]: Mathematical foundations
-- [[L2_4_MLE_Common_Distributions|MLE for Common Distributions]]: Analytical derivations
-- [[L2_4_MLE_Applications|MLE Applications]]: Practical applications
+- [[L2_4_MLE|Maximum Likelihood Estimation]]: Core principles and derivation of MLE
 - [[L2_3_Likelihood|Likelihood Function]]: Core concept definitions
 - [[L2_1_Discrete_Distributions|Discrete Distributions]]: Properties of count distributions
 - [[L2_1_Continuous_Distributions|Continuous Distributions]]: Properties of continuous distributions
