@@ -153,12 +153,14 @@ When we have equal confidence in our prior and the data ($\frac{\sigma_0^2}{\sig
 
 $$\hat{\mu}_{MAP} = \frac{\mu_0 + \sum_{i=1}^N x^{(i)}}{1 + N}$$
 
-## Quiz Example: Thermometer Calibration
+## MAP Estimation Quiz
 
-### Problem Statement
+### Quiz Example 1: Thermometer Calibration
+
+#### Problem Statement
 You are calibrating a new thermometer. Based on the manufacturer's specifications, you believe the thermometer has a bias of around +1.5°C with a variance of 0.64 (σ₀² = 0.64). You test the thermometer against a reference thermometer and get the following differences: +1.2°C, +1.8°C, +1.3°C, and +1.7°C. Assuming measurement noise with variance 0.25 (σ² = 0.25), calculate the MAP estimate of the true bias.
 
-### Solution
+#### Solution
 
 ##### Step 1: Define the prior and data parameters
 - Prior mean: $\mu_0 = 1.5$ °C (manufacturer's specification)
@@ -174,6 +176,81 @@ $$r = \frac{\sigma_0^2}{\sigma^2} = \frac{0.64}{0.25} = 2.56$$
 $$\hat{\mu}_{MAP} = \frac{\mu_0 + r \times N \times \bar{x}}{1 + r \times N} = \frac{1.5 + 2.56 \times 4 \times 1.5}{1 + 2.56 \times 4} = \frac{16.86}{11.24} = 1.5 \text{ °C}$$
 
 The MAP estimate of 1.5°C exactly matches both the prior mean and the sample mean. This coincidence occurred because the sample mean exactly matched the prior mean, confirming our prior belief.
+
+### TRUE/FALSE Questions
+
+**Question 1**: As the number of observations increases to infinity, the MAP estimate will always converge to the Maximum Likelihood Estimate (MLE) regardless of the prior distribution.
+
+**Answer**: TRUE
+
+**Explanation**: As N approaches infinity, the influence of the prior diminishes, and the data dominates the estimation. This can be seen directly from the MAP formula where the term with the sum of observations grows proportionally with N, eventually overwhelming the prior term.
+
+**Question 2**: The MAP estimate is always between the prior mean and the sample mean.
+
+**Answer**: FALSE
+
+**Explanation**: While the MAP estimate is often between the prior mean and sample mean, it can actually be outside this range in certain cases, especially when using non-conjugate or asymmetric priors.
+
+**Question 3**: MAP estimation is equivalent to adding a regularization term to Maximum Likelihood Estimation.
+
+**Answer**: TRUE
+
+**Explanation**: The negative log of the prior probability can be viewed as a regularization term added to the negative log-likelihood. For example, a Gaussian prior on parameters corresponds to L2 regularization.
+
+**Question 4**: In MAP estimation, a higher prior variance always results in an estimate closer to the MLE.
+
+**Answer**: TRUE
+
+**Explanation**: As the prior variance increases, we express less confidence in our prior knowledge, giving more weight to the observed data. In the limit as prior variance approaches infinity, MAP becomes identical to MLE.
+
+### Multiple Choice Questions
+
+**Question 1**: When the variance ratio r = σ₀²/σ² is very small (approaching zero), what happens to the MAP estimate?
+
+A) It approaches the sample mean (MLE)  
+B) It approaches the prior mean  
+C) It becomes the arithmetic average of the prior mean and sample mean  
+D) It approaches zero
+
+**Answer**: B) It approaches the prior mean
+
+**Explanation**: When r = σ₀²/σ² approaches zero, it means we have very high confidence in our prior (very small prior variance) compared to the data variance. In this case, the MAP formula simplifies to approximately μ₀, showing that we trust our prior belief more than the observed data.
+
+**Question 2**: What is the relationship between MAP estimation and Bayesian inference?
+
+A) They are completely different approaches with no relationship  
+B) MAP is a special case of Bayesian inference that returns only a point estimate  
+C) Bayesian inference is a special case of MAP estimation  
+D) MAP always produces the mean of the posterior distribution
+
+**Answer**: B) MAP is a special case of Bayesian inference that returns only a point estimate
+
+**Explanation**: While full Bayesian inference considers the entire posterior distribution, MAP estimation finds only the mode (peak) of the posterior distribution, resulting in a single point estimate rather than capturing the full uncertainty.
+
+**Question 3**: Which of the following is NOT a characteristic of MAP estimation?
+
+A) It combines prior knowledge with observed data  
+B) It always produces the mean of the posterior distribution  
+C) It can be viewed as regularized MLE  
+D) It converges to MLE as the number of observations grows large
+
+**Answer**: B) It always produces the mean of the posterior distribution
+
+**Explanation**: MAP produces the mode (maximum) of the posterior distribution, not necessarily the mean. For symmetric distributions like the normal, the mode equals the mean, but for skewed distributions, they differ.
+
+**Question 4**: If our prior mean is 10 with variance 4, our data variance is 1, and we observe the values [12, 14, 13] (with a sample mean of 13), the MAP estimate is approximately:
+
+A) 10 (equal to the prior mean)  
+B) 13 (equal to the sample mean)  
+C) 11.5 (halfway between prior and sample means)  
+D) 12.5 (weighted average favoring the sample mean)
+
+**Answer**: D) 12.5 (weighted average favoring the sample mean)
+
+**Explanation**: Using the MAP formula with μ₀ = 10, σ₀² = 4, σ² = 1, N = 3, and sample mean = 13, we get:
+r = 4/1 = 4
+MAP = (10 + 4×3×13)/(1 + 4×3) = (10 + 156)/(1 + 12) = 166/13 ≈ 12.5
+The estimate is closer to the sample mean because the variance ratio favors the observed data.
 
 ## Key Insights
 
