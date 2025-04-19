@@ -211,6 +211,97 @@ In statistical terms, these visualizations show that for the normal distribution
 
 ---
 
+### Example 4: Bernoulli MLE and Sample Size Effects
+
+#### Problem Statement
+
+Consider a scenario where we're estimating the probability parameter $p$ of a Bernoulli distribution using MLE. We want to visualize how the likelihood function changes with different observed data and sample sizes.
+
+In our example, we're analyzing a biased coin where each flip results in either heads (1) or tails (0). The probability of heads is the unknown parameter $p$ we want to estimate.
+
+We have several datasets with different sample sizes and proportions of heads:
+
+![Bernoulli Data Visualization](../Images/MLE_Visual_Question/ex4_bernoulli_data.png)
+
+Let's explore the likelihood and log-likelihood functions for different observed datasets:
+
+![Bernoulli Likelihood Functions](../Images/MLE_Visual_Question/ex4_bernoulli_likelihood.png)
+
+#### Solution
+
+For a Bernoulli distribution, the MLE for the probability parameter $p$ is simply the sample proportion of successes:
+
+$$\hat{p}_{MLE} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
+
+The visualization demonstrates several important properties of MLE:
+
+![Bernoulli MLE Properties](../Images/MLE_Visual_Answer/ex4_bernoulli_mle_properties.png)
+
+1. **Effect of sample size**: As sample size increases (from n=10 to n=100), the likelihood function becomes more peaked, indicating higher certainty in our estimate.
+
+2. **MLE as sample proportion**: The peak of each likelihood function occurs exactly at the proportion of successes in the data.
+
+3. **Log-likelihood vs likelihood**: The log-likelihood is smoother and computationally more stable, but has the same maximum point as the likelihood function.
+
+We can also visualize the sampling distribution of the MLE for different true values of $p$:
+
+![Bernoulli MLE Sampling Distribution](../Images/MLE_Visual_Answer/ex4_bernoulli_sampling.png)
+
+This shows that the MLE is:
+- **Unbiased**: The mean of the sampling distribution is centered at the true parameter value
+- **Asymptotically efficient**: As sample size increases, the variance of the estimator decreases
+- **Consistent**: The estimator converges to the true value as sample size approaches infinity
+
+This simple example provides clear visual intuition for key MLE properties using one of the most fundamental probability distributions.
+
+---
+
+### Example 5: Exponential Family and Sufficient Statistics
+
+#### Problem Statement
+
+This example visually demonstrates how sufficient statistics capture all necessary information for parameter estimation in exponential family distributions.
+
+Consider we are modeling waiting times in a service queue using an exponential distribution with parameter $\lambda$:
+
+$$p(x|\lambda) = \lambda e^{-\lambda x}, \quad x \geq 0$$
+
+We've collected 50 observations of waiting times. The question is: what information from this data do we actually need to estimate $\lambda$ via MLE?
+
+![Exponential Data Histogram](../Images/MLE_Visual_Question/ex5_exponential_histogram.png)
+
+Let's visualize how the log-likelihood function depends on different aspects of the data:
+
+![Likelihood Dependency Visualization](../Images/MLE_Visual_Question/ex5_likelihood_dependency.png)
+
+#### Solution
+
+The exponential distribution belongs to the exponential family, which has the important property that its sufficient statistic is simply the sum of the observations (or equivalently, the sample mean).
+
+This visualization confirms that the MLE depends only on the sample mean, not on individual data points:
+
+![Sufficient Statistics Demonstration](../Images/MLE_Visual_Answer/ex5_sufficient_statistics.png)
+
+We can see that datasets with the same sample mean produce identical likelihood functions, despite having different individual values. The MLE for the exponential distribution is:
+
+$$\hat{\lambda}_{MLE} = \frac{1}{\bar{x}}$$
+
+where $\bar{x}$ is the sample mean.
+
+This example illustrates important MLE concepts:
+
+1. **Sufficient statistics**: Quantities that capture all relevant information for parameter estimation.
+
+2. **Data reduction**: We can compress our dataset to just the sufficient statistic without losing information for MLE.
+
+3. **Exponential family properties**: Members of this family have natural sufficient statistics and closed-form MLE solutions.
+
+For our example data, the sample mean is 2.1, giving an MLE estimate of $\hat{\lambda} = 0.476$.
+
+The visualization shows that different datasets (colored differently) with the same sufficient statistic value produce identical likelihood functions, demonstrating why sufficient statistics are so powerful in statistical inference.
+
+---
+
 ## Key Insights
 
 ### Likelihood Surface Interpretation
