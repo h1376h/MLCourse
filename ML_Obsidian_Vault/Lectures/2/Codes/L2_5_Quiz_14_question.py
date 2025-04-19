@@ -92,6 +92,7 @@ def plot_posterior():
     # Prior parameters
     prior_params = [(2, 5), (5, 2), (3, 3)]
     colors = ['r', 'g', 'b']
+    labels = ['Prior 1: Beta(2, 5)', 'Prior 2: Beta(5, 2)', 'Prior 3: Beta(3, 3)']
     
     # Observation data (6 heads out of 10)
     h, n = 6, 10
@@ -108,11 +109,24 @@ def plot_posterior():
         
         # Plot
         plt.plot(x, posterior.pdf(x), f'{colors[i]}-', 
-                 label=f'Posterior with Beta({a}, {b}) prior')
+                 label=f'Posterior with {labels[i]}')
         
         # Mark the posterior mean
         mean = a_post / (a_post + b_post)
-        plt.axvline(x=mean, color=colors[i], linestyle='--', alpha=0.5)
+        
+        # Use a thicker line for the Beta(5,2) prior mean
+        if i == 1:  # Beta(5,2) prior
+            plt.axvline(x=mean, color=colors[i], linestyle='--', linewidth=2.0, alpha=0.8)
+            
+            # Add annotation with the exact value
+            plt.annotate(f'Expected value: 0.6471',
+                         xy=(mean, posterior.pdf(mean) * 0.7),
+                         xytext=(mean + 0.05, posterior.pdf(mean) * 0.8),
+                         arrowprops=dict(facecolor=colors[i], shrink=0.05, width=1.5),
+                         bbox=dict(boxstyle="round,pad=0.5", fc="white", alpha=0.8),
+                         ha='left', fontsize=10)
+        else:
+            plt.axvline(x=mean, color=colors[i], linestyle='--', alpha=0.5)
         
     plt.xlabel(r'$\theta$')
     plt.ylabel(r'Posterior Density')
@@ -125,7 +139,7 @@ def plot_posterior():
 
 # Plot the credible intervals
 def plot_credible_intervals():
-    """Plot 90% credible intervals for different posteriors"""
+    """Plot 90% credible intervals for different posteriors with individual detailed views"""
     x = np.linspace(0, 1, 1000)
     
     # Prior parameters
@@ -136,7 +150,12 @@ def plot_credible_intervals():
     # Observation data (6 heads out of 10)
     h, n = 6, 10
     
-    plt.figure(figsize=(10, 6))
+    # Create a figure with 2x2 subplots
+    fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    
+    # Calculate all posterior distributions and credible intervals first
+    posteriors = []
+    intervals = []
     
     for i, (a, b) in enumerate(prior_params):
         # Calculate posterior parameters
@@ -145,28 +164,78 @@ def plot_credible_intervals():
         
         # Create posterior distribution
         posterior = beta(a_post, b_post)
+        posteriors.append(posterior)
         
         # Calculate 90% credible interval
         lower = posterior.ppf(0.05)
         upper = posterior.ppf(0.95)
-        
+        intervals.append((lower, upper))
+    
+    # Plot 1: All posteriors together (top-left)
+    for i, posterior in enumerate(posteriors):
         # Plot PDF
-        plt.plot(x, posterior.pdf(x), f'{colors[i]}-', label=f'Posterior with {labels[i]}')
+        axs[0, 0].plot(x, posterior.pdf(x), f'{colors[i]}-', label=f'Posterior with {labels[i]}')
         
         # Shade the credible interval
+        lower, upper = intervals[i]
         idx = (x >= lower) & (x <= upper)
-        plt.fill_between(x[idx], 0, posterior.pdf(x)[idx], color=colors[i], alpha=0.3)
+        axs[0, 0].fill_between(x[idx], 0, posterior.pdf(x)[idx], color=colors[i], alpha=0.3)
         
-        # Add vertical lines for interval bounds
-        plt.axvline(x=lower, color=colors[i], linestyle='--', alpha=0.7)
-        plt.axvline(x=upper, color=colors[i], linestyle='--', alpha=0.7)
-        
-    plt.xlabel(r'$\theta$')
-    plt.ylabel(r'Posterior Density')
-    plt.title(r'90\% Credible Intervals for Different Posteriors')
-    plt.grid(alpha=0.3)
-    plt.legend()
+        # Add vertical lines for interval bounds - make them thicker and more visible
+        axs[0, 0].axvline(x=lower, color=colors[i], linestyle='--', linewidth=2.0, alpha=0.9)
+        axs[0, 0].axvline(x=upper, color=colors[i], linestyle='--', linewidth=2.0, alpha=0.9)
+    axs[0, 0].set_xlabel(r'$\theta$')
+    axs[0, 0].set_ylabel('Posterior Density')
+    axs[0, 0].set_title(r'90\% Credible Intervals for Different Posteriors')
+    axs[0, 0].grid(alpha=0.3)
+    axs[0, 0].legend()
     
+    # Plots 2-4: Individual posteriors with credible intervals
+    for i, posterior in enumerate(posteriors):
+        row, col = (i+1) // 2, (i+1) % 2
+        
+        # Plot PDF
+        axs[row, col].plot(x, posterior.pdf(x), f'{colors[i]}-', label=f'Posterior with {labels[i]}')
+        
+        # Shade the credible interval
+        lower, upper = intervals[i]
+        idx = (x >= lower) & (x <= upper)
+        axs[row, col].fill_between(x[idx], 0, posterior.pdf(x)[idx], color=colors[i], alpha=0.3)
+        
+        # Add vertical lines for interval bounds - make them thicker and more visible
+        axs[row, col].axvline(x=lower, color=colors[i], linestyle='--', linewidth=2.5, alpha=0.9)
+        axs[row, col].axvline(x=upper, color=colors[i], linestyle='--', linewidth=2.5, alpha=0.9)
+        
+        # Add text annotations directly near each bound line
+        ypos = posterior.pdf(lower) * 0.5
+        axs[row, col].annotate(f'{lower:.4f}', 
+                            xy=(lower, ypos),
+                            xytext=(lower-0.08, ypos),
+                            arrowprops=dict(facecolor=colors[i], width=1.5, headwidth=8),
+                            bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.9),
+                            ha='center', fontsize=9)
+        
+        ypos = posterior.pdf(upper) * 0.5
+        axs[row, col].annotate(f'{upper:.4f}', 
+                            xy=(upper, ypos),
+                            xytext=(upper+0.08, ypos),
+                            arrowprops=dict(facecolor=colors[i], width=1.5, headwidth=8),
+                            bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.9),
+                            ha='center', fontsize=9)
+        
+        # Add central annotation with exact interval values - improve positioning and visibility
+        axs[row, col].annotate(f'90% Credible Interval:\n[{lower:.4f}, {upper:.4f}]',
+                            xy=(0.5, 0.8), xycoords='axes fraction',
+                            bbox=dict(boxstyle="round,pad=0.5", fc="white", ec=colors[i], alpha=0.9, linewidth=2),
+                            ha='center', fontsize=10)
+        
+        axs[row, col].set_xlabel(r'$\theta$')
+        axs[row, col].set_ylabel('Posterior Density')
+        axs[row, col].set_title(f'Posterior with {labels[i]}')
+        axs[row, col].grid(alpha=0.3)
+        axs[row, col].legend()
+    
+    plt.tight_layout()
     plt.savefig(os.path.join(save_dir, "credible_intervals.png"), dpi=300, bbox_inches='tight')
     plt.close()
 
