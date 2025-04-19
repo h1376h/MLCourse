@@ -219,4 +219,8 @@ The standard error of our estimate is $0.2191$, and the approximate 95% confiden
 
 The MLE provides an intuitive and statistically principled method for parameter estimation, and in the case of the Bernoulli distribution, the MLE has a simple form: the proportion of successes in the sample. While our small sample size means there's considerable uncertainty in this estimate, the MLE represents the most plausible value based on the observed data.
 
-For the second task, when restricted to choosing from the set $\{0.2, 0.5, 0.7\}$, the MLE principle selects $\theta = 0.5$ as this value maximizes the likelihood function among the given candidates. This demonstrates how the MLE approach can be applied both to find an optimal value in a continuous range and to select the best option from a discrete set of candidates. 
+For the second task, when restricted to choosing from the set $\{0.2, 0.5, 0.7\}$, the MLE principle selects $\theta = 0.5$ as this value maximizes the likelihood function among the given candidates. This demonstrates how the MLE approach can be applied both to find an optimal value in a continuous range and to select the best option from a discrete set of candidates.
+
+## Related Examples
+
+For an extension of this problem that includes Maximum A Posteriori (MAP) estimation and explores how Bayesian methods compare with frequentist methods, see [[L2_7_26_explanation]]. That example builds on the MLE concepts covered here and demonstrates how prior information can influence parameter estimation, especially with small samples. 
