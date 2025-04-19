@@ -156,30 +156,33 @@ plt.legend()
 save_plot('graph4_fitted_pdfs.png')
 plt.close()
 
-# 5. Illustrate probability vs likelihood
-# For a single data point, show how we interpret it differently
-plt.figure(figsize=(12, 10))
+# 5. Illustrate probability vs likelihood - SIMPLIFIED VERSION
+plt.figure(figsize=(12, 8))
 
 # First subplot: Fixed distribution, varying data point (probability)
 plt.subplot(2, 1, 1)
 single_x = np.linspace(0, 1, 1000)
 fixed_dist = beta.pdf(single_x, true_alpha, true_beta)
 
-plt.plot(single_x, fixed_dist, 'b-', linewidth=2, label=f'Fixed Beta({true_alpha}, {true_beta})')
+plt.plot(single_x, fixed_dist, 'b-', linewidth=2, label=f'Beta({true_alpha}, {true_beta}) distribution')
 
-# Highlight a few points to demonstrate probability
+# Highlight only three key points with cleaner annotations
 highlighted_points = [0.2, 0.5, 0.8]
 for point in highlighted_points:
     prob = beta.pdf(point, true_alpha, true_beta)
-    plt.scatter(point, prob, s=100, color='red')
-    plt.annotate(f'P(X={point:.1f}) = {prob:.3f}', 
-                xy=(point, prob), xytext=(point+0.05, prob+0.5),
-                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5))
+    plt.scatter(point, prob, s=80, color='red')
+    # Simpler annotation with fixed positions to avoid overlap
+    plt.annotate(f'P(X={point}) = {prob:.3f}', 
+                xy=(point, prob), 
+                xytext=(point, prob + 0.3),
+                ha='center',
+                arrowprops=dict(arrowstyle='->', color='black', lw=1))
 
-plt.xlabel('x (Data Value)')
-plt.ylabel('Probability Density')
-plt.title('Probability: Fixed Distribution, Varying Data')
-plt.legend()
+plt.xlabel('Data Value (x)', fontsize=12)
+plt.ylabel('Probability Density', fontsize=12)
+plt.title('Probability: Fixed Distribution Parameters, Varying Data', fontsize=14)
+plt.grid(True, alpha=0.3)
+plt.legend(loc='upper left')
 
 # Second subplot: Fixed data point, varying distribution parameter (likelihood)
 plt.subplot(2, 1, 2)
@@ -187,28 +190,32 @@ fixed_point = 0.5  # A specific data point
 varying_param = np.linspace(0.5, 5, 1000)  # Varying alpha parameter
 likelihoods = np.zeros_like(varying_param)
 
-# Calculate the likelihood of the fixed point for different alpha values (keeping beta=true_beta)
+# Calculate the likelihood of the fixed point for different alpha values (keeping beta fixed)
 for i, alpha in enumerate(varying_param):
     likelihoods[i] = beta.pdf(fixed_point, alpha, true_beta)
 
 plt.plot(varying_param, likelihoods, 'r-', linewidth=2, 
-        label=f'Likelihood for x={fixed_point} with beta={true_beta}')
+        label=f'Likelihood for fixed data x=0.5')
 
-# Highlight a few parameter values
+# Highlight only three key points with cleaner annotations
 highlighted_params = [1.0, 2.5, 4.0]
 for param in highlighted_params:
     lik = beta.pdf(fixed_point, param, true_beta)
-    plt.scatter(param, lik, s=100, color='blue')
-    plt.annotate(f'L(alpha={param:.1f}) = {lik:.3f}', 
-                xy=(param, lik), xytext=(param+0.2, lik+0.2),
-                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5))
+    plt.scatter(param, lik, s=80, color='blue')
+    # Simpler annotation with fixed positions
+    plt.annotate(f'L(alpha={param}) = {lik:.3f}', 
+                xy=(param, lik),
+                xytext=(param, lik - 0.2),
+                ha='center',
+                arrowprops=dict(arrowstyle='->', color='black', lw=1))
 
-plt.xlabel('alpha Parameter')
-plt.ylabel('Likelihood')
-plt.title('Likelihood: Fixed Data Point, Varying Distribution Parameter')
-plt.legend()
+plt.xlabel('Distribution Parameter (alpha)', fontsize=12)
+plt.ylabel('Likelihood', fontsize=12)
+plt.title('Likelihood: Fixed Data, Varying Distribution Parameter', fontsize=14)
+plt.grid(True, alpha=0.3)
+plt.legend(loc='upper right')
 
-plt.tight_layout()
+plt.tight_layout(pad=3.0)
 save_plot('graph5_probability_vs_likelihood.png')
 plt.close()
 
