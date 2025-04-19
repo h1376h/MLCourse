@@ -12,7 +12,7 @@ def create_directory(dir_path):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
 
-def bernoulli_mle_proof():
+def bernoulli_mle_proof(save_dir):
     """Generate visualizations and proof details for Bernoulli MLE."""
     # Create figure
     fig = plt.figure(figsize=(15, 10))
@@ -96,8 +96,7 @@ def bernoulli_mle_proof():
     plt.tight_layout()
     
     # Save the figure
-    save_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                             "Images", "L2_4_Quiz_26", "bernoulli_mle.png")
+    save_path = os.path.join(save_dir, "bernoulli_mle.png")
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
     
@@ -144,7 +143,7 @@ def bernoulli_mle_proof():
     
     return results
 
-def multinomial_mle_proof():
+def multinomial_mle_proof(save_dir):
     """Generate visualizations and proof details for Multinomial MLE."""
     # Create figure
     fig = plt.figure(figsize=(15, 10))
@@ -255,8 +254,7 @@ def multinomial_mle_proof():
     plt.tight_layout()
     
     # Save the figure
-    save_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                             "Images", "L2_4_Quiz_26", "multinomial_mle.png")
+    save_path = os.path.join(save_dir, "multinomial_mle.png")
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
     
@@ -316,7 +314,7 @@ def multinomial_mle_proof():
     
     return results
 
-def gaussian_mean_mle_proof():
+def gaussian_mean_mle_proof(save_dir):
     """Generate visualizations and proof details for Gaussian MLE (known variance)."""
     # Create figure
     fig = plt.figure(figsize=(15, 10))
@@ -418,8 +416,7 @@ def gaussian_mean_mle_proof():
     plt.tight_layout()
     
     # Save the figure
-    save_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                             "Images", "L2_4_Quiz_26", "gaussian_mean_mle.png")
+    save_path = os.path.join(save_dir, "gaussian_mean_mle.png")
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
     
@@ -469,7 +466,7 @@ def gaussian_mean_mle_proof():
     
     return results
 
-def gaussian_variance_mle_proof():
+def gaussian_variance_mle_proof(save_dir):
     """Generate visualizations and proof details for Gaussian MLE (unknown mean and variance)."""
     # Create figure
     fig = plt.figure(figsize=(15, 10))
@@ -597,8 +594,7 @@ def gaussian_variance_mle_proof():
     plt.tight_layout()
     
     # Save the figure
-    save_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                             "Images", "L2_4_Quiz_26", "gaussian_variance_mle.png")
+    save_path = os.path.join(save_dir, "gaussian_variance_mle.png")
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
     
@@ -659,28 +655,29 @@ def gaussian_variance_mle_proof():
 
 def main():
     """Main function to execute all MLE proof demonstrations."""
-    # Create output directory
-    image_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
-                            "Images", "L2_4_Quiz_26")
-    create_directory(image_dir)
+    # Create directory for saving images
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    images_dir = os.path.join(os.path.dirname(script_dir), "Images")
+    save_dir = os.path.join(images_dir, "L2_4_Quiz_26")
+    os.makedirs(save_dir, exist_ok=True)
     
     print("Generating MLE proofs and visualizations for Question 26...")
     
     # Run all proofs
-    bernoulli_results = bernoulli_mle_proof()
+    bernoulli_results = bernoulli_mle_proof(save_dir)
     print("\n" + "="*80)
     
-    multinomial_results = multinomial_mle_proof()
+    multinomial_results = multinomial_mle_proof(save_dir)
     print("\n" + "="*80)
     
-    gaussian_mean_results = gaussian_mean_mle_proof()
+    gaussian_mean_results = gaussian_mean_mle_proof(save_dir)
     print("\n" + "="*80)
     
-    gaussian_variance_results = gaussian_variance_mle_proof()
+    gaussian_variance_results = gaussian_variance_mle_proof(save_dir)
     print("\n" + "="*80)
     
     print("\nAll visualizations have been saved to:")
-    print(image_dir)
+    print(save_dir)
     
     # Print summary of all results
     print("\n=== Summary of MLE Proofs ===")
