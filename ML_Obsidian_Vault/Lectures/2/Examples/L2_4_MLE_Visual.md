@@ -25,7 +25,6 @@ The following examples demonstrate MLE techniques with visual aids:
 - **Example 1: Continuous Distribution Identification**: Identify the most appropriate continuous distribution for a dataset and estimate its parameters using MLE.
 - **Example 2: Discrete Distribution and Overdispersion**: Identify the best discrete distribution for count data, with focus on handling overdispersion.
 - **Example 3: Normal Distribution MLE Properties**: Examine how MLE properties like consistency and efficiency manifest visually with different sample sizes.
-- **Example 4: MLE for Linear Regression**: Explore MLE in the context of linear regression and visualize optimization methods.
 
 ---
 
@@ -183,49 +182,6 @@ In statistical terms, these visualizations show that for the normal distribution
 - Both estimators become more precise with increasing sample size
 
 ---
-
-### Example 4: MLE for Linear Regression and Optimization Methods
-
-#### Problem Statement
-
-You are analyzing a dataset that shows the relationship between study hours (x) and exam scores (y) using linear regression.
-
-The relationship is modeled as: y = β₀ + β₁x + ε, where ε ~ N(0, σ²)
-
-Examine the dataset visualization:
-
-![Linear Regression Data](../Images/MLE_Visual_Question/regression_data.png)
-
-The log-likelihood surface for parameters β₀ and β₁:
-
-![Linear Regression Log-Likelihood Surface](../Images/MLE_Visual_Question/regression_likelihood.png)
-
-And the convergence paths of different optimization methods:
-
-![Optimization Methods Convergence](../Images/MLE_Visual_Question/optimization_convergence.png)
-
-#### Solution
-
-This example demonstrates how MLE connects to ordinary least squares regression and compares optimization methods.
-
-For linear regression with normally distributed errors, MLE is equivalent to minimizing the sum of squared errors. This means the MLE estimate is identical to the ordinary least squares estimate.
-
-The log-likelihood surface shows:
-1. A clear peak corresponding to the optimal β₀ and β₁ values
-2. Elliptical contours indicating correlation between the parameter estimates
-3. Steeper descent in one direction than the other, reflecting different precision levels for each parameter
-
-![Confidence Regions](../Images/MLE_Visual_Answer/confidence_regions.png)
-
-The comparison of optimization methods shows:
-1. **Analytical Solution**: Direct computation using normal equations (fastest, single-step)
-2. **Gradient Descent**: Simple first-order iterative optimization (slowest convergence)
-3. **Newton-Raphson**: Second-order method using Hessian (rapid convergence near solution)
-4. **BFGS**: Quasi-Newton method approximating Hessian (good balance of speed and stability)
-
-![Optimization Comparison](../Images/MLE_Visual_Answer/optimization_comparison.png)
-
-Each method follows a different path to reach the same maximum likelihood estimate, demonstrating the trade-offs between computational complexity, convergence speed, and robustness.
 
 ## Key Insights
 
