@@ -1,7 +1,7 @@
 # Lecture 2.4: Maximum Likelihood Estimation Quiz
 
 ## Overview
-This quiz contains 21 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
+This quiz contains 22 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
 
 ## Question 1
 
@@ -339,4 +339,14 @@ Given the visualizations:
 3. Examine the likelihood functions in panels (b) and (d). Explain how these functions are used to determine the MLE, and discuss the uncertainty associated with each estimate.
 4. The dataset for the normal distribution has a true mean of $\mu = 25.0$ but an MLE of approximately $\hat{\mu}_{MLE} \approx 23.9$. Explain this discrepancy in terms of sampling error and the properties of maximum likelihood estimators.
 
-For a detailed explanation, see [Question 21: Visual Analysis of Maximum Likelihood Estimation](L2_4_21_explanation.md). 
+For a detailed explanation, see [Question 21: Visual Analysis of Maximum Likelihood Estimation](L2_4_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+Suppose we have samples $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ from a Bernoulli distribution with unknown parameter $\theta$, where $\theta \in (0, 1)$.
+
+#### Task
+Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
+
+For a detailed explanation, see [Question 22: MLE for Bernoulli Distribution with Small Sample](L2_4_22_explanation.md). 
