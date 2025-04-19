@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 23 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 24 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -376,4 +376,32 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=3$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
-For a detailed explanation of this problem, including analysis of multimodal distributions and their effects on Bayesian estimators, see [Question 23: Joint PDF and Bayesian Inference with Multimodal Distributions](L2_7_23_explanation.md). 
+For a detailed explanation of this problem, including analysis of multimodal distributions and their effects on Bayesian estimators, see [Question 23: Joint PDF and Bayesian Inference with Multimodal Distributions](L2_7_23_explanation.md).
+
+## Question 24
+
+### Problem Statement
+Consider a scenario where we're estimating an unknown parameter $\theta$ with the following information:
+
+1. We have collected 5 data points from a normal distribution $\mathcal{N}(\theta, 4)$ (where the variance is known to be 4)
+2. The sample mean of our data is $\bar{x} = 7$
+3. We're exploring the effect of different prior beliefs about $\theta$ on our MAP estimates
+
+The graphs below illustrate different functions involved in Bayesian estimation:
+
+![Likelihood Function](../Images/L2_7_Quiz_24/graph1_likelihood.png)
+![Weak Prior](../Images/L2_7_Quiz_24/graph2_weak_prior.png)
+![Medium Prior](../Images/L2_7_Quiz_24/graph3_medium_prior.png)
+![Strong Prior](../Images/L2_7_Quiz_24/graph4_strong_prior.png)
+![Posterior with Weak Prior](../Images/L2_7_Quiz_24/graph5_posterior_weak.png)
+![Posterior with Medium Prior](../Images/L2_7_Quiz_24/graph6_posterior_medium.png)
+![Posterior with Strong Prior](../Images/L2_7_Quiz_24/graph7_posterior_strong.png)
+![Posterior Comparison](../Images/L2_7_Quiz_24/graph8_posterior_comparison.png)
+
+#### Task
+1. Identify the maximum likelihood estimate (MLE) for $\theta$ based on the observed data.
+2. For each of the three priors (weak, medium, and strong), calculate approximately how far the MAP estimate deviates from the MLE.
+3. Explain the pattern you observe in how the MAP estimates relate to both the prior mean and the MLE as the prior becomes stronger.
+4. If you were to collect 20 more data points (for a total of 25) with the same sample mean, how would you expect the three MAP estimates to change relative to the MLE? Explain your reasoning.
+
+For a detailed explanation of this problem, including analysis of prior strength and its effect on MAP estimation, see [Question 24: Prior Strength and MAP Estimation](L2_7_24_explanation.md). 

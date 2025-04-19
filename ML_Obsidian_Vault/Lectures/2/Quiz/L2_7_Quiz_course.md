@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 16 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 17 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -168,7 +168,7 @@ Assume that the parameters: $\sigma^2$, $\sigma_A^2$, and $\mu_A$ are constant a
 1. Determine the MAP estimator for the parameter A.
 2. If $\sigma_A^2$ was extremely large, what would the estimator look like?
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Normal MAP Estimation](L2_7_18_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Normal MAP Estimation](L2_7_18_explanation.md).
 
 ## Question 12
 
@@ -180,7 +180,7 @@ Consider a scenario where we observe count data $D = \{x_1, x_2, ..., x_N\}$, su
 2. Take the derivative of $\log P(D|\lambda) + \log P(\lambda)$ with respect to the parameter $\lambda$.
 3. Set the derivative equal to zero and solve for $\lambda$ - call this maximizing value $\lambda_{MAP}$.
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: MAP Estimation with Poisson-Gamma Model](L2_7_19_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: MAP Estimation with Poisson-Gamma Model](L2_7_19_explanation.md).
 
 ## Question 13
 
@@ -202,7 +202,7 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=1$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
-For a detailed explanation of this problem, including analysis of joint PDFs, marginal distributions, and the relationship between different estimators, see [Question 13: Joint PDF and Bayesian Estimation](L2_7_20_explanation.md). 
+For a detailed explanation of this problem, including analysis of joint PDFs, marginal distributions, and the relationship between different estimators, see [Question 13: Joint PDF and Bayesian Estimation](L2_7_20_explanation.md).
 
 ## Question 14
 
@@ -224,7 +224,7 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=2$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights on how bimodal distributions affect Bayesian estimation, see [Question 14: Joint PDF and Bayesian Estimation with Bimodal Distribution](L2_7_21_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights on how bimodal distributions affect Bayesian estimation, see [Question 14: Joint PDF and Bayesian Estimation with Bimodal Distribution](L2_7_21_explanation.md).
 
 ## Question 15
 
@@ -248,7 +248,7 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=2$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
-For a detailed explanation of this problem, including the relationships between different estimators, see [Question 15: Simple Distributions and Bayesian Estimation](L2_7_22_explanation.md). 
+For a detailed explanation of this problem, including the relationships between different estimators, see [Question 15: Simple Distributions and Bayesian Estimation](L2_7_22_explanation.md).
 
 ## Question 16
 
@@ -270,4 +270,32 @@ Using only the information provided in these graphs (i.e., without any extra com
 3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=3$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
-For a detailed explanation of this problem, including analysis of multimodal distributions and their effects on Bayesian estimators, see [Question 16: Joint PDF and Bayesian Inference with Multimodal Distributions](L2_7_23_explanation.md). 
+For a detailed explanation of this problem, including analysis of multimodal distributions and their effects on Bayesian estimators, see [Question 16: Joint PDF and Bayesian Inference with Multimodal Distributions](L2_7_23_explanation.md).
+
+## Question 17
+
+### Problem Statement
+Consider a scenario where we're estimating an unknown parameter $\theta$ with the following information:
+
+1. We have collected 5 data points from a normal distribution $\mathcal{N}(\theta, 4)$ (where the variance is known to be 4)
+2. The sample mean of our data is $\bar{x} = 7$
+3. We're exploring the effect of different prior beliefs about $\theta$ on our MAP estimates
+
+The graphs below illustrate different functions involved in Bayesian estimation:
+
+![Likelihood Function](../Images/L2_7_Quiz_24/graph1_likelihood.png)
+![Weak Prior](../Images/L2_7_Quiz_24/graph2_weak_prior.png)
+![Medium Prior](../Images/L2_7_Quiz_24/graph3_medium_prior.png)
+![Strong Prior](../Images/L2_7_Quiz_24/graph4_strong_prior.png)
+![Posterior with Weak Prior](../Images/L2_7_Quiz_24/graph5_posterior_weak.png)
+![Posterior with Medium Prior](../Images/L2_7_Quiz_24/graph6_posterior_medium.png)
+![Posterior with Strong Prior](../Images/L2_7_Quiz_24/graph7_posterior_strong.png)
+![Posterior Comparison](../Images/L2_7_Quiz_24/graph8_posterior_comparison.png)
+
+#### Task
+1. Identify the maximum likelihood estimate (MLE) for $\theta$ based on the observed data.
+2. For each of the three priors (weak, medium, and strong), calculate approximately how far the MAP estimate deviates from the MLE.
+3. Explain the pattern you observe in how the MAP estimates relate to both the prior mean and the MLE as the prior becomes stronger.
+4. If you were to collect 20 more data points (for a total of 25) with the same sample mean, how would you expect the three MAP estimates to change relative to the MLE? Explain your reasoning.
+
+For a detailed explanation of this problem, including analysis of prior strength and its effect on MAP estimation, see [Question 17: Prior Strength and MAP Estimation](L2_7_24_explanation.md). 
