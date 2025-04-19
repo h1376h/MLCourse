@@ -27,6 +27,8 @@ The following examples demonstrate MLE techniques with visual aids:
 - **Example 3**: Normal Distribution MLE Properties - Examine how MLE properties like consistency and efficiency manifest visually with different sample sizes.
 - **Example 4**: Bernoulli MLE and Sample Size Effects - Visualize how the likelihood function changes with different observed data and sample sizes for a Bernoulli distribution.
 - **Example 5**: Exponential Family and Sufficient Statistics - Demonstrate how sufficient statistics capture all necessary information for parameter estimation in exponential family distributions.
+- **Example 6**: TRUE/FALSE Questions on MLE - Visual TRUE/FALSE questions to test understanding of MLE concepts.
+- **Example 7**: Multiple Choice Questions on MLE - Visual multiple choice questions to evaluate MLE knowledge.
 
 ---
 
@@ -559,37 +561,9 @@ This example demonstrates the deep connection between exponential family distrib
 
 ---
 
-## Key Insights
+## Example 6: TRUE/FALSE Questions on MLE
 
-### Likelihood Surface Interpretation
-- **Peak Location**: The coordinates of the highest point correspond to the MLE parameter estimates.
-- **Surface Shape**: Sharper peaks indicate more precise estimates; flatter peaks show higher uncertainty.
-- **Contour Patterns**: Elongated contours suggest correlation between parameters.
-
-### Model Selection via MLE
-- Higher log-likelihood values indicate better fitting models under MLE principles.
-- Visual fit assessment and log-likelihood values should be considered together.
-- Domain-specific knowledge (like overdispersion in count data) is crucial for selecting appropriate models.
-
-### Visually Understanding MLE Properties
-- **Consistency**: Estimates converge to true values with increasing sample size
-- **Efficiency**: Estimates become more precise (less variance) with larger samples
-- **Asymptotic Normality**: Estimator distribution approaches normal as sample size increases
-- **Likelihood surfaces**: Become more peaked and concentrated with more data
-
-## Related Topics
-
-- [[L2_4_MLE_Introduction|MLE Introduction]]: Fundamental principles
-- [[L2_4_MLE_Theory|MLE Theory]]: Mathematical foundations
-- [[L2_4_MLE_Common_Distributions|MLE for Common Distributions]]: Analytical derivations
-- [[L2_4_MLE_Applications|MLE Applications]]: Practical applications
-- [[L2_3_Likelihood|Likelihood Function]]: Core concept definitions
-- [[L2_1_Discrete_Distributions|Discrete Distributions]]: Properties of count distributions
-- [[L2_1_Continuous_Distributions|Continuous Distributions]]: Properties of continuous distributions
-
-## Practice Questions
-
-### TRUE/FALSE Question 1: Effect of Sample Size on Log-Likelihood Surface
+### Question 1: Effect of Sample Size on Log-Likelihood Surface
 
 **Question**: Looking at the log-likelihood surfaces below for a normal distribution with different sample sizes ($n=10$ vs $n=100$), determine if the following statement is TRUE or FALSE:
 
@@ -602,7 +576,7 @@ This example demonstrates the deep connection between exponential family distrib
 
 **Explanation**: The statement is false. As sample size increases (from $n=10$ to $n=100$), the log-likelihood surface becomes sharper and more concentrated around the true parameter values, not more spread out. This indicates greater certainty about parameter estimates with larger sample sizes, which demonstrates the consistency property of MLEs - they converge to the true parameter values as sample size increases.
 
-### TRUE/FALSE Question 2: Sufficient Statistics
+### Question 2: Sufficient Statistics
 
 **Question**: Consider the visualization below showing likelihood functions for four different datasets with the same mean but different distributions.
 
@@ -614,7 +588,7 @@ TRUE or FALSE: "For an exponential distribution with parameter $\lambda$, datase
 
 **Explanation**: The statement is false. For an exponential distribution with parameter $\lambda$, the sample mean $\bar{x}$ is a sufficient statistic. This means that any datasets with the same sample mean will produce the same likelihood function (up to a constant) and the same MLE estimate $\hat{\lambda} = \frac{1}{\bar{x}}$, regardless of other distributional properties of the data. The visualization demonstrates this principle, as all four datasets with the same mean produce nearly identical likelihood functions with the same maximum.
 
-### TRUE/FALSE Question 3: MLE and Asymptotic Normality
+### Question 3: MLE and Asymptotic Normality
 
 **Question**: Based on the visualization below showing the distribution of standardized MLE estimates for different sample sizes, determine if the following statement is TRUE or FALSE:
 
@@ -630,75 +604,7 @@ $$\sqrt{n}(\hat{\theta} - \theta) \stackrel{d}{\rightarrow} \mathcal{N}(0, I(\th
 
 Where $I(\theta)$ is the Fisher Information. The visualization shows that as sample size increases, the sampling distribution of the standardized estimator increasingly resembles a normal distribution, confirming this property.
 
-### Multiple Choice Question 1: Identifying the Correct MLE
-
-**Question**: Based on the likelihood functions shown below for a Bernoulli distribution with different observed data, which option correctly identifies the Maximum Likelihood Estimate (MLE) for each case?
-
-![Bernoulli Likelihood Functions](../Images/MLE_Visual_Question/ex4_bernoulli_likelihood.png)
-
-A) Dataset 1: $\hat{p} = 0.3$, Dataset 2: $\hat{p} = 0.5$, Dataset 3: $\hat{p} = 0.8$
-B) Dataset 1: $\hat{p} = 0.5$, Dataset 2: $\hat{p} = 0.3$, Dataset 3: $\hat{p} = 0.8$
-C) Dataset 1: $\hat{p} = 0.8$, Dataset 2: $\hat{p} = 0.5$, Dataset 3: $\hat{p} = 0.3$
-D) Dataset 1: $\hat{p} = 0.3$, Dataset 2: $\hat{p} = 0.8$, Dataset 3: $\hat{p} = 0.5$
-
-**Answer**: A) Dataset 1: $\hat{p} = 0.3$, Dataset 2: $\hat{p} = 0.5$, Dataset 3: $\hat{p} = 0.8$
-
-**Explanation**: The MLE for a Bernoulli distribution is the sample proportion of successes ($\hat{p} = \frac{\sum x_i}{n}$). For each likelihood function, the peak (maximum) occurs at the MLE. Looking at the graphs, we can see that:
-- Dataset 1's likelihood function peaks at $p = 0.3$
-- Dataset 2's likelihood function peaks at $p = 0.5$
-- Dataset 3's likelihood function peaks at $p = 0.8$
-This demonstrates how the MLE corresponds to the value that maximizes the likelihood function.
-
-### Multiple Choice Question 2: Likelihood Surface Interpretation
-
-**Question**: Consider the log-likelihood contour plot below for the gamma distribution in Example 1:
-
-![Gamma Distribution Likelihood Contours](../Images/MLE_Visual_Question/ex1_gamma_likelihood_contour.png)
-
-Which of the following correctly interprets the shape of this likelihood surface?
-
-A) The circular contours indicate that the parameters $k$ and $\theta$ are completely independent
-B) The elongated contours indicate that the parameters $k$ and $\theta$ are negatively correlated
-C) The elongated contours indicate that the parameters $k$ and $\theta$ are positively correlated
-D) The shape of the contours has no relationship to parameter correlation
-
-**Answer**: B) The elongated contours indicate that the parameters $k$ and $\theta$ are negatively correlated
-
-**Explanation**: The elongated, diagonal shape of the contours reveals that the parameters $k$ (shape) and $\theta$ (scale) are negatively correlated in the gamma distribution. This means that increases in one parameter can be partially compensated by decreases in the other while still maintaining a relatively high likelihood. The direction of the elongation (downward sloping) indicates the negative correlation - as $k$ increases, $\theta$ must decrease to maintain the same likelihood level.
-
-### Multiple Choice Question 3: MLE Properties
-
-**Question**: Based on the visualization below showing how MLE estimates change with sample size:
-
-![MLE Properties Visualization](../Images/MLE_Visual_Question/ex3_mle_properties.png)
-
-Which of the following is NOT a property of Maximum Likelihood Estimators?
-
-A) Consistency: As sample size increases, the MLE converges to the true parameter value
-B) Asymptotic normality: For large samples, the distribution of the MLE approaches a normal distribution
-C) Asymptotic unbiasedness: As sample size increases, the bias of the MLE approaches zero
-D) Maximum accuracy: MLE always has the smallest variance among all possible estimators regardless of sample size
-
-**Answer**: D) Maximum accuracy: MLE always has the smallest variance among all possible estimators regardless of sample size
-
-**Explanation**: Option D is incorrect. While MLEs are asymptotically efficient (achieving the Cramér-Rao lower bound as sample size approaches infinity), they do not necessarily have the smallest variance among all possible estimators for finite samples. MLEs can be biased in small samples, and other estimators might have smaller variance in such cases. The other three options correctly describe properties of MLEs as shown in the visualization: consistency (convergence to true value), asymptotic normality (distribution becomes normal), and asymptotic unbiasedness (bias approaches zero).
-
-### Multiple Choice Question 4: Overdispersion Detection
-
-**Question**: In the count data example (Example 2), what feature in the visualization below indicates that the data exhibits overdispersion?
-
-![Variance-Mean Relationship](../Images/MLE_Visual_Question/ex2_variance_mean_relationship.png)
-
-A) The observed variance is equal to the observed mean
-B) The observed variance is less than the observed mean
-C) The observed variance is greater than the observed mean
-D) The variance and mean have no relationship in this data
-
-**Answer**: C) The observed variance is greater than the observed mean
-
-**Explanation**: Overdispersion in count data occurs when the variance exceeds the mean. In the visualization, we can see that the observed data point falls above the diagonal line representing variance = mean. This indicates that the variance ($\approx 5.12$) is greater than the mean ($\approx 3.27$), with a variance-to-mean ratio of approximately 1.56. This overdispersion is why the Negative Binomial distribution (which can model overdispersion) provides a better fit than the Poisson distribution (which assumes equal mean and variance).
-
-### TRUE/FALSE Question 4: Log-Likelihood Maximization
+### Question 4: Log-Likelihood Maximization
 
 **Question**: Consider the log-likelihood function for the exponential distribution shown below:
 
@@ -715,7 +621,7 @@ TRUE or FALSE: "Finding the MLE by maximizing the log-likelihood function will a
 
 The graph shows the log-likelihood function for an exponential distribution with its maximum at $\hat{\lambda} = 1/\bar{x}$, which is the same result we would get from maximizing the likelihood function directly.
 
-### TRUE/FALSE Question 5: Bernoulli MLE
+### Question 5: Bernoulli MLE
 
 **Question**: Looking at the Bernoulli likelihood functions below for datasets with different proportions of successes:
 
@@ -734,3 +640,100 @@ Taking the logarithm gives:
 $$\ell(p) = \left(\sum x_i\right) \log(p) + \left(n-\sum x_i\right)\log(1-p)$$
 
 This function is only symmetric when $\sum x_i = n/2$ (i.e., when $\hat{p} = 0.5$), as seen in Dataset 2. Datasets 1 and 3 clearly show asymmetric log-likelihood functions.
+
+## Example 7: Multiple Choice Questions on MLE
+
+### Question 1: Identifying the Correct MLE
+
+**Question**: Based on the likelihood functions shown below for a Bernoulli distribution with different observed data, which option correctly identifies the Maximum Likelihood Estimate (MLE) for each case?
+
+![Bernoulli Likelihood Functions](../Images/MLE_Visual_Question/ex4_bernoulli_likelihood.png)
+
+A) Dataset 1: $\hat{p} = 0.3$, Dataset 2: $\hat{p} = 0.5$, Dataset 3: $\hat{p} = 0.8$
+B) Dataset 1: $\hat{p} = 0.5$, Dataset 2: $\hat{p} = 0.3$, Dataset 3: $\hat{p} = 0.8$
+C) Dataset 1: $\hat{p} = 0.8$, Dataset 2: $\hat{p} = 0.5$, Dataset 3: $\hat{p} = 0.3$
+D) Dataset 1: $\hat{p} = 0.3$, Dataset 2: $\hat{p} = 0.8$, Dataset 3: $\hat{p} = 0.5$
+
+**Answer**: A) Dataset 1: $\hat{p} = 0.3$, Dataset 2: $\hat{p} = 0.5$, Dataset 3: $\hat{p} = 0.8$
+
+**Explanation**: The MLE for a Bernoulli distribution is the sample proportion of successes ($\hat{p} = \frac{\sum x_i}{n}$). For each likelihood function, the peak (maximum) occurs at the MLE. Looking at the graphs, we can see that:
+- Dataset 1's likelihood function peaks at $p = 0.3$
+- Dataset 2's likelihood function peaks at $p = 0.5$
+- Dataset 3's likelihood function peaks at $p = 0.8$
+This demonstrates how the MLE corresponds to the value that maximizes the likelihood function.
+
+### Question 2: Likelihood Surface Interpretation
+
+**Question**: Consider the log-likelihood contour plot below for the gamma distribution in Example 1:
+
+![Gamma Distribution Likelihood Contours](../Images/MLE_Visual_Question/ex1_gamma_likelihood_contour.png)
+
+Which of the following correctly interprets the shape of this likelihood surface?
+
+A) The circular contours indicate that the parameters $k$ and $\theta$ are completely independent
+B) The elongated contours indicate that the parameters $k$ and $\theta$ are negatively correlated
+C) The elongated contours indicate that the parameters $k$ and $\theta$ are positively correlated
+D) The shape of the contours has no relationship to parameter correlation
+
+**Answer**: B) The elongated contours indicate that the parameters $k$ and $\theta$ are negatively correlated
+
+**Explanation**: The elongated, diagonal shape of the contours reveals that the parameters $k$ (shape) and $\theta$ (scale) are negatively correlated in the gamma distribution. This means that increases in one parameter can be partially compensated by decreases in the other while still maintaining a relatively high likelihood. The direction of the elongation (downward sloping) indicates the negative correlation - as $k$ increases, $\theta$ must decrease to maintain the same likelihood level.
+
+### Question 3: MLE Properties
+
+**Question**: Based on the visualization below showing how MLE estimates change with sample size:
+
+![MLE Properties Visualization](../Images/MLE_Visual_Question/ex3_mle_properties.png)
+
+Which of the following is NOT a property of Maximum Likelihood Estimators?
+
+A) Consistency: As sample size increases, the MLE converges to the true parameter value
+B) Asymptotic normality: For large samples, the distribution of the MLE approaches a normal distribution
+C) Asymptotic unbiasedness: As sample size increases, the bias of the MLE approaches zero
+D) Maximum accuracy: MLE always has the smallest variance among all possible estimators regardless of sample size
+
+**Answer**: D) Maximum accuracy: MLE always has the smallest variance among all possible estimators regardless of sample size
+
+**Explanation**: Option D is incorrect. While MLEs are asymptotically efficient (achieving the Cramér-Rao lower bound as sample size approaches infinity), they do not necessarily have the smallest variance among all possible estimators for finite samples. MLEs can be biased in small samples, and other estimators might have smaller variance in such cases. The other three options correctly describe properties of MLEs as shown in the visualization: consistency (convergence to true value), asymptotic normality (distribution becomes normal), and asymptotic unbiasedness (bias approaches zero).
+
+### Question 4: Overdispersion Detection
+
+**Question**: In the count data example (Example 2), what feature in the visualization below indicates that the data exhibits overdispersion?
+
+![Variance-Mean Relationship](../Images/MLE_Visual_Question/ex2_variance_mean_relationship.png)
+
+A) The observed variance is equal to the observed mean
+B) The observed variance is less than the observed mean
+C) The observed variance is greater than the observed mean
+D) The variance and mean have no relationship in this data
+
+**Answer**: C) The observed variance is greater than the observed mean
+
+**Explanation**: Overdispersion in count data occurs when the variance exceeds the mean. In the visualization, we can see that the observed data point falls above the diagonal line representing variance = mean. This indicates that the variance ($\approx 5.12$) is greater than the mean ($\approx 3.27$), with a variance-to-mean ratio of approximately 1.56. This overdispersion is why the Negative Binomial distribution (which can model overdispersion) provides a better fit than the Poisson distribution (which assumes equal mean and variance).
+
+## Running the Examples
+
+You can run the code that generates these examples and visualizations using:
+
+```bash
+python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_question1.py
+python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_answer1.py
+python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_question2.py
+python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_answer2.py
+python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_question3.py
+python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_answer3.py
+python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_question4.py
+python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_answer4.py
+python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_question5.py
+python3 ML_Obsidian_Vault/Lectures/2/Code/L2_4_MLE_Visual_answer5.py
+```
+
+## Related Topics
+
+- [[L2_4_MLE_Introduction|MLE Introduction]]: Fundamental principles
+- [[L2_4_MLE_Theory|MLE Theory]]: Mathematical foundations
+- [[L2_4_MLE_Common_Distributions|MLE for Common Distributions]]: Analytical derivations
+- [[L2_4_MLE_Applications|MLE Applications]]: Practical applications
+- [[L2_3_Likelihood|Likelihood Function]]: Core concept definitions
+- [[L2_1_Discrete_Distributions|Discrete Distributions]]: Properties of count distributions
+- [[L2_1_Continuous_Distributions|Continuous Distributions]]: Properties of continuous distributions
