@@ -379,7 +379,7 @@ For a detailed explanation, see [Question 24: MLE for Exponential Distribution](
 ## Question 25
 
 ### Problem Statement
-Let $X_1, ..., X_n$ be iid from the distribution with pdf
+Let $X_1, ..., X_n$ be iid from the distribution with the following probability density function:
 $$f(x) = \frac{3x^2}{\theta^3}, \quad 0 \leq x \leq \theta.$$
 
 #### Task
