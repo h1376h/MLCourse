@@ -51,8 +51,8 @@ print(f"\nData was originally generated from a Beta({true_alpha}, {true_beta}) d
 print(f"However, in a real scenario, we wouldn't know the true distribution and would need")
 print(f"to determine it from the data, which is the focus of this question.")
 
-# Step 3: Maximum Likelihood Estimation
-print_step_header(3, "Maximum Likelihood Estimation Explanation")
+# Step 3: Understanding Likelihood Functions
+print_step_header(3, "Understanding Likelihood Functions")
 
 # Define parameter grids
 alphas = np.linspace(1, 4, 100)  # For beta distribution
@@ -78,30 +78,31 @@ for i, rate in enumerate(rates):
     # For exponential, we use scale=1/rate in scipy
     exp_logliks[i] = np.sum(np.log(gamma.pdf(data_points, a=1, scale=1/rate) + 1e-10))
 
-# Find the maximum likelihood parameters
+# Find the parameter values that maximize the likelihood
 beta_max_idx = np.unravel_index(np.argmax(beta_logliks), beta_logliks.shape)
-beta_mle_alpha = alphas[beta_max_idx[0]]
-beta_mle_beta = alphas[beta_max_idx[1]]
+beta_optimal_alpha = alphas[beta_max_idx[0]]
+beta_optimal_beta = alphas[beta_max_idx[1]]
 
-normal_mle_mean = means[np.argmax(normal_logliks)]
-exp_mle_rate = rates[np.argmax(exp_logliks)]
+normal_optimal_mean = means[np.argmax(normal_logliks)]
+exp_optimal_rate = rates[np.argmax(exp_logliks)]
 
-print("Maximum Likelihood Estimation (MLE) is a method for estimating the parameters of a")
-print("statistical model. The MLE chooses the parameter values that maximize the likelihood")
-print("function, or equivalently, the log-likelihood function (which is often more convenient).")
-print("\nFor a dataset {x_1, x_2, ..., x_n}, the likelihood function is:")
+print("The likelihood function measures how well a statistical model explains observed data.")
+print("For a dataset {x_1, x_2, ..., x_n}, the likelihood function is:")
 print("    L(θ) = f(x_1, x_2, ..., x_n | θ)")
 print("where f is the probability density function and θ represents the parameters.")
 print("\nAssuming independence, this becomes:")
 print("    L(θ) = ∏_{i=1}^n f(x_i | θ)")
-print("\nThe log-likelihood is:")
+print("\nThe log-likelihood is often used for computational convenience:")
 print("    ℓ(θ) = log L(θ) = ∑_{i=1}^n log f(x_i | θ)")
-print("\nThe maximum likelihood estimate θ_MLE maximizes ℓ(θ).")
-
-print("\nCalculated MLE values:")
-print(f"- Beta distribution: alpha = {beta_mle_alpha:.4f}, beta = {beta_mle_beta:.4f}")
-print(f"- Normal distribution: mean = {normal_mle_mean:.4f}, std = 0.2 (fixed)")
-print(f"- Exponential distribution: rate = {exp_mle_rate:.4f}")
+print("\nKey properties of likelihood functions:")
+print("1. Unlike probability, likelihood is not normalized to sum/integrate to 1")
+print("2. Likelihood measures the compatibility of the data with various parameter values")
+print("3. Parameter values that yield higher likelihood produce distributions that better match the data")
+print("4. The shape of the likelihood function indicates sensitivity to parameter changes")
+print("\nIn our analysis, the parameters that yield maximum likelihood are:")
+print(f"- Beta distribution: alpha = {beta_optimal_alpha:.4f}, beta = {beta_optimal_beta:.4f}")
+print(f"- Normal distribution: mean = {normal_optimal_mean:.4f}, std = 0.2 (fixed)")
+print(f"- Exponential distribution: rate = {exp_optimal_rate:.4f}")
 
 # Step 4: Model Comparison
 print_step_header(4, "Likelihood Ratio Test and Model Selection")
@@ -157,9 +158,9 @@ print_step_header(6, "Visual Assessment of Model Fit")
 
 # Calculate PDFs for the fitted distributions
 x = np.linspace(0, 1, 1000)
-beta_pdf = beta.pdf(x, beta_mle_alpha, beta_mle_beta)
-normal_pdf = norm.pdf(x, normal_mle_mean, 0.2)
-exp_pdf = gamma.pdf(x, a=1, scale=1/exp_mle_rate)  # Exponential as gamma with a=1
+beta_pdf = beta.pdf(x, beta_optimal_alpha, beta_optimal_beta)
+normal_pdf = norm.pdf(x, normal_optimal_mean, 0.2)
+exp_pdf = gamma.pdf(x, a=1, scale=1/exp_optimal_rate)  # Exponential as gamma with a=1
 
 print("Visual assessment of model fit is an important complement to formal statistical methods.")
 print("When examining histogram overlaid with fitted densities, we should consider:")

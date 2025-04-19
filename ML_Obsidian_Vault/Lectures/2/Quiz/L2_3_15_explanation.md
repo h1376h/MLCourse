@@ -13,7 +13,7 @@ A researcher has collected 50 data points on a continuous random variable X, whi
 ## Task
 Using only the information provided in these graphs, answer the following questions:
 
-1. Based on Figure 3, what are the maximum likelihood estimates for the parameters of each distribution model?
+1. Based on Figure 3, explain how the likelihood function responds to changes in parameter values for each distribution model. Why does the likelihood function peak at certain parameter values?
 2. According to Figure 6, which distribution family best fits the observed data? Explain your reasoning.
 3. Looking at Figure 4, visually assess how well each fitted distribution matches the observed data histogram.
 4. Using Figure 5, explain the key difference between probability and likelihood in your own words.
@@ -21,15 +21,17 @@ Using only the information provided in these graphs, answer the following questi
 
 ## Solution
 
-### Question 1: Maximum Likelihood Estimates
+### Question 1: Likelihood Function Behavior
 
-From Figure 3 (Log-Likelihood Comparisons), we can read the MLE values for each distribution:
+From Figure 3 (Log-Likelihood Comparisons), we can observe how the likelihood function changes as parameter values vary for each distribution:
 
-- **Normal Distribution**: mean = 0.59
-- **Exponential Distribution**: rate = 1.69
-- **Beta Distribution**: alpha = 3.06, beta = 2.03
+- **Normal Distribution**: The likelihood function forms a smooth curve that peaks when the mean parameter is around 0.59. This peak indicates that this parameter value makes the observed data most probable under a Normal distribution model with fixed standard deviation of 0.2. As we move away from this optimal value, the likelihood decreases, showing that these alternative parameter values make the observed data less likely.
 
-These are the parameter values that maximize the log-likelihood function for each distribution family. The vertical red dashed lines in each plot indicate these MLE values.
+- **Exponential Distribution**: The likelihood function for the rate parameter shows a clear peak around 1.69. The steeper drop-off to the left indicates that very small rate values (which would create a more spread-out distribution) are particularly unlikely to have generated the observed data. The more gradual decrease to the right suggests that larger rate values (creating more concentrated distributions) are somewhat more plausible but still less likely than the optimal value.
+
+- **Beta Distribution**: When we fix the beta parameter at approximately 2.03, the likelihood function for the alpha parameter peaks near 3.06. The shape of this curve demonstrates how sensitive the model fit is to changes in the alpha parameter, with the likelihood falling off more rapidly for smaller alpha values than for larger ones.
+
+The likelihood function peaks at certain parameter values because these are the values that make the observed data most probable under each distribution model. For continuous distributions, the likelihood function is calculated by evaluating the probability density function at each observed data point and taking the product (or sum of logarithms for computational stability). The parameter values that maximize this product are those that best align the distribution's shape with the pattern of observed data.
 
 ### Question 2: Best-Fitting Distribution
 

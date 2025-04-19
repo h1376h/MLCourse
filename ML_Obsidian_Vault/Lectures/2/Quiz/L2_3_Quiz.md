@@ -1,7 +1,7 @@
 # Lecture 2.3: Statistical Estimation Basics Quiz
 
 ## Overview
-This quiz contains 14 questions from different topics covered in section 2.3 of the lectures on Likelihood and Estimation.
+This quiz contains 15 questions from different topics covered in section 2.3 of the lectures on Likelihood and Estimation.
 
 ## Question 1
 
@@ -199,7 +199,7 @@ A researcher has collected 50 data points on a continuous random variable X, whi
 #### Task
 Using only the information provided in these graphs, answer the following questions:
 
-1. Based on Figure 3, what are the maximum likelihood estimates for the parameters of each distribution model?
+1. Based on Figure 3, explain how the likelihood function responds to changes in parameter values for each distribution model. Why does the likelihood function peak at certain parameter values?
 2. According to Figure 6, which distribution family best fits the observed data? Explain your reasoning.
 3. Looking at Figure 4, visually assess how well each fitted distribution matches the observed data histogram.
 4. Using Figure 5, explain the key difference between probability and likelihood in your own words.

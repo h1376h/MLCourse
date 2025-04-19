@@ -108,31 +108,34 @@ normal_max_loglik = np.max(normal_logliks)
 exp_max_loglik = np.max(exp_logliks)
 
 plt.subplot(3, 1, 1)
-plt.plot(means, normal_logliks - normal_max_loglik, 'g-', linewidth=2)
-plt.axvline(x=normal_mle_mean, color='r', linestyle='--', 
-            label=f'MLE: mean={normal_mle_mean:.2f}')
+plt.plot(means, normal_logliks, 'g-', linewidth=2)
+plt.axhline(y=normal_max_loglik, color='r', linestyle='--', 
+            label=f'Maximum at mean={normal_mle_mean:.2f}')
 plt.ylabel('Log-Likelihood')
-plt.title('Normal Distribution (std=0.2)')
+plt.title('Normal Distribution Log-Likelihood (std=0.2 fixed)')
 plt.legend()
+plt.grid(True, alpha=0.3)
 
 plt.subplot(3, 1, 2)
-plt.plot(rates, exp_logliks - exp_max_loglik, 'b-', linewidth=2)
-plt.axvline(x=exp_mle_rate, color='r', linestyle='--', 
-            label=f'MLE: rate={exp_mle_rate:.2f}')
+plt.plot(rates, exp_logliks, 'b-', linewidth=2)
+plt.axhline(y=exp_max_loglik, color='r', linestyle='--', 
+            label=f'Maximum at rate={exp_mle_rate:.2f}')
 plt.ylabel('Log-Likelihood')
-plt.title('Exponential Distribution')
+plt.title('Exponential Distribution Log-Likelihood')
 plt.legend()
+plt.grid(True, alpha=0.3)
 
 plt.subplot(3, 1, 3)
 # For beta, show the slice where beta=mle_beta
 slice_idx = beta_max_idx[1]
-plt.plot(alphas, beta_logliks[:, slice_idx] - beta_max_loglik, 'purple', linewidth=2)
-plt.axvline(x=beta_mle_alpha, color='r', linestyle='--',
-            label=f'MLE: alpha={beta_mle_alpha:.2f} (beta={beta_mle_beta:.2f})')
+plt.plot(alphas, beta_logliks[:, slice_idx], 'purple', linewidth=2)
+plt.axhline(y=beta_logliks[beta_max_idx], color='r', linestyle='--',
+            label=f'Maximum at alpha={beta_mle_alpha:.2f} (beta={beta_mle_beta:.2f})')
 plt.xlabel('Parameter Value')
 plt.ylabel('Log-Likelihood')
-plt.title(f'Beta Distribution (slice at beta={beta_mle_beta:.2f})')
+plt.title(f'Beta Distribution Log-Likelihood (beta={beta_mle_beta:.2f} fixed)')
 plt.legend()
+plt.grid(True, alpha=0.3)
 
 plt.tight_layout()
 save_plot('graph3_loglik_comparisons.png')
