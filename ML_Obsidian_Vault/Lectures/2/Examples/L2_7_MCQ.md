@@ -226,6 +226,70 @@ D) ML is equivalent to MAP when the prior distribution is uniform.
 
 **Explanation:** Maximum likelihood estimation focuses solely on maximizing the likelihood function $p(X|Y)$. Option A is correct because ML ignores both the prior $p(Y)$ and the evidence $p(X)$ from Bayes' rule. Option B is also correct since ML specifically ignores the evidence term $p(X)$ in the denominator. Option C is incorrect because ML and MAP are generally different unless the prior is uniform. Option D is correct because when the prior $p(Y)$ is uniform (constant for all values of $Y$), the MAP estimate becomes equivalent to the ML estimate since the uniform prior doesn't influence which value of $Y$ maximizes the posterior probability.
 
+### Question 15
+When calculating the MAP estimate for a normal distribution with known variance, which of the following components is NOT needed?
+
+**Options:**
+A) The prior mean $\mu_0$
+B) The sample median
+C) The prior variance $\sigma_0^2$
+D) The data variance $\sigma^2$
+
+**Answer:** B
+
+**Explanation:** The MAP formula for normal distributions with known variance uses the prior mean $\mu_0$, prior variance $\sigma_0^2$, sum of observations (or sample mean and count), and data variance $\sigma^2$. The formula is:
+
+$$\hat{\mu}_{MAP} = \frac{\mu_0 + \frac{\sigma_0^2}{\sigma^2}\sum_{i=1}^N x_i}{1 + \frac{\sigma_0^2}{\sigma^2}N}$$
+
+The sample median is not part of this calculation.
+
+### Question 16
+Which of the following best describes the relationship between MAP and regularization in machine learning?
+
+**Options:**
+A) They are unrelated concepts
+B) MAP is a special case of regularization
+C) Regularization is a special case of MAP
+D) Certain types of regularization can be interpreted as performing MAP estimation
+
+**Answer:** D
+
+**Explanation:** L2 regularization corresponds to MAP estimation with a Gaussian prior, while L1 regularization corresponds to MAP with a Laplace prior. For example, ridge regression with penalty $\lambda\sum_{i=1}^{p} \beta_i^2$ is equivalent to MAP estimation with a prior $p(\beta_i) \propto \exp(-\lambda\beta_i^2/2)$. This connection provides a Bayesian interpretation for common regularization techniques.
+
+### Question 17
+In a sensor fusion scenario with two sensors measuring the same quantity, how could MAP estimation be useful?
+
+**Options:**
+A) It cannot be applied to sensor fusion problems
+B) It can combine measurements from both sensors optimally considering their different error characteristics
+C) It always selects the reading from the more accurate sensor
+D) It simply averages the readings from both sensors
+
+**Answer:** B
+
+**Explanation:** MAP estimation provides a principled way to combine measurements from multiple sensors by treating one sensor's reading as the prior and the other as new data, or by combining both as data with a separate prior belief. If we have two sensors with measurements $x_1$ and $x_2$ with variances $\sigma_1^2$ and $\sigma_2^2$, the MAP estimate of the true value $\mu$ would be:
+
+$$\hat{\mu}_{MAP} = \frac{\frac{x_1}{\sigma_1^2} + \frac{x_2}{\sigma_2^2}}{\frac{1}{\sigma_1^2} + \frac{1}{\sigma_2^2}}$$
+
+This gives optimal weights based on each sensor's reliability.
+
+### Question 18
+If the variance ratio ($r = \frac{\sigma_0^2}{\sigma^2}$) in MAP estimation equals 9, what does this indicate about our trust in the prior versus the data?
+
+**Options:**
+A) We trust the prior 9 times more than the data
+B) We trust the data 9 times more than the prior
+C) We trust the prior and data equally
+D) The ratio doesn't relate to trust levels
+
+**Answer:** B
+
+**Explanation:** A variance ratio greater than 1 indicates more trust in the data than the prior. With $r = 9$, each data point has 9 times more influence on the MAP estimate than we would expect if we trusted the prior and data equally. This can be seen in the simplified MAP formula:
+
+$$\hat{\mu}_{MAP} = \frac{\mu_0 + r \sum_{i=1}^N x_i}{1 + r \times N}$$
+
+The larger $r$ is, the more the estimate is pulled toward the data.
+
 ## Related Topics
 
 - [[L2_4_MCQ|Maximum Likelihood Estimation Multiple Choice Questions]]
