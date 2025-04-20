@@ -23,14 +23,6 @@ Where:
 
 ## Normal Distribution Examples
 
-The following examples demonstrate MLE for continuous variables (normal distribution):
-
-- **Basketball Shot Distance**: Analyzing shooting distances
-- **Video Game Score**: Evaluating gaming performance
-- **Test Scores**: Analyzing academic performance
-- **Daily Steps**: Monitoring physical activity levels
-- **Ball Bearing Diameter**: Assessing manufacturing consistency
-
 ### Example 1: Basketball Shot Distance
 
 #### Problem Statement
@@ -1065,47 +1057,67 @@ This example demonstrates MLE for censored data, where some observations are onl
 - 11 measurements with exact values
 - 4 measurements that are censored (known only to exceed 25mm)
 
-#### Approach for Censored Data
+#### Step-by-Step Calculation
 
+**Step 1: Gather the data**
+- Observed rainfall measurements: 12.3, 8.7, 25.0, 15.2, 10.8, 25.0, 18.4, 7.2, 14.9, 20.1, 25.0, 11.5, 16.8, 9.3, 25.0 mm (where 25.0 represents a censored value of 25+ mm)
+- Number of observations (n) = 15
+- Number of censored observations = 4
+- Number of uncensored observations = 11
+- Censoring point = 25.0 mm
+
+**Step 2: Naive approach (incorrectly ignoring censoring)**
+This approach treats censored values as exact measurements, which leads to biased estimates.
+
+The naive MLE for mean:
+$$\hat{\mu}_{naive} = \frac{1}{15}(12.3 + 8.7 + 25.0 + 15.2 + 10.8 + 25.0 + 18.4 + 7.2 + 14.9 + 20.1 + 25.0 + 11.5 + 16.8 + 9.3 + 25.0) = 16.35 \text{ mm}$$
+
+The naive MLE for standard deviation:
+$$\hat{\sigma}_{naive} = 6.24 \text{ mm}$$
+
+**Step 3: Maximum Likelihood Estimation with censored data**
 For censored normal data, the likelihood function has two components:
 1. For uncensored observations: the usual normal density function
 2. For censored observations: the probability of exceeding the censoring point
 
 The log-likelihood function is:
-
-$$
-\ln L(\mu, \sigma^2) = \sum_{i \in U} \ln f(x_i|\mu, \sigma^2) + \sum_{j \in C} \ln(1-F(c|\mu, \sigma^2))
-$$
+$$\ln L(\mu, \sigma^2) = \sum_{i \in U} \ln f(x_i|\mu, \sigma^2) + \sum_{j \in C} \ln(1-F(c|\mu, \sigma^2))$$
 
 Where:
 - $U$ is the set of uncensored observations
 - $C$ is the set of censored observations
-- $c$ is the censoring point (25mm in this case)
+- $c$ is the censoring point (25mm)
 - $f(x|\mu, \sigma^2)$ is the normal PDF
 - $F(x|\mu, \sigma^2)$ is the normal CDF
 
-Finding the MLE involves numerical optimization rather than the closed-form solutions used for complete data.
+First, calculate initial estimates using only uncensored data:
+- Uncensored observations: 12.3, 8.7, 15.2, 10.8, 18.4, 7.2, 14.9, 20.1, 11.5, 16.8, 9.3
+- Initial mean estimate: 13.20 mm
+- Initial standard deviation estimate: 3.99 mm
 
-#### Estimation Process
+Using numerical optimization to maximize the likelihood function with these initial estimates:
+- MLE for mean: 17.53 mm
+- MLE for standard deviation: 8.19 mm
 
-A two-step approach is often used for censored data:
-1. Calculate initial estimates using only the uncensored data
-2. Refine these estimates through numerical optimization of the full likelihood
+**Step 4: Compare naive vs. proper MLE**
+- Mean estimate increased by 7.3% when properly accounting for censoring
+- Standard deviation estimate increased by 31.3% when properly accounting for censoring
 
-Using numerical optimization for this example yields:
-- $\hat{\mu}_{MLE} \approx 17.53$ mm (notably higher than the naive estimate of 16.35 mm from treating censored data as exact)
-- $\hat{\sigma}_{MLE} \approx 8.19$ mm (significantly higher than the naive estimate of 6.24 mm)
+These differences highlight how ignoring censoring can lead to significant underestimation of both the mean and variance.
 
-**Key Insight**: Ignoring the censoring would lead to underestimating both the mean and standard deviation, as the largest values are systematically excluded from exact calculation.
+**Step 5: Interpret the results**
+- The MLE for the mean rainfall is 17.53 mm
+- The MLE for the standard deviation is 8.19 mm
+- According to our model, approximately 18.1% of rainfall days exceed the 25mm measurement threshold
+- This is calculated as: $P(X > 25) = 1 - \Phi(\frac{25 - 17.53}{8.19}) = 0.181$ 
 
-#### Interpretation
-
-The MLE analysis with proper handling of censored data suggests:
-- The true average rainfall is approximately 17.53mm
-- There is considerable variability in daily rainfall (σ ≈ 8.19mm)
-- Approximately 18.1% of rainfall days exceed the 25mm measurement threshold
+The proper handling of censored data gives us a more accurate understanding of the true rainfall distribution, especially for estimating extreme rainfall events.
 
 ![Rainfall Measurements (Censored Data) MLE Example](../Images/normal_mle_rainfall_censored.png)
+
+For a more detailed visualization comparing naive vs. proper MLE with censored data:
+
+![Detailed Rainfall Measurements Analysis](../Images/rainfall_censored_separate.png)
 
 ### Example 10: Plant Height Study (Grouped Data)
 
@@ -1125,13 +1137,37 @@ Total sample size: 100 plants
 
 This example demonstrates MLE for grouped data, where individual observations are not available, only counts within predefined ranges.
 
-#### Approach for Grouped Data
+#### Step-by-Step Calculation
 
+**Step 1: Gather the data**
+- Data is presented in grouped form with 6 bins
+- Total sample size = 100 plants
+- Bin ranges and counts as shown in the table above
+
+**Step 2: Calculate approximate statistics from grouped data**
+First, we estimate mean and standard deviation using the midpoints of each bin:
+
+Bin midpoints:
+- Bin 1: (10.0 + 12.0)/2 = 11.0 cm
+- Bin 2: (12.1 + 14.0)/2 = 13.05 cm
+- Bin 3: (14.1 + 16.0)/2 = 15.05 cm
+- Bin 4: (16.1 + 18.0)/2 = 17.05 cm
+- Bin 5: (18.1 + 20.0)/2 = 19.05 cm
+- Bin 6: (20.1 + 22.0)/2 = 21.05 cm
+
+Approximate mean using midpoints:
+$$\hat{\mu}_{approx} = \frac{1}{100}(6 \times 11.0 + 12 \times 13.05 + 25 \times 15.05 + 32 \times 17.05 + 18 \times 19.05 + 7 \times 21.05) = 16.35 \text{ cm}$$
+
+Approximate variance using midpoints:
+$$\hat{\sigma}^2_{approx} = \frac{1}{100} \sum_{i=1}^{6} n_i (m_i - 16.35)^2 = 6.43 \text{ cm}^2$$
+
+Approximate standard deviation:
+$$\hat{\sigma}_{approx} = \sqrt{6.43} = 2.54 \text{ cm}$$
+
+**Step 3: Maximum Likelihood Estimation with grouped data**
 For grouped normal data, the likelihood function uses the probability of an observation falling into each group:
 
-$$
-L(\mu, \sigma^2) = \prod_{i=1}^{k} [F(b_i|\mu, \sigma^2) - F(a_i|\mu, \sigma^2)]^{n_i}
-$$
+$$L(\mu, \sigma^2) = \prod_{i=1}^{k} [F(b_i|\mu, \sigma^2) - F(a_i|\mu, \sigma^2)]^{n_i}$$
 
 Where:
 - $k$ is the number of groups
@@ -1141,25 +1177,13 @@ Where:
 
 The log-likelihood is:
 
-$$
-\ln L(\mu, \sigma^2) = \sum_{i=1}^{k} n_i \ln[F(b_i|\mu, \sigma^2) - F(a_i|\mu, \sigma^2)]
-$$
+$$\ln L(\mu, \sigma^2) = \sum_{i=1}^{k} n_i \ln[F(b_i|\mu, \sigma^2) - F(a_i|\mu, \sigma^2)]$$
 
-Finding the MLE requires numerical optimization.
+Using numerical optimization with the approximate values as starting points:
+- MLE for mean: 16.35 cm
+- MLE for standard deviation: 2.48 cm
 
-#### Estimation Process
-
-Using numerical methods to maximize the log-likelihood function:
-1. We first calculate an approximate mean and standard deviation using the midpoints of each bin
-2. The initial estimates are: μ ≈ 16.35 cm, σ ≈ 2.54 cm
-3. Using these as starting points for numerical optimization, we find more precise MLEs
-
-For this dataset:
-- $\hat{\mu}_{MLE} \approx 16.35$ cm
-- $\hat{\sigma}_{MLE} \approx 2.48$ cm
-
-#### Verification
-
+**Step 4: Compare observed vs. expected frequencies**
 We can verify the fit by comparing the observed frequencies with the expected frequencies based on our estimated normal distribution:
 
 | Height Range (cm) | Observed | Expected |
@@ -1171,17 +1195,29 @@ We can verify the fit by comparing the observed frequencies with the expected fr
 | 18.1 - 20.0       | 18       | 17.0     |
 | 20.1 - 22.0       | 7        | 5.4      |
 
-The chi-square goodness-of-fit statistic is 2.93 with 3 degrees of freedom, indicating a good fit between the observed data and the normal distribution model.
+Calculation of expected counts for each bin:
+$$E_i = N \times [F(b_i|\mu, \sigma^2) - F(a_i|\mu, \sigma^2)]$$
 
-#### Interpretation
+For example, for bin 1:
+$$E_1 = 100 \times [\Phi(\frac{12.0 - 16.35}{2.48}) - \Phi(\frac{10.0 - 16.35}{2.48})] = 3.4$$
 
-This MLE analysis of grouped data indicates that:
-- The average plant height is approximately 16.35 cm
-- The standard deviation is approximately 2.48 cm
-- About 68% of plants have heights between 13.9 cm and 18.8 cm (μ ± σ)
-- The distribution appears to be reasonably normal, supporting the botanist's modeling assumption
+Chi-square goodness-of-fit:
+$$\chi^2 = \sum_{i=1}^{6} \frac{(O_i - E_i)^2}{E_i} = 2.93$$
+
+With 3 degrees of freedom (6 bins - 2 parameters - 1), this indicates a good fit.
+
+**Step 5: Interpret the results**
+- The MLE for the mean plant height is 16.35 cm
+- The MLE for the standard deviation is 2.48 cm
+- About 68% of plants have heights between 13.87 cm and 18.83 cm (μ ± σ)
+- About 95% of plants have heights between 11.39 cm and 21.31 cm (μ ± 2σ)
+- The distribution appears to be reasonably normal based on the comparison between observed and expected frequencies
 
 ![Plant Height Study (Grouped Data) MLE Example](../Images/normal_mle_plant_height_grouped.png)
+
+For a more detailed visualization showing the expected vs. observed frequencies:
+
+![Detailed Plant Height Grouped Data Analysis](../Images/plant_height_grouped_separate.png)
 
 ### Example 11: Height of Students (Simple Sample Mean)
 
@@ -1197,30 +1233,61 @@ A researcher is collecting data on the heights of students in a class. They meas
 **Step 2: Calculate MLE for mean**
 For normally distributed data, the MLE for the mean is the sample mean:
 
-$$
-\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i = \frac{165 + 172 + 168 + 175 + 170}{5} = \frac{850}{5} = 170 \text{ cm}
-$$
+$$\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i$$
+
+Calculate the sum of all observations:
+$$\sum_{i=1}^{n}x_i = 165 + 172 + 168 + 175 + 170 = 850 \text{ cm}$$
+
+Now calculate the MLE for the mean:
+$$\hat{\mu}_{MLE} = \frac{850}{5} = 170.0 \text{ cm}$$
 
 **Step 3: Interpret the result**
-- The MLE for the mean height is 170 cm
+- The MLE for the mean height is 170.0 cm
 - This represents our best estimate of the true average height of all students in the class based on our sample
 
-**Additional analysis: Variance and standard deviation**
-We can also calculate the MLE for the variance:
+**Step 4: Additional analysis (variance and standard deviation)**
+Though not explicitly asked for, we can also calculate the MLE for variance:
 
+$$\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2$$
+
+Deviations from the mean:
 $$
-\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 = 11.60 \text{ cm}^2
+\begin{align*}
+x_1 - \hat{\mu}_{MLE} &= 165 - 170 = -5 \\
+x_2 - \hat{\mu}_{MLE} &= 172 - 170 = 2 \\
+x_3 - \hat{\mu}_{MLE} &= 168 - 170 = -2 \\
+x_4 - \hat{\mu}_{MLE} &= 175 - 170 = 5 \\
+x_5 - \hat{\mu}_{MLE} &= 170 - 170 = 0
+\end{align*}
 $$
 
-The MLE for standard deviation is:
-
+Squared deviations:
 $$
-\hat{\sigma}_{MLE} = \sqrt{11.60} = 3.41 \text{ cm}
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (-5)^2 = 25 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (2)^2 = 4 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (-2)^2 = 4 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (5)^2 = 25 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (0)^2 = 0
+\end{align*}
 $$
 
-This example demonstrates the simplest form of MLE for a normal distribution: finding the sample mean as our estimate of the population mean.
+Sum of squared deviations:
+$$\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 = 25 + 4 + 4 + 25 + 0 = 58 \text{ cm}^2$$
+
+MLE for variance:
+$$\hat{\sigma}^2_{MLE} = \frac{58}{5} = 11.60 \text{ cm}^2$$
+
+MLE for standard deviation:
+$$\hat{\sigma}_{MLE} = \sqrt{11.60} = 3.41 \text{ cm}$$
+
+This example demonstrates the simplest form of MLE for a normal distribution: using the sample mean as the estimate for the population mean.
 
 ![Student Heights MLE Example](../Images/normal_mle_student_heights.png)
+
+For a more detailed visualization of individual measurements and the fitted distribution:
+
+![Detailed Student Heights Analysis](../Images/student_heights_separate.png)
 
 ### Example 12: Weight Measurements (Known Mean, Unknown Variance)
 
@@ -1237,43 +1304,65 @@ A nutritionist is studying weight fluctuations in a clinical trial. Based on ext
 **Step 2: Calculate MLE for variance with known mean**
 When the mean is known, the MLE for variance is:
 
-$$
-\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \mu)^2
-$$
+$$\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \mu)^2$$
 
-Calculating the squared deviations from the known mean:
+Note that this is different from the usual variance formula because we're using the known mean μ rather than the sample mean.
 
+Calculating squared deviations from the known mean:
 $$
 \begin{align*}
-(65 - 68)^2 &= (-3)^2 = 9 \\
-(70 - 68)^2 &= (2)^2 = 4 \\
-(67 - 68)^2 &= (-1)^2 = 1 \\
-(71 - 68)^2 &= (3)^2 = 9 \\
-(66 - 68)^2 &= (-2)^2 = 4 \\
-(69 - 68)^2 &= (1)^2 = 1
+(x_1 - \mu)^2 &= (65 - 68)^2 = (-3)^2 = 9 \text{ kg}^2 \\
+(x_2 - \mu)^2 &= (70 - 68)^2 = (2)^2 = 4 \text{ kg}^2 \\
+(x_3 - \mu)^2 &= (67 - 68)^2 = (-1)^2 = 1 \text{ kg}^2 \\
+(x_4 - \mu)^2 &= (71 - 68)^2 = (3)^2 = 9 \text{ kg}^2 \\
+(x_5 - \mu)^2 &= (66 - 68)^2 = (-2)^2 = 4 \text{ kg}^2 \\
+(x_6 - \mu)^2 &= (69 - 68)^2 = (1)^2 = 1 \text{ kg}^2
 \end{align*}
 $$
 
-Sum of squared deviations = 9 + 4 + 1 + 9 + 4 + 1 = 28
+Sum of squared deviations:
+$$\sum_{i=1}^{n}(x_i - \mu)^2 = 9 + 4 + 1 + 9 + 4 + 1 = 28 \text{ kg}^2$$
 
-$$
-\hat{\sigma}^2_{MLE} = \frac{28}{6} = 4.67 \text{ kg}^2
-$$
+MLE for variance:
+$$\hat{\sigma}^2_{MLE} = \frac{28}{6} = 4.67 \text{ kg}^2$$
 
-And the standard deviation:
-
-$$
-\hat{\sigma}_{MLE} = \sqrt{4.67} = 2.16 \text{ kg}
-$$
+MLE for standard deviation:
+$$\hat{\sigma}_{MLE} = \sqrt{4.67} = 2.16 \text{ kg}$$
 
 **Step 3: Interpret the result**
 - The MLE for the variance is 4.67 kg²
 - The MLE for the standard deviation is 2.16 kg
 - This represents the estimated variability in weights when the true mean is known
+- Approximately 68% of weight measurements are expected to fall within the range [65.84, 70.16] kg (μ ± σ)
+- Approximately 95% of weight measurements are expected to fall within the range [63.68, 72.32] kg (μ ± 2σ)
 
 This example shows how the MLE calculation differs when one parameter (the mean) is known while the other (variance) needs to be estimated.
 
 ![Weight Measurements MLE Example](../Images/normal_mle_weight_measurements.png)
+
+For a more detailed visualization showing the deviations from the known mean:
+
+![Detailed Weight Measurements Analysis](../Images/weight_measurements_separate.png)
+
+## Key Insights
+
+### Theoretical Insights
+- For normal distributions, the sample mean is the MLE for the population mean (μ)
+- The MLE for variance (σ²) divides by n (not n-1), making it a biased estimator
+- In censored data, ignoring censoring leads to biased parameter estimates
+- For grouped data, MLEs can be obtained via numerical optimization
+
+### Practical Applications
+- In manufacturing (Example 5), MLE helps assess production consistency
+- In meteorology (Example 9), MLE with censored data provides better estimates of rainfall patterns
+- In clinical studies (Example 12), MLE allows estimation of variance even when mean is known
+- In botanical research (Example 10), MLE enables parameter estimation from grouped data
+
+### Common Pitfalls
+- Using the biased MLE for variance in small samples can lead to underestimation
+- Ignoring censoring in data collection can significantly bias results (Example 9)
+- Treating grouped data as if midpoints were actual observations leads to approximation errors
+- Not checking goodness-of-fit after parameter estimation misses potential model inadequacies
 
 ## Running the Examples
 
@@ -1283,4 +1372,5 @@ You can run all the examples using the Python files:
 python3 ML_Obsidian_Vault/Lectures/2/Codes/normal_mle_examples.py
 python3 ML_Obsidian_Vault/Lectures/2/Codes/std_mle_examples.py
 python3 ML_Obsidian_Vault/Lectures/2/Codes/additional_mle_examples.py
+python3 ML_Obsidian_Vault/Lectures/2/Codes/additional_mle_examples_separate_visuals.py
 ```
