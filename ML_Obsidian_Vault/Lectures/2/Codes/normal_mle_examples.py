@@ -59,17 +59,48 @@ def analyze_normal_data(name, data, context, save_dir=None):
     # Step 1: Data analysis
     print("\nStep 1: Data Analysis")
     print(f"- Data: {data}")
-    print(f"- Number of observations: {len(data)}")
+    print(f"- Number of observations (n): {len(data)}")
     
-    # Step 2: Calculate MLE
-    print("\nStep 2: Maximum Likelihood Estimation")
-    print("- For normal distribution, MLE of mean is the sample mean")
-    print("- For normal distribution, MLE of variance is the sample variance (with divisor n, not n-1)")
-    mle_mean = np.mean(data)
-    mle_var = np.var(data, ddof=0)  # MLE variance uses n divisor
+    # Step 2: Calculate MLE for mean with detailed steps
+    print("\nStep 2: Maximum Likelihood Estimation for Mean")
+    print("- For a normal distribution, the MLE for the mean is the sample mean:")
+    print("  μ̂_MLE = (1/n) * ∑(x_i)")
+    
+    # Calculate sum of observations
+    data_sum = sum(data)
+    n = len(data)
+    
+    print(f"- Sum of all observations: {' + '.join([str(x) for x in data])} = {data_sum:.4f}")
+    
+    # Calculate the MLE for mean
+    mle_mean = data_sum / n
+    print(f"- μ̂_MLE = {data_sum:.4f} / {n} = {mle_mean:.4f}")
+    
+    # Step 3: Calculate MLE for variance with detailed steps
+    print("\nStep 3: Maximum Likelihood Estimation for Variance")
+    print("- For a normal distribution, the MLE for the variance is:")
+    print("  σ²_MLE = (1/n) * ∑(x_i - μ̂_MLE)²")
+    
+    # Calculate squared deviations from mean
+    deviations = [x - mle_mean for x in data]
+    squared_devs = [dev**2 for dev in deviations]
+    
+    # Print each deviation and squared deviation
+    print("- Calculating deviations from mean:")
+    for i, (x, dev, sq_dev) in enumerate(zip(data, deviations, squared_devs)):
+        print(f"  ({x} - {mle_mean:.4f})² = ({dev:.4f})² = {sq_dev:.4f}")
+    
+    # Sum of squared deviations
+    sum_squared_devs = sum(squared_devs)
+    print(f"- Sum of squared deviations: {' + '.join([f'{sq:.4f}' for sq in squared_devs])} = {sum_squared_devs:.4f}")
+    
+    # Calculate the MLE for variance
+    mle_var = sum_squared_devs / n
+    print(f"- σ²_MLE = {sum_squared_devs:.4f} / {n} = {mle_var:.4f}")
+    
+    # Calculate the MLE for standard deviation
     mle_std = np.sqrt(mle_var)
-    print(f"- MLE mean (μ) = {mle_mean:.2f}")
-    print(f"- MLE standard deviation (σ) = {mle_std:.2f}")
+    print(f"- σ_MLE = √{mle_var:.4f} = {mle_std:.4f}")
     
     # Create save path if directory is provided
     save_path = None
@@ -78,24 +109,29 @@ def analyze_normal_data(name, data, context, save_dir=None):
         filename = f"normal_mle_{name.lower().replace(' ', '_').replace('(', '').replace(')', '')}.png"
         save_path = os.path.join(save_dir, filename)
     
-    # Step 3: Visualize and confirm
-    print("\nStep 3: Visualization")
+    # Step 4: Visualize and confirm
+    print("\nStep 4: Visualization")
     mle_mean, mle_std = plot_normal_likelihood(data, name, save_path)
     
-    # Step 4: Confidence Interval
-    print("\nStep 4: Confidence Interval for Mean")
-    n = len(data)
+    # Step 5: Confidence Interval
+    print("\nStep 5: Confidence Interval for Mean")
     sem = mle_std / np.sqrt(n)  # Standard error of the mean
     # Use t-distribution for small samples, but approximating with normal distribution here
     z = 1.96  # 95% confidence level
     ci_lower = mle_mean - z * sem
     ci_upper = mle_mean + z * sem
-    print(f"- 95% Confidence Interval: [{ci_lower:.2f}, {ci_upper:.2f}]")
     
-    # Step 5: Interpretation
-    print("\nStep 5: Interpretation")
-    print(f"- Based on the observed data alone, the most likely mean is {mle_mean:.2f}")
-    print(f"- Unlike MAP estimation, MLE does not incorporate prior beliefs")
+    print(f"- Standard Error of Mean (SEM) = σ_MLE / √n = {mle_std:.4f} / √{n} = {sem:.4f}")
+    print(f"- 95% Confidence Interval = μ̂_MLE ± 1.96 × SEM = {mle_mean:.4f} ± 1.96 × {sem:.4f}")
+    print(f"- 95% Confidence Interval = [{ci_lower:.4f}, {ci_upper:.4f}]")
+    
+    # Step 6: Interpretation
+    print("\nStep 6: Interpretation")
+    print(f"- The MLE for the mean is {mle_mean:.4f}")
+    print(f"- The MLE for the standard deviation is {mle_std:.4f}")
+    print(f"- We are 95% confident that the true mean is between {ci_lower:.4f} and {ci_upper:.4f}")
+    print(f"- Approximately 68% of observations should fall within one standard deviation of the mean: [{mle_mean-mle_std:.4f}, {mle_mean+mle_std:.4f}]")
+    print(f"- Approximately 95% of observations should fall within two standard deviations of the mean: [{mle_mean-2*mle_std:.4f}, {mle_mean+2*mle_std:.4f}]")
     
     return {"mean": mle_mean, "std": mle_std, "path": save_path}
 

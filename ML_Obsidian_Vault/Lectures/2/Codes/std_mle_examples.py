@@ -55,32 +55,66 @@ def analyze_std_mle(name, data, context, save_dir=None):
     print(f"{'='*50}")
     print(f"Context: {context}")
     
-    # Step 1: Data analysis
+    # Step 1: Data analysis with detailed information
     print("\nStep 1: Data Analysis")
     print(f"- Data: {data}")
-    print(f"- Number of observations: {len(data)}")
+    print(f"- Number of observations (n): {len(data)}")
+    print(f"- Range: [{min(data)}, {max(data)}]")
+    print(f"- Data type: {type(data[0]).__name__}")
     
-    # Step 2: Calculate MLE for mean
-    print("\nStep 2: Calculate Sample Mean")
-    mle_mean = np.mean(data)
-    print(f"- Sample mean (μ) = {mle_mean:.4f}")
+    # Step 2: Calculate MLE for mean with detailed steps
+    print("\nStep 2: Calculate Sample Mean (MLE for Mean)")
+    print("- For a normal distribution, the MLE for the mean is the sample mean:")
+    print("  μ̂_MLE = (1/n) * ∑(x_i)")
     
-    # Step 3: Calculate MLE for std
+    # Calculate sum of observations
+    data_sum = sum(data)
+    n = len(data)
+    
+    print(f"- Sum of all observations: {' + '.join([str(x) for x in data])} = {data_sum:.4f}")
+    
+    # Calculate the MLE for mean
+    mle_mean = data_sum / n
+    print(f"- μ̂_MLE = {data_sum:.4f} / {n} = {mle_mean:.4f}")
+    
+    # Step 3: Calculate MLE for variance and standard deviation with detailed steps
     print("\nStep 3: Maximum Likelihood Estimation for Standard Deviation")
-    # Calculate squared deviations from mean
-    squared_devs = [(x - mle_mean)**2 for x in data]
-    print(f"- Squared deviations: {[f'{dev:.8f}' for dev in squared_devs]}")
+    print("- For a normal distribution, the MLE for the variance is:")
+    print("  σ²_MLE = (1/n) * ∑(x_i - μ̂_MLE)²")
+    print("- And the MLE for standard deviation is:")
+    print("  σ_MLE = √(σ²_MLE)")
+    
+    # Calculate each deviation from mean
+    print("\n- Step 3.1: Calculate deviations from the mean (x_i - μ̂_MLE)")
+    deviations = []
+    for i, x in enumerate(data):
+        dev = x - mle_mean
+        deviations.append(dev)
+        print(f"  x_{i+1} - μ̂_MLE = {x} - {mle_mean:.4f} = {dev:.4f}")
+    
+    # Calculate squared deviations
+    print("\n- Step 3.2: Square each deviation (x_i - μ̂_MLE)²")
+    squared_devs = []
+    for i, dev in enumerate(deviations):
+        sq_dev = dev**2
+        squared_devs.append(sq_dev)
+        print(f"  (x_{i+1} - μ̂_MLE)² = ({deviations[i]:.4f})² = {sq_dev:.8f}")
     
     # Sum squared deviations
     sum_sq_devs = sum(squared_devs)
-    print(f"- Sum of squared deviations: {sum_sq_devs:.8f}")
+    print("\n- Step 3.3: Sum all squared deviations ∑(x_i - μ̂_MLE)²")
+    print(f"  ∑(x_i - μ̂_MLE)² = {' + '.join([f'{dev:.8f}' for dev in squared_devs])}")
+    print(f"  ∑(x_i - μ̂_MLE)² = {sum_sq_devs:.8f}")
     
-    # MLE variance and std
-    n = len(data)
+    # Calculate variance (MLE)
+    print("\n- Step 3.4: Calculate the MLE for variance σ²_MLE = (1/n) * ∑(x_i - μ̂_MLE)²")
     mle_var = sum_sq_devs / n
+    print(f"  σ²_MLE = {sum_sq_devs:.8f} / {n} = {mle_var:.8f}")
+    
+    # Calculate standard deviation (MLE)
     mle_std = np.sqrt(mle_var)
-    print(f"- MLE variance (σ²) = {mle_var:.8f}")
-    print(f"- MLE standard deviation (σ) = {mle_std:.4f}")
+    print("\n- Step 3.5: Calculate the MLE for standard deviation σ_MLE = √(σ²_MLE)")
+    print(f"  σ_MLE = √{mle_var:.8f} = {mle_std:.4f}")
     
     # Create save path if directory is provided
     save_path = None
@@ -90,23 +124,36 @@ def analyze_std_mle(name, data, context, save_dir=None):
         save_path = os.path.join(save_dir, filename)
     
     # Step 4: Visualize and confirm
-    print("\nStep 4: Visualization")
+    print("\nStep 4: Visualization of Likelihood Function")
+    print("- Plotting the likelihood function for different values of σ")
+    print("- The maximum of this function corresponds to the MLE")
     plot_std_likelihood(data, name, save_path)
     
     # Step 5: Compare with biased vs unbiased estimator
-    print("\nStep 5: Biased vs. Unbiased Estimator")
+    print("\nStep 5: Compare MLE (Biased) vs. Unbiased Estimator")
+    print("- The MLE for variance uses n in the denominator and is a biased estimator")
+    print("- The unbiased estimator for variance uses (n-1) in the denominator")
+    
     unbiased_var = sum_sq_devs / (n - 1)
     unbiased_std = np.sqrt(unbiased_var)
-    print(f"- Biased MLE (σ) = {mle_std:.4f}")
-    print(f"- Unbiased estimator (s) = {unbiased_std:.4f}")
-    print(f"- Difference: {((unbiased_std / mle_std) - 1) * 100:.2f}%")
+    
+    print(f"- Biased MLE for variance (σ²): {mle_var:.8f}")
+    print(f"- Unbiased estimator for variance (s²): {unbiased_var:.8f}")
+    print(f"- Biased MLE for standard deviation (σ): {mle_std:.4f}")
+    print(f"- Unbiased estimator for standard deviation (s): {unbiased_std:.4f}")
+    
+    percent_diff = ((unbiased_std / mle_std) - 1) * 100
+    print(f"- Percent difference: {percent_diff:.2f}%")
+    print(f"- This bias is more significant for small sample sizes")
     
     # Step 6: Interpretation
-    print("\nStep 6: Interpretation")
-    print(f"- The MLE standard deviation of {mle_std:.4f} estimates the true variability in the process")
-    print(f"- Approximately 95% of values are expected to fall within ±{2*mle_std:.4f} of the mean")
-    print(f"- The MLE is a biased estimator that underestimates the true standard deviation")
-    print(f"- For an unbiased estimate, use the sample standard deviation: {unbiased_std:.4f}")
+    print("\nStep 6: Interpretation of Results")
+    print(f"- The MLE for the standard deviation is {mle_std:.4f}")
+    print(f"- This estimates the true variability in the {name.lower()} measurements")
+    print(f"- Approximately 68.3% of values are expected to fall within range: [{mle_mean-mle_std:.4f}, {mle_mean+mle_std:.4f}]")
+    print(f"- Approximately 95.5% of values are expected to fall within range: [{mle_mean-2*mle_std:.4f}, {mle_mean+2*mle_std:.4f}]")
+    print(f"- Approximately 99.7% of values are expected to fall within range: [{mle_mean-3*mle_std:.4f}, {mle_mean+3*mle_std:.4f}]")
+    print(f"- For a more accurate estimate of population standard deviation in small samples, consider using the unbiased estimator: {unbiased_std:.4f}")
     
     return {"std": mle_std, "mean": mle_mean, "path": save_path}
 
