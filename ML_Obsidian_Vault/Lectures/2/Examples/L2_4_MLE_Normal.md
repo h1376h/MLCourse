@@ -739,12 +739,31 @@ $$
 \text{Percent difference} = \left(\frac{\hat{\sigma}_{unbiased}}{\hat{\sigma}_{MLE}} - 1\right) \times 100\% = \left(\frac{0.191}{0.183} - 1\right) \times 100\% = 4.45\%
 $$
 
-**Step 5: Interpret the results**
+**Step 5: Calculate confidence interval for the mean**
+The standard error of the mean (SEM) is:
+
+$$
+\text{SEM} = \frac{\hat{\sigma}_{MLE}}{\sqrt{n}} = \frac{0.183}{\sqrt{12}} = 0.054 \text{ hours}
+$$
+
+For a 95% confidence interval (using z = 1.96):
+
+$$
+\begin{align*}
+95\% \text{ CI} &= \hat{\mu}_{MLE} \pm 1.96 \times \text{SEM} \\
+&= 4.975 \pm 1.96 \times 0.054 \\
+&= 4.975 \pm 0.1058 \\
+&= [4.8692, 5.0808]
+\end{align*}
+$$
+
+**Step 6: Interpret the results**
 - The MLE for the mean battery life is 4.975 hours
 - The MLE for the standard deviation is 0.183 hours
-- Approximately 68.3% of batteries are expected to have a life within range: [4.792, 5.158] hours
-- Approximately 95.5% of batteries are expected to have a life within range: [4.609, 5.341] hours
-- Approximately 99.7% of batteries are expected to have a life within range: [4.426, 5.524] hours
+- We are 95% confident that the true mean battery life is between 4.8692 and 5.0808 hours
+- Approximately 68% of batteries are expected to have a life within range: [4.7924, 5.1576] hours
+- Approximately 95% of batteries are expected to have a life within range: [4.6092, 5.3408] hours
+- Approximately 99.7% of batteries are expected to have a life within range: [4.4224, 5.5276] hours
 - For a more accurate estimate of population standard deviation in this small sample, the unbiased estimator of 0.191 hours may be preferred
 
 ![Battery Life MLE Example](../Images/std_mle_battery_life.png)
@@ -752,30 +771,288 @@ $$
 ### Example 7: Reaction Time
 
 #### Problem Statement
-A researcher is measuring reaction times in a psychology experiment. They recorded reaction times from 10 participants (in seconds): 0.32, 0.29, 0.35, 0.30, 0.28, 0.33, 0.31, 0.34, 0.30, and 0.32. Assuming the reaction times follow a normal distribution, MLE can help estimate the true mean and standard deviation of human response times.
+A researcher is measuring reaction times in a psychology experiment. They recorded reaction times from 10 participants (in seconds): 0.32, 0.29, 0.35, 0.30, 0.28, 0.33, 0.31, 0.34, 0.30, and 0.32. Assuming the reaction times follow a normal distribution, calculate the maximum likelihood estimates for:
 
-In this example:
-- The data consists of 10 reaction time measurements
-- We assume the reaction times follow a normal distribution
-- MLE estimates both the mean and standard deviation
-- The analysis relies solely on the observed data
+1. The mean (μ) of the reaction times
+2. The variance (σ²) of the reaction times
 
-The MLE analysis estimates a mean reaction time of 0.31 seconds with a standard deviation of 0.02 seconds. This gives the researcher an understanding of the typical response time and its variability.
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Observed reaction times: 0.32, 0.29, 0.35, 0.30, 0.28, 0.33, 0.31, 0.34, 0.30, and 0.32 seconds
+- Number of observations (n) = 10
+- Range = [0.28, 0.35] seconds
+
+**Step 2: Calculate MLE for mean**
+For normally distributed data, the MLE for mean is the sample mean:
+
+$$
+\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+Calculate the sum of all observations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}x_i &= 0.32 + 0.29 + 0.35 + 0.30 + 0.28 + 0.33 + 0.31 + 0.34 + 0.30 + 0.32 \\
+&= 3.14 \text{ seconds}
+\end{align*}
+$$
+
+Now calculate the MLE for the mean:
+$$
+\hat{\mu}_{MLE} = \frac{3.14}{10} = 0.314 \text{ seconds}
+$$
+
+**Step 3: Calculate MLE for variance and standard deviation**
+For normally distributed data, the MLE for variance is:
+
+$$
+\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2
+$$
+
+**Step 3.1: Calculate deviations from the mean**
+$$
+\begin{align*}
+x_1 - \hat{\mu}_{MLE} &= 0.32 - 0.314 = 0.006 \text{ seconds} \\
+x_2 - \hat{\mu}_{MLE} &= 0.29 - 0.314 = -0.024 \text{ seconds} \\
+x_3 - \hat{\mu}_{MLE} &= 0.35 - 0.314 = 0.036 \text{ seconds} \\
+x_4 - \hat{\mu}_{MLE} &= 0.30 - 0.314 = -0.014 \text{ seconds} \\
+x_5 - \hat{\mu}_{MLE} &= 0.28 - 0.314 = -0.034 \text{ seconds} \\
+x_6 - \hat{\mu}_{MLE} &= 0.33 - 0.314 = 0.016 \text{ seconds} \\
+x_7 - \hat{\mu}_{MLE} &= 0.31 - 0.314 = -0.004 \text{ seconds} \\
+x_8 - \hat{\mu}_{MLE} &= 0.34 - 0.314 = 0.026 \text{ seconds} \\
+x_9 - \hat{\mu}_{MLE} &= 0.30 - 0.314 = -0.014 \text{ seconds} \\
+x_{10} - \hat{\mu}_{MLE} &= 0.32 - 0.314 = 0.006 \text{ seconds}
+\end{align*}
+$$
+
+**Step 3.2: Square each deviation**
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (0.006)^2 = 0.000036 \text{ seconds}^2 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (-0.024)^2 = 0.000576 \text{ seconds}^2 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (0.036)^2 = 0.001296 \text{ seconds}^2 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (-0.014)^2 = 0.000196 \text{ seconds}^2 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (-0.034)^2 = 0.001156 \text{ seconds}^2 \\
+(x_6 - \hat{\mu}_{MLE})^2 &= (0.016)^2 = 0.000256 \text{ seconds}^2 \\
+(x_7 - \hat{\mu}_{MLE})^2 &= (-0.004)^2 = 0.000016 \text{ seconds}^2 \\
+(x_8 - \hat{\mu}_{MLE})^2 &= (0.026)^2 = 0.000676 \text{ seconds}^2 \\
+(x_9 - \hat{\mu}_{MLE})^2 &= (-0.014)^2 = 0.000196 \text{ seconds}^2 \\
+(x_{10} - \hat{\mu}_{MLE})^2 &= (0.006)^2 = 0.000036 \text{ seconds}^2
+\end{align*}
+$$
+
+**Step 3.3: Sum all squared deviations**
+$$
+\begin{align*}
+\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 &= 0.000036 + 0.000576 + 0.001296 + 0.000196 \\
+&+ 0.001156 + 0.000256 + 0.000016 + 0.000676 \\
+&+ 0.000196 + 0.000036 \\
+&= 0.004440 \text{ seconds}^2
+\end{align*}
+$$
+
+**Step 3.4: Calculate the MLE for variance**
+$$
+\hat{\sigma}^2_{MLE} = \frac{0.004440}{10} = 0.000444 \text{ seconds}^2
+$$
+
+**Step 3.5: Calculate the MLE for standard deviation**
+$$
+\hat{\sigma}_{MLE} = \sqrt{0.000444} = 0.0211 \text{ seconds}
+$$
+
+**Step 4: Compare MLE (biased) vs. unbiased estimator**
+The unbiased estimator for variance uses (n-1) in the denominator:
+
+$$
+\hat{\sigma}^2_{unbiased} = \frac{\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2}{n-1} = \frac{0.00444}{9} = 0.000493 \text{ seconds}^2
+$$
+
+The unbiased estimator for standard deviation:
+
+$$
+\hat{\sigma}_{unbiased} = \sqrt{0.000493} = 0.0222 \text{ seconds}
+$$
+
+Percent difference between the estimators:
+
+$$
+\text{Percent difference} = \left(\frac{\hat{\sigma}_{unbiased}}{\hat{\sigma}_{MLE}} - 1\right) \times 100\% = \left(\frac{0.0222}{0.0211} - 1\right) \times 100\% = 5.41\%
+$$
+
+**Step 5: Calculate confidence interval for the mean**
+The standard error of the mean (SEM) is:
+
+$$
+\text{SEM} = \frac{\hat{\sigma}_{MLE}}{\sqrt{n}} = \frac{0.0211}{\sqrt{10}} = 0.0067 \text{ seconds}
+$$
+
+For a 95% confidence interval (using z = 1.96):
+
+$$
+\begin{align*}
+95\% \text{ CI} &= \hat{\mu}_{MLE} \pm 1.96 \times \text{SEM} \\
+&= 0.314 \pm 1.96 \times 0.0067 \\
+&= 0.314 \pm 0.0131 \\
+&= [0.3009, 0.3271]
+\end{align*}
+$$
+
+**Step 6: Interpret the results**
+- The MLE for the mean reaction time is 0.314 seconds
+- The MLE for the standard deviation is 0.0211 seconds
+- We are 95% confident that the true mean reaction time is between 0.3009 and 0.3271 seconds
+- Approximately 68% of reaction times are expected to fall within one standard deviation of the mean: [0.2929, 0.3351] seconds
+- Approximately 95% of reaction times are expected to fall within two standard deviations of the mean: [0.2719, 0.3561] seconds
+- Approximately 99.7% of reaction times are expected to fall within three standard deviations of the mean: [0.2508, 0.3772] seconds
+- For a more accurate estimate of population standard deviation in this small sample, the unbiased estimator of 0.0222 seconds may be preferred
 
 ![Reaction Time MLE Example](../Images/std_mle_reaction_time.png)
 
 ### Example 8: Temperature Readings
 
 #### Problem Statement
-A climate scientist is analyzing daily temperature readings. They recorded temperatures for 12 days (in Celsius): 21.2, 20.8, 21.5, 20.9, 21.3, 21.1, 20.7, 21.0, 21.2, 20.9, 21.4, and 21.1. Assuming the temperatures follow a normal distribution, MLE can help estimate the true mean and standard deviation of the temperature readings.
+A climate scientist is analyzing daily temperature readings. They recorded temperatures for 12 days (in Celsius): 21.2, 20.8, 21.5, 20.9, 21.3, 21.1, 20.7, 21.0, 21.2, 20.9, 21.4, and 21.1. Assuming the temperatures follow a normal distribution, calculate the maximum likelihood estimates for:
 
-In this example:
-- The data consists of 12 temperature measurements
-- We assume the temperatures follow a normal distribution
-- MLE estimates both the mean and standard deviation
-- The analysis relies solely on the observed data
+1. The mean (μ) of the temperature readings
+2. The variance (σ²) of the temperature readings
 
-The MLE analysis estimates a mean temperature of 21.1°C with a standard deviation of 0.24°C. This provides the scientist with insights about the typical temperature and its daily variation.
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Observed temperatures: 21.2, 20.8, 21.5, 20.9, 21.3, 21.1, 20.7, 21.0, 21.2, 20.9, 21.4, and 21.1 °C
+- Number of observations (n) = 12
+- Range = [20.7, 21.5] °C
+
+**Step 2: Calculate MLE for mean**
+For normally distributed data, the MLE for mean is the sample mean:
+
+$$
+\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+Calculate the sum of all observations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}x_i &= 21.2 + 20.8 + 21.5 + 20.9 + 21.3 + 21.1 + 20.7 + 21.0 + 21.2 + 20.9 + 21.4 + 21.1 \\
+&= 253.1 \text{ °C}
+\end{align*}
+$$
+
+Now calculate the MLE for the mean:
+$$
+\hat{\mu}_{MLE} = \frac{253.1}{12} = 21.0917 \text{ °C}
+$$
+
+**Step 3: Calculate MLE for variance and standard deviation**
+For normally distributed data, the MLE for variance is:
+
+$$
+\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2
+$$
+
+**Step 3.1: Calculate deviations from the mean**
+$$
+\begin{align*}
+x_1 - \hat{\mu}_{MLE} &= 21.2 - 21.0917 = 0.1083 \text{ °C} \\
+x_2 - \hat{\mu}_{MLE} &= 20.8 - 21.0917 = -0.2917 \text{ °C} \\
+x_3 - \hat{\mu}_{MLE} &= 21.5 - 21.0917 = 0.4083 \text{ °C} \\
+x_4 - \hat{\mu}_{MLE} &= 20.9 - 21.0917 = -0.1917 \text{ °C} \\
+x_5 - \hat{\mu}_{MLE} &= 21.3 - 21.0917 = 0.2083 \text{ °C} \\
+x_6 - \hat{\mu}_{MLE} &= 21.1 - 21.0917 = 0.0083 \text{ °C} \\
+x_7 - \hat{\mu}_{MLE} &= 20.7 - 21.0917 = -0.3917 \text{ °C} \\
+x_8 - \hat{\mu}_{MLE} &= 21.0 - 21.0917 = -0.0917 \text{ °C} \\
+x_9 - \hat{\mu}_{MLE} &= 21.2 - 21.0917 = 0.1083 \text{ °C} \\
+x_{10} - \hat{\mu}_{MLE} &= 20.9 - 21.0917 = -0.1917 \text{ °C} \\
+x_{11} - \hat{\mu}_{MLE} &= 21.4 - 21.0917 = 0.3083 \text{ °C} \\
+x_{12} - \hat{\mu}_{MLE} &= 21.1 - 21.0917 = 0.0083 \text{ °C}
+\end{align*}
+$$
+
+**Step 3.2: Square each deviation**
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (0.1083)^2 = 0.0117 \text{ °C}^2 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (-0.2917)^2 = 0.0851 \text{ °C}^2 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (0.4083)^2 = 0.1667 \text{ °C}^2 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (-0.1917)^2 = 0.0367 \text{ °C}^2 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (0.2083)^2 = 0.0434 \text{ °C}^2 \\
+(x_6 - \hat{\mu}_{MLE})^2 &= (0.0083)^2 = 0.0001 \text{ °C}^2 \\
+(x_7 - \hat{\mu}_{MLE})^2 &= (-0.3917)^2 = 0.1534 \text{ °C}^2 \\
+(x_8 - \hat{\mu}_{MLE})^2 &= (-0.0917)^2 = 0.0084 \text{ °C}^2 \\
+(x_9 - \hat{\mu}_{MLE})^2 &= (0.1083)^2 = 0.0117 \text{ °C}^2 \\
+(x_{10} - \hat{\mu}_{MLE})^2 &= (-0.1917)^2 = 0.0367 \text{ °C}^2 \\
+(x_{11} - \hat{\mu}_{MLE})^2 &= (0.3083)^2 = 0.0951 \text{ °C}^2 \\
+(x_{12} - \hat{\mu}_{MLE})^2 &= (0.0083)^2 = 0.0001 \text{ °C}^2
+\end{align*}
+$$
+
+**Step 3.3: Sum all squared deviations**
+$$
+\begin{align*}
+\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 &= 0.0117 + 0.0851 + 0.1667 + 0.0367 + 0.0434 \\
+&+ 0.0001 + 0.1534 + 0.0084 + 0.0117 + 0.0367 \\
+&+ 0.0951 + 0.0001 \\
+&= 0.6492 \text{ °C}^2
+\end{align*}
+$$
+
+**Step 3.4: Calculate the MLE for variance**
+$$
+\hat{\sigma}^2_{MLE} = \frac{0.6492}{12} = 0.0541 \text{ °C}^2
+$$
+
+**Step 3.5: Calculate the MLE for standard deviation**
+$$
+\hat{\sigma}_{MLE} = \sqrt{0.0541} = 0.2326 \text{ °C}
+$$
+
+**Step 4: Compare MLE (biased) vs. unbiased estimator**
+The unbiased estimator for variance uses (n-1) in the denominator:
+
+$$
+\hat{\sigma}^2_{unbiased} = \frac{\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2}{n-1} = \frac{0.6492}{11} = 0.0590 \text{ °C}^2
+$$
+
+The unbiased estimator for standard deviation:
+
+$$
+\hat{\sigma}_{unbiased} = \sqrt{0.0590} = 0.2429 \text{ °C}
+$$
+
+Percent difference between the estimators:
+
+$$
+\text{Percent difference} = \left(\frac{\hat{\sigma}_{unbiased}}{\hat{\sigma}_{MLE}} - 1\right) \times 100\% = \left(\frac{0.2429}{0.2326} - 1\right) \times 100\% = 4.45\%
+$$
+
+**Step 5: Calculate confidence interval for the mean**
+The standard error of the mean (SEM) is:
+
+$$
+\text{SEM} = \frac{\hat{\sigma}_{MLE}}{\sqrt{n}} = \frac{0.2326}{\sqrt{12}} = 0.0671 \text{ °C}
+$$
+
+For a 95% confidence interval (using z = 1.96):
+
+$$
+\begin{align*}
+95\% \text{ CI} &= \hat{\mu}_{MLE} \pm 1.96 \times \text{SEM} \\
+&= 21.0917 \pm 1.96 \times 0.0671 \\
+&= 21.0917 \pm 0.1316 \\
+&= [20.9601, 21.2233]
+\end{align*}
+$$
+
+**Step 6: Interpret the results**
+- The MLE for the mean temperature is 21.0917 °C
+- The MLE for the standard deviation is 0.2326 °C
+- We are 95% confident that the true mean temperature is between 20.9601 and 21.2233 °C
+- Approximately 68% of temperature readings are expected to fall within one standard deviation of the mean: [20.8591, 21.3243] °C
+- Approximately 95% of temperature readings are expected to fall within two standard deviations of the mean: [20.6265, 21.5568] °C
+- Approximately 99.7% of temperature readings are expected to fall within three standard deviations of the mean: [20.3939, 21.7894] °C
+- For a more accurate estimate of population standard deviation in this small sample, the unbiased estimator of 0.2429 °C may be preferred
 
 ![Temperature Readings MLE Example](../Images/std_mle_temperature_readings.png)
 
