@@ -81,54 +81,6 @@ def create_concept_visualization():
     plt.tight_layout()
     return fig
 
-def create_old_style_visualization(heights, weights, cov_matrix, eigenvalues, eigenvectors):
-    """Create a simpler visualization matching the style from the original file."""
-    # Create figure
-    fig, ax = plt.subplots(figsize=(10, 6))
-    
-    # Plot the data points
-    ax.scatter(heights, weights, alpha=0.7, label='Height-Weight Data')
-    
-    # Calculate mean
-    mean_height, mean_weight = np.mean(heights), np.mean(weights)
-    
-    # Draw the covariance ellipse (1σ and 2σ)
-    for j in [1, 2]:
-        ell = Ellipse(xy=(mean_height, mean_weight),
-                     width=2*j*np.sqrt(eigenvalues[0]), 
-                     height=2*j*np.sqrt(eigenvalues[1]),
-                     angle=np.rad2deg(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0])),
-                     edgecolor='red', facecolor='none', linestyle='--')
-        ax.add_patch(ell)
-        if j == 2:
-            ax.text(mean_height, mean_weight + j*np.sqrt(eigenvalues[1]), 
-                    f'{j}σ confidence region', color='red', ha='center', va='bottom')
-    
-    # Plot the eigenvectors (principal components)
-    for i in range(2):
-        vec = eigenvectors[:, i] * np.sqrt(eigenvalues[i])
-        ax.arrow(mean_height, mean_weight, vec[0], vec[1], 
-                 head_width=1, head_length=1.5, fc='blue', ec='blue')
-        ax.text(mean_height + vec[0]*1.1, mean_weight + vec[1]*1.1, 
-                f'PC{i+1}', color='blue', ha='center', va='center')
-    
-    # Add labels and title
-    ax.set_xlabel('Height (cm)')
-    ax.set_ylabel('Weight (kg)')
-    ax.set_title('Height vs Weight: A Natural Example of Positive Covariance')
-    ax.grid(True)
-    ax.axis('equal')
-    
-    # Add text explaining the covariance
-    corr = cov_matrix[0, 1] / np.sqrt(cov_matrix[0, 0] * cov_matrix[1, 1])
-    textstr = f'Covariance Matrix:\n[[{cov_matrix[0,0]:.1f}, {cov_matrix[0,1]:.1f}],\n [{cov_matrix[1,0]:.1f}, {cov_matrix[1,1]:.1f}]]\n\nCorrelation: {corr:.2f}'
-    props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
-    ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=10,
-            verticalalignment='top', bbox=props)
-    
-    plt.tight_layout()
-    return fig
-
 def simple_covariance_example_real_world():
     """Simple real-world example of covariance using height and weight data."""
     # Print detailed step-by-step solution
@@ -154,22 +106,6 @@ def simple_covariance_example_real_world():
     print("- Weight (kg): w = 0.5h + ε, where ε ~ N(0, 5²)")
     print("- This creates a positive correlation between height and weight")
     
-    # Create main figure with GridSpec for better layout
-    fig = plt.figure(figsize=(15, 12))
-    gs = GridSpec(3, 2, height_ratios=[1, 1, 1])
-    
-    # Create scatter plot area
-    ax_scatter = fig.add_subplot(gs[0:2, 0])
-    
-    # Create statistical summary area
-    ax_stats = fig.add_subplot(gs[0, 1])
-    
-    # Create 3D visualization area
-    ax_3d = fig.add_subplot(gs[1, 1], projection='3d')
-    
-    # Create marginal distributions area
-    ax_marginal = fig.add_subplot(gs[2, :])
-    
     # Simulated height (cm) and weight (kg) data with positive correlation
     np.random.seed(42)  # For reproducibility
     heights = 170 + np.random.normal(0, 7, 100)  # Mean 170cm, std 7cm
@@ -187,18 +123,6 @@ def simple_covariance_example_real_world():
     corr = cov_matrix[0, 1] / np.sqrt(cov_matrix[0, 0] * cov_matrix[1, 1])
     print(f"Correlation coefficient: {corr:.2f}")
     
-    # Create a visual representation of the covariance matrix
-    ax_stats.matshow(cov_matrix, cmap='Blues')
-    for i in range(2):
-        for j in range(2):
-            ax_stats.text(j, i, f'{cov_matrix[i, j]:.2f}', 
-                         ha='center', va='center', color='black', fontsize=12)
-    
-    ax_stats.set_xticklabels(['', 'Height', 'Weight'])
-    ax_stats.set_yticklabels(['', 'Height', 'Weight'])
-    ax_stats.set_title('Covariance Matrix')
-    
-    # Print explanation of what the covariance values mean
     print("\nCovariance Matrix Explanation:")
     print(f"• Var(Height) = {cov_matrix[0,0]:.2f} cm²")
     print(f"• Var(Weight) = {cov_matrix[1,1]:.2f} kg²")
@@ -219,41 +143,36 @@ def simple_covariance_example_real_world():
     eigenvalues = eigenvalues[idx]
     eigenvectors = eigenvectors[:, idx]
     
-    print("\nStep 4: Visualizing with Confidence Ellipses")
-    # Plot the data points
-    ax_scatter.scatter(heights, weights, alpha=0.7, label='Height-Weight Data', c='#4575b4')
-    
     # Calculate mean
     mean_height, mean_weight = np.mean(heights), np.mean(weights)
     
-    # Draw the covariance ellipse (1σ, 2σ and 3σ)
-    ellipse_colors = ['#d73027', '#fc8d59', '#fee090']
-    confidence_levels = [0.68, 0.95, 0.99]
-    chi2_values = [2.3, 6.18, 9.21]  # Chi-squared values for 2 degrees of freedom
+    # Create the scatter plot with 1σ and 2σ ellipse
+    fig_scatter, ax_scatter = plt.subplots(figsize=(10, 8))
     
-    for j, (chi2, conf, color) in enumerate(zip(chi2_values, confidence_levels, ellipse_colors)):
+    # Plot the data points
+    ax_scatter.scatter(heights, weights, alpha=0.7, label='Height-Weight Data', c='#4575b4')
+    
+    # Draw the 1σ and 2σ covariance ellipses
+    sigma_values = [1, 2]
+    ellipse_colors = ['red', 'orange']
+    
+    for i, (sigma, color) in enumerate(zip(sigma_values, ellipse_colors)):
         ell = Ellipse(xy=(mean_height, mean_weight),
-                     width=2*np.sqrt(chi2*eigenvalues[0]), 
-                     height=2*np.sqrt(chi2*eigenvalues[1]),
+                     width=2*sigma*np.sqrt(eigenvalues[0]), 
+                     height=2*sigma*np.sqrt(eigenvalues[1]),
                      angle=np.rad2deg(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0])),
                      edgecolor=color, facecolor='none', linestyle='-', linewidth=2)
         ax_scatter.add_patch(ell)
-        
-        # Print confidence level instead of adding it to the plot
-        print(f"Confidence ellipse {j+1}: {conf*100:.0f}% confidence region")
+        ax_scatter.text(mean_height, mean_weight + sigma*np.sqrt(eigenvalues[1]) + 2, 
+                f'{sigma}σ confidence region', color=color, ha='center', va='bottom')
     
     # Plot the eigenvectors (principal components)
     for i in range(2):
         vec = eigenvectors[:, i] * np.sqrt(eigenvalues[i]) * 2
         ax_scatter.arrow(mean_height, mean_weight, vec[0], vec[1], 
                  head_width=1, head_length=1.5, fc='blue', ec='blue', linewidth=2)
-        # Print PC labels instead of adding them to the plot
-        print(f"Principal Component {i+1} (PC{i+1})")
-    
-    # Print annotations explaining what the principal components mean
-    print("\nPrincipal Component Interpretations:")
-    print("PC1: 'Growth Direction' - Captures the main height-weight relationship")
-    print("PC2: 'Body Type Variation' - Captures deviations from the main relationship")
+        ax_scatter.text(mean_height + vec[0]*1.1, mean_weight + vec[1]*1.1, 
+                f'PC{i+1}', color='blue', ha='center', va='center')
     
     # Calculate the best-fit line
     slope = cov_matrix[0,1] / cov_matrix[0,0]
@@ -271,7 +190,22 @@ def simple_covariance_example_real_world():
     ax_scatter.grid(True, alpha=0.3)
     ax_scatter.legend(loc='upper left')
     
-    # Add a subplot to show the 3D visualization of the bivariate normal distribution
+    # Create covariance matrix visualization
+    fig_matrix, ax_matrix = plt.subplots(figsize=(6, 5))
+    ax_matrix.matshow(cov_matrix, cmap='Blues')
+    for i in range(2):
+        for j in range(2):
+            ax_matrix.text(j, i, f'{cov_matrix[i, j]:.2f}', 
+                         ha='center', va='center', color='black', fontsize=12)
+    
+    ax_matrix.set_xticklabels(['', 'Height', 'Weight'])
+    ax_matrix.set_yticklabels(['', 'Height', 'Weight'])
+    ax_matrix.set_title('Covariance Matrix')
+    
+    # Create 3D visualization of the bivariate normal distribution
+    fig_3d = plt.figure(figsize=(8, 6))
+    ax_3d = fig_3d.add_subplot(111, projection='3d')
+    
     # Create a 2D grid for 3D plot
     h_grid = np.linspace(min(heights)-5, max(heights)+5, 50)
     w_grid = np.linspace(min(weights)-5, max(weights)+5, 50)
@@ -306,42 +240,38 @@ def simple_covariance_example_real_world():
     # Create a better viewpoint
     ax_3d.view_init(elev=30, azim=45)
     
-    # Plot marginal distributions
-    ax_marginal_height = ax_marginal.inset_axes([0.1, 0.1, 0.35, 0.8])
-    ax_marginal_weight = ax_marginal.inset_axes([0.55, 0.1, 0.35, 0.8])
+    # Create marginal distributions plot
+    fig_marginal, (ax_height, ax_weight) = plt.subplots(1, 2, figsize=(12, 5))
     
-    # Plot histograms and theoretical normal distributions
     from scipy.stats import norm
     
     # Height distribution
     bins_h = np.linspace(min(heights)-5, max(heights)+5, 20)
-    ax_marginal_height.hist(heights, bins=bins_h, density=True, alpha=0.6, color='#4575b4')
+    ax_height.hist(heights, bins=bins_h, density=True, alpha=0.6, color='#4575b4')
     
     # Plot the theoretical normal distribution for height
     h_range = np.linspace(min(heights)-10, max(heights)+10, 100)
     h_norm = norm.pdf(h_range, mean_height, np.sqrt(cov_matrix[0,0]))
-    ax_marginal_height.plot(h_range, h_norm, 'r-', linewidth=2)
+    ax_height.plot(h_range, h_norm, 'r-', linewidth=2)
     
-    ax_marginal_height.set_xlabel('Height (cm)')
-    ax_marginal_height.set_ylabel('Density')
-    ax_marginal_height.set_title('Height Distribution')
+    ax_height.set_xlabel('Height (cm)')
+    ax_height.set_ylabel('Density')
+    ax_height.set_title('Height Distribution')
     
     # Weight distribution
     bins_w = np.linspace(min(weights)-5, max(weights)+5, 20)
-    ax_marginal_weight.hist(weights, bins=bins_w, density=True, alpha=0.6, color='#4575b4')
+    ax_weight.hist(weights, bins=bins_w, density=True, alpha=0.6, color='#4575b4')
     
     # Plot the theoretical normal distribution for weight
     w_range = np.linspace(min(weights)-10, max(weights)+10, 100)
     w_norm = norm.pdf(w_range, mean_weight, np.sqrt(cov_matrix[1,1]))
-    ax_marginal_weight.plot(w_range, w_norm, 'r-', linewidth=2)
+    ax_weight.plot(w_range, w_norm, 'r-', linewidth=2)
     
-    ax_marginal_weight.set_xlabel('Weight (kg)')
-    ax_marginal_weight.set_ylabel('Density')
-    ax_marginal_weight.set_title('Weight Distribution')
+    ax_weight.set_xlabel('Weight (kg)')
+    ax_weight.set_ylabel('Density')
+    ax_weight.set_title('Weight Distribution')
     
-    # Add main title to the marginal plot area
-    ax_marginal.set_title('Marginal Distributions')
-    ax_marginal.axis('off')
+    plt.tight_layout()
     
     print("\nStep 5: Interpreting the Results")
     print("The visualization reveals key insights:")
@@ -360,29 +290,41 @@ def simple_covariance_example_real_world():
     print("- Sports science: analyzing performance metrics and their relationships")
     print("- Public health: monitoring population trends in body metrics")
     
-    # Create the old style visualization
-    old_style_fig = create_old_style_visualization(heights, weights, cov_matrix, eigenvalues, eigenvectors)
-    
-    plt.tight_layout()
-    
-    # Save the concept figure
+    # Save all the figures
     script_dir = os.path.dirname(os.path.abspath(__file__))
     images_dir = os.path.join(os.path.dirname(script_dir), "Images", "Contour_Plots")
     ensure_directory_exists(images_dir)
     
     try:
+        # Save the concept figure
         concept_save_path = os.path.join(images_dir, "ex5_concept_visualization.png")
         concept_fig.savefig(concept_save_path, bbox_inches='tight', dpi=300)
         print(f"\nConcept visualization saved to: {concept_save_path}")
         
-        # Save the old style visualization
-        old_style_save_path = os.path.join(images_dir, "ex5_simple_covariance_real_world_old.png")
-        old_style_fig.savefig(old_style_save_path, bbox_inches='tight', dpi=300)
-        print(f"\nOld style visualization saved to: {old_style_save_path}")
+        # Save the scatter plot with ellipses
+        scatter_save_path = os.path.join(images_dir, "ex5_simple_covariance_real_world.png")
+        fig_scatter.savefig(scatter_save_path, bbox_inches='tight', dpi=300)
+        print(f"\nScatter plot with covariance ellipses saved to: {scatter_save_path}")
+        
+        # Save the covariance matrix visualization
+        matrix_save_path = os.path.join(images_dir, "ex5_covariance_matrix.png")
+        fig_matrix.savefig(matrix_save_path, bbox_inches='tight', dpi=300)
+        print(f"\nCovariance matrix visualization saved to: {matrix_save_path}")
+        
+        # Save the 3D visualization
+        plot3d_save_path = os.path.join(images_dir, "ex5_3d_visualization.png")
+        fig_3d.savefig(plot3d_save_path, bbox_inches='tight', dpi=300)
+        print(f"\n3D visualization saved to: {plot3d_save_path}")
+        
+        # Save the marginal distributions
+        marginal_save_path = os.path.join(images_dir, "ex5_marginal_distributions.png")
+        fig_marginal.savefig(marginal_save_path, bbox_inches='tight', dpi=300)
+        print(f"\nMarginal distributions saved to: {marginal_save_path}")
+        
     except Exception as e:
         print(f"\nError saving figures: {e}")
     
-    return fig
+    return fig_scatter, fig_matrix, fig_3d, fig_marginal
 
 if __name__ == "__main__":
     print("\n\n" + "*"*80)
@@ -390,17 +332,5 @@ if __name__ == "__main__":
     print("*"*80)
     
     # Run the example with detailed step-by-step printing
-    fig = simple_covariance_example_real_world()
-    
-    # Save the figure if needed
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    images_dir = os.path.join(os.path.dirname(script_dir), "Images", "Contour_Plots")
-    ensure_directory_exists(images_dir)
-    
-    try:
-        save_path = os.path.join(images_dir, "ex5_simple_covariance_real_world.png")
-        fig.savefig(save_path, bbox_inches='tight', dpi=300)
-        print(f"\nFigure saved to: {save_path}")
-    except Exception as e:
-        print(f"\nError saving figure: {e}")
+    figures = simple_covariance_example_real_world()
     
