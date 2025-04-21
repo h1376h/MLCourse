@@ -151,8 +151,8 @@ You can generate contour plot visualizations with the following code:
 python3 ML_Obsidian_Vault/Lectures/2/Codes/1_contour_plots.py
 ```
 
-## Related Concepts
+## Related Topics
+- [[L2_1_Contour_Plot_Examples|Contour Plot Examples]]: Worked examples of contour plots for various functions
+- [[L2_1_Covariance_Matrix_Contours_Examples|Covariance Matrix Contours]]: How covariance matrices affect contour shapes in multivariate distributions
+- [[L2_1_Contour_Plot_Visual_Examples|Visual Examples]]: Additional visual examples of contour plots in various applications
 - [[L2_1_Multivariate_Distributions|Multivariate Distributions]]
-- Level sets in optimization
-- Confidence regions in parameter estimation
-- Decision boundaries in classification
