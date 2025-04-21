@@ -572,8 +572,6 @@ For this example, we'll use the following assumptions for height-weight relation
 
 #### Solution
 
-We'll analyze how height and weight naturally covary in human measurements, providing a concrete example of covariance in action.
-
 ##### Step 1: Understanding the Natural Relationship
 Height and weight are naturally correlated variables in human populations:
 - Taller people tend to weigh more (positive correlation)
@@ -623,7 +621,6 @@ The first principal component ($v_1$) represents the "growth direction" where bo
 We draw confidence ellipses to represent regions containing approximately:
 - 68% of the data (1σ ellipse)
 - 95% of the data (2σ ellipse)
-- 99% of the data (3σ ellipse)
 
 These ellipses are centered at the mean $(μ_h, μ_w)$ with:
 - Principal axes aligned with the eigenvectors of the covariance matrix
@@ -633,6 +630,9 @@ These ellipses are centered at the mean $(μ_h, μ_w)$ with:
 The principal components shown as arrows indicate:
 - PC1 (larger arrow): The main "growth direction" explaining most of the variance
 - PC2 (smaller arrow): The secondary dimension of variation, representing body type differences
+
+![Height-Weight Relationship](../Images/Contour_Plots/ex5_simple_covariance_real_world.png)
+*Figure 17: Height-weight relationship showing scatter plot with principal components and confidence ellipses.*
 
 The best-fit regression line shows the expected weight based on height, following the formula:
 $\text{weight} \approx 0.40 \times \text{height} + \text{constant}$
@@ -646,12 +646,24 @@ The 3D visualization shows:
 - The elliptical contours projected onto the height-weight plane
 - The elongation of the density surface along the direction of maximum variance
 
+![3D Probability Density](../Images/Contour_Plots/ex5_3d_visualization.png)
+*Figure 18: 3D probability density surface of the height-weight relationship.*
+
 The marginal distributions show:
 - The height distribution follows a normal distribution with mean ≈ 170cm
 - The weight distribution follows a normal distribution with mean ≈ 85kg
 - These are the "slices" of the bivariate distribution along each axis
 
-##### Step 6: Interpreting the Results
+![Marginal Distributions](../Images/Contour_Plots/ex5_marginal_distributions.png)
+*Figure 19: Marginal distributions of height and weight.*
+
+##### Step 6: Covariance Matrix Visualization
+The covariance matrix can be visualized to help understand the variance-covariance structure:
+
+![Covariance Matrix](../Images/Contour_Plots/ex5_covariance_matrix.png)
+*Figure 20: Covariance matrix visualization.*
+
+##### Step 7: Interpreting the Results
 The visualization reveals key insights:
 - The data cloud forms an elongated elliptical pattern
 - The first principal component points along the "growth direction" where both height and weight increase together
@@ -661,16 +673,7 @@ The visualization reveals key insights:
 
 This real-world example demonstrates how the abstract mathematical concept of covariance manifests in natural data, helping us understand and model relationships between variables.
 
-##### Step 7: Applications
-Understanding the covariance structure of height and weight has many practical applications:
-- **Medical research and anthropometry**: Establishing normal ranges and relationships for diagnostic purposes
-- **Clothing industry**: Designing size systems based on correlated body measurements
-- **Sports science**: Analyzing performance metrics and their relationships
-- **Public health**: Monitoring population trends in body metrics
-- **Ergonomics**: Designing furniture, equipment, and spaces based on human biometric correlations
-
 ![Simple Covariance Real-World Example](../Images/Contour_Plots/ex5_simple_covariance_real_world.png)
-*Figure 17: Comprehensive visualization of height-weight relationship showing scatter plot with principal components and confidence ellipses (left), covariance matrix visualization and 3D probability surface (right), and marginal distributions (bottom).*
 
 ### Example 6: Effects of Rotation on Covariance Structure
 
