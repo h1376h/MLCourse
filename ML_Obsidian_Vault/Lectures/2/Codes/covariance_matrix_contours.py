@@ -14,6 +14,27 @@ def ensure_directory_exists(directory):
 
 def covariance_matrix_contours():
     """Visualize multivariate Gaussians with different covariance matrices"""
+    # Print detailed step-by-step solution
+    print("\n" + "="*80)
+    print("Covariance Matrix Contours: Step-by-Step Solution")
+    print("="*80)
+    
+    print("\nStep 1: Define the multivariate Gaussian probability density function")
+    print("We'll use the formula:")
+    print("f(x,y) = (1/2π√|Σ|) * exp(-1/2 * (x-μ)ᵀΣ⁻¹(x-μ))")
+    print("where:")
+    print("- (x,y) is the position")
+    print("- μ is the mean vector")
+    print("- Σ is the covariance matrix")
+    print("- |Σ| is the determinant of the covariance matrix")
+    print("- Σ⁻¹ is the inverse of the covariance matrix")
+    
+    print("\nStep 2: Create a grid of points for visualization")
+    print("We'll create a 100x100 grid spanning from -5 to 5 in both dimensions")
+    print("This gives us a total of 10,000 points at which to evaluate the PDF")
+    print("The goal is to visualize the shape of the probability density function")
+    print("by creating contour plots that connect points of equal density")
+    
     # Create a figure with 2x2 subplots
     fig = plt.figure(figsize=(15, 15))
     
@@ -34,6 +55,18 @@ def covariance_matrix_contours():
         fac = np.einsum('...k,kl,...l->...', pos-mu, Sigma_inv, pos-mu)
         
         return np.exp(-fac / 2) / N
+    
+    print("\nStep 3: Analyze Case 1 - Diagonal Covariance with Equal Variances")
+    print("Covariance Matrix Σ = [[1.0, 0.0], [0.0, 1.0]] (Identity Matrix)")
+    print("Properties:")
+    print("- Equal variances (σ₁² = σ₂² = 1)")
+    print("- Zero correlation (ρ = 0)")
+    print("- Determinant |Σ| = 1")
+    print("- Eigenvalues: λ₁ = λ₂ = 1")
+    print("- The resulting contours form perfect circles")
+    print("- The equation for these contours is x² + y² = constant")
+    print("- This is the standard bivariate normal distribution")
+    print("- The pdf simplifies to: f(x,y) = (1/2π) * exp(-(x² + y²)/2)")
     
     # Case 1: Diagonal covariance with equal variances (scaled identity matrix)
     mu1 = np.array([0., 0.])
@@ -61,12 +94,25 @@ def covariance_matrix_contours():
             ax1.text(0, lambda_[1]*j, '2σ', color='red', ha='center', va='bottom')
             ax1.text(lambda_[0]*j, 0, '2σ', color='red', ha='left', va='center')
     
-    ax1.set_title('Case 1: Diagonal Covariance (σ₁² = σ₂² = 1)\nCircular Contours')
+    ax1.set_title('Case 1: Circular Contours\nIdentity Covariance Matrix')
     ax1.set_xlabel('x')
     ax1.set_ylabel('y')
     ax1.grid(True)
     ax1.set_xlim(-5, 5)
     ax1.set_ylim(-5, 5)
+    
+    print("\nStep 4: Analyze Case 2 - Diagonal Covariance with Different Variances")
+    print("Covariance Matrix Σ = [[3.0, 0.0], [0.0, 0.5]]")
+    print("Properties:")
+    print("- Different variances (σ₁² = 3, σ₂² = 0.5)")
+    print("- Zero correlation (ρ = 0)")
+    print("- Determinant |Σ| = 1.5")
+    print("- Eigenvalues: λ₁ = 3, λ₂ = 0.5 (same as variances since matrix is diagonal)")
+    print("- The resulting contours form axis-aligned ellipses")
+    print("- The equation for these contours is x²/3 + y²/0.5 = constant")
+    print("- The ellipses are stretched along the x-axis and compressed along the y-axis")
+    print("- The pdf is: f(x,y) = (1/2π√1.5) * exp(-1/2 * (x²/3 + y²/0.5))")
+    print("- The semi-axes of the ellipses are in the ratio √3 : √0.5 ≈ 1.73 : 0.71")
     
     # Case 2: Diagonal covariance with different variances
     mu2 = np.array([0., 0.])
@@ -93,12 +139,31 @@ def covariance_matrix_contours():
             ax2.text(0, lambda_[1]*j, '2σ₂', color='red', ha='center', va='bottom')
             ax2.text(lambda_[0]*j, 0, '2σ₁', color='red', ha='left', va='center')
     
-    ax2.set_title('Case 2: Diagonal Covariance (σ₁² = 3, σ₂² = 0.5)\nAxis-Aligned Elliptical Contours')
+    ax2.set_title('Case 2: Axis-Aligned Elliptical Contours\nDiagonal Covariance Matrix')
     ax2.set_xlabel('x')
     ax2.set_ylabel('y')
     ax2.grid(True)
     ax2.set_xlim(-5, 5)
     ax2.set_ylim(-5, 5)
+    
+    print("\nStep 5: Analyze Case 3 - Non-Diagonal Covariance with Positive Correlation")
+    print("Covariance Matrix Σ = [[2.0, 1.5], [1.5, 2.0]]")
+    print("Properties:")
+    corr3 = 1.5 / np.sqrt(2.0 * 2.0)
+    print(f"- Equal variances (σ₁² = σ₂² = 2)")
+    print(f"- Positive correlation (ρ = {corr3:.2f})")
+    print("- Determinant |Σ| = 1.75")
+    
+    lambda_3, v3 = np.linalg.eig(np.array([[2.0, 1.5], [1.5, 2.0]]))
+    print(f"- Eigenvalues: λ₁ = {lambda_3[0]:.2f}, λ₂ = {lambda_3[1]:.2f}")
+    print(f"- Eigenvectors: v₁ = [{v3[0,0]:.2f}, {v3[1,0]:.2f}], v₂ = [{v3[0,1]:.2f}, {v3[1,1]:.2f}]")
+    print("- The resulting contours form rotated ellipses")
+    print("- The ellipses are tilted along the y = x direction (positive correlation)")
+    print("- The principal axes align with the eigenvectors of the covariance matrix")
+    print("- The semi-axes lengths are proportional to √3.5 and √0.5")
+    print("- The quadratic form in the exponent is:")
+    print("  (x,y)ᵀ Σ⁻¹ (x,y) = [x y] [[a b], [b c]] [x, y]ᵀ = a·x² + 2b·xy + c·y²")
+    print("  where Σ⁻¹ = [[a b], [b c]] is the inverse of the covariance matrix")
     
     # Case 3: Non-diagonal covariance with positive correlation
     mu3 = np.array([0., 0.])
@@ -125,15 +190,31 @@ def covariance_matrix_contours():
     # Add correlation explanation
     ax3.plot([-5, 5], [-5, 5], 'r--', alpha=0.5)
     corr = Sigma3[0, 1] / np.sqrt(Sigma3[0, 0] * Sigma3[1, 1])
-    ax3.text(-4, -3, f'Correlation: ρ = {corr:.2f}', color='red',
-             bbox=dict(facecolor='white', alpha=0.7))
     
-    ax3.set_title('Case 3: Non-Diagonal Covariance (Positive Correlation)\nRotated Elliptical Contours')
+    ax3.set_title('Case 3: Rotated Elliptical Contours\nPositive Correlation (ρ = 0.75)')
     ax3.set_xlabel('x')
     ax3.set_ylabel('y')
     ax3.grid(True)
     ax3.set_xlim(-5, 5)
     ax3.set_ylim(-5, 5)
+    
+    print("\nStep 6: Analyze Case 4 - Non-Diagonal Covariance with Negative Correlation")
+    print("Covariance Matrix Σ = [[2.0, -1.5], [-1.5, 2.0]]")
+    print("Properties:")
+    corr4 = -1.5 / np.sqrt(2.0 * 2.0)
+    print(f"- Equal variances (σ₁² = σ₂² = 2)")
+    print(f"- Negative correlation (ρ = {corr4:.2f})")
+    print("- Determinant |Σ| = 1.75")
+    
+    lambda_4, v4 = np.linalg.eig(np.array([[2.0, -1.5], [-1.5, 2.0]]))
+    print(f"- Eigenvalues: λ₁ = {lambda_4[0]:.2f}, λ₂ = {lambda_4[1]:.2f}")
+    print(f"- Eigenvectors: v₁ = [{v4[0,0]:.2f}, {v4[1,0]:.2f}], v₂ = [{v4[0,1]:.2f}, {v4[1,1]:.2f}]")
+    print("- The resulting contours form rotated ellipses")
+    print("- The ellipses are tilted along the y = -x direction (negative correlation)")
+    print("- The principal axes align with the eigenvectors of the covariance matrix")
+    print("- The semi-axes lengths are proportional to √3.5 and √0.5")
+    print("- The negative correlation means that as one variable increases,")
+    print("  the other tends to decrease, creating the rotation in the opposite direction")
     
     # Case 4: Non-diagonal covariance with negative correlation
     mu4 = np.array([0., 0.])
@@ -160,21 +241,56 @@ def covariance_matrix_contours():
     # Add correlation explanation
     ax4.plot([-5, 5], [5, -5], 'r--', alpha=0.5)
     corr = Sigma4[0, 1] / np.sqrt(Sigma4[0, 0] * Sigma4[1, 1])
-    ax4.text(-4, 3, f'Correlation: ρ = {corr:.2f}', color='red',
-             bbox=dict(facecolor='white', alpha=0.7))
     
-    ax4.set_title('Case 4: Non-Diagonal Covariance (Negative Correlation)\nRotated Elliptical Contours')
+    ax4.set_title('Case 4: Rotated Elliptical Contours\nNegative Correlation (ρ = -0.75)')
     ax4.set_xlabel('x')
     ax4.set_ylabel('y')
     ax4.grid(True)
     ax4.set_xlim(-5, 5)
     ax4.set_ylim(-5, 5)
     
+    print("\nStep 7: Compare and Analyze All Cases")
+    print("Key Insights:")
+    print("1. Diagonal covariance matrices produce axis-aligned ellipses or circles:")
+    print("   - Equal variances (Case 1): Perfect circles")
+    print("   - Different variances (Case 2): Axis-aligned ellipses")
+    print("2. Non-diagonal covariance matrices produce rotated ellipses:")
+    print("   - Positive correlation (Case 3): Ellipses tilted along y = x")
+    print("   - Negative correlation (Case 4): Ellipses tilted along y = -x")
+    print("3. The shape and orientation of the ellipses directly reflect the covariance structure:")
+    print("   - The principal axes of the ellipses align with the eigenvectors of the covariance matrix")
+    print("   - The length of each principal axis is proportional to the square root of the corresponding eigenvalue")
+    print("4. The density contours connect points of equal probability density")
+    print("5. Mathematical relationship between correlation and geometry:")
+    print("   - As correlation increases in magnitude, ellipses become more elongated")
+    print("   - The angle of the principal axis is tan⁻¹(ρσ₂/σ₁) for positive correlation")
+    print("   - The eccentricity of the ellipses increases with stronger correlation")
+    
     plt.tight_layout()
     return fig
 
 def basic_2d_example():
     """Simple example showing 1D and 2D normal distributions"""
+    # Print detailed step-by-step solution
+    print("\n" + "="*80)
+    print("Basic 2D Normal Distributions: Step-by-Step Solution")
+    print("="*80)
+    
+    print("\nStep 1: Understanding 1D Normal Distributions with Different Variances")
+    print("The probability density function of a 1D normal distribution is:")
+    print("f(x) = (1/√(2πσ²)) * exp(-x²/(2σ²))")
+    print("where σ² is the variance parameter.")
+    print("\nWe'll visualize three cases:")
+    print("1. Standard normal (σ² = 1): f(x) = (1/√(2π)) * exp(-x²/2)")
+    print("2. Narrow normal (σ² = 0.5): f(x) = (1/√(π)) * exp(-x²/1)")
+    print("   - This has a taller peak (larger maximum value)")
+    print("   - It decreases more rapidly as x moves away from the mean")
+    print("3. Wide normal (σ² = 2): f(x) = (1/√(4π)) * exp(-x²/4)")
+    print("   - This has a shorter peak (smaller maximum value)")
+    print("   - It decreases more slowly as x moves away from the mean")
+    print("\nThe key insight: total area under each curve = 1 (probability axiom)")
+    print("So curves with higher peaks must be narrower, and those with lower peaks must be wider")
+    
     fig = plt.figure(figsize=(15, 5))
     
     # Plot 1: 1D Normal Distributions with different variances
@@ -205,6 +321,20 @@ def basic_2d_example():
     ax1.legend()
     ax1.grid(True)
     
+    print("\nStep 2: Extending to 2D - The Standard Bivariate Normal Distribution")
+    print("The PDF of a 2D standard normal distribution (with identity covariance matrix) is:")
+    print("f(x,y) = (1/2π) * exp(-(x² + y²)/2)")
+    print("\nKey properties:")
+    print("- Equal variance in both dimensions (σ₁² = σ₂² = 1)")
+    print("- Zero correlation between x and y (ρ = 0)")
+    print("- Contours form perfect circles centered at the origin")
+    print("- The equation for the contours is x² + y² = constant")
+    print("- The contour value c corresponds to the constant: -2ln(2πc)")
+    print("- 1σ, 2σ, and 3σ circles have radii of 1, 2, and 3 respectively")
+    print("- The 1σ circle contains approximately 39% of the probability mass")
+    print("- The 2σ circle contains approximately 86% of the probability mass")
+    print("- The 3σ circle contains approximately 99% of the probability mass")
+    
     # Plot 2: 2D Independent Normal Distribution (Diagonal Covariance)
     ax2 = fig.add_subplot(132)
     x = np.linspace(-3, 3, 100)
@@ -233,6 +363,21 @@ def basic_2d_example():
     ax2.set_xlim(-3, 3)
     ax2.set_ylim(-3, 3)
     
+    print("\nStep 3: 2D Normal with Different Variances (Diagonal Covariance Matrix)")
+    print("Now we'll examine a bivariate normal where the variances are different:")
+    print("f(x,y) = (1/(2π√|Σ|)) * exp(-1/2 * ((x²/σ₁²) + (y²/σ₂²)))")
+    print("where σ₁² = 2 and σ₂² = 0.5")
+    print("\nKey properties:")
+    print("- Covariance matrix Σ = [[2, 0], [0, 0.5]]")
+    print("- Determinant |Σ| = 2 * 0.5 = 1")
+    print("- Different variances in x and y directions")
+    print("- Still zero correlation between variables (ρ = 0)")
+    print("- Contours form axis-aligned ellipses")
+    print("- The equation for the contours is (x²/2 + y²/0.5) = constant")
+    print("- The semi-axes of the ellipses are in the ratio √2 : √0.5 ≈ 1.41 : 0.71")
+    print("- The ellipses are stretched along the x-axis and compressed along the y-axis")
+    print("- This reflects greater variance in the x direction than in the y direction")
+    
     # Plot 3: 2D Normal with different variances but still independent
     ax3 = fig.add_subplot(133)
     
@@ -259,11 +404,37 @@ def basic_2d_example():
     ax3.set_xlim(-3, 3)
     ax3.set_ylim(-3, 3)
     
+    print("\nStep 4: Comparing the Three Cases")
+    print("Key insights from these visualizations:")
+    print("1. 1D normal distributions: As variance increases, the peak height decreases")
+    print("   and the spread increases, but the total area remains constant (= 1)")
+    print("2. 2D standard normal (equal variances): Circular contours indicating")
+    print("   equal spread in all directions. This is the simplest case.")
+    print("3. 2D normal with different variances: Elliptical contours indicating")
+    print("   different spread in different directions. The direction of greater")
+    print("   variance corresponds to the longer axis of the ellipse.")
+    print("\nThe mathematical relationship: The shape of the contours directly reflects")
+    print("the structure of the covariance matrix. In these examples, the variables are")
+    print("uncorrelated, so the ellipses are aligned with the coordinate axes.")
+    
     plt.tight_layout()
     return fig
 
 def gaussian_3d_visualization():
     """Create 3D visualization of Gaussian probability density functions"""
+    # Print detailed step-by-step solution
+    print("\n" + "="*80)
+    print("3D Visualization of Gaussian PDFs: Step-by-Step Solution")
+    print("="*80)
+    
+    print("\nStep 1: Setting Up the Visualization Framework")
+    print("To visualize bivariate normal distributions in 3D, we need to:")
+    print("- Create a 2D grid of (x,y) points where we'll evaluate the PDF")
+    print("- Calculate the PDF value at each point, giving us a 3D surface z = f(x,y)")
+    print("- Plot this surface in 3D space, with contours projected on the xy-plane")
+    print("\nThis gives us a comprehensive view of both the probability density surface")
+    print("and its contour lines, helping us understand the distribution's shape")
+    
     fig = plt.figure(figsize=(18, 6))
     
     # Create a grid of points
@@ -283,6 +454,18 @@ def gaussian_3d_visualization():
         fac = np.einsum('...k,kl,...l->...', pos-mu, Sigma_inv, pos-mu)
         
         return np.exp(-fac / 2) / N
+    
+    print("\nStep 2: Case 1 - Standard Bivariate Normal (Identity Covariance)")
+    print("For a standard bivariate normal distribution:")
+    print("- Mean vector: μ = [0, 0] (centered at the origin)")
+    print("- Covariance matrix: Σ = [[1, 0], [0, 1]] (identity matrix)")
+    print("- PDF: f(x,y) = (1/2π) * exp(-(x² + y²)/2)")
+    print("\nKey properties of the 3D surface:")
+    print("- The peak occurs at (0,0) with a value of 1/(2π) ≈ 0.159")
+    print("- The surface has perfect radial symmetry around the z-axis")
+    print("- The contours projected onto the xy-plane form perfect circles")
+    print("- The surface falls off equally in all directions from the peak")
+    print("- The volume under the entire surface equals 1 (probability axiom)")
     
     # Case 1: Standard Normal Distribution (Identity Covariance)
     ax1 = fig.add_subplot(131, projection='3d')
@@ -304,6 +487,20 @@ def gaussian_3d_visualization():
     ax1.set_ylim(-3, 3)
     ax1.view_init(30, 45)
     
+    print("\nStep 3: Case 2 - Bivariate Normal with Different Variances")
+    print("For a bivariate normal with different variances:")
+    print("- Mean vector: μ = [0, 0] (still centered at the origin)")
+    print("- Covariance matrix: Σ = [[2.0, 0], [0, 0.5]] (diagonal but unequal)")
+    print("- PDF: f(x,y) = (1/(2π√|Σ|)) * exp(-1/2 * (x²/2 + y²/0.5))")
+    print("- Determinant |Σ| = 2.0 * 0.5 = 1.0")
+    print("\nKey properties of the 3D surface:")
+    print("- The peak still occurs at (0,0) with the same height as Case 1")
+    print("- The surface is stretched along the x-axis and compressed along the y-axis")
+    print("- The contours projected onto the xy-plane form axis-aligned ellipses")
+    print("- The surface falls off more slowly in the x-direction (larger variance)")
+    print("- The surface falls off more quickly in the y-direction (smaller variance)")
+    print("- The volume under the surface still equals 1")
+    
     # Case 2: Diagonal Covariance with Different Variances
     ax2 = fig.add_subplot(132, projection='3d')
     mu2 = np.array([0., 0.])
@@ -323,6 +520,23 @@ def gaussian_3d_visualization():
     ax2.set_xlim(-3, 3)
     ax2.set_ylim(-3, 3)
     ax2.view_init(30, 45)
+    
+    print("\nStep 4: Case 3 - Bivariate Normal with Correlation")
+    print("For a bivariate normal with correlation:")
+    print("- Mean vector: μ = [0, 0]")
+    print("- Covariance matrix: Σ = [[1.0, 0.8], [0.8, 1.0]] (non-diagonal)")
+    corr = 0.8 / np.sqrt(1.0 * 1.0)
+    print(f"- Correlation coefficient: ρ = {corr:.2f} (strong positive correlation)")
+    print("- PDF: f(x,y) = (1/(2π√|Σ|)) * exp(-1/2 * (x,y)ᵀ Σ⁻¹ (x,y))")
+    print("- Determinant |Σ| = 1.0² - 0.8² = 0.36")
+    print("\nKey properties of the 3D surface:")
+    print("- The peak still occurs at (0,0), but its height is different due to the determinant")
+    print("- The surface is tilted, with its principal axes rotated from the coordinate axes")
+    print("- The contours projected onto the xy-plane form rotated ellipses")
+    print("- The primary direction of spread is along the y = x line (reflecting positive correlation)")
+    print("- The surface shows that x and y tend to increase or decrease together")
+    print("- The correlation creates a 'ridge' along the y = x direction")
+    print("- The volume under the surface still equals 1")
     
     # Case 3: Non-diagonal Covariance with Correlation
     ax3 = fig.add_subplot(133, projection='3d')
@@ -346,6 +560,19 @@ def gaussian_3d_visualization():
     ax3.set_xlim(-3, 3)
     ax3.set_ylim(-3, 3)
     ax3.view_init(30, 45)
+    
+    print("\nStep 5: Comparing All Three 3D Visualizations")
+    print("Key insights from comparing these 3D surfaces:")
+    print("1. The covariance matrix directly determines the shape and orientation of the PDF surface")
+    print("2. Identity covariance (Case 1): Symmetric bell shape with circular contours")
+    print("3. Diagonal covariance with different variances (Case 2): Stretched bell shape")
+    print("   with axis-aligned elliptical contours")
+    print("4. Non-diagonal covariance with correlation (Case 3): Tilted bell shape")
+    print("   with rotated elliptical contours")
+    print("\nMathematical relationships:")
+    print("- The exponent term in the PDF formula: -1/2 * (x,y)ᵀ Σ⁻¹ (x,y) creates the shape")
+    print("- The determinant term in the denominator: √|Σ| adjusts the height of the peak")
+    print("- Together they ensure that the volume under the surface equals 1")
     
     plt.tight_layout()
     return fig
@@ -945,4 +1172,62 @@ def generate_covariance_contour_plots():
     return "Covariance matrix contour plots generated successfully!"
 
 if __name__ == "__main__":
-    generate_covariance_contour_plots() 
+    print("\n\n" + "*"*80)
+    print("RUNNING COVARIANCE MATRIX CONTOUR EXAMPLES WITH DETAILED STEP-BY-STEP SOLUTIONS")
+    print("*"*80)
+    
+    # Run examples with detailed step-by-step printing
+    print("\nRunning Example 1: Covariance Matrix Contours")
+    fig1 = covariance_matrix_contours()
+    
+    print("\nRunning Example 2: Basic 2D Normal Distributions")
+    fig2 = basic_2d_example()
+    
+    print("\nRunning Example 3: 3D Visualization of Gaussian PDFs")
+    fig3 = gaussian_3d_visualization()
+    
+    print("\nRunning Example 4: Eigenvalue and Eigenvector Visualization")
+    fig4 = covariance_eigenvalue_visualization()
+    
+    print("\nRunning Example 5: Real-World Height-Weight Covariance")
+    fig5 = simple_covariance_example_real_world()
+    
+    print("\nRunning Example 6: Rotation and Covariance Change")
+    fig6 = toy_data_covariance_change()
+    
+    print("\nRunning Example 7: Mahalanobis Distance vs Euclidean Distance")
+    fig7 = simple_mahalanobis_distance()
+    
+    print("\nRunning Example 8: Emoji Covariance Example")
+    fig8 = emoji_covariance_example()
+    
+    print("\nRunning Example 9: Sketch Contour Problem")
+    fig9 = sketch_contour_problem()
+    
+    # Generate plots (optional)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    images_dir = os.path.join(os.path.dirname(script_dir), "Images", "Contour_Plots")
+    ensure_directory_exists(images_dir)
+    
+    # Save figures
+    examples = [
+        {"fig": fig1, "filename": "covariance_matrix_contours.png"},
+        {"fig": fig2, "filename": "basic_2d_normal_examples.png"},
+        {"fig": fig3, "filename": "gaussian_3d_visualization.png"},
+        {"fig": fig4, "filename": "covariance_eigenvalue_visualization.png"},
+        {"fig": fig5, "filename": "simple_covariance_real_world.png"},
+        {"fig": fig6, "filename": "toy_data_covariance_change.png"},
+        {"fig": fig7, "filename": "simple_mahalanobis_distance.png"},
+        {"fig": fig8, "filename": "emoji_covariance_example.png"},
+        {"fig": fig9, "filename": "sketch_contour_problem.png"}
+    ]
+    
+    for example in examples:
+        try:
+            save_path = os.path.join(images_dir, example["filename"])
+            example["fig"].savefig(save_path, bbox_inches='tight', dpi=300)
+            print(f"Generated and saved {example['filename']}")
+        except Exception as e:
+            print(f"Error generating {example['filename']}: {e}")
+    
+    print("\nAll examples completed successfully!") 
