@@ -65,18 +65,6 @@ Where:
 
 The following examples demonstrate how different covariance matrices affect the shape and orientation of probability density contours:
 
-- **Basic Normal Distributions**: Visualizing 1D and 2D normal distributions with different variances
-- **Diagonal Covariance Matrices**: Exploring axis-aligned elliptical contours
-- **Non-Diagonal Covariance Matrices**: Understanding rotated elliptical contours with correlation
-- **3D Visualization**: Examining the probability density surface in three dimensions
-- **Eigenvalue Effect**: Analyzing how eigenvalues and eigenvectors relate to contour shapes
-- **Real-World Covariance**: Exploring height-weight relationships as a natural example of covariance
-- **Rotation Effects**: Understanding how rotation affects covariance structure
-- **Mahalanobis Distance**: Comparing Euclidean and Mahalanobis distances for correlated data
-- **Emoji Visualization**: Using intuitive visual metaphors to understand correlation types
-- **Sketching Contours**: Interactive visualization for sketching contours of a bivariate normal distribution
-- **Robust Covariance Estimation**: Comparing standard and robust methods for covariance estimation in the presence of outliers
-
 ### Example 1: Basic Normal Distributions
 
 #### Problem Statement
@@ -919,42 +907,187 @@ Practical applications:
 - Quality control: monitoring multivariate processes and detecting unusual states
 - Feature normalization: removing correlations in preprocessing steps
 
-### Example 8: The Emoji Guide to Correlation
+### Example 8: Intuitive Emoji Visualization of Correlation
 
 #### Problem Statement
-How can we intuitively understand positive and negative correlation using everyday visual metaphors?
+How can we create intuitive, memorable visualizations to understand correlation and covariance? How can we represent these abstract statistical concepts using everyday visual metaphors that enhance understanding and retention?
 
-![Emoji Covariance Visualization](../Images/Contour_Plots/ex8_emoji_covariance_example.png)
-*Emoji visualization showing how positive correlation resembles a smile (left) and negative correlation resembles a frown (right), providing an intuitive visual metaphor.*
+In this example, we explore:
+- Visual representations of positive and negative correlation using emoji-like faces
+- Different ways to visualize correlation direction and strength
+- Geometric interpretation of covariance as area
+- 3D visualization of joint probability densities for different correlation values
+- How different data patterns affect correlation values
 
 #### Solution
 
-We'll use visual metaphors to make correlation concepts more intuitive and memorable.
+We'll create multiple visualizations to build a comprehensive understanding of correlation from different perspectives.
 
-##### Step 1: Positive Correlation Visualization
-We create a "happy face" alongside data showing positive correlation, where variables tend to increase or decrease together:
-- Data points form a pattern from bottom-left to top-right
-- The covariance ellipse is tilted along the y = x direction
-- This pattern is seen in naturally related quantities (height-weight, study time-grades)
+##### Step 1: Creating Visual Metaphors for Correlation Patterns
 
-The smile curve ⌣ visually resembles the upward trend of positive correlation.
+We can use emoji-like faces to represent different correlation patterns:
+- Smiley face for positive correlation: variables tend to increase or decrease together
+- Sad face for negative correlation: as one variable increases, the other decreases
 
-##### Step 2: Negative Correlation Visualization
-We create a "sad face" alongside data showing negative correlation, where as one variable increases, the other tends to decrease:
-- Data points form a pattern from top-left to bottom-right
-- The covariance ellipse is tilted along the y = -x direction
-- This pattern is common in trade-off relationships (price-demand, speed-accuracy)
+This creates a memorable association:
+- Smile curves upward ⌣ like positive correlation data pattern
+- Frown curves downward ⌢ like negative correlation data pattern
 
-The frown curve ⌢ visually resembles the downward trend of negative correlation.
+![Emoji Correlation Visualization](../Images/Contour_Plots/ex8_emoji_covariance_example.png)
+*Emoji visualization of correlation. Left: positive correlation with smiley face. Right: negative correlation with sad face. Notice how data points follow the curve pattern of the face's expression.*
 
-##### Step 3: Visual Mnemonic
-We establish a visual mnemonic that connects the emotional expressions to the mathematical concept:
-- Smile curves upward ⌣ like positive correlation
-- Frown curves downward ⌢ like negative correlation
+The covariance matrix for the positive correlation case is:
+$$\Sigma_{positive} = \begin{bmatrix} 1.0 & 0.8 \\ 0.8 & 1.0 \end{bmatrix}$$
 
-This visual approach helps anchor abstract statistical concepts in intuitive, memorable imagery.
+The correlation coefficient is calculated as:
+$$\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y} = \frac{0.8}{\sqrt{1.0} \cdot \sqrt{1.0}} = 0.8$$
 
-![Emoji Covariance Visualization](../Images/Contour_Plots/ex8_emoji_covariance_example.png)
+For the negative correlation case:
+$$\Sigma_{negative} = \begin{bmatrix} 1.0 & -0.8 \\ -0.8 & 1.0 \end{bmatrix}$$
+
+With correlation coefficient:
+$$\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y} = \frac{-0.8}{\sqrt{1.0} \cdot \sqrt{1.0}} = -0.8$$
+
+The eigenvalues and eigenvectors of these matrices determine the shape and orientation of the ellipses:
+- For positive correlation: eigenvalues = [1.8, 0.2], with ellipse tilted at 45°
+- For negative correlation: eigenvalues = [1.8, 0.2], with ellipse tilted at -45°
+
+##### Step 2: Visualizing the Correlation Spectrum
+
+To develop a more complete understanding, we can visualize a range of correlation values from strong negative to strong positive:
+
+![Correlation Spectrum](../Images/Contour_Plots/ex8_correlation_spectrum.png)
+*The correlation spectrum from strong negative (ρ = -0.95) to strong positive (ρ = 0.95). Notice how the shape of data distributions changes across the spectrum, with a neutral face for zero correlation.*
+
+Key observations:
+- Very strong negative correlation (ρ = -0.95): Data points form a tight line from top-left to bottom-right
+- Moderate negative correlation (ρ = -0.5): Points show a clear downward trend but with more scatter
+- Zero correlation (ρ = 0): Points form a circular cloud with no directional pattern
+- Weak positive correlation (ρ = 0.2): Points show a slight upward trend
+- Moderate positive correlation (ρ = 0.6): Points show a clearer upward trend
+- Very strong positive correlation (ρ = 0.95): Points form a tight line from bottom-left to top-right
+
+##### Step 3: Directional Arrow Visualization
+
+Another intuitive way to understand correlation is through directional movements or "flows" in the data:
+
+![Correlation Arrows](../Images/Contour_Plots/ex8_correlation_arrows.png)
+*Arrow representation of correlation. Left: positive correlation with arrows pointing upward-right. Middle: zero correlation with random arrow directions. Right: negative correlation with arrows pointing downward-right.*
+
+This visualization emphasizes:
+- For positive correlation: As we move right (increasing x), we tend to move up (increasing y)
+- For zero correlation: As we move right, y can go in any direction (no predictable pattern)
+- For negative correlation: As we move right (increasing x), we tend to move down (decreasing y)
+
+The directional flow interpretation provides an intuitive way to think about how one variable changes in relation to another.
+
+##### Step 4: 3D Probability Density Visualization
+
+A 3D visualization of joint probability density provides insight into how correlation affects the shape of the distribution:
+
+![3D Correlation Visualization](../Images/Contour_Plots/ex8_correlation_3d.png)
+*3D representation of probability density functions for different correlation values. Left: positive correlation with ridge along y=x. Middle: zero correlation with symmetric circular bell. Right: negative correlation with ridge along y=-x.*
+
+For a bivariate normal distribution, the probability density function is:
+
+$$f(x,y) = \frac{1}{2\pi\sqrt{|\Sigma|}} \exp\left(-\frac{1}{2}(X-\mu)^T \Sigma^{-1} (X-\mu)\right)$$
+
+Where:
+- $\Sigma$ is the covariance matrix
+- $|\Sigma|$ is its determinant
+- $\Sigma^{-1}$ is its inverse
+
+For a point (1,1) with different correlation values:
+- Positive correlation (ρ = 0.8): PDF value = 0.152193
+- Zero correlation (ρ = 0.0): PDF value = 0.058550
+- Negative correlation (ρ = -0.8): PDF value = 0.001787
+
+The dramatic difference in density values demonstrates how correlation affects which regions of the space are more or less probable.
+
+##### Step 5: Geometric Area Interpretation of Covariance
+
+We can visualize covariance as the average product of deviations from the mean, represented as rectangular areas:
+
+![Geometric Covariance](../Images/Contour_Plots/ex8_correlation_geometric.png)
+*Geometric area interpretation of covariance. Left: positive correlation with mostly positive areas. Middle: zero correlation with balanced positive and negative areas. Right: negative correlation with mostly negative areas.*
+
+For a dataset $(x_i, y_i)$ with means $(\mu_x, \mu_y)$, the covariance is calculated as:
+
+$$Cov(X,Y) = \frac{1}{n}\sum_{i=1}^{n}(x_i - \mu_x)(y_i - \mu_y)$$
+
+Each term $(x_i - \mu_x)(y_i - \mu_y)$ can be visualized as a rectangle:
+- Positive correlation: Most rectangles have positive area (both deviations have same sign)
+- Zero correlation: Positive and negative areas roughly cancel out
+- Negative correlation: Most rectangles have negative area (deviations have opposite signs)
+
+This geometric interpretation shows why:
+- Positive correlation means variables tend to deviate from their means in the same direction
+- Negative correlation means variables tend to deviate in opposite directions
+- Zero correlation means no consistent pattern in how variables deviate together
+
+##### Step 6: Correlation Map for Different Data Patterns
+
+Linear correlation only measures linear relationships. Different data patterns can yield different correlation values:
+
+![Correlation Map](../Images/Contour_Plots/ex8_correlation_map.png)
+*Correlation map showing how different data patterns affect correlation values. The linear patterns show high correlation (±0.99), while non-linear patterns like quadratic and circular show near-zero correlation despite having clear structure.*
+
+The correlation map reveals important limitations of linear correlation:
+1. Perfect for linear relationships (ρ ≈ ±1)
+2. Completely misses non-linear associations (ρ ≈ 0 for perfect quadratic patterns)
+3. Averages to zero for oscillating patterns (sine wave, circular pattern)
+4. Captures monotonic relationships better than others
+
+##### Step 7: Step-by-Step Correlation Calculation
+
+To fully understand correlation, we can walk through a numerical example:
+
+![Correlation Calculation](../Images/Contour_Plots/ex8_correlation_calculation.png)
+*Visual representation of correlation calculation process with sample data points. Left: positive correlation example. Right: negative correlation example.*
+
+For sample data `x = [1, 2, 3, 4, 5, 6, 7, 8]` and corresponding y values:
+
+1. Calculate means: $\mu_x = 4.5$, $\mu_y = 5.18$ (for positive case)
+2. Calculate deviations from means:
+   - $x - \mu_x = [-3.5, -2.5, -1.5, -0.5, 0.5, 1.5, 2.5, 3.5]$
+   - $y - \mu_y = [-3.72, -1.68, -2.04, -0.93, 0.53, 2.64, 1.61, 3.60]$
+3. Calculate products of deviations:
+   - $(x - \mu_x)(y - \mu_y) = [13.04, 4.21, 3.06, 0.47, 0.26, 3.97, 4.01, 12.61]$
+4. Sum the products: $\sum(x - \mu_x)(y - \mu_y) = 41.63$
+5. Calculate sample covariance: $Cov(X,Y) = \frac{41.63}{7} = 5.95$
+6. Calculate variances: $Var(X) = 6.0$, $Var(Y) = 6.37$
+7. Calculate correlation coefficient:
+   - $\rho = \frac{Cov(X,Y)}{\sqrt{Var(X) \cdot Var(Y)}} = \frac{5.95}{\sqrt{6.0 \cdot 6.37}} = 0.96$
+
+The negative correlation case follows the same process but results in $\rho = -0.99$.
+
+#### Key Insights
+
+1. **Conceptual Understanding**:
+   - Correlation measures the linear relationship between two variables
+   - Positive correlation: variables tend to increase/decrease together
+   - Negative correlation: as one variable increases, the other decreases
+   - Zero correlation: no linear relationship (but could have non-linear relationship)
+
+2. **Visual Intuition**:
+   - Shape of data clouds reflects correlation direction and strength
+   - Direction of movement (arrows) provides intuitive way to understand correlation
+   - 3D probability density shows how correlation affects which variable combinations are more likely
+   - Geometric area interpretation helps understand covariance calculation
+
+3. **Practical Considerations**:
+   - Correlation coefficient (ρ) ranges from -1 to 1
+   - Linear correlation misses non-linear relationships
+   - Always visualize your data - correlation alone can be misleading
+   - Different patterns can yield similar correlation values for very different relationships
+
+4. **Mathematical Connection**:
+   - Covariance matrix eigenvalues determine spread along principal axes
+   - Correlation is standardized covariance: $\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y}$
+   - Higher correlation magnitude = more elongated ellipse
+   - Direction of correlation determines tilt of distribution ellipse
+
+These complementary visualizations provide a rich, intuitive understanding of correlation and covariance, connecting abstract statistical concepts to memorable visual representations.
 
 ### Example 9: Sketching Contours of a Bivariate Normal Distribution
 
