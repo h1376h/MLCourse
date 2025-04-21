@@ -27,20 +27,20 @@ This gives us a comprehensive view of both the probability density surface and i
 As the correlation parameter changes, the 3D probability density surface undergoes significant transformations:
 
 Key observations:
-- Negative correlation (ρ = -0.8): The surface stretches along the y = -x direction
-- No correlation (ρ = 0): The surface is symmetric with circular contours
-- Positive correlation (ρ = 0.8): The surface stretches along the y = x direction
-- As |ρ| approaches 1, the determinant approaches 0, causing the peak height to increase
-- The larger eigenvalue increases and the smaller eigenvalue decreases as |ρ| increases
-- The determinant (1-ρ²) decreases with increasing |ρ|, affecting the overall volume
+- Negative correlation ($\rho = -0.8$): The surface stretches along the $y = -x$ direction
+- No correlation ($\rho = 0$): The surface is symmetric with circular contours
+- Positive correlation ($\rho = 0.8$): The surface stretches along the $y = x$ direction
+- As $|\rho|$ approaches 1, the determinant approaches 0, causing the peak height to increase
+- The larger eigenvalue increases and the smaller eigenvalue decreases as $|\rho|$ increases
+- The determinant $(1-\rho^2)$ decreases with increasing $|\rho|$, affecting the overall volume
 
 ### Step 3: Cross-Sections of Probability Density Functions
 Different slices through the PDF reveal important properties about correlation:
 
 These cross-sections show:
-- With no correlation (ρ = 0), all directional cross-sections have the same shape
-- With positive correlation (ρ > 0), the cross-section along y = x becomes wider and flatter
-- With strong correlation (ρ → 1), the cross-section along y = -x becomes sharply peaked
+- With no correlation ($\rho = 0$), all directional cross-sections have the same shape
+- With positive correlation ($\rho > 0$), the cross-section along $y = x$ becomes wider and flatter
+- With strong correlation ($\rho \to 1$), the cross-section along $y = -x$ becomes sharply peaked
 - As correlation increases, the overall peak height increases due to decreasing determinant
 
 ### Step 4: Standard Bivariate Normal (Identity Covariance)
@@ -83,9 +83,9 @@ Key properties of the 3D surface:
 - The peak still occurs at (0,0), but its height is different due to the determinant
 - The surface is tilted, with its principal axes rotated from the coordinate axes
 - The contours projected onto the xy-plane form rotated ellipses
-- The primary direction of spread is along the y = x line (reflecting positive correlation)
+- The primary direction of spread is along the $y = x$ line (reflecting positive correlation)
 - The surface shows that x and y tend to increase or decrease together
-- The correlation creates a 'ridge' along the y = x direction
+- The correlation creates a 'ridge' along the $y = x$ direction
 - The volume under the surface still equals 1
 
 ### Step 7: Key Insights from Comparing All Three 3D Visualizations
@@ -111,7 +111,7 @@ Mathematical relationships:
 
 ### Cross-Sections of Probability Density Functions
 ![Cross-Section Visualization](../Images/Contour_Plots/ex3_gaussian_3d_cross_sections.png)
-*Cross-sections of probability density functions along different directions for various correlation values. The red line shows the cross-section along the y=x direction, blue along the x-axis, and green along the y=-x direction.*
+*Cross-sections of probability density functions along different directions for various correlation values. The red line shows the cross-section along the $y=x$ direction, blue along the x-axis, and green along the $y=-x$ direction.*
 
 ### Detailed 3D Visualizations
 ![Gaussian 3D Visualization](../Images/Contour_Plots/ex3_gaussian_3d_visualization.png)
@@ -127,8 +127,8 @@ Mathematical relationships:
 
 ### Correlation Effects
 - Zero correlation: Surface has principal axes aligned with the coordinate axes
-- Positive correlation: Surface is elongated along the y = x direction
-- Negative correlation: Surface is elongated along the y = -x direction
+- Positive correlation: Surface is elongated along the $y = x$ direction
+- Negative correlation: Surface is elongated along the $y = -x$ direction
 - As correlation magnitude increases, the surface becomes more ridge-like
 - Strong correlation causes the peak to become higher and sharper due to decreasing determinant
 

@@ -39,8 +39,8 @@ The covariance between two variables X and Y is defined as:
 $$\text{Cov}(X,Y) = \frac{1}{n} \sum_{i=1}^{n} (x_i - \mu_x)(y_i - \mu_y)$$
 
 Each term in this sum can be visualized as the area of a rectangle:
-- Width = (x_i - μₓ)
-- Height = (y_i - μᵧ)
+- Width = $(x_i - \mu_x)$
+- Height = $(y_i - \mu_y)$
 
 The sign of the area depends on which quadrant the point falls in:
 - Positive in the 1st and 3rd quadrants (both deviations have the same sign)

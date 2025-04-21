@@ -91,8 +91,8 @@ Properties:
 - The principal axes align with the eigenvectors of the covariance matrix
 - The semi-axes lengths are proportional to $\sqrt{3.5}$ and $\sqrt{0.5}$
 - The quadratic form in the exponent is:
-  $(x,y)^T \Sigma^{-1} (x,y) = [x \ y] [[a \ b], [b \ c]] [x, y]^T = a \cdot x^2 + 2b \cdot xy + c \cdot y^2$
-  where $\Sigma^{-1} = [[a \ b], [b \ c]]$ is the inverse of the covariance matrix
+  $(x,y)^T \Sigma^{-1} (x,y) = \begin{bmatrix} x & y \end{bmatrix} \begin{bmatrix} a & b \\ b & c \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = a \cdot x^2 + 2b \cdot xy + c \cdot y^2$
+  where $\Sigma^{-1} = \begin{bmatrix} a & b \\ b & c \end{bmatrix}$ is the inverse of the covariance matrix
 
 ### Step 7: Non-Diagonal Covariance with Negative Correlation
 When the covariance matrix has non-zero off-diagonal elements with negative correlation:

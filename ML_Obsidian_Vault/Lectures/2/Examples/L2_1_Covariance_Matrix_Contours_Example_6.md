@@ -98,7 +98,7 @@ This example demonstrates the fundamental importance of coordinate systems in mu
 
 ### Correlation as a Function of Rotation Angle
 ![Correlation vs Angle Curve](../Images/Contour_Plots/ex6_correlation_angle_curve.png)
-*How correlation coefficient changes with rotation angle according to the theoretical formula ρ = sin(2θ)/2, reaching maximum correlation of 0.5 at 45° and minimum of -0.5 at 135°.*
+*How correlation coefficient changes with rotation angle according to the theoretical formula $\rho = \sin(2\theta)/2$, reaching maximum correlation of 0.5 at 45° and minimum of -0.5 at 135°.*
 
 ### Rotation Vector Field
 ![Rotation Vector Field](../Images/Contour_Plots/ex6_rotation_vector_field.png)

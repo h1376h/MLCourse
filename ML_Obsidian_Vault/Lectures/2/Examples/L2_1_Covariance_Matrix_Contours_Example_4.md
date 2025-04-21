@@ -139,14 +139,14 @@ The correlation also dramatically affects the 3D probability density surface:
 ### Correlation Effects on Eigenstructure
 - As correlation increases, eigenvalues diverge: one increases, one decreases
 - With zero correlation, eigenvalues are equal, resulting in circular contours
-- With perfect correlation (ρ = 1), one eigenvalue becomes zero, resulting in a line
+- With perfect correlation ($\rho = 1$), one eigenvalue becomes zero, resulting in a line
 - The product of eigenvalues equals the determinant of the covariance matrix
 - The sum of eigenvalues equals the trace of the covariance matrix (total variance)
 
 ### Geometric Interpretation
 - Eigenvectors rotate toward the directions of correlation as correlation increases
-- For positive correlation, the principal eigenvector rotates toward the y = x line
-- For negative correlation, the principal eigenvector rotates toward the y = -x line
+- For positive correlation, the principal eigenvector rotates toward the $y = x$ line
+- For negative correlation, the principal eigenvector rotates toward the $y = -x$ line
 - The eccentricity of the ellipses increases with the strength of correlation
 - The shape of the distribution directly reflects the underlying statistical relationship
 
