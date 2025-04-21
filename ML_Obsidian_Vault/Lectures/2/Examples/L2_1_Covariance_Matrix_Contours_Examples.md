@@ -666,15 +666,16 @@ This visual approach helps anchor abstract statistical concepts in intuitive, me
 Sketch the contour lines for the probability density function of a bivariate normal distribution with mean $\mu = (0,0)$ and covariance matrix $\Sigma = \begin{pmatrix} \sigma_1^2 & 0 \\ 0 & \sigma_2^2 \end{pmatrix}$.
 
 In this example:
-- We need to understand how to translate the mathematical expression into a visual representation
-- We must identify the geometric shape formed by the contours
-- We must recognize the effect of the diagonal covariance matrix on these shapes
+- The PDF function is defined by its mean vector and covariance matrix
+- We want to visualize how changing variances affects the shape of contour lines
+- Contour lines connect points of equal probability density
+- We need to derive the mathematical equation for these contours and understand their geometric meaning
 
 #### Solution
 
-We'll analyze the mathematical formula and derive the shape of the contour lines through a step-by-step approach.
+We'll analyze the mathematical formula and derive the shape of the contour lines through a comprehensive step-by-step approach.
 
-##### Step 1: Understanding the Mathematical Formula
+##### Step 1: Mathematical Formula Setup
 The probability density function of a bivariate normal distribution is:
 
 $$f(x,y) = \frac{1}{2\pi\sqrt{|\Sigma|}} \exp\left(-\frac{1}{2}(X-\mu)^T \Sigma^{-1} (X-\mu)\right)$$
@@ -700,21 +701,25 @@ For the diagonal covariance matrix $\Sigma = \begin{pmatrix} \sigma_1^2 & 0 \\ 0
 - The eigenvectors are $v_1 = (1,0)$ and $v_2 = (0,1)$ (aligned with the coordinate axes)
 
 ##### Step 3: Deriving the Contour Equation
-Contour lines connect points with equal probability density. For a specific contour value $c$, the points $(x,y)$ on the contour satisfy:
+To find contour lines, we set the PDF equal to a constant $c$:
 
 $$\frac{1}{2\pi\sqrt{\sigma_1^2\sigma_2^2}} \exp\left(-\frac{1}{2}\left(\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right)\right) = c$$
 
-Taking the natural logarithm of both sides and rearranging:
+Taking the natural logarithm of both sides:
 
-$$-\frac{1}{2}\left(\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right) = \ln(c) + \ln(2\pi\sqrt{\sigma_1^2\sigma_2^2})$$
+$$\ln\left[\frac{1}{2\pi\sqrt{\sigma_1^2\sigma_2^2}} \exp\left(-\frac{1}{2}\left(\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right)\right)\right] = \ln(c)$$
 
-Simplifying and rearranging:
+$$\ln\left(\frac{1}{2\pi\sqrt{\sigma_1^2\sigma_2^2}}\right) + \ln\left[\exp\left(-\frac{1}{2}\left(\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right)\right)\right] = \ln(c)$$
+
+$$-\ln(2\pi\sqrt{\sigma_1^2\sigma_2^2}) - \frac{1}{2}\left(\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right) = \ln(c)$$
+
+Rearranging to isolate the quadratic terms:
 
 $$\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2} = -2\ln(c) - 2\ln(2\pi\sqrt{\sigma_1^2\sigma_2^2}) = k$$
 
-Where $k$ is a constant that depends on the contour value $c$. This is the equation of an ellipse.
+Where $k$ is a positive constant that depends on the contour value $c$.
 
-##### Step 4: Identifying the Geometric Shape of the Contours
+##### Step 4: Identifying the Geometric Shape
 The equation $\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2} = k$ describes an ellipse:
 
 - Centered at the origin $(0,0)$
@@ -723,27 +728,55 @@ The equation $\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2} = k$ describes an 
 - Semi-axis length along the $y$-axis: $b = \sqrt{k \cdot \sigma_2^2}$
 - Aspect ratio of the ellipse: $\frac{a}{b} = \frac{\sigma_1}{\sigma_2}$
 
-Special case: If $\sigma_1^2 = \sigma_2^2 = \sigma^2$ (equal variances), the equation simplifies to:
+Special cases:
+- If $\sigma_1^2 = \sigma_2^2 = \sigma^2$ (equal variances), the equation simplifies to:
+  $\frac{x^2 + y^2}{\sigma^2} = k$, which describes a circle with radius $r = \sqrt{k \cdot \sigma^2}$
+- If $\sigma_1^2 > \sigma_2^2$: The ellipse is stretched along the $x$-axis
+- If $\sigma_1^2 < \sigma_2^2$: The ellipse is stretched along the $y$-axis
 
-$$\frac{x^2 + y^2}{\sigma^2} = k$$
+##### Step 5: Probability Content of Contours
+For a bivariate normal distribution, the ellipses with constant $k$ represent:
 
-Which is the equation of a circle with radius $r = \sqrt{k \cdot \sigma^2}$.
+- $k = 1$: The 1σ ellipse containing approximately 39% of the probability mass
+- $k = 4$: The 2σ ellipse containing approximately 86% of the probability mass
+- $k = 9$: The 3σ ellipse containing approximately 99% of the probability mass
 
-##### Step 5: Sketching the Contours
+These ellipses form the boundaries of the confidence regions for the distribution.
+
+##### Step 6: Sketching the Contours
 To sketch the contours, we draw concentric ellipses centered at the origin:
 
-- If $\sigma_1^2 = \sigma_2^2$: The ellipses become circles (equal spread in all directions)
-- If $\sigma_1^2 > \sigma_2^2$: The ellipses are stretched along the $x$-axis
-- If $\sigma_1^2 < \sigma_2^2$: The ellipses are stretched along the $y$-axis
+- 1σ ellipse: semi-axes $a_1 = \sigma_1$ and $b_1 = \sigma_2$
+- 2σ ellipse: semi-axes $a_2 = 2\sigma_1$ and $b_2 = 2\sigma_2$
+- 3σ ellipse: semi-axes $a_3 = 3\sigma_1$ and $b_3 = 3\sigma_2$
 
-The 1σ, 2σ, and 3σ ellipses have semi-axes of lengths:
-- 1σ ellipse: $a_1 = \sigma_1$ and $b_1 = \sigma_2$
-- 2σ ellipse: $a_2 = 2\sigma_1$ and $b_2 = 2\sigma_2$
-- 3σ ellipse: $a_3 = 3\sigma_1$ and $b_3 = 3\sigma_2$
+Let's consider a specific numerical example:
+For $\sigma_1^2 = 2.0$ and $\sigma_2^2 = 0.5$:
 
-These contours represent regions containing approximately 39%, 86%, and 99% of the probability mass, respectively.
+- 1σ ellipse: semi-axes $a_1 = \sqrt{2} \approx 1.41$ and $b_1 = \sqrt{0.5} \approx 0.71$
+- 2σ ellipse: semi-axes $a_2 = 2\sqrt{2} \approx 2.83$ and $b_2 = 2\sqrt{0.5} \approx 1.41$
+- 3σ ellipse: semi-axes $a_3 = 3\sqrt{2} \approx 4.24$ and $b_3 = 3\sqrt{0.5} \approx 2.12$
 
-##### Step 6: Interpreting the Results
+These ellipses are stretched along the $x$-axis (since $\sigma_1^2 > \sigma_2^2$), with the 1σ ellipse being approximately twice as wide as it is tall.
+
+##### Step 7: Visual Comparison of Different Variance Combinations
+To better understand how the variances affect the contour shapes, we can compare three scenarios:
+
+1. Equal variances ($\sigma_1^2 = \sigma_2^2 = 1$): Forms circular contours
+   - This represents equal uncertainty in both directions
+   - The PDF has perfect radial symmetry around the origin
+
+2. Greater x-variance ($\sigma_1^2 = 2, \sigma_2^2 = 1$): Forms ellipses stretched along x-axis
+   - This represents greater uncertainty in the x-direction
+   - The PDF spreads more widely along the x-axis than the y-axis
+
+3. Greater y-variance ($\sigma_1^2 = 1, \sigma_2^2 = 2$): Forms ellipses stretched along y-axis
+   - This represents greater uncertainty in the y-direction
+   - The PDF spreads more widely along the y-axis than the x-axis
+
+The interactive visualization allows us to adjust $\sigma_1^2$ and $\sigma_2^2$ using sliders to see how the contour shapes change in real-time.
+
+##### Step 8: Interpreting the Results
 The contour plot provides several insights:
 
 - The shape of the ellipses directly reflects the covariance structure
@@ -752,9 +785,10 @@ The contour plot provides several insights:
 - Larger variance in a particular direction creates elongation of the ellipses in that direction
 - The contour values correspond to specific probability densities of the distribution
 
-By varying the values of $\sigma_1^2$ and $\sigma_2^2$ using interactive sliders, we can observe how changes in the covariance matrix affect the shape and orientation of the contours.
+This connection between matrix algebra (eigenvalues and eigenvectors) and geometry (ellipse axes and orientation) helps visualize the abstract concept of covariance.
 
 ![Sketch Contour Problem Visualization](../Images/Contour_Plots/sketch_contour_problem.png)
+*Figure: Interactive visualization of bivariate normal distribution contours with adjustable variance parameters. The plot shows contour lines of equal probability density and ellipses representing 1σ, 2σ, and 3σ boundaries. A companion visualization shows how different variance combinations affect the contour shapes.*
 
 ## Key Insights
 

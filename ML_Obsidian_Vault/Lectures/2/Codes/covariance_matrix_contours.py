@@ -6,6 +6,7 @@ from matplotlib.patches import Ellipse
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.gridspec as gridspec
 from matplotlib.widgets import Slider, Button
+from matplotlib.lines import Line2D
 
 def ensure_directory_exists(directory):
     """Ensure the specified directory exists, create if it doesn't."""
@@ -945,18 +946,15 @@ def sketch_contour_problem():
     """Create an interactive visualization for sketching contours of bivariate normal distributions."""
     # Create figure with a grid layout
     fig = plt.figure(figsize=(12, 8))
-    gs = gridspec.GridSpec(2, 2, width_ratios=[3, 1], height_ratios=[3, 1])
+    gs = gridspec.GridSpec(2, 3, width_ratios=[3, 2, 1], height_ratios=[3, 1])
     
     # Main plot area for contours
     ax_contour = fig.add_subplot(gs[0, 0])
-    # Mathematical formula area
-    ax_formula = fig.add_subplot(gs[0, 1])
+    # Visual explanation area
+    ax_vis = fig.add_subplot(gs[0, 1])
     # Sliders area
     ax_sigma1 = fig.add_subplot(gs[1, 0])
     ax_sigma2 = fig.add_subplot(gs[1, 1])
-    
-    # Turn off axis for formula display
-    ax_formula.axis('off')
     
     # Setup the initial plot data
     x = np.linspace(-3, 3, 100)
@@ -979,6 +977,91 @@ def sketch_contour_problem():
         fac = np.einsum('...k,kl,...l->...', pos-mu, Sigma_inv, pos-mu)
         
         return np.exp(-fac / 2) / N
+    
+    # Print step-by-step derivation
+    print("\n" + "="*80)
+    print("Example 9: Sketching Contours of a Bivariate Normal Distribution")
+    print("="*80)
+    
+    print("\nProblem Statement:")
+    print("Sketch the contour lines for the probability density function of a bivariate normal distribution")
+    print("with mean μ = (0,0) and covariance matrix Σ = [[σ₁², 0], [0, σ₂²]].")
+    
+    print("\nDetails:")
+    print("- The PDF function is defined by its mean vector and covariance matrix.")
+    print("- We want to visualize how changing variances affects the shape of contour lines.")
+    print("- Contour lines connect points of equal probability density.")
+    
+    print("\nStep-by-Step Solution:")
+    
+    print("\nStep 1: Mathematical Formula Setup")
+    print("The bivariate normal probability density function (PDF) is given by:")
+    print("f(x,y) = (1/2π√|Σ|) * exp(-1/2 * (x,y)ᵀ Σ⁻¹ (x,y))")
+    print("where Σ is the covariance matrix and |Σ| is its determinant.")
+    
+    print("\nFor our specific case with mean μ = (0,0) and covariance Σ = [[σ₁², 0], [0, σ₂²]]:")
+    print("f(x,y) = (1/2π√(σ₁²σ₂²)) * exp(-1/2 * (x²/σ₁² + y²/σ₂²))")
+    
+    print("\nStep 2: Analyzing the Covariance Matrix")
+    print("For our diagonal covariance matrix Σ = [[σ₁², 0], [0, σ₂²]]:")
+    print("- This is a diagonal matrix with variances σ₁² and σ₂² along the diagonal")
+    print("- Zero covariance means the variables are uncorrelated")
+    print("- The determinant |Σ| = σ₁² * σ₂²")
+    print("- The inverse Σ⁻¹ = [[1/σ₁², 0], [0, 1/σ₂²]]")
+    print("- The eigenvalues are λ₁ = σ₁² and λ₂ = σ₂²")
+    print("- The eigenvectors are v₁ = (1,0) and v₂ = (0,1)")
+    
+    print("\nStep 3: Deriving the Contour Equation")
+    print("To find contour lines, we set the PDF equal to a constant c:")
+    print("(1/2π√(σ₁²σ₂²)) * exp(-1/2 * (x²/σ₁² + y²/σ₂²)) = c")
+    
+    print("\nTaking natural logarithm of both sides:")
+    print("ln[(1/2π√(σ₁²σ₂²)) * exp(-1/2 * (x²/σ₁² + y²/σ₂²))] = ln(c)")
+    print("ln(1/2π√(σ₁²σ₂²)) + ln(exp(-1/2 * (x²/σ₁² + y²/σ₂²))) = ln(c)")
+    print("-ln(2π√(σ₁²σ₂²)) - 1/2 * (x²/σ₁² + y²/σ₂²) = ln(c)")
+    
+    print("\nRearranging to isolate the quadratic terms:")
+    print("x²/σ₁² + y²/σ₂² = -2ln(c) - 2ln(2π√(σ₁²σ₂²)) = k")
+    print("Where k is a positive constant that depends on the contour value c.")
+    
+    print("\nStep 4: Recognize the geometric shape")
+    print("The equation x²/σ₁² + y²/σ₂² = k describes an ellipse:")
+    print("- Centered at the origin (0,0)")
+    print("- Semi-axes aligned with the coordinate axes")
+    print("- Semi-axis length along x-direction: a = √(k*σ₁²)")
+    print("- Semi-axis length along y-direction: b = √(k*σ₂²)")
+    
+    print("\nSpecial cases:")
+    print("- If σ₁² = σ₂² = σ² (equal variances), the equation simplifies to:")
+    print("  (x² + y²)/σ² = k, which describes a circle with radius r = √(k*σ²)")
+    print("- If σ₁² > σ₂²: The ellipse is stretched along the x-axis")
+    print("- If σ₁² < σ₂²: The ellipse is stretched along the y-axis")
+    
+    print("\nStep 5: Understand the probability content")
+    print("For a bivariate normal distribution, the ellipses with constant k represent:")
+    print("- k = 1: The 1σ ellipse containing approximately 39% of the probability mass")
+    print("- k = 4: The 2σ ellipse containing approximately 86% of the probability mass")
+    print("- k = 9: The 3σ ellipse containing approximately 99% of the probability mass")
+    
+    print("\nStep 6: Sketch the contours")
+    print("To sketch the contours, we draw concentric ellipses centered at (0,0):")
+    print("- 1σ ellipse: semi-axes a₁ = σ₁ and b₁ = σ₂")
+    print("- 2σ ellipse: semi-axes a₂ = 2σ₁ and b₂ = 2σ₂")
+    print("- 3σ ellipse: semi-axes a₃ = 3σ₁ and b₃ = 3σ₂")
+    
+    print("\nNumerical Example:")
+    print("For σ₁² = 2.0 and σ₂² = 0.5:")
+    print("- 1σ ellipse: semi-axes a₁ = √2 ≈ 1.41 and b₁ = √0.5 ≈ 0.71")
+    print("- 2σ ellipse: semi-axes a₂ = 2√2 ≈ 2.83 and b₂ = 2√0.5 ≈ 1.41")
+    print("- 3σ ellipse: semi-axes a₃ = 3√2 ≈ 4.24 and b₃ = 3√0.5 ≈ 2.12")
+    print("The ellipses are stretched along the x-axis (since σ₁² > σ₂²)")
+    
+    print("\nConclusion:")
+    print("The contour lines for a bivariate normal distribution with diagonal covariance matrix")
+    print("form concentric ellipses centered at the mean (0,0). The shape and orientation of")
+    print("these ellipses directly reflect the covariance structure of the distribution.")
+    
+    print(f"\n{'='*80}")
     
     # Create initial covariance matrix and mean
     mu = np.array([0., 0.])
@@ -1015,17 +1098,41 @@ def sketch_contour_problem():
     ax_contour.set_ylim(-3, 3)
     ax_contour.set_aspect('equal')
     
-    # Display the mathematical formula in a simplified format
-    formula_text = ("Bivariate Normal Distribution\n\n" +
-                   "f(x,y) = (1/2π√|Σ|) exp(-1/2 (x,y)ᵀ Σ⁻¹ (x,y))\n\n" +
-                   "Covariance Matrix Σ:\n" +
-                   f"[[{sigma1_init:.1f}, 0]\n [0, {sigma2_init:.1f}]]\n\n" +
-                   "Mean μ = (0, 0)")
-    ax_formula.text(0.5, 0.5, formula_text, ha='center', va='center', fontsize=12)
+    # Create simplified visual explanation in the right panel
+    ax_vis.axis('off')
+    
+    # Draw coordinate axes
+    ax_vis.axhline(y=0, color='gray', linestyle='-', alpha=0.5)
+    ax_vis.axvline(x=0, color='gray', linestyle='-', alpha=0.5)
+    
+    # Create visual explanation with simple diagram
+    # Draw ellipses for different variance combinations
+    ex_sigma1 = [1, 2, 1]
+    ex_sigma2 = [1, 1, 2]
+    colors = ['blue', 'green', 'purple']
+    labels = ['σ₁² = 1, σ₂² = 1', 'σ₁² = 2, σ₂² = 1', 'σ₁² = 1, σ₂² = 2']
+    
+    for i in range(3):
+        ex_lambda = np.sqrt([ex_sigma1[i], ex_sigma2[i]])
+        ell = Ellipse(xy=(0, 0),
+                     width=ex_lambda[0]*2, height=ex_lambda[1]*2,
+                     angle=0,
+                     edgecolor=colors[i], facecolor='none', linewidth=2)
+        ax_vis.add_patch(ell)
+    
+    # Add legend
+    ax_vis.legend([Line2D([0], [0], color=c, lw=2) for c in colors], labels, 
+                  loc='upper center', bbox_to_anchor=(0.5, 1.1))
+    
+    ax_vis.set_xlim(-3, 3)
+    ax_vis.set_ylim(-3, 3)
+    ax_vis.set_aspect('equal')
+    ax_vis.text(0, -2.5, "Visual comparison of different\nvariance combinations", 
+                ha='center', fontsize=10)
     
     # Create sliders
-    slider_sigma1 = Slider(ax_sigma1, 'σ₁²', 0.1, 3.0, valinit=sigma1_init)
-    slider_sigma2 = Slider(ax_sigma2, 'σ₂²', 0.1, 3.0, valinit=sigma2_init)
+    slider_sigma1 = Slider(ax_sigma1, 'σ₁² (x-variance)', 0.1, 3.0, valinit=sigma1_init)
+    slider_sigma2 = Slider(ax_sigma2, 'σ₂² (y-variance)', 0.1, 3.0, valinit=sigma2_init)
     
     # Update function for sliders
     def update(val):
@@ -1065,15 +1172,10 @@ def sketch_contour_problem():
             ax_contour.add_patch(ell)
             ellipses.append(ell)
         
-        # Update formula text
-        new_formula_text = ("Bivariate Normal Distribution\n\n" +
-                           "f(x,y) = (1/2π√|Σ|) exp(-1/2 (x,y)ᵀ Σ⁻¹ (x,y))\n\n" +
-                           "Covariance Matrix Σ:\n" +
-                           f"[[{sigma1:.1f}, 0]\n [0, {sigma2:.1f}]]\n\n" +
-                           "Mean μ = (0, 0)")
-        ax_formula.clear()
-        ax_formula.axis('off')
-        ax_formula.text(0.5, 0.5, new_formula_text, ha='center', va='center', fontsize=12)
+        # Print current values and equation
+        print(f"\nCurrent settings: σ₁² = {sigma1:.2f}, σ₂² = {sigma2:.2f}")
+        print(f"Contour equation: x²/{sigma1:.2f} + y²/{sigma2:.2f} = k")
+        print(f"1σ ellipse: semi-axes a = {np.sqrt(sigma1):.2f}, b = {np.sqrt(sigma2):.2f}")
         
         # Redraw
         fig.canvas.draw_idle()
@@ -1086,7 +1188,7 @@ def sketch_contour_problem():
     return fig
 
 def explain_sketch_contour_problem():
-    """Print detailed explanations for the interactive sketch contour problem."""
+    """Print detailed explanations for the sketch contour problem example."""
     print(f"\n{'='*80}")
     print(f"Example: Sketch Contour Lines for Bivariate Normal Distribution")
     print(f"{'='*80}")
@@ -1109,29 +1211,55 @@ def explain_sketch_contour_problem():
     print("- The determinant |Σ| = σ₁² * σ₂²")
     print("- The inverse Σ⁻¹ = [[1/σ₁², 0], [0, 1/σ₂²]]")
     
-    print("\nStep 3: Identify the equation for contour lines")
-    print("Contour lines connect points with equal probability density")
-    print("For a specific contour value c, the points satisfy:")
-    print("(x,y)ᵀ Σ⁻¹ (x,y) = -2ln(c*2π√|Σ|) = constant")
-    print("Which simplifies to: (x²/σ₁² + y²/σ₂²) = constant")
+    print("\nStep 3: Derive the contour equation")
+    print("Setting the PDF equal to a constant c:")
+    print("(1/2π√(σ₁²σ₂²)) * exp(-1/2 * (x²/σ₁² + y²/σ₂²)) = c")
     
-    print("\nStep 4: Recognize that contours form ellipses")
-    print("The equation (x²/σ₁² + y²/σ₂²) = constant describes an ellipse:")
+    print("\nTaking natural logarithm of both sides:")
+    print("ln[(1/2π√(σ₁²σ₂²)) * exp(-1/2 * (x²/σ₁² + y²/σ₂²))] = ln(c)")
+    print("ln(1/2π√(σ₁²σ₂²)) + ln(exp(-1/2 * (x²/σ₁² + y²/σ₂²))) = ln(c)")
+    print("-ln(2π√(σ₁²σ₂²)) - 1/2 * (x²/σ₁² + y²/σ₂²) = ln(c)")
+    
+    print("\nRearranging to isolate the quadratic terms:")
+    print("x²/σ₁² + y²/σ₂² = -2ln(c) - 2ln(2π√(σ₁²σ₂²)) = k")
+    print("Where k is a positive constant that depends on the contour value c.")
+    
+    print("\nStep 4: Recognize the geometric shape")
+    print("The equation x²/σ₁² + y²/σ₂² = k describes an ellipse:")
     print("- Centered at the origin (0,0)")
     print("- Semi-axes aligned with the coordinate axes")
-    print("- Semi-axis lengths proportional to √σ₁² and √σ₂²")
+    print("- Semi-axis length along x-direction: a = √(k*σ₁²)")
+    print("- Semi-axis length along y-direction: b = √(k*σ₂²)")
     
-    print("\nStep 5: Sketch the contours")
-    print("Draw concentric ellipses centered at the origin:")
-    print("- If σ₁² = σ₂²: The ellipses become circles (equal spread in all directions)")
-    print("- If σ₁² > σ₂²: The ellipses are stretched along the x-axis")
-    print("- If σ₁² < σ₂²: The ellipses are stretched along the y-axis")
+    print("\nSpecial cases:")
+    print("- If σ₁² = σ₂² = σ² (equal variances), the equation simplifies to:")
+    print("  (x² + y²)/σ² = k, which describes a circle with radius r = √(k*σ²)")
+    print("- If σ₁² > σ₂²: The ellipse is stretched along the x-axis")
+    print("- If σ₁² < σ₂²: The ellipse is stretched along the y-axis")
+    
+    print("\nStep 5: Understand the probability content")
+    print("For a bivariate normal distribution, the ellipses with constant k represent:")
+    print("- k = 1: The 1σ ellipse containing approximately 39% of the probability mass")
+    print("- k = 4: The 2σ ellipse containing approximately 86% of the probability mass")
+    print("- k = 9: The 3σ ellipse containing approximately 99% of the probability mass")
+    
+    print("\nStep 6: Sketch the contours")
+    print("To sketch the contours, we draw concentric ellipses centered at (0,0):")
+    print("- 1σ ellipse: semi-axes a₁ = σ₁ and b₁ = σ₂")
+    print("- 2σ ellipse: semi-axes a₂ = 2σ₁ and b₂ = 2σ₂")
+    print("- 3σ ellipse: semi-axes a₃ = 3σ₁ and b₃ = 3σ₂")
+    
+    print("\nNumerical Example:")
+    print("For σ₁² = 2.0 and σ₂² = 0.5:")
+    print("- 1σ ellipse: semi-axes a₁ = √2 ≈ 1.41 and b₁ = √0.5 ≈ 0.71")
+    print("- 2σ ellipse: semi-axes a₂ = 2√2 ≈ 2.83 and b₂ = 2√0.5 ≈ 1.41")
+    print("- 3σ ellipse: semi-axes a₃ = 3√2 ≈ 4.24 and b₃ = 3√0.5 ≈ 2.12")
+    print("The ellipses are stretched along the x-axis (since σ₁² > σ₂²)")
     
     print("\nConclusion:")
-    print("The contour lines are concentric ellipses centered at the mean (0,0).")
-    print("The shape of these ellipses directly reflects the covariance structure:")
-    print("- The axes of the ellipses align with the coordinate axes when the covariance matrix is diagonal")
-    print("- The relative sizes of the semi-axes are determined by the square roots of the variances")
+    print("The contour lines for a bivariate normal distribution with diagonal covariance matrix")
+    print("form concentric ellipses centered at the mean (0,0). The shape and orientation of")
+    print("these ellipses directly reflect the covariance structure of the distribution.")
     
     print(f"\n{'='*80}")
     
