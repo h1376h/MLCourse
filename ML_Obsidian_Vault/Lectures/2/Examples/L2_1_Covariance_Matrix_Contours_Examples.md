@@ -81,11 +81,6 @@ The following examples demonstrate how different covariance matrices affect the 
 #### Problem Statement
 How do variance changes affect 1D normal distributions, and what happens when we extend to 2D with independent variables?
 
-In this example:
-- We visualize 1D normal distributions with different variances
-- We show how these distributions extend to 2D space
-- We examine the standard circular case and the axis-aligned elliptical case
-
 #### Solution
 
 We'll start with 1D normal distributions and extend to 2D with diagonal covariance matrices.
@@ -429,11 +424,6 @@ As $\rho$ approaches 1, $\lambda_1$ approaches 2 and $\lambda_2$ approaches 0, m
 #### Problem Statement
 How does natural covariance appear in the real world, and how can it be visualized using height and weight data?
 
-In this example:
-- We use simulated height and weight data that exhibits natural positive correlation
-- We calculate and visualize the covariance matrix and correlation
-- We demonstrate principal components as directions of maximum variance in the data
-
 #### Solution
 
 We'll analyze how height and weight naturally covary in human measurements, providing a concrete example of covariance in action.
@@ -499,11 +489,6 @@ This real-world example demonstrates how the abstract mathematical concept of co
 
 #### Problem Statement
 What happens to the covariance matrix when we rotate a dataset, and why is this important?
-
-In this example:
-- We start with uncorrelated data (independent variables with diagonal covariance)
-- We apply rotation transformations of different angles
-- We observe how rotation introduces correlation between variables
 
 #### Solution
 
@@ -596,11 +581,6 @@ Understanding rotation effects on covariance has important applications:
 #### Problem Statement
 Why is Euclidean distance inadequate for correlated data, and how does Mahalanobis distance address this limitation?
 
-In this example:
-- We generate correlated data from a multivariate normal distribution
-- We calculate both Euclidean and Mahalanobis distances for selected test points
-- We visualize the difference between these distance metrics
-
 #### Solution
 
 We'll compare two distance metrics and understand why Mahalanobis distance is more appropriate for correlated data.
@@ -629,11 +609,6 @@ This makes Mahalanobis distance much more suitable for anomaly detection and cla
 
 #### Problem Statement
 How can we intuitively understand positive and negative correlation using everyday visual metaphors?
-
-In this example:
-- We create a fun visualization using emoji-like faces to represent correlation concepts
-- We contrast positive and negative correlation structures
-- We provide an intuitive memory aid for understanding correlation direction
 
 #### Solution
 
