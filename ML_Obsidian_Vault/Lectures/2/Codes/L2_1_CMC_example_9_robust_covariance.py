@@ -236,5 +236,4 @@ if __name__ == "__main__":
         print(f"\nFigure saved to: {save_path}")
     except Exception as e:
         print(f"\nError saving figure: {e}")
-    
-    plt.show() 
+        
