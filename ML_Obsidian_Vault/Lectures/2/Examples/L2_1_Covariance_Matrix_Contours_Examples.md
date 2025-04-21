@@ -930,27 +930,31 @@ We can use emoji-like faces to represent different correlation patterns:
 - Sad face for negative correlation: as one variable increases, the other decreases
 
 This creates a memorable association:
-- Smile curves upward ⌣ like positive correlation data pattern
-- Frown curves downward ⌢ like negative correlation data pattern
+- Smile curves upward ⌣ like positive correlation data pattern (though the generated data here follows a U-shape visually)
+- Frown curves downward ⌢ like negative correlation data pattern (though the generated data here follows an inverted U-shape visually)
 
 ![Emoji Correlation Visualization](../Images/Contour_Plots/ex8_emoji_covariance_example.png)
-*Emoji visualization of correlation. Left: positive correlation with smiley face. Right: negative correlation with sad face. Notice how data points follow the curve pattern of the face's expression.*
+*Emoji visualization of correlation. Left: positive correlation data following a smiley face shape. Right: negative correlation data following a sad face shape. Notice how data points visually follow the curve pattern of the face's expression. The dashed ellipses show the covariance calculated from the scattered points.* 
 
-The covariance matrix for the positive correlation case is:
-$$\Sigma_{positive} = \begin{bmatrix} 1.0 & 0.8 \\ 0.8 & 1.0 \end{bmatrix}$$
+Note: The data points were generated to visually follow the mouth curves with added noise. We then *calculate* the covariance matrix and correlation coefficient from this generated data.
 
-The correlation coefficient is calculated as:
-$$\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y} = \frac{0.8}{\sqrt{1.0} \cdot \sqrt{1.0}} = 0.8$$
+The calculated covariance matrix for the positive correlation case (smiley data) is approximately:
+$$\Sigma_{positive} \approx \begin{bmatrix} 1.42 & -0.08 \\ -0.08 & 0.19 \end{bmatrix}$$ 
 
-For the negative correlation case:
-$$\Sigma_{negative} = \begin{bmatrix} 1.0 & -0.8 \\ -0.8 & 1.0 \end{bmatrix}$$
+The calculated correlation coefficient is approximately:
+$$\rho_{positive} \approx \frac{-0.08}{\sqrt{1.42} \cdot \sqrt{0.19}} \approx -0.15$$
 
-With correlation coefficient:
-$$\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y} = \frac{-0.8}{\sqrt{1.0} \cdot \sqrt{1.0}} = -0.8$$
+For the negative correlation case (sad data), the calculated covariance matrix is approximately:
+$$\Sigma_{negative} \approx \begin{bmatrix} 1.32 & 0.00 \\ 0.00 & 0.17 \end{bmatrix}$$ 
 
-The eigenvalues and eigenvectors of these matrices determine the shape and orientation of the ellipses:
-- For positive correlation: eigenvalues = [1.8, 0.2], with ellipse tilted at 45°
-- For negative correlation: eigenvalues = [1.8, 0.2], with ellipse tilted at -45°
+With calculated correlation coefficient approximately:
+$$\rho_{negative} \approx \frac{0.00}{\sqrt{1.32} \cdot \sqrt{0.17}} \approx 0.01$$
+
+The eigenvalues and eigenvectors of these calculated matrices determine the shape and orientation of the ellipses shown:
+- For positive correlation data: eigenvalues ≈ [1.42, 0.18], with ellipse tilted at ≈ -3.6°
+- For negative correlation data: eigenvalues ≈ [1.32, 0.17], with ellipse tilted at ≈ 0.2°
+
+**Important Note:** The *linear* correlation coefficient (ρ) is very low for both cases, close to zero. This is because the underlying pattern generated (a U-shape and an inverted U-shape) is strongly *non-linear*. Linear correlation measures the strength of a *linear* relationship. While the visual metaphor helps intuition, this example also highlights that ρ can be misleading for non-linear patterns. The covariance ellipses show the overall spread and orientation based on the calculated linear statistics, even if the underlying pattern is non-linear.
 
 ##### Step 2: Visualizing the Correlation Spectrum
 
