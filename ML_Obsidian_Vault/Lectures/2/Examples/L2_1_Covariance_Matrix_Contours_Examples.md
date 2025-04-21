@@ -640,9 +640,6 @@ Understanding the covariance structure of height and weight has many practical a
 ![Simple Covariance Real-World Example](../Images/Contour_Plots/ex5_simple_covariance_real_world.png)
 *Figure 17: Comprehensive visualization of height-weight relationship showing scatter plot with principal components and confidence ellipses (left), covariance matrix visualization and 3D probability surface (right), and marginal distributions (bottom).*
 
-![Classic Covariance Visualization](../Images/Contour_Plots/ex5_simple_covariance_real_world_old.png)
-*Figure 17b: Traditional visualization approach for the height-weight relationship, showing scatter plot with principal components and confidence ellipses, along with covariance statistics.*
-
 ### Example 6: Effects of Rotation on Covariance Structure
 
 #### Problem Statement
