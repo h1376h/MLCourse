@@ -1,6 +1,6 @@
-### Example 2: Covariance Matrix Types and Their Effects
+# Example 2: Covariance Matrix Types and Their Effects
 
-#### Problem Statement
+## Problem Statement
 How do different types of covariance matrices affect the shape, size, and orientation of probability density contours? How does the probability mass distribute within different sigma regions for both 1D and 2D normal distributions?
 
 We will examine four covariance matrices:
@@ -9,14 +9,12 @@ We will examine four covariance matrices:
 3. Non-diagonal with positive correlation: $\Sigma = \begin{bmatrix} 2.0 & 1.5 \\ 1.5 & 2.0 \end{bmatrix}$
 4. Non-diagonal with negative correlation: $\Sigma = \begin{bmatrix} 2.0 & -1.5 \\ -1.5 & 2.0 \end{bmatrix}$
 
-![Probability Mass Visualization](../Images/Contour_Plots/ex2_normal_probability_mass_visualization.png)
-*Visualization of probability mass contained within different sigma regions for 1D and 2D normal distributions. Top row shows the probability regions with exact percentages, bottom row shows 3D surfaces.*
+## Understanding the Problem
+The covariance matrix determines the shape and orientation of probability density contours in multivariate normal distributions. Different structures in the covariance matrix (diagonal vs. non-diagonal) lead to different geometrical properties of the resulting probability distributions. The distribution of probability mass within regions bounded by contours also follows specific patterns that differ between 1D and higher-dimensional cases.
 
-#### Solution
+## Solution
 
-We'll explore four cases with different covariance matrices and analyze their properties mathematically, with a focus on understanding how probability mass is distributed.
-
-##### Step 1: Understanding Normal Distribution Probability Regions
+### Step 1: Understanding Normal Distribution Probability Regions
 For a 1D normal distribution:
 - 68.27% of the probability mass falls within 1σ (±1 standard deviation) of the mean
 - 95.45% of the probability mass falls within 2σ (±2 standard deviations) of the mean
@@ -29,24 +27,16 @@ For a 2D normal distribution with equal variances:
 
 Note that the percentages are different between 1D and 2D cases due to the increased dimensionality.
 
-##### Step 2: Transitioning from 1D to 2D Normal Distributions
-As we extend from 1D to 2D distributions, the probability structure changes:
-
-![1D to 2D Transition](../Images/Contour_Plots/ex2_normal_1d_to_2d_transition.png)
-*Visualization of the transition from 1D to 2D normal distributions with different variance parameters, showing how the probability regions extend into the second dimension.*
-
-The transition sequence demonstrates:
+### Step 2: Transitioning from 1D to 2D Normal Distributions
+As we extend from 1D to 2D distributions, the probability structure changes. The transition sequence demonstrates:
 1. Standard normal in both dimensions (equal variances)
 2. Narrow distribution in x, standard in y (different variances)
 3. Wide distribution in x, narrow in y (highly different variances in opposite directions)
 
 This progression helps build an intuitive understanding of how the covariance matrix shapes the probability density.
 
-##### Step 3: The Effect of Variance Parameters on Contour Shapes
-The shape of contours is directly determined by the variance parameters:
-
-![Variance Effect Grid](../Images/Contour_Plots/ex2_normal_variance_effect_grid.png)
-*Grid visualization showing how different combinations of variance parameters affect the shape and orientation of contours. The figure displays 16 different combinations of variances for x and y coordinates.*
+### Step 3: The Effect of Variance Parameters on Contour Shapes
+The shape of contours is directly determined by the variance parameters.
 
 Key observations:
 - When σ²ₓ = σ²ᵧ (diagonal from top-left to bottom-right), contours are circular
@@ -54,7 +44,7 @@ Key observations:
 - As σ²ᵧ increases vertically down the grid, ellipses stretch in the y-direction
 - The ratio σ²ₓ/σ²ᵧ determines the aspect ratio of the ellipses
 
-##### Step 4: Diagonal Covariance with Equal Variances (Identity Matrix)
+### Step 4: Diagonal Covariance with Equal Variances (Identity Matrix)
 When the covariance matrix is a scaled identity matrix:
 
 $$\Sigma = \begin{bmatrix} 1.0 & 0.0 \\ 0.0 & 1.0 \end{bmatrix} = I$$
@@ -69,7 +59,7 @@ Properties:
 - This is the standard bivariate normal distribution
 - The PDF simplifies to: $f(x,y) = \frac{1}{2\pi} \exp\left(-\frac{x^2 + y^2}{2}\right)$
 
-##### Step 5: Diagonal Covariance with Different Variances
+### Step 5: Diagonal Covariance with Different Variances
 When the covariance matrix has different variances but no correlation:
 
 $$\Sigma = \begin{bmatrix} 3.0 & 0.0 \\ 0.0 & 0.5 \end{bmatrix}$$
@@ -85,7 +75,7 @@ Properties:
 - The PDF is: $f(x,y) = \frac{1}{2\pi\sqrt{1.5}} \exp\left(-\frac{1}{2} \left(\frac{x^2}{3} + \frac{y^2}{0.5}\right)\right)$
 - The semi-axes of the ellipses are in the ratio $\sqrt{3} : \sqrt{0.5} \approx 1.73 : 0.71$
 
-##### Step 6: Non-Diagonal Covariance with Positive Correlation
+### Step 6: Non-Diagonal Covariance with Positive Correlation
 When the covariance matrix has non-zero off-diagonal elements with positive correlation:
 
 $$\Sigma = \begin{bmatrix} 2.0 & 1.5 \\ 1.5 & 2.0 \end{bmatrix}$$
@@ -104,7 +94,7 @@ Properties:
   $(x,y)^T \Sigma^{-1} (x,y) = [x \ y] [[a \ b], [b \ c]] [x, y]^T = a \cdot x^2 + 2b \cdot xy + c \cdot y^2$
   where $\Sigma^{-1} = [[a \ b], [b \ c]]$ is the inverse of the covariance matrix
 
-##### Step 7: Non-Diagonal Covariance with Negative Correlation
+### Step 7: Non-Diagonal Covariance with Negative Correlation
 When the covariance matrix has non-zero off-diagonal elements with negative correlation:
 
 $$\Sigma = \begin{bmatrix} 2.0 & -1.5 \\ -1.5 & 2.0 \end{bmatrix}$$
@@ -121,7 +111,7 @@ Properties:
 - The semi-axes lengths are proportional to $\sqrt{3.5}$ and $\sqrt{0.5}$
 - The negative correlation means that as one variable increases, the other tends to decrease, creating the rotation in the opposite direction
 
-##### Step 8: Key Insights from Comparison
+### Step 8: Key Insights from Comparison
 1. Diagonal covariance matrices produce axis-aligned ellipses or circles:
    - Equal variances (Case 1): Perfect circles
    - Different variances (Case 2): Axis-aligned ellipses
@@ -136,6 +126,44 @@ Properties:
    - As correlation increases in magnitude, ellipses become more elongated
    - The angle of the principal axis is $\tan^{-1}(\rho\sigma_2/\sigma_1)$ for positive correlation
    - The eccentricity of the ellipses increases with stronger correlation
+
+## Visual Explanations
+
+### Probability Mass Distribution in 1D and 2D Normal Distributions
+![Probability Mass Visualization](../Images/Contour_Plots/ex2_normal_probability_mass_visualization.png)
+*Visualization of probability mass contained within different sigma regions for 1D and 2D normal distributions. Top row shows the probability regions with exact percentages, bottom row shows 3D surfaces.*
+
+### Transition from 1D to 2D Normal Distributions
+![1D to 2D Transition](../Images/Contour_Plots/ex2_normal_1d_to_2d_transition.png)
+*Visualization of the transition from 1D to 2D normal distributions with different variance parameters, showing how the probability regions extend into the second dimension.*
+
+### Effect of Different Variance Parameters on Contour Shapes
+![Variance Effect Grid](../Images/Contour_Plots/ex2_normal_variance_effect_grid.png)
+*Grid visualization showing how different combinations of variance parameters affect the shape and orientation of contours. The figure displays 16 different combinations of variances for x and y coordinates.*
+
+## Key Insights
+
+### Theoretical Foundations
+- The covariance matrix completely determines the shape and orientation of density contours
+- As dimensionality increases, the probability mass contained within fixed-sigma regions decreases
+- The determinant of the covariance matrix is proportional to the "volume" of the probability density
+
+### Probability Distribution Properties
+- 1D normal distribution has well-known probability masses within sigma regions (68-95-99.7 rule)
+- 2D normal distribution has different probability masses within sigma regions (39-86-99 rule)
+- The transition from 1D to 2D distributions changes how probability mass is distributed
+
+### Geometric Interpretations
+- The shape of contours directly reflects the covariance structure of the distribution
+- The principal axes of the ellipses align with the eigenvectors of the covariance matrix
+- The length of each principal axis is proportional to the square root of the corresponding eigenvalue
+- The correlation coefficient determines the orientation angle of the principal axes
+
+### Practical Applications
+- Understanding the geometry of multivariate normal distributions helps in visualizing high-dimensional data
+- The covariance matrix provides a compact representation of the relationship between variables
+- The eigendecomposition of the covariance matrix reveals the underlying structure of the data
+- The probability regions defined by contours are important for statistical inference and hypothesis testing
 
 ## Running the Examples
 

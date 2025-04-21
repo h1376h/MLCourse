@@ -1,18 +1,16 @@
-### Example 7: Mahalanobis Distance vs Euclidean Distance
+# Example 7: Mahalanobis Distance vs Euclidean Distance
 
-#### Problem Statement
+## Problem Statement
 Why is Euclidean distance inadequate for correlated data, and how does Mahalanobis distance address this limitation?
 
 We'll examine a 2D dataset with strong positive correlation (ρ = 0.75) and compare how Euclidean and Mahalanobis distances evaluate "outlierness" of points at various positions.
 
-![Mahalanobis Distance Visualization](../Images/Contour_Plots/ex7_simple_mahalanobis_distance.png)
-*Comparison of Euclidean distance (green circles) and Mahalanobis distance (purple ellipses) for correlated data. Points equidistant by Mahalanobis measure lie on ellipses aligned with the data distribution.*
+## Understanding the Problem
+When working with multivariate data, we need appropriate ways to measure distances between points or from points to a distribution center. The standard Euclidean distance treats all dimensions equally and independently, which can be misleading when variables are correlated. The Mahalanobis distance accounts for the covariance structure of the data, providing a more meaningful measure of distance for correlated variables.
 
-#### Solution
+## Solution
 
-We'll compare two distance metrics and understand why Mahalanobis distance is more appropriate for correlated data.
-
-##### Step 1: Understanding Distance Metrics
+### Step 1: Understanding Distance Metrics
 Distance metrics provide a way to measure how 'far' points are from each other or from a reference point.
 For multivariate data with correlation structure, standard Euclidean distance can be misleading.
 
@@ -28,19 +26,19 @@ Mahalanobis distance:
 - Formula: d_M(x) = √[(x-μ)^T Σ^(-1) (x-μ)]
   where μ is the mean and Σ is the covariance matrix
 
-##### Step 2: Generate Correlated Data
+### Step 2: Generate Correlated Data
 We create data from a multivariate normal distribution with positive correlation:
 - Mean vector: $\mu = [0, 0]$
 - Covariance matrix: $\Sigma = \begin{bmatrix} 2.0 & 1.5 \\ 1.5 & 2.0 \end{bmatrix}$
 - The correlation coefficient is $\rho = 0.75$ (strong positive correlation)
 - The data forms an elongated cloud along the $y = x$ direction
 
-##### Step 3: Calculate the Inverse Covariance Matrix
+### Step 3: Calculate the Inverse Covariance Matrix
 The inverse of the covariance matrix (also called the precision matrix) is needed to compute Mahalanobis distances:
 
 $$\Sigma^{-1} = \begin{bmatrix} 1.1429 & -0.8571 \\ -0.8571 & 1.1429 \end{bmatrix}$$
 
-##### Step 4: Detailed Calculation for a Test Point
+### Step 4: Detailed Calculation for a Test Point
 Let's calculate the Mahalanobis distance for a test point $[2, 0]$ step by step:
 
 1. Compute the difference vector: $x - \mu = [2, 0] - [0, 0] = [2, 0]$
@@ -58,7 +56,7 @@ Let's calculate the Mahalanobis distance for a test point $[2, 0]$ step by step:
 For comparison, the Euclidean distance of this point is:
 $d_E = \sqrt{2^2 + 0^2} = 2.0000$
 
-##### Step 5: Compare Distances for Multiple Test Points
+### Step 5: Compare Distances for Multiple Test Points
 We select specific test points and calculate their Mahalanobis and Euclidean distances from the mean:
 
 | Point | Coordinates | Euclidean Distance | Mahalanobis Distance |
@@ -70,7 +68,7 @@ We select specific test points and calculate their Mahalanobis and Euclidean dis
 
 Notice that points at the same Euclidean distance (P1 and P2) have the same Mahalanobis distance, but the point along the correlation direction (P3) has a smaller Mahalanobis distance despite being at a greater Euclidean distance from the origin.
 
-##### Step 6: Visualize Distance Contours
+### Step 6: Visualize Distance Contours
 We plot contours of equal Mahalanobis distance (ellipses) and equal Euclidean distance (circles) to show the fundamental difference:
 - Euclidean distance treats all directions equally (circles)
 - Mahalanobis distance accounts for correlation (ellipses aligned with the data)
@@ -81,37 +79,24 @@ The Mahalanobis distance contours form ellipses that:
 - Stretch along directions of higher variance (along the correlation axis)
 - Contract along directions of lower variance (perpendicular to correlation)
 
-##### Step 7: 3D Probability Density Visualization
+### Step 7: 3D Probability Density Visualization
 
-The following visualization shows the 3D probability density function surface of the correlated bivariate normal distribution:
-
-![3D PDF Visualization](../Images/Contour_Plots/ex7_3d_pdf_visualization.png)
-*3D visualization of the probability density function for correlated data. Mahalanobis distance contours form elliptical slices of this surface at constant height (constant probability density).*
-
-This 3D surface demonstrates that:
+The 3D probability density function surface of the correlated bivariate normal distribution demonstrates that:
 - The peak of the distribution is at the mean (0, 0)
 - The contours of equal probability density (and equal Mahalanobis distance) form ellipses
 - The orientation of these ellipses is determined by the correlation structure of the data
 - The Mahalanobis distance effectively measures the "standardized" distance from a point to the center of the distribution
 
-##### Step 8: Comparison of Different Covariance Structures
+### Step 8: Comparison of Different Covariance Structures
 
-The following visualization compares how Mahalanobis distance contours appear under different covariance structures:
-
-![Covariance Comparison](../Images/Contour_Plots/ex7_covariance_comparison.png)
-*Comparison of Mahalanobis distance contours for three different covariance structures: positive correlation (left), negative correlation (middle), and uncorrelated with different variances (right).*
-
-This comparison shows that:
+Comparing Mahalanobis distance contours under different covariance structures shows that:
 - For positively correlated data, Mahalanobis contours are ellipses tilted along the y=x direction
 - For negatively correlated data, Mahalanobis contours are ellipses tilted along the y=-x direction
 - For uncorrelated data with different variances, Mahalanobis contours are axis-aligned ellipses
 
-##### Step 9: Whitening Transformation
+### Step 9: Whitening Transformation
 
-The whitening transformation is a linear transformation that converts correlated data into uncorrelated data with unit variance in all directions:
-
-![Whitening Transformation](../Images/Contour_Plots/ex7_whitening_transformation.png)
-*Visualization of the whitening transformation. Left: Original correlated data with elliptical Mahalanobis contours. Right: Whitened data with circular contours.*
+The whitening transformation is a linear transformation that converts correlated data into uncorrelated data with unit variance in all directions.
 
 The whitening transformation:
 - Decorrelates the variables
@@ -124,7 +109,7 @@ $$W = \begin{bmatrix} 0.9744 & -0.4398 \\ -0.4398 & 0.9744 \end{bmatrix}$$
 
 Using the whitening transformation, our point P1 (2.0, 0.0) becomes (1.9487, -0.8797) in the whitened space. The Euclidean distance of this whitened point (2.1381) exactly equals the Mahalanobis distance in the original space.
 
-##### Step 10: Key Observations and Practical Applications
+### Step 10: Key Observations and Practical Applications
 
 Key observations:
 - Points at the same Euclidean distance can have very different Mahalanobis distances
@@ -141,6 +126,54 @@ Practical applications:
 - Clustering: defining distance metrics that capture the natural data structure
 - Quality control: monitoring multivariate processes and detecting unusual states
 - Feature normalization: removing correlations in preprocessing steps
+
+## Visual Explanations
+
+### Basic Comparison of Distance Metrics
+![Mahalanobis Distance Visualization](../Images/Contour_Plots/ex7_simple_mahalanobis_distance.png)
+*Comparison of Euclidean distance (green circles) and Mahalanobis distance (purple ellipses) for correlated data. Points equidistant by Mahalanobis measure lie on ellipses aligned with the data distribution.*
+
+### 3D Probability Density Function
+![3D PDF Visualization](../Images/Contour_Plots/ex7_3d_pdf_visualization.png)
+*3D visualization of the probability density function for correlated data. Mahalanobis distance contours form elliptical slices of this surface at constant height (constant probability density).*
+
+### Different Covariance Structures
+![Covariance Comparison](../Images/Contour_Plots/ex7_covariance_comparison.png)
+*Comparison of Mahalanobis distance contours for three different covariance structures: positive correlation (left), negative correlation (middle), and uncorrelated with different variances (right).*
+
+### Whitening Transformation
+![Whitening Transformation](../Images/Contour_Plots/ex7_whitening_transformation.png)
+*Visualization of the whitening transformation. Left: Original correlated data with elliptical Mahalanobis contours. Right: Whitened data with circular contours.*
+
+## Key Insights
+
+### Conceptual Understanding
+- Euclidean distance assumes all dimensions are equally important and independent
+- Mahalanobis distance accounts for the covariance structure of the data
+- In correlated data, proximity should be assessed relative to the natural spread of the data
+- Points along the direction of high variance should be considered "closer" than those along directions of low variance
+
+### Mathematical Properties
+- Mahalanobis distance is defined as $d_M(x) = \sqrt{(x-\mu)^T \Sigma^{-1} (x-\mu)}$
+- It incorporates the inverse covariance matrix to account for correlations and different variances
+- For standardized uncorrelated data, Mahalanobis distance reduces to Euclidean distance
+- Contours of equal Mahalanobis distance form ellipses aligned with the data distribution
+- The shape of these ellipses is determined by the eigendecomposition of the covariance matrix
+
+### Statistical Significance
+- Points with the same Mahalanobis distance have the same statistical "outlierness"
+- Mahalanobis distance is related to the log probability density under a multivariate normal model
+- It accounts for both the distance from the center and the shape of the distribution
+- It can be interpreted as a multivariate z-score, generalizing the concept of standard deviations
+- Under multivariate normality, squared Mahalanobis distances follow a chi-squared distribution
+
+### Applications in Machine Learning
+- Outlier detection: Identifying unusual observations that account for correlation
+- Classification: Creating more appropriate decision boundaries for correlated features
+- Clustering: Defining distance metrics that respect the natural data structure
+- Dimensionality reduction: Identifying directions of maximum variation (related to PCA)
+- Data transformation: Whitening to remove correlations in preprocessing steps
+- Quality control: Monitoring multivariate processes with appropriate distance metrics
 
 ## Running the Examples
 
