@@ -678,10 +678,10 @@ This real-world example demonstrates how the abstract mathematical concept of co
 #### Problem Statement
 What happens to the covariance matrix when we rotate a dataset, and why is this important? How does a change in coordinate system affect the correlation structure of data?
 
-For this example, we'll start with uncorrelated 2D data having equal variances and observe how rotation by various angles (0°, 30°, 60°) introduces correlation.
+For this example, we'll start with uncorrelated 2D data having equal variances and observe how rotation by various angles (0°, 30°, 60°) changes the correlation structure.
 
 ![Rotation Concept Visualization](../Images/Contour_Plots/ex6_concept_visualization.png)
-*Conceptual visualization showing how rotation affects the correlation structure. Left: Original uncorrelated data. Middle: After 30° rotation, correlation is introduced. Right: At 60° rotation, correlation is maximized.*
+*Basic visualization showing how rotation affects correlation structure for initially uncorrelated data. Left: Original data. Middle: After 30° rotation. Right: After 60° rotation. Red dashed ellipses show the covariance structure.*
 
 #### Solution
 
@@ -701,55 +701,30 @@ For a 2D rotation by angle $\theta$, the rotation matrix is:
 
 $$R = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$$
 
-This mathematical relationship is crucial for understanding how correlation can be introduced or removed through coordinate transformations. It also explains why the choice of coordinate system can significantly affect the statistical properties of data.
+This mathematical relationship is crucial for understanding how correlation can be introduced or removed through coordinate transformations.
 
-![Correlation vs Angle Curve](../Images/Contour_Plots/ex6_correlation_angle_curve.png)
-*How correlation coefficient changes with rotation angle. The relationship follows ρ = sin(2θ)/2, reaching maximum correlation of 0.5 at 45° and minimum of -0.5 at 135°.*
+##### Step 2: Rotation as a Vector Field Transformation
 
-##### Step 2: Original Data with Diagonal Covariance
-We start with a dataset where variables are uncorrelated:
-- Mean vector: $\mu = [0, 0]$
-- Covariance matrix: $\Sigma = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ (identity matrix)
-- This represents independent variables with equal variances
-- The contours form circles centered at the origin
-- Zero correlation: $\rho = 0$
+Rotation is a linear transformation that preserves distances from the origin and angles between vectors. When we rotate the coordinate system, points move along circular paths centered at the origin.
 
-In this state, the data shows no directional preference, and the principal axes of variation align perfectly with the coordinate axes. The elliptical contours are actually perfect circles, indicating equal variance in all directions.
+![Rotation Vector Field](../Images/Contour_Plots/ex6_rotation_vector_field.png)
+*Vector field visualization of rotation transformation. Blue arrows show how points move under 30° rotation. Concentric circles remain circles after rotation, demonstrating that rotation preserves distances from the origin. The coordinate axes also rotate, shown by the red lines.*
 
-##### Step 3: Applying 30° Rotation
-We rotate the data by $\theta = 30°$ using the rotation matrix:
+Key observations about rotation as a transformation:
+- Points farther from the origin move greater distances (longer arrows)
+- All points rotate by the same angle around the origin
+- The transformation preserves the shape of probability distributions but changes their orientation
+- The coordinate system itself rotates, changing our frame of reference
 
-$$R_{30°} = \begin{pmatrix} \cos(30°) & -\sin(30°) \\ \sin(30°) & \cos(30°) \end{pmatrix} = \begin{pmatrix} 0.866 & -0.5 \\ 0.5 & 0.866 \end{pmatrix}$$
-
-The transformed covariance matrix becomes:
-
-$$\Sigma' = R_{30°} \Sigma R_{30°}^T$$
-
-For an initially uncorrelated dataset with equal variances, this introduces a correlation of:
-
-$$\rho = \frac{\sin(2\theta)}{2} = \frac{\sin(60°)}{2} \approx 0.433$$
-
-After rotation, the data points that were previously uncorrelated now show a positive correlation. The covariance ellipse tilts, no longer aligning with the coordinate axes, even though the underlying data structure is identical.
-
-##### Step 4: Applying 60° Rotation
-We rotate the data by $\theta = 60°$ using the rotation matrix:
-
-$$R_{60°} = \begin{pmatrix} \cos(60°) & -\sin(60°) \\ \sin(60°) & \cos(60°) \end{pmatrix} = \begin{pmatrix} 0.5 & -0.866 \\ 0.866 & 0.5 \end{pmatrix}$$
-
-The transformation produces a covariance matrix with an even stronger correlation:
-
-$$\rho = \frac{\sin(2\theta)}{2} = \frac{\sin(120°)}{2} \approx 0.75$$
-
-At this angle, we're approaching the maximum possible correlation that can be introduced through rotation, which occurs at 45° intervals.
-
-##### Step 5: General Pattern for Rotation Effects
-For initially uncorrelated data with equal variances ($\Sigma = \sigma^2 I$), rotation by angle $\theta$ produces:
-
-$$\Sigma' = \sigma^2 \begin{pmatrix} 1 & \frac{\sin(2\theta)}{2} \\ \frac{\sin(2\theta)}{2} & 1 \end{pmatrix}$$
-
-The correlation coefficient follows the pattern:
+##### Step 3: Relationship Between Rotation Angle and Correlation
+For initially uncorrelated data with equal variances (covariance matrix = identity matrix), rotation by angle $\theta$ introduces correlation according to:
 
 $$\rho = \frac{\sin(2\theta)}{2}$$
+
+Where $\rho$ is the correlation coefficient. This formula reveals a periodic relationship between rotation angle and correlation:
+
+![Correlation vs Angle Curve](../Images/Contour_Plots/ex6_correlation_angle_curve.png)
+*How correlation coefficient changes with rotation angle. The relationship follows ρ = sin(2θ)/2, reaching maximum positive correlation of 0.5 at 45° and maximum negative correlation of -0.5 at 135°.*
 
 Key observations from this formula:
 - At $\theta = 0°$: $\rho = 0$ (no correlation)
@@ -757,35 +732,42 @@ Key observations from this formula:
 - At $\theta = 90°$: $\rho = 0$ (variables effectively swap positions)
 - At $\theta = 135°$: $\rho = -0.5$ (maximum negative correlation)
 - At $\theta = 180°$: $\rho = 0$ (back to uncorrelated)
-- The correlation oscillates with period 180° as rotation angle increases
 
-This periodic pattern arises from the mathematical properties of coordinate transformations and has profound implications for how we interpret correlation in multivariate data.
+##### Step 4: Step-by-Step Visualization of Rotation Effects
 
-##### Step 6: Properties Preserved Under Rotation
+To further understand how rotation affects correlation structure, we can examine the effect of various rotation angles on the same dataset:
+
+![Rotation Steps Visualization](../Images/Contour_Plots/ex6_rotation_steps.png)
+*Comprehensive visualization showing the effect of rotation at multiple angles (0°, 30°, 60°, 90°, 135°, 180°). For each angle, the correlation coefficient changes according to the sin(2θ)/2 formula, with the covariance ellipse (red dashed line) rotating accordingly.*
+
+This visualization demonstrates several key insights:
+1. The correlation oscillates as the rotation angle increases
+2. When the dataset is rotated by 180°, it returns to its original correlation structure
+3. The shape of the dataset remains constant, only its orientation changes
+4. The covariance ellipse rotates with the data, maintaining its shape
+
+##### Step 5: Properties Preserved Under Rotation
 Despite the changes in correlation, certain properties remain invariant under rotation:
 - Total variance (trace of covariance matrix): $\text{tr}(\Sigma') = \text{tr}(\Sigma)$
 - Determinant of covariance matrix: $|\Sigma'| = |\Sigma|$
 - Eigenvalues of the covariance matrix (though eigenvectors rotate)
 
-These invariants reflect the fact that rotation merely changes our perspective on the data, not the fundamental structure of the data itself. The total amount of variation and the shape of the probability distribution remain unchanged.
+These invariants reflect the fact that rotation merely changes our perspective on the data, not the fundamental structure of the data itself. Our empirical verification confirms this, with traces and determinants remaining constant across all rotation angles.
 
-##### Step 7: Coloring Points to Track Rotation
-In our visualization, points are colored according to their original x-coordinate before rotation. This allows us to track how individual points move during rotation:
-- Points with the same color originally had the same x-coordinate
-- After rotation, these points distribute along slanted lines
-- This visual aid helps demonstrate that correlation is being introduced artificially through coordinate transformation, not because of any change in the data's inherent structure
-
-##### Step 8: Practical Significance
+##### Step 6: Practical Significance
 Understanding rotation effects on covariance has important applications:
 1. **Coordinate system choice**: The observed correlation structure depends on how we choose to measure our variables
 2. **Feature engineering**: Rotation can introduce or remove correlations, which can be useful for creating independent features
 3. **Principal Component Analysis (PCA)**: PCA exploits this property by finding a rotation that diagonalizes the covariance matrix
 4. **Statistical independence**: Independence is coordinate-dependent; what looks uncorrelated in one coordinate system may be strongly correlated in another
-5. **Interpretability**: When interpreting correlations in real data, we should remember that they are relative to our chosen coordinate system
-6. **Dimensionality reduction**: Understanding the rotation-covariance relationship helps us design better techniques for reducing data dimensions
+5. **Sensor orientation**: In practical applications like sensor data analysis, the physical orientation of sensors can affect the observed correlation patterns
+6. **Feature transformations in ML**: Transformations in machine learning pipelines can significantly alter correlation structures
 
-![Toy Data Covariance Change with Rotation](../Images/Contour_Plots/ex6_toy_data_covariance_change.png)
-*Comprehensive visualization of rotation effects on covariance structure. Top: Mathematical transformation equations. Bottom: Original data (left), 30° rotation (middle), and 60° rotation (right), with covariance ellipses and correlation values.*
+For initially uncorrelated data with equal variances ($\Sigma = \sigma^2 I$), rotation by angle $\theta$ produces:
+
+$$\Sigma' = \sigma^2 \begin{pmatrix} 1 & \frac{\sin(2\theta)}{2} \\ \frac{\sin(2\theta)}{2} & 1 \end{pmatrix}$$
+
+This formula mathematically demonstrates how correlation is introduced through rotation, emphasizing the coordinate-dependent nature of correlation measures and the importance of understanding how transformations affect statistical relationships in our data.
 
 ### Example 7: Mahalanobis Distance vs Euclidean Distance
 
