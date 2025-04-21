@@ -482,4 +482,96 @@ plt.tight_layout()
 plt.savefig(os.path.join(images_dir, 'non_gaussian_contours.png'), dpi=100, bbox_inches='tight')
 plt.close()
 
+# Example 15: Volcano-like Function Contour Plot
+print("\nExample 15: Volcano-like Function Contour Plot")
+
+# Create a volcano-like function
+def volcano_function(x, y):
+    r = np.sqrt(x**2 + y**2)
+    return np.exp(-r**2) * np.sin(5*r) * 5
+
+# Create grid
+x = np.linspace(-3, 3, 200)
+y = np.linspace(-3, 3, 200)
+X, Y = np.meshgrid(x, y)
+Z_volcano = volcano_function(X, Y)
+
+plt.figure(figsize=(15, 6))
+
+# 3D Surface
+ax1 = plt.subplot(1, 2, 1, projection='3d')
+surf = ax1.plot_surface(X, Y, Z_volcano, cmap='plasma', alpha=0.8)
+ax1.set_title('3D Volcano Function')
+ax1.set_xlabel('x')
+ax1.set_ylabel('y')
+ax1.set_zlabel('z')
+plt.colorbar(surf, ax=ax1, shrink=0.6, aspect=10)
+
+# Contour plot
+ax2 = plt.subplot(1, 2, 2)
+contour = ax2.contourf(X, Y, Z_volcano, levels=30, cmap='plasma')
+ax2.contour(X, Y, Z_volcano, levels=15, colors='black', alpha=0.5)
+ax2.set_title('Contour Plot of Volcano Function')
+ax2.set_xlabel('x')
+ax2.set_ylabel('y')
+ax2.grid(alpha=0.3)
+plt.colorbar(contour, ax=ax2)
+
+plt.tight_layout()
+plt.savefig(os.path.join(images_dir, 'volcano_function_contour.png'), dpi=100, bbox_inches='tight')
+plt.close()
+
+# Example 16: Comparison of Contour Line Styles
+print("\nExample 16: Comparison of Contour Line Styles")
+
+# Create a simple function
+def ripple_function(x, y):
+    return np.sin(x*y/2) * np.exp(-(x**2 + y**2)/10)
+
+# Create grid
+x = np.linspace(-5, 5, 200)
+y = np.linspace(-5, 5, 200)
+X, Y = np.meshgrid(x, y)
+Z_ripple = ripple_function(X, Y)
+
+plt.figure(figsize=(15, 10))
+
+# Standard contour lines
+plt.subplot(2, 2, 1)
+plt.contour(X, Y, Z_ripple, levels=15, colors='black')
+plt.title('Standard Contour Lines')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.grid(alpha=0.3)
+
+# Filled contour with thin lines
+plt.subplot(2, 2, 2)
+plt.contourf(X, Y, Z_ripple, levels=15, cmap='viridis')
+plt.contour(X, Y, Z_ripple, levels=15, colors='black', alpha=0.3, linewidths=0.5)
+plt.title('Filled Contour with Thin Lines')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.grid(alpha=0.3)
+
+# Different line styles
+plt.subplot(2, 2, 3)
+plt.contour(X, Y, Z_ripple, levels=15, colors='black', linestyles=['solid', 'dashed', 'dotted', 'dashdot'])
+plt.title('Different Line Styles')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.grid(alpha=0.3)
+
+# Colored contour lines
+plt.subplot(2, 2, 4)
+cs = plt.contour(X, Y, Z_ripple, levels=15, cmap='coolwarm')
+plt.clabel(cs, inline=True, fontsize=8)
+plt.title('Colored and Labeled Contour Lines')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.grid(alpha=0.3)
+
+plt.tight_layout()
+plt.savefig(os.path.join(images_dir, 'contour_line_styles.png'), dpi=100, bbox_inches='tight')
+plt.close()
+
 print("\nAll contour plot visualizations created successfully.") 

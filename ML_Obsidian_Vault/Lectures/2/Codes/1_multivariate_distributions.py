@@ -432,4 +432,114 @@ plt.tight_layout()
 plt.savefig(os.path.join(images_dir, '3d_multivariate_distributions.png'), dpi=100, bbox_inches='tight')
 plt.close()
 
+# Example 9: Copula Visualization
+print("\nExample 9: Copula Visualization")
+
+# Creating a Gaussian copula
+plt.figure(figsize=(15, 5))
+
+# Create correlated standard normal samples
+np.random.seed(42)
+corr = 0.8
+cov_matrix = np.array([[1.0, corr], [corr, 1.0]])
+normal_samples = np.random.multivariate_normal([0, 0], cov_matrix, 2000)
+
+# Transform to uniform using the standard normal CDF
+uniform_samples = stats.norm.cdf(normal_samples)
+
+# Calculate marginal exponential and gamma distributions
+exp_samples = stats.expon.ppf(uniform_samples[:, 0])
+gamma_samples = stats.gamma.ppf(uniform_samples[:, 1], a=2)
+
+# Plotting
+plt.subplot(1, 3, 1)
+plt.scatter(normal_samples[:, 0], normal_samples[:, 1], alpha=0.5, s=5)
+plt.title('Original Normal Distribution')
+plt.xlabel('X (Normal)')
+plt.ylabel('Y (Normal)')
+plt.grid(alpha=0.3)
+plt.axis('equal')
+
+plt.subplot(1, 3, 2)
+plt.scatter(uniform_samples[:, 0], uniform_samples[:, 1], alpha=0.5, s=5)
+plt.title('Transformed Uniform (Copula)')
+plt.xlabel('U (Uniform)')
+plt.ylabel('V (Uniform)')
+plt.grid(alpha=0.3)
+plt.axis('equal')
+
+plt.subplot(1, 3, 3)
+plt.scatter(exp_samples, gamma_samples, alpha=0.5, s=5)
+plt.title('Final Distributions with Dependence')
+plt.xlabel('X (Exponential)')
+plt.ylabel('Y (Gamma)')
+plt.grid(alpha=0.3)
+
+plt.tight_layout()
+plt.savefig(os.path.join(images_dir, 'copula_visualization.png'), dpi=100, bbox_inches='tight')
+plt.close()
+
+# Example 10: Multiple Views of Bivariate Distribution
+print("\nExample 10: Multiple Views of Bivariate Distribution")
+
+# Create bivariate normal with correlation
+corr = 0.7
+cov = np.array([[1.0, corr], [corr, 1.0]])
+rv = stats.multivariate_normal([0, 0], cov)
+
+# Create grid points
+x = np.linspace(-3, 3, 50)
+y = np.linspace(-3, 3, 50)
+X, Y = np.meshgrid(x, y)
+pos = np.dstack((X, Y))
+Z = rv.pdf(pos)
+
+# Create a figure with different views
+plt.figure(figsize=(15, 10))
+
+# Top-down view (contour)
+ax1 = plt.subplot(2, 2, 1)
+plt.contourf(X, Y, Z, levels=20, cmap='viridis')
+plt.contour(X, Y, Z, levels=10, colors='k', alpha=0.3)
+plt.title('Top-Down View (Contour)')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.axis('equal')
+plt.grid(alpha=0.3)
+
+# Side view (X direction)
+ax2 = plt.subplot(2, 2, 2)
+for i, y_val in enumerate(np.linspace(-2, 2, 5)):
+    idx = np.abs(y - y_val).argmin()
+    plt.plot(x, Z[idx, :], label=f'y = {y_val:.1f}')
+plt.title('Side View (X direction)')
+plt.xlabel('X')
+plt.ylabel('Density')
+plt.grid(alpha=0.3)
+plt.legend()
+
+# Side view (Y direction)
+ax3 = plt.subplot(2, 2, 3)
+for i, x_val in enumerate(np.linspace(-2, 2, 5)):
+    idx = np.abs(x - x_val).argmin()
+    plt.plot(y, Z[:, idx], label=f'x = {x_val:.1f}')
+plt.title('Side View (Y direction)')
+plt.xlabel('Y')
+plt.ylabel('Density')
+plt.grid(alpha=0.3)
+plt.legend()
+
+# 3D view
+ax4 = plt.subplot(2, 2, 4, projection='3d')
+surf = ax4.plot_surface(X, Y, Z, cmap='viridis', alpha=0.8)
+ax4.set_title('3D View')
+ax4.set_xlabel('X')
+ax4.set_ylabel('Y')
+ax4.set_zlabel('Density')
+ax4.view_init(elev=35, azim=45)  # Set the viewing angle
+
+plt.tight_layout()
+plt.savefig(os.path.join(images_dir, 'multiple_views_bivariate.png'), dpi=100, bbox_inches='tight')
+plt.close()
+
 print("\nAll multivariate distribution visualizations created successfully.") 

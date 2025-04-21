@@ -64,6 +64,20 @@ Contour plots are extremely useful for visualizing decision boundaries in classi
 
 Contour plots can reveal complex topological features such as saddle points, where the function increases in one direction and decreases in another.
 
+### Volcano Function
+![Volcano Function](../Images/Contour_Plots/volcano_function_contour.png)
+
+This visualization demonstrates a complex volcano-like function that contains multiple concentric rings. The contour plot clearly reveals the circular patterns and their intensity variations.
+
+### Different Contour Line Styles
+![Contour Line Styles](../Images/Contour_Plots/contour_line_styles.png)
+
+Contour lines can be visualized in different styles to highlight specific aspects of the data:
+- **Standard lines**: Simple black contours
+- **Filled with thin lines**: Color-filled regions with subtle boundary lines
+- **Different line styles**: Using solid, dashed, dotted patterns to distinguish levels
+- **Colored and labeled**: Using color gradients with numeric labels for precise readings
+
 ## Advanced Visualizations
 
 ### Bivariate Normal Distribution

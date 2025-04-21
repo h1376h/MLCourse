@@ -37,6 +37,15 @@ This comprehensive visualization shows:
 - Marginal distributions along the axes (red curves)
 - A conditional distribution (blue) showing the distribution of Y given X=1
 
+### Multiple Views of a Bivariate Distribution
+![Multiple Views of Bivariate Distribution](../Images/Multivariate_Distributions/multiple_views_bivariate.png)
+
+This figure shows four different perspectives of the same bivariate normal distribution:
+- **Top-down view**: Traditional contour plot representation
+- **Side view (X direction)**: Slices of the distribution along the X-axis at different Y values
+- **Side view (Y direction)**: Slices of the distribution along the Y-axis at different X values
+- **3D view**: Full three-dimensional representation with viewing angle for better perspective
+
 ### Transformations
 - Change of variables in multivariate settings
 - Jacobian determinant and its role in transformations
@@ -71,6 +80,14 @@ Different types of bivariate distributions visualized as 3D surfaces:
 Kernel Density Estimation (KDE) is a non-parametric way to estimate the probability density function of multivariate data:
 - **Left**: Scatter plot of raw data points from a bimodal distribution
 - **Right**: Smooth KDE surface reconstructed from the data points
+
+### Copula Visualization
+![Copula Visualization](../Images/Multivariate_Distributions/copula_visualization.png)
+
+Copulas provide a way to model dependency structures separately from marginal distributions:
+- **Left**: Original bivariate normal with correlation
+- **Center**: Transformed to uniform margins while preserving the dependence structure (the copula)
+- **Right**: Final distributions with exponential and gamma margins but maintaining the original dependency
 
 ## Common Multivariate Distributions
 
