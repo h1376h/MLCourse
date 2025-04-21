@@ -23,14 +23,6 @@ Where:
 
 ## Normal Distribution Examples
 
-The following examples demonstrate MLE for continuous variables (normal distribution):
-
-- **Basketball Shot Distance**: Analyzing shooting distances
-- **Video Game Score**: Evaluating gaming performance
-- **Test Scores**: Analyzing academic performance
-- **Daily Steps**: Monitoring physical activity levels
-- **Ball Bearing Diameter**: Assessing manufacturing consistency
-
 ### Example 1: Basketball Shot Distance
 
 #### Problem Statement
@@ -49,7 +41,20 @@ A basketball player is practicing shots from different distances and wants to an
 For normally distributed data, the MLE for the mean is the sample mean:
 
 $$
-\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i = \frac{13.8 + 14.2 + 15.1 + 13.5 + 15.8 + 14.9 + 15.5}{7} = \frac{102.8}{7} = 14.69 \text{ feet}
+\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+Calculate the sum of all observations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}x_i &= 13.8 + 14.2 + 15.1 + 13.5 + 15.8 + 14.9 + 15.5 \\
+&= 102.8 \text{ feet}
+\end{align*}
+$$
+
+Now calculate the MLE for the mean:
+$$
+\hat{\mu}_{MLE} = \frac{102.8}{7} = 14.69 \text{ feet}
 $$
 
 **Step 3: Calculate MLE for variance**
@@ -59,38 +64,76 @@ $$
 \hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2
 $$
 
-Calculating the squared deviations:
-
+Calculating the deviations from the mean:
 $$
 \begin{align*}
-(13.8 - 14.69)^2 &= (-0.89)^2 = 0.79 \\
-(14.2 - 14.69)^2 &= (-0.49)^2 = 0.24 \\
-(15.1 - 14.69)^2 &= (0.41)^2 = 0.17 \\
-(13.5 - 14.69)^2 &= (-1.19)^2 = 1.42 \\
-(15.8 - 14.69)^2 &= (1.11)^2 = 1.23 \\
-(14.9 - 14.69)^2 &= (0.21)^2 = 0.04 \\
-(15.5 - 14.69)^2 &= (0.81)^2 = 0.66
+x_1 - \hat{\mu}_{MLE} &= 13.8 - 14.69 = -0.89 \\
+x_2 - \hat{\mu}_{MLE} &= 14.2 - 14.69 = -0.49 \\
+x_3 - \hat{\mu}_{MLE} &= 15.1 - 14.69 = 0.41 \\
+x_4 - \hat{\mu}_{MLE} &= 13.5 - 14.69 = -1.19 \\
+x_5 - \hat{\mu}_{MLE} &= 15.8 - 14.69 = 1.11 \\
+x_6 - \hat{\mu}_{MLE} &= 14.9 - 14.69 = 0.21 \\
+x_7 - \hat{\mu}_{MLE} &= 15.5 - 14.69 = 0.81
 \end{align*}
 $$
 
-Sum of squared deviations = 0.79 + 0.24 + 0.17 + 1.42 + 1.23 + 0.04 + 0.66 = 4.55
+Squaring each deviation:
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (-0.89)^2 = 0.7845 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (-0.49)^2 = 0.2359 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (0.41)^2 = 0.1716 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (-1.19)^2 = 1.4059 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (1.11)^2 = 1.2416 \\
+(x_6 - \hat{\mu}_{MLE})^2 &= (0.21)^2 = 0.0459 \\
+(x_7 - \hat{\mu}_{MLE})^2 &= (0.81)^2 = 0.6631
+\end{align*}
+$$
 
-Therefore:
+Sum of squared deviations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 &= 0.7845 + 0.2359 + 0.1716 + 1.4059 + 1.2416 + 0.0459 + 0.6631 \\
+&= 4.55 \text{ feet}^2
+\end{align*}
+$$
 
+The MLE for variance:
 $$
 \hat{\sigma}^2_{MLE} = \frac{4.55}{7} = 0.65 \text{ feet}^2
 $$
 
-And the standard deviation:
+**Step 4: Calculate MLE for standard deviation**
+The MLE for standard deviation is the square root of the MLE for variance:
 
 $$
 \hat{\sigma}_{MLE} = \sqrt{0.65} = 0.81 \text{ feet}
 $$
 
-**Step 4: Interpret the results**
+**Step 5: Calculate confidence interval for the mean**
+The standard error of the mean (SEM) is:
+
+$$
+\text{SEM} = \frac{\hat{\sigma}_{MLE}}{\sqrt{n}} = \frac{0.81}{\sqrt{7}} = 0.30 \text{ feet}
+$$
+
+For a 95% confidence interval (using z = 1.96):
+
+$$
+\begin{align*}
+95\% \text{ CI} &= \hat{\mu}_{MLE} \pm 1.96 \times \text{SEM} \\
+&= 14.69 \pm 1.96 \times 0.30 \\
+&= 14.69 \pm 0.59 \\
+&= [14.09, 15.28]
+\end{align*}
+$$
+
+**Step 6: Interpret the results**
 - The MLE for the mean shot distance is 14.69 feet
 - The MLE for the standard deviation is 0.81 feet
-- These estimates represent the most likely values for the true population parameters given the observed data
+- We are 95% confident that the true mean distance is between 14.09 and 15.28 feet
+- Approximately 68% of shots are expected to fall within one standard deviation of the mean: [13.88, 15.49] feet
+- Approximately 95% of shots are expected to fall within two standard deviations of the mean: [13.07, 16.30] feet
 
 ![Basketball Shot Distance MLE Example](../Images/normal_mle_basketball_shot_distance.png)
 
@@ -109,75 +152,345 @@ A gamer wants to analyze their performance in a video game by tracking their sco
 - Number of observations (n) = 8
 
 **Step 2: Calculate MLE for mean**
+For normally distributed data, the MLE for mean is the sample mean:
 
 $$
-\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i = \frac{850 + 920 + 880 + 950 + 910 + 890 + 930 + 900}{8} = \frac{7230}{8} = 903.75
+\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i
 $$
 
-**Step 3: Calculate MLE for variance**
-Calculating the squared deviations:
-
+Calculate the sum of all observations:
 $$
 \begin{align*}
-(850 - 903.75)^2 &= (-53.75)^2 = 2889.06 \\
-(920 - 903.75)^2 &= (16.25)^2 = 264.06 \\
-(880 - 903.75)^2 &= (-23.75)^2 = 564.06 \\
-(950 - 903.75)^2 &= (46.25)^2 = 2139.06 \\
-(910 - 903.75)^2 &= (6.25)^2 = 39.06 \\
-(890 - 903.75)^2 &= (-13.75)^2 = 189.06 \\
-(930 - 903.75)^2 &= (26.25)^2 = 689.06 \\
-(900 - 903.75)^2 &= (-3.75)^2 = 14.06
+\sum_{i=1}^{n}x_i &= 850 + 920 + 880 + 950 + 910 + 890 + 930 + 900 \\
+&= 7230
 \end{align*}
 $$
 
-Sum of squared deviations = 2889.06 + 264.06 + 564.06 + 2139.06 + 39.06 + 189.06 + 689.06 + 14.06 = 6787.48
-
-Therefore:
-
+Now calculate the MLE for the mean:
 $$
-\hat{\sigma}^2_{MLE} = \frac{6787.48}{8} = 848.44
+\hat{\mu}_{MLE} = \frac{7230}{8} = 903.75
 $$
 
-And the standard deviation:
+**Step 3: Calculate MLE for variance**
+For normally distributed data, the MLE for variance is:
+
+$$
+\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2
+$$
+
+Calculating the deviations from the mean:
+$$
+\begin{align*}
+x_1 - \hat{\mu}_{MLE} &= 850 - 903.75 = -53.75 \\
+x_2 - \hat{\mu}_{MLE} &= 920 - 903.75 = 16.25 \\
+x_3 - \hat{\mu}_{MLE} &= 880 - 903.75 = -23.75 \\
+x_4 - \hat{\mu}_{MLE} &= 950 - 903.75 = 46.25 \\
+x_5 - \hat{\mu}_{MLE} &= 910 - 903.75 = 6.25 \\
+x_6 - \hat{\mu}_{MLE} &= 890 - 903.75 = -13.75 \\
+x_7 - \hat{\mu}_{MLE} &= 930 - 903.75 = 26.25 \\
+x_8 - \hat{\mu}_{MLE} &= 900 - 903.75 = -3.75
+\end{align*}
+$$
+
+Squaring each deviation:
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (-53.75)^2 = 2889.0625 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (16.25)^2 = 264.0625 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (-23.75)^2 = 564.0625 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (46.25)^2 = 2139.0625 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (6.25)^2 = 39.0625 \\
+(x_6 - \hat{\mu}_{MLE})^2 &= (-13.75)^2 = 189.0625 \\
+(x_7 - \hat{\mu}_{MLE})^2 &= (26.25)^2 = 689.0625 \\
+(x_8 - \hat{\mu}_{MLE})^2 &= (-3.75)^2 = 14.0625
+\end{align*}
+$$
+
+Sum of squared deviations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 &= 2889.0625 + 264.0625 + 564.0625 + 2139.0625 \\
+&+ 39.0625 + 189.0625 + 689.0625 + 14.0625 \\
+&= 6787.5
+\end{align*}
+$$
+
+The MLE for variance:
+$$
+\hat{\sigma}^2_{MLE} = \frac{6787.5}{8} = 848.44
+$$
+
+**Step 4: Calculate MLE for standard deviation**
+The MLE for standard deviation is the square root of the MLE for variance:
 
 $$
 \hat{\sigma}_{MLE} = \sqrt{848.44} = 29.13
 $$
 
-**Step 4: Interpret the results**
+**Step 5: Calculate confidence interval for the mean**
+The standard error of the mean (SEM) is:
+
+$$
+\text{SEM} = \frac{\hat{\sigma}_{MLE}}{\sqrt{n}} = \frac{29.13}{\sqrt{8}} = 10.30
+$$
+
+For a 95% confidence interval (using z = 1.96):
+
+$$
+\begin{align*}
+95\% \text{ CI} &= \hat{\mu}_{MLE} \pm 1.96 \times \text{SEM} \\
+&= 903.75 \pm 1.96 \times 10.30 \\
+&= 903.75 \pm 20.18 \\
+&= [883.57, 923.93]
+\end{align*}
+$$
+
+**Step 6: Interpret the results**
 - The MLE for the mean game score is 903.75
 - The MLE for the standard deviation is 29.13
-- These estimates provide the player with a baseline for their typical performance and consistency
+- We are 95% confident that the true mean score is between 883.57 and 923.93
+- Approximately 68% of scores are expected to fall within one standard deviation of the mean: [874.62, 932.88]
+- Approximately 95% of scores are expected to fall within two standard deviations of the mean: [845.49, 962.01]
 
 ![Video Game Score MLE Example](../Images/normal_mle_video_game_score.png)
 
 ### Example 3: Test Scores
 
 #### Problem Statement
-A teacher wants to analyze class performance on a recent test. The scores for 9 students were: 85, 92, 78, 88, 95, 82, 90, 84, and 88 (as percentages). Assuming the scores follow a normal distribution, MLE can help estimate the true mean and standard deviation of the class performance.
+A teacher wants to analyze class performance on a recent test. The scores for 9 students were: 85, 92, 78, 88, 95, 82, 90, 84, and 88 (as percentages). Assuming the scores follow a normal distribution, calculate the maximum likelihood estimates for:
 
-In this example:
-- The data consists of 9 test scores
-- We assume the scores follow a normal distribution
-- MLE estimates both the mean and standard deviation
-- The analysis relies solely on the observed scores without prior assumptions
+1. The mean (μ) of the test scores
+2. The variance (σ²) of the test scores
 
-The MLE analysis estimates a mean score of 86.89 with a standard deviation of 5.13. This provides the teacher with insights about the class's central tendency and spread of performance.
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Observed scores: 85, 92, 78, 88, 95, 82, 90, 84, and 88 (percentages)
+- Number of observations (n) = 9
+
+**Step 2: Calculate MLE for mean**
+For normally distributed data, the MLE for mean is the sample mean:
+
+$$
+\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+Calculate the sum of all observations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}x_i &= 85 + 92 + 78 + 88 + 95 + 82 + 90 + 84 + 88 \\
+&= 782
+\end{align*}
+$$
+
+Now calculate the MLE for the mean:
+$$
+\hat{\mu}_{MLE} = \frac{782}{9} = 86.89
+$$
+
+**Step 3: Calculate MLE for variance**
+For normally distributed data, the MLE for variance is:
+
+$$
+\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2
+$$
+
+Calculating the deviations from the mean:
+$$
+\begin{align*}
+x_1 - \hat{\mu}_{MLE} &= 85 - 86.89 = -1.89 \\
+x_2 - \hat{\mu}_{MLE} &= 92 - 86.89 = 5.11 \\
+x_3 - \hat{\mu}_{MLE} &= 78 - 86.89 = -8.89 \\
+x_4 - \hat{\mu}_{MLE} &= 88 - 86.89 = 1.11 \\
+x_5 - \hat{\mu}_{MLE} &= 95 - 86.89 = 8.11 \\
+x_6 - \hat{\mu}_{MLE} &= 82 - 86.89 = -4.89 \\
+x_7 - \hat{\mu}_{MLE} &= 90 - 86.89 = 3.11 \\
+x_8 - \hat{\mu}_{MLE} &= 84 - 86.89 = -2.89 \\
+x_9 - \hat{\mu}_{MLE} &= 88 - 86.89 = 1.11
+\end{align*}
+$$
+
+Squaring each deviation:
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (-1.89)^2 = 3.57 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (5.11)^2 = 26.12 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (-8.89)^2 = 79.01 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (1.11)^2 = 1.23 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (8.11)^2 = 65.79 \\
+(x_6 - \hat{\mu}_{MLE})^2 &= (-4.89)^2 = 23.90 \\
+(x_7 - \hat{\mu}_{MLE})^2 &= (3.11)^2 = 9.68 \\
+(x_8 - \hat{\mu}_{MLE})^2 &= (-2.89)^2 = 8.35 \\
+(x_9 - \hat{\mu}_{MLE})^2 &= (1.11)^2 = 1.23
+\end{align*}
+$$
+
+Sum of squared deviations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 &= 3.57 + 26.12 + 79.01 + 1.23 + 65.79 \\
+&+ 23.90 + 9.68 + 8.35 + 1.23 \\
+&= 218.89
+\end{align*}
+$$
+
+The MLE for variance:
+$$
+\hat{\sigma}^2_{MLE} = \frac{218.89}{9} = 24.32
+$$
+
+**Step 4: Calculate MLE for standard deviation**
+The MLE for standard deviation is the square root of the MLE for variance:
+
+$$
+\hat{\sigma}_{MLE} = \sqrt{24.32} = 4.93
+$$
+
+**Step 5: Calculate confidence interval for the mean**
+The standard error of the mean (SEM) is:
+
+$$
+\text{SEM} = \frac{\hat{\sigma}_{MLE}}{\sqrt{n}} = \frac{4.93}{\sqrt{9}} = 1.64
+$$
+
+For a 95% confidence interval (using z = 1.96):
+
+$$
+\begin{align*}
+95\% \text{ CI} &= \hat{\mu}_{MLE} \pm 1.96 \times \text{SEM} \\
+&= 86.89 \pm 1.96 \times 1.64 \\
+&= 86.89 \pm 3.22 \\
+&= [83.67, 90.11]
+\end{align*}
+$$
+
+**Step 6: Interpret the results**
+- The MLE for the mean test score is 86.89%
+- The MLE for the standard deviation is 4.93%
+- We are 95% confident that the true mean score is between 83.67% and 90.11%
+- Approximately 68% of scores are expected to fall within one standard deviation of the mean: [81.96%, 91.82%]
+- Approximately 95% of scores are expected to fall within two standard deviations of the mean: [77.03%, 96.75%]
 
 ![Test Scores MLE Example](../Images/normal_mle_test_scores.png)
 
 ### Example 4: Daily Steps
 
 #### Problem Statement
-A person is tracking their daily step count to monitor physical activity. They recorded their steps for 10 days: 8200, 7500, 10300, 9100, 7800, 8500, 9400, 8200, 9100, and 8700. Assuming the daily steps follow a normal distribution, MLE can help estimate the true mean and standard deviation of their activity level.
+A person is tracking their daily step count to monitor physical activity. They recorded their steps for 10 days: 8200, 7500, 10300, 9100, 7800, 8500, 9400, 8200, 9100, and 8700. Assuming the daily steps follow a normal distribution, calculate the maximum likelihood estimates for:
 
-In this example:
-- The data consists of 10 daily step count measurements
-- We assume the step counts follow a normal distribution
-- MLE estimates both the mean and standard deviation
-- The analysis relies solely on the observed data without prior assumptions
+1. The mean (μ) of the daily steps
+2. The variance (σ²) of the daily steps
 
-The MLE analysis estimates a mean daily step count of 8680 with a standard deviation of 824.62. This gives the person an understanding of their typical activity level and day-to-day variation.
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Observed daily steps: 8200, 7500, 10300, 9100, 7800, 8500, 9400, 8200, 9100, and 8700
+- Number of observations (n) = 10
+
+**Step 2: Calculate MLE for mean**
+For normally distributed data, the MLE for mean is the sample mean:
+
+$$
+\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+Calculate the sum of all observations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}x_i &= 8200 + 7500 + 10300 + 9100 + 7800 + 8500 + 9400 + 8200 + 9100 + 8700 \\
+&= 86800
+\end{align*}
+$$
+
+Now calculate the MLE for the mean:
+$$
+\hat{\mu}_{MLE} = \frac{86800}{10} = 8680 \text{ steps}
+$$
+
+**Step 3: Calculate MLE for variance**
+For normally distributed data, the MLE for variance is:
+
+$$
+\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2
+$$
+
+Calculating the deviations from the mean:
+$$
+\begin{align*}
+x_1 - \hat{\mu}_{MLE} &= 8200 - 8680 = -480 \\
+x_2 - \hat{\mu}_{MLE} &= 7500 - 8680 = -1180 \\
+x_3 - \hat{\mu}_{MLE} &= 10300 - 8680 = 1620 \\
+x_4 - \hat{\mu}_{MLE} &= 9100 - 8680 = 420 \\
+x_5 - \hat{\mu}_{MLE} &= 7800 - 8680 = -880 \\
+x_6 - \hat{\mu}_{MLE} &= 8500 - 8680 = -180 \\
+x_7 - \hat{\mu}_{MLE} &= 9400 - 8680 = 720 \\
+x_8 - \hat{\mu}_{MLE} &= 8200 - 8680 = -480 \\
+x_9 - \hat{\mu}_{MLE} &= 9100 - 8680 = 420 \\
+x_{10} - \hat{\mu}_{MLE} &= 8700 - 8680 = 20
+\end{align*}
+$$
+
+Squaring each deviation:
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (-480)^2 = 230400 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (-1180)^2 = 1392400 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (1620)^2 = 2624400 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (420)^2 = 176400 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (-880)^2 = 774400 \\
+(x_6 - \hat{\mu}_{MLE})^2 &= (-180)^2 = 32400 \\
+(x_7 - \hat{\mu}_{MLE})^2 &= (720)^2 = 518400 \\
+(x_8 - \hat{\mu}_{MLE})^2 &= (-480)^2 = 230400 \\
+(x_9 - \hat{\mu}_{MLE})^2 &= (420)^2 = 176400 \\
+(x_{10} - \hat{\mu}_{MLE})^2 &= (20)^2 = 400
+\end{align*}
+$$
+
+Sum of squared deviations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 &= 230400 + 1392400 + 2624400 + 176400 + 774400 \\
+&+ 32400 + 518400 + 230400 + 176400 + 400 \\
+&= 6156000
+\end{align*}
+$$
+
+The MLE for variance:
+$$
+\hat{\sigma}^2_{MLE} = \frac{6156000}{10} = 615600
+$$
+
+**Step 4: Calculate MLE for standard deviation**
+The MLE for standard deviation is the square root of the MLE for variance:
+
+$$
+\hat{\sigma}_{MLE} = \sqrt{615600} = 784.60 \text{ steps}
+$$
+
+**Step 5: Calculate confidence interval for the mean**
+The standard error of the mean (SEM) is:
+
+$$
+\text{SEM} = \frac{\hat{\sigma}_{MLE}}{\sqrt{n}} = \frac{784.60}{\sqrt{10}} = 248.11 \text{ steps}
+$$
+
+For a 95% confidence interval (using z = 1.96):
+
+$$
+\begin{align*}
+95\% \text{ CI} &= \hat{\mu}_{MLE} \pm 1.96 \times \text{SEM} \\
+&= 8680 \pm 1.96 \times 248.11 \\
+&= 8680 \pm 486.30 \\
+&= [8193.70, 9166.30]
+\end{align*}
+$$
+
+**Step 6: Interpret the results**
+- The MLE for the mean daily step count is 8680 steps
+- The MLE for the standard deviation is 784.60 steps
+- We are 95% confident that the true mean daily step count is between 8193.70 and 9166.30 steps
+- Approximately 68% of daily step counts are expected to fall within one standard deviation of the mean: [7895.40, 9464.60] steps
+- Approximately 95% of daily step counts are expected to fall within two standard deviations of the mean: [7110.80, 10249.20] steps
 
 ![Daily Steps MLE Example](../Images/normal_mle_daily_steps.png)
 
@@ -186,116 +499,878 @@ The MLE analysis estimates a mean daily step count of 8680 with a standard devia
 #### Problem Statement
 A quality control engineer is analyzing the diameter of manufactured ball bearings to assess production consistency. The engineer measured 10 ball bearings (in mm): 10.02, 9.98, 10.05, 9.97, 10.01, 10.03, 9.99, 10.04, 10.00, and 9.96. While the nominal diameter is 10mm, the engineer is particularly interested in estimating the variability (standard deviation) of the manufacturing process.
 
-In this example:
-- The data consists of 10 diameter measurements
-- We assume the measurements follow a normal distribution
-- MLE estimates the standard deviation of the manufacturing process
-- The analysis relies solely on the observed data
-
-#### Detailed Calculation
+#### Step-by-Step Calculation
 
 **Step 1: Gather the data**
 - Observed diameters: 10.02, 9.98, 10.05, 9.97, 10.01, 10.03, 9.99, 10.04, 10.00, and 9.96 mm
 - Number of observations (n) = 10
+- Range = [9.96, 10.05] mm
 
-**Step 2: Calculate the sample mean**
-First, we need to calculate the sample mean:
+**Step 2: Calculate the sample mean (MLE for mean)**
+For normally distributed data, the MLE for the mean is the sample mean:
 
 $$
-\hat{\mu}_{MLE} = \frac{10.02 + 9.98 + 10.05 + 9.97 + 10.01 + 10.03 + 9.99 + 10.04 + 10.00 + 9.96}{10} = \frac{100.05}{10} = 10.005 \text{ mm}
+\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i
 $$
 
-**Step 3: Calculate MLE for variance**
-For a normal distribution with unknown mean, the MLE for variance is:
+Calculate the sum of all observations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}x_i &= 10.02 + 9.98 + 10.05 + 9.97 + 10.01 + 10.03 + 9.99 + 10.04 + 10.00 + 9.96 \\
+&= 100.05 \text{ mm}
+\end{align*}
+$$
+
+Now calculate the MLE for the mean:
+$$
+\hat{\mu}_{MLE} = \frac{100.05}{10} = 10.005 \text{ mm}
+$$
+
+**Step 3: Calculate MLE for variance and standard deviation**
+For normally distributed data, the MLE for variance is:
 
 $$
 \hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2
 $$
 
-Calculating the deviations from the mean:
-
+**Step 3.1: Calculate deviations from the mean**
 $$
 \begin{align*}
-(10.02 - 10.005)^2 &= 0.00015^2 \\
-(9.98 - 10.005)^2 &= 0.00025^2 \\
-(10.05 - 10.005)^2 &= 0.00045^2 \\
-(9.97 - 10.005)^2 &= 0.00035^2 \\
-(10.01 - 10.005)^2 &= 0.00005^2 \\
-(10.03 - 10.005)^2 &= 0.00025^2 \\
-(9.99 - 10.005)^2 &= 0.00015^2 \\
-(10.04 - 10.005)^2 &= 0.00035^2 \\
-(10.00 - 10.005)^2 &= 0.00005^2 \\
-(9.96 - 10.005)^2 &= 0.00045^2
+x_1 - \hat{\mu}_{MLE} &= 10.02 - 10.005 = 0.015 \text{ mm} \\
+x_2 - \hat{\mu}_{MLE} &= 9.98 - 10.005 = -0.025 \text{ mm} \\
+x_3 - \hat{\mu}_{MLE} &= 10.05 - 10.005 = 0.045 \text{ mm} \\
+x_4 - \hat{\mu}_{MLE} &= 9.97 - 10.005 = -0.035 \text{ mm} \\
+x_5 - \hat{\mu}_{MLE} &= 10.01 - 10.005 = 0.005 \text{ mm} \\
+x_6 - \hat{\mu}_{MLE} &= 10.03 - 10.005 = 0.025 \text{ mm} \\
+x_7 - \hat{\mu}_{MLE} &= 9.99 - 10.005 = -0.015 \text{ mm} \\
+x_8 - \hat{\mu}_{MLE} &= 10.04 - 10.005 = 0.035 \text{ mm} \\
+x_9 - \hat{\mu}_{MLE} &= 10.00 - 10.005 = -0.005 \text{ mm} \\
+x_{10} - \hat{\mu}_{MLE} &= 9.96 - 10.005 = -0.045 \text{ mm}
 \end{align*}
 $$
 
-Sum of squared deviations = 0.00080
+**Step 3.2: Square each deviation**
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (0.015)^2 = 0.000225 \text{ mm}^2 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (-0.025)^2 = 0.000625 \text{ mm}^2 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (0.045)^2 = 0.002025 \text{ mm}^2 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (-0.035)^2 = 0.001225 \text{ mm}^2 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (0.005)^2 = 0.000025 \text{ mm}^2 \\
+(x_6 - \hat{\mu}_{MLE})^2 &= (0.025)^2 = 0.000625 \text{ mm}^2 \\
+(x_7 - \hat{\mu}_{MLE})^2 &= (-0.015)^2 = 0.000225 \text{ mm}^2 \\
+(x_8 - \hat{\mu}_{MLE})^2 &= (0.035)^2 = 0.001225 \text{ mm}^2 \\
+(x_9 - \hat{\mu}_{MLE})^2 &= (-0.005)^2 = 0.000025 \text{ mm}^2 \\
+(x_{10} - \hat{\mu}_{MLE})^2 &= (-0.045)^2 = 0.002025 \text{ mm}^2
+\end{align*}
+$$
+
+**Step 3.3: Sum all squared deviations**
+$$
+\begin{align*}
+\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 &= 0.000225 + 0.000625 + 0.002025 + 0.001225 \\
+&+ 0.000025 + 0.000625 + 0.000225 + 0.001225 \\
+&+ 0.000025 + 0.002025 \\
+&= 0.00825 \text{ mm}^2
+\end{align*}
+$$
+
+**Step 3.4: Calculate the MLE for variance**
+$$
+\hat{\sigma}^2_{MLE} = \frac{0.00825}{10} = 0.000825 \text{ mm}^2
+$$
+
+**Step 3.5: Calculate the MLE for standard deviation**
+$$
+\hat{\sigma}_{MLE} = \sqrt{0.000825} = 0.0287 \text{ mm}
+$$
+
+**Step 4: Compare MLE (biased) vs. unbiased estimator**
+The unbiased estimator for variance uses (n-1) in the denominator:
 
 $$
-\hat{\sigma}^2_{MLE} = \frac{0.00080}{10} = 0.000080 \text{ mm}^2
+\hat{\sigma}^2_{unbiased} = \frac{\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2}{n-1} = \frac{0.00825}{9} = 0.000917 \text{ mm}^2
 $$
 
-**Step 4: Calculate MLE for standard deviation**
+The unbiased estimator for standard deviation:
 
 $$
-\hat{\sigma}_{MLE} = \sqrt{0.000080} = 0.0283 \text{ mm}
+\hat{\sigma}_{unbiased} = \sqrt{0.000917} = 0.0303 \text{ mm}
+$$
+
+Percent difference between the estimators:
+
+$$
+\text{Percent difference} = \left(\frac{\hat{\sigma}_{unbiased}}{\hat{\sigma}_{MLE}} - 1\right) \times 100\% = \left(\frac{0.0303}{0.0287} - 1\right) \times 100\% = 5.41\%
 $$
 
 **Step 5: Interpret the results**
-Based on the MLE analysis, the manufacturing process has an estimated standard deviation of 0.0283 mm. This provides a measure of the consistency of the manufacturing process, with approximately 95% of ball bearings falling within ±0.057 mm of the mean (using the 2σ rule).
+- The MLE for the mean diameter is 10.005 mm
+- The MLE for the standard deviation is 0.0287 mm
+- Approximately 68.3% of ball bearings are expected to fall within range: [9.976, 10.034] mm
+- Approximately 95.5% of ball bearings are expected to fall within range: [9.948, 10.062] mm
+- Approximately 99.7% of ball bearings are expected to fall within range: [9.919, 10.091] mm
+- For a more accurate estimate of population standard deviation in this small sample, the unbiased estimator of 0.0303 mm may be preferred
 
 ![Ball Bearing Diameter MLE Example](../Images/std_mle_ball_bearing_diameter.png)
 
 ### Example 6: Battery Life
 
 #### Problem Statement
-An electronics manufacturer is testing the life of rechargeable batteries. They recorded the runtime of 12 batteries (in hours): 4.8, 5.2, 4.9, 5.1, 4.7, 5.0, 4.9, 5.3, 4.8, 5.2, 5.0, and 4.8. Assuming the battery life follows a normal distribution, MLE can help estimate the true mean and standard deviation of the battery life.
+An electronics manufacturer is testing the life of rechargeable batteries. They recorded the runtime of 12 batteries (in hours): 4.8, 5.2, 4.9, 5.1, 4.7, 5.0, 4.9, 5.3, 4.8, 5.2, 5.0, and 4.8. Assuming the battery life follows a normal distribution, calculate the maximum likelihood estimates for:
 
-In this example:
-- The data consists of 12 battery life measurements
-- We assume the measurements follow a normal distribution
-- MLE estimates both the mean and standard deviation
-- The analysis relies solely on the observed data
+1. The mean (μ) of the battery life
+2. The standard deviation (σ) of the battery life
 
-The MLE analysis estimates a mean battery life of 4.98 hours with a standard deviation of 0.19 hours. This provides the manufacturer with insights about the typical battery life and its variability.
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Observed battery life: 4.8, 5.2, 4.9, 5.1, 4.7, 5.0, 4.9, 5.3, 4.8, 5.2, 5.0, and 4.8 hours
+- Number of observations (n) = 12
+- Range = [4.7, 5.3] hours
+
+**Step 2: Calculate the sample mean (MLE for mean)**
+For normally distributed data, the MLE for the mean is the sample mean:
+
+$$
+\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+Calculate the sum of all observations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}x_i &= 4.8 + 5.2 + 4.9 + 5.1 + 4.7 + 5.0 + 4.9 + 5.3 + 4.8 + 5.2 + 5.0 + 4.8 \\
+&= 59.7 \text{ hours}
+\end{align*}
+$$
+
+Now calculate the MLE for the mean:
+$$
+\hat{\mu}_{MLE} = \frac{59.7}{12} = 4.975 \text{ hours}
+$$
+
+**Step 3: Calculate MLE for variance and standard deviation**
+For normally distributed data, the MLE for variance is:
+
+$$
+\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2
+$$
+
+**Step 3.1: Calculate deviations from the mean**
+$$
+\begin{align*}
+x_1 - \hat{\mu}_{MLE} &= 4.8 - 4.975 = -0.175 \text{ hours} \\
+x_2 - \hat{\mu}_{MLE} &= 5.2 - 4.975 = 0.225 \text{ hours} \\
+x_3 - \hat{\mu}_{MLE} &= 4.9 - 4.975 = -0.075 \text{ hours} \\
+x_4 - \hat{\mu}_{MLE} &= 5.1 - 4.975 = 0.125 \text{ hours} \\
+x_5 - \hat{\mu}_{MLE} &= 4.7 - 4.975 = -0.275 \text{ hours} \\
+x_6 - \hat{\mu}_{MLE} &= 5.0 - 4.975 = 0.025 \text{ hours} \\
+x_7 - \hat{\mu}_{MLE} &= 4.9 - 4.975 = -0.075 \text{ hours} \\
+x_8 - \hat{\mu}_{MLE} &= 5.3 - 4.975 = 0.325 \text{ hours} \\
+x_9 - \hat{\mu}_{MLE} &= 4.8 - 4.975 = -0.175 \text{ hours} \\
+x_{10} - \hat{\mu}_{MLE} &= 5.2 - 4.975 = 0.225 \text{ hours} \\
+x_{11} - \hat{\mu}_{MLE} &= 5.0 - 4.975 = 0.025 \text{ hours} \\
+x_{12} - \hat{\mu}_{MLE} &= 4.8 - 4.975 = -0.175 \text{ hours}
+\end{align*}
+$$
+
+**Step 3.2: Square each deviation**
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (-0.175)^2 = 0.030625 \text{ hours}^2 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (0.225)^2 = 0.050625 \text{ hours}^2 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (-0.075)^2 = 0.005625 \text{ hours}^2 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (0.125)^2 = 0.015625 \text{ hours}^2 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (-0.275)^2 = 0.075625 \text{ hours}^2 \\
+(x_6 - \hat{\mu}_{MLE})^2 &= (0.025)^2 = 0.000625 \text{ hours}^2 \\
+(x_7 - \hat{\mu}_{MLE})^2 &= (-0.075)^2 = 0.005625 \text{ hours}^2 \\
+(x_8 - \hat{\mu}_{MLE})^2 &= (0.325)^2 = 0.105625 \text{ hours}^2 \\
+(x_9 - \hat{\mu}_{MLE})^2 &= (-0.175)^2 = 0.030625 \text{ hours}^2 \\
+(x_{10} - \hat{\mu}_{MLE})^2 &= (0.225)^2 = 0.050625 \text{ hours}^2 \\
+(x_{11} - \hat{\mu}_{MLE})^2 &= (0.025)^2 = 0.000625 \text{ hours}^2 \\
+(x_{12} - \hat{\mu}_{MLE})^2 &= (-0.175)^2 = 0.030625 \text{ hours}^2
+\end{align*}
+$$
+
+**Step 3.3: Sum all squared deviations**
+$$
+\begin{align*}
+\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 &= 0.030625 + 0.050625 + 0.005625 + 0.015625 + 0.075625 \\
+&+ 0.000625 + 0.005625 + 0.105625 + 0.030625 + 0.050625 \\
+&+ 0.000625 + 0.030625 \\
+&= 0.4025 \text{ hours}^2
+\end{align*}
+$$
+
+**Step 3.4: Calculate the MLE for variance**
+$$
+\hat{\sigma}^2_{MLE} = \frac{0.4025}{12} = 0.0335 \text{ hours}^2
+$$
+
+**Step 3.5: Calculate the MLE for standard deviation**
+$$
+\hat{\sigma}_{MLE} = \sqrt{0.0335} = 0.183 \text{ hours}
+$$
+
+**Step 4: Compare MLE (biased) vs. unbiased estimator**
+The unbiased estimator for variance uses (n-1) in the denominator:
+
+$$
+\hat{\sigma}^2_{unbiased} = \frac{\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2}{n-1} = \frac{0.4025}{11} = 0.0366 \text{ hours}^2
+$$
+
+The unbiased estimator for standard deviation:
+
+$$
+\hat{\sigma}_{unbiased} = \sqrt{0.0366} = 0.191 \text{ hours}
+$$
+
+Percent difference between the estimators:
+
+$$
+\text{Percent difference} = \left(\frac{\hat{\sigma}_{unbiased}}{\hat{\sigma}_{MLE}} - 1\right) \times 100\% = \left(\frac{0.191}{0.183} - 1\right) \times 100\% = 4.45\%
+$$
+
+**Step 5: Calculate confidence interval for the mean**
+The standard error of the mean (SEM) is:
+
+$$
+\text{SEM} = \frac{\hat{\sigma}_{MLE}}{\sqrt{n}} = \frac{0.183}{\sqrt{12}} = 0.054 \text{ hours}
+$$
+
+For a 95% confidence interval (using z = 1.96):
+
+$$
+\begin{align*}
+95\% \text{ CI} &= \hat{\mu}_{MLE} \pm 1.96 \times \text{SEM} \\
+&= 4.975 \pm 1.96 \times 0.054 \\
+&= 4.975 \pm 0.1058 \\
+&= [4.8692, 5.0808]
+\end{align*}
+$$
+
+**Step 6: Interpret the results**
+- The MLE for the mean battery life is 4.975 hours
+- The MLE for the standard deviation is 0.183 hours
+- We are 95% confident that the true mean battery life is between 4.8692 and 5.0808 hours
+- Approximately 68% of batteries are expected to have a life within range: [4.7924, 5.1576] hours
+- Approximately 95% of batteries are expected to have a life within range: [4.6092, 5.3408] hours
+- Approximately 99.7% of batteries are expected to have a life within range: [4.4224, 5.5276] hours
+- For a more accurate estimate of population standard deviation in this small sample, the unbiased estimator of 0.191 hours may be preferred
 
 ![Battery Life MLE Example](../Images/std_mle_battery_life.png)
 
 ### Example 7: Reaction Time
 
 #### Problem Statement
-A researcher is measuring reaction times in a psychology experiment. They recorded reaction times from 10 participants (in seconds): 0.32, 0.29, 0.35, 0.30, 0.28, 0.33, 0.31, 0.34, 0.30, and 0.32. Assuming the reaction times follow a normal distribution, MLE can help estimate the true mean and standard deviation of human response times.
+A researcher is measuring reaction times in a psychology experiment. They recorded reaction times from 10 participants (in seconds): 0.32, 0.29, 0.35, 0.30, 0.28, 0.33, 0.31, 0.34, 0.30, and 0.32. Assuming the reaction times follow a normal distribution, calculate the maximum likelihood estimates for:
 
-In this example:
-- The data consists of 10 reaction time measurements
-- We assume the reaction times follow a normal distribution
-- MLE estimates both the mean and standard deviation
-- The analysis relies solely on the observed data
+1. The mean (μ) of the reaction times
+2. The variance (σ²) of the reaction times
 
-The MLE analysis estimates a mean reaction time of 0.31 seconds with a standard deviation of 0.02 seconds. This gives the researcher an understanding of the typical response time and its variability.
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Observed reaction times: 0.32, 0.29, 0.35, 0.30, 0.28, 0.33, 0.31, 0.34, 0.30, and 0.32 seconds
+- Number of observations (n) = 10
+- Range = [0.28, 0.35] seconds
+
+**Step 2: Calculate MLE for mean**
+For normally distributed data, the MLE for mean is the sample mean:
+
+$$
+\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+Calculate the sum of all observations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}x_i &= 0.32 + 0.29 + 0.35 + 0.30 + 0.28 + 0.33 + 0.31 + 0.34 + 0.30 + 0.32 \\
+&= 3.14 \text{ seconds}
+\end{align*}
+$$
+
+Now calculate the MLE for the mean:
+$$
+\hat{\mu}_{MLE} = \frac{3.14}{10} = 0.314 \text{ seconds}
+$$
+
+**Step 3: Calculate MLE for variance and standard deviation**
+For normally distributed data, the MLE for variance is:
+
+$$
+\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2
+$$
+
+**Step 3.1: Calculate deviations from the mean**
+$$
+\begin{align*}
+x_1 - \hat{\mu}_{MLE} &= 0.32 - 0.314 = 0.006 \text{ seconds} \\
+x_2 - \hat{\mu}_{MLE} &= 0.29 - 0.314 = -0.024 \text{ seconds} \\
+x_3 - \hat{\mu}_{MLE} &= 0.35 - 0.314 = 0.036 \text{ seconds} \\
+x_4 - \hat{\mu}_{MLE} &= 0.30 - 0.314 = -0.014 \text{ seconds} \\
+x_5 - \hat{\mu}_{MLE} &= 0.28 - 0.314 = -0.034 \text{ seconds} \\
+x_6 - \hat{\mu}_{MLE} &= 0.33 - 0.314 = 0.016 \text{ seconds} \\
+x_7 - \hat{\mu}_{MLE} &= 0.31 - 0.314 = -0.004 \text{ seconds} \\
+x_8 - \hat{\mu}_{MLE} &= 0.34 - 0.314 = 0.026 \text{ seconds} \\
+x_9 - \hat{\mu}_{MLE} &= 0.30 - 0.314 = -0.014 \text{ seconds} \\
+x_{10} - \hat{\mu}_{MLE} &= 0.32 - 0.314 = 0.006 \text{ seconds}
+\end{align*}
+$$
+
+**Step 3.2: Square each deviation**
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (0.006)^2 = 0.000036 \text{ seconds}^2 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (-0.024)^2 = 0.000576 \text{ seconds}^2 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (0.036)^2 = 0.001296 \text{ seconds}^2 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (-0.014)^2 = 0.000196 \text{ seconds}^2 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (-0.034)^2 = 0.001156 \text{ seconds}^2 \\
+(x_6 - \hat{\mu}_{MLE})^2 &= (0.016)^2 = 0.000256 \text{ seconds}^2 \\
+(x_7 - \hat{\mu}_{MLE})^2 &= (-0.004)^2 = 0.000016 \text{ seconds}^2 \\
+(x_8 - \hat{\mu}_{MLE})^2 &= (0.026)^2 = 0.000676 \text{ seconds}^2 \\
+(x_9 - \hat{\mu}_{MLE})^2 &= (-0.014)^2 = 0.000196 \text{ seconds}^2 \\
+(x_{10} - \hat{\mu}_{MLE})^2 &= (0.006)^2 = 0.000036 \text{ seconds}^2
+\end{align*}
+$$
+
+**Step 3.3: Sum all squared deviations**
+$$
+\begin{align*}
+\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 &= 0.000036 + 0.000576 + 0.001296 + 0.000196 \\
+&+ 0.001156 + 0.000256 + 0.000016 + 0.000676 \\
+&+ 0.000196 + 0.000036 \\
+&= 0.004440 \text{ seconds}^2
+\end{align*}
+$$
+
+**Step 3.4: Calculate the MLE for variance**
+$$
+\hat{\sigma}^2_{MLE} = \frac{0.004440}{10} = 0.000444 \text{ seconds}^2
+$$
+
+**Step 3.5: Calculate the MLE for standard deviation**
+$$
+\hat{\sigma}_{MLE} = \sqrt{0.000444} = 0.0211 \text{ seconds}
+$$
+
+**Step 4: Compare MLE (biased) vs. unbiased estimator**
+The unbiased estimator for variance uses (n-1) in the denominator:
+
+$$
+\hat{\sigma}^2_{unbiased} = \frac{\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2}{n-1} = \frac{0.00444}{9} = 0.000493 \text{ seconds}^2
+$$
+
+The unbiased estimator for standard deviation:
+
+$$
+\hat{\sigma}_{unbiased} = \sqrt{0.000493} = 0.0222 \text{ seconds}
+$$
+
+Percent difference between the estimators:
+
+$$
+\text{Percent difference} = \left(\frac{\hat{\sigma}_{unbiased}}{\hat{\sigma}_{MLE}} - 1\right) \times 100\% = \left(\frac{0.0222}{0.0211} - 1\right) \times 100\% = 5.41\%
+$$
+
+**Step 5: Calculate confidence interval for the mean**
+The standard error of the mean (SEM) is:
+
+$$
+\text{SEM} = \frac{\hat{\sigma}_{MLE}}{\sqrt{n}} = \frac{0.0211}{\sqrt{10}} = 0.0067 \text{ seconds}
+$$
+
+For a 95% confidence interval (using z = 1.96):
+
+$$
+\begin{align*}
+95\% \text{ CI} &= \hat{\mu}_{MLE} \pm 1.96 \times \text{SEM} \\
+&= 0.314 \pm 1.96 \times 0.0067 \\
+&= 0.314 \pm 0.0131 \\
+&= [0.3009, 0.3271]
+\end{align*}
+$$
+
+**Step 6: Interpret the results**
+- The MLE for the mean reaction time is 0.314 seconds
+- The MLE for the standard deviation is 0.0211 seconds
+- We are 95% confident that the true mean reaction time is between 0.3009 and 0.3271 seconds
+- Approximately 68% of reaction times are expected to fall within one standard deviation of the mean: [0.2929, 0.3351] seconds
+- Approximately 95% of reaction times are expected to fall within two standard deviations of the mean: [0.2719, 0.3561] seconds
+- Approximately 99.7% of reaction times are expected to fall within three standard deviations of the mean: [0.2508, 0.3772] seconds
+- For a more accurate estimate of population standard deviation in this small sample, the unbiased estimator of 0.0222 seconds may be preferred
 
 ![Reaction Time MLE Example](../Images/std_mle_reaction_time.png)
 
 ### Example 8: Temperature Readings
 
 #### Problem Statement
-A climate scientist is analyzing daily temperature readings. They recorded temperatures for 12 days (in Celsius): 21.2, 20.8, 21.5, 20.9, 21.3, 21.1, 20.7, 21.0, 21.2, 20.9, 21.4, and 21.1. Assuming the temperatures follow a normal distribution, MLE can help estimate the true mean and standard deviation of the temperature readings.
+A climate scientist is analyzing daily temperature readings. They recorded temperatures for 12 days (in Celsius): 21.2, 20.8, 21.5, 20.9, 21.3, 21.1, 20.7, 21.0, 21.2, 20.9, 21.4, and 21.1. Assuming the temperatures follow a normal distribution, calculate the maximum likelihood estimates for:
 
-In this example:
-- The data consists of 12 temperature measurements
-- We assume the temperatures follow a normal distribution
-- MLE estimates both the mean and standard deviation
-- The analysis relies solely on the observed data
+1. The mean (μ) of the temperature readings
+2. The variance (σ²) of the temperature readings
 
-The MLE analysis estimates a mean temperature of 21.1°C with a standard deviation of 0.24°C. This provides the scientist with insights about the typical temperature and its daily variation.
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Observed temperatures: 21.2, 20.8, 21.5, 20.9, 21.3, 21.1, 20.7, 21.0, 21.2, 20.9, 21.4, and 21.1 °C
+- Number of observations (n) = 12
+- Range = [20.7, 21.5] °C
+
+**Step 2: Calculate MLE for mean**
+For normally distributed data, the MLE for mean is the sample mean:
+
+$$
+\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i
+$$
+
+Calculate the sum of all observations:
+$$
+\begin{align*}
+\sum_{i=1}^{n}x_i &= 21.2 + 20.8 + 21.5 + 20.9 + 21.3 + 21.1 + 20.7 + 21.0 + 21.2 + 20.9 + 21.4 + 21.1 \\
+&= 253.1 \text{ °C}
+\end{align*}
+$$
+
+Now calculate the MLE for the mean:
+$$
+\hat{\mu}_{MLE} = \frac{253.1}{12} = 21.0917 \text{ °C}
+$$
+
+**Step 3: Calculate MLE for variance and standard deviation**
+For normally distributed data, the MLE for variance is:
+
+$$
+\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2
+$$
+
+**Step 3.1: Calculate deviations from the mean**
+$$
+\begin{align*}
+x_1 - \hat{\mu}_{MLE} &= 21.2 - 21.0917 = 0.1083 \text{ °C} \\
+x_2 - \hat{\mu}_{MLE} &= 20.8 - 21.0917 = -0.2917 \text{ °C} \\
+x_3 - \hat{\mu}_{MLE} &= 21.5 - 21.0917 = 0.4083 \text{ °C} \\
+x_4 - \hat{\mu}_{MLE} &= 20.9 - 21.0917 = -0.1917 \text{ °C} \\
+x_5 - \hat{\mu}_{MLE} &= 21.3 - 21.0917 = 0.2083 \text{ °C} \\
+x_6 - \hat{\mu}_{MLE} &= 21.1 - 21.0917 = 0.0083 \text{ °C} \\
+x_7 - \hat{\mu}_{MLE} &= 20.7 - 21.0917 = -0.3917 \text{ °C} \\
+x_8 - \hat{\mu}_{MLE} &= 21.0 - 21.0917 = -0.0917 \text{ °C} \\
+x_9 - \hat{\mu}_{MLE} &= 21.2 - 21.0917 = 0.1083 \text{ °C} \\
+x_{10} - \hat{\mu}_{MLE} &= 20.9 - 21.0917 = -0.1917 \text{ °C} \\
+x_{11} - \hat{\mu}_{MLE} &= 21.4 - 21.0917 = 0.3083 \text{ °C} \\
+x_{12} - \hat{\mu}_{MLE} &= 21.1 - 21.0917 = 0.0083 \text{ °C}
+\end{align*}
+$$
+
+**Step 3.2: Square each deviation**
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (0.1083)^2 = 0.0117 \text{ °C}^2 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (-0.2917)^2 = 0.0851 \text{ °C}^2 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (0.4083)^2 = 0.1667 \text{ °C}^2 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (-0.1917)^2 = 0.0367 \text{ °C}^2 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (0.2083)^2 = 0.0434 \text{ °C}^2 \\
+(x_6 - \hat{\mu}_{MLE})^2 &= (0.0083)^2 = 0.0001 \text{ °C}^2 \\
+(x_7 - \hat{\mu}_{MLE})^2 &= (-0.3917)^2 = 0.1534 \text{ °C}^2 \\
+(x_8 - \hat{\mu}_{MLE})^2 &= (-0.0917)^2 = 0.0084 \text{ °C}^2 \\
+(x_9 - \hat{\mu}_{MLE})^2 &= (0.1083)^2 = 0.0117 \text{ °C}^2 \\
+(x_{10} - \hat{\mu}_{MLE})^2 &= (-0.1917)^2 = 0.0367 \text{ °C}^2 \\
+(x_{11} - \hat{\mu}_{MLE})^2 &= (0.3083)^2 = 0.0951 \text{ °C}^2 \\
+(x_{12} - \hat{\mu}_{MLE})^2 &= (0.0083)^2 = 0.0001 \text{ °C}^2
+\end{align*}
+$$
+
+**Step 3.3: Sum all squared deviations**
+$$
+\begin{align*}
+\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 &= 0.0117 + 0.0851 + 0.1667 + 0.0367 + 0.0434 \\
+&+ 0.0001 + 0.1534 + 0.0084 + 0.0117 + 0.0367 \\
+&+ 0.0951 + 0.0001 \\
+&= 0.6492 \text{ °C}^2
+\end{align*}
+$$
+
+**Step 3.4: Calculate the MLE for variance**
+$$
+\hat{\sigma}^2_{MLE} = \frac{0.6492}{12} = 0.0541 \text{ °C}^2
+$$
+
+**Step 3.5: Calculate the MLE for standard deviation**
+$$
+\hat{\sigma}_{MLE} = \sqrt{0.0541} = 0.2326 \text{ °C}
+$$
+
+**Step 4: Compare MLE (biased) vs. unbiased estimator**
+The unbiased estimator for variance uses (n-1) in the denominator:
+
+$$
+\hat{\sigma}^2_{unbiased} = \frac{\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2}{n-1} = \frac{0.6492}{11} = 0.0590 \text{ °C}^2
+$$
+
+The unbiased estimator for standard deviation:
+
+$$
+\hat{\sigma}_{unbiased} = \sqrt{0.0590} = 0.2429 \text{ °C}
+$$
+
+Percent difference between the estimators:
+
+$$
+\text{Percent difference} = \left(\frac{\hat{\sigma}_{unbiased}}{\hat{\sigma}_{MLE}} - 1\right) \times 100\% = \left(\frac{0.2429}{0.2326} - 1\right) \times 100\% = 4.45\%
+$$
+
+**Step 5: Calculate confidence interval for the mean**
+The standard error of the mean (SEM) is:
+
+$$
+\text{SEM} = \frac{\hat{\sigma}_{MLE}}{\sqrt{n}} = \frac{0.2326}{\sqrt{12}} = 0.0671 \text{ °C}
+$$
+
+For a 95% confidence interval (using z = 1.96):
+
+$$
+\begin{align*}
+95\% \text{ CI} &= \hat{\mu}_{MLE} \pm 1.96 \times \text{SEM} \\
+&= 21.0917 \pm 1.96 \times 0.0671 \\
+&= 21.0917 \pm 0.1316 \\
+&= [20.9601, 21.2233]
+\end{align*}
+$$
+
+**Step 6: Interpret the results**
+- The MLE for the mean temperature is 21.0917 °C
+- The MLE for the standard deviation is 0.2326 °C
+- We are 95% confident that the true mean temperature is between 20.9601 and 21.2233 °C
+- Approximately 68% of temperature readings are expected to fall within one standard deviation of the mean: [20.8591, 21.3243] °C
+- Approximately 95% of temperature readings are expected to fall within two standard deviations of the mean: [20.6265, 21.5568] °C
+- Approximately 99.7% of temperature readings are expected to fall within three standard deviations of the mean: [20.3939, 21.7894] °C
+- For a more accurate estimate of population standard deviation in this small sample, the unbiased estimator of 0.2429 °C may be preferred
 
 ![Temperature Readings MLE Example](../Images/std_mle_temperature_readings.png)
+
+### Example 9: Rainfall Measurements (Censored Data)
+
+#### Problem Statement
+A meteorologist is analyzing rainfall data, but their measurement instrument can only record values up to 25mm; any rainfall above this is simply recorded as "25+mm" (right-censored data). The recorded rainfall amounts (in mm) for 15 days were: 12.3, 8.7, 25+, 15.2, 10.8, 25+, 18.4, 7.2, 14.9, 20.1, 25+, 11.5, 16.8, 9.3, and 25+.
+
+This example demonstrates MLE for censored data, where some observations are only partially known:
+- 11 measurements with exact values
+- 4 measurements that are censored (known only to exceed 25mm)
+
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Observed rainfall measurements: 12.3, 8.7, 25.0, 15.2, 10.8, 25.0, 18.4, 7.2, 14.9, 20.1, 25.0, 11.5, 16.8, 9.3, 25.0 mm (where 25.0 represents a censored value of 25+ mm)
+- Number of observations (n) = 15
+- Number of censored observations = 4
+- Number of uncensored observations = 11
+- Censoring point = 25.0 mm
+
+**Step 2: Naive approach (incorrectly ignoring censoring)**
+This approach treats censored values as exact measurements, which leads to biased estimates.
+
+The naive MLE for mean:
+$$\hat{\mu}_{naive} = \frac{1}{15}(12.3 + 8.7 + 25.0 + 15.2 + 10.8 + 25.0 + 18.4 + 7.2 + 14.9 + 20.1 + 25.0 + 11.5 + 16.8 + 9.3 + 25.0) = 16.35 \text{ mm}$$
+
+The naive MLE for standard deviation:
+$$\hat{\sigma}_{naive} = 6.24 \text{ mm}$$
+
+**Step 3: Maximum Likelihood Estimation with censored data**
+For censored normal data, the likelihood function has two components:
+1. For uncensored observations: the usual normal density function
+2. For censored observations: the probability of exceeding the censoring point
+
+The log-likelihood function is:
+$$\ln L(\mu, \sigma^2) = \sum_{i \in U} \ln f(x_i|\mu, \sigma^2) + \sum_{j \in C} \ln(1-F(c|\mu, \sigma^2))$$
+
+Where:
+- $U$ is the set of uncensored observations
+- $C$ is the set of censored observations
+- $c$ is the censoring point (25mm)
+- $f(x|\mu, \sigma^2)$ is the normal PDF
+- $F(x|\mu, \sigma^2)$ is the normal CDF
+
+First, calculate initial estimates using only uncensored data:
+- Uncensored observations: 12.3, 8.7, 15.2, 10.8, 18.4, 7.2, 14.9, 20.1, 11.5, 16.8, 9.3
+- Initial mean estimate: 13.20 mm
+- Initial standard deviation estimate: 3.99 mm
+
+Using numerical optimization to maximize the likelihood function with these initial estimates:
+- MLE for mean: 17.53 mm
+- MLE for standard deviation: 8.19 mm
+
+**Step 4: Compare naive vs. proper MLE**
+- Mean estimate increased by 7.3% when properly accounting for censoring
+- Standard deviation estimate increased by 31.3% when properly accounting for censoring
+
+These differences highlight how ignoring censoring can lead to significant underestimation of both the mean and variance.
+
+**Step 5: Interpret the results**
+- The MLE for the mean rainfall is 17.53 mm
+- The MLE for the standard deviation is 8.19 mm
+- According to our model, approximately 18.1% of rainfall days exceed the 25mm measurement threshold
+- This is calculated as: $P(X > 25) = 1 - \Phi(\frac{25 - 17.53}{8.19}) = 0.181$ 
+
+The proper handling of censored data gives us a more accurate understanding of the true rainfall distribution, especially for estimating extreme rainfall events.
+
+![Rainfall Measurements (Censored Data) MLE Example](../Images/normal_mle_rainfall_censored.png)
+
+For a more detailed visualization comparing naive vs. proper MLE with censored data:
+
+![Detailed Rainfall Measurements Analysis](../Images/rainfall_censored_separate.png)
+
+### Example 10: Plant Height Study (Grouped Data)
+
+#### Problem Statement
+A botanist is studying the heights of a particular plant species. Due to time constraints, instead of measuring each plant individually, the botanist grouped them into height ranges and counted how many fell into each range:
+
+| Height Range (cm) | Frequency |
+|-------------------|-----------|
+| 10.0 - 12.0       | 6         |
+| 12.1 - 14.0       | 12        |
+| 14.1 - 16.0       | 25        |
+| 16.1 - 18.0       | 32        |
+| 18.1 - 20.0       | 18        |
+| 20.1 - 22.0       | 7         |
+
+Total sample size: 100 plants
+
+This example demonstrates MLE for grouped data, where individual observations are not available, only counts within predefined ranges.
+
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Data is presented in grouped form with 6 bins
+- Total sample size = 100 plants
+- Bin ranges and counts as shown in the table above
+
+**Step 2: Calculate approximate statistics from grouped data**
+First, we estimate mean and standard deviation using the midpoints of each bin:
+
+Bin midpoints:
+- Bin 1: (10.0 + 12.0)/2 = 11.0 cm
+- Bin 2: (12.1 + 14.0)/2 = 13.05 cm
+- Bin 3: (14.1 + 16.0)/2 = 15.05 cm
+- Bin 4: (16.1 + 18.0)/2 = 17.05 cm
+- Bin 5: (18.1 + 20.0)/2 = 19.05 cm
+- Bin 6: (20.1 + 22.0)/2 = 21.05 cm
+
+Approximate mean using midpoints:
+$$\hat{\mu}_{approx} = \frac{1}{100}(6 \times 11.0 + 12 \times 13.05 + 25 \times 15.05 + 32 \times 17.05 + 18 \times 19.05 + 7 \times 21.05) = 16.35 \text{ cm}$$
+
+Approximate variance using midpoints:
+$$\hat{\sigma}^2_{approx} = \frac{1}{100} \sum_{i=1}^{6} n_i (m_i - 16.35)^2 = 6.43 \text{ cm}^2$$
+
+Approximate standard deviation:
+$$\hat{\sigma}_{approx} = \sqrt{6.43} = 2.54 \text{ cm}$$
+
+**Step 3: Maximum Likelihood Estimation with grouped data**
+For grouped normal data, the likelihood function uses the probability of an observation falling into each group:
+
+$$L(\mu, \sigma^2) = \prod_{i=1}^{k} [F(b_i|\mu, \sigma^2) - F(a_i|\mu, \sigma^2)]^{n_i}$$
+
+Where:
+- $k$ is the number of groups
+- $a_i$ and $b_i$ are the lower and upper bounds of group $i$
+- $n_i$ is the frequency (count) for group $i$
+- $F(x|\mu, \sigma^2)$ is the normal CDF
+
+The log-likelihood is:
+
+$$\ln L(\mu, \sigma^2) = \sum_{i=1}^{k} n_i \ln[F(b_i|\mu, \sigma^2) - F(a_i|\mu, \sigma^2)]$$
+
+Using numerical optimization with the approximate values as starting points:
+- MLE for mean: 16.35 cm
+- MLE for standard deviation: 2.48 cm
+
+**Step 4: Compare observed vs. expected frequencies**
+We can verify the fit by comparing the observed frequencies with the expected frequencies based on our estimated normal distribution:
+
+| Height Range (cm) | Observed | Expected |
+|-------------------|----------|----------|
+| 10.0 - 12.0       | 6        | 3.4      |
+| 12.1 - 14.0       | 12       | 12.8     |
+| 14.1 - 16.0       | 25       | 26.2     |
+| 16.1 - 18.0       | 32       | 28.7     |
+| 18.1 - 20.0       | 18       | 17.0     |
+| 20.1 - 22.0       | 7        | 5.4      |
+
+Calculation of expected counts for each bin:
+$$E_i = N \times [F(b_i|\mu, \sigma^2) - F(a_i|\mu, \sigma^2)]$$
+
+For example, for bin 1:
+$$E_1 = 100 \times [\Phi(\frac{12.0 - 16.35}{2.48}) - \Phi(\frac{10.0 - 16.35}{2.48})] = 3.4$$
+
+Chi-square goodness-of-fit:
+$$\chi^2 = \sum_{i=1}^{6} \frac{(O_i - E_i)^2}{E_i} = 2.93$$
+
+With 3 degrees of freedom (6 bins - 2 parameters - 1), this indicates a good fit.
+
+**Step 5: Interpret the results**
+- The MLE for the mean plant height is 16.35 cm
+- The MLE for the standard deviation is 2.48 cm
+- About 68% of plants have heights between 13.87 cm and 18.83 cm (μ ± σ)
+- About 95% of plants have heights between 11.39 cm and 21.31 cm (μ ± 2σ)
+- The distribution appears to be reasonably normal based on the comparison between observed and expected frequencies
+
+![Plant Height Study (Grouped Data) MLE Example](../Images/normal_mle_plant_height_grouped.png)
+
+For a more detailed visualization showing the expected vs. observed frequencies:
+
+![Detailed Plant Height Grouped Data Analysis](../Images/plant_height_grouped_separate.png)
+
+### Example 11: Height of Students (Simple Sample Mean)
+
+#### Problem Statement
+A researcher is collecting data on the heights of students in a class. They measured the heights of 5 randomly selected students (in cm): 165, 172, 168, 175, and 170. Assuming heights follow a normal distribution, find the maximum likelihood estimate for the mean height.
+
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Heights: 165, 172, 168, 175, 170 cm
+- Number of observations (n) = 5
+
+**Step 2: Calculate MLE for mean**
+For normally distributed data, the MLE for the mean is the sample mean:
+
+$$\hat{\mu}_{MLE} = \frac{1}{n}\sum_{i=1}^{n}x_i$$
+
+Calculate the sum of all observations:
+$$\sum_{i=1}^{n}x_i = 165 + 172 + 168 + 175 + 170 = 850 \text{ cm}$$
+
+Now calculate the MLE for the mean:
+$$\hat{\mu}_{MLE} = \frac{850}{5} = 170.0 \text{ cm}$$
+
+**Step 3: Interpret the result**
+- The MLE for the mean height is 170.0 cm
+- This represents our best estimate of the true average height of all students in the class based on our sample
+
+**Step 4: Additional analysis (variance and standard deviation)**
+Though not explicitly asked for, we can also calculate the MLE for variance:
+
+$$\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2$$
+
+Deviations from the mean:
+$$
+\begin{align*}
+x_1 - \hat{\mu}_{MLE} &= 165 - 170 = -5 \\
+x_2 - \hat{\mu}_{MLE} &= 172 - 170 = 2 \\
+x_3 - \hat{\mu}_{MLE} &= 168 - 170 = -2 \\
+x_4 - \hat{\mu}_{MLE} &= 175 - 170 = 5 \\
+x_5 - \hat{\mu}_{MLE} &= 170 - 170 = 0
+\end{align*}
+$$
+
+Squared deviations:
+$$
+\begin{align*}
+(x_1 - \hat{\mu}_{MLE})^2 &= (-5)^2 = 25 \\
+(x_2 - \hat{\mu}_{MLE})^2 &= (2)^2 = 4 \\
+(x_3 - \hat{\mu}_{MLE})^2 &= (-2)^2 = 4 \\
+(x_4 - \hat{\mu}_{MLE})^2 &= (5)^2 = 25 \\
+(x_5 - \hat{\mu}_{MLE})^2 &= (0)^2 = 0
+\end{align*}
+$$
+
+Sum of squared deviations:
+$$\sum_{i=1}^{n}(x_i - \hat{\mu}_{MLE})^2 = 25 + 4 + 4 + 25 + 0 = 58 \text{ cm}^2$$
+
+MLE for variance:
+$$\hat{\sigma}^2_{MLE} = \frac{58}{5} = 11.60 \text{ cm}^2$$
+
+MLE for standard deviation:
+$$\hat{\sigma}_{MLE} = \sqrt{11.60} = 3.41 \text{ cm}$$
+
+This example demonstrates the simplest form of MLE for a normal distribution: using the sample mean as the estimate for the population mean.
+
+![Student Heights MLE Example](../Images/normal_mle_student_heights.png)
+
+For a more detailed visualization of individual measurements and the fitted distribution:
+
+![Detailed Student Heights Analysis](../Images/student_heights_separate.png)
+
+### Example 12: Weight Measurements (Known Mean, Unknown Variance)
+
+#### Problem Statement
+A nutritionist is studying weight fluctuations in a clinical trial. Based on extensive prior research, they know the true mean weight of the population is 68 kg. They collect 6 weight measurements (in kg): 65, 70, 67, 71, 66, and 69. Find the maximum likelihood estimate for the variance of weights, given that the mean is known to be 68 kg.
+
+#### Step-by-Step Calculation
+
+**Step 1: Gather the data**
+- Weights: 65, 70, 67, 71, 66, and 69 kg
+- Number of observations (n) = 6
+- Known mean (μ) = 68 kg
+
+**Step 2: Calculate MLE for variance with known mean**
+When the mean is known, the MLE for variance is:
+
+$$\hat{\sigma}^2_{MLE} = \frac{1}{n}\sum_{i=1}^{n}(x_i - \mu)^2$$
+
+Note that this is different from the usual variance formula because we're using the known mean μ rather than the sample mean.
+
+Calculating squared deviations from the known mean:
+$$
+\begin{align*}
+(x_1 - \mu)^2 &= (65 - 68)^2 = (-3)^2 = 9 \text{ kg}^2 \\
+(x_2 - \mu)^2 &= (70 - 68)^2 = (2)^2 = 4 \text{ kg}^2 \\
+(x_3 - \mu)^2 &= (67 - 68)^2 = (-1)^2 = 1 \text{ kg}^2 \\
+(x_4 - \mu)^2 &= (71 - 68)^2 = (3)^2 = 9 \text{ kg}^2 \\
+(x_5 - \mu)^2 &= (66 - 68)^2 = (-2)^2 = 4 \text{ kg}^2 \\
+(x_6 - \mu)^2 &= (69 - 68)^2 = (1)^2 = 1 \text{ kg}^2
+\end{align*}
+$$
+
+Sum of squared deviations:
+$$\sum_{i=1}^{n}(x_i - \mu)^2 = 9 + 4 + 1 + 9 + 4 + 1 = 28 \text{ kg}^2$$
+
+MLE for variance:
+$$\hat{\sigma}^2_{MLE} = \frac{28}{6} = 4.67 \text{ kg}^2$$
+
+MLE for standard deviation:
+$$\hat{\sigma}_{MLE} = \sqrt{4.67} = 2.16 \text{ kg}$$
+
+**Step 3: Interpret the result**
+- The MLE for the variance is 4.67 kg²
+- The MLE for the standard deviation is 2.16 kg
+- This represents the estimated variability in weights when the true mean is known
+- Approximately 68% of weight measurements are expected to fall within the range [65.84, 70.16] kg (μ ± σ)
+- Approximately 95% of weight measurements are expected to fall within the range [63.68, 72.32] kg (μ ± 2σ)
+
+This example shows how the MLE calculation differs when one parameter (the mean) is known while the other (variance) needs to be estimated.
+
+![Weight Measurements MLE Example](../Images/normal_mle_weight_measurements.png)
+
+For a more detailed visualization showing the deviations from the known mean:
+
+![Detailed Weight Measurements Analysis](../Images/weight_measurements_separate.png)
+
+## Key Insights
+
+### Theoretical Insights
+- For normal distributions, the sample mean is the MLE for the population mean (μ)
+- The MLE for variance (σ²) divides by n (not n-1), making it a biased estimator
+- In censored data, ignoring censoring leads to biased parameter estimates
+- For grouped data, MLEs can be obtained via numerical optimization
+
+### Practical Applications
+- In manufacturing (Example 5), MLE helps assess production consistency
+- In meteorology (Example 9), MLE with censored data provides better estimates of rainfall patterns
+- In clinical studies (Example 12), MLE allows estimation of variance even when mean is known
+- In botanical research (Example 10), MLE enables parameter estimation from grouped data
+
+### Common Pitfalls
+- Using the biased MLE for variance in small samples can lead to underestimation
+- Ignoring censoring in data collection can significantly bias results (Example 9)
+- Treating grouped data as if midpoints were actual observations leads to approximation errors
+- Not checking goodness-of-fit after parameter estimation misses potential model inadequacies
 
 ## Running the Examples
 
 You can run all the examples using the Python files:
 
 ```bash
-python3 ML_Obsidian_Vault/Lectures/2/Code/normal_mle_examples.py
-python3 ML_Obsidian_Vault/Lectures/2/Code/std_mle_examples.py
+python3 ML_Obsidian_Vault/Lectures/2/Codes/normal_mle_examples.py
+python3 ML_Obsidian_Vault/Lectures/2/Codes/std_mle_examples.py
+python3 ML_Obsidian_Vault/Lectures/2/Codes/additional_mle_examples.py
+python3 ML_Obsidian_Vault/Lectures/2/Codes/additional_mle_examples_separate_visuals.py
 ```

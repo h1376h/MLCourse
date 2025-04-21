@@ -12,7 +12,8 @@ This module provides essential probability and statistical foundations required 
 - [[L2_1_Covariance_Correlation|Covariance and Correlation]]: Relationship measures between random variables
 - [[L2_1_Discrete_Distributions|Discrete Distributions]]: Bernoulli, Binomial, Multinomial, Poisson, Geometric distributions
 - [[L2_1_Continuous_Distributions|Continuous Distributions]]: Normal, Uniform, Exponential, Gamma, Beta distributions
-- Multivariate Distributions: Joint distributions and transformations
+- [[L2_1_Multivariate_Distributions|Multivariate Distributions]]: Joint distributions and transformations
+- [[L2_1_Contour_Plots|Contour Plots]]: Visualizing multivariate probability distributions
 - [[L2_1_Conditional_Probability|Conditional Probability]]: Dependent events, Bayes' theorem, Chain Rule
 - [[L2_1_Independence|Independence]]: Independent events, Conditional Independence, Pairwise vs Mutual
 - [[L2_1_Joint_Probability|Joint Probability]]: Multiple random variables, Marginal Distributions
