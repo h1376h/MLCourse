@@ -6,6 +6,8 @@ This document explains how the covariance matrix of a multivariate normal distri
 
 The contour plots of a multivariate normal distribution provide valuable insights into the relationship between variables and their correlation structure. The shape, orientation, and size of these contours are directly determined by the covariance matrix.
 
+For additional interactive visualizations and examples, see [[L2_1_Contour_Plot_Visual_Examples|Visual Examples]].
+
 ## Mathematical Foundation
 
 The probability density function (PDF) of a bivariate normal distribution with mean μ = (μ₁, μ₂) and covariance matrix Σ is given by:
@@ -123,4 +125,4 @@ The principal axes of the elliptical contours align with the eigenvectors of Σ.
 - [[L2_1_Multivariate_Distributions|Multivariate Distributions]]: Theoretical foundation
 - [[L2_1_Covariance_Correlation|Covariance and Correlation]]: Related concepts for understanding distribution shapes 
 - [[L2_1_Contour_Plot_Examples|Contour Plot Examples]]: Worked examples of contour plots for various functions
-- [[L2_1_Visual_Examples|Visual Examples]]: Additional visual examples of covariance matrix effects on contours 
+- [[L2_1_Contour_Plot_Visual_Examples|Visual Examples]]: Additional visual examples of covariance matrix effects on contours 

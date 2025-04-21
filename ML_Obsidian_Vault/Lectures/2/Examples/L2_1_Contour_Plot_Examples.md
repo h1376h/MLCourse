@@ -8,6 +8,8 @@ Contour plots visualize 3D surfaces on a 2D plane by connecting points of equal 
 $$\{(x,y) : f(x,y) = c\}$$
 where $c$ is a constant value.
 
+For additional illustrations and interactive visualizations, see [[L2_1_Contour_Plot_Visual_Examples|Visual Examples]].
+
 ## Examples
 
 The following examples demonstrate contour plots in different contexts:
@@ -478,4 +480,4 @@ The contour plot consists of parallel lines with slope $-1$. Higher contours app
 - [[L2_1_Multivariate_Distributions|Multivariate Distributions]]: Theoretical foundation
 - [[L2_1_Covariance_Correlation|Covariance and Correlation]]: Related concepts for understanding distribution shapes
 - [[L2_1_Covariance_Matrix_Contours|Covariance Matrix Contours]]: How covariance matrices affect contour shapes in multivariate distributions
-- [[L2_1_Visual_Examples|Visual Examples]]: Additional visual examples of contour plots in various applications
+- [[L2_1_Contour_Plot_Visual_Examples|Visual Examples]]: Additional visual examples of contour plots in various applications
