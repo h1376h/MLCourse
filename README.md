@@ -23,8 +23,13 @@ A curated collection of machine learning materials, examples, and notes organize
 This repository requires the following Python packages:
 ```
 matplotlib>=3.10.1
+networkx>=3.4.2
 numpy>=2.2.3
+pandas>=2.2.3
+scikit-learn>=1.6.1
 scipy>=1.15.2
+seaborn>=0.13.2
+textblob>=0.19.0
 ```
 
 ## Installation
