@@ -215,6 +215,197 @@ def explain_eigenvalue_visualization():
     
     print(f"\n{'='*80}")
 
+def explain_simple_covariance_real_world():
+    """Print explanations for the simple real-world covariance example."""
+    print(f"\n{'='*80}")
+    print(f"Example: Height and Weight - A Real-World Covariance Example")
+    print(f"{'='*80}")
+    
+    print("\nProblem Statement:")
+    print("How does natural covariance appear in the real world, and how can it be visualized using height and weight data?")
+    
+    print("\nKey Points:")
+    print("- Height and weight are naturally correlated variables (taller people tend to weigh more)")
+    print("- The data cloud forms an elliptical pattern aligned along a positive correlation direction")
+    print("- The covariance matrix quantifies the strength and direction of this relationship")
+    print("- Principal components (eigenvectors) show the main directions of variance in the data")
+    print("- The confidence ellipse visualizes the region containing ~95% of the data (2σ)")
+    
+    print("\nInsights:")
+    print("- The first principal component points along the direction of maximum variance")
+    print("- This direction aligns with the 'growth trajectory' where both height and weight increase")
+    print("- The second principal component captures variance orthogonal to the main relationship")
+    print("- This direction represents variations in body type (more weight relative to height or vice versa)")
+    print("- The covariance matrix and its properties reveal the underlying data structure")
+    
+    print("\nReal-World Applications:")
+    print("- Medical research and anthropometry: establishing normal ranges and relationships")
+    print("- Clothing industry: designing size systems based on correlated body measurements")
+    print("- Sports science: analyzing performance metrics and their relationships")
+    print("- Public health: monitoring population trends in body metrics")
+    
+    print(f"\n{'='*80}")
+
+def explain_toy_data_covariance_change():
+    """Print explanations for the toy data covariance change example."""
+    print(f"\n{'='*80}")
+    print(f"Example: How Rotation Affects Covariance Structure")
+    print(f"{'='*80}")
+    
+    print("\nProblem Statement:")
+    print("What happens to the covariance matrix when we rotate a dataset, and why is this important?")
+    
+    print("\nKey Points:")
+    print("- Starting with uncorrelated data (diagonal covariance matrix)")
+    print("- Rotation introduces correlation between variables (non-diagonal covariance matrix)")
+    print("- The covariance changes systematically with the rotation angle")
+    print("- The total variance (trace of covariance matrix) remains constant under rotation")
+    print("- The determinant of the covariance matrix also remains constant")
+    
+    print("\nMathematical Explanation:")
+    print("- For a rotation matrix R and covariance matrix Σ:")
+    print("- The transformed covariance matrix is Σ' = R·Σ·R^T")
+    print("- For initially uncorrelated data with equal variances (Σ = σ²I):")
+    print("  * At 0° rotation: Cov(x,y) = 0 (no correlation)")
+    print("  * At 45° rotation: Cov(x,y) is maximized (strongest correlation)")
+    print("  * At 90° rotation: Cov(x,y) returns to 0 (variables swap positions)")
+    
+    print("\nPractical Significance:")
+    print("- Coordinate system choice affects the observed covariance structure")
+    print("- Feature engineering: rotation can introduce or remove correlations")
+    print("- Principal Component Analysis (PCA) exploits this by finding a rotation that diagonalizes the covariance matrix")
+    print("- Understanding these transformations is crucial for data preprocessing and interpretation")
+    
+    print(f"\n{'='*80}")
+
+def explain_mahalanobis_distance():
+    """Print explanations for the Mahalanobis distance example."""
+    print(f"\n{'='*80}")
+    print(f"Example: Mahalanobis Distance vs Euclidean Distance")
+    print(f"{'='*80}")
+    
+    print("\nProblem Statement:")
+    print("Why is Euclidean distance inadequate for correlated data, and how does Mahalanobis distance address this limitation?")
+    
+    print("\nKey Concepts:")
+    print("- Euclidean distance treats all dimensions equally and independently")
+    print("  * Represented by circles of equal distance from the mean")
+    print("- Mahalanobis distance accounts for the covariance structure of the data")
+    print("  * Represented by ellipses aligned with the data's natural distribution")
+    print("  * Points at the same Mahalanobis distance have equal probability density under a multivariate normal model")
+    
+    print("\nMathematical Formula:")
+    print("- Euclidean distance: d_E(x) = √[(x-μ)^T(x-μ)]")
+    print("- Mahalanobis distance: d_M(x) = √[(x-μ)^T Σ^(-1) (x-μ)]")
+    print("  where μ is the mean and Σ is the covariance matrix")
+    
+    print("\nKey Points from the Visualization:")
+    print("- Points at the same Euclidean distance can have very different Mahalanobis distances:")
+    print("  * Points along the major axis of correlation have smaller Mahalanobis distances")
+    print("  * Points perpendicular to the correlation direction have larger Mahalanobis distances")
+    print("- The Mahalanobis distance effectively 'scales' the space according to the data variance")
+    
+    print("\nPractical Applications:")
+    print("- Anomaly detection: identifying outliers that account for correlation structure")
+    print("- Classification: creating decision boundaries that respect data covariance")
+    print("- Clustering: defining distance metrics that capture the natural data structure")
+    print("- Quality control: monitoring multivariate processes and detecting unusual states")
+    
+    print(f"\n{'='*80}")
+
+def explain_emoji_covariance():
+    """Print explanations for the emoji covariance example."""
+    print(f"\n{'='*80}")
+    print(f"Example: Positive vs Negative Correlation (The Emoji Edition)")
+    print(f"{'='*80}")
+    
+    print("\nProblem Statement:")
+    print("How can we intuitively understand positive and negative correlation using everyday visual metaphors?")
+    
+    print("\nKey Concepts Illustrated:")
+    print("- Positive correlation (Happy Face 😊):")
+    print("  * Variables tend to increase or decrease together")
+    print("  * Data points form a pattern from bottom-left to top-right")
+    print("  * The covariance ellipse is tilted along the y = x direction")
+    print("  * Common in naturally related quantities (height-weight, study time-grades)")
+    
+    print("- Negative correlation (Sad Face 😢):")
+    print("  * As one variable increases, the other tends to decrease")
+    print("  * Data points form a pattern from top-left to bottom-right")
+    print("  * The covariance ellipse is tilted along the y = -x direction")
+    print("  * Common in trade-off relationships (speed-accuracy, price-demand)")
+    
+    print("\nVisual Metaphors:")
+    print("- The smiley/sad faces provide an intuitive memory aid:")
+    print("  * Smile curves upward ⌣ like positive correlation")
+    print("  * Frown curves downward ⌢ like negative correlation")
+    
+    print("\nEmotional Interpretation (Just for Fun):")
+    print("- Positive correlation makes data 'happy' because variables 'agree' with each other")
+    print("- Negative correlation makes data 'sad' because variables 'disagree' with each other")
+    print("- Zero correlation is 'emotionless' data - variables show no relationship")
+    
+    print("\nLearning Value:")
+    print("- Memorable visualizations help anchor abstract statistical concepts")
+    print("- Connecting emotional resonance to mathematical patterns enhances retention")
+    print("- Visual intuition complements formal mathematical understanding")
+    
+    print(f"\n{'='*80}")
+
+def explain_sketch_contour_problem():
+    """Print detailed explanations for the sketch contour problem example."""
+    print(f"\n{'='*80}")
+    print(f"Example: Sketch Contour Lines for Bivariate Normal Distribution")
+    print(f"{'='*80}")
+    
+    print("\nProblem Statement:")
+    print("Sketch the contour lines for the probability density function of a bivariate normal distribution")
+    print("with mean μ = (0,0) and covariance matrix Σ = [[1, 0], [0, 1]].")
+    
+    print("\nStep-by-Step Solution:")
+    
+    print("\nStep 1: Understand the mathematical formula")
+    print("The PDF of a bivariate normal distribution is given by:")
+    print("f(x,y) = (1/2π√|Σ|) * exp(-1/2 * (x,y)ᵀ Σ⁻¹ (x,y))")
+    print("where Σ is the covariance matrix and |Σ| is its determinant.")
+    
+    print("\nStep 2: Analyze the covariance matrix")
+    print("For Σ = [[1, 0], [0, 1]]:")
+    print("- This is the identity matrix (variances = 1, covariance = 0)")
+    print("- The variables are uncorrelated and have equal variances")
+    print("- The determinant |Σ| = 1")
+    print("- The inverse Σ⁻¹ = Σ (identity matrix is its own inverse)")
+    
+    print("\nStep 3: Identify the equation for contour lines")
+    print("Contour lines connect points with equal probability density")
+    print("For a specific contour value c, the points satisfy:")
+    print("(x,y)ᵀ Σ⁻¹ (x,y) = -2ln(c*2π) = constant")
+    print("Which simplifies to: x² + y² = constant")
+    
+    print("\nStep 4: Recognize that contours form circles")
+    print("The equation x² + y² = constant describes a circle:")
+    print("- Centered at the origin (0,0)")
+    print("- With radius r = √constant")
+    
+    print("\nStep 5: Sketch the contours")
+    print("Draw concentric circles centered at the origin with various radii.")
+    print("These circles represent different probability density levels:")
+    print("- Inner circles (smaller radii): higher probability density")
+    print("- Outer circles (larger radii): lower probability density")
+    print("- The 1σ circle has radius 1")
+    print("- The 2σ circle has radius 2")
+    print("- The 3σ circle has radius 3")
+    
+    print("\nConclusion:")
+    print("For a standard bivariate normal distribution (Σ = I), the contour lines form")
+    print("concentric circles centered at the mean (0,0), reflecting equal spread in all directions.")
+    print("This is the simplest case of a multivariate normal distribution, where the")
+    print("variables are uncorrelated and have equal variances.")
+    
+    print(f"\n{'='*80}")
+    
+    return "Sketch contour problem explanation generated successfully!"
+
 def generate_covariance_explanations():
     """Generate detailed explanations for all covariance examples."""
     # Print explanations for all examples
@@ -222,6 +413,12 @@ def generate_covariance_explanations():
     explain_basic_2d_example()
     explain_3d_visualization()
     explain_eigenvalue_visualization()
+    # New simple examples
+    explain_simple_covariance_real_world()
+    explain_toy_data_covariance_change()
+    explain_mahalanobis_distance()
+    explain_emoji_covariance()
+    explain_sketch_contour_problem()
     
     return "Covariance matrix explanations generated successfully!"
 

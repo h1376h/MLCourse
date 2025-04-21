@@ -4,6 +4,8 @@ import os
 from matplotlib import cm
 from matplotlib.patches import Ellipse
 from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.gridspec as gridspec
+from matplotlib.widgets import Slider, Button
 
 def ensure_directory_exists(directory):
     """Ensure the specified directory exists, create if it doesn't."""
@@ -420,6 +422,494 @@ def covariance_eigenvalue_visualization():
     plt.tight_layout()
     return fig
 
+def simple_covariance_example_real_world():
+    """Simple real-world example of covariance using height and weight data."""
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Simulated height (cm) and weight (kg) data with positive correlation
+    np.random.seed(42)  # For reproducibility
+    heights = 170 + np.random.normal(0, 7, 100)  # Mean 170cm, std 7cm
+    weights = heights * 0.5 + np.random.normal(0, 5, 100)  # Positively correlated with heights
+    
+    # Calculate covariance matrix
+    data = np.vstack([heights, weights]).T
+    cov_matrix = np.cov(data, rowvar=False)
+    
+    # Get eigenvalues and eigenvectors
+    eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
+    
+    # Plot the data points
+    ax.scatter(heights, weights, alpha=0.7, label='Height-Weight Data')
+    
+    # Calculate mean
+    mean_height, mean_weight = np.mean(heights), np.mean(weights)
+    
+    # Draw the covariance ellipse (2σ)
+    for j in [1, 2]:
+        ell = Ellipse(xy=(mean_height, mean_weight),
+                     width=2*j*np.sqrt(eigenvalues[0]), 
+                     height=2*j*np.sqrt(eigenvalues[1]),
+                     angle=np.rad2deg(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0])),
+                     edgecolor='red', facecolor='none', linestyle='--')
+        ax.add_patch(ell)
+        if j == 2:
+            ax.text(mean_height, mean_weight + j*np.sqrt(eigenvalues[1]), 
+                    f'2σ confidence region', color='red', ha='center', va='bottom')
+    
+    # Plot the eigenvectors (principal components)
+    for i in range(2):
+        vec = eigenvectors[:, i] * np.sqrt(eigenvalues[i])
+        ax.arrow(mean_height, mean_weight, vec[0], vec[1], 
+                 head_width=1, head_length=1.5, fc='blue', ec='blue')
+        ax.text(mean_height + vec[0]*1.1, mean_weight + vec[1]*1.1, 
+                f'PC{i+1}', color='blue', ha='center', va='center')
+    
+    # Add labels and title
+    ax.set_xlabel('Height (cm)')
+    ax.set_ylabel('Weight (kg)')
+    ax.set_title('Height vs Weight: A Natural Example of Positive Covariance')
+    ax.grid(True)
+    ax.axis('equal')
+    
+    # Add text explaining the covariance
+    corr = cov_matrix[0, 1] / np.sqrt(cov_matrix[0, 0] * cov_matrix[1, 1])
+    textstr = f'Covariance Matrix:\n[[{cov_matrix[0,0]:.1f}, {cov_matrix[0,1]:.1f}],\n [{cov_matrix[1,0]:.1f}, {cov_matrix[1,1]:.1f}]]\n\nCorrelation: {corr:.2f}'
+    props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+    ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=10,
+            verticalalignment='top', bbox=props)
+    
+    plt.tight_layout()
+    return fig
+
+def toy_data_covariance_change():
+    """Visualize how a dataset's covariance changes with rotation."""
+    fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+    
+    # Create a simple 2D dataset
+    np.random.seed(42)
+    n_points = 300
+    x = np.random.normal(0, 1, n_points)
+    y = np.random.normal(0, 1, n_points)
+    data_original = np.vstack([x, y]).T
+    
+    # Rotation matrices for different angles
+    angles = [0, 30, 60]
+    titles = ['Original Data', '30° Rotation', '60° Rotation']
+    
+    for i, (angle, title) in enumerate(zip(angles, titles)):
+        # Convert angle to radians
+        theta = np.radians(angle)
+        
+        # Create rotation matrix
+        rot_matrix = np.array([
+            [np.cos(theta), -np.sin(theta)],
+            [np.sin(theta), np.cos(theta)]
+        ])
+        
+        # Rotate the data
+        data_rotated = np.dot(data_original, rot_matrix)
+        
+        # Calculate covariance matrix
+        cov_matrix = np.cov(data_rotated, rowvar=False)
+        
+        # Plot the data
+        axs[i].scatter(data_rotated[:, 0], data_rotated[:, 1], alpha=0.5, s=10)
+        
+        # Get eigenvalues and eigenvectors for ellipse
+        eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
+        
+        # Draw 2σ ellipse
+        ell = Ellipse(xy=(0, 0),
+                     width=4*np.sqrt(eigenvalues[0]), 
+                     height=4*np.sqrt(eigenvalues[1]),
+                     angle=np.rad2deg(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0])),
+                     edgecolor='red', facecolor='none', linestyle='--')
+        axs[i].add_patch(ell)
+        
+        # Add covariance info
+        corr = cov_matrix[0, 1] / np.sqrt(cov_matrix[0, 0] * cov_matrix[1, 1])
+        axs[i].text(0.05, 0.95, f'Cov(x,y) = {cov_matrix[0,1]:.2f}\nCorr = {corr:.2f}', 
+                   transform=axs[i].transAxes, fontsize=10,
+                   verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+        
+        axs[i].set_title(title)
+        axs[i].set_xlabel('x')
+        axs[i].set_ylabel('y')
+        axs[i].set_xlim(-4, 4)
+        axs[i].set_ylim(-4, 4)
+        axs[i].grid(True)
+        axs[i].set_aspect('equal')
+    
+    plt.tight_layout()
+    return fig
+
+def simple_mahalanobis_distance():
+    """Visualize Mahalanobis distance vs Euclidean distance for correlated data."""
+    fig, ax = plt.subplots(figsize=(10, 8))
+    
+    # Create correlated data
+    np.random.seed(42)
+    cov_matrix = np.array([[2.0, 1.5], [1.5, 2.0]])  # Positive correlation
+    mean = np.array([0, 0])
+    
+    # Generate multivariate normal data
+    data = np.random.multivariate_normal(mean, cov_matrix, 300)
+    
+    # Calculate the inverse of the covariance matrix
+    cov_inv = np.linalg.inv(cov_matrix)
+    
+    # Test points for distance calculation
+    test_points = np.array([
+        [2, 0],    # Point along x-axis
+        [0, 2],    # Point along y-axis
+        [2, 2],    # Point in first quadrant
+        [-1.5, 1.5]  # Point in second quadrant
+    ])
+    
+    # Compute Mahalanobis distances
+    mahalanobis_distances = []
+    for point in test_points:
+        diff = point - mean
+        mahalanobis_distance = np.sqrt(diff.dot(cov_inv).dot(diff))
+        mahalanobis_distances.append(mahalanobis_distance)
+    
+    # Plot the data points
+    ax.scatter(data[:, 0], data[:, 1], alpha=0.5, s=10, label='Data Points')
+    
+    # Plot test points
+    ax.scatter(test_points[:, 0], test_points[:, 1], color='red', s=100, marker='*', label='Test Points')
+    
+    # Get eigenvalues and eigenvectors for contour ellipses
+    eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
+    
+    # Draw multiple contour ellipses representing equal Mahalanobis distances
+    for m_dist in [1, 2, 3]:
+        ell = Ellipse(xy=(0, 0),
+                     width=2*m_dist*np.sqrt(eigenvalues[0]), 
+                     height=2*m_dist*np.sqrt(eigenvalues[1]),
+                     angle=np.rad2deg(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0])),
+                     edgecolor='purple', facecolor='none', linestyle='-', alpha=0.7)
+        ax.add_patch(ell)
+        ax.text(0, m_dist*np.sqrt(eigenvalues[1]), f'M-dist = {m_dist}', 
+               color='purple', ha='center', va='bottom')
+    
+    # Add text for the test points
+    for i, (point, dist) in enumerate(zip(test_points, mahalanobis_distances)):
+        ax.text(point[0], point[1] + 0.3, f'P{i+1}: M-dist = {dist:.2f}', ha='center')
+    
+    # Draw Euclidean distance circles for comparison
+    for e_dist in [1, 2, 3]:
+        circle = plt.Circle((0, 0), e_dist, fill=False, edgecolor='green', linestyle='--')
+        ax.add_patch(circle)
+        ax.text(e_dist, 0, f'E-dist = {e_dist}', color='green', ha='left', va='center')
+    
+    ax.set_title('Mahalanobis Distance vs Euclidean Distance\nfor Correlated Data')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.grid(True)
+    ax.set_xlim(-4, 4)
+    ax.set_ylim(-4, 4)
+    ax.set_aspect('equal')
+    ax.legend()
+    
+    # Add covariance matrix info
+    corr = cov_matrix[0, 1] / np.sqrt(cov_matrix[0, 0] * cov_matrix[1, 1])
+    textstr = f'Covariance Matrix:\n[[{cov_matrix[0,0]:.1f}, {cov_matrix[0,1]:.1f}],\n [{cov_matrix[1,0]:.1f}, {cov_matrix[1,1]:.1f}]]\n\nCorrelation: {corr:.2f}'
+    props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+    ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=10,
+            verticalalignment='top', bbox=props)
+    
+    plt.tight_layout()
+    return fig
+
+def emoji_covariance_example():
+    """Create a fun example using emoji-like shapes to show covariance concepts."""
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 7))
+    
+    # Create a smiley face for the positive correlation
+    theta = np.linspace(0, 2*np.pi, 100)
+    # Face circle
+    face_x = 3 * np.cos(theta)
+    face_y = 3 * np.sin(theta)
+    
+    # Eyes (ellipses showing covariance)
+    eye_left_x = -1.2 + 0.5 * np.cos(theta)
+    eye_left_y = 1 + 0.5 * np.sin(theta)
+    
+    eye_right_x = 1.2 + 0.5 * np.cos(theta)
+    eye_right_y = 1 + 0.5 * np.sin(theta)
+    
+    # Smiling mouth (showing positive correlation)
+    mouth_theta = np.linspace(0, np.pi, 50)
+    mouth_x = 2 * np.cos(mouth_theta)
+    mouth_y = -1 + 1.2 * np.sin(mouth_theta)
+    
+    # Plot the happy face on the left subplot
+    ax1.plot(face_x, face_y, 'k-', linewidth=2)
+    ax1.plot(eye_left_x, eye_left_y, 'k-', linewidth=2)
+    ax1.plot(eye_right_x, eye_right_y, 'k-', linewidth=2)
+    ax1.plot(mouth_x, mouth_y, 'k-', linewidth=2)
+    
+    # Add positive correlation contour
+    x, y = np.mgrid[-3:3:.01, -3:3:.01]
+    pos = np.dstack((x, y))
+    cov_pos = np.array([[1.0, 0.8], [0.8, 1.0]])
+    mean = np.array([0, 0])
+    
+    rv = np.random.multivariate_normal(mean, cov_pos, 100)
+    ax1.scatter(rv[:, 0], rv[:, 1], color='blue', alpha=0.3, s=10)
+    
+    # Add positive covariance ellipse
+    eigenvalues, eigenvectors = np.linalg.eig(cov_pos)
+    ell_pos = Ellipse(xy=(0, 0),
+                    width=4*np.sqrt(eigenvalues[0]), 
+                    height=4*np.sqrt(eigenvalues[1]),
+                    angle=np.rad2deg(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0])),
+                    edgecolor='blue', facecolor='none', linestyle='--')
+    ax1.add_patch(ell_pos)
+    
+    ax1.set_title('Positive Correlation: Happy Data! 😊\nPoints tend to increase together')
+    ax1.set_xlim(-4, 4)
+    ax1.set_ylim(-4, 4)
+    ax1.set_aspect('equal')
+    ax1.grid(True)
+    
+    # Create a sad face for the negative correlation on the right subplot
+    # Face circle (reuse from above)
+    
+    # Eyes (reuse from above)
+    
+    # Sad mouth (showing negative correlation)
+    sad_mouth_theta = np.linspace(np.pi, 2*np.pi, 50)
+    sad_mouth_x = 2 * np.cos(sad_mouth_theta)
+    sad_mouth_y = -1 + 1.2 * np.sin(sad_mouth_theta)
+    
+    # Plot the sad face
+    ax2.plot(face_x, face_y, 'k-', linewidth=2)
+    ax2.plot(eye_left_x, eye_left_y, 'k-', linewidth=2)
+    ax2.plot(eye_right_x, eye_right_y, 'k-', linewidth=2)
+    ax2.plot(sad_mouth_x, sad_mouth_y, 'k-', linewidth=2)
+    
+    # Add negative correlation contour
+    cov_neg = np.array([[1.0, -0.8], [-0.8, 1.0]])
+    
+    rv_neg = np.random.multivariate_normal(mean, cov_neg, 100)
+    ax2.scatter(rv_neg[:, 0], rv_neg[:, 1], color='red', alpha=0.3, s=10)
+    
+    # Add negative covariance ellipse
+    eigenvalues, eigenvectors = np.linalg.eig(cov_neg)
+    ell_neg = Ellipse(xy=(0, 0),
+                    width=4*np.sqrt(eigenvalues[0]), 
+                    height=4*np.sqrt(eigenvalues[1]),
+                    angle=np.rad2deg(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0])),
+                    edgecolor='red', facecolor='none', linestyle='--')
+    ax2.add_patch(ell_neg)
+    
+    ax2.set_title('Negative Correlation: Sad Data! 😢\nAs one variable increases, the other decreases')
+    ax2.set_xlim(-4, 4)
+    ax2.set_ylim(-4, 4)
+    ax2.set_aspect('equal')
+    ax2.grid(True)
+    
+    plt.tight_layout()
+    return fig
+
+def sketch_contour_problem():
+    """Create an interactive visualization for sketching contours of bivariate normal distributions."""
+    # Create figure with a grid layout
+    fig = plt.figure(figsize=(12, 8))
+    gs = gridspec.GridSpec(2, 2, width_ratios=[3, 1], height_ratios=[3, 1])
+    
+    # Main plot area for contours
+    ax_contour = fig.add_subplot(gs[0, 0])
+    # Mathematical formula area
+    ax_formula = fig.add_subplot(gs[0, 1])
+    # Sliders area
+    ax_sigma1 = fig.add_subplot(gs[1, 0])
+    ax_sigma2 = fig.add_subplot(gs[1, 1])
+    
+    # Turn off axis for formula display
+    ax_formula.axis('off')
+    
+    # Setup the initial plot data
+    x = np.linspace(-3, 3, 100)
+    y = np.linspace(-3, 3, 100)
+    X, Y = np.meshgrid(x, y)
+    pos = np.dstack((X, Y))
+    
+    # Initial covariance matrix parameters
+    sigma1_init = 1.0
+    sigma2_init = 1.0
+    
+    def multivariate_gaussian(pos, mu, Sigma):
+        """Return the multivariate Gaussian distribution on array pos."""
+        n = mu.shape[0]
+        Sigma_det = np.linalg.det(Sigma)
+        Sigma_inv = np.linalg.inv(Sigma)
+        N = np.sqrt((2*np.pi)**n * Sigma_det)
+        
+        # This einsum call calculates (x-mu)T.Sigma-1.(x-mu) for each point
+        fac = np.einsum('...k,kl,...l->...', pos-mu, Sigma_inv, pos-mu)
+        
+        return np.exp(-fac / 2) / N
+    
+    # Create initial covariance matrix and mean
+    mu = np.array([0., 0.])
+    Sigma = np.array([[sigma1_init, 0], [0, sigma2_init]])
+    
+    # Calculate initial PDF
+    Z = multivariate_gaussian(pos, mu, Sigma)
+    
+    # Create contour plot
+    contour_levels = np.linspace(0.01, 0.15, 5)
+    contour = ax_contour.contour(X, Y, Z, levels=contour_levels, colors='black')
+    ax_contour.clabel(contour, inline=True, fontsize=10)
+    
+    # Add an ellipse to represent the covariance
+    lambda_, v = np.linalg.eig(Sigma)
+    lambda_ = np.sqrt(lambda_)
+    
+    # Create ellipses for 1σ, 2σ, and 3σ
+    ellipses = []
+    for j in range(1, 4):
+        ell = Ellipse(xy=(0, 0),
+                     width=lambda_[0]*j*2, height=lambda_[1]*j*2,
+                     angle=np.rad2deg(np.arctan2(v[1, 0], v[0, 0])),
+                     edgecolor='red', facecolor='none', linestyle='--')
+        ax_contour.add_patch(ell)
+        ellipses.append(ell)
+    
+    # Add title and labels
+    ax_contour.set_title('Contour Lines for Bivariate Normal Distribution\nwith Diagonal Covariance Matrix')
+    ax_contour.set_xlabel('x')
+    ax_contour.set_ylabel('y')
+    ax_contour.grid(True)
+    ax_contour.set_xlim(-3, 3)
+    ax_contour.set_ylim(-3, 3)
+    ax_contour.set_aspect('equal')
+    
+    # Display the mathematical formula in a simplified format
+    formula_text = ("Bivariate Normal Distribution\n\n" +
+                   "f(x,y) = (1/2π√|Σ|) exp(-1/2 (x,y)ᵀ Σ⁻¹ (x,y))\n\n" +
+                   "Covariance Matrix Σ:\n" +
+                   f"[[{sigma1_init:.1f}, 0]\n [0, {sigma2_init:.1f}]]\n\n" +
+                   "Mean μ = (0, 0)")
+    ax_formula.text(0.5, 0.5, formula_text, ha='center', va='center', fontsize=12)
+    
+    # Create sliders
+    slider_sigma1 = Slider(ax_sigma1, 'σ₁²', 0.1, 3.0, valinit=sigma1_init)
+    slider_sigma2 = Slider(ax_sigma2, 'σ₂²', 0.1, 3.0, valinit=sigma2_init)
+    
+    # Update function for sliders
+    def update(val):
+        # Get current slider values
+        sigma1 = slider_sigma1.val
+        sigma2 = slider_sigma2.val
+        
+        # Update covariance matrix
+        Sigma = np.array([[sigma1, 0], [0, sigma2]])
+        
+        # Recalculate PDF
+        Z = multivariate_gaussian(pos, mu, Sigma)
+        
+        # Clear previous contours
+        for c in ax_contour.collections:
+            c.remove()
+        
+        # Redraw contours
+        contour = ax_contour.contour(X, Y, Z, levels=contour_levels, colors='black')
+        ax_contour.clabel(contour, inline=True, fontsize=10)
+        
+        # Update ellipses
+        lambda_, v = np.linalg.eig(Sigma)
+        lambda_ = np.sqrt(lambda_)
+        
+        # Remove old ellipses
+        for ell in ellipses:
+            ell.remove()
+        
+        # Create new ellipses
+        ellipses.clear()
+        for j in range(1, 4):
+            ell = Ellipse(xy=(0, 0),
+                         width=lambda_[0]*j*2, height=lambda_[1]*j*2,
+                         angle=np.rad2deg(np.arctan2(v[1, 0], v[0, 0])),
+                         edgecolor='red', facecolor='none', linestyle='--')
+            ax_contour.add_patch(ell)
+            ellipses.append(ell)
+        
+        # Update formula text
+        new_formula_text = ("Bivariate Normal Distribution\n\n" +
+                           "f(x,y) = (1/2π√|Σ|) exp(-1/2 (x,y)ᵀ Σ⁻¹ (x,y))\n\n" +
+                           "Covariance Matrix Σ:\n" +
+                           f"[[{sigma1:.1f}, 0]\n [0, {sigma2:.1f}]]\n\n" +
+                           "Mean μ = (0, 0)")
+        ax_formula.clear()
+        ax_formula.axis('off')
+        ax_formula.text(0.5, 0.5, new_formula_text, ha='center', va='center', fontsize=12)
+        
+        # Redraw
+        fig.canvas.draw_idle()
+    
+    # Connect the sliders to the update function
+    slider_sigma1.on_changed(update)
+    slider_sigma2.on_changed(update)
+    
+    plt.tight_layout()
+    return fig
+
+def explain_sketch_contour_problem():
+    """Print detailed explanations for the interactive sketch contour problem."""
+    print(f"\n{'='*80}")
+    print(f"Example: Sketch Contour Lines for Bivariate Normal Distribution")
+    print(f"{'='*80}")
+    
+    print("\nProblem Statement:")
+    print("Sketch the contour lines for the probability density function of a bivariate normal distribution")
+    print("with mean μ = (0,0) and covariance matrix Σ = [[σ₁², 0], [0, σ₂²]].")
+    
+    print("\nStep-by-Step Solution:")
+    
+    print("\nStep 1: Understand the mathematical formula")
+    print("The PDF of a bivariate normal distribution is given by:")
+    print("f(x,y) = (1/2π√|Σ|) * exp(-1/2 * (x,y)ᵀ Σ⁻¹ (x,y))")
+    print("where Σ is the covariance matrix and |Σ| is its determinant.")
+    
+    print("\nStep 2: Analyze the covariance matrix")
+    print("For Σ = [[σ₁², 0], [0, σ₂²]]:")
+    print("- This is a diagonal matrix with variances σ₁² and σ₂² along the diagonal")
+    print("- Zero covariance means the variables are uncorrelated")
+    print("- The determinant |Σ| = σ₁² * σ₂²")
+    print("- The inverse Σ⁻¹ = [[1/σ₁², 0], [0, 1/σ₂²]]")
+    
+    print("\nStep 3: Identify the equation for contour lines")
+    print("Contour lines connect points with equal probability density")
+    print("For a specific contour value c, the points satisfy:")
+    print("(x,y)ᵀ Σ⁻¹ (x,y) = -2ln(c*2π√|Σ|) = constant")
+    print("Which simplifies to: (x²/σ₁² + y²/σ₂²) = constant")
+    
+    print("\nStep 4: Recognize that contours form ellipses")
+    print("The equation (x²/σ₁² + y²/σ₂²) = constant describes an ellipse:")
+    print("- Centered at the origin (0,0)")
+    print("- Semi-axes aligned with the coordinate axes")
+    print("- Semi-axis lengths proportional to √σ₁² and √σ₂²")
+    
+    print("\nStep 5: Sketch the contours")
+    print("Draw concentric ellipses centered at the origin:")
+    print("- If σ₁² = σ₂²: The ellipses become circles (equal spread in all directions)")
+    print("- If σ₁² > σ₂²: The ellipses are stretched along the x-axis")
+    print("- If σ₁² < σ₂²: The ellipses are stretched along the y-axis")
+    
+    print("\nConclusion:")
+    print("The contour lines are concentric ellipses centered at the mean (0,0).")
+    print("The shape of these ellipses directly reflects the covariance structure:")
+    print("- The axes of the ellipses align with the coordinate axes when the covariance matrix is diagonal")
+    print("- The relative sizes of the semi-axes are determined by the square roots of the variances")
+    
+    print(f"\n{'='*80}")
+    
+    return "Sketch contour problem explanation generated successfully!"
+
 def generate_covariance_contour_plots():
     """Generate and save covariance matrix contour plots"""
     # Set up paths
@@ -432,7 +922,13 @@ def generate_covariance_contour_plots():
         {"function": covariance_matrix_contours, "filename": "covariance_matrix_contours.png"},
         {"function": basic_2d_example, "filename": "basic_2d_normal_examples.png"},
         {"function": gaussian_3d_visualization, "filename": "gaussian_3d_visualization.png"},
-        {"function": covariance_eigenvalue_visualization, "filename": "covariance_eigenvalue_visualization.png"}
+        {"function": covariance_eigenvalue_visualization, "filename": "covariance_eigenvalue_visualization.png"},
+        # New simple examples
+        {"function": simple_covariance_example_real_world, "filename": "simple_covariance_real_world.png"},
+        {"function": toy_data_covariance_change, "filename": "toy_data_covariance_change.png"},
+        {"function": simple_mahalanobis_distance, "filename": "simple_mahalanobis_distance.png"},
+        {"function": emoji_covariance_example, "filename": "emoji_covariance_example.png"},
+        {"function": sketch_contour_problem, "filename": "sketch_contour_problem.png"}
     ]
     
     for example in examples:
