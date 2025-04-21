@@ -639,6 +639,3 @@ if __name__ == "__main__":
     # Run the example with detailed step-by-step printing
     concept_fig, theoretical_vs_actual_fig, corr_angle_fig, vector_field_fig, rotation_steps_fig = toy_data_covariance_change()
     
-    # Display plots if in interactive mode
-    plt.show()
-    

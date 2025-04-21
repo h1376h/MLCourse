@@ -721,6 +721,9 @@ This visualization demonstrates:
 - Actual data correlation may deviate from theoretical values due to initial correlation in the data and sampling variability
 - The periodicity of the pattern, with correlation returning to its initial value after 180° rotation
 
+![Correlation vs Angle Curve](../Images/Contour_Plots/ex6_correlation_angle_curve.png)
+*How correlation coefficient changes with rotation angle according to the theoretical formula ρ = sin(2θ)/2, reaching maximum correlation of 0.5 at 45° and minimum of -0.5 at 135°.*
+
 ##### Step 3: Rotation as a Vector Field Transformation
 
 Rotation is a linear transformation that preserves distances from the origin and angles between vectors. When we rotate the coordinate system, points move along circular paths centered at the origin.
