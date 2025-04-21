@@ -11,12 +11,12 @@ Multivariate distributions describe the joint behavior of multiple random variab
 - Characterized by joint PMF (discrete) or joint PDF (continuous)
 
 ### Basic Bivariate Normal Distribution
-![Basic Bivariate Normal](../Images/basic_bivariate_normal.png)
+![Basic Bivariate Normal](../Images/Multivariate_Distributions/basic_bivariate_normal.png)
 
 The bivariate normal distribution is the simplest and most widely used multivariate distribution. It extends the familiar bell curve to two dimensions and serves as a foundation for understanding more complex multivariate relationships.
 
 ### Correlation Visualization
-![Correlation Visualization](../Images/correlation_visualization.png)
+![Correlation Visualization](../Images/Multivariate_Distributions/correlation_visualization.png)
 
 This visualization demonstrates how correlation affects the shape of bivariate normal distributions, ranging from strong negative correlation (-0.8) to strong positive correlation (0.8).
 
@@ -25,12 +25,12 @@ This visualization demonstrates how correlation affects the shape of bivariate n
 - Relationship between joint and marginal distributions
 - Calculation methods and examples
 
-![Joint and Marginal Distributions](../Images/joint_and_marginals.png)
+![Joint and Marginal Distributions](../Images/Multivariate_Distributions/joint_and_marginals.png)
 
 The figure above shows a bivariate normal distribution (center) with its marginal distributions along the x and y axes. The marginals are obtained by integrating the joint distribution over the other variable.
 
 ### Joint, Marginal, and Conditional Distributions
-![Joint, Marginal, and Conditional Distributions](../Images/joint_marginal_conditional.png)
+![Joint, Marginal, and Conditional Distributions](../Images/Multivariate_Distributions/joint_marginal_conditional.png)
 
 This comprehensive visualization shows:
 - The joint distribution in the center (contour plot)
@@ -45,19 +45,19 @@ This comprehensive visualization shows:
 ## Visualization Approaches
 
 ### Scatter Plots vs. Contour Plots
-![Scatter vs Contour](../Images/scatter_vs_contour.png)
+![Scatter vs Contour](../Images/Multivariate_Distributions/scatter_vs_contour.png)
 
 Two common approaches to visualizing multivariate data:
 - **Scatter plot** (left): Shows actual data points, good for seeing patterns and outliers
 - **Contour plot** (right): Shows probability density, good for understanding the underlying distribution
 
 ### Conditional Distributions
-![Conditional Distributions](../Images/conditional_distributions.png)
+![Conditional Distributions](../Images/Multivariate_Distributions/conditional_distributions.png)
 
 This visualization shows several conditional distributions of Y given X=x for different values of x. The red curves represent the probability density of Y for each fixed value of X.
 
 ### 3D Visualization of Distributions
-![3D Multivariate Distributions](../Images/3d_multivariate_distributions.png)
+![3D Multivariate Distributions](../Images/Multivariate_Distributions/3d_multivariate_distributions.png)
 
 Different types of bivariate distributions visualized as 3D surfaces:
 - **Standard Bivariate Normal**: The classic bell-shaped surface
@@ -66,7 +66,7 @@ Different types of bivariate distributions visualized as 3D surfaces:
 - **Bivariate Exponential-like**: Shows the characteristic decay in all directions
 
 ### Kernel Density Estimation
-![Multivariate KDE](../Images/multivariate_kde.png)
+![Multivariate KDE](../Images/Multivariate_Distributions/multivariate_kde.png)
 
 Kernel Density Estimation (KDE) is a non-parametric way to estimate the probability density function of multivariate data:
 - **Left**: Scatter plot of raw data points from a bimodal distribution
@@ -81,7 +81,7 @@ Kernel Density Estimation (KDE) is a non-parametric way to estimate the probabil
 - Relationship with univariate normal distribution
 - Applications in machine learning
 
-![Bivariate Normal Distributions](../Images/bivariate_normal_contours.png)
+![Bivariate Normal Distributions](../Images/Contour_Plots/bivariate_normal_contours.png)
 
 The figure above shows four different configurations of the bivariate normal distribution:
 1. **Uncorrelated**: Independent variables with equal variances
@@ -90,12 +90,12 @@ The figure above shows four different configurations of the bivariate normal dis
 4. **Different Variances**: Uncorrelated variables with different variances
 
 ### 3D Visualization
-![3D vs 2D Visualization](../Images/surface_vs_contour.png)
+![3D vs 2D Visualization](../Images/Contour_Plots/surface_vs_contour.png)
 
 This comparison shows a bivariate normal distribution as both a 3D surface (left) and a contour plot (right), demonstrating two ways to visualize the same multivariate distribution.
 
 ### Different Types of Multivariate Distributions
-![Different Multivariate Distributions](../Images/different_multivariate_distributions.png)
+![Different Multivariate Distributions](../Images/Multivariate_Distributions/different_multivariate_distributions.png)
 
 Four different types of bivariate distributions:
 - **Standard Bivariate Normal**: Circular contours for uncorrelated variables
@@ -108,7 +108,7 @@ Four different types of bivariate distributions:
 - Often used for modeling complex, multimodal data
 - Common application: clustering and density estimation
 
-![Gaussian Mixture Model](../Images/gaussian_mixture_contours.png)
+![Gaussian Mixture Model](../Images/Contour_Plots/gaussian_mixture_contours.png)
 
 This figure shows a Gaussian mixture model with three components, resulting in a multimodal distribution with three distinct peaks.
 
@@ -117,7 +117,7 @@ This figure shows a Gaussian mixture model with three components, resulting in a
 - Examples: multivariate gamma, Dirichlet, Wishart
 - Applications in specialized domains
 
-![Non-Gaussian Distribution](../Images/non_gaussian_contours.png)
+![Non-Gaussian Distribution](../Images/Contour_Plots/non_gaussian_contours.png)
 
 The figure shows a non-Gaussian bivariate distribution with asymmetric shape and bounded support (positive values only).
 
@@ -145,7 +145,7 @@ The figure shows a non-Gaussian bivariate distribution with asymmetric shape and
 - Geometric interpretation: ellipsoids for normal distributions
 - Applications in parameter estimation and hypothesis testing
 
-![Confidence Regions](../Images/confidence_regions_contour.png)
+![Confidence Regions](../Images/Contour_Plots/confidence_regions_contour.png)
 
 This visualization shows confidence regions at different levels (50%, 75%, 90%, and 95%) for a bivariate normal distribution.
 
@@ -154,7 +154,7 @@ This visualization shows confidence regions at different levels (50%, 75%, 90%, 
 - Understanding these landscapes helps in algorithm selection
 - Contour plots provide insight into function behavior
 
-![Optimization Landscape](../Images/optimization_landscape_contour.png)
+![Optimization Landscape](../Images/Contour_Plots/optimization_landscape_contour.png)
 
 This figure shows an optimization landscape with multiple local minima (marked with dots), illustrating the complexity of multivariate optimization problems in machine learning.
 

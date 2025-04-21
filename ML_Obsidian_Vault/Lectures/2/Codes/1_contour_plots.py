@@ -214,4 +214,272 @@ plt.tight_layout()
 plt.savefig(os.path.join(images_dir, 'saddle_function_contour.png'), dpi=100, bbox_inches='tight')
 plt.close()
 
+# Example 9: Confidence Regions for Bivariate Normal
+print("\nExample 9: Confidence Regions for Bivariate Normal")
+
+# Create correlated bivariate normal
+corr = 0.7
+var1, var2 = 1.0, 1.0
+cov = np.array([[var1, corr * np.sqrt(var1 * var2)], 
+                [corr * np.sqrt(var1 * var2), var2]])
+rv = stats.multivariate_normal([0, 0], cov)
+
+# Create grid
+x = np.linspace(-3, 3, 100)
+y = np.linspace(-3, 3, 100)
+X, Y = np.meshgrid(x, y)
+pos = np.dstack((X, Y))
+Z = rv.pdf(pos)
+
+# Create contours corresponding to confidence regions
+plt.figure(figsize=(10, 8))
+
+# Calculate Mahalanobis distance for each point (squared)
+# For bivariate normal with mean 0, this is (x,y) * inv(cov) * (x,y)^T
+inv_cov = np.linalg.inv(cov)
+mahalanobis2 = np.zeros_like(Z)
+for i in range(X.shape[0]):
+    for j in range(X.shape[1]):
+        point = np.array([X[i,j], Y[i,j]])
+        mahalanobis2[i,j] = point @ inv_cov @ point.T
+
+# Get chi-square values for different confidence levels
+confidence_levels = [0.5, 0.75, 0.9, 0.95]
+chi2_values = stats.chi2.ppf(confidence_levels, df=2)
+
+# Plot the confidence regions
+colors = ['#8dd3c7', '#ffffb3', '#bebada', '#fb8072']
+alpha_levels = [0.8, 0.6, 0.4, 0.2]
+
+# Plot from highest confidence (smallest region) to lowest
+for i, (chi2, color, alpha) in enumerate(zip(chi2_values, colors, alpha_levels)):
+    mask = mahalanobis2 <= chi2
+    plt.contourf(X, Y, mask.astype(float), levels=[0.5, 1.5], colors=[color], alpha=alpha)
+    plt.contour(X, Y, mask.astype(float), levels=[0.5], colors='black', linewidths=1)
+
+# Add text to indicate each region
+region_labels = ["50%", "75%", "90%", "95%"]
+for i, label in enumerate(region_labels):
+    plt.text(2.0, 2.0 - i*0.3, f"{label} Confidence Region", 
+             bbox=dict(facecolor=colors[i], alpha=0.8, boxstyle='round', pad=0.3))
+
+plt.title('Confidence Regions for Bivariate Normal Distribution')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.axis('equal')
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig(os.path.join(images_dir, 'confidence_regions_contour.png'), dpi=100, bbox_inches='tight')
+plt.close()
+
+# Example 10: Surface vs Contour Plot
+print("\nExample 10: Surface vs Contour Plot")
+
+# Create bivariate normal for visualization
+rv = stats.multivariate_normal([0, 0], [[1, 0.5], [0.5, 1]])
+Z = rv.pdf(pos)
+
+fig = plt.figure(figsize=(15, 6))
+
+# 3D Surface plot
+ax1 = fig.add_subplot(1, 2, 1, projection='3d')
+surf = ax1.plot_surface(X, Y, Z, cmap='viridis', alpha=0.8)
+ax1.set_title('3D PDF Surface')
+ax1.set_xlabel('X')
+ax1.set_ylabel('Y')
+ax1.set_zlabel('Density')
+
+# Contour plot
+ax2 = fig.add_subplot(1, 2, 2)
+contour = ax2.contourf(X, Y, Z, levels=20, cmap='viridis')
+ax2.contour(X, Y, Z, levels=10, colors='black', alpha=0.3)
+ax2.set_title('Equivalent Contour Plot')
+ax2.set_xlabel('X')
+ax2.set_ylabel('Y')
+ax2.grid(alpha=0.3)
+ax2.axis('equal')
+
+plt.tight_layout()
+plt.savefig(os.path.join(images_dir, 'surface_vs_contour.png'), dpi=100, bbox_inches='tight')
+plt.close()
+
+# Example 11: Bivariate Normal with Different Configurations
+print("\nExample 11: Bivariate Normal with Different Configurations")
+
+plt.figure(figsize=(12, 10))
+
+# 1. Uncorrelated with equal variances
+plt.subplot(2, 2, 1)
+cov1 = np.array([[1.0, 0.0], [0.0, 1.0]])
+rv1 = stats.multivariate_normal([0, 0], cov1)
+Z1 = rv1.pdf(pos)
+plt.contourf(X, Y, Z1, levels=15, cmap='Blues')
+plt.contour(X, Y, Z1, levels=10, colors='k', alpha=0.5)
+plt.title('Uncorrelated (ρ=0)\nEqual Variances')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.axis('equal')
+plt.grid(alpha=0.3)
+
+# 2. Positively correlated
+plt.subplot(2, 2, 2)
+cov2 = np.array([[1.0, 0.7], [0.7, 1.0]])
+rv2 = stats.multivariate_normal([0, 0], cov2)
+Z2 = rv2.pdf(pos)
+plt.contourf(X, Y, Z2, levels=15, cmap='Greens')
+plt.contour(X, Y, Z2, levels=10, colors='k', alpha=0.5)
+plt.title('Positively Correlated (ρ=0.7)\nEqual Variances')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.axis('equal')
+plt.grid(alpha=0.3)
+
+# 3. Negatively correlated
+plt.subplot(2, 2, 3)
+cov3 = np.array([[1.0, -0.7], [-0.7, 1.0]])
+rv3 = stats.multivariate_normal([0, 0], cov3)
+Z3 = rv3.pdf(pos)
+plt.contourf(X, Y, Z3, levels=15, cmap='Reds')
+plt.contour(X, Y, Z3, levels=10, colors='k', alpha=0.5)
+plt.title('Negatively Correlated (ρ=-0.7)\nEqual Variances')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.axis('equal')
+plt.grid(alpha=0.3)
+
+# 4. Uncorrelated with different variances
+plt.subplot(2, 2, 4)
+cov4 = np.array([[2.0, 0.0], [0.0, 0.5]])
+rv4 = stats.multivariate_normal([0, 0], cov4)
+Z4 = rv4.pdf(pos)
+plt.contourf(X, Y, Z4, levels=15, cmap='Purples')
+plt.contour(X, Y, Z4, levels=10, colors='k', alpha=0.5)
+plt.title('Uncorrelated (ρ=0)\nDifferent Variances')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.axis('equal')
+plt.grid(alpha=0.3)
+
+plt.tight_layout()
+plt.savefig(os.path.join(images_dir, 'bivariate_normal_contours.png'), dpi=100, bbox_inches='tight')
+plt.close()
+
+# Example 12: Gaussian Mixture Model
+print("\nExample 12: Gaussian Mixture Model")
+
+# Define three Gaussian components
+means = [[-2, -2], [0, 1], [2, -1]]
+covs = [[[0.8, 0.2], [0.2, 0.8]], 
+        [[0.7, -0.3], [-0.3, 0.7]], 
+        [[0.8, 0.0], [0.0, 0.8]]]
+weights = [0.3, 0.4, 0.3]  # Component weights
+
+# Create grid
+x = np.linspace(-5, 5, 200)
+y = np.linspace(-5, 5, 200)
+X, Y = np.meshgrid(x, y)
+pos = np.dstack((X, Y))
+
+# Calculate mixture density
+Z_mix = np.zeros_like(X)
+for mean, cov, weight in zip(means, covs, weights):
+    rv = stats.multivariate_normal(mean, cov)
+    Z_mix += weight * rv.pdf(pos)
+
+plt.figure(figsize=(10, 8))
+plt.contourf(X, Y, Z_mix, levels=20, cmap='viridis')
+plt.colorbar(label='Probability Density')
+plt.contour(X, Y, Z_mix, levels=15, colors='k', alpha=0.3)
+
+# Mark component centers
+for i, mean in enumerate(means):
+    plt.plot(mean[0], mean[1], 'ro', markersize=10, label=f'Component {i+1}' if i==0 else f'Component {i+1}')
+
+plt.title('Gaussian Mixture Model with Three Components')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.grid(alpha=0.3)
+plt.legend()
+plt.tight_layout()
+plt.savefig(os.path.join(images_dir, 'gaussian_mixture_contours.png'), dpi=100, bbox_inches='tight')
+plt.close()
+
+# Example 13: Optimization Landscape
+print("\nExample 13: Optimization Landscape")
+
+# Create a function with multiple local minima
+def optimization_function(x, y):
+    return np.sin(x*0.5)**2 + np.sin(y*0.5)**2 + 0.2*np.sin(x*2)*np.sin(y*2) + 0.1*(x**2 + y**2)
+
+# Create grid
+x = np.linspace(-5, 5, 200)
+y = np.linspace(-5, 5, 200)
+X, Y = np.meshgrid(x, y)
+Z_opt = optimization_function(X, Y)
+
+# Find local minima
+from scipy.signal import argrelextrema
+local_min_indices = argrelextrema(Z_opt, np.less, order=5)
+local_min_x = X[local_min_indices]
+local_min_y = Y[local_min_indices]
+local_min_z = Z_opt[local_min_indices]
+
+plt.figure(figsize=(10, 8))
+plt.contourf(X, Y, Z_opt, levels=30, cmap='viridis')
+plt.colorbar(label='Function Value')
+plt.contour(X, Y, Z_opt, levels=20, colors='k', alpha=0.3)
+
+# Mark local minima
+plt.scatter(local_min_x, local_min_y, color='red', s=80, marker='o', label='Local Minima')
+
+plt.title('Optimization Landscape with Multiple Local Minima')
+plt.xlabel('Parameter 1')
+plt.ylabel('Parameter 2')
+plt.grid(alpha=0.3)
+plt.legend()
+plt.tight_layout()
+plt.savefig(os.path.join(images_dir, 'optimization_landscape_contour.png'), dpi=100, bbox_inches='tight')
+plt.close()
+
+# Example 14: Non-Gaussian Distribution
+print("\nExample 14: Non-Gaussian Distribution")
+
+# Create a non-Gaussian distribution (gamma-like)
+def gamma_like_bivariate(x, y, alpha1=2, beta1=1, alpha2=3, beta2=1.5, rho=0.5):
+    # Convert to positive domain
+    x_pos = np.maximum(x, 0.001)
+    y_pos = np.maximum(y, 0.001)
+    
+    # Create marginals (gamma-like)
+    x_term = (x_pos**(alpha1-1)) * np.exp(-beta1 * x_pos)
+    y_term = (y_pos**(alpha2-1)) * np.exp(-beta2 * y_pos)
+    
+    # Add dependence through a simplified version
+    # This is not a proper copula but gives correlation
+    interaction = np.exp(rho * np.sqrt(x_pos * y_pos) / (beta1 * beta2))
+    
+    return x_term * y_term * interaction
+
+# Create grid (positive domain focused)
+x = np.linspace(0, 5, 200)
+y = np.linspace(0, 5, 200)
+X, Y = np.meshgrid(x, y)
+Z_gamma = gamma_like_bivariate(X, Y)
+
+# Normalize for visualization
+Z_gamma = Z_gamma / np.sum(Z_gamma)
+Z_gamma = Z_gamma / np.max(Z_gamma)
+
+plt.figure(figsize=(10, 8))
+plt.contourf(X, Y, Z_gamma, levels=20, cmap='YlOrRd')
+plt.colorbar(label='Relative Density')
+plt.contour(X, Y, Z_gamma, levels=15, colors='k', alpha=0.3)
+plt.title('Non-Gaussian Bivariate Distribution (Gamma-like)')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig(os.path.join(images_dir, 'non_gaussian_contours.png'), dpi=100, bbox_inches='tight')
+plt.close()
+
 print("\nAll contour plot visualizations created successfully.") 

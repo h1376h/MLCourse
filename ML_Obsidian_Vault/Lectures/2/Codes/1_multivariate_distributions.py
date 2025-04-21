@@ -13,8 +13,8 @@ print("\n=== MULTIVARIATE DISTRIBUTIONS: VISUALIZATIONS ===\n")
 current_dir = os.path.dirname(os.path.abspath(__file__))
 # Go up one level to the ML_Obsidian_Vault directory
 parent_dir = os.path.dirname(current_dir)
-# Use Images relative to the parent directory
-images_dir = os.path.join(parent_dir, "Images")
+# Use Images/Multivariate_Distributions relative to the parent directory
+images_dir = os.path.join(parent_dir, "Images", "Multivariate_Distributions")
 
 # Make sure images directory exists
 os.makedirs(images_dir, exist_ok=True)
