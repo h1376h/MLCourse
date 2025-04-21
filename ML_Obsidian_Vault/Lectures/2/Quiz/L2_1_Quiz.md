@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 29 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 30 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -474,3 +474,20 @@ And the figure below shows the PMF/PDF and CDF for each distribution:
 5. For each distribution, explain one key property that distinguishes it from the others (e.g., support, symmetry, relationship between mean and variance).
 
 For a detailed explanation of this problem, including distribution identification, property analysis, and applications, see [Question 29: Probability Distribution Identification and Properties](L2_1_29_explanation.md).
+
+## Question 30
+
+### Problem Statement
+Consider the following contour plot of a bivariate probability density function:
+
+![Contour Plot Question](../Images/L2_1_Quiz_30/contour_question.png)
+
+The contour plot shows elliptical contours of a bivariate normal distribution.
+
+#### Task
+1. Based on the orientation of the contour ellipses, determine whether the correlation between the two variables is positive, negative, or zero.
+2. If the innermost contour is labeled as 0.15 and represents the highest density region, what does this tell you about the location of the mean vector of this distribution?
+3. If the contours are more stretched along the x-axis than the y-axis, what can you conclude about the variances of the two variables?
+4. Draw a rough sketch of how the contour plot would change if the correlation between the variables became zero.
+
+For a detailed explanation of this problem, including properties of bivariate normal distributions and contour plot interpretation, see [Question 30: Contour Plot Interpretation](L2_1_30_explanation.md).
