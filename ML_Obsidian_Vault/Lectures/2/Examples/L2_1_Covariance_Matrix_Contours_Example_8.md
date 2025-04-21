@@ -47,6 +47,28 @@ The smiley/sad faces provide an intuitive memory aid:
 - Frown curves downward ⌢, showing a trend where y increases then decreases as x changes
 - Note: The *linear* correlation coefficient (ρ) might be low here because the relationship isn't purely linear, but the visual pattern is clear
 
+### Step 5: Linear Correlation Limitations with Non-Linear Relationships
+
+An important educational insight from our emoji visualizations is that the linear correlation coefficients calculated for both patterns are surprisingly low:
+- "Smile" pattern: correlation coefficient = -0.151 (near zero, with slight negative correlation)
+- "Frown" pattern: correlation coefficient = 0.007 (essentially zero correlation)
+
+This occurs despite the clear visual patterns because:
+
+1. **Linear vs. Non-Linear Relationships**: Pearson's correlation coefficient only measures the strength of *linear* relationships. Our emoji patterns are inherently curved (quadratic or U-shaped), meaning a linear measure can't properly capture them.
+
+2. **Direction Changes**: In both patterns, the y-values first decrease, then increase (smile) or first increase, then decrease (frown). These direction changes within the same dataset effectively "cancel out" when calculating linear correlation.
+
+3. **Quadrant Distribution**: Points are distributed across multiple quadrants in a way that positive and negative area contributions largely balance each other out in the correlation calculation.
+
+This provides several valuable lessons:
+- Always visualize your data - strong patterns may exist that correlation coefficients miss
+- Consider testing for non-linear relationships when linear correlation is low but patterns are visible
+- Tools like scatter plots are essential for identifying the true nature of relationships
+- Alternatives like Spearman's rank correlation or distance correlation may better capture non-linear relationships
+
+This emoji example powerfully demonstrates why data visualization should accompany statistical calculations, as relying solely on correlation coefficients could lead to missing important relationships in your data.
+
 ## Visual Explanations
 
 ### Emoji Correlation Patterns

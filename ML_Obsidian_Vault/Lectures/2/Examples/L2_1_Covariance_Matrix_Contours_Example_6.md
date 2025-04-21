@@ -41,7 +41,21 @@ This visualization demonstrates:
 - Actual data correlation may deviate from theoretical values due to initial correlation in the data and sampling variability
 - The periodicity of the pattern, with correlation returning to its initial value after 180° rotation
 
-### Step 3: Rotation as a Vector Field Transformation
+### Step 3: Understanding Theory vs. Practice in Rotation Effects
+
+When we apply the theoretical formula to real datasets, we often observe discrepancies between predicted and actual correlation values. In our experiments, we notice:
+
+- Initial data correlation: Our dataset has a small initial correlation (around -0.04) even before rotation, rather than being perfectly uncorrelated
+- Theoretical formula assumptions: The formula $\rho = \frac{\sin(2\theta)}{2}$ assumes starting with perfectly uncorrelated data with equal variances
+- Practical implications: In real-world applications, starting with perfectly uncorrelated data may be impossible or impractical
+
+This discrepancy between theory and practice is actually an important educational point. It demonstrates that:
+1. Mathematical models provide idealized predictions that may differ from empirical results
+2. Small initial correlations in data can significantly impact the rotation-correlation relationship
+3. The theoretical understanding should guide our intuition, while empirical validation remains essential
+4. The general trend (sinusoidal relationship between rotation angle and correlation) still holds true, even if the exact values differ
+
+### Step 4: Rotation as a Vector Field Transformation
 
 Rotation is a linear transformation that preserves distances from the origin and angles between vectors. When we rotate the coordinate system, points move along circular paths centered at the origin.
 
@@ -51,7 +65,7 @@ Key observations about rotation as a transformation:
 - The transformation preserves the shape of probability distributions but changes their orientation
 - The coordinate system itself rotates, changing our frame of reference
 
-### Step 4: Step-by-Step Visualization of Rotation Effects
+### Step 5: Step-by-Step Visualization of Rotation Effects
 
 To further understand how rotation affects correlation structure, we can examine the effect of various rotation angles on the same dataset.
 
@@ -61,7 +75,7 @@ This visualization demonstrates several key insights:
 3. The shape of the dataset remains constant, only its orientation changes
 4. The covariance ellipse rotates with the data, maintaining its shape
 
-### Step 5: Properties Preserved Under Rotation
+### Step 6: Properties Preserved Under Rotation
 
 Despite the changes in correlation, certain properties remain invariant under rotation:
 - Total variance (trace of covariance matrix): $\text{tr}(\Sigma') = \text{tr}(\Sigma)$
@@ -74,7 +88,7 @@ The theoretical relationship for the transformed covariance matrix of initially 
 
 $$\Sigma' = \sigma^2 \begin{pmatrix} 1 & \frac{\sin(2\theta)}{2} \\ \frac{\sin(2\theta)}{2} & 1 \end{pmatrix}$$
 
-### Step 6: Practical Significance
+### Step 7: Practical Significance
 
 Understanding rotation effects on covariance has important applications:
 1. **Coordinate system choice**: The observed correlation structure depends on how we choose to measure our variables
