@@ -13,12 +13,16 @@ where $c$ is a constant value.
 The following examples demonstrate contour plots in different contexts:
 
 - **Example 1**: Simple Quadratic Function
-- **Example 2**: Bivariate Normal Distribution
+- **Example 2**: Linear Function
 - **Example 3**: Manhattan Distance Function
 - **Example 4**: Product Function
 - **Example 5**: Circle Plus Linear Term
 - **Example 6**: Saddle Function
 - **Example 7**: Finding Local Extrema
+- **Example 8**: Maximum Function
+- **Example 9**: Circular Crater Function
+- **Example 10**: Simple Rotation Function
+- **Example 11**: Absolute Value Function
 
 ---
 
@@ -230,6 +234,175 @@ Because the contours are circles centered at the critical point and the function
 
 ![Local Extrema Contour Plot](../Images/Contour_Plots/example7_local_extrema.png)
 
+---
+
+### Example 8: Maximum Function
+
+#### Problem Statement
+Sketch the contour plot for the function $f(x,y) = \max(x, y)$ for the contour levels $c = -1, 0, 1, 2$.
+
+#### Solution
+
+##### Step 1: Understand the function
+The function $f(x,y) = \max(x, y)$ returns the larger of the two values $x$ and $y$.
+
+##### Step 2: Identify regions where each variable dominates
+- When $x > y$: $f(x,y) = x$
+- When $y > x$: $f(x,y) = y$
+- When $x = y$: $f(x,y) = x = y$
+
+##### Step 3: Draw the contours
+For each contour level $c$:
+- In the region where $x > y$: The contour is a vertical line $x = c$
+- In the region where $y > x$: The contour is a horizontal line $y = c$
+- These lines meet at the point $(c, c)$, which lies on the line $y = x$
+
+So each contour forms an "L" shape:
+- For $c = -1$: Vertical line $x = -1$ (when $x > y$) and horizontal line $y = -1$ (when $y > x$), meeting at $(-1,-1)$
+- For $c = 0$: Vertical line $x = 0$ (when $x > y$) and horizontal line $y = 0$ (when $y > x$), meeting at $(0,0)$
+- For $c = 1$: Vertical line $x = 1$ (when $x > y$) and horizontal line $y = 1$ (when $y > x$), meeting at $(1,1)$
+- For $c = 2$: Vertical line $x = 2$ (when $x > y$) and horizontal line $y = 2$ (when $y > x$), meeting at $(2,2)$
+
+The complete contour plot shows a series of L-shaped contours, all bending at the line $y = x$, which divides the plane into two regions.
+
+![Maximum Function Contour Plot](../Images/Contour_Plots/example8_maximum.png)
+
+---
+
+### Example 9: Circular Crater Function
+
+#### Problem Statement
+Sketch the contour plot for the function $f(x,y) = (x^2 + y^2 - 4)^2$ for the contour levels $c = 0, 1, 4, 9$.
+
+#### Solution
+
+##### Step 1: Analyze the function structure
+This function squares the expression $(x^2 + y^2 - 4)$, which is the equation of a circle with radius 2 centered at the origin, minus the constant 4.
+
+##### Step 2: Find where the function equals each contour value
+For $c = 0$:
+$$(x^2 + y^2 - 4)^2 = 0$$
+$$x^2 + y^2 - 4 = 0$$
+$$x^2 + y^2 = 4$$
+
+This is a circle with radius 2 centered at the origin.
+
+For $c > 0$:
+$$(x^2 + y^2 - 4)^2 = c$$
+$$x^2 + y^2 - 4 = \pm\sqrt{c}$$
+$$x^2 + y^2 = 4 \pm\sqrt{c}$$
+
+This gives two circles: one with radius $\sqrt{4 + \sqrt{c}}$ and another with radius $\sqrt{4 - \sqrt{c}}$ (when $c < 16$).
+
+##### Step 3: Draw the contours
+- For $c = 0$: A single circle with radius 2
+- For $c = 1$: Two circles - one with radius $\sqrt{4 + 1} \approx 2.2$ and one with radius $\sqrt{4 - 1} \approx 1.7$
+- For $c = 4$: Two circles - one with radius $\sqrt{4 + 2} \approx 2.4$ and one with radius $\sqrt{4 - 2} \approx 1.4$
+- For $c = 9$: Two circles - one with radius $\sqrt{4 + 3} \approx 2.6$ and one with radius $\sqrt{4 - 3} = 1$
+
+This creates a "crater" or "valley" pattern where the function is zero on the circle with radius 2, and increases as you move either inward or outward from this circle.
+
+![Circular Crater Function Contour Plot](../Images/Contour_Plots/example9_crater.png)
+
+---
+
+### Example 10: Simple Rotation Function
+
+#### Problem Statement
+Sketch the contour plot for the function $f(x,y) = xy + x - y$ for the contour levels $c = -2, -1, 0, 1, 2$.
+
+#### Solution
+
+##### Step 1: Rearrange the function for easier analysis
+$$f(x,y) = xy + x - y = x(y + 1) - y = x(y + 1) - 1 \cdot y$$
+
+##### Step 2: For each contour value $c$, find the equation
+$$x(y + 1) - y = c$$
+$$x(y + 1) = c + y$$
+$$x = \frac{c + y}{y + 1}$$
+
+This is a family of hyperbolas and lines.
+
+##### Step 3: Find key features of each contour
+For $c = 0$:
+$$x = \frac{y}{y + 1}$$
+
+For $c = -1$:
+$$x = \frac{-1 + y}{y + 1} = 1 - \frac{2}{y + 1}$$
+
+For $c = 1$:
+$$x = \frac{1 + y}{y + 1} = 1 + \frac{0}{y + 1} = 1$$
+
+For $c = -2$:
+$$x = \frac{-2 + y}{y + 1} = 1 - \frac{3}{y + 1}$$
+
+For $c = 2$:
+$$x = \frac{2 + y}{y + 1} = 1 + \frac{1}{y + 1}$$
+
+##### Step 4: Interpret and draw the contours
+- For $c = 0$: A curve approaching the line $x = 1$ as $y \to \infty$ and approaching $x = 0$ as $y \to 0$
+- For $c = 1$: The vertical line $x = 1$
+- For $c = -1$: A curve approaching the line $x = 1$ as $y \to \infty$ with a vertical asymptote at $y = -1$
+- For $c = 2$: A curve approaching the line $x = 1$ as $y \to \infty$ with a vertical asymptote at $y = -1$
+- For $c = -2$: A curve approaching the line $x = 1$ as $y \to \infty$ with a vertical asymptote at $y = -1$
+
+The contour plot shows a family of curves with interesting behavior around the line $y = -1$.
+
+![Simple Rotation Function Contour Plot](../Images/Contour_Plots/example10_rotation.png)
+
+---
+
+### Example 11: Absolute Value Function
+
+#### Problem Statement
+Sketch the contour plot for the function $f(x,y) = |x| - |y|$ for the contour levels $c = -2, -1, 0, 1, 2$.
+
+#### Solution
+
+##### Step 1: Analyze the function in different quadrants
+The function $f(x,y) = |x| - |y|$ has different forms in different quadrants:
+- When $x \geq 0, y \geq 0$: $f(x,y) = x - y$
+- When $x \geq 0, y < 0$: $f(x,y) = x + y$
+- When $x < 0, y \geq 0$: $f(x,y) = -x - y$
+- When $x < 0, y < 0$: $f(x,y) = -x + y$
+
+##### Step 2: Find the contour equations in each quadrant
+For each contour level $c$:
+
+1. In quadrant 1 (x ≥ 0, y ≥ 0):
+   $x - y = c$
+   $y = x - c$
+
+2. In quadrant 2 (x < 0, y ≥ 0):
+   $-x - y = c$
+   $y = -x - c$
+
+3. In quadrant 3 (x < 0, y < 0):
+   $-x + y = c$
+   $y = c + x$
+
+4. In quadrant 4 (x ≥ 0, y < 0):
+   $x + y = c$
+   $y = c - x$
+
+##### Step 3: Draw the contours
+For $c = 0$:
+- In quadrants 1 and 3: Lines with slope 1 ($y = x$ and $y = x$)
+- In quadrants 2 and 4: Lines with slope -1 ($y = -x$ and $y = -x$)
+This forms an "asterisk" or "bowtie" pattern.
+
+For $c = 1$:
+- In quadrant 1: Line $y = x - 1$ (shifted down by 1)
+- In quadrant 2: Line $y = -x - 1$ (shifted down by 1)
+- In quadrant 3: Line $y = 1 + x$ (shifted up by 1)
+- In quadrant 4: Line $y = 1 - x$ (shifted up by 1)
+
+Similar patterns apply for $c = 2$, $c = -1$, and $c = -2$.
+
+The complete contour plot shows a distinctive "bowtie" pattern around the origin that shifts up or down based on the contour level.
+
+![Absolute Value Difference Contour Plot](../Images/Contour_Plots/example11_abs_diff.png)
+
 ## Key Insights from Contour Plots
 
 ### Shape Identification
@@ -237,17 +410,21 @@ Because the contours are circles centered at the critical point and the function
 - **Straight Lines**: Indicate linear functions like $ax + by + c$
 - **Diamonds**: Indicate functions with Manhattan distance ($|x| + |y|$)
 - **Hyperbolas**: Indicate functions with products ($xy$) or differences of squares ($x^2 - y^2$)
+- **L-Shapes**: Indicate functions with $\max$ or $\min$ operations
+- **Bowties**: Indicate functions with differences of absolute values ($|x| - |y|$)
 
 ### Critical Points
 - **Concentric circles**: Indicate a local minimum or maximum
 - **Hyperbolic patterns**: Indicate a saddle point
 - **Parallel lines**: Indicate no critical points (constantly sloped plane)
+- **Intersecting L-shapes**: Indicate non-differentiable points in piecewise functions
 
 ### Practical Applications
 - Identifying the nature of critical points without calculus
 - Understanding the behavior of multivariate functions at a glance
 - Visualizing probability densities in statistics
 - Analyzing optimization landscapes in machine learning
+- Identifying regions of rapid vs. gradual change in a function
 
 ## Related Topics
 
