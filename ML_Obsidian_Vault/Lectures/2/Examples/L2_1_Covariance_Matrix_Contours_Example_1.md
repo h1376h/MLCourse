@@ -86,8 +86,8 @@ Different covariance matrices produce distinctly different contour shapes:
 
 1. **Identity covariance matrix**: Circular contours showing equal spread in all directions
 2. **Diagonal covariance matrix with different variances**: Axis-aligned elliptical contours showing different spread along coordinate axes
-3. **Non-diagonal covariance matrix with positive correlation**: Elliptical contours tilted along the y=x direction
-4. **Non-diagonal covariance matrix with negative correlation**: Elliptical contours tilted along the y=-x direction
+3. **Non-diagonal covariance matrix with positive correlation**: Elliptical contours tilted along the $y=x$ direction
+4. **Non-diagonal covariance matrix with negative correlation**: Elliptical contours tilted along the $y=-x$ direction
 
 ### Step 4: 2D Normal with Different Variances (Diagonal Covariance Matrix)
 Now we examine a bivariate normal where the variances are different:
@@ -127,7 +127,7 @@ The mathematical relationship: The shape of the contours directly reflects the s
 
 ### Comparison of Different Covariance Matrices and Their Contours
 ![Comparative Visualization](../Images/Contour_Plots/ex1_covariance_matrix_comparison.png)
-*Comparison of different covariance matrices and their resulting contours. From left to right: identity covariance (circular contours), diagonal with different variances (axis-aligned ellipses), positive correlation (ellipses tilted along y=x), and negative correlation (ellipses tilted along y=-x).*
+*Comparison of different covariance matrices and their resulting contours. From left to right: identity covariance (circular contours), diagonal with different variances (axis-aligned ellipses), positive correlation (ellipses tilted along $y=x$), and negative correlation (ellipses tilted along $y=-x$).*
 
 ### Detailed Contour Plots for Different Covariance Matrices
 ![Basic 2D Normal Examples](../Images/Contour_Plots/ex1_covariance_matrix_contours.png)

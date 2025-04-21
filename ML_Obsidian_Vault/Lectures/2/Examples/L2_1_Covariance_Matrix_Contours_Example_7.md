@@ -17,14 +17,14 @@ For multivariate data with correlation structure, standard Euclidean distance ca
 Euclidean distance:
 - Treats all dimensions equally and independently
 - Represented by circles of equal distance from the mean
-- Formula: d_E(x) = √[(x-μ)^T(x-μ)]
+- Formula: $d_E(x) = \sqrt{(x-\mu)^T(x-\mu)}$
 
 Mahalanobis distance:
 - Accounts for the covariance structure of the data
 - Represented by ellipses aligned with the data's natural distribution
 - Points at the same Mahalanobis distance have equal probability density under a multivariate normal model
-- Formula: d_M(x) = √[(x-μ)^T Σ^(-1) (x-μ)]
-  where μ is the mean and Σ is the covariance matrix
+- Formula: $d_M(x) = \sqrt{(x-\mu)^T \Sigma^{-1} (x-\mu)}$
+  where $\mu$ is the mean and $\Sigma$ is the covariance matrix
 
 ### Step 2: Generate Correlated Data
 We create data from a multivariate normal distribution with positive correlation:
@@ -61,10 +61,10 @@ We select specific test points and calculate their Mahalanobis and Euclidean dis
 
 | Point | Coordinates | Euclidean Distance | Mahalanobis Distance |
 |-------|-------------|-------------------|---------------------|
-| P1    | (2.0, 0.0)  | 2.00              | 2.14                |
-| P2    | (0.0, 2.0)  | 2.00              | 2.14                |
-| P3    | (2.0, 2.0)  | 2.83              | 1.51                |
-| P4    | (-1.5, 1.5) | 2.12              | 3.00                |
+| P1    | $(2.0, 0.0)$  | 2.00              | 2.14                |
+| P2    | $(0.0, 2.0)$  | 2.00              | 2.14                |
+| P3    | $(2.0, 2.0)$  | 2.83              | 1.51                |
+| P4    | $(-1.5, 1.5)$ | 2.12              | 3.00                |
 
 Notice that points at the same Euclidean distance (P1 and P2) have the same Mahalanobis distance, but the point along the correlation direction (P3) has a smaller Mahalanobis distance despite being at a greater Euclidean distance from the origin.
 
@@ -82,7 +82,7 @@ The Mahalanobis distance contours form ellipses that:
 ### Step 7: 3D Probability Density Visualization
 
 The 3D probability density function surface of the correlated bivariate normal distribution demonstrates that:
-- The peak of the distribution is at the mean (0, 0)
+- The peak of the distribution is at the mean $(0, 0)$
 - The contours of equal probability density (and equal Mahalanobis distance) form ellipses
 - The orientation of these ellipses is determined by the correlation structure of the data
 - The Mahalanobis distance effectively measures the "standardized" distance from a point to the center of the distribution
@@ -90,8 +90,8 @@ The 3D probability density function surface of the correlated bivariate normal d
 ### Step 8: Comparison of Different Covariance Structures
 
 Comparing Mahalanobis distance contours under different covariance structures shows that:
-- For positively correlated data, Mahalanobis contours are ellipses tilted along the y=x direction
-- For negatively correlated data, Mahalanobis contours are ellipses tilted along the y=-x direction
+- For positively correlated data, Mahalanobis contours are ellipses tilted along the $y=x$ direction
+- For negatively correlated data, Mahalanobis contours are ellipses tilted along the $y=-x$ direction
 - For uncorrelated data with different variances, Mahalanobis contours are axis-aligned ellipses
 
 ### Step 9: Whitening Transformation
@@ -107,7 +107,7 @@ The whitening transformation:
 The whitening matrix for our example is:
 $$W = \begin{bmatrix} 0.9744 & -0.4398 \\ -0.4398 & 0.9744 \end{bmatrix}$$
 
-Using the whitening transformation, our point P1 (2.0, 0.0) becomes (1.9487, -0.8797) in the whitened space. The Euclidean distance of this whitened point (2.1381) exactly equals the Mahalanobis distance in the original space.
+Using the whitening transformation, our point P1 $(2.0, 0.0)$ becomes $(1.9487, -0.8797)$ in the whitened space. The Euclidean distance of this whitened point $(2.1381)$ exactly equals the Mahalanobis distance in the original space.
 
 ### Step 10: Key Observations and Practical Applications
 
