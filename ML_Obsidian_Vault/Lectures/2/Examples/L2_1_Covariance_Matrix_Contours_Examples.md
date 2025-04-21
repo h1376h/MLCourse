@@ -414,7 +414,10 @@ Mathematical relationships:
 ### Example 4: Eigenvalues, Eigenvectors, and Covariance
 
 #### Problem Statement
-How do the eigenvalues and eigenvectors of a covariance matrix relate to the shape and orientation of probability density contours?
+How do the eigenvalues and eigenvectors of a covariance matrix relate to the shape and orientation of probability density contours? How does correlation strength affect the geometric properties of multivariate distributions?
+
+![Concept Visualization](../Images/Contour_Plots/ex4_concept_visualization.png)
+*Figure 13: Basic concept visualization showing how eigenvalues and eigenvectors determine the shape and orientation of probability distributions. Left: Circular distribution with equal eigenvalues. Middle: Axis-aligned elliptical distribution with unequal eigenvalues. Right: Rotated elliptical distribution with correlated variables.*
 
 #### Solution
 
@@ -432,6 +435,9 @@ Where:
 
 The eigenvectors determine the orientation of the principal axes of the elliptical contours, while the eigenvalues determine the length of these axes (proportional to the square root of the eigenvalues).
 
+![Eigenvalue Trend](../Images/Contour_Plots/ex4_eigenvalue_trend.png)
+*Figure 14: Relationship between correlation coefficient (ρ) and eigenvalues for a 2×2 covariance matrix with equal variances. As correlation increases, the first eigenvalue increases while the second decreases, creating more elongated ellipses.*
+
 ##### Step 2: No Correlation (ρ = 0)
 Covariance matrix:
 $$\Sigma = \begin{bmatrix} 1.0 & 0.0 \\ 0.0 & 1.0 \end{bmatrix}$$
@@ -443,6 +449,8 @@ Properties:
 - Eigenvectors: $v_1 = [1, 0]$, $v_2 = [0, 1]$ (aligned with coordinate axes)
 - Circular contours (equal variance in all directions)
 - No preferred direction of variability in the data
+
+When there's no correlation, the standard deviations along all directions are equal, resulting in a perfect circle. The probability density function has the same spread in all directions.
 
 ##### Step 3: Weak Correlation (ρ = 0.3)
 Covariance matrix:
@@ -456,7 +464,7 @@ Properties:
 - Slightly elliptical contours with mild rotation
 - Beginning to show a preferred direction of variability
 
-The larger eigenvalue ($\lambda_1 \approx 1.3$) corresponds to the direction of maximum variance, which is now rotated slightly toward the $y = x$ line.
+The larger eigenvalue ($\lambda_1 \approx 1.3$) corresponds to the direction of maximum variance, which is now rotated slightly toward the $y = x$ line. We can see that the variance along this direction is starting to increase, while the variance in the perpendicular direction decreases.
 
 ##### Step 4: Moderate Correlation (ρ = 0.6)
 Covariance matrix:
@@ -470,7 +478,7 @@ Properties:
 - More eccentric elliptical contours with significant rotation
 - Clear preferred direction of variability emerges
 
-The disparity between eigenvalues increases, leading to more elongated ellipses. The first eigenvector (associated with $\lambda_1$) moves closer to the direction $[1, 1]$ (the $y = x$ line).
+The disparity between eigenvalues increases, leading to more elongated ellipses. The first eigenvector (associated with $\lambda_1$) moves closer to the direction $[1, 1]$ (the $y = x$ line). The ellipses are now approximately 2:1 in terms of their axis lengths.
 
 ##### Step 5: Strong Correlation (ρ = 0.9)
 Covariance matrix:
@@ -485,7 +493,7 @@ Properties:
 - Dominant direction of variability along the first eigenvector
 - Very little variability along the second eigenvector
 
-The first eigenvector is now very close to $[1, 1]/\sqrt{2}$, and the second eigenvector approaches $[-1, 1]/\sqrt{2}$. The ratio of eigenvalues ($\lambda_1/\lambda_2 \approx 19$) indicates that the ellipses are 19 times longer in one direction than the other.
+The first eigenvector is now very close to $[1, 1]/\sqrt{2}$, and the second eigenvector approaches $[-1, 1]/\sqrt{2}$. The ratio of eigenvalues ($\lambda_1/\lambda_2 \approx 19$) indicates that the ellipses are 19 times longer in one direction than the other. This extreme elongation shows that the variables are almost perfectly correlated.
 
 ##### Step 6: Mathematical Relationship
 For a covariance matrix with equal variances and correlation $\rho$:
@@ -499,22 +507,35 @@ The eigenvectors are:
 $$v_1 = [1, 1]/\sqrt{2}$$
 $$v_2 = [-1, 1]/\sqrt{2}$$
 
-As $\rho$ approaches 1, $\lambda_1$ approaches 2 and $\lambda_2$ approaches 0, making the ellipses increasingly elongated along the $y = x$ direction.
+As $\rho$ approaches 1, $\lambda_1$ approaches 2 and $\lambda_2$ approaches 0, making the ellipses increasingly elongated along the $y = x$ direction. This mathematical relationship perfectly explains the geometric progression we observe in the visualizations.
 
-##### Step 7: Key Insights
+##### Step 7: 3D Visualization of the Effect
+The correlation also dramatically affects the 3D probability density surface:
+
+- With no correlation (blue surface), the PDF forms a symmetric bell curve
+- With strong correlation (red surface), the PDF stretches along the $y = x$ direction and becomes more concentrated
+- The total volume under both surfaces remains constant (= 1), as required by probability theory
+- The peak height increases with correlation due to the decrease in the determinant of the covariance matrix
+
+##### Step 8: Key Insights
 - As correlation increases, eigenvalues become more disparate
 - The largest eigenvalue increases, the smallest decreases
 - The orientation of eigenvectors approaches $y = x$ (for positive correlation)
 - The ellipses become increasingly elongated (higher eccentricity)
 - This illustrates why PCA works: it identifies the directions of maximum variance
 - When variables are strongly correlated, most of the information can be captured by a single principal component
+- The determinant of the covariance matrix (which equals the product of eigenvalues) decreases with increasing correlation, affecting the peak height of the PDF
 
 ![Covariance Eigenvalue Visualization](../Images/Contour_Plots/ex4_covariance_eigenvalue_visualization.png)
+*Figure 15: Comprehensive visualization of how correlation affects eigenvalues, eigenvectors, and probability density contours. Top: 3D probability surfaces for uncorrelated (blue) vs strongly correlated (red) distributions. Bottom: Contour plots showing increasing correlation from left to right with eigenvectors (blue arrows) and probability density heatmaps.*
 
 ### Example 5: Height-Weight Relationship - Real-World Covariance
 
 #### Problem Statement
-How does natural covariance appear in the real world, and how can it be visualized using height and weight data?
+How does natural covariance appear in the real world, and how can it be visualized using height and weight data? How can we apply our theoretical understanding of covariance to real-world biometric relationships?
+
+![Conceptual Height-Weight Relationship](../Images/Contour_Plots/ex5_concept_visualization.png)
+*Figure 16: Conceptual visualization of the height-weight relationship showing how taller individuals tend to be heavier, illustrating natural correlation in human biometrics.*
 
 #### Solution
 
@@ -532,40 +553,72 @@ Mathematical model:
 - Weight (kg): $w = 0.5h + \varepsilon$, where $\varepsilon \sim \mathcal{N}(0, 5^2)$
 - This creates a positive correlation between height and weight
 
+This relationship exists because of underlying biological and physiological factors: as a person grows taller, their skeletal frame and body volume increase, typically requiring more mass to support the larger structure.
+
 ##### Step 2: Calculating the Covariance Matrix
 For our simulated data, we compute the covariance matrix:
 
-$$\Sigma = \begin{bmatrix} \sigma_h^2 & \sigma_{hw} \\ \sigma_{hw} & \sigma_w^2 \end{bmatrix}$$
+$$\Sigma = \begin{bmatrix} \sigma_h^2 & \sigma_{hw} \\ \sigma_{hw} & \sigma_w^2 \end{bmatrix} = \begin{bmatrix} 40.41 & 16.07 \\ 16.07 & 28.71 \end{bmatrix}$$
 
 Where:
-- $\sigma_h^2$ is the variance of height
-- $\sigma_w^2$ is the variance of weight
-- $\sigma_{hw}$ is the covariance between height and weight
+- $\sigma_h^2 = 40.41$ is the variance of height (cm²)
+- $\sigma_w^2 = 28.71$ is the variance of weight (kg²)
+- $\sigma_{hw} = 16.07$ is the covariance between height and weight (cm·kg)
 
 The correlation coefficient is calculated as:
 
-$$\rho = \frac{\sigma_{hw}}{\sigma_h \sigma_w}$$
+$$\rho = \frac{\sigma_{hw}}{\sigma_h \sigma_w} = \frac{16.07}{\sqrt{40.41} \cdot \sqrt{28.71}} \approx 0.47$$
+
+This moderate positive correlation indicates that height and weight tend to increase together, though the relationship is not extremely strong due to individual variations in body composition.
 
 ##### Step 3: Eigendecomposition of the Covariance Matrix
 We compute the eigenvalues and eigenvectors of the covariance matrix:
 
 $$\Sigma = V \Lambda V^T$$
 
-The eigenvectors represent the principal directions of variation in the data:
-- The first principal component (PC1) corresponds to the direction of maximum variance
-- The second principal component (PC2) is orthogonal to PC1
+Eigenvalues:
+- $\lambda_1 = 51.66$ (variance along the first principal component)
+- $\lambda_2 = 17.45$ (variance along the second principal component)
+
+Eigenvectors (columns of $V$):
+- $v_1 = [0.82, 0.57]^T$ (direction of maximum variance)
+- $v_2 = [-0.57, 0.82]^T$ (direction perpendicular to $v_1$)
+
+The first principal component ($v_1$) represents the "growth direction" where both height and weight increase together. The second principal component ($v_2$) represents variations in body type (more or less weight relative to height).
 
 ##### Step 4: Visualizing with Confidence Ellipses
 We draw confidence ellipses to represent regions containing approximately:
 - 68% of the data (1σ ellipse)
 - 95% of the data (2σ ellipse)
+- 99% of the data (3σ ellipse)
 
 These ellipses are centered at the mean $(μ_h, μ_w)$ with:
 - Principal axes aligned with the eigenvectors of the covariance matrix
 - Semi-axis lengths proportional to the square roots of the eigenvalues
 - Rotation determined by the orientation of the first eigenvector
 
-##### Step 5: Interpreting the Results
+The principal components shown as arrows indicate:
+- PC1 (larger arrow): The main "growth direction" explaining most of the variance
+- PC2 (smaller arrow): The secondary dimension of variation, representing body type differences
+
+The best-fit regression line shows the expected weight based on height, following the formula:
+$\text{weight} \approx 0.40 \times \text{height} + \text{constant}$
+
+This line provides a simple linear model for the relationship, though the elliptical confidence regions provide a more complete picture of the bivariate distribution.
+
+##### Step 5: 3D Probability Density and Marginal Distributions
+The 3D visualization shows:
+- The probability density surface of the bivariate normal distribution
+- Higher density (peak) at the mean of height and weight
+- The elliptical contours projected onto the height-weight plane
+- The elongation of the density surface along the direction of maximum variance
+
+The marginal distributions show:
+- The height distribution follows a normal distribution with mean ≈ 170cm
+- The weight distribution follows a normal distribution with mean ≈ 85kg
+- These are the "slices" of the bivariate distribution along each axis
+
+##### Step 6: Interpreting the Results
 The visualization reveals key insights:
 - The data cloud forms an elongated elliptical pattern
 - The first principal component points along the "growth direction" where both height and weight increase together
@@ -575,12 +628,27 @@ The visualization reveals key insights:
 
 This real-world example demonstrates how the abstract mathematical concept of covariance manifests in natural data, helping us understand and model relationships between variables.
 
+##### Step 7: Applications
+Understanding the covariance structure of height and weight has many practical applications:
+- **Medical research and anthropometry**: Establishing normal ranges and relationships for diagnostic purposes
+- **Clothing industry**: Designing size systems based on correlated body measurements
+- **Sports science**: Analyzing performance metrics and their relationships
+- **Public health**: Monitoring population trends in body metrics
+- **Ergonomics**: Designing furniture, equipment, and spaces based on human biometric correlations
+
 ![Simple Covariance Real-World Example](../Images/Contour_Plots/ex5_simple_covariance_real_world.png)
+*Figure 17: Comprehensive visualization of height-weight relationship showing scatter plot with principal components and confidence ellipses (left), covariance matrix visualization and 3D probability surface (right), and marginal distributions (bottom).*
+
+![Classic Covariance Visualization](../Images/Contour_Plots/ex5_simple_covariance_real_world_old.png)
+*Figure 17b: Traditional visualization approach for the height-weight relationship, showing scatter plot with principal components and confidence ellipses, along with covariance statistics.*
 
 ### Example 6: Effects of Rotation on Covariance Structure
 
 #### Problem Statement
-What happens to the covariance matrix when we rotate a dataset, and why is this important?
+What happens to the covariance matrix when we rotate a dataset, and why is this important? How does a change in coordinate system affect the correlation structure of data?
+
+![Rotation Concept Visualization](../Images/Contour_Plots/ex6_concept_visualization.png)
+*Figure 18: Conceptual visualization showing how rotation affects the correlation structure. Left: Original uncorrelated data. Middle: After 30° rotation, correlation is introduced. Right: At 60° rotation, correlation is maximized.*
 
 #### Solution
 
@@ -598,75 +666,93 @@ Where:
 
 For a 2D rotation by angle $\theta$, the rotation matrix is:
 
-$$R = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}$$
+$$R = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$$
+
+This mathematical relationship is crucial for understanding how correlation can be introduced or removed through coordinate transformations. It also explains why the choice of coordinate system can significantly affect the statistical properties of data.
+
+![Correlation vs Angle Curve](../Images/Contour_Plots/ex6_correlation_angle_curve.png)
+*Figure 19: How correlation coefficient changes with rotation angle. The relationship follows ρ = sin(2θ)/2, reaching maximum correlation of 0.5 at 45° and minimum of -0.5 at 135°.*
 
 ##### Step 2: Original Data with Diagonal Covariance
 We start with a dataset where variables are uncorrelated:
 - Mean vector: $\mu = [0, 0]$
-- Covariance matrix: $\Sigma = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$ (identity matrix)
+- Covariance matrix: $\Sigma = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ (identity matrix)
 - This represents independent variables with equal variances
 - The contours form circles centered at the origin
 - Zero correlation: $\rho = 0$
 
+In this state, the data shows no directional preference, and the principal axes of variation align perfectly with the coordinate axes. The elliptical contours are actually perfect circles, indicating equal variance in all directions.
+
 ##### Step 3: Applying 30° Rotation
 We rotate the data by $\theta = 30°$ using the rotation matrix:
 
-$$R_{30°} = \begin{bmatrix} \cos(30°) & -\sin(30°) \\ \sin(30°) & \cos(30°) \end{bmatrix} = \begin{bmatrix} 0.866 & -0.5 \\ 0.5 & 0.866 \end{bmatrix}$$
+$$R_{30°} = \begin{pmatrix} \cos(30°) & -\sin(30°) \\ \sin(30°) & \cos(30°) \end{pmatrix} = \begin{pmatrix} 0.866 & -0.5 \\ 0.5 & 0.866 \end{pmatrix}$$
 
 The transformed covariance matrix becomes:
 
 $$\Sigma' = R_{30°} \Sigma R_{30°}^T$$
 
-For an identity covariance matrix, we get:
+For an initially uncorrelated dataset with equal variances, this introduces a correlation of:
 
-$$\Sigma' = \begin{bmatrix} 1 & \sin(2\theta)/2 \\ \sin(2\theta)/2 & 1 \end{bmatrix} = \begin{bmatrix} 1 & 0.433 \\ 0.433 & 1 \end{bmatrix}$$
+$$\rho = \frac{\sin(2\theta)}{2} = \frac{\sin(60°)}{2} \approx 0.433$$
 
-This introduces a moderate positive correlation: $\rho \approx 0.433$
+After rotation, the data points that were previously uncorrelated now show a positive correlation. The covariance ellipse tilts, no longer aligning with the coordinate axes, even though the underlying data structure is identical.
 
 ##### Step 4: Applying 60° Rotation
 We rotate the data by $\theta = 60°$ using the rotation matrix:
 
-$$R_{60°} = \begin{bmatrix} \cos(60°) & -\sin(60°) \\ \sin(60°) & \cos(60°) \end{bmatrix} = \begin{bmatrix} 0.5 & -0.866 \\ 0.866 & 0.5 \end{bmatrix}$$
+$$R_{60°} = \begin{pmatrix} \cos(60°) & -\sin(60°) \\ \sin(60°) & \cos(60°) \end{pmatrix} = \begin{pmatrix} 0.5 & -0.866 \\ 0.866 & 0.5 \end{pmatrix}$$
 
-The transformed covariance matrix becomes:
+The transformation produces a covariance matrix with an even stronger correlation:
 
-$$\Sigma' = R_{60°} \Sigma R_{60°}^T$$
+$$\rho = \frac{\sin(2\theta)}{2} = \frac{\sin(120°)}{2} \approx 0.75$$
 
-For an identity covariance matrix, we get:
-
-$$\Sigma' = \begin{bmatrix} 1 & \sin(2\theta)/2 \\ \sin(2\theta)/2 & 1 \end{bmatrix} = \begin{bmatrix} 1 & 0.75 \\ 0.75 & 1 \end{bmatrix}$$
-
-This introduces a strong positive correlation: $\rho = 0.75$
+At this angle, we're approaching the maximum possible correlation that can be introduced through rotation, which occurs at 45° intervals.
 
 ##### Step 5: General Pattern for Rotation Effects
 For initially uncorrelated data with equal variances ($\Sigma = \sigma^2 I$), rotation by angle $\theta$ produces:
 
-$$\Sigma' = \sigma^2 \begin{bmatrix} 1 & \sin(2\theta)/2 \\ \sin(2\theta)/2 & 1 \end{bmatrix}$$
+$$\Sigma' = \sigma^2 \begin{pmatrix} 1 & \frac{\sin(2\theta)}{2} \\ \frac{\sin(2\theta)}{2} & 1 \end{pmatrix}$$
 
 The correlation coefficient follows the pattern:
 
 $$\rho = \frac{\sin(2\theta)}{2}$$
 
-Key observations:
+Key observations from this formula:
 - At $\theta = 0°$: $\rho = 0$ (no correlation)
-- At $\theta = 45°$: $\rho = 0.5$ (maximum correlation)
+- At $\theta = 45°$: $\rho = 0.5$ (maximum positive correlation)
 - At $\theta = 90°$: $\rho = 0$ (variables effectively swap positions)
-- The correlation oscillates as rotation angle increases
+- At $\theta = 135°$: $\rho = -0.5$ (maximum negative correlation)
+- At $\theta = 180°$: $\rho = 0$ (back to uncorrelated)
+- The correlation oscillates with period 180° as rotation angle increases
+
+This periodic pattern arises from the mathematical properties of coordinate transformations and has profound implications for how we interpret correlation in multivariate data.
 
 ##### Step 6: Properties Preserved Under Rotation
-Despite the changes in correlation, certain properties remain invariant:
+Despite the changes in correlation, certain properties remain invariant under rotation:
 - Total variance (trace of covariance matrix): $\text{tr}(\Sigma') = \text{tr}(\Sigma)$
 - Determinant of covariance matrix: $|\Sigma'| = |\Sigma|$
 - Eigenvalues of the covariance matrix (though eigenvectors rotate)
 
-##### Step 7: Why This Matters
+These invariants reflect the fact that rotation merely changes our perspective on the data, not the fundamental structure of the data itself. The total amount of variation and the shape of the probability distribution remain unchanged.
+
+##### Step 7: Coloring Points to Track Rotation
+In our visualization, points are colored according to their original x-coordinate before rotation. This allows us to track how individual points move during rotation:
+- Points with the same color originally had the same x-coordinate
+- After rotation, these points distribute along slanted lines
+- This visual aid helps demonstrate that correlation is being introduced artificially through coordinate transformation, not because of any change in the data's inherent structure
+
+##### Step 8: Practical Significance
 Understanding rotation effects on covariance has important applications:
-1. **Coordinate system choice** affects the observed correlation structure
-2. **Feature engineering**: rotation can introduce or remove correlations
-3. **Principal Component Analysis (PCA)** exploits this by finding a rotation that diagonalizes the covariance matrix
-4. **Feature independence** is coordinate-dependent; what looks uncorrelated in one coordinate system may be correlated in another
+1. **Coordinate system choice**: The observed correlation structure depends on how we choose to measure our variables
+2. **Feature engineering**: Rotation can introduce or remove correlations, which can be useful for creating independent features
+3. **Principal Component Analysis (PCA)**: PCA exploits this property by finding a rotation that diagonalizes the covariance matrix
+4. **Statistical independence**: Independence is coordinate-dependent; what looks uncorrelated in one coordinate system may be strongly correlated in another
+5. **Interpretability**: When interpreting correlations in real data, we should remember that they are relative to our chosen coordinate system
+6. **Dimensionality reduction**: Understanding the rotation-covariance relationship helps us design better techniques for reducing data dimensions
 
 ![Toy Data Covariance Change with Rotation](../Images/Contour_Plots/ex6_toy_data_covariance_change.png)
+*Figure 20: Comprehensive visualization of rotation effects on covariance structure. Top: Mathematical transformation equations. Bottom: Original data (left), 30° rotation (middle), and 60° rotation (right), with covariance ellipses and correlation values.*
 
 ### Example 7: Mahalanobis Distance vs Euclidean Distance
 
