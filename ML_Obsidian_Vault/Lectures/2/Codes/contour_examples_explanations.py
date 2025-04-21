@@ -267,6 +267,38 @@ def generate_explanations():
         ]
     )
     
+    # Example 12: Simple Sum Function - NEW SIMPLE EXAMPLE
+    explain_example(
+        name="Simple Sum Function",
+        function="Diagonal Line",
+        formula="x + y",
+        contour_values=[0, 1, 2, 3],
+        explanation_steps=[
+            {
+                "title": "Set up the contour equation",
+                "description": "For each constant value c, we have the equation x + y = c."
+            },
+            {
+                "title": "Identify the type of curve this represents",
+                "description": "This is a straight line with slope -1 for any value of c."
+            },
+            {
+                "title": "Find intercepts for easy plotting",
+                "description": "For each contour value, find where the line crosses the axes to make plotting easier."
+            },
+            {
+                "title": "Draw the contours",
+                "description": "Plot the lines for different values of c to create the contour plot."
+            }
+        ],
+        explanation_math=[
+            "x + y = c",
+            "Rewriting as y = c - x, we get a line with slope -1 and y-intercept c.",
+            "For each contour level:\n  x-intercept (y = 0): x = c\n  y-intercept (x = 0): y = c",
+            "For c = 0: Line through (0,0)\nFor c = 1: Line through (0,1) and (1,0)\nFor c = 2: Line through (0,2) and (2,0)\nFor c = 3: Line through (0,3) and (3,0)\n\nThe contour plot consists of parallel lines with slope -1, equally spaced and moving up/right as c increases."
+        ]
+    )
+    
     print("\n" + "="*50)
     print("SUMMARY OF COMMON CONTOUR SHAPES")
     print("="*50)
@@ -295,6 +327,12 @@ def generate_explanations():
     print("- Come from functions like f(x,y) = max(x,y) or min(x,y)")
     print("- Indicate non-differentiable behavior along the diagonal")
     print("- Common in optimization and robust statistics")
+    
+    print("\nElliptical Contours:")
+    print("- Come from multivariate Gaussian distributions or quadratic functions")
+    print("- Shape determined by covariance matrix or coefficients of quadratic terms")
+    print("- Orientation indicates correlation between variables")
+    print("- Axis lengths indicate variance in principal directions")
     
     return "Explanations generated successfully!"
 

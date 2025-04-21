@@ -23,6 +23,7 @@ The following examples demonstrate contour plots in different contexts:
 - **Example 9**: Circular Crater Function
 - **Example 10**: Simple Rotation Function
 - **Example 11**: Absolute Value Function
+- **Example 12**: Simple Sum Function
 
 ---
 
@@ -403,6 +404,40 @@ The complete contour plot shows a distinctive "bowtie" pattern around the origin
 
 ![Absolute Value Difference Contour Plot](../Images/Contour_Plots/example11_abs_diff.png)
 
+---
+
+### Example 12: Simple Sum Function
+
+#### Problem Statement
+Sketch the contour plot for the function $f(x,y) = x + y$ for the contour levels $c = 0, 1, 2, 3$.
+
+#### Solution
+
+##### Step 1: Set up the contour equation
+For each constant value $c$:
+$$x + y = c$$
+
+##### Step 2: Identify the type of curve this represents
+Rewriting the equation as:
+$$y = c - x$$
+
+This is a straight line with slope $-1$ and y-intercept $c$.
+
+##### Step 3: Find intercepts for easy plotting
+For each contour value $c$:
+- x-axis intercept (y = 0): $x = c$
+- y-axis intercept (x = 0): $y = c$
+
+##### Step 4: Draw the contours
+- For $c = 0$: Line passing through the origin (0,0)
+- For $c = 1$: Line passing through (1,0) and (0,1)
+- For $c = 2$: Line passing through (2,0) and (0,2)
+- For $c = 3$: Line passing through (3,0) and (0,3)
+
+The contour plot consists of parallel lines with slope $-1$. Higher contours appear toward the top-right of the plot, and the spacing between contours is uniform.
+
+![Simple Sum Contour Plot](../Images/Contour_Plots/example12_simple_sum.png)
+
 ## Key Insights from Contour Plots
 
 ### Shape Identification
@@ -412,6 +447,7 @@ The complete contour plot shows a distinctive "bowtie" pattern around the origin
 - **Hyperbolas**: Indicate functions with products ($xy$) or differences of squares ($x^2 - y^2$)
 - **L-Shapes**: Indicate functions with $\max$ or $\min$ operations
 - **Bowties**: Indicate functions with differences of absolute values ($|x| - |y|$)
+- **Ellipses**: Indicate quadratic functions, often from multivariate Gaussians with the orientation revealing correlation
 
 ### Critical Points
 - **Concentric circles**: Indicate a local minimum or maximum
@@ -419,15 +455,27 @@ The complete contour plot shows a distinctive "bowtie" pattern around the origin
 - **Parallel lines**: Indicate no critical points (constantly sloped plane)
 - **Intersecting L-shapes**: Indicate non-differentiable points in piecewise functions
 
+### Covariance Matrix Effects
+- **Diagonal covariance matrices**: Produce axis-aligned elliptical contours
+  - Equal variances (scaled identity): Circular contours
+  - Different variances: Ellipses stretched along the coordinate axes
+- **Non-diagonal covariance matrices**: Produce rotated elliptical contours
+  - Positive correlation: Ellipses tilted along $y = x$ direction
+  - Negative correlation: Ellipses tilted along $y = -x$ direction
+  - The eigenvectors of the covariance matrix determine the directions of the principal axes
+
 ### Practical Applications
 - Identifying the nature of critical points without calculus
 - Understanding the behavior of multivariate functions at a glance
 - Visualizing probability densities in statistics
 - Analyzing optimization landscapes in machine learning
 - Identifying regions of rapid vs. gradual change in a function
+- Visualizing correlation structure in multivariate data
 
 ## Related Topics
 
 - [[L2_1_Contour_Plots|Contour Plots]]: Core principles and interpretations
 - [[L2_1_Multivariate_Distributions|Multivariate Distributions]]: Theoretical foundation
 - [[L2_1_Covariance_Correlation|Covariance and Correlation]]: Related concepts for understanding distribution shapes
+- [[L2_1_Covariance_Matrix_Contours|Covariance Matrix Contours]]: How covariance matrices affect contour shapes in multivariate distributions
+- [[L2_1_Visual_Examples|Visual Examples]]: Additional visual examples of contour plots in various applications

@@ -767,6 +767,67 @@ def example11_abs_diff_function():
     plt.tight_layout()
     return fig
 
+def example12_simple_sum():
+    """Example 12: Simple Sum Function f(x,y) = x + y"""
+    # Create a grid of x, y points
+    x = np.linspace(-3, 3, 100)
+    y = np.linspace(-3, 3, 100)
+    X, Y = np.meshgrid(x, y)
+    
+    # Calculate function values
+    Z = X + Y
+    
+    # Create figure and 3D axes
+    fig = plt.figure(figsize=(15, 10))
+    
+    # 2D contour plot
+    ax1 = fig.add_subplot(121)
+    contour_levels = [-2, -1, 0, 1, 2, 3]
+    contour = ax1.contour(X, Y, Z, levels=contour_levels, colors='black')
+    ax1.clabel(contour, inline=True, fontsize=10)
+    ax1.set_title('Contour Plot: f(x,y) = x + y')
+    ax1.set_xlabel('x')
+    ax1.set_ylabel('y')
+    ax1.grid(True)
+    
+    # Add annotations for intercepts
+    for c in contour_levels:
+        # Mark the x and y intercepts
+        ax1.plot(c, 0, 'ro', markersize=5)
+        ax1.plot(0, c, 'ro', markersize=5)
+        
+        # Label the intercepts for c = 0, 1, 2
+        if c >= 0 and c <= 2:
+            ax1.text(c+0.1, 0.1, f'({c},0)', fontsize=9)
+            ax1.text(0.1, c+0.1, f'(0,{c})', fontsize=9)
+    
+    # Add annotation about the slope
+    ax1.text(2, -1.5, 'Slope = -1\ny = c - x', fontsize=9,
+            bbox=dict(facecolor='white', alpha=0.7))
+    
+    # 3D surface plot
+    ax2 = fig.add_subplot(122, projection='3d')
+    surface = ax2.plot_surface(X, Y, Z, cmap=cm.viridis, alpha=0.8)
+    
+    # Add contour lines on the 3D plot
+    for z_val in contour_levels:
+        # Plot a line representing the contour x + y = z_val
+        x_line = np.linspace(-3, 3, 100)
+        y_line = z_val - x_line
+        # Filter to keep points within our domain
+        mask = (y_line >= -3) & (y_line <= 3)
+        if any(mask):
+            ax2.plot(x_line[mask], y_line[mask], 
+                    z_val * np.ones_like(x_line[mask]), 'r-', linewidth=2)
+    
+    ax2.set_title('3D Surface: f(x,y) = x + y')
+    ax2.set_xlabel('x')
+    ax2.set_ylabel('y')
+    ax2.set_zlabel('f(x,y)')
+    
+    plt.tight_layout()
+    return fig
+
 def generate_contour_examples():
     # Set up paths
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -785,7 +846,8 @@ def generate_contour_examples():
         (example8_maximum_function, "example8_maximum"),
         (example9_circular_crater, "example9_crater"),
         (example10_rotation_function, "example10_rotation"),
-        (example11_abs_diff_function, "example11_abs_diff")
+        (example11_abs_diff_function, "example11_abs_diff"),
+        (example12_simple_sum, "example12_simple_sum")
     ]
     
     results = {}
