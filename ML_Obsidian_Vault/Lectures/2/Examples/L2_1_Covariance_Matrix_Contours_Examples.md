@@ -813,122 +813,94 @@ This visual approach helps anchor abstract statistical concepts in intuitive, me
 
 ![Emoji Covariance Visualization](../Images/Contour_Plots/ex8_emoji_covariance_example.png)
 
-### Example 9: Robust Covariance Estimation and Contour Sketching
+### Example 9: Sketching Contours of a Bivariate Normal Distribution
 
 #### Problem Statement
-How does the presence of outliers affect covariance estimation, and how can we develop robust methods to mitigate their influence? Additionally, how can we effectively sketch contours of a bivariate normal distribution to visualize probability density?
-
-In this example:
-- We investigate the effect of outliers on covariance estimation
-- We compare standard empirical covariance vs. robust covariance methods
-- We visualize how these different estimation methods affect contour shapes
-- We demonstrate the principles of sketching contours for bivariate normal distributions
+Sketch the contour lines for the probability density function of a bivariate normal distribution with mean $\mu = (0,0)$ and covariance matrix $\Sigma = \begin{pmatrix} \sigma_1^2 & 0 \\ 0 & \sigma_2^2 \end{pmatrix}$.
 
 #### Solution
 
-##### Step 1: Understanding the Impact of Outliers on Covariance Estimation
-Outliers can significantly distort covariance estimates, leading to inaccurate models. When a dataset contains extreme values, standard covariance estimation methods can produce misleading results because they are sensitive to all data points equally.
+##### Step 1: Mathematical Formula Setup
+The bivariate normal probability density function with mean $\mu = (0,0)$ and diagonal covariance matrix $\Sigma = \begin{pmatrix} \sigma_1^2 & 0 \\ 0 & \sigma_2^2 \end{pmatrix}$ is:
 
-![Robust Covariance Data](../Images/Contour_Plots/ex9_robust_covariance_data.png)
-*Figure 26: Visualization of a dataset with outliers. The main cluster follows a known covariance structure, but outliers distort the empirical estimates.*
+$$f(x,y) = \frac{1}{2\pi\sqrt{\sigma_1^2\sigma_2^2}} \exp\left(-\frac{1}{2}\left[\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right]\right)$$
 
-When outliers are present:
-- The standard covariance estimation gives excessive weight to extreme points
-- The resulting ellipses are stretched toward outliers, distorting the true pattern
-- The principal components may be incorrectly oriented
-- The variance estimates become artificially inflated along certain directions
+##### Step 2: Analyzing the Covariance Matrix
+For the diagonal covariance matrix $\Sigma = \begin{pmatrix} \sigma_1^2 & 0 \\ 0 & \sigma_2^2 \end{pmatrix}$:
 
-##### Step 2: Comparing Standard vs. Robust Covariance Estimation Methods
+- The determinant: $|\Sigma| = \sigma_1^2 \cdot \sigma_2^2$
+- The inverse: $\Sigma^{-1} = \begin{pmatrix} \frac{1}{\sigma_1^2} & 0 \\ 0 & \frac{1}{\sigma_2^2} \end{pmatrix}$
+- The eigenvalues are $\lambda_1 = \sigma_1^2$ and $\lambda_2 = \sigma_2^2$
+- The eigenvectors are $v_1 = (1,0)$ and $v_2 = (0,1)$
 
-The standard approach to covariance estimation (Empirical Covariance) calculates the sample covariance matrix directly:
+The zero covariance means the variables are uncorrelated, resulting in contour lines aligned with the coordinate axes.
 
-$$\hat{\Sigma}_{empirical} = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \bar{x})(x_i - \bar{x})^T$$
+##### Step 3: Deriving the Contour Equation
+To find the contour lines, we set the PDF equal to a constant $c$:
 
-Robust methods, such as Minimum Covariance Determinant (MCD), are designed to be resistant to outliers by:
-1. Finding a subset of observations whose covariance matrix has the smallest determinant
-2. Computing the covariance based on this "clean" subset
-3. Optionally reweighting the data points based on their Mahalanobis distances
+$$\frac{1}{2\pi\sqrt{\sigma_1^2\sigma_2^2}} \exp\left(-\frac{1}{2}\left[\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right]\right) = c$$
 
-![Robust Covariance Comparison](../Images/Contour_Plots/ex9_robust_covariance_comparison.png)
-*Figure 27: Comparison of standard empirical covariance (blue) and robust covariance (red) estimation methods. Note how the standard method's ellipse is stretched toward outliers, while the robust method maintains a shape closer to the true underlying distribution (green).*
+Taking the natural logarithm of both sides:
 
-The key differences observed in the comparison:
-- Standard covariance: ellipses stretched toward outliers
-- Robust covariance: ellipses maintain the shape of the main data cluster
-- True covariance: represents the actual underlying distribution from which the inliers were generated
+$$\ln\left[\frac{1}{2\pi\sqrt{\sigma_1^2\sigma_2^2}} \exp\left(-\frac{1}{2}\left[\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right]\right)\right] = \ln(c)$$
 
-##### Step 3: 3D Visualization of Probability Density Functions
+Simplifying:
 
-The 3D surfaces provide deeper insight into how outliers affect the estimated probability density:
+$$-\ln(2\pi\sqrt{\sigma_1^2\sigma_2^2}) - \frac{1}{2}\left[\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right] = \ln(c)$$
 
-![Standard Covariance 3D](../Images/Contour_Plots/ex9_robust_covariance_3d_standard.png)
-*Figure 28: 3D probability density surface based on standard covariance estimation. Note the flatter, more dispersed shape due to outlier influence.*
+Rearranging to isolate the quadratic terms:
 
-![Robust Covariance 3D](../Images/Contour_Plots/ex9_robust_covariance_3d_robust.png)
-*Figure 29: 3D probability density surface based on robust covariance estimation. The surface is more concentrated and better represents the main cluster.*
+$$\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2} = -2\ln(c) - 2\ln(2\pi\sqrt{\sigma_1^2\sigma_2^2}) = k$$
 
-![True Covariance 3D](../Images/Contour_Plots/ex9_robust_covariance_3d_true.png)
-*Figure 30: 3D probability density surface based on the true covariance (if known). This represents the ideal model that robust methods aim to approximate.*
+Where $k$ is a positive constant that depends on the contour value $c$.
 
-The 3D visualizations highlight:
-- How outliers flatten the probability density surface in standard estimation
-- How robust methods preserve a more concentrated distribution around the main cluster
-- The trade-off between capturing all data points vs. representing the dominant pattern
+##### Step 4: Recognize the Geometric Shape
+The equation $\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2} = k$ describes an ellipse:
 
-##### Step 4: Sketching Contours of Bivariate Normal Distributions
+- Centered at the origin $(0,0)$
+- Semi-axes aligned with the coordinate axes
+- Semi-axis length along x-direction: $a = \sqrt{k\sigma_1^2}$
+- Semi-axis length along y-direction: $b = \sqrt{k\sigma_2^2}$
 
-A key skill in understanding multivariate distributions is being able to sketch their contours:
+Special cases:
+- If $\sigma_1^2 = \sigma_2^2 = \sigma^2$ (equal variances), the equation simplifies to:
+  $(x^2 + y^2)/\sigma^2 = k$, which describes a circle with radius $r = \sqrt{k\sigma^2}$
+- If $\sigma_1^2 > \sigma_2^2$: The ellipse is stretched along the x-axis
+- If $\sigma_1^2 < \sigma_2^2$: The ellipse is stretched along the y-axis
 
-![Contour 3D Surface](../Images/Contour_Plots/ex9_contour_3d_surface.png)
-*Figure 31: 3D probability density surface of a bivariate normal distribution, showing how the contours on the x-y plane correspond to slices of the 3D surface at constant height.*
+##### Step 5: Understand the Probability Content
+For a bivariate normal distribution, the ellipses with constant $k$ represent specific probability content:
 
-![Contour Plot](../Images/Contour_Plots/ex9_contour_plot.png)
-*Figure 32: Contour lines for a bivariate normal distribution, showing the elliptical shape of regions of equal probability density.*
+- $k = 1$: The 1σ ellipse containing approximately 39% of the probability mass
+- $k = 4$: The 2σ ellipse containing approximately 86% of the probability mass
+- $k = 9$: The 3σ ellipse containing approximately 99% of the probability mass
 
-For a bivariate normal distribution with diagonal covariance matrix Σ = [[σ₁², 0], [0, σ₂²]], the contour lines are described by the equation:
+##### Step 6: Sketch the Contours
+To sketch the contours, we draw concentric ellipses centered at $(0,0)$:
 
-$$\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2} = k$$
+- 1σ ellipse: semi-axes $a_1 = \sigma_1$ and $b_1 = \sigma_2$
+- 2σ ellipse: semi-axes $a_2 = 2\sigma_1$ and $b_2 = 2\sigma_2$
+- 3σ ellipse: semi-axes $a_3 = 3\sigma_1$ and $b_3 = 3\sigma_2$
 
-Where k is a constant that determines the probability content:
-- k = 1: The 1σ ellipse containing approximately 39% of the probability mass
-- k = 4: The 2σ ellipse containing approximately 86% of the probability mass
-- k = 9: The 3σ ellipse containing approximately 99% of the probability mass
+Numerical Example:
+For $\sigma_1^2 = 2.0$ and $\sigma_2^2 = 0.5$:
+- 1σ ellipse: semi-axes $a_1 = \sqrt{2} \approx 1.41$ and $b_1 = \sqrt{0.5} \approx 0.71$
+- 2σ ellipse: semi-axes $a_2 = 2\sqrt{2} \approx 2.83$ and $b_2 = 2\sqrt{0.5} \approx 1.41$
+- 3σ ellipse: semi-axes $a_3 = 3\sqrt{2} \approx 4.24$ and $b_3 = 3\sqrt{0.5} \approx 2.12$
 
-![Variance Comparison](../Images/Contour_Plots/ex9_contour_variance_comparison.png)
-*Figure 33: Comparison of ellipses with different variance combinations, illustrating how variances affect contour shapes.*
+The ellipses are stretched along the x-axis (since $\sigma_1^2 > \sigma_2^2$)
 
-##### Step 5: Interactive Visualization for Intuitive Understanding
+![Contour Lines for Bivariate Normal Distribution](../Images/Contour_Plots/ex9_contour_plot.png)
+*This figure shows the contour lines of a bivariate normal distribution with mean (0,0) and diagonal covariance matrix. The black lines are probability density contours, while the red dashed ellipses represent the 1σ, 2σ, and 3σ contours that contain approximately 39%, 86%, and 99% of the probability mass, respectively.*
 
-An interactive visualization allows for exploring how changes in variance parameters affect contour shapes:
+![3D Probability Density Function Surface](../Images/Contour_Plots/ex9_contour_3d_surface.png)
+*This 3D visualization shows the probability density function surface for the bivariate normal distribution. The height at each point (x,y) represents the probability density at that location. Notice how the bell-shaped surface peaks at the mean (0,0) and falls off in all directions, with the spread determined by the variances.*
 
-![Interactive Contour Tool](../Images/Contour_Plots/ex9_contour_interactive.png)
-*Figure 34: Interactive visualization tool for exploring how changes in variance parameters affect the shape of contour ellipses.*
+![Comparison of Different Variance Combinations](../Images/Contour_Plots/ex9_contour_variance_comparison.png)
+*This figure compares contour shapes for different variance combinations. The blue ellipse shows equal variances (σ₁² = σ₂² = 1), resulting in a circle. The green ellipse shows σ₁² = 2, σ₂² = 1, stretching the contour along the x-axis. The purple ellipse shows σ₁² = 1, σ₂² = 2, stretching the contour along the y-axis.*
 
-This interactive approach demonstrates:
-- How increasing σ₁² stretches ellipses along the x-axis
-- How increasing σ₂² stretches ellipses along the y-axis
-- How the ratio σ₁²/σ₂² determines the ellipse's aspect ratio
-- How the ellipse orientation remains aligned with the coordinate axes when the covariance matrix is diagonal
-
-##### Step 6: Key Insights from Robust Covariance Analysis
-
-Practical Applications:
-- **Machine Learning**: Robust covariance improves classification, clustering, and anomaly detection performance in the presence of outliers
-- **Finance**: Better risk estimation by reducing the impact of market shocks on covariance matrices
-- **Quality Control**: More reliable monitoring of manufacturing processes when occasional defects occur
-- **Computer Vision**: Improved object detection by handling occlusions and perspective distortions
-
-Theoretical Insights:
-- Robust estimation methods trade some statistical efficiency (when data is perfectly normal) for enhanced reliability
-- The breakdown point of an estimator quantifies how many outliers it can handle before failing
-- Minimum Covariance Determinant (MCD) provides a high breakdown point (up to 50% of contaminated data)
-- The shape of contours directly reflects the underlying covariance structure
-
-Machine Learning Implications:
-- Many algorithms rely on covariance estimates (Mahalanobis distance, PCA, LDA)
-- Outliers can lead to poor generalization if not properly handled
-- Robust methods should be considered whenever data may contain outliers
-- Trade-offs exist between robustness and computational complexity
+![Interactive Contour Visualization](../Images/Contour_Plots/ex9_contour_interactive.png)
+*This interactive visualization allows for adjusting the variances σ₁² and σ₂² to see how they affect the shape of the contour lines. As variances change, the ellipses stretch or compress along their respective axes.*
 
 ## Key Insights
 

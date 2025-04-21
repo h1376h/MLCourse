@@ -28,7 +28,7 @@ def sketch_contour_problem():
     """Create an interactive visualization for sketching contours of bivariate normal distributions."""
     # Print detailed step-by-step derivation
     print("\n" + "="*80)
-    print("Example: Sketching Contours of a Bivariate Normal Distribution")
+    print("Example 9: Sketching Contours of a Bivariate Normal Distribution")
     print("="*80)
     
     print("\nProblem Statement:")
@@ -325,7 +325,7 @@ def robust_covariance_comparison():
     """Compare standard covariance estimation with robust methods in the presence of outliers."""
     # Print detailed step-by-step solution
     print("\n" + "="*80)
-    print("Example: Robust vs Standard Covariance Estimation")
+    print("Additional Example: Robust vs Standard Covariance Estimation")
     print("="*80)
     
     print("\nProblem Statement:")
@@ -610,18 +610,50 @@ def robust_covariance_comparison():
 
 if __name__ == "__main__":
     print("\n\n" + "*"*80)
-    print("EXAMPLE 9: ROBUST COVARIANCE ESTIMATION")
+    print("EXAMPLE 9: SKETCHING CONTOURS OF A BIVARIATE NORMAL DISTRIBUTION")
+    print("*"*80)
+    
+    # Run sketch contour problem example with detailed step-by-step printing
+    print("\nRunning Example 9: Sketching Contours of a Bivariate Normal Distribution")
+    figures_contour = sketch_contour_problem()
+    
+    # Save the sketch contour figures
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    images_dir = os.path.join(os.path.dirname(script_dir), "Images", "Contour_Plots")
+    ensure_directory_exists(images_dir)
+    
+    try:
+        # Save 3D PDF surface
+        save_path = os.path.join(images_dir, "ex9_contour_3d_surface.png")
+        figures_contour["fig_3d"].savefig(save_path, bbox_inches='tight', dpi=300)
+        print(f"\nFigure saved to: {save_path}")
+        
+        # Save contour plot
+        save_path = os.path.join(images_dir, "ex9_contour_plot.png")
+        figures_contour["fig_contour"].savefig(save_path, bbox_inches='tight', dpi=300)
+        print(f"Figure saved to: {save_path}")
+        
+        # Save variance comparison
+        save_path = os.path.join(images_dir, "ex9_contour_variance_comparison.png")
+        figures_contour["fig_comparison"].savefig(save_path, bbox_inches='tight', dpi=300)
+        print(f"Figure saved to: {save_path}")
+        
+        # Save interactive plot
+        save_path = os.path.join(images_dir, "ex9_contour_interactive.png")
+        figures_contour["fig_interactive"].savefig(save_path, bbox_inches='tight', dpi=300)
+        print(f"Figure saved to: {save_path}")
+        
+    except Exception as e:
+        print(f"\nError saving figures: {e}")
+    
+    print("\n\n" + "*"*80)
+    print("ADDITIONAL EXAMPLE: ROBUST COVARIANCE ESTIMATION")
     print("*"*80)
     
     # Run the example with detailed step-by-step printing
     figures_robust = robust_covariance_comparison()
     
     # Save the figures if needed
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    images_dir = os.path.join(os.path.dirname(script_dir), "Images", "Contour_Plots")
-    ensure_directory_exists(images_dir)
-    
-    # Save each figure separately
     try:
         # Save data visualization with covariance ellipses
         save_path = os.path.join(images_dir, "ex9_robust_covariance_data.png")
@@ -651,38 +683,5 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\nError saving figures: {e}")
     
-    print("\n\n" + "*"*80)
-    print("RUNNING SKETCH CONTOUR PROBLEM WITH DETAILED STEP-BY-STEP SOLUTION")
-    print("*"*80)
-    
-    # Run sketch contour problem example with detailed step-by-step printing
-    print("\nRunning Example: Sketch Contour Problem")
-    figures_contour = sketch_contour_problem()
-        
-    # Save the sketch contour figures
-    try:
-        # Save 3D PDF surface
-        save_path = os.path.join(images_dir, "ex9_contour_3d_surface.png")
-        figures_contour["fig_3d"].savefig(save_path, bbox_inches='tight', dpi=300)
-        print(f"\nFigure saved to: {save_path}")
-        
-        # Save contour plot
-        save_path = os.path.join(images_dir, "ex9_contour_plot.png")
-        figures_contour["fig_contour"].savefig(save_path, bbox_inches='tight', dpi=300)
-        print(f"Figure saved to: {save_path}")
-        
-        # Save variance comparison
-        save_path = os.path.join(images_dir, "ex9_contour_variance_comparison.png")
-        figures_contour["fig_comparison"].savefig(save_path, bbox_inches='tight', dpi=300)
-        print(f"Figure saved to: {save_path}")
-        
-        # Save interactive plot
-        save_path = os.path.join(images_dir, "ex9_contour_interactive.png")
-        figures_contour["fig_interactive"].savefig(save_path, bbox_inches='tight', dpi=300)
-        print(f"Figure saved to: {save_path}")
-        
-    except Exception as e:
-        print(f"\nError saving figures: {e}")
-    
-    print("\nExample completed successfully!")
+    print("\nExamples completed successfully!")
         
