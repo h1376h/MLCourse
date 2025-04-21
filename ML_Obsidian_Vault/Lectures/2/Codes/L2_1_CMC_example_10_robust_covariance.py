@@ -319,7 +319,7 @@ if __name__ == "__main__":
     
     # Save the figures if needed
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    images_dir = os.path.join(os.path.dirname(script_dir), "Images", "Robust_Covariance")
+    images_dir = os.path.join(os.path.dirname(script_dir), "Images", "Contour_Plots")
     ensure_directory_exists(images_dir)
     
     try:

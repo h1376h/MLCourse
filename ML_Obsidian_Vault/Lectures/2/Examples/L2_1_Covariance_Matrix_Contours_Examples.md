@@ -945,23 +945,23 @@ The robust estimate closely matches the true covariance, while the standard esti
 
 ##### Step 3: Visualizing the Covariance Ellipses
 
-![Robust vs Standard Covariance Estimation](../Images/Robust_Covariance/ex10_robust_covariance_data.png)
+![Robust vs Standard Covariance Estimation](../Images/Contour_Plots/ex10_robust_covariance_data.png)
 *Comparison of covariance ellipses. Blue points represent clean data, red X marks are outliers. The standard covariance (blue ellipse) is heavily influenced by outliers, while the robust covariance (green ellipse) remains close to the true covariance structure (purple ellipse).*
 
-![Effect of Outliers on Covariance](../Images/Robust_Covariance/ex10_robust_covariance_comparison.png)
+![Effect of Outliers on Covariance](../Images/Contour_Plots/ex10_robust_covariance_comparison.png)
 *Before-after visualization showing how adding outliers distorts the standard covariance estimate. The purple ellipse shows the true covariance of clean data, while the blue ellipse shows how outliers distort the estimated covariance.*
 
 ##### Step 4: 3D Visualization of Probability Density Functions
 
 The 3D probability density function surfaces provide additional insight:
 
-![Standard Covariance PDF](../Images/Robust_Covariance/ex10_robust_covariance_3d_standard.png)
+![Standard Covariance PDF](../Images/Contour_Plots/ex10_robust_covariance_3d_standard.png)
 *Standard covariance PDF (using all data points). Note how the surface is flatter and more spread out due to outlier influence.*
 
-![Robust Covariance PDF](../Images/Robust_Covariance/ex10_robust_covariance_3d_robust.png)
+![Robust Covariance PDF](../Images/Contour_Plots/ex10_robust_covariance_3d_robust.png)
 *Robust covariance PDF. The probability density surface maintains appropriate concentration and shape despite the presence of outliers.*
 
-![True Distribution PDF](../Images/Robust_Covariance/ex10_robust_covariance_3d_true.png)
+![True Distribution PDF](../Images/Contour_Plots/ex10_robust_covariance_3d_true.png)
 *True distribution PDF (calculated from clean data only). This shows how the data is actually distributed, which the robust method closely approximates.*
 
 ##### Step 5: Comparing Standard and Robust Methods
