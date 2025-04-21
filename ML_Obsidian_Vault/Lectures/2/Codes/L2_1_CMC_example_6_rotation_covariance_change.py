@@ -405,6 +405,121 @@ def create_step_by_step_rotation_effect():
     plt.tight_layout()
     return fig
 
+def create_theoretical_vs_actual_correlation():
+    """Create a plot comparing theoretical vs actual correlation values at different rotation angles."""
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    # Generate initially uncorrelated data
+    np.random.seed(42)
+    n_points = 300
+    x = np.random.normal(0, 1, n_points)
+    y = np.random.normal(0, 1, n_points)
+    data_original = np.vstack([x, y]).T
+    
+    # Calculate original covariance and correlation
+    cov_original = np.cov(data_original, rowvar=False)
+    corr_original = cov_original[0, 1] / np.sqrt(cov_original[0, 0] * cov_original[1, 1])
+    
+    print(f"\nStep 3a: Comparing Theoretical and Actual Correlation at Different Rotation Angles")
+    print(f"Original correlation before any rotation: {corr_original:.4f}")
+    
+    # Define rotation angles (more angles for a smoother curve)
+    angles = np.linspace(0, 180, 37)  # 5-degree increments
+    
+    # Arrays to store results
+    theoretical_corrs = []
+    actual_corrs = []
+    
+    # Calculate correlation for each angle
+    for angle in angles:
+        # Convert angle to radians
+        theta = np.radians(angle)
+        
+        # Calculate theoretical correlation
+        theoretical_corr = np.sin(2 * theta) / 2
+        theoretical_corrs.append(theoretical_corr)
+        
+        # Create rotation matrix
+        rot_matrix = np.array([
+            [np.cos(theta), -np.sin(theta)],
+            [np.sin(theta), np.cos(theta)]
+        ])
+        
+        # Rotate the data
+        rotated_data = np.dot(data_original, rot_matrix)
+        
+        # Calculate covariance after rotation
+        cov_rotated = np.cov(rotated_data, rowvar=False)
+        
+        # Calculate correlation coefficient
+        corr = cov_rotated[0, 1] / np.sqrt(cov_rotated[0, 0] * cov_rotated[1, 1])
+        actual_corrs.append(corr)
+    
+    # Plot the results
+    ax.plot(angles, theoretical_corrs, 'r-', linewidth=2, label='Theoretical: ρ = sin(2θ)/2')
+    ax.plot(angles, actual_corrs, 'b--', linewidth=2, label='Actual (from data)')
+    
+    # Highlight key angles
+    key_angles = [0, 45, 90, 135, 180]
+    key_theoretical = [np.sin(2 * np.radians(a)) / 2 for a in key_angles]
+    
+    # Find actual correlations at key angles
+    key_actual = []
+    for angle in key_angles:
+        idx = np.abs(angles - angle).argmin()
+        key_actual.append(actual_corrs[idx])
+    
+    # Mark key points
+    ax.plot(key_angles, key_theoretical, 'ro', markersize=8)
+    ax.plot(key_angles, key_actual, 'bo', markersize=8)
+    
+    # Print key values
+    for i, angle in enumerate(key_angles):
+        print(f"At {angle}°:")
+        print(f"  Theoretical correlation: {key_theoretical[i]:.4f}")
+        print(f"  Actual correlation: {key_actual[i]:.4f}")
+        
+        # Add annotations
+        ax.annotate(f'({angle}°, {key_theoretical[i]:.2f})', 
+                   xy=(angle, key_theoretical[i]),
+                   xytext=(5, 10 if i % 2 == 0 else -15),
+                   textcoords='offset points',
+                   color='red')
+        
+        ax.annotate(f'({angle}°, {key_actual[i]:.2f})', 
+                   xy=(angle, key_actual[i]),
+                   xytext=(5, -15 if i % 2 == 0 else 10),
+                   textcoords='offset points',
+                   color='blue')
+    
+    # Calculate the mean absolute error
+    mae = np.mean(np.abs(np.array(theoretical_corrs) - np.array(actual_corrs)))
+    print(f"Mean absolute error between theoretical and actual: {mae:.4f}")
+    
+    # Add a horizontal line at y=0
+    ax.axhline(y=0, color='k', linestyle='--', alpha=0.5)
+    
+    # Add vertical lines at key angles
+    for angle in key_angles:
+        ax.axvline(x=angle, color='gray', linestyle=':', alpha=0.5)
+    
+    # Set labels and title
+    ax.set_xlabel('Rotation Angle (degrees)', fontsize=12)
+    ax.set_ylabel('Correlation Coefficient (ρ)', fontsize=12)
+    ax.set_title('Theoretical vs Actual Correlation as a Function of Rotation Angle', fontsize=14)
+    
+    # Set y-axis limits
+    ax.set_ylim(-0.6, 0.6)
+    
+    # Add grid
+    ax.grid(True, alpha=0.3)
+    
+    # Add legend
+    ax.legend(loc='lower right', fontsize=12)
+    
+    plt.tight_layout()
+    return fig
+
 def toy_data_covariance_change():
     """Generate simplified visualizations for rotation effects on covariance."""
     # Print descriptive problem statement
@@ -435,8 +550,12 @@ def toy_data_covariance_change():
     print("- The red dashed ellipses show the covariance structure")
     concept_fig = create_concept_visualization()
     
-    # Step 3: Correlation vs angle relationship
-    print("\nStep 3: Mathematical Relationship Between Rotation and Correlation")
+    # Step 3: Theoretical vs actual correlation
+    print("\nStep 3: Relationship Between Rotation Angle and Correlation")
+    theoretical_vs_actual_fig = create_theoretical_vs_actual_correlation()
+    
+    # Step 3b: Correlation vs angle curve (theoretical)
+    print("\nStep 3b: Mathematical Formula for Correlation Under Rotation")
     print("For initially uncorrelated data with equal variances (σ²ᵢ = σ²):")
     print("• After rotation by angle θ: Σ' = σ² · [[1, sin(2θ)/2], [sin(2θ)/2, 1]]")
     print("• Correlation coefficient after rotation: ρ = sin(2θ)/2")
@@ -452,19 +571,22 @@ def toy_data_covariance_change():
     print("- Distance from origin is preserved (length-preserving transformation)")
     print("- Angles between vectors are preserved (angle-preserving transformation)")
     
-    # Create new visualizations
+    # Create vector field visualization
     vector_field_fig = create_rotation_vector_field()
+    
+    # Create step-by-step rotation effect visualization
+    print("\nStep 5: Visualizing the Effect of Different Rotation Angles")
     rotation_steps_fig = create_step_by_step_rotation_effect()
     
-    # Step 5: Properties Preserved Under Rotation
-    print("\nStep 5: Properties Preserved Under Rotation")
+    # Step 6: Properties Preserved Under Rotation
+    print("\nStep 6: Properties Preserved Under Rotation")
     print("Despite the changes in correlation, certain properties remain invariant under rotation:")
     print("- Total variance (trace of covariance matrix): tr(Σ') = tr(Σ)")
     print("- Determinant of covariance matrix: |Σ'| = |Σ|")
     print("- Eigenvalues of the covariance matrix (though eigenvectors rotate)")
     
-    # Step 6: Practical Significance
-    print("\nStep 6: Practical Significance")
+    # Step 7: Practical Significance
+    print("\nStep 7: Practical Significance")
     print("Understanding rotation effects on covariance has important applications:")
     print("1. Coordinate system choice affects the observed correlation structure")
     print("2. Feature engineering: rotation can introduce or remove correlations")
@@ -484,6 +606,11 @@ def toy_data_covariance_change():
         concept_fig.savefig(concept_save_path, bbox_inches='tight', dpi=300)
         print(f"\nConcept visualization saved to: {concept_save_path}")
         
+        # Save the theoretical vs actual correlation plot
+        theoretical_actual_save_path = os.path.join(images_dir, "ex6_theoretical_vs_actual_correlation.png")
+        theoretical_vs_actual_fig.savefig(theoretical_actual_save_path, bbox_inches='tight', dpi=300)
+        print(f"Theoretical vs actual correlation saved to: {theoretical_actual_save_path}")
+        
         # Save the correlation vs angle curve
         corr_angle_save_path = os.path.join(images_dir, "ex6_correlation_angle_curve.png")
         corr_angle_fig.savefig(corr_angle_save_path, bbox_inches='tight', dpi=300)
@@ -499,15 +626,10 @@ def toy_data_covariance_change():
         rotation_steps_fig.savefig(rotation_steps_save_path, bbox_inches='tight', dpi=300)
         print(f"Rotation steps visualization saved to: {rotation_steps_save_path}")
         
-        # Save the main figure (which is the rotation steps visualization in this updated version)
-        main_save_path = os.path.join(images_dir, "ex6_toy_data_covariance_change.png")
-        rotation_steps_fig.savefig(main_save_path, bbox_inches='tight', dpi=300)
-        print(f"Main figure saved to: {main_save_path}")
-        
     except Exception as e:
         print(f"\nError saving figures: {e}")
     
-    return concept_fig, corr_angle_fig, vector_field_fig, rotation_steps_fig
+    return concept_fig, theoretical_vs_actual_fig, corr_angle_fig, vector_field_fig, rotation_steps_fig
 
 if __name__ == "__main__":
     print("\n\n" + "*"*80)
@@ -515,7 +637,7 @@ if __name__ == "__main__":
     print("*"*80)
     
     # Run the example with detailed step-by-step printing
-    concept_fig, corr_angle_fig, vector_field_fig, rotation_steps_fig = toy_data_covariance_change()
+    concept_fig, theoretical_vs_actual_fig, corr_angle_fig, vector_field_fig, rotation_steps_fig = toy_data_covariance_change()
     
     # Display plots if in interactive mode
     plt.show()
