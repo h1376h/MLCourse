@@ -12,7 +12,7 @@ The probability density function (PDF) of a multivariate Gaussian distribution i
 
 $$f(\mathbf{x}) = \frac{1}{(2\pi)^{n/2}|\boldsymbol{\Sigma}|^{1/2}} \exp\left(-\frac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^T \boldsymbol{\Sigma}^{-1} (\mathbf{x}-\boldsymbol{\mu})\right)$$
 
-For a bivariate case (n = 2), this becomes:
+For a bivariate case ($n = 2$), this becomes:
 
 $$f(x,y) = \frac{1}{2\pi\sqrt{|\Sigma|}} \exp\left(-\frac{1}{2}(X-\mu)^T \Sigma^{-1} (X-\mu)\right)$$
 
@@ -81,6 +81,14 @@ The following examples demonstrate how different covariance matrices affect the 
 
 #### Problem Statement
 How do variance changes affect 1D normal distributions, and what happens when we extend to 2D with independent variables? How do different covariance matrices affect the shape, orientation, and probability surfaces of multivariate normal distributions?
+
+We'll examine different covariance matrices:
+- Identity covariance matrix: $\Sigma = \begin{bmatrix} 1.0 & 0.0 \\ 0.0 & 1.0 \end{bmatrix}$
+- Diagonal with different variances: $\Sigma = \begin{bmatrix} 2.0 & 0.0 \\ 0.0 & 0.5 \end{bmatrix}$
+- Non-diagonal with positive correlation: $\Sigma = \begin{bmatrix} 2.0 & 1.5 \\ 1.5 & 2.0 \end{bmatrix}$
+- Non-diagonal with negative correlation: $\Sigma = \begin{bmatrix} 2.0 & -1.5 \\ -1.5 & 2.0 \end{bmatrix}$
+
+For all cases, we'll use mean vector $\mu = [0, 0]$.
 
 ![3D Gaussian Visualization](../Images/Contour_Plots/ex1_gaussian_3d_explanation.png)
 *Figure 1: 3D visualization of probability density functions for different covariance matrices, showing how the surface shape relates to the contour shapes below.*
@@ -178,6 +186,12 @@ The mathematical relationship: The shape of the contours directly reflects the s
 
 #### Problem Statement
 How do different types of covariance matrices affect the shape, size, and orientation of probability density contours? How does the probability mass distribute within different sigma regions for both 1D and 2D normal distributions?
+
+We will examine four covariance matrices:
+1. Identity covariance: $\Sigma = \begin{bmatrix} 1.0 & 0.0 \\ 0.0 & 1.0 \end{bmatrix}$
+2. Diagonal with different variances: $\Sigma = \begin{bmatrix} 3.0 & 0.0 \\ 0.0 & 0.5 \end{bmatrix}$
+3. Non-diagonal with positive correlation: $\Sigma = \begin{bmatrix} 2.0 & 1.5 \\ 1.5 & 2.0 \end{bmatrix}$
+4. Non-diagonal with negative correlation: $\Sigma = \begin{bmatrix} 2.0 & -1.5 \\ -1.5 & 2.0 \end{bmatrix}$
 
 ![Probability Mass Visualization](../Images/Contour_Plots/ex2_normal_probability_mass_visualization.png)
 *Figure 5: Visualization of probability mass contained within different sigma regions for 1D and 2D normal distributions. Top row shows the probability regions with exact percentages, bottom row shows 3D surfaces.*
@@ -305,12 +319,19 @@ Properties:
 5. Mathematical relationship between correlation and geometry:
    - As correlation increases in magnitude, ellipses become more elongated
    - The angle of the principal axis is $\tan^{-1}(\rho\sigma_2/\sigma_1)$ for positive correlation
-   - The eccentricity of the ellipses increases with stronger correlation
+   - The eccentricity of the ellipses increases with stronger correlation 
 
 ### Example 3: 3D Visualization of Probability Density Functions
 
 #### Problem Statement
 How does the probability density function of a bivariate normal distribution look in 3D space, and how does the covariance matrix affect this surface? How does correlation impact the shape and cross-sections of the probability density surface?
+
+We will visualize the 3D surfaces for three covariance matrices:
+1. Standard normal (identity covariance): $\Sigma = \begin{bmatrix} 1.0 & 0.0 \\ 0.0 & 1.0 \end{bmatrix}$
+2. Diagonal with different variances: $\Sigma = \begin{bmatrix} 2.0 & 0.0 \\ 0.0 & 0.5 \end{bmatrix}$
+3. Non-diagonal with correlation: $\Sigma = \begin{bmatrix} 1.0 & 0.8 \\ 0.8 & 1.0 \end{bmatrix}$
+
+Mean vector for all cases: $\mu = [0, 0]$
 
 ![Contour-Surface Relationship](../Images/Contour_Plots/ex3_gaussian_3d_contour_relationship.png)
 *Figure 9: Visualization showing the relationship between 3D probability density surfaces and their corresponding 2D contour plots for three different covariance matrices. The top row shows the 3D surfaces, and the bottom row shows the corresponding contour plots.*
@@ -416,6 +437,12 @@ Mathematical relationships:
 
 #### Problem Statement
 How do the eigenvalues and eigenvectors of a covariance matrix relate to the shape and orientation of probability density contours? How does correlation strength affect the geometric properties of multivariate distributions?
+
+We'll examine how increasing correlation affects the eigenvalues and eigenvectors using four covariance matrices with increasing correlation:
+1. No correlation (ρ = 0): $\Sigma = \begin{bmatrix} 1.0 & 0.0 \\ 0.0 & 1.0 \end{bmatrix}$
+2. Weak correlation (ρ = 0.3): $\Sigma = \begin{bmatrix} 1.0 & 0.3 \\ 0.3 & 1.0 \end{bmatrix}$
+3. Moderate correlation (ρ = 0.6): $\Sigma = \begin{bmatrix} 1.0 & 0.6 \\ 0.6 & 1.0 \end{bmatrix}$
+4. Strong correlation (ρ = 0.9): $\Sigma = \begin{bmatrix} 1.0 & 0.9 \\ 0.9 & 1.0 \end{bmatrix}$
 
 ![Concept Visualization](../Images/Contour_Plots/ex4_concept_visualization.png)
 *Figure 13: Basic concept visualization showing how eigenvalues and eigenvectors determine the shape and orientation of probability distributions. Left: Circular distribution with equal eigenvalues. Middle: Axis-aligned elliptical distribution with unequal eigenvalues. Right: Rotated elliptical distribution with correlated variables.*
@@ -535,6 +562,11 @@ The correlation also dramatically affects the 3D probability density surface:
 #### Problem Statement
 How does natural covariance appear in the real world, and how can it be visualized using height and weight data? How can we apply our theoretical understanding of covariance to real-world biometric relationships?
 
+For this example, we'll use the following assumptions for height-weight relationships:
+- Height (cm): Normally distributed with mean 170cm and standard deviation 7cm
+- Weight (kg): Related to height by the model $w = 0.5h + \varepsilon$, where $\varepsilon \sim \mathcal{N}(0, 5^2)$
+- This creates a natural positive correlation between height and weight
+
 ![Conceptual Height-Weight Relationship](../Images/Contour_Plots/ex5_concept_visualization.png)
 *Figure 16: Conceptual visualization of the height-weight relationship showing how taller individuals tend to be heavier, illustrating natural correlation in human biometrics.*
 
@@ -644,6 +676,8 @@ Understanding the covariance structure of height and weight has many practical a
 
 #### Problem Statement
 What happens to the covariance matrix when we rotate a dataset, and why is this important? How does a change in coordinate system affect the correlation structure of data?
+
+For this example, we'll start with uncorrelated 2D data having equal variances and observe how rotation by various angles (0°, 30°, 60°) introduces correlation.
 
 ![Rotation Concept Visualization](../Images/Contour_Plots/ex6_concept_visualization.png)
 *Figure 18: Conceptual visualization showing how rotation affects the correlation structure. Left: Original uncorrelated data. Middle: After 30° rotation, correlation is introduced. Right: At 60° rotation, correlation is maximized.*
@@ -757,27 +791,56 @@ Understanding rotation effects on covariance has important applications:
 #### Problem Statement
 Why is Euclidean distance inadequate for correlated data, and how does Mahalanobis distance address this limitation?
 
+We'll examine a 2D dataset with strong positive correlation (ρ = 0.8) and compare how Euclidean and Mahalanobis distances evaluate "outlierness" of points at various positions.
+
+![Mahalanobis Distance Visualization](../Images/Contour_Plots/ex7_simple_mahalanobis_distance.png)
+*Figure 21: Comparison of Euclidean distance (circles) and Mahalanobis distance (ellipses) for correlated data. Points equidistant by Mahalanobis measure lie on ellipses aligned with the data distribution.*
+
 #### Solution
 
 We'll compare two distance metrics and understand why Mahalanobis distance is more appropriate for correlated data.
 
 ##### Step 1: Generate Correlated Data
-We create data from a multivariate normal distribution with positive correlation.
+We create data from a multivariate normal distribution with positive correlation:
+- Mean vector: $\mu = [0, 0]$
+- Covariance matrix: $\Sigma = \begin{bmatrix} 1.0 & 0.8 \\ 0.8 & 1.0 \end{bmatrix}$
+- The correlation coefficient is $\rho = 0.8$ (strong positive correlation)
+- The data forms an elongated cloud along the $y = x$ direction
 
 ##### Step 2: Calculate Distances for Test Points
-We select specific test points and calculate their Mahalanobis distances from the mean, which accounts for the covariance structure.
+We select specific test points and calculate their Mahalanobis distances from the mean:
+
+For a point $x$, the Mahalanobis distance to the mean $\mu$ is given by:
+
+$$d_M(x, \mu) = \sqrt{(x-\mu)^T \Sigma^{-1} (x-\mu)}$$
+
+For the Euclidean distance, we simply use:
+
+$$d_E(x, \mu) = \sqrt{(x-\mu)^T (x-\mu)}$$
+
+For test points at the same Euclidean distance from the origin, their Mahalanobis distances will differ based on their alignment with the data distribution.
 
 ##### Step 3: Visualize Distance Contours
 We plot contours of equal Mahalanobis distance (ellipses) and equal Euclidean distance (circles) to show the fundamental difference:
 - Euclidean distance treats all directions equally (circles)
 - Mahalanobis distance accounts for correlation (ellipses aligned with the data)
 
+The Mahalanobis distance contours form ellipses that:
+- Share the same orientation as the data cloud
+- Have the same shape as the probability density contours
+- Stretch along directions of higher variance (along the correlation axis)
+- Contract along directions of lower variance (perpendicular to correlation)
+
 ##### Step 4: Interpret the Results
 We find that points at the same Euclidean distance can have very different Mahalanobis distances:
 - Points along the principal axis of correlation have smaller Mahalanobis distances
 - Points perpendicular to the correlation direction have larger Mahalanobis distances
 
-This makes Mahalanobis distance much more suitable for anomaly detection and classification in correlated data.
+For example, consider two points both at Euclidean distance 2 from the origin:
+- Point A along the correlation axis: $[1.41, 1.41]$ has a Mahalanobis distance of approximately 1.0
+- Point B perpendicular to the correlation axis: $[1.41, -1.41]$ has a Mahalanobis distance of approximately 4.5
+
+This shows that the Mahalanobis distance accounts for the shape of the distribution, making it much more suitable for anomaly detection and classification in correlated data.
 
 ![Mahalanobis Distance Visualization](../Images/Contour_Plots/ex7_simple_mahalanobis_distance.png)
 
@@ -785,6 +848,9 @@ This makes Mahalanobis distance much more suitable for anomaly detection and cla
 
 #### Problem Statement
 How can we intuitively understand positive and negative correlation using everyday visual metaphors?
+
+![Emoji Covariance Visualization](../Images/Contour_Plots/ex8_emoji_covariance_example.png)
+*Figure 22: Emoji visualization showing how positive correlation resembles a smile (left) and negative correlation resembles a frown (right), providing an intuitive visual metaphor.*
 
 #### Solution
 
@@ -796,11 +862,15 @@ We create a "happy face" alongside data showing positive correlation, where vari
 - The covariance ellipse is tilted along the y = x direction
 - This pattern is seen in naturally related quantities (height-weight, study time-grades)
 
+The smile curve ⌣ visually resembles the upward trend of positive correlation.
+
 ##### Step 2: Negative Correlation Visualization
 We create a "sad face" alongside data showing negative correlation, where as one variable increases, the other tends to decrease:
 - Data points form a pattern from top-left to bottom-right
 - The covariance ellipse is tilted along the y = -x direction
 - This pattern is common in trade-off relationships (price-demand, speed-accuracy)
+
+The frown curve ⌢ visually resembles the downward trend of negative correlation.
 
 ##### Step 3: Visual Mnemonic
 We establish a visual mnemonic that connects the emotional expressions to the mathematical concept:
@@ -814,7 +884,10 @@ This visual approach helps anchor abstract statistical concepts in intuitive, me
 ### Example 9: Sketching Contours of a Bivariate Normal Distribution
 
 #### Problem Statement
-Sketch the contour lines for the probability density function of a bivariate normal distribution with mean $\mu = (0,0)$ and covariance matrix $\Sigma = \begin{pmatrix} \sigma_1^2 & 0 \\ 0 & \sigma_2^2 \end{pmatrix}$.
+Sketch the contour lines for the probability density function of a bivariate normal distribution with mean $\mu = (0,0)$ and covariance matrix $\Sigma = \begin{pmatrix} \sigma_1^2 & 0 \\ 0 & \sigma_2^2 \end{pmatrix}$, where $\sigma_1^2 = 2.0$ and $\sigma_2^2 = 0.5$.
+
+![Contour Lines for Bivariate Normal Distribution](../Images/Contour_Plots/ex9_contour_plot.png)
+*Figure 23: Contour lines of a bivariate normal distribution with diagonal covariance matrix. The black lines are probability density contours, while the red dashed ellipses represent the 1σ, 2σ, and 3σ contours.*
 
 #### Solution
 
@@ -824,11 +897,11 @@ The bivariate normal probability density function with mean $\mu = (0,0)$ and di
 $$f(x,y) = \frac{1}{2\pi\sqrt{\sigma_1^2\sigma_2^2}} \exp\left(-\frac{1}{2}\left[\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right]\right)$$
 
 ##### Step 2: Analyzing the Covariance Matrix
-For the diagonal covariance matrix $\Sigma = \begin{pmatrix} \sigma_1^2 & 0 \\ 0 & \sigma_2^2 \end{pmatrix}$:
+For the diagonal covariance matrix $\Sigma = \begin{pmatrix} 2.0 & 0 \\ 0 & 0.5 \end{pmatrix}$:
 
-- The determinant: $|\Sigma| = \sigma_1^2 \cdot \sigma_2^2$
-- The inverse: $\Sigma^{-1} = \begin{pmatrix} \frac{1}{\sigma_1^2} & 0 \\ 0 & \frac{1}{\sigma_2^2} \end{pmatrix}$
-- The eigenvalues are $\lambda_1 = \sigma_1^2$ and $\lambda_2 = \sigma_2^2$
+- The determinant: $|\Sigma| = \sigma_1^2 \cdot \sigma_2^2 = 2.0 \cdot 0.5 = 1.0$
+- The inverse: $\Sigma^{-1} = \begin{pmatrix} \frac{1}{\sigma_1^2} & 0 \\ 0 & \frac{1}{\sigma_2^2} \end{pmatrix} = \begin{pmatrix} 0.5 & 0 \\ 0 & 2.0 \end{pmatrix}$
+- The eigenvalues are $\lambda_1 = 2.0$ and $\lambda_2 = 0.5$
 - The eigenvectors are $v_1 = (1,0)$ and $v_2 = (0,1)$
 
 The zero covariance means the variables are uncorrelated, resulting in contour lines aligned with the coordinate axes.
@@ -857,14 +930,12 @@ The equation $\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2} = k$ describes an 
 
 - Centered at the origin $(0,0)$
 - Semi-axes aligned with the coordinate axes
-- Semi-axis length along x-direction: $a = \sqrt{k\sigma_1^2}$
-- Semi-axis length along y-direction: $b = \sqrt{k\sigma_2^2}$
+- Semi-axis length along x-direction: $a = \sqrt{k\sigma_1^2} = \sqrt{2.0k}$
+- Semi-axis length along y-direction: $b = \sqrt{k\sigma_2^2} = \sqrt{0.5k}$
 
-Special cases:
-- If $\sigma_1^2 = \sigma_2^2 = \sigma^2$ (equal variances), the equation simplifies to:
-  $(x^2 + y^2)/\sigma^2 = k$, which describes a circle with radius $r = \sqrt{k\sigma^2}$
-- If $\sigma_1^2 > \sigma_2^2$: The ellipse is stretched along the x-axis
-- If $\sigma_1^2 < \sigma_2^2$: The ellipse is stretched along the y-axis
+For our specific case with $\sigma_1^2 = 2.0$ and $\sigma_2^2 = 0.5$:
+
+$$\frac{x^2}{2.0} + \frac{y^2}{0.5} = k$$
 
 ##### Step 5: Understand the Probability Content
 For a bivariate normal distribution, the ellipses with constant $k$ represent specific probability content:
@@ -876,17 +947,11 @@ For a bivariate normal distribution, the ellipses with constant $k$ represent sp
 ##### Step 6: Sketch the Contours
 To sketch the contours, we draw concentric ellipses centered at $(0,0)$:
 
-- 1σ ellipse: semi-axes $a_1 = \sigma_1$ and $b_1 = \sigma_2$
-- 2σ ellipse: semi-axes $a_2 = 2\sigma_1$ and $b_2 = 2\sigma_2$
-- 3σ ellipse: semi-axes $a_3 = 3\sigma_1$ and $b_3 = 3\sigma_2$
+- 1σ ellipse: semi-axes $a_1 = \sqrt{2.0} \approx 1.41$ and $b_1 = \sqrt{0.5} \approx 0.71$
+- 2σ ellipse: semi-axes $a_2 = 2\sqrt{2.0} \approx 2.83$ and $b_2 = 2\sqrt{0.5} \approx 1.41$
+- 3σ ellipse: semi-axes $a_3 = 3\sqrt{2.0} \approx 4.24$ and $b_3 = 3\sqrt{0.5} \approx 2.12$
 
-Numerical Example:
-For $\sigma_1^2 = 2.0$ and $\sigma_2^2 = 0.5$:
-- 1σ ellipse: semi-axes $a_1 = \sqrt{2} \approx 1.41$ and $b_1 = \sqrt{0.5} \approx 0.71$
-- 2σ ellipse: semi-axes $a_2 = 2\sqrt{2} \approx 2.83$ and $b_2 = 2\sqrt{0.5} \approx 1.41$
-- 3σ ellipse: semi-axes $a_3 = 3\sqrt{2} \approx 4.24$ and $b_3 = 3\sqrt{0.5} \approx 2.12$
-
-The ellipses are stretched along the x-axis (since $\sigma_1^2 > \sigma_2^2$)
+The ellipses are stretched along the x-axis (since $\sigma_1^2 > \sigma_2^2$).
 
 ![Contour Lines for Bivariate Normal Distribution](../Images/Contour_Plots/ex9_contour_plot.png)
 *This figure shows the contour lines of a bivariate normal distribution with mean (0,0) and diagonal covariance matrix. The black lines are probability density contours, while the red dashed ellipses represent the 1σ, 2σ, and 3σ contours that contain approximately 39%, 86%, and 99% of the probability mass, respectively.*
@@ -904,6 +969,13 @@ The ellipses are stretched along the x-axis (since $\sigma_1^2 > \sigma_2^2$)
 
 #### Problem Statement
 How do outliers affect covariance estimation, and how can robust methods improve the reliability of multivariate normal models in the presence of outliers?
+
+We'll compare covariance estimation methods on a dataset with outliers:
+- Standard empirical covariance estimation (sensitive to outliers)
+- Minimum Covariance Determinant (MCD) method (robust to outliers)
+
+![Robust vs Standard Covariance Estimation](../Images/Contour_Plots/ex10_robust_covariance_data.png)
+*Figure 25: Comparison of covariance ellipses. Blue points represent clean data, red X marks are outliers. The standard covariance (blue ellipse) is heavily influenced by outliers, while the robust covariance (green ellipse) remains close to the true covariance structure (purple ellipse).*
 
 #### Solution
 
@@ -924,40 +996,39 @@ We'll compare three methods:
 
 The comparison of matrices shows how outliers distort the standard estimate:
 
-```
-Empirical Covariance Matrix (with outliers):
-[[ 2.13461532 -0.87607701]
- [-0.87607701  3.29557882]]
-
-Robust Covariance Matrix (MCD):
-[[0.8150929  0.29751939]
- [0.29751939 0.76768711]]
-
-True Covariance Matrix (clean data only):
-[[0.8150929  0.29751939]
- [0.29751939 0.76768711]]
-```
+| Method | Covariance Matrix |
+| ------ | ----------------- |
+| Empirical (with outliers) | $\begin{bmatrix} 2.13 & -0.88 \\ -0.88 & 3.30 \end{bmatrix}$ |
+| Robust (MCD) | $\begin{bmatrix} 0.82 & 0.30 \\ 0.30 & 0.77 \end{bmatrix}$ |
+| True (clean data only) | $\begin{bmatrix} 0.82 & 0.30 \\ 0.30 & 0.77 \end{bmatrix}$ |
 
 The robust estimate closely matches the true covariance, while the standard estimate is severely distorted.
 
 ##### Step 3: Visualizing the Covariance Ellipses
-
 ![Robust vs Standard Covariance Estimation](../Images/Contour_Plots/ex10_robust_covariance_data.png)
 *Comparison of covariance ellipses. Blue points represent clean data, red X marks are outliers. The standard covariance (blue ellipse) is heavily influenced by outliers, while the robust covariance (green ellipse) remains close to the true covariance structure (purple ellipse).*
 
 ![Effect of Outliers on Covariance](../Images/Contour_Plots/ex10_robust_covariance_comparison.png)
-*Before-after visualization showing how adding outliers distorts the standard covariance estimate. The purple ellipse shows the true covariance of clean data, while the blue ellipse shows how outliers distort the estimated covariance.*
+*Figure 26: Before-after visualization showing how adding outliers distorts the standard covariance estimate. The purple ellipse shows the true covariance of clean data, while the blue ellipse shows how outliers distort the estimated covariance.*
+
+The visualization shows:
+- The standard covariance ellipse (blue) is significantly distorted by the outliers
+- The robust covariance ellipse (green) remains almost identical to the true covariance ellipse (purple)
+- The outliers have both changed the orientation and inflated the size of the standard covariance ellipse
 
 ##### Step 4: 3D Visualization of Probability Density Functions
 
 The 3D probability density function surfaces provide additional insight:
 
+- Standard covariance PDF: Flatter and more spread out due to outlier influence
 ![Standard Covariance PDF](../Images/Contour_Plots/ex10_robust_covariance_3d_standard.png)
 *Standard covariance PDF (using all data points). Note how the surface is flatter and more spread out due to outlier influence.*
 
+- Robust covariance PDF: Maintains appropriate concentration and shape despite outliers
 ![Robust Covariance PDF](../Images/Contour_Plots/ex10_robust_covariance_3d_robust.png)
 *Robust covariance PDF. The probability density surface maintains appropriate concentration and shape despite the presence of outliers.*
 
+- True distribution PDF: Shows how the data is actually distributed
 ![True Distribution PDF](../Images/Contour_Plots/ex10_robust_covariance_3d_true.png)
 *True distribution PDF (calculated from clean data only). This shows how the data is actually distributed, which the robust method closely approximates.*
 
