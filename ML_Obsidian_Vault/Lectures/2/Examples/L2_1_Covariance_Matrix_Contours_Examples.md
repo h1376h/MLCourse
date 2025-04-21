@@ -818,7 +818,6 @@ This connection between matrix algebra (eigenvalues and eigenvectors) and geomet
 You can run the code that generates these examples and visualizations using:
 
 ```bash
-python3 ML_Obsidian_Vault/Lectures/2/Codes/covariance_matrix_contours.py
 python3 ML_Obsidian_Vault/Lectures/2/Codes/L2_1_CMC_example_1_covariance_matrix_contours.py
 python3 ML_Obsidian_Vault/Lectures/2/Codes/L2_1_CMC_example_2_basic_2d_normal.py
 python3 ML_Obsidian_Vault/Lectures/2/Codes/L2_1_CMC_example_3_gaussian_3d_visualization.py
