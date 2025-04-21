@@ -371,7 +371,7 @@ def gaussian_3d_visualization():
     ensure_directory_exists(images_dir)
     
     try:
-        save_path = os.path.join(images_dir, "gaussian_3d_visualization.png")
+        save_path = os.path.join(images_dir, "ex3_gaussian_3d_visualization.png")
         fig.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nBasic 3D visualization saved to: {save_path}")
     except Exception as e:
@@ -384,7 +384,7 @@ def gaussian_3d_visualization():
     print("\n  a) Creating correlation sequence visualization...")
     fig_correlation = create_correlation_sequence_visualization()
     try:
-        save_path = os.path.join(images_dir, "gaussian_3d_correlation_sequence.png")
+        save_path = os.path.join(images_dir, "ex3_gaussian_3d_correlation_sequence.png")
         fig_correlation.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"  Correlation sequence visualization saved to: {save_path}")
     except Exception as e:
@@ -394,7 +394,7 @@ def gaussian_3d_visualization():
     print("\n  b) Creating cross-section visualization...")
     fig_cross_section = create_cross_section_visualization()
     try:
-        save_path = os.path.join(images_dir, "gaussian_3d_cross_sections.png")
+        save_path = os.path.join(images_dir, "ex3_gaussian_3d_cross_sections.png")
         fig_cross_section.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"  Cross-section visualization saved to: {save_path}")
     except Exception as e:
@@ -404,7 +404,7 @@ def gaussian_3d_visualization():
     print("\n  c) Creating contour-surface relationship visualization...")
     fig_contour_surface = create_contour_surface_relationship()
     try:
-        save_path = os.path.join(images_dir, "gaussian_3d_contour_relationship.png")
+        save_path = os.path.join(images_dir, "ex3_gaussian_3d_contour_relationship.png")
         fig_contour_surface.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"  Contour-surface relationship visualization saved to: {save_path}")
     except Exception as e:
@@ -447,7 +447,7 @@ if __name__ == "__main__":
     ensure_directory_exists(images_dir)
     
     try:
-        save_path = os.path.join(images_dir, "gaussian_3d_visualization.png")
+        save_path = os.path.join(images_dir, "ex3_gaussian_3d_visualization.png")
         fig.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nFigure saved to: {save_path}")
     except Exception as e:

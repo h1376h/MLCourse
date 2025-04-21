@@ -467,7 +467,7 @@ if __name__ == "__main__":
     ensure_directory_exists(images_dir)
     
     try:
-        save_path = os.path.join(images_dir, "robust_covariance_comparison.png")
+        save_path = os.path.join(images_dir, "ex9_robust_covariance_comparison.png")
         fig_robust.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nFigure saved to: {save_path}")
     except Exception as e:
@@ -480,10 +480,10 @@ if __name__ == "__main__":
     # Run sketch contour problem example with detailed step-by-step printing
     print("\nRunning Example: Sketch Contour Problem")
     fig_contour = sketch_contour_problem()
-    
+        
     # Save the sketch contour figure
     try:
-        save_path = os.path.join(images_dir, "sketch_contour_problem.png")
+        save_path = os.path.join(images_dir, "ex9_sketch_contour_problem.png")
         fig_contour.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nGenerated and saved sketch_contour_problem.png")
         print(f"Saved to: {save_path}")

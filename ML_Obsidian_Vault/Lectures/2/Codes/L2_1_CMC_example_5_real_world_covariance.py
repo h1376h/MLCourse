@@ -131,7 +131,7 @@ if __name__ == "__main__":
     ensure_directory_exists(images_dir)
     
     try:
-        save_path = os.path.join(images_dir, "simple_covariance_real_world.png")
+        save_path = os.path.join(images_dir, "ex5_simple_covariance_real_world.png")
         fig.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nFigure saved to: {save_path}")
     except Exception as e:

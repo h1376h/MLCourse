@@ -189,7 +189,7 @@ def covariance_matrix_contours():
     ensure_directory_exists(images_dir)
     
     try:
-        save_path = os.path.join(images_dir, "gaussian_3d_explanation.png")
+        save_path = os.path.join(images_dir, "ex1_gaussian_3d_explanation.png")
         fig_3d.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\n3D visualization saved to: {save_path}")
     except Exception as e:
@@ -239,7 +239,7 @@ def covariance_matrix_contours():
     
     # Save the eigenvalue visualization
     try:
-        save_path = os.path.join(images_dir, "covariance_eigenvalue_explanation.png")
+        save_path = os.path.join(images_dir, "ex1_covariance_eigenvalue_explanation.png")
         fig_eigen.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nEigenvalue visualization saved to: {save_path}")
     except Exception as e:
@@ -307,7 +307,7 @@ def covariance_matrix_contours():
     
     # Save the comparative visualization
     try:
-        save_path = os.path.join(images_dir, "covariance_matrix_comparison.png")
+        save_path = os.path.join(images_dir, "ex1_covariance_matrix_comparison.png")
         fig_comparative.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nComparative visualization saved to: {save_path}")
     except Exception as e:
@@ -329,7 +329,7 @@ if __name__ == "__main__":
     ensure_directory_exists(images_dir)
     
     try:
-        save_path = os.path.join(images_dir, "covariance_matrix_contours.png")
+        save_path = os.path.join(images_dir, "ex1_covariance_matrix_contours.png")
         fig.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nFigure saved to: {save_path}")
     except Exception as e:

@@ -355,7 +355,7 @@ def basic_2d_example():
     ensure_directory_exists(images_dir)
     
     try:
-        save_path = os.path.join(images_dir, "basic_2d_normal_examples.png")
+        save_path = os.path.join(images_dir, "ex2_basic_2d_normal_examples.png")
         fig.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nBasic examples figure saved to: {save_path}")
     except Exception as e:
@@ -383,7 +383,7 @@ def basic_2d_example():
     
     # Save probability mass visualization
     try:
-        save_path = os.path.join(images_dir, "normal_probability_mass_visualization.png")
+        save_path = os.path.join(images_dir, "ex2_normal_probability_mass_visualization.png")
         fig_regions.tight_layout()
         fig_regions.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nProbability mass visualization saved to: {save_path}")
@@ -406,7 +406,7 @@ def basic_2d_example():
     
     # Save transition visualization
     try:
-        save_path = os.path.join(images_dir, "normal_1d_to_2d_transition.png")
+        save_path = os.path.join(images_dir, "ex2_normal_1d_to_2d_transition.png")
         fig_transition.tight_layout()
         fig_transition.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\n1D to 2D transition visualization saved to: {save_path}")
@@ -422,7 +422,7 @@ def basic_2d_example():
     
     # Save variance grid visualization
     try:
-        save_path = os.path.join(images_dir, "normal_variance_effect_grid.png")
+        save_path = os.path.join(images_dir, "ex2_normal_variance_effect_grid.png")
         fig_variance_grid.savefig(save_path, bbox_inches='tight', dpi=300)
         print(f"\nVariance effect grid visualization saved to: {save_path}")
     except Exception as e:

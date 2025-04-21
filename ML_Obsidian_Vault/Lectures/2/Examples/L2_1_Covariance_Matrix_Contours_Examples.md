@@ -81,7 +81,7 @@ The following examples demonstrate how different covariance matrices affect the 
 #### Problem Statement
 How do variance changes affect 1D normal distributions, and what happens when we extend to 2D with independent variables? How do different covariance matrices affect the shape, orientation, and probability surfaces of multivariate normal distributions?
 
-![3D Gaussian Visualization](../Images/Contour_Plots/gaussian_3d_explanation.png)
+![3D Gaussian Visualization](../Images/Contour_Plots/ex1_gaussian_3d_explanation.png)
 *Figure 1: 3D visualization of probability density functions for different covariance matrices, showing how the surface shape relates to the contour shapes below.*
 
 #### Solution
@@ -114,7 +114,7 @@ The key insight: The total area under each curve equals 1 (probability axiom). T
 
 The covariance matrix has a direct relationship with the shape of the probability distribution. The eigenvalues and eigenvectors of the covariance matrix determine the principal axes and their lengths:
 
-![Eigenvalue Visualization](../Images/Contour_Plots/covariance_eigenvalue_explanation.png)
+![Eigenvalue Visualization](../Images/Contour_Plots/ex1_covariance_eigenvalue_explanation.png)
 *Figure 2: Visualization of eigenvalues and eigenvectors for different covariance matrices. The red arrows show the principal directions (eigenvectors) and their lengths are proportional to the square roots of the eigenvalues.*
 
 For a 2D standard normal distribution (with identity covariance matrix), the PDF is:
@@ -136,7 +136,7 @@ Key properties:
 
 Different covariance matrices produce distinctly different contour shapes:
 
-![Comparative Visualization](../Images/Contour_Plots/covariance_matrix_comparison.png)
+![Comparative Visualization](../Images/Contour_Plots/ex1_covariance_matrix_comparison.png)
 *Figure 3: Comparison of different covariance matrices and their resulting contours. From left to right: identity covariance (circular contours), diagonal with different variances (axis-aligned ellipses), positive correlation (ellipses tilted along y=x), and negative correlation (ellipses tilted along y=-x).*
 
 1. **Identity covariance matrix**: Circular contours showing equal spread in all directions
@@ -170,7 +170,7 @@ Key properties:
 
 The mathematical relationship: The shape of the contours directly reflects the structure of the covariance matrix. The principal axes of the ellipses align with the eigenvectors of the covariance matrix, and their lengths are proportional to the square roots of the eigenvalues.
 
-![Basic 2D Normal Examples](../Images/Contour_Plots/covariance_matrix_contours.png)
+![Basic 2D Normal Examples](../Images/Contour_Plots/ex1_covariance_matrix_contours.png)
 *Figure 4: Detailed contour plots for four different covariance matrices. Red dashed lines show 1σ, 2σ, and 3σ boundaries.*
 
 ### Example 2: Covariance Matrix Types and Their Effects
@@ -178,7 +178,7 @@ The mathematical relationship: The shape of the contours directly reflects the s
 #### Problem Statement
 How do different types of covariance matrices affect the shape, size, and orientation of probability density contours? How does the probability mass distribute within different sigma regions for both 1D and 2D normal distributions?
 
-![Probability Mass Visualization](../Images/Contour_Plots/normal_probability_mass_visualization.png)
+![Probability Mass Visualization](../Images/Contour_Plots/ex2_normal_probability_mass_visualization.png)
 *Figure 5: Visualization of probability mass contained within different sigma regions for 1D and 2D normal distributions. Top row shows the probability regions with exact percentages, bottom row shows 3D surfaces.*
 
 #### Solution
@@ -201,7 +201,7 @@ Note that the percentages are different between 1D and 2D cases due to the incre
 ##### Step 2: Transitioning from 1D to 2D Normal Distributions
 As we extend from 1D to 2D distributions, the probability structure changes:
 
-![1D to 2D Transition](../Images/Contour_Plots/normal_1d_to_2d_transition.png)
+![1D to 2D Transition](../Images/Contour_Plots/ex2_normal_1d_to_2d_transition.png)
 *Figure 6: Visualization of the transition from 1D to 2D normal distributions with different variance parameters, showing how the probability regions extend into the second dimension.*
 
 The transition sequence demonstrates:
@@ -214,7 +214,7 @@ This progression helps build an intuitive understanding of how the covariance ma
 ##### Step 3: The Effect of Variance Parameters on Contour Shapes
 The shape of contours is directly determined by the variance parameters:
 
-![Variance Effect Grid](../Images/Contour_Plots/normal_variance_effect_grid.png)
+![Variance Effect Grid](../Images/Contour_Plots/ex2_normal_variance_effect_grid.png)
 *Figure 7: Grid visualization showing how different combinations of variance parameters affect the shape and orientation of contours. The figure displays 16 different combinations of variances for x and y coordinates.*
 
 Key observations:
@@ -311,7 +311,7 @@ Properties:
 #### Problem Statement
 How does the probability density function of a bivariate normal distribution look in 3D space, and how does the covariance matrix affect this surface? How does correlation impact the shape and cross-sections of the probability density surface?
 
-![Contour-Surface Relationship](../Images/Contour_Plots/gaussian_3d_contour_relationship.png)
+![Contour-Surface Relationship](../Images/Contour_Plots/ex3_gaussian_3d_contour_relationship.png)
 *Figure 9: Visualization showing the relationship between 3D probability density surfaces and their corresponding 2D contour plots for three different covariance matrices. The top row shows the 3D surfaces, and the bottom row shows the corresponding contour plots.*
 
 #### Solution
@@ -329,7 +329,7 @@ This gives us a comprehensive view of both the probability density surface and i
 ##### Step 2: Effect of Correlation on 3D Gaussian Surface
 As the correlation parameter changes, the 3D probability density surface undergoes significant transformations:
 
-![Correlation Sequence](../Images/Contour_Plots/gaussian_3d_correlation_sequence.png)
+![Correlation Sequence](../Images/Contour_Plots/ex3_gaussian_3d_correlation_sequence.png)
 *Figure 10: Sequence of 3D probability density surfaces showing how correlation affects shape and orientation. The bottom right plot shows how correlation affects eigenvalues and determinant of the covariance matrix.*
 
 Key observations:
@@ -343,7 +343,7 @@ Key observations:
 ##### Step 3: Cross-Sections of Probability Density Functions
 Different slices through the PDF reveal important properties about correlation:
 
-![Cross-Section Visualization](../Images/Contour_Plots/gaussian_3d_cross_sections.png)
+![Cross-Section Visualization](../Images/Contour_Plots/ex3_gaussian_3d_cross_sections.png)
 *Figure 11: Cross-sections of probability density functions along different directions for various correlation values. The red line shows the cross-section along the y=x direction, blue along the x-axis, and green along the y=-x direction.*
 
 These cross-sections show:
@@ -408,7 +408,7 @@ Mathematical relationships:
 - The determinant term in the denominator: $\sqrt{|\Sigma|}$ adjusts the height of the peak
 - Together they ensure that the volume under the surface equals 1
 
-![Gaussian 3D Visualization](../Images/Contour_Plots/gaussian_3d_visualization.png)
+![Gaussian 3D Visualization](../Images/Contour_Plots/ex3_gaussian_3d_visualization.png)
 *Figure 12: 3D visualizations of Gaussian probability density functions with three different covariance matrices: identity covariance (left), diagonal with different variances (middle), and positive correlation (right).*
 
 ### Example 4: Eigenvalues, Eigenvectors, and Covariance
@@ -509,7 +509,7 @@ As $\rho$ approaches 1, $\lambda_1$ approaches 2 and $\lambda_2$ approaches 0, m
 - This illustrates why PCA works: it identifies the directions of maximum variance
 - When variables are strongly correlated, most of the information can be captured by a single principal component
 
-![Covariance Eigenvalue Visualization](../Images/Contour_Plots/covariance_eigenvalue_visualization.png)
+![Covariance Eigenvalue Visualization](../Images/Contour_Plots/ex4_covariance_eigenvalue_visualization.png)
 
 ### Example 5: Height-Weight Relationship - Real-World Covariance
 
@@ -575,7 +575,7 @@ The visualization reveals key insights:
 
 This real-world example demonstrates how the abstract mathematical concept of covariance manifests in natural data, helping us understand and model relationships between variables.
 
-![Simple Covariance Real-World Example](../Images/Contour_Plots/simple_covariance_real_world.png)
+![Simple Covariance Real-World Example](../Images/Contour_Plots/ex5_simple_covariance_real_world.png)
 
 ### Example 6: Effects of Rotation on Covariance Structure
 
@@ -666,7 +666,7 @@ Understanding rotation effects on covariance has important applications:
 3. **Principal Component Analysis (PCA)** exploits this by finding a rotation that diagonalizes the covariance matrix
 4. **Feature independence** is coordinate-dependent; what looks uncorrelated in one coordinate system may be correlated in another
 
-![Toy Data Covariance Change with Rotation](../Images/Contour_Plots/toy_data_covariance_change.png)
+![Toy Data Covariance Change with Rotation](../Images/Contour_Plots/ex6_toy_data_covariance_change.png)
 
 ### Example 7: Mahalanobis Distance vs Euclidean Distance
 
@@ -695,7 +695,7 @@ We find that points at the same Euclidean distance can have very different Mahal
 
 This makes Mahalanobis distance much more suitable for anomaly detection and classification in correlated data.
 
-![Mahalanobis Distance Visualization](../Images/Contour_Plots/simple_mahalanobis_distance.png)
+![Mahalanobis Distance Visualization](../Images/Contour_Plots/ex7_simple_mahalanobis_distance.png)
 
 ### Example 8: The Emoji Guide to Correlation
 
@@ -725,7 +725,7 @@ We establish a visual mnemonic that connects the emotional expressions to the ma
 
 This visual approach helps anchor abstract statistical concepts in intuitive, memorable imagery.
 
-![Emoji Covariance Visualization](../Images/Contour_Plots/emoji_covariance_example.png)
+![Emoji Covariance Visualization](../Images/Contour_Plots/ex8_emoji_covariance_example.png)
 
 ### Example 9: Sketching Contours of a Bivariate Normal Distribution
 
@@ -854,7 +854,7 @@ The contour plot provides several insights:
 
 This connection between matrix algebra (eigenvalues and eigenvectors) and geometry (ellipse axes and orientation) helps visualize the abstract concept of covariance.
 
-![Sketch Contour Problem Visualization](../Images/Contour_Plots/sketch_contour_problem.png)
+![Sketch Contour Problem Visualization](../Images/Contour_Plots/ex9_sketch_contour_problem.png)
 *Figure: Interactive visualization of bivariate normal distribution contours with adjustable variance parameters. The plot shows contour lines of equal probability density and ellipses representing 1σ, 2σ, and 3σ boundaries. A companion visualization shows how different variance combinations affect the contour shapes.*
 
 ## Key Insights
