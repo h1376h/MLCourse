@@ -176,13 +176,54 @@ The mathematical relationship: The shape of the contours directly reflects the s
 ### Example 2: Covariance Matrix Types and Their Effects
 
 #### Problem Statement
-How do different types of covariance matrices affect the shape, size, and orientation of probability density contours?
+How do different types of covariance matrices affect the shape, size, and orientation of probability density contours? How does the probability mass distribute within different sigma regions for both 1D and 2D normal distributions?
+
+![Probability Mass Visualization](../Images/Contour_Plots/normal_probability_mass_visualization.png)
+*Figure 5: Visualization of probability mass contained within different sigma regions for 1D and 2D normal distributions. Top row shows the probability regions with exact percentages, bottom row shows 3D surfaces.*
 
 #### Solution
 
-We'll explore four cases with different covariance matrices and analyze their properties mathematically.
+We'll explore four cases with different covariance matrices and analyze their properties mathematically, with a focus on understanding how probability mass is distributed.
 
-##### Step 1: Diagonal Covariance with Equal Variances (Identity Matrix)
+##### Step 1: Understanding Normal Distribution Probability Regions
+For a 1D normal distribution:
+- 68.27% of the probability mass falls within 1σ (±1 standard deviation) of the mean
+- 95.45% of the probability mass falls within 2σ (±2 standard deviations) of the mean
+- 99.73% of the probability mass falls within 3σ (±3 standard deviations) of the mean
+
+For a 2D normal distribution with equal variances:
+- 39.35% of the probability mass falls within the 1σ circle
+- 86.47% of the probability mass falls within the 2σ circle
+- 98.89% of the probability mass falls within the 3σ circle
+
+Note that the percentages are different between 1D and 2D cases due to the increased dimensionality.
+
+##### Step 2: Transitioning from 1D to 2D Normal Distributions
+As we extend from 1D to 2D distributions, the probability structure changes:
+
+![1D to 2D Transition](../Images/Contour_Plots/normal_1d_to_2d_transition.png)
+*Figure 6: Visualization of the transition from 1D to 2D normal distributions with different variance parameters, showing how the probability regions extend into the second dimension.*
+
+The transition sequence demonstrates:
+1. Standard normal in both dimensions (equal variances)
+2. Narrow distribution in x, standard in y (different variances)
+3. Wide distribution in x, narrow in y (highly different variances in opposite directions)
+
+This progression helps build an intuitive understanding of how the covariance matrix shapes the probability density.
+
+##### Step 3: The Effect of Variance Parameters on Contour Shapes
+The shape of contours is directly determined by the variance parameters:
+
+![Variance Effect Grid](../Images/Contour_Plots/normal_variance_effect_grid.png)
+*Figure 7: Grid visualization showing how different combinations of variance parameters affect the shape and orientation of contours. The figure displays 16 different combinations of variances for x and y coordinates.*
+
+Key observations:
+- When σ²ₓ = σ²ᵧ (diagonal from top-left to bottom-right), contours are circular
+- As σ²ₓ increases horizontally across the grid, ellipses stretch in the x-direction
+- As σ²ᵧ increases vertically down the grid, ellipses stretch in the y-direction
+- The ratio σ²ₓ/σ²ᵧ determines the aspect ratio of the ellipses
+
+##### Step 4: Diagonal Covariance with Equal Variances (Identity Matrix)
 When the covariance matrix is a scaled identity matrix:
 
 $$\Sigma = \begin{bmatrix} 1.0 & 0.0 \\ 0.0 & 1.0 \end{bmatrix} = I$$
@@ -197,7 +238,7 @@ Properties:
 - This is the standard bivariate normal distribution
 - The PDF simplifies to: $f(x,y) = \frac{1}{2\pi} \exp\left(-\frac{x^2 + y^2}{2}\right)$
 
-##### Step 2: Diagonal Covariance with Different Variances
+##### Step 5: Diagonal Covariance with Different Variances
 When the covariance matrix has different variances but no correlation:
 
 $$\Sigma = \begin{bmatrix} 3.0 & 0.0 \\ 0.0 & 0.5 \end{bmatrix}$$
@@ -213,7 +254,7 @@ Properties:
 - The PDF is: $f(x,y) = \frac{1}{2\pi\sqrt{1.5}} \exp\left(-\frac{1}{2} \left(\frac{x^2}{3} + \frac{y^2}{0.5}\right)\right)$
 - The semi-axes of the ellipses are in the ratio $\sqrt{3} : \sqrt{0.5} \approx 1.73 : 0.71$
 
-##### Step 3: Non-Diagonal Covariance with Positive Correlation
+##### Step 6: Non-Diagonal Covariance with Positive Correlation
 When the covariance matrix has non-zero off-diagonal elements with positive correlation:
 
 $$\Sigma = \begin{bmatrix} 2.0 & 1.5 \\ 1.5 & 2.0 \end{bmatrix}$$
@@ -232,7 +273,7 @@ Properties:
   $(x,y)^T \Sigma^{-1} (x,y) = [x \ y] [[a \ b], [b \ c]] [x, y]^T = a \cdot x^2 + 2b \cdot xy + c \cdot y^2$
   where $\Sigma^{-1} = [[a \ b], [b \ c]]$ is the inverse of the covariance matrix
 
-##### Step 4: Non-Diagonal Covariance with Negative Correlation
+##### Step 7: Non-Diagonal Covariance with Negative Correlation
 When the covariance matrix has non-zero off-diagonal elements with negative correlation:
 
 $$\Sigma = \begin{bmatrix} 2.0 & -1.5 \\ -1.5 & 2.0 \end{bmatrix}$$
@@ -249,7 +290,7 @@ Properties:
 - The semi-axes lengths are proportional to $\sqrt{3.5}$ and $\sqrt{0.5}$
 - The negative correlation means that as one variable increases, the other tends to decrease, creating the rotation in the opposite direction
 
-##### Step 5: Key Insights from Comparison
+##### Step 8: Key Insights from Comparison
 1. Diagonal covariance matrices produce axis-aligned ellipses or circles:
    - Equal variances (Case 1): Perfect circles
    - Different variances (Case 2): Axis-aligned ellipses
@@ -265,12 +306,13 @@ Properties:
    - The angle of the principal axis is $\tan^{-1}(\rho\sigma_2/\sigma_1)$ for positive correlation
    - The eccentricity of the ellipses increases with stronger correlation
 
-![Covariance Matrix Contours](../Images/Contour_Plots/covariance_matrix_contours.png)
-
 ### Example 3: 3D Visualization of Probability Density Functions
 
 #### Problem Statement
-How does the probability density function of a bivariate normal distribution look in 3D space, and how does the covariance matrix affect this surface?
+How does the probability density function of a bivariate normal distribution look in 3D space, and how does the covariance matrix affect this surface? How does correlation impact the shape and cross-sections of the probability density surface?
+
+![Contour-Surface Relationship](../Images/Contour_Plots/gaussian_3d_contour_relationship.png)
+*Figure 9: Visualization showing the relationship between 3D probability density surfaces and their corresponding 2D contour plots for three different covariance matrices. The top row shows the 3D surfaces, and the bottom row shows the corresponding contour plots.*
 
 #### Solution
 
@@ -284,7 +326,33 @@ To visualize bivariate normal distributions in 3D, we need to:
 
 This gives us a comprehensive view of both the probability density surface and its contour lines, helping us understand the distribution's shape.
 
-##### Step 2: Standard Bivariate Normal (Identity Covariance)
+##### Step 2: Effect of Correlation on 3D Gaussian Surface
+As the correlation parameter changes, the 3D probability density surface undergoes significant transformations:
+
+![Correlation Sequence](../Images/Contour_Plots/gaussian_3d_correlation_sequence.png)
+*Figure 10: Sequence of 3D probability density surfaces showing how correlation affects shape and orientation. The bottom right plot shows how correlation affects eigenvalues and determinant of the covariance matrix.*
+
+Key observations:
+- Negative correlation (ρ = -0.8): The surface stretches along the y = -x direction
+- No correlation (ρ = 0): The surface is symmetric with circular contours
+- Positive correlation (ρ = 0.8): The surface stretches along the y = x direction
+- As |ρ| approaches 1, the determinant approaches 0, causing the peak height to increase
+- The larger eigenvalue increases and the smaller eigenvalue decreases as |ρ| increases
+- The determinant (1-ρ²) decreases with increasing |ρ|, affecting the overall volume
+
+##### Step 3: Cross-Sections of Probability Density Functions
+Different slices through the PDF reveal important properties about correlation:
+
+![Cross-Section Visualization](../Images/Contour_Plots/gaussian_3d_cross_sections.png)
+*Figure 11: Cross-sections of probability density functions along different directions for various correlation values. The red line shows the cross-section along the y=x direction, blue along the x-axis, and green along the y=-x direction.*
+
+These cross-sections show:
+- With no correlation (ρ = 0), all directional cross-sections have the same shape
+- With positive correlation (ρ > 0), the cross-section along y = x becomes wider and flatter
+- With strong correlation (ρ → 1), the cross-section along y = -x becomes sharply peaked
+- As correlation increases, the overall peak height increases due to decreasing determinant
+
+##### Step 4: Standard Bivariate Normal (Identity Covariance)
 For a standard bivariate normal distribution:
 - Mean vector: $\mu = [0, 0]$ (centered at the origin)
 - Covariance matrix: $\Sigma = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$ (identity matrix)
@@ -297,7 +365,7 @@ Key properties of the 3D surface:
 - The surface falls off equally in all directions from the peak
 - The volume under the entire surface equals 1 (probability axiom)
 
-##### Step 3: Bivariate Normal with Different Variances (Diagonal Covariance)
+##### Step 5: Bivariate Normal with Different Variances (Diagonal Covariance)
 For a bivariate normal with different variances:
 - Mean vector: $\mu = [0, 0]$ (still centered at the origin)
 - Covariance matrix: $\Sigma = \begin{bmatrix} 2.0 & 0 \\ 0 & 0.5 \end{bmatrix}$ (diagonal but unequal)
@@ -312,7 +380,7 @@ Key properties of the 3D surface:
 - The surface falls off more quickly in the y-direction (smaller variance)
 - The volume under the surface still equals 1
 
-##### Step 4: Bivariate Normal with Correlation (Non-Diagonal Covariance)
+##### Step 6: Bivariate Normal with Correlation (Non-Diagonal Covariance)
 For a bivariate normal with correlation:
 - Mean vector: $\mu = [0, 0]$
 - Covariance matrix: $\Sigma = \begin{bmatrix} 1.0 & 0.8 \\ 0.8 & 1.0 \end{bmatrix}$ (non-diagonal)
@@ -329,7 +397,7 @@ Key properties of the 3D surface:
 - The correlation creates a 'ridge' along the y = x direction
 - The volume under the surface still equals 1
 
-##### Step 5: Key Insights from Comparing All Three 3D Visualizations
+##### Step 7: Key Insights from Comparing All Three 3D Visualizations
 1. The covariance matrix directly determines the shape and orientation of the PDF surface
 2. Identity covariance (Case 1): Symmetric bell shape with circular contours
 3. Diagonal covariance with different variances (Case 2): Stretched bell shape with axis-aligned elliptical contours
@@ -341,6 +409,7 @@ Mathematical relationships:
 - Together they ensure that the volume under the surface equals 1
 
 ![Gaussian 3D Visualization](../Images/Contour_Plots/gaussian_3d_visualization.png)
+*Figure 12: 3D visualizations of Gaussian probability density functions with three different covariance matrices: identity covariance (left), diagonal with different variances (middle), and positive correlation (right).*
 
 ### Example 4: Eigenvalues, Eigenvectors, and Covariance
 
