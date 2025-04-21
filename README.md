@@ -35,7 +35,16 @@ scipy>=1.15.2
    cd ML
    ```
 
-2. Install required dependencies:
+2. Create and activate a virtual environment:
+   ```bash
+   python -m venv ml_env
+   # On Windows
+   ml_env\Scripts\activate
+   # On macOS/Linux
+   source ml_env/bin/activate
+   ```
+
+3. Install required dependencies:
    ```bash
    pip install -r requirements.txt
    ```
