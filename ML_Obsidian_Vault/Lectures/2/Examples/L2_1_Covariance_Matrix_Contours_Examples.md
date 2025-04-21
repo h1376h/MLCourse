@@ -75,6 +75,7 @@ The following examples demonstrate how different covariance matrices affect the 
 - **Mahalanobis Distance**: Comparing Euclidean and Mahalanobis distances for correlated data
 - **Emoji Visualization**: Using intuitive visual metaphors to understand correlation types
 - **Sketching Contours**: Interactive visualization for sketching contours of a bivariate normal distribution
+- **Robust Covariance Estimation**: Comparing standard and robust methods for covariance estimation in the presence of outliers
 
 ### Example 1: Basic Normal Distributions
 
@@ -901,6 +902,90 @@ The ellipses are stretched along the x-axis (since $\sigma_1^2 > \sigma_2^2$)
 
 ![Interactive Contour Visualization](../Images/Contour_Plots/ex9_contour_interactive.png)
 *This interactive visualization allows for adjusting the variances σ₁² and σ₂² to see how they affect the shape of the contour lines. As variances change, the ellipses stretch or compress along their respective axes.*
+
+### Example 10: Robust Covariance Estimation
+
+#### Problem Statement
+How do outliers affect covariance estimation, and how can robust methods improve the reliability of multivariate normal models in the presence of outliers?
+
+#### Solution
+
+##### Step 1: Understanding the Impact of Outliers
+Outliers can severely distort standard covariance estimates. Even a small number of outliers can:
+- Shift the estimated mean toward the outliers
+- Inflate the variance estimates
+- Distort the correlation structure
+- Alter the orientation of principal axes
+
+These distortions occur because the standard sample covariance matrix gives equal weight to all data points, including outliers.
+
+##### Step 2: Standard vs. Robust Estimation Methods
+We'll compare three methods:
+- **Standard Empirical Covariance**: The conventional sample covariance matrix that uses all data points equally.
+- **Minimum Covariance Determinant (MCD)**: A robust method that finds the subset of data with the smallest determinant of its covariance matrix.
+- **True Covariance**: The covariance calculated using only the clean data (without outliers), used as a reference.
+
+The comparison of matrices shows how outliers distort the standard estimate:
+
+```
+Empirical Covariance Matrix (with outliers):
+[[ 2.13461532 -0.87607701]
+ [-0.87607701  3.29557882]]
+
+Robust Covariance Matrix (MCD):
+[[0.8150929  0.29751939]
+ [0.29751939 0.76768711]]
+
+True Covariance Matrix (clean data only):
+[[0.8150929  0.29751939]
+ [0.29751939 0.76768711]]
+```
+
+The robust estimate closely matches the true covariance, while the standard estimate is severely distorted.
+
+##### Step 3: Visualizing the Covariance Ellipses
+
+![Robust vs Standard Covariance Estimation](../Images/Contour_Plots/ex9_robust_covariance_data.png)
+*Comparison of covariance ellipses. Blue points represent clean data, red X marks are outliers. The standard covariance (blue ellipse) is heavily influenced by outliers, while the robust covariance (green ellipse) remains close to the true covariance structure (purple ellipse).*
+
+![Effect of Outliers on Covariance](../Images/Contour_Plots/ex9_robust_covariance_comparison.png)
+*Before-after visualization showing how adding outliers distorts the standard covariance estimate. The purple ellipse shows the true covariance of clean data, while the blue ellipse shows how outliers distort the estimated covariance.*
+
+##### Step 4: 3D Visualization of Probability Density Functions
+
+The 3D probability density function surfaces provide additional insight:
+
+![Standard Covariance PDF](../Images/Contour_Plots/ex9_robust_covariance_3d_standard.png)
+*Standard covariance PDF (using all data points). Note how the surface is flatter and more spread out due to outlier influence.*
+
+![Robust Covariance PDF](../Images/Contour_Plots/ex9_robust_covariance_3d_robust.png)
+*Robust covariance PDF. The probability density surface maintains appropriate concentration and shape despite the presence of outliers.*
+
+![True Distribution PDF](../Images/Contour_Plots/ex9_robust_covariance_3d_true.png)
+*True distribution PDF (calculated from clean data only). This shows how the data is actually distributed, which the robust method closely approximates.*
+
+##### Step 5: Comparing Standard and Robust Methods
+
+| Feature | Standard Method | Robust Method (MCD) |
+|---------|----------------|---------------------|
+| Principle | Use all data points equally | Identify and downweight outliers |
+| Estimator | Sample Covariance Matrix | Minimum Covariance Determinant |
+| Complexity | O(n) | O(n²) |
+| Breakdown point | 0% | Up to 50% |
+| Best use case | Clean data with no outliers | Data with potential outliers |
+
+The breakdown point represents the fraction of contaminating data the method can handle before giving arbitrarily incorrect results. Standard covariance has a breakdown point of 0%, meaning even a single extreme outlier can completely distort the estimate. MCD methods have breakdown points up to 50%, making them much more robust.
+
+##### Step 6: Implications for Machine Learning Applications
+
+Robust covariance estimation impacts several machine learning tasks:
+- **Anomaly Detection**: More accurate identification of true anomalies
+- **Classification**: More reliable distance-based methods using Mahalanobis distance
+- **Dimensionality Reduction**: Principal Component Analysis (PCA) becomes more stable
+- **Clustering**: More accurate grouping of related data points
+- **Multivariate Statistical Process Control**: More reliable detection of process changes
+
+The choice between standard and robust methods involves a trade-off between computational efficiency and resistance to outliers. For clean datasets, standard methods are faster and sufficient. For datasets with potential outliers, robust methods provide significantly more reliable results.
 
 ## Key Insights
 
