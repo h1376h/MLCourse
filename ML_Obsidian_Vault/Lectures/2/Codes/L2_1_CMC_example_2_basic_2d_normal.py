@@ -1,12 +1,217 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from matplotlib.patches import Ellipse
+from matplotlib.patches import Ellipse, Rectangle
+from matplotlib import cm
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.gridspec as gridspec
 
 def ensure_directory_exists(directory):
     """Ensure the specified directory exists, create if it doesn't."""
     if not os.path.exists(directory):
         os.makedirs(directory)
+
+def plot_1d_with_regions(ax, x, sigma_sq=1.0):
+    """Plot 1D normal distribution with shaded sigma regions."""
+    # Calculate PDF
+    y = (1/np.sqrt(2*np.pi*sigma_sq)) * np.exp(-0.5 * x**2/sigma_sq)
+    
+    # Plot the PDF
+    ax.plot(x, y, 'k-', linewidth=2)
+    
+    # Calculate sigma values
+    sigma = np.sqrt(sigma_sq)
+    
+    # Define sigma regions
+    regions = [
+        (-sigma, sigma, 0.6827, 'red'),
+        (-2*sigma, 2*sigma, 0.9545, 'green'),
+        (-3*sigma, 3*sigma, 0.9973, 'blue')
+    ]
+    
+    # Add shaded regions
+    for start, end, prob, color in regions:
+        mask = (x >= start) & (x <= end)
+        ax.fill_between(x[mask], 0, y[mask], alpha=0.3, color=color)
+        
+        # Calculate the center position for the text
+        idx = np.abs(x - (start + end)/2).argmin()
+        text_y = y[idx] / 2
+        
+        # Add text for probability
+        ax.text((start + end)/2, text_y, f"{prob:.1%}", 
+                ha='center', va='center', color=color, fontweight='bold')
+    
+    # Add sigma markers
+    sigmas = [1, 2, 3]
+    for i in sigmas:
+        ax.axvline(i*sigma, color='k', linestyle='--', alpha=0.5)
+        ax.axvline(-i*sigma, color='k', linestyle='--', alpha=0.5)
+        ax.text(i*sigma, 0, f"{i}σ", ha='left', va='bottom')
+        ax.text(-i*sigma, 0, f"-{i}σ", ha='right', va='bottom')
+    
+    # Add title and labels
+    ax.set_title(f'1D Normal Distribution (σ² = {sigma_sq})')
+    ax.set_xlabel('x')
+    ax.set_ylabel('Probability Density')
+    ax.grid(True, alpha=0.3)
+
+def plot_2d_with_regions(ax, x, y, sigma_x_sq=1.0, sigma_y_sq=1.0):
+    """Plot 2D normal distribution with shaded sigma regions."""
+    # Create meshgrid
+    X, Y = np.meshgrid(x, y)
+    
+    # Calculate PDF
+    Z = (1/(2*np.pi*np.sqrt(sigma_x_sq*sigma_y_sq))) * np.exp(-0.5*(X**2/sigma_x_sq + Y**2/sigma_y_sq))
+    
+    # Plot contours
+    contour_levels = np.linspace(0.01, 0.15, 5)
+    cp = ax.contour(X, Y, Z, levels=contour_levels, colors='black')
+    ax.clabel(cp, inline=True, fontsize=8)
+    
+    # Calculate sigma values
+    sigma_x = np.sqrt(sigma_x_sq)
+    sigma_y = np.sqrt(sigma_y_sq)
+    
+    # Define sigma ellipses with probabilities
+    ellipses = [
+        (1, 0.3935, 'red'),     # 1-sigma ellipse: 39.35% of data
+        (2, 0.8647, 'green'),   # 2-sigma ellipse: 86.47% of data
+        (3, 0.9889, 'blue')     # 3-sigma ellipse: 98.89% of data
+    ]
+    
+    # Add ellipses
+    for scale, prob, color in ellipses:
+        ellipse = Ellipse(xy=(0, 0), 
+                          width=2*scale*sigma_x, 
+                          height=2*scale*sigma_y, 
+                          fill=True, 
+                          facecolor=color, 
+                          alpha=0.2, 
+                          edgecolor='k', 
+                          linestyle='-')
+        ax.add_patch(ellipse)
+        
+        # Add text for probability
+        ax.text(0, 0, f"{prob:.1%}", 
+                ha='center', va='center', color='black', fontweight='bold')
+    
+    # Add title and labels
+    ax.set_title(f'2D Normal Distribution (σ_x² = {sigma_x_sq}, σ_y² = {sigma_y_sq})')
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.grid(True, alpha=0.3)
+    ax.set_xlim(-3*max(sigma_x, 1), 3*max(sigma_x, 1))
+    ax.set_ylim(-3*max(sigma_y, 1), 3*max(sigma_y, 1))
+    ax.set_aspect('equal')
+
+def plot_3d_gaussian(sigma_x_sq, sigma_y_sq, ax, title):
+    """Plot 3D Gaussian surface."""
+    # Create grid
+    x = np.linspace(-3*np.sqrt(max(sigma_x_sq, 1)), 3*np.sqrt(max(sigma_x_sq, 1)), 50)
+    y = np.linspace(-3*np.sqrt(max(sigma_y_sq, 1)), 3*np.sqrt(max(sigma_y_sq, 1)), 50)
+    X, Y = np.meshgrid(x, y)
+    
+    # Calculate PDF
+    Z = (1/(2*np.pi*np.sqrt(sigma_x_sq*sigma_y_sq))) * np.exp(-0.5*(X**2/sigma_x_sq + Y**2/sigma_y_sq))
+    
+    # Plot surface
+    surf = ax.plot_surface(X, Y, Z, cmap=cm.viridis, alpha=0.7, linewidth=0, antialiased=True)
+    
+    # Add contours on xy-plane
+    offset = 0
+    contours = ax.contour(X, Y, Z, zdir='z', offset=offset, cmap=cm.coolwarm, levels=5, alpha=0.8)
+    
+    # Add sigma ellipses on xy-plane
+    for i in range(1, 4):
+        theta = np.linspace(0, 2*np.pi, 100)
+        x_ellipse = i * np.sqrt(sigma_x_sq) * np.cos(theta)
+        y_ellipse = i * np.sqrt(sigma_y_sq) * np.sin(theta)
+        z_ellipse = np.zeros_like(theta) + offset
+        ax.plot(x_ellipse, y_ellipse, z_ellipse, 'r-', linewidth=2, alpha=0.7)
+    
+    # Label axes
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Probability Density')
+    ax.set_title(title)
+    
+    # Adjust view angle
+    ax.view_init(elev=30, azim=45)
+    
+    return surf
+
+def plot_1d_to_2d_transition(fig, x, y, variances):
+    """Create a series of plots showing transition from 1D to 2D normal distributions."""
+    n_plots = len(variances)
+    grid = gridspec.GridSpec(2, n_plots, figure=fig)
+    
+    for i, (sigma_x_sq, sigma_y_sq) in enumerate(variances):
+        # 1D Plot
+        ax1d = fig.add_subplot(grid[0, i])
+        plot_1d_with_regions(ax1d, x, sigma_x_sq)
+        
+        # 2D Plot
+        ax2d = fig.add_subplot(grid[1, i])
+        plot_2d_with_regions(ax2d, x, y, sigma_x_sq, sigma_y_sq)
+        
+        # Adjust titles for sequence
+        ax1d.set_title(f'Step {i+1}: 1D Normal (σ² = {sigma_x_sq})')
+        ax2d.set_title(f'Step {i+1}: 2D Normal (σ_x² = {sigma_x_sq}, σ_y² = {sigma_y_sq})')
+
+def create_variance_effect_visualization(sigma_x_values, sigma_y_values):
+    """Create a grid visualization showing the effect of different variance combinations."""
+    # Create the figure
+    fig, axes = plt.subplots(len(sigma_y_values), len(sigma_x_values), figsize=(15, 15))
+    
+    # Generate the grid of points
+    x = np.linspace(-5, 5, 100)
+    y = np.linspace(-5, 5, 100)
+    X, Y = np.meshgrid(x, y)
+    
+    # Loop through all variance combinations
+    for i, sigma_y_sq in enumerate(sigma_y_values):
+        for j, sigma_x_sq in enumerate(sigma_x_values):
+            ax = axes[i, j]
+            
+            # Calculate PDF
+            Z = (1/(2*np.pi*np.sqrt(sigma_x_sq*sigma_y_sq))) * np.exp(-0.5*(X**2/sigma_x_sq + Y**2/sigma_y_sq))
+            
+            # Plot contours
+            contour_levels = np.linspace(0.01, 0.15, 5)
+            cp = ax.contour(X, Y, Z, levels=contour_levels, colors='black')
+            
+            # Add 2-sigma ellipse
+            ellipse = Ellipse(xy=(0, 0), 
+                             width=2*2*np.sqrt(sigma_x_sq), 
+                             height=2*2*np.sqrt(sigma_y_sq), 
+                             fill=False, 
+                             edgecolor='red', 
+                             linestyle='--')
+            ax.add_patch(ellipse)
+            
+            # Set title and grid
+            ax.set_title(f'σ_x² = {sigma_x_sq}, σ_y² = {sigma_y_sq}')
+            ax.grid(True, alpha=0.3)
+            ax.set_xlim(-5, 5)
+            ax.set_ylim(-5, 5)
+            
+            # Only show labels on outer axes
+            if i == len(sigma_y_values) - 1:
+                ax.set_xlabel('x')
+            else:
+                ax.set_xticklabels([])
+                
+            if j == 0:
+                ax.set_ylabel('y')
+            else:
+                ax.set_yticklabels([])
+    
+    # Add a figure title
+    fig.suptitle('Effect of Variances on 2D Normal Distribution Contours', fontsize=16)
+    plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust for the suptitle
+    
+    return fig
 
 def basic_2d_example():
     """Simple example showing 1D and 2D normal distributions"""
@@ -30,6 +235,7 @@ def basic_2d_example():
     print("\nThe key insight: total area under each curve = 1 (probability axiom)")
     print("So curves with higher peaks must be narrower, and those with lower peaks must be wider")
     
+    # Create figure for basic example
     fig = plt.figure(figsize=(15, 5))
     
     # Plot 1: 1D Normal Distributions with different variances
@@ -143,6 +349,85 @@ def basic_2d_example():
     ax3.set_xlim(-3, 3)
     ax3.set_ylim(-3, 3)
     
+    # Save the basic figure
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    images_dir = os.path.join(os.path.dirname(script_dir), "Images", "Contour_Plots")
+    ensure_directory_exists(images_dir)
+    
+    try:
+        save_path = os.path.join(images_dir, "basic_2d_normal_examples.png")
+        fig.savefig(save_path, bbox_inches='tight', dpi=300)
+        print(f"\nBasic examples figure saved to: {save_path}")
+    except Exception as e:
+        print(f"\nError saving figure: {e}")
+    
+    # Create visualization showing probability mass within different sigma regions
+    print("\nCreating visualization of probability mass within sigma regions...")
+    fig_regions = plt.figure(figsize=(15, 10))
+    
+    # 1D with regions
+    ax_1d = fig_regions.add_subplot(221)
+    plot_1d_with_regions(ax_1d, x)
+    
+    # 2D with regions
+    ax_2d = fig_regions.add_subplot(222)
+    plot_2d_with_regions(ax_2d, x, y)
+    
+    # 3D visualization for standard normal
+    ax_3d_1 = fig_regions.add_subplot(223, projection='3d')
+    plot_3d_gaussian(1.0, 1.0, ax_3d_1, '3D Standard Normal Distribution')
+    
+    # 3D visualization for different variances
+    ax_3d_2 = fig_regions.add_subplot(224, projection='3d')
+    plot_3d_gaussian(2.0, 0.5, ax_3d_2, '3D Normal with Different Variances')
+    
+    # Save probability mass visualization
+    try:
+        save_path = os.path.join(images_dir, "normal_probability_mass_visualization.png")
+        fig_regions.tight_layout()
+        fig_regions.savefig(save_path, bbox_inches='tight', dpi=300)
+        print(f"\nProbability mass visualization saved to: {save_path}")
+    except Exception as e:
+        print(f"\nError saving figure: {e}")
+    
+    # Create 1D to 2D transition visualization
+    print("\nCreating 1D to 2D transition visualization...")
+    fig_transition = plt.figure(figsize=(15, 8))
+    
+    # Define the transition sequence
+    transition_variances = [
+        (1.0, 1.0),   # Standard normal in both dimensions
+        (0.5, 1.0),   # Narrow in x, standard in y
+        (2.0, 0.5)    # Wide in x, narrow in y
+    ]
+    
+    # Create the transition plots
+    plot_1d_to_2d_transition(fig_transition, x, y, transition_variances)
+    
+    # Save transition visualization
+    try:
+        save_path = os.path.join(images_dir, "normal_1d_to_2d_transition.png")
+        fig_transition.tight_layout()
+        fig_transition.savefig(save_path, bbox_inches='tight', dpi=300)
+        print(f"\n1D to 2D transition visualization saved to: {save_path}")
+    except Exception as e:
+        print(f"\nError saving figure: {e}")
+    
+    # Create variance effect grid visualization
+    print("\nCreating variance effect grid visualization...")
+    sigma_x_values = [0.5, 1.0, 2.0, 3.0]
+    sigma_y_values = [0.5, 1.0, 2.0, 3.0]
+    
+    fig_variance_grid = create_variance_effect_visualization(sigma_x_values, sigma_y_values)
+    
+    # Save variance grid visualization
+    try:
+        save_path = os.path.join(images_dir, "normal_variance_effect_grid.png")
+        fig_variance_grid.savefig(save_path, bbox_inches='tight', dpi=300)
+        print(f"\nVariance effect grid visualization saved to: {save_path}")
+    except Exception as e:
+        print(f"\nError saving figure: {e}")
+    
     print("\nStep 4: Comparing the Three Cases")
     print("Key insights from these visualizations:")
     print("1. 1D normal distributions: As variance increases, the peak height decreases")
@@ -156,7 +441,6 @@ def basic_2d_example():
     print("the structure of the covariance matrix. In these examples, the variables are")
     print("uncorrelated, so the ellipses are aligned with the coordinate axes.")
     
-    plt.tight_layout()
     return fig
 
 if __name__ == "__main__":
@@ -166,16 +450,4 @@ if __name__ == "__main__":
     
     # Run the example with detailed step-by-step printing
     fig = basic_2d_example()
-    
-    # Save the figure if needed
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    images_dir = os.path.join(os.path.dirname(script_dir), "Images", "Contour_Plots")
-    ensure_directory_exists(images_dir)
-    
-    try:
-        save_path = os.path.join(images_dir, "basic_2d_normal_examples.png")
-        fig.savefig(save_path, bbox_inches='tight', dpi=300)
-        print(f"\nFigure saved to: {save_path}")
-    except Exception as e:
-        print(f"\nError saving figure: {e}")
     

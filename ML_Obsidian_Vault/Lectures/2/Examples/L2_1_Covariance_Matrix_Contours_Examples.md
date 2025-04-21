@@ -79,11 +79,14 @@ The following examples demonstrate how different covariance matrices affect the 
 ### Example 1: Basic Normal Distributions
 
 #### Problem Statement
-How do variance changes affect 1D normal distributions, and what happens when we extend to 2D with independent variables?
+How do variance changes affect 1D normal distributions, and what happens when we extend to 2D with independent variables? How do different covariance matrices affect the shape, orientation, and probability surfaces of multivariate normal distributions?
+
+![3D Gaussian Visualization](../Images/Contour_Plots/gaussian_3d_explanation.png)
+*Figure 1: 3D visualization of probability density functions for different covariance matrices, showing how the surface shape relates to the contour shapes below.*
 
 #### Solution
 
-We'll start with 1D normal distributions and extend to 2D with diagonal covariance matrices.
+We'll start with 1D normal distributions and extend to 2D with diagonal covariance matrices, then explore different types of covariance matrices.
 
 ##### Step 1: Understanding 1D Normal Distributions with Different Variances
 The probability density function of a 1D normal distribution is:
@@ -107,8 +110,14 @@ Where $\sigma^2$ is the variance parameter. We'll visualize three cases:
 
 The key insight: The total area under each curve equals 1 (probability axiom). Therefore, curves with higher peaks must be narrower, and those with lower peaks must be wider to maintain the same total area.
 
-##### Step 2: Extending to 2D - The Standard Bivariate Normal Distribution
-The PDF of a 2D standard normal distribution (with identity covariance matrix) is:
+##### Step 2: Extending to 2D - Understanding Covariance Matrices and Their Eigenstructure
+
+The covariance matrix has a direct relationship with the shape of the probability distribution. The eigenvalues and eigenvectors of the covariance matrix determine the principal axes and their lengths:
+
+![Eigenvalue Visualization](../Images/Contour_Plots/covariance_eigenvalue_explanation.png)
+*Figure 2: Visualization of eigenvalues and eigenvectors for different covariance matrices. The red arrows show the principal directions (eigenvectors) and their lengths are proportional to the square roots of the eigenvalues.*
+
+For a 2D standard normal distribution (with identity covariance matrix), the PDF is:
 
 $$f(x,y) = \frac{1}{2\pi} \exp\left(-\frac{x^2 + y^2}{2}\right)$$
 
@@ -123,7 +132,19 @@ Key properties:
 - The 2σ circle contains approximately 86% of the probability mass
 - The 3σ circle contains approximately 99% of the probability mass
 
-##### Step 3: 2D Normal with Different Variances (Diagonal Covariance Matrix)
+##### Step 3: Comparing Different Types of Covariance Matrices
+
+Different covariance matrices produce distinctly different contour shapes:
+
+![Comparative Visualization](../Images/Contour_Plots/covariance_matrix_comparison.png)
+*Figure 3: Comparison of different covariance matrices and their resulting contours. From left to right: identity covariance (circular contours), diagonal with different variances (axis-aligned ellipses), positive correlation (ellipses tilted along y=x), and negative correlation (ellipses tilted along y=-x).*
+
+1. **Identity covariance matrix**: Circular contours showing equal spread in all directions
+2. **Diagonal covariance matrix with different variances**: Axis-aligned elliptical contours showing different spread along coordinate axes
+3. **Non-diagonal covariance matrix with positive correlation**: Elliptical contours tilted along the y=x direction
+4. **Non-diagonal covariance matrix with negative correlation**: Elliptical contours tilted along the y=-x direction
+
+##### Step 4: 2D Normal with Different Variances (Diagonal Covariance Matrix)
 Now we examine a bivariate normal where the variances are different:
 
 $$f(x,y) = \frac{1}{2\pi\sqrt{|\Sigma|}} \exp\left(-\frac{1}{2}\left(\frac{x^2}{\sigma_1^2} + \frac{y^2}{\sigma_2^2}\right)\right)$$
@@ -141,14 +162,16 @@ Key properties:
 - The ellipses are stretched along the x-axis and compressed along the y-axis
 - This reflects greater variance in the x direction than in the y direction
 
-##### Step 4: Key Insights from the Comparison
+##### Step 5: Key Insights from the Comparison
 1. 1D normal distributions: As variance increases, the peak height decreases and the spread increases, but the total area remains constant (= 1)
 2. 2D standard normal (equal variances): Circular contours indicating equal spread in all directions. This is the simplest case.
 3. 2D normal with different variances: Elliptical contours indicating different spread in different directions. The direction of greater variance corresponds to the longer axis of the ellipse.
+4. 2D normal with correlation: Rotated elliptical contours where the tilt direction indicates the direction of correlation.
 
-The mathematical relationship: The shape of the contours directly reflects the structure of the covariance matrix. In these examples, the variables are uncorrelated, so the ellipses are aligned with the coordinate axes.
+The mathematical relationship: The shape of the contours directly reflects the structure of the covariance matrix. The principal axes of the ellipses align with the eigenvectors of the covariance matrix, and their lengths are proportional to the square roots of the eigenvalues.
 
-![Basic 2D Normal Examples](../Images/Contour_Plots/basic_2d_normal_examples.png)
+![Basic 2D Normal Examples](../Images/Contour_Plots/covariance_matrix_contours.png)
+*Figure 4: Detailed contour plots for four different covariance matrices. Red dashed lines show 1σ, 2σ, and 3σ boundaries.*
 
 ### Example 2: Covariance Matrix Types and Their Effects
 
