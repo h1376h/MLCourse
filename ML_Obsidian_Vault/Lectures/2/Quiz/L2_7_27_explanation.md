@@ -286,5 +286,5 @@ This example illustrates the fundamental principles of MAP estimation and how it
 
 ## Related Examples
 
-[[L2_1_31_explanation]]
-[[L2_1_28_explanation]]
+[[L2_1_31_explanation_population]], used in our class lectures
+[[L2_7_28_explanation]]
