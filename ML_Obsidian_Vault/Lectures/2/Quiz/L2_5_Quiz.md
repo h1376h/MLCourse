@@ -197,7 +197,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider a Naive Bayes classifier for predicting heart disease based on two features: diabetes status and smoking status. The following table shows the training data:
 
 | Diabetes (D) | Smoke (S) | Heart Disease (H) |
-|-------------|-----------|-------------------|
+|:------------:|:---------:|:-----------------:|
 | Y | N | Y |
 | Y | N | N |
 | N | Y | N |
@@ -209,17 +209,18 @@ Consider a Naive Bayes classifier for predicting heart disease based on two feat
 | N | N | N |
 | Y | N | N |
 
-Given the following probabilities derived from the data:
-- $p(H = Yes) = 0.3$
-- $p(D = Yes|H = Yes) = \frac{1}{3}$
-- $p(S = Yes|H = Yes) = \frac{2}{3}$
-- $p(D = Yes|H = No) = \frac{2}{7}$
-- $p(S = Yes|H = No) = \frac{2}{7}$
+From this data, we can calculate:
+- $P(H = \text{Yes}) = 0.3$ (3 out of 10 patients)
+- $P(H = \text{No}) = 0.7$ (7 out of 10 patients)
+- $P(D = \text{Yes}|H = \text{Yes}) = \frac{1}{3}$ (1 out of 3 patients with heart disease)
+- $P(S = \text{Yes}|H = \text{Yes}) = \frac{2}{3}$ (2 out of 3 patients with heart disease)
+- $P(D = \text{Yes}|H = \text{No}) = \frac{2}{7}$ (2 out of 7 patients without heart disease)
+- $P(S = \text{Yes}|H = \text{No}) = \frac{2}{7}$ (2 out of 7 patients without heart disease)
 
 #### Task
-1. For a new patient with diabetes who also smokes ($x = [Yes, Yes]$), calculate:
-   - $p(H = Yes|x) \propto p(H = Yes)p(D = yes|H = Yes)p(S = yes|H = Yes)$
-   - $p(H = No|x) \propto p(H = No)p(D = yes|H = No)p(S = yes|H = No)$
+1. For a new patient with diabetes who also smokes ($x = [\text{Yes}, \text{Yes}]$), calculate:
+   - $P(H = \text{Yes}|x) \propto P(H = \text{Yes})P(D = \text{yes}|H = \text{Yes})P(S = \text{yes}|H = \text{Yes})$
+   - $P(H = \text{No}|x) \propto P(H = \text{No})P(D = \text{yes}|H = \text{No})P(S = \text{yes}|H = \text{No})$
 2. Based on your calculations, what would be the predicted class for this patient?
 3. Explain why we use proportionality ($\propto$) instead of equality ($=$) in the calculations.
 4. What assumption does Naive Bayes make about the features D and S? Is this assumption realistic in this medical context?
