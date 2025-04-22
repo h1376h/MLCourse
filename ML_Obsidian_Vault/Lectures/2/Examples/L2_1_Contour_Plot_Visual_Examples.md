@@ -31,7 +31,11 @@ The following examples demonstrate contour plots for various probability distrib
 ### Example 1: Bivariate Normal with Different Covariance Structures
 
 #### Problem Statement
-This example shows how different correlation values and variances affect the shape of bivariate normal distributions.
+Visualize and analyze how different correlation values and variances affect the shape of bivariate normal distributions in contour plots. Specifically, explore:
+
+1. How does the shape of contour plots change when correlation is zero, positive, or negative?
+2. What happens to the contour shapes when the variances of the two variables are different?
+3. How can we interpret the resulting patterns in terms of the relationship between the variables?
 
 ![Bivariate Normal Contours](../Images/Contour_Plot_Visual_Question/bivariate_normal_contours.png)
 
@@ -74,11 +78,15 @@ This visualization demonstrates how correlation affects our uncertainty about on
 ### Example 2: Non-Gaussian Probability Distributions
 
 #### Problem Statement
-Contour plots can represent any bivariate distribution, not just normal distributions. The goal is to understand how contour plots reveal the structure of complex distributions.
+Explore how contour plots can effectively represent various types of non-Gaussian bivariate distributions. For each distribution type shown below:
 
-#### Solution
+1. Identify the key features visible in the contour plot (number of modes, shape, orientation)
+2. Interpret what these features tell us about the underlying probability distribution
+3. Compare how these non-Gaussian distributions differ from the bivariate normal in terms of their contour patterns
 
 ![Non-Gaussian Distributions](../Images/Contour_Plot_Visual_Question/different_distributions_contours.png)
+
+#### Solution
 
 **Key observations:**
 - The mixture of two normals (top left) shows two separate peaks, indicating a bimodal distribution
