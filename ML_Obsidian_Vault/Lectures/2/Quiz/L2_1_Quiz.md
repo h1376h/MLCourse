@@ -510,9 +510,10 @@ Assume that the feature vectors in each class follow a multivariate Gaussian dis
 For a detailed explanation of this problem, including step-by-step calculations, multivariate Gaussian properties, and Bayesian classification, see [Question 31: Multivariate Gaussian Classification](L2_1_31_explanation.md).
 
 #### Solution Approaches
-This problem can be solved using two different approaches for calculating the covariance matrix:
+This problem can be tackled using multiple approaches:
 
-1. **Sample Covariance Approach**: Using the unbiased estimator with denominator $(n-1)$, see [Sample-based Solution](L2_1_31_explanation.md)
-2. **Population Covariance Approach**: Using the population formula with denominator $n$, see [Population-based Solution](L2_1_31_explanation_population.md)
+For a detailed explanation using the sample covariance formula (n-1 denominator), which provides an unbiased estimator, see [Question 31: Sample-based Solution](L2_1_31_explanation.md).
 
-The choice between these approaches affects the numerical values but not the final classification decision, as the relative relationships between variables are preserved. The sample covariance $(n-1)$ is generally preferred for real-world applications as it provides an unbiased estimator of the population covariance.
+For an alternative approach using the population covariance formula (n denominator), which was used in our class lectures, see [Alternative Solution: Population-based Approach](L2_1_31_explanation_population.md).
+
+Note that while the numerical values differ between these approaches, the fundamental concepts and final classification decisions remain the same, as the relative relationships between variables are preserved.
