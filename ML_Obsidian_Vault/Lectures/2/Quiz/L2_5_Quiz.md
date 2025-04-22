@@ -1,7 +1,7 @@
 # Lecture 2.5: Bayesian Approach to ML Quiz
 
 ## Overview
-This quiz contains 16 questions from different topics covered in section 2.5 of the lectures on Bayesian Framework.
+This quiz contains 17 questions from different topics covered in section 2.5 of the lectures on Bayesian Framework.
 
 ## Question 1
 
@@ -239,3 +239,21 @@ and the mean vectors are $\mu_1 = \begin{bmatrix} -1 \\ -1 \end{bmatrix}$, $\mu_
 2. Draw a creative analogy between the prior, likelihood, and posterior distributions in Bayesian inference and a real-world scenario (such as courtroom judgment, medical diagnosis, or weather prediction).
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 16: Bayesian Classification with Normal Distributions](L2_5_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+We have a training set consisting of samples and their labels. All samples come from one of two classes, 0 and 1. Samples are two dimensional vectors. The input data is the form $\{X1, X2, Y\}$ where $X1$ and $X2$ are the two values for the input vector and $Y$ is the label for this sample.
+
+After learning the parameters of a Naive Bayes classifier we arrived at the following table:
+
+| | $Y = 0$ | $Y = 1$ |
+|:---:|:---:|:---:|
+| $X1$ | $P(X1 = 1\|Y = 0) = 1/5$ | $P(X1 = 1\|Y = 1) = 3/8$ |
+| $X2$ | $P(X2 = 1\|Y = 0) = 1/3$ | $P(X2 = 1\|Y = 1) = 3/4$ |
+
+#### Task
+Denote by $w_1$ the probability of class 1 (that is $w_1 = P(Y = 1)$). If we know that the likelihood of the following two samples: $\{1,0,1\},\{0,1,0\}$ given our Naive Bayes model is $1/180$, what is the value of $w_1$? You do not need to derive an explicit value for $w_1$. It is enough to write a (correct...) equation that has $w_1$ as the only unknown and that when solved would provide the value of $w_1$. Simplify as best as you can.
+
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Naive Bayes Parameter Estimation](L2_5_17_explanation.md).

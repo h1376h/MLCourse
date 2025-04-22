@@ -403,9 +403,177 @@ plt.tight_layout()
 save_figure(fig2d, "a_step2d_3d_gaussian_pdfs.png")
 
 # ==============================
-# STEP 3: Bayes' Theorem Classification
+# STEP 3: Calculating Posterior Probabilities P(class | data)
 # ==============================
-print_step_header(3, "Bayes' Theorem Classification with Equal Priors")
+print_step_header(3, "Calculating Posterior Probabilities Using Bayes' Theorem")
+
+print_substep("Introduction to Bayes' Theorem")
+print("Bayes' theorem states:")
+print("P(class|data) = [P(data|class) × P(class)] / P(data)")
+print("\nwhere:")
+print("- P(class|data) is the posterior probability")
+print("- P(data|class) is the class-conditional density (likelihood)")
+print("- P(class) is the prior probability")
+print("- P(data) is the evidence (total probability)")
+
+# Define prior probabilities
+prior_class0 = 0.5
+prior_class1 = 0.5
+
+print_substep("Setting Prior Probabilities")
+print(f"Prior probability for Class 0: P(class 0) = {prior_class0}")
+print(f"Prior probability for Class 1: P(class 1) = {prior_class1}")
+
+# Calculate class likelihoods P(data|class)
+print_substep("Calculating Class Likelihoods P(data|class)")
+
+# Calculate likelihood for class 0
+class0_likelihoods = []
+for point in np.vstack((class0_data, class1_data)):
+    likelihood = multivariate_gaussian_pdf(point, mean_class0, cov_class0)
+    class0_likelihoods.append(likelihood)
+    print(f"P(x={point}|class 0) = {likelihood:.8f}")
+
+# Calculate likelihood for class 1
+class1_likelihoods = []
+for point in np.vstack((class0_data, class1_data)):
+    likelihood = multivariate_gaussian_pdf(point, mean_class1, cov_class1)
+    class1_likelihoods.append(likelihood)
+    print(f"P(x={point}|class 1) = {likelihood:.8f}")
+
+# Calculate evidence P(data) for each point
+print_substep("Calculating Evidence P(data)")
+evidences = []
+for i, point in enumerate(np.vstack((class0_data, class1_data))):
+    evidence = class0_likelihoods[i] * prior_class0 + class1_likelihoods[i] * prior_class1
+    evidences.append(evidence)
+    print(f"P(x={point}) = {class0_likelihoods[i]:.8f}×{prior_class0} + {class1_likelihoods[i]:.8f}×{prior_class1} = {evidence:.8f}")
+
+# Calculate posterior probabilities
+print_substep("Calculating Posterior Probabilities P(class|data)")
+points = np.vstack((class0_data, class1_data))
+posteriors_class0 = []
+posteriors_class1 = []
+
+for i, point in enumerate(points):
+    # Calculate posteriors for each class
+    posterior_class0 = (class0_likelihoods[i] * prior_class0) / evidences[i]
+    posterior_class1 = (class1_likelihoods[i] * prior_class1) / evidences[i]
+    posteriors_class0.append(posterior_class0)
+    posteriors_class1.append(posterior_class1)
+    
+    # Print results
+    print(f"For point x={point}:")
+    print(f"  P(class 0|data) = {posterior_class0:.8f}")
+    print(f"  P(class 1|data) = {posterior_class1:.8f}")
+    
+    # Determine classification
+    class_result = "Class 0" if posterior_class0 > posterior_class1 else "Class 1"
+    true_class = "Class 0" if i < len(class0_data) else "Class 1"
+    correct = class_result == true_class
+    
+    print(f"  Classified as: {class_result}")
+    print(f"  True class: {true_class}")
+    print(f"  Correct: {correct}")
+    print()
+
+# Create a visualization of the posterior probabilities
+print_substep("Visualizing Posterior Probabilities")
+
+# Create a more informative plot with both spatial visualization and posterior probabilities
+fig3_posterior = plt.figure(figsize=(14, 10))
+gs = GridSpec(2, 1, height_ratios=[2, 1])
+
+# Top plot: Spatial visualization with data points and their decision regions
+ax_spatial = fig3_posterior.add_subplot(gs[0])
+points = np.vstack((class0_data, class1_data))
+
+# Plot decision regions as background
+x_min, x_max = 0, 7
+y_min, y_max = 1, 5
+xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100), np.linspace(y_min, y_max, 100))
+grid_points = np.c_[xx.ravel(), yy.ravel()]
+
+# Calculate posterior probabilities for all grid points
+grid_posteriors_class0 = []
+for point in grid_points:
+    # Calculate likelihoods
+    likelihood_class0 = multivariate_normal.pdf(point, mean=mean_class0, cov=cov_class0)
+    likelihood_class1 = multivariate_normal.pdf(point, mean=mean_class1, cov=cov_class1)
+    
+    # Calculate evidence
+    evidence = likelihood_class0 * prior_class0 + likelihood_class1 * prior_class1
+    
+    # Calculate posterior probability for class 0
+    posterior_class0 = (likelihood_class0 * prior_class0) / evidence if evidence > 0 else 0
+    grid_posteriors_class0.append(posterior_class0)
+
+# Reshape to match the grid
+grid_posteriors_class0 = np.array(grid_posteriors_class0).reshape(xx.shape)
+
+# Plot decision regions
+contour = ax_spatial.contourf(xx, yy, grid_posteriors_class0, levels=np.linspace(0, 1, 11), 
+                          cmap='coolwarm', alpha=0.7)
+cbar = plt.colorbar(contour, ax=ax_spatial)
+cbar.set_label('P(Class 0|x)', fontsize=12)
+
+# Plot decision boundary
+ax_spatial.contour(xx, yy, grid_posteriors_class0, levels=[0.5], colors='k', linewidths=2)
+
+# Plot data points with different markers and colors for each class
+ax_spatial.scatter(class0_data[:, 0], class0_data[:, 1], color='blue', marker='o', s=100, 
+                edgecolor='black', linewidth=1.5, label='Class 0 Points')
+ax_spatial.scatter(class1_data[:, 0], class1_data[:, 1], color='red', marker='s', s=100, 
+                edgecolor='black', linewidth=1.5, label='Class 1 Points')
+
+# Plot new point
+ax_spatial.scatter(new_point[0], new_point[1], color='green', marker='*', s=200, 
+                edgecolor='black', linewidth=1.5, label='New Point')
+
+# Add labels and title
+ax_spatial.set_xlabel('Feature 1', fontsize=12)
+ax_spatial.set_ylabel('Feature 2', fontsize=12)
+ax_spatial.set_title('Data Points and Posterior Probability Regions', fontsize=14)
+ax_spatial.legend(loc='upper left')
+
+# Bottom plot: Bar chart showing posterior probabilities for training points
+ax_bar = fig3_posterior.add_subplot(gs[1])
+bar_width = 0.35
+x = np.arange(len(points))
+
+# Create bar chart
+bars1 = ax_bar.bar(x - bar_width/2, posteriors_class0, bar_width, label='P(Class 0|data)', 
+                color='blue', alpha=0.7)
+bars2 = ax_bar.bar(x + bar_width/2, posteriors_class1, bar_width, label='P(Class 1|data)', 
+                color='red', alpha=0.7)
+
+# Add point labels and decision threshold
+point_labels = [f"({p[0]},{p[1]})" for p in points]
+ax_bar.set_xticks(x)
+ax_bar.set_xticklabels(point_labels, rotation=45, ha='right')
+ax_bar.axhline(y=0.5, color='gray', linestyle='--', alpha=0.7, label='Decision Threshold')
+
+# Add vertical separator between class 0 and class 1 true points
+ax_bar.axvline(x=len(class0_data)-0.5, color='black', linestyle='-', alpha=0.5)
+ax_bar.text(len(class0_data)/2-0.5, 1.05, 'True Class 0 Points', ha='center', 
+         fontsize=12, backgroundcolor='white')
+ax_bar.text(len(class0_data) + len(class1_data)/2-0.5, 1.05, 'True Class 1 Points', 
+         ha='center', fontsize=12, backgroundcolor='white')
+
+# Customize the bar chart
+ax_bar.set_ylim(0, 1.1)
+ax_bar.set_ylabel('Posterior Probability', fontsize=12)
+ax_bar.set_xlabel('Data Points', fontsize=12)
+ax_bar.set_title('Posterior Probabilities P(class|data) with Equal Priors', fontsize=14)
+ax_bar.legend()
+
+plt.tight_layout()
+save_figure(fig3_posterior, "a_step3_posterior_probabilities.png")
+
+# ==============================
+# STEP 4: Bayes' Theorem Classification with Equal Priors
+# ==============================
+print_step_header(4, "Bayes' Theorem Classification with Equal Priors")
 
 print_substep("Introduction to Bayes' Theorem")
 print("Bayes' theorem states:")
@@ -511,9 +679,9 @@ ax3a.set_ylim(y_min, y_max)
 save_figure(fig3a, "a_step3a_decision_boundary.png")
 
 # ==============================
-# STEP 4: Classification with Different Priors
+# STEP 5: Classification with Different Priors
 # ==============================
-print_step_header(4, "Classification with Different Priors")
+print_step_header(5, "Classification with Different Priors")
 
 print_substep("Changing the Prior Probabilities")
 # Define new prior probabilities

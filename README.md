@@ -29,6 +29,7 @@ pandas>=2.2.3
 scikit-learn>=1.6.1
 scipy>=1.15.2
 seaborn>=0.13.2
+sympy>=1.13.3
 textblob>=0.19.0
 ```
 

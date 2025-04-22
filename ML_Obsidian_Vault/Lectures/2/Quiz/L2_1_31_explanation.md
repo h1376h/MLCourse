@@ -186,6 +186,13 @@ $$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x
 where:
 $$\boldsymbol{\mu}^{(0)} = \begin{bmatrix} 2 \\ 2.667 \end{bmatrix}, \quad \boldsymbol{\mu}^{(1)} = \begin{bmatrix} 5.667 \\ 3 \end{bmatrix}$$
 
+Substituting all the values:
+$$p(\mathbf{x}|\text{class }0) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix})^T \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix} (\mathbf{x} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix})\right)$$
+
+$$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix})^T \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix} (\mathbf{x} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix})\right)$$
+
+---
+
 For the new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$, we calculate:
 
 For **Class 0**:
@@ -270,6 +277,14 @@ To better visualize how the classification changes with different priors, we can
 
 The blue regions represent areas where points would be classified as Class 0, and the red regions represent areas where points would be classified as Class 1. Notice how the Class 0 region expands when we increase the prior probability for Class 0.
 
+## Visual Explanations
+
+### Posterior Probabilities
+
+![Posterior Probabilities](../Images/L2_1_Quiz_31/step3_posterior_probabilities.png)
+
+This result demonstrates the strong discriminative power of our model on the training data, which is a good sign for its ability to correctly classify new, unseen data points.
+
 ## Key Insights
 
 ### Theoretical Foundations
@@ -306,5 +321,6 @@ This example illustrates the fundamental principles of Bayesian classification a
 
 ## Related Examples
 
-[[L2_7_27_explanation]]
-[[L2_7_28_explanation]] 
+For applications of multivariate Gaussian classification with MAP estimation and unequal prior probabilities, see [[L2_7_27_explanation]]. This example extends the concepts covered here by focusing on real-time classification systems and precomputation strategies for efficient implementation.
+
+For a case with non-singular covariance matrices that results in quadratic decision boundaries, see [[L2_7_28_explanation]]. This extension demonstrates how having different covariance structures between classes affects the classification process and the geometry of the decision boundaries. 

@@ -186,6 +186,13 @@ $$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x
 where:
 $$\boldsymbol{\mu}^{(0)} = \begin{bmatrix} 2 \\ 2.667 \end{bmatrix}, \quad \boldsymbol{\mu}^{(1)} = \begin{bmatrix} 5.667 \\ 3 \end{bmatrix}$$
 
+Substituting all the values:
+$$p(\mathbf{x}|\text{class }0) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix})^T \begin{bmatrix} 5.86 & -8.79 \\ -8.79 & 17.58 \end{bmatrix} (\mathbf{x} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix})\right)$$
+
+$$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix})^T \begin{bmatrix} 17.58 & -8.79 \\ -8.79 & 5.86 \end{bmatrix} (\mathbf{x} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix})\right)$$
+
+---
+
 For the new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$, we calculate:
 
 For **Class 0**:
@@ -269,6 +276,14 @@ To better visualize how the classification changes with different priors, we can
 ![Decision Regions](../Images/L2_1_Quiz_31/a_step5b_decision_regions.png)
 
 The blue regions represent areas where points would be classified as Class 0, and the red regions represent areas where points would be classified as Class 1. Notice how the Class 0 region expands when we increase the prior probability for Class 0.
+
+## Visual Explanations
+
+### Posterior Probabilities
+
+![Posterior Probabilities](../Images/L2_1_Quiz_31/a_step3_posterior_probabilities.png)
+
+This result demonstrates the strong discriminative power of our model on the training data, which is a good sign for its ability to correctly classify new, unseen data points.
 
 ## Key Insights
 
