@@ -72,36 +72,64 @@ print(f"Mean vector for Class 1: {mean_class1}")
 # Calculate covariance matrices
 print_substep("Calculating Covariance Matrices")
 print("For Class 0:")
-print("Covariance Matrix = (1/n)∑(x_i - μ)(x_i - μ)ᵀ")
+print("Covariance Matrix = (1/(n-1))∑(x_i - μ)(x_i - μ)ᵀ")
 
+# Calculate deviations for Class 0
 diff0 = class0_data - mean_class0
-print("\nDifferences from mean:")
+print("\nStep 1: Calculate deviations from mean for Class 0:")
 for i, d in enumerate(diff0):
     print(f"  Point {i+1} - mean = {d}")
 
+# Calculate outer products for Class 0
 outer_products0 = [np.outer(d, d) for d in diff0]
-print("\nOuter products (point-mean)·(point-mean)ᵀ:")
+print("\nStep 2: Calculate outer products (x_i - μ)(x_i - μ)ᵀ for Class 0:")
 for i, op in enumerate(outer_products0):
     print(f"  Point {i+1}:\n{op}")
 
-cov_class0 = np.cov(class0_data.T)
-print(f"\nCovariance matrix for Class 0 (from np.cov):\n{cov_class0}")
+# Sum outer products and divide by (n-1) for Class 0
+sum_outer_products0 = sum(outer_products0)
+print("\nStep 3: Sum all outer products for Class 0:")
+print(sum_outer_products0)
+
+print("\nStep 4: Divide by (n-1) = 2 for Class 0:")
+cov_class0 = sum_outer_products0 / (len(class0_data) - 1)
+print(f"Final covariance matrix for Class 0:\n{cov_class0}")
 
 print("\nFor Class 1:")
-print("Covariance Matrix = (1/n)∑(x_i - μ)(x_i - μ)ᵀ")
+print("Covariance Matrix = (1/(n-1))∑(x_i - μ)(x_i - μ)ᵀ")
 
+# Calculate deviations for Class 1
 diff1 = class1_data - mean_class1
-print("\nDifferences from mean:")
+print("\nStep 1: Calculate deviations from mean for Class 1:")
 for i, d in enumerate(diff1):
     print(f"  Point {i+1} - mean = {d}")
 
+# Calculate outer products for Class 1
 outer_products1 = [np.outer(d, d) for d in diff1]
-print("\nOuter products (point-mean)·(point-mean)ᵀ:")
+print("\nStep 2: Calculate outer products (x_i - μ)(x_i - μ)ᵀ for Class 1:")
 for i, op in enumerate(outer_products1):
     print(f"  Point {i+1}:\n{op}")
 
-cov_class1 = np.cov(class1_data.T)
-print(f"\nCovariance matrix for Class 1 (from np.cov):\n{cov_class1}")
+# Sum outer products and divide by (n-1) for Class 1
+sum_outer_products1 = sum(outer_products1)
+print("\nStep 3: Sum all outer products for Class 1:")
+print(sum_outer_products1)
+
+print("\nStep 4: Divide by (n-1) = 2 for Class 1:")
+cov_class1 = sum_outer_products1 / (len(class1_data) - 1)
+print(f"Final covariance matrix for Class 1:\n{cov_class1}")
+
+# Verify results using numpy's cov function
+print("\nVerification using numpy's cov function:")
+print(f"Class 0 covariance matrix (np.cov):\n{np.cov(class0_data.T)}")
+print(f"Class 1 covariance matrix (np.cov):\n{np.cov(class1_data.T)}")
+
+# Calculate correlation coefficients
+print("\nCorrelation coefficients:")
+corr_class0 = cov_class0[0,1] / np.sqrt(cov_class0[0,0] * cov_class0[1,1])
+corr_class1 = cov_class1[0,1] / np.sqrt(cov_class1[0,0] * cov_class1[1,1])
+print(f"Class 0 correlation: {corr_class0:.4f}")
+print(f"Class 1 correlation: {corr_class1:.4f}")
 
 # Function to create a scatter plot with ellipses
 def plot_data_with_ellipses(ax, class0_data, class1_data, mean_class0, mean_class1, 
