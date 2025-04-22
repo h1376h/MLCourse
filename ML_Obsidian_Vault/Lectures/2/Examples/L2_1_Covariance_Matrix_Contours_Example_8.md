@@ -5,8 +5,8 @@ How can we intuitively understand positive and negative correlation using everyd
 
 In this example:
 - We create emoji-like faces to represent correlation patterns
-- The "happy face" represents positive correlation where variables move together
-- The "sad face" represents negative correlation where variables move in opposite directions
+- The "happy face" represents quadratic relationship with points following a smile curve
+- The "sad face" represents quadratic relationship with points following a frown curve
 - Data points follow the curve of the smile or frown
 
 ## Understanding the Problem
@@ -15,27 +15,27 @@ Correlation can be challenging to grasp intuitively, particularly for those new 
 ## Solution
 
 ### Step 1: Creating Visual Metaphors for Correlation
-We use emoji-like faces to represent different correlation patterns:
-- Smiley face for positive correlation: variables tend to increase or decrease together
-- Sad face for negative correlation: as one variable increases, the other decreases
+We use emoji-like faces to represent different relationship patterns:
+- Smiley face: points follow U-shaped pattern (quadratic relationship)
+- Sad face: points follow inverted U-shaped pattern (another quadratic relationship)
 
-### Step 2: Analyzing Positive Correlation
-For positive correlation, we observe:
-- Variables tend to increase or decrease together
+### Step 2: Analyzing the Smiley Face Pattern
+For the smiley face pattern, we observe:
+- Points follow a U-shaped pattern (quadratic relationship)
 - Data points visually follow the smiling curve
-- The covariance ellipse reflects the overall trend
-- Common examples include height-weight, study time-grades
+- The covariance ellipse reflects the overall spread of data
+- This pattern has very low linear correlation because it's not a linear relationship
 
 The correlation calculation for our smiley face data yields:
 
 $$\text{Correlation coefficient} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y} = \frac{-0.078}{\sqrt{1.416} \times \sqrt{0.188}} = -0.151$$
 
-### Step 3: Analyzing Negative Correlation
-For negative correlation, we observe:
-- As one variable increases, the other tends to decrease
+### Step 3: Analyzing the Frowny Face Pattern
+For the frowny face pattern, we observe:
+- Points follow an inverted U-shaped pattern (quadratic relationship)
 - Data points visually follow the frowning curve
-- The covariance ellipse reflects the overall trend
-- Common in trade-off relationships like speed-accuracy, price-demand
+- The covariance ellipse reflects the overall spread of data
+- This pattern has almost zero linear correlation despite the clear pattern
 
 The correlation calculation for our frowny face data yields:
 
@@ -45,7 +45,7 @@ $$\text{Correlation coefficient} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y} = \
 The smiley/sad faces provide an intuitive memory aid:
 - Smile curves upward ⌣, showing a general trend where y decreases then increases as x changes
 - Frown curves downward ⌢, showing a trend where y increases then decreases as x changes
-- Note: The *linear* correlation coefficient (ρ) might be low here because the relationship isn't purely linear, but the visual pattern is clear
+- Note: The *linear* correlation coefficient (ρ) is near zero in both cases because the relationships aren't linear, but the visual patterns are clear
 
 ### Step 5: Linear Correlation Limitations with Non-Linear Relationships
 
@@ -73,7 +73,7 @@ This emoji example powerfully demonstrates why data visualization should accompa
 
 ### Emoji Correlation Patterns
 ![Emoji Covariance Example](../Images/Contour_Plots/ex8_emoji_covariance_example.png)
-*Visualization of correlation patterns using emoji-like faces. The left panel shows data arranged in a "smile" pattern, representing positive trends where variables move together. The right panel shows data arranged in a "frown" pattern, representing negative trends where variables move in opposite directions.*
+*Visualization of correlation patterns using emoji-like faces. The left panel shows data arranged in a "smile" pattern with a calculated correlation of -0.15. The right panel shows data arranged in a "frown" pattern with a correlation of 0.007. Both demonstrate how linear correlation fails to capture these quadratic relationships.*
 
 ### Linear vs Non-Linear Correlation Comparison
 ![Linear vs Non-Linear Patterns](../Images/Contour_Plots/ex8_linear_vs_nonlinear_explanation.png)
@@ -82,20 +82,19 @@ This emoji example powerfully demonstrates why data visualization should accompa
 ## Key Insights
 
 ### Intuitive Understanding
-- Correlation is about how variables change together
-- Positive correlation: variables tend to increase or decrease together (like a smile)
-- Negative correlation: as one variable increases, the other tends to decrease (like a frown)
-- Facial expressions provide a natural mnemonic for understanding correlation patterns
+- Visualization helps us see patterns that summary statistics might miss
+- Non-linear relationships (like quadratic curves in our examples) are common in real-world data
+- Facial expressions provide a natural mnemonic for understanding different data patterns
 
 ### Educational Value
 - Visual metaphors help bridge the gap between abstract statistics and intuitive understanding
 - Using familiar patterns (facial expressions) leverages our natural pattern recognition abilities
 - This approach can make statistical concepts more accessible to beginners
-- The visualization serves as a memory aid for recalling correlation concepts
+- The visualization serves as a memory aid for recalling pattern concepts
 
 ### Statistical Limitations
 - The linear correlation coefficient may not fully capture non-linear relationships
-- In our emoji examples, the correlation coefficients are low because the relationships are curved
+- In our emoji examples, the correlation coefficients are near zero because the relationships are curved
 - This illustrates the importance of visualizing data rather than relying solely on summary statistics
 - Different types of correlation measures exist for non-linear relationships
 
