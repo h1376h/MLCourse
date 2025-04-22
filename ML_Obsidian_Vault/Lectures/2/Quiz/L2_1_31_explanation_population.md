@@ -22,6 +22,8 @@ The multivariate Gaussian (or normal) distribution is a generalization of the on
 
 ## Solution
 
+> **Note**: This solution uses the population covariance approach with denominator $n$. While this approach is mathematically simpler, it provides a biased estimator of the population covariance. For the preferred sample covariance approach using denominator $(n-1)$, see [Sample-based Solution](L2_1_31_explanation.md).
+
 ### Step 1: Calculate the Mean Vector and Covariance Matrix for Each Class
 
 The mean vector for a class is calculated by taking the average of all feature vectors in that class:
