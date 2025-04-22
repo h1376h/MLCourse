@@ -247,8 +247,6 @@ We have a training set consisting of samples and their labels. All samples come 
 
 After learning the parameters of a Naive Bayes classifier we arrived at the following table:
 
-Table 1: Naive Bayes conditional probabilities
-
 | | $Y = 0$ | $Y = 1$ |
 |:---:|:---:|:---:|
 | $X1$ | $P(X1 = 1\|Y = 0) = 1/5$ | $P(X1 = 1\|Y = 1) = 3/8$ |
