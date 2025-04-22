@@ -118,6 +118,35 @@ The covariance matrices can be visualized as heatmaps:
 
 ![Covariance Matrices](../Images/L2_1_Quiz_31/step1c_covariance_matrices.png)
 
+### Step 1.1: Calculate Determinants
+
+For **Class 0**, the determinant is calculated as:
+$$|\boldsymbol{\Sigma}_0| = \begin{vmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{vmatrix} = (1 \cdot 0.333) - (0.5 \cdot 0.5) = 0.333 - 0.25 = 0.083333$$
+
+For **Class 1**, the determinant is calculated as:
+$$|\boldsymbol{\Sigma}_1| = \begin{vmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{vmatrix} = (0.333 \cdot 1) - (0.5 \cdot 0.5) = 0.333 - 0.25 = 0.083333$$
+
+Note that both covariance matrices have the same determinant, which is a measure of the "volume" or "spread" of the distribution in 2D space.
+
+### Step 1.2: Calculate Inverse Matrices
+
+For a 2×2 matrix, the inverse is calculated using the formula:
+$$\mathbf{A}^{-1} = \frac{1}{|\mathbf{A}|} \begin{bmatrix} a_{22} & -a_{12} \\ -a_{21} & a_{11} \end{bmatrix}$$
+
+For **Class 0**:
+$$\boldsymbol{\Sigma}_0^{-1} = \frac{1}{0.083333} \begin{bmatrix} 0.333 & -0.5 \\ -0.5 & 1 \end{bmatrix} = \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix}$$
+
+Verification:
+$$\boldsymbol{\Sigma}_0 \boldsymbol{\Sigma}_0^{-1} = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix} \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
+
+For **Class 1**:
+$$\boldsymbol{\Sigma}_1^{-1} = \frac{1}{0.083333} \begin{bmatrix} 1 & -0.5 \\ -0.5 & 0.333 \end{bmatrix} = \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix}$$
+
+Verification:
+$$\boldsymbol{\Sigma}_1 \boldsymbol{\Sigma}_1^{-1} = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix} \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
+
+The inverse matrices will be used in calculating the quadratic form $(x-\mu)^T \Sigma^{-1} (x-\mu)$ in the multivariate Gaussian PDF.
+
 ### Step 2: Derive Expressions for the Probability Density Functions
 
 The multivariate Gaussian probability density function (PDF) is given by:
