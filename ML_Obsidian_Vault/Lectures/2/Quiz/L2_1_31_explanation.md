@@ -36,18 +36,81 @@ $$\boldsymbol{\mu}_1 = \frac{1}{3}\left(\begin{bmatrix} 5 \\ 2 \end{bmatrix} + \
 
 The covariance matrix is calculated as:
 
-$$\boldsymbol{\Sigma} = \frac{1}{n} \sum_{i=1}^{n} (\mathbf{x}^{(i)} - \boldsymbol{\mu})(\mathbf{x}^{(i)} - \boldsymbol{\mu})^T$$
+$$\boldsymbol{\Sigma} = \frac{1}{n-1} \sum_{i=1}^{n} (\mathbf{x}^{(i)} - \boldsymbol{\mu})(\mathbf{x}^{(i)} - \boldsymbol{\mu})^T$$
 
-For **Class 0**, we first compute the differences from the mean:
-$$\mathbf{x}^{(1)} - \boldsymbol{\mu}_0 = \begin{bmatrix} -1 \\ -0.667 \end{bmatrix}$$
-$$\mathbf{x}^{(2)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 0 \\ 0.333 \end{bmatrix}$$
-$$\mathbf{x}^{(3)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 1 \\ 0.333 \end{bmatrix}$$
+where:
+- $n$ is the number of samples (3 in our case)
+- $\mathbf{x}^{(i)}$ is the i-th feature vector
+- $\boldsymbol{\mu}$ is the mean vector
+- $(\mathbf{x}^{(i)} - \boldsymbol{\mu})$ is a column vector
+- $(\mathbf{x}^{(i)} - \boldsymbol{\mu})^T$ is its transpose (a row vector)
+- Their product gives a 2×2 matrix for each sample
 
-Then we compute the outer products and average them:
-$$\boldsymbol{\Sigma}_0 = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix}$$
+For **Class 0**, let's compute this step by step:
 
-Similarly, for **Class 1**, the covariance matrix is:
-$$\boldsymbol{\Sigma}_1 = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix}$$
+1. First, compute the differences from the mean for each point:
+   $$\mathbf{x}^{(1)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 1 \\ 2 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} -1 \\ -0.667 \end{bmatrix}$$
+   $$\mathbf{x}^{(2)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 2 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 0 \\ 0.333 \end{bmatrix}$$
+   $$\mathbf{x}^{(3)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 3 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 1 \\ 0.333 \end{bmatrix}$$
+
+2. Compute the outer product for each difference vector. For a vector $\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix}$, its outer product with itself is:
+   $$\mathbf{v}\mathbf{v}^T = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} \begin{bmatrix} v_1 & v_2 \end{bmatrix} = \begin{bmatrix} v_1^2 & v_1v_2 \\ v_1v_2 & v_2^2 \end{bmatrix}$$
+
+   For point 1:
+   $$\begin{bmatrix} -1 \\ -0.667 \end{bmatrix} \begin{bmatrix} -1 & -0.667 \end{bmatrix} = \begin{bmatrix} 1 & 0.667 \\ 0.667 & 0.444 \end{bmatrix}$$
+
+   For point 2:
+   $$\begin{bmatrix} 0 \\ 0.333 \end{bmatrix} \begin{bmatrix} 0 & 0.333 \end{bmatrix} = \begin{bmatrix} 0 & 0 \\ 0 & 0.111 \end{bmatrix}$$
+
+   For point 3:
+   $$\begin{bmatrix} 1 \\ 0.333 \end{bmatrix} \begin{bmatrix} 1 & 0.333 \end{bmatrix} = \begin{bmatrix} 1 & 0.333 \\ 0.333 & 0.111 \end{bmatrix}$$
+
+3. Sum all outer products:
+   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}_0)(\mathbf{x}^{(i)} - \boldsymbol{\mu}_0)^T = \begin{bmatrix} 2 & 1 \\ 1 & 0.667 \end{bmatrix}$$
+
+4. Divide by (n-1) = 2 to get the final covariance matrix:
+   $$\boldsymbol{\Sigma}_0 = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix}$$
+
+The elements of this covariance matrix have specific interpretations:
+- $\Sigma_{11} = 1$: Variance of the first feature (x-coordinate)
+- $\Sigma_{22} = 0.333$: Variance of the second feature (y-coordinate)
+- $\Sigma_{12} = \Sigma_{21} = 0.5$: Covariance between features
+
+The correlation coefficient between features is:
+$$\rho = \frac{\Sigma_{12}}{\sqrt{\Sigma_{11}\Sigma_{22}}} = \frac{0.5}{\sqrt{1 \cdot 0.333}} = 0.866$$
+
+Similarly, for **Class 1**, we follow the same steps:
+
+1. Compute differences from mean:
+   $$\mathbf{x}^{(1)} - \boldsymbol{\mu}_1 = \begin{bmatrix} 5 \\ 2 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} -0.667 \\ -1 \end{bmatrix}$$
+   $$\mathbf{x}^{(2)} - \boldsymbol{\mu}_1 = \begin{bmatrix} 6 \\ 3 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} 0.333 \\ 0 \end{bmatrix}$$
+   $$\mathbf{x}^{(3)} - \boldsymbol{\mu}_1 = \begin{bmatrix} 6 \\ 4 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} 0.333 \\ 1 \end{bmatrix}$$
+
+2. Compute outer products:
+   For point 1:
+   $$\begin{bmatrix} -0.667 \\ -1 \end{bmatrix} \begin{bmatrix} -0.667 & -1 \end{bmatrix} = \begin{bmatrix} 0.444 & 0.667 \\ 0.667 & 1 \end{bmatrix}$$
+
+   For point 2:
+   $$\begin{bmatrix} 0.333 \\ 0 \end{bmatrix} \begin{bmatrix} 0.333 & 0 \end{bmatrix} = \begin{bmatrix} 0.111 & 0 \\ 0 & 0 \end{bmatrix}$$
+
+   For point 3:
+   $$\begin{bmatrix} 0.333 \\ 1 \end{bmatrix} \begin{bmatrix} 0.333 & 1 \end{bmatrix} = \begin{bmatrix} 0.111 & 0.333 \\ 0.333 & 1 \end{bmatrix}$$
+
+3. Sum all outer products:
+   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}_1)(\mathbf{x}^{(i)} - \boldsymbol{\mu}_1)^T = \begin{bmatrix} 0.667 & 1 \\ 1 & 2 \end{bmatrix}$$
+
+4. Divide by (n-1) = 2 to get the final covariance matrix:
+   $$\boldsymbol{\Sigma}_1 = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix}$$
+
+Note that this covariance matrix has:
+- $\Sigma_{11} = 0.333$: Smaller variance in x-coordinate compared to Class 0
+- $\Sigma_{22} = 1$: Larger variance in y-coordinate compared to Class 0
+- $\Sigma_{12} = \Sigma_{21} = 0.5$: Same covariance as Class 0
+
+The correlation coefficient is also the same:
+$$\rho = \frac{\Sigma_{12}}{\sqrt{\Sigma_{11}\Sigma_{22}}} = \frac{0.5}{\sqrt{0.333 \cdot 1}} = 0.866$$
+
+This positive correlation in both classes indicates that as one feature increases, the other tends to increase as well, with a similar strength of relationship in both classes.
 
 ![Data and Covariance Visualization](../Images/L2_1_Quiz_31/step1_data_visualization.png)
 
