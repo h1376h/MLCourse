@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 30 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 33 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -491,3 +491,79 @@ The contour plot shows elliptical contours of a bivariate normal distribution.
 4. Draw a rough sketch of how the contour plot would change if the correlation between the variables became zero.
 
 For a detailed explanation of this problem, including properties of bivariate normal distributions and contour plot interpretation, see [Question 30: Contour Plot Interpretation](L2_1_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+You are given data from two classes with the following 2-dimensional feature vectors:
+
+**Class 0:** $\mathbf{x}^{(1)}=\begin{bmatrix} 1 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 2 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 3 \\ 3 \end{bmatrix}$  
+**Class 1:** $\mathbf{x}^{(1)}=\begin{bmatrix} 5 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 6 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 6 \\ 4 \end{bmatrix}$
+
+Assume that the feature vectors in each class follow a multivariate Gaussian distribution.
+
+#### Task
+1. Calculate the mean vector and covariance matrix for each class
+2. Using the multivariate Gaussian probability density function, derive expressions for $P(\mathbf{x}|\text{class }0)$ and $P(\mathbf{x}|\text{class }1)$
+3. Assuming equal prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, apply Bayes' theorem to classify
+
+#### Solution Approaches
+This problem can be tackled using multiple approaches:
+
+For a detailed explanation using the sample covariance formula (n-1 denominator), which provides an unbiased estimator, see [Question 31: Sample-based Solution](L2_1_31_explanation.md).
+
+For an alternative approach using the population covariance formula (n denominator), which was used in our class lectures, see [Alternative Solution: Population-based Approach](L2_1_31_explanation_population.md).
+
+Note that while the numerical values differ between these approaches, the fundamental concepts and final classification decisions remain the same, as the relative relationships between variables are preserved.
+
+## Question 32
+
+### Problem Statement
+Consider the two-class problem where the two-dimensional feature vector $\mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$ obeys the following class conditional distributions:
+
+$$f(\mathbf{x}|C_1) = N(\boldsymbol{\mu}_1, \boldsymbol{\Sigma}_1)$$
+$$f(\mathbf{x}|C_2) = N(\boldsymbol{\mu}_2, \boldsymbol{\Sigma}_2)$$
+
+where:
+$$\boldsymbol{\mu}_1 = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \quad \boldsymbol{\mu}_2 = \begin{bmatrix} 0.5 \\ 0.5 \end{bmatrix}, \quad \boldsymbol{\Sigma}_1 = \boldsymbol{\Sigma}_2 = \begin{bmatrix} 0.8 & 0.01 \\ 0.01 & 0.2 \end{bmatrix}$$
+
+Assuming apriori probabilities of the classes are same (i.e., $P(C_1) = P(C_2) = 0.5$)
+
+#### Task
+1. Determine the discriminant function for class $C_1$
+2. Determine the discriminant function for class $C_2$
+3. Determine the decision boundary
+4. Classify the given feature vector $\mathbf{x} = \begin{bmatrix} 0.1 \\ 0.5 \end{bmatrix}$
+
+For a detailed explanation of this problem, including discriminant function derivation, decision boundary analysis, and distance metric comparison, see [Question 32: Two-Class Gaussian Classification](L2_1_32_explanation.md).
+
+## Question 33
+
+### Problem Statement
+Given this data, where each feature vector $\mathbf{X}$ has 2 feature components $(x_1, x_2)$:
+
+|       | $\omega_1$ |      |      | $\omega_2$ |     |     | $\omega_3$ |      |      |      |      |      |
+| ----- | ---------- | ---- | ---- | ---------- | --- | --- | ---------- | ---- | ---- | ---- | ---- | ---- |
+| $x_1$ | 2.1        | 1.1  | 1.4  | 3.3        | 4.4 | 3.4 | 4.5        | 4.1  | -1.3 | -3.2 | -3.2 | -2.1 |
+| $x_2$ | -2.5       | -3.1 | -2.1 | -1.8       | 6.5 | 5.8 | 7.2        | 5.65 | -2.3 | -4.5 | -4.5 | -3.3 |
+
+#### Task
+1. Compute the mean vector $\boldsymbol{\mu}$ over all samples, and class means $\boldsymbol{\mu}_1$, $\boldsymbol{\mu}_2$ and $\boldsymbol{\mu}_3$:
+
+$$\boldsymbol{\mu} = \frac{1}{N}\sum_{i=1}^N \mathbf{X}_i$$
+$$\boldsymbol{\mu}_k = \frac{1}{N_k}\sum_{i=1}^{N_k} \mathbf{X}_i^{(k)}$$
+
+2. Calculate the within-class scatter matrix $\mathbf{S}_w$ for class $\omega_1$ only (to simplify calculations):
+
+$$\mathbf{S}_w^{(1)} = \sum_{i=1}^{N_1} (\mathbf{X}_i^{(1)} - \boldsymbol{\mu}_1)(\mathbf{X}_i^{(1)} - \boldsymbol{\mu}_1)^T$$
+
+3. Given $P(\omega_1) = 0.4$, $P(\omega_2) = 0.35$, $P(\omega_3) = 0.25$, write expressions for the discriminant functions $g_1(\mathbf{X})$, $g_2(\mathbf{X})$, and $g_3(\mathbf{X})$ assuming:
+   - Equal covariance matrices for all classes ($\mathbf{\Sigma}_1 = \mathbf{\Sigma}_2 = \mathbf{\Sigma}_3 = \mathbf{I}$)
+   - Normal distributions
+   - Using the identity matrix $\mathbf{I}$ as covariance matrix:
+
+$$g_k(\mathbf{X}) = -\frac{1}{2}(\mathbf{X} - \boldsymbol{\mu}_k)^T(\mathbf{X} - \boldsymbol{\mu}_k) + \ln P(\omega_k)$$
+
+4. For a new sample point $\mathbf{X} = \begin{bmatrix} 2.0 \\ 1.0 \end{bmatrix}$, determine which class it belongs to using your discriminant functions.
+
+For a detailed explanation of this problem, including mean vector calculations, scatter matrix analysis, and discriminant function derivation, see [Question 33: Discriminant Analysis](L2_1_33_explanation.md).
