@@ -156,6 +156,22 @@ Probability regions in multivariate normal distributions are directly related to
 **Left**: Probability density contours of a bivariate normal distribution.
 **Right**: The same distribution represented as Mahalanobis distance contours, which form perfect circles in the normalized space.
 
+The step-by-step visualization of Mahalanobis distance illustrates this concept:
+
+![Mahalanobis Step 1: Probability Density Contours](../Images/Contour_Plot_Visual_Answer/mahalanobis_step1.png)
+
+![Mahalanobis Step 2: Covariance Matrix and Its Inverse](../Images/Contour_Plot_Visual_Answer/mahalanobis_step2.png)
+
+![Mahalanobis Step 3: Mahalanobis Distance Contours](../Images/Contour_Plot_Visual_Answer/mahalanobis_step3.png)
+
+![Mahalanobis Step 4: Comparison of Contours](../Images/Contour_Plot_Visual_Answer/mahalanobis_step4.png)
+
+The step-by-step visualization shows:
+1. The original bivariate normal distribution with elliptical contours (step 1)
+2. The covariance matrix and its inverse used in Mahalanobis distance calculation (step 2)
+3. How Mahalanobis distance contours form circles in standardized space (step 3)
+4. Side-by-side comparison showing the relationship between probability density and Mahalanobis distance (step 4)
+
 ### Example 4: Conditional Distributions
 
 #### Problem Statement
@@ -182,6 +198,22 @@ Conditioning on specific values of one variable reveals important properties of 
 3. **Constant Variance**: The variance of Y|X remains constant regardless of the value of X:
    - Var(Y|X) = σ²ᵧ(1-ρ²)
    - Stronger correlation leads to smaller conditional variance
+
+The step-by-step visualization of conditional distributions:
+
+![Conditional Step 1: Joint Distribution](../Images/Contour_Plot_Visual_Answer/conditional_step1.png)
+
+![Conditional Step 2: Conditioning on X=0](../Images/Contour_Plot_Visual_Answer/conditional_step2.png)
+
+![Conditional Step 3: Resulting Conditional Distribution](../Images/Contour_Plot_Visual_Answer/conditional_step3.png)
+
+![Conditional Step 4: Changing the Conditioning Value](../Images/Contour_Plot_Visual_Answer/conditional_step4.png)
+
+The step-by-step visualization shows:
+1. The joint bivariate normal distribution (step 1)
+2. Conditioning on X = 0 (vertical slice through the joint distribution) (step 2)
+3. The resulting conditional distribution of Y given X = 0 (step 3)
+4. How conditional distributions change as we vary the conditioning value of X (step 4)
 
 Here's an animation sequence showing how conditional distributions change as we vary the value of $X$:
 
@@ -277,6 +309,25 @@ Contour plots and 3D surface plots provide complementary representations of the 
    - These intersections form curves of equal probability density
    - Projecting these curves to the xy-plane creates the contour lines
 
+The following sequence illustrates the geometric relationship between 3D surfaces and contour plots:
+
+![Geometric Step 1: 3D Probability Density Surface](../Images/Contour_Plot_Visual_Answer/geometric_step1.png)
+
+![Geometric Step 2: Horizontal Slice at Density = 0.1](../Images/Contour_Plot_Visual_Answer/geometric_step2.png)
+
+![Geometric Step 3: Intersection Curve](../Images/Contour_Plot_Visual_Answer/geometric_step3.png)
+
+![Geometric Step 4: Projecting to 2D](../Images/Contour_Plot_Visual_Answer/geometric_step4.png)
+
+![Geometric Step 5: Multiple Contour Lines](../Images/Contour_Plot_Visual_Answer/geometric_step5.png)
+
+The step-by-step visualization shows:
+1. The 3D probability density surface (step 1)
+2. Adding a horizontal slice through the surface (step 2)
+3. The intersection curve formed at the slice (step 3)
+4. Projecting this curve to the XY plane creates a contour (step 4)
+5. Multiple slices create multiple contours, forming a complete contour plot (step 5)
+
 3. **Advantages of Contour Plots**:
    - Easier to read precise values and locations
    - Better for comparing multiple distributions
@@ -291,14 +342,6 @@ Contour plots and 3D surface plots provide complementary representations of the 
    - Helpful for explaining the concept of probability density
 
 The relationship between these visualizations is analogous to topographic maps versus 3D terrain models. Contour plots provide precision and clarity for analysis, while 3D plots give intuition and overall shape understanding. Together, they provide a complete picture of multivariate probability distributions.
-
-##### Geometric Interpretation
-
-This visualization helps understand the relationship between the 3D probability density surface and its 2D contour representation:
-
-![Geometric Interpretation](../Images/Contour_Plot_Visual_Answer/geometric_interpretation.png)
-
-The colored horizontal planes intersect the probability density surface, creating the contour lines that are projected onto the $XY$ plane below.
 
 ## Key Insights
 
