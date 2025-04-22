@@ -18,17 +18,21 @@ def create_directories():
 
 def step_by_step_correlation_visual(save_dir):
     """Generate a step-by-step visualization of how correlation affects bivariate normal distribution"""
+    print("  • Creating grid of points for visualization...")
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
     
     # Choose correlation values for demonstration
     correlations = [0, 0.3, 0.6, 0.9]
+    print(f"  • Setting up correlation values for comparison: {correlations}")
     
     # Create figure
+    print("  • Setting up 2x2 grid of contour plots...")
     plt.figure(figsize=(12, 10))
     
     # Plot step 1: Standard Bivariate Normal (rho = 0)
+    print("  • Step 1: Creating standard bivariate normal (ρ = 0) with circular contours...")
     cov_matrix = [[1, 0], [0, 1]]
     rv = multivariate_normal(mean=[0, 0], cov=cov_matrix)
     pdf = rv.pdf(pos)
@@ -47,6 +51,7 @@ def step_by_step_correlation_visual(save_dir):
     confidence_ellipse(0, 0, 1, 1, 0, plt.gca(), n_std=2, facecolor='pink', alpha=0.3)
     
     # Plot step 2: Low Correlation (rho = 0.3)
+    print("  • Step 2: Creating bivariate normal with low correlation (ρ = 0.3) showing slight elliptical shape...")
     cov_matrix = [[1, 0.3], [0.3, 1]]
     rv = multivariate_normal(mean=[0, 0], cov=cov_matrix)
     pdf = rv.pdf(pos)
@@ -65,6 +70,7 @@ def step_by_step_correlation_visual(save_dir):
     confidence_ellipse(0, 0, 1, 1, 0.3, plt.gca(), n_std=2, facecolor='pink', alpha=0.3)
     
     # Plot step 3: Medium Correlation (rho = 0.6)
+    print("  • Step 3: Creating bivariate normal with medium correlation (ρ = 0.6) showing more elongated ellipse...")
     cov_matrix = [[1, 0.6], [0.6, 1]]
     rv = multivariate_normal(mean=[0, 0], cov=cov_matrix)
     pdf = rv.pdf(pos)
@@ -83,6 +89,7 @@ def step_by_step_correlation_visual(save_dir):
     confidence_ellipse(0, 0, 1, 1, 0.6, plt.gca(), n_std=2, facecolor='pink', alpha=0.3)
     
     # Plot step 4: High Correlation (rho = 0.9)
+    print("  • Step 4: Creating bivariate normal with high correlation (ρ = 0.9) showing highly elliptical shape...")
     cov_matrix = [[1, 0.9], [0.9, 1]]
     rv = multivariate_normal(mean=[0, 0], cov=cov_matrix)
     pdf = rv.pdf(pos)
@@ -101,11 +108,14 @@ def step_by_step_correlation_visual(save_dir):
     confidence_ellipse(0, 0, 1, 1, 0.9, plt.gca(), n_std=2, facecolor='pink', alpha=0.3)
     
     plt.tight_layout()
+    print("  • Saving step-by-step correlation visualization...")
     plt.savefig(os.path.join(save_dir, 'step_by_step_correlation.png'), dpi=300)
     plt.close()
+    print("  • Step-by-step correlation visualization complete")
 
 def correlation_comparison(save_dir):
     """Generate contour plots showing the effect of increasing correlation"""
+    print("  • Creating grid of points for correlation comparison...")
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
@@ -114,15 +124,18 @@ def correlation_comparison(save_dir):
     correlations = [0, 0.3, 0.6, 0.9]
     pdfs = []
     
+    print("  • Computing probability density functions for four correlation values...")
     for corr in correlations:
         cov_matrix = [[1, corr], [corr, 1]]
         rv = multivariate_normal(mean=[0, 0], cov=cov_matrix)
         pdfs.append(rv.pdf(pos))
     
     # Create figure with multiple plots
+    print("  • Setting up 2x2 grid for correlation comparison...")
     plt.figure(figsize=(15, 12))
     
     for i, (corr, pdf) in enumerate(zip(correlations, pdfs)):
+        print(f"  • Creating contour plot for correlation ρ = {corr}...")
         plt.subplot(2, 2, i+1)
         plt.contour(x, y, pdf, levels=10, cmap='viridis')
         plt.title(f'Correlation ρ = {corr}', fontsize=14)
@@ -139,8 +152,10 @@ def correlation_comparison(save_dir):
             plt.legend(loc='upper right')
     
     plt.tight_layout()
+    print("  • Saving correlation comparison visualization...")
     plt.savefig(os.path.join(save_dir, 'correlation_comparison.png'), dpi=300)
     plt.close()
+    print("  • Correlation comparison visualization complete")
 
 def confidence_ellipse(mu_x, mu_y, sigma_x, sigma_y, corr, ax, n_std=3.0, **kwargs):
     """
@@ -196,16 +211,19 @@ def confidence_ellipse(mu_x, mu_y, sigma_x, sigma_y, corr, ax, n_std=3.0, **kwar
 
 def step_by_step_mahalanobis(save_dir):
     """Generate a step-by-step visualization of Mahalanobis distance vs probability contours"""
+    print("  • Creating grid for Mahalanobis distance visualization...")
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
     
     # Create a correlated bivariate normal
+    print("  • Setting up correlated bivariate normal with covariance matrix...")
     cov_matrix = [[1, 0.7], [0.7, 2]]
     inv_cov = np.linalg.inv(cov_matrix)
     mu = np.array([0, 0])
     
     # Calculate Mahalanobis distance for each point
+    print("  • Calculating Mahalanobis distances...")
     x_flat = pos[:,:,0].flatten()
     y_flat = pos[:,:,1].flatten()
     xy = np.vstack([x_flat, y_flat]).T
@@ -213,10 +231,12 @@ def step_by_step_mahalanobis(save_dir):
     md = md.reshape(x.shape)
     
     # Create multivariate normal for PDF
+    print("  • Computing probability density function...")
     rv = multivariate_normal(mean=[0, 0], cov=cov_matrix)
     pdf = rv.pdf(pos)
     
     # ----- Step 1: Original probability density -----
+    print("  • Step 1: Visualizing original probability density contours...")
     plt.figure(figsize=(10, 8))
     contour1 = plt.contour(x, y, pdf, levels=10, cmap='viridis')
     plt.contourf(x, y, pdf, levels=20, cmap='viridis', alpha=0.3)
@@ -232,6 +252,7 @@ def step_by_step_mahalanobis(save_dir):
     plt.close()
     
     # ----- Step 2: Show the covariance matrix and its inverse -----
+    print("  • Step 2: Visualizing covariance matrix and its inverse...")
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
     
     # Display the covariance matrix
@@ -251,6 +272,7 @@ def step_by_step_mahalanobis(save_dir):
     plt.close()
     
     # ----- Step 3: Show Mahalanobis distance contours -----
+    print("  • Step 3: Creating Mahalanobis distance contours...")
     plt.figure(figsize=(10, 8))
     
     # Create circular Mahalanobis distance contours for proper visualization
@@ -268,6 +290,7 @@ def step_by_step_mahalanobis(save_dir):
     plt.axvline(x=0, color='k', linestyle='--', alpha=0.3)
     
     # Add annotations
+    print("  • Adding probability region annotations...")
     prob_annotations = {
         1: ('39.4%', (1.0, 0.5)),
         2: ('86.5%', (2.0, 1.0)),
@@ -284,6 +307,7 @@ def step_by_step_mahalanobis(save_dir):
     plt.close()
     
     # ----- Step 4: Compare probability and Mahalanobis contours -----
+    print("  • Step 4: Comparing probability density and Mahalanobis distance contours...")
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 7))
     
     # Plot probability density contours
@@ -320,18 +344,22 @@ def step_by_step_mahalanobis(save_dir):
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'mahalanobis_step4.png'), dpi=300)
     plt.close()
+    print("  • Step-by-step Mahalanobis distance visualization complete")
 
 def mahalanobis_distance_contours(save_dir):
     """Generate visualization of Mahalanobis distance contours"""
+    print("  • Setting up for Mahalanobis distance contours visualization...")
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
     
     # Create a correlated bivariate normal
+    print("  • Creating correlated bivariate normal distribution with correlation ρ = 0.7...")
     cov_matrix = [[1, 0.7], [0.7, 2]]
     inv_cov = np.linalg.inv(cov_matrix)
     
     # Calculate Mahalanobis distance for each point
+    print("  • Calculating Mahalanobis distances for the grid points...")
     mu = np.array([0, 0])
     
     # Vectorized Mahalanobis distance calculation
@@ -344,10 +372,12 @@ def mahalanobis_distance_contours(save_dir):
     md = md.reshape(x.shape)
     
     # Create multivariate normal for PDF
+    print("  • Computing probability density function...")
     rv = multivariate_normal(mean=[0, 0], cov=cov_matrix)
     pdf = rv.pdf(pos)
     
     # Create figure with two subplots
+    print("  • Creating comparative visualization with density contours and Mahalanobis contours...")
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 7))
     
     # Plot 1: Contours of probability density
@@ -362,20 +392,19 @@ def mahalanobis_distance_contours(save_dir):
     ax1.axvline(x=0, color='k', linestyle='--', alpha=0.3)
     
     # Plot 2: For the right panel, we'll create true circular Mahalanobis contours
-    # For this, we need to transform the original coordinates
-    
+    print("  • Calculating eigenvalues and eigenvectors for coordinate transformation...")
     # Calculate eigenvalues and eigenvectors of the covariance matrix
     eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
     
     # Create a transform matrix using eigenvectors and eigenvalues
-    # Scaling by sqrt of eigenvalues to create the transformation
     transform_matrix = eigenvectors @ np.diag(np.sqrt(eigenvalues))
-    
+
     # Create a new grid in the transformed space for perfectly circular contours
     u, v = np.mgrid[-3:3:.01, -3:3:.01]
     transformed_pos = np.zeros_like(pos)
     
     # Create circular Mahalanobis contours
+    print("  • Creating Mahalanobis contours in standardized space...")
     circle_grid_x, circle_grid_y = np.mgrid[-3:3:.01, -3:3:.01]
     circle_pos = np.dstack((circle_grid_x, circle_grid_y))
     
@@ -393,6 +422,7 @@ def mahalanobis_distance_contours(save_dir):
     ax2.axvline(x=0, color='k', linestyle='--', alpha=0.3)
     
     # Add probability annotations at fixed positions
+    print("  • Adding probability region annotations...")
     prob_annotations = {
         1: ('39.4%', (1.0, 0.5)),
         2: ('86.5%', (2.0, 1.0)),
@@ -405,22 +435,27 @@ def mahalanobis_distance_contours(save_dir):
                   bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
     
     plt.tight_layout()
+    print("  • Saving Mahalanobis distance comparison visualization...")
     plt.savefig(os.path.join(save_dir, 'mahalanobis_distance.png'), dpi=300)
     plt.close()
+    print("  • Mahalanobis distance comparison visualization complete")
 
 def step_by_step_conditional(save_dir):
     """Generate a step-by-step guide to understanding conditional distributions"""
+    print("  • Setting up for conditional distribution visualization...")
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
     
     # Create a correlated bivariate normal
     rho = 0.8
+    print(f"  • Creating bivariate normal with correlation ρ = {rho}...")
     cov_matrix = [[1, rho], [rho, 1]]
     rv = multivariate_normal(mean=[0, 0], cov=cov_matrix)
     pdf = rv.pdf(pos)
     
     # Step 1: Visualize the joint bivariate normal distribution
+    print("  • Step 1: Visualizing the joint bivariate normal distribution...")
     plt.figure(figsize=(10, 8))
     plt.contour(x, y, pdf, levels=10, colors='black', alpha=0.5)
     plt.contourf(x, y, pdf, levels=20, cmap='viridis', alpha=0.5)
@@ -444,6 +479,7 @@ def step_by_step_conditional(save_dir):
     plt.close()
     
     # Step 2: Illustrate the concept of conditioning on X = 0
+    print("  • Step 2: Illustrating the concept of conditioning on X = 0...")
     plt.figure(figsize=(10, 8))
     plt.contour(x, y, pdf, levels=10, colors='black', alpha=0.3)
     plt.contourf(x, y, pdf, levels=20, cmap='viridis', alpha=0.3)
@@ -472,12 +508,14 @@ def step_by_step_conditional(save_dir):
     plt.close()
     
     # Step 3: Show the resulting conditional distribution
+    print("  • Step 3: Showing the resulting conditional distribution...")
     plt.figure(figsize=(10, 8))
     plt.contour(x, y, pdf, levels=10, colors='black', alpha=0.3)
     plt.contourf(x, y, pdf, levels=20, cmap='viridis', alpha=0.3)
     
     # Calculate conditional distribution for X = 0
     x_val = 0
+    print(f"  • Calculating conditional distribution for X = {x_val}...")
     # Conditional mean: mu_Y|X = mu_Y + rho*(sigma_Y/sigma_X)*(x - mu_X)
     # For standardized variables: mu_Y|X = rho*x
     cond_mean = rho * x_val  
@@ -523,6 +561,7 @@ def step_by_step_conditional(save_dir):
     plt.close()
     
     # Step 4: Demonstrate how conditional distribution changes with X value
+    print("  • Step 4: Demonstrating how conditional distribution changes with different X values...")
     plt.figure(figsize=(10, 8))
     plt.contour(x, y, pdf, levels=10, colors='black', alpha=0.3)
     plt.contourf(x, y, pdf, levels=20, cmap='viridis', alpha=0.3)
@@ -532,6 +571,7 @@ def step_by_step_conditional(save_dir):
     colors = ['blue', 'green', 'red']
     
     for i, x_val in enumerate(x_values):
+        print(f"  • Calculating conditional distribution for X = {x_val}...")
         # Calculate conditional mean and variance
         cond_mean = rho * x_val
         cond_var = 1 * (1 - rho**2)
@@ -573,23 +613,28 @@ def step_by_step_conditional(save_dir):
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'conditional_step4.png'), dpi=300)
     plt.close()
+    print("  • Step-by-step conditional distribution visualization complete")
 
 def interactive_conditional_demo(save_dir):
     """Generate frames for a simulation of conditional distributions"""
+    print("  • Setting up grid for conditional distribution animation frames...")
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
     
     # Create a correlated bivariate normal
+    print("  • Creating bivariate normal with correlation ρ = 0.8...")
     cov_matrix = [[1, 0.8], [0.8, 1]]
     rv = multivariate_normal(mean=[0, 0], cov=cov_matrix)
     pdf = rv.pdf(pos)
     
     # Generate a sequence of x values
     x_values = np.linspace(-2, 2, 9)
+    print(f"  • Generating frames for X values from {x_values[0]} to {x_values[-1]}...")
     
     # Create figure for each x value
     for i, x_val in enumerate(x_values):
+        print(f"  • Creating frame {i+1}/9 for X = {x_val:.1f}...")
         plt.figure(figsize=(10, 8))
         
         # Plot contours of the joint distribution
@@ -640,18 +685,23 @@ def interactive_conditional_demo(save_dir):
         plt.tight_layout()
         plt.savefig(os.path.join(save_dir, f'conditional_demo_frame_{i+1}.png'), dpi=300)
         plt.close()
+    
+    print("  • All conditional distribution animation frames generated successfully")
 
 def step_by_step_geometric(save_dir):
     """Generate a step-by-step explanation of the geometric interpretation of contour plots"""
+    print("  • Setting up for geometric interpretation visualization...")
     # Create a grid of points
     x, y = np.mgrid[-3:3:.1, -3:3:.1]
     pos = np.dstack((x, y))
     
     # Create a standard bivariate normal for simplicity
+    print("  • Creating standard bivariate normal distribution (simpler for visualization)...")
     rv = multivariate_normal(mean=[0, 0], cov=[[1, 0], [0, 1]])
     pdf = rv.pdf(pos)
     
     # Step 1: Show the 3D probability density function
+    print("  • Step 1: Creating 3D probability density surface...")
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
     
@@ -675,6 +725,7 @@ def step_by_step_geometric(save_dir):
     plt.close()
     
     # Step 2: Show a horizontal slice through the PDF
+    print("  • Step 2: Adding a horizontal slice through the PDF at a constant height...")
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
     
@@ -707,6 +758,7 @@ def step_by_step_geometric(save_dir):
     plt.close()
     
     # Step 3: Show the intersection curve
+    print("  • Step 3: Highlighting the intersection curve between the horizontal plane and the surface...")
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
     
@@ -718,6 +770,7 @@ def step_by_step_geometric(save_dir):
     ax.plot_surface(X_plane, Y_plane, Z_plane, color='red', alpha=0.2)
     
     # Plot the intersection curve (for standard normal, it's a circle)
+    print("  • Calculating intersection curve (a circle for standard normal)...")
     theta = np.linspace(0, 2*np.pi, 100)
     # For standard normal: level = (1/(2π)) * exp(-r²/2), solving for r:
     r = np.sqrt(-2 * np.log(level * 2*np.pi))
@@ -743,6 +796,7 @@ def step_by_step_geometric(save_dir):
     plt.close()
     
     # Step 4: Show the projection of the curve to the xy-plane (the contour)
+    print("  • Step 4: Projecting the intersection curve to the xy-plane to create the contour line...")
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
     
@@ -757,6 +811,7 @@ def step_by_step_geometric(save_dir):
     ax.plot(x_level, y_level, np.zeros_like(x_level), 'r-', linewidth=4)
     
     # Add vertical lines connecting the curve to its projection
+    print("  • Adding vertical projection lines to show relationship between curve and contour...")
     for i in range(0, len(x_level), 10):  # Plot every 10th point to avoid cluttering
         xval, yval = x_level[i], y_level[i]
         ax.plot([xval, xval], [yval, yval], [0, level], 'r--', alpha=0.3)
@@ -777,6 +832,7 @@ def step_by_step_geometric(save_dir):
     plt.close()
     
     # Step 5: Show multiple contours (the complete contour plot)
+    print("  • Step 5: Adding multiple horizontal planes to create multiple contour lines...")
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
     
@@ -790,6 +846,7 @@ def step_by_step_geometric(save_dir):
     
     # Add horizontal planes and projected contours for each level
     for level, color in zip(levels, colors):
+        print(f"  • Adding horizontal plane and contour for density level = {level}...")
         # Add a horizontal plane at this height
         Z_plane = np.ones_like(X_plane) * level
         ax.plot_surface(X_plane, Y_plane, Z_plane, color=color, alpha=0.2)
@@ -812,6 +869,7 @@ def step_by_step_geometric(save_dir):
     ax.set_zlabel('Probability Density', fontsize=12)
     
     # Add legend
+    print("  • Adding legend for different density levels...")
     from matplotlib.lines import Line2D
     custom_lines = [Line2D([0], [0], color=c, lw=2) for c in colors]
     ax.legend(custom_lines, [f'Density = {level}' for level in levels], loc='upper right')
@@ -820,20 +878,25 @@ def step_by_step_geometric(save_dir):
     ax.view_init(elev=30, azim=240)
     
     plt.tight_layout()
+    print("  • Saving comprehensive geometric interpretation visualization...")
     plt.savefig(os.path.join(save_dir, 'geometric_step5.png'), dpi=300)
     plt.close()
+    print("  • Step-by-step geometric interpretation visualization complete")
 
 def geometric_interpretation(save_dir):
     """Generate visualization showing geometric interpretation of contour plots"""
+    print("  • Creating comprehensive geometric interpretation visualization...")
     # Create a grid of points
     x, y = np.mgrid[-3:3:.1, -3:3:.1]
     pos = np.dstack((x, y))
     
     # Create a standard bivariate normal
+    print("  • Creating standard bivariate normal distribution...")
     rv = multivariate_normal(mean=[0, 0], cov=[[1, 0], [0, 1]])
     pdf = rv.pdf(pos)
     
     # Create 3D figure
+    print("  • Setting up 3D visualization with horizontal planes and contours...")
     fig = plt.figure(figsize=(12, 10))
     ax = fig.add_subplot(111, projection='3d')
     
@@ -847,6 +910,7 @@ def geometric_interpretation(save_dir):
     
     # Add horizontal planes and projected contours
     for level, color in zip(levels, colors):
+        print(f"  • Adding plane and contour for density level = {level}...")
         # Add a horizontal plane at this height
         x_plane = np.linspace(-3, 3, 2)
         y_plane = np.linspace(-3, 3, 2)
@@ -856,7 +920,6 @@ def geometric_interpretation(save_dir):
         ax.plot_surface(X_plane, Y_plane, Z_plane, color=color, alpha=0.2)
         
         # Get the x,y points for this level using a simple approximation
-        # Create a dense circle of points and filter those close to the density level
         theta = np.linspace(0, 2*np.pi, 100)
         # For standard normal, we know the level curves are circles with radius = sqrt(-2*log(level))
         r = np.sqrt(-2 * np.log(level * np.sqrt(2*np.pi)))  # Radius for this level
@@ -867,6 +930,7 @@ def geometric_interpretation(save_dir):
         ax.plot(x_level, y_level, np.zeros_like(x_level), color=color, linewidth=3)
         
         # Plot vertical projection lines from contour to the surface
+        print("  • Adding vertical projection lines for this level...")
         for i in range(0, len(x_level), 10):  # Plot every 10th point to avoid cluttering
             xval, yval = x_level[i], y_level[i]
             z_vals = np.linspace(0, level, 20)
@@ -878,6 +942,7 @@ def geometric_interpretation(save_dir):
     ax.set_zlabel('Probability Density', fontsize=12)
     
     # Add legend
+    print("  • Adding legend for different density levels...")
     from matplotlib.lines import Line2D
     custom_lines = [Line2D([0], [0], color=c, lw=2) for c in colors]
     ax.legend(custom_lines, [f'Level {level}' for level in levels], loc='upper right')
@@ -886,57 +951,86 @@ def geometric_interpretation(save_dir):
     ax.view_init(elev=30, azim=240)
     
     plt.tight_layout()
+    print("  • Saving comprehensive geometric interpretation visualization...")
     plt.savefig(os.path.join(save_dir, 'geometric_interpretation.png'), dpi=300)
     plt.close()
+    print("  • Geometric interpretation visualization complete")
 
 def generate_answer_images():
     """Generate all images for the contour plot visual answers"""
     # Create directories
     save_dir = create_directories()
     
-    # Print the questions and generate corresponding step-by-step solutions
-    print("\n----- SOLVING VISUAL QUESTIONS WITH STEP-BY-STEP SOLUTIONS -----\n")
+    print("\n" + "="*80)
+    print(" CONTOUR PLOT VISUAL EXAMPLES: STEP-BY-STEP SOLUTIONS ")
+    print("="*80 + "\n")
     
     # Question 1
+    print("\n" + "-"*50)
     print("QUESTION 1: How does changing the correlation coefficient and variance affect the shape of contour plots in a bivariate normal distribution?")
-    print("Generating step-by-step solution...")
+    print("-"*50)
+    print("Step 1: Generating visualization showing how correlation transforms contours from circles to ellipses")
     step_by_step_correlation_visual(save_dir)
+    print("Step 2: Creating comparison of different correlation coefficients (0, 0.3, 0.6, 0.9)")
     correlation_comparison(save_dir)
-    print("Step-by-step solution for Question 1 completed. Images saved.\n")
+    print("✓ Generated correlation visualizations: step_by_step_correlation.png and correlation_comparison.png")
     
     # Question 2
+    print("\n" + "-"*50)
     print("QUESTION 2: How do contour plots represent complex non-Gaussian probability distributions, and what insights can be gained from these visualizations?")
-    print("This is answered through visualization of different distributions in the question file.")
-    print("Complex distributions like multimodal, ring-shaped, and other non-Gaussian forms can be effectively visualized with contour plots.\n")
+    print("-"*50)
+    print("✓ This is addressed through visualization of different distributions in the question file.")
+    print("  Complex distributions like multimodal, ring-shaped, and other non-Gaussian forms are visualized with contour plots.")
     
     # Question 3
+    print("\n" + "-"*50)
     print("QUESTION 3: What is the relationship between contour lines and probability regions in a bivariate normal distribution, and how does this extend our understanding of confidence intervals?")
-    print("Generating step-by-step solution...")
+    print("-"*50)
+    print("Step 1: Creating step-by-step Mahalanobis distance visualization")
     step_by_step_mahalanobis(save_dir)
+    print("Step 2: Generating comparison between probability density contours and Mahalanobis distance contours")
     mahalanobis_distance_contours(save_dir)
-    print("Step-by-step solution for Question 3 completed. Images saved.\n")
+    print("✓ Generated Mahalanobis distance visualizations: mahalanobis_step1-4.png and mahalanobis_distance.png")
     
     # Question 4
+    print("\n" + "-"*50)
     print("QUESTION 4: How do conditional distributions change as we vary the value of one variable in a bivariate normal distribution, and what does this tell us about the relationship between variables?")
-    print("Generating step-by-step solution...")
+    print("-"*50)
+    print("Step 1: Creating step-by-step explanation of conditional distributions")
     step_by_step_conditional(save_dir)
+    print("Step 2: Generating animation frames showing how conditional distributions shift as we vary X")
     interactive_conditional_demo(save_dir)
-    print("Step-by-step solution for Question 4 completed. Images saved.\n")
+    print("✓ Generated conditional distribution visualizations: conditional_step1-4.png and conditional_demo_frame_1-9.png")
     
     # Question 5 
+    print("\n" + "-"*50)
     print("QUESTION 5: What is the relationship between joint and marginal distributions, and what information is preserved or lost when examining only marginal distributions?")
-    print("This is answered through visualization of marginal distributions in the question file.")
-    print("Marginal distributions lose information about the correlation structure between variables when projected from the joint distribution.\n")
+    print("-"*50)
+    print("✓ This is addressed through visualization of marginal distributions in the question file.")
+    print("  Marginal distributions lose information about correlation structure between variables when projected from joint distribution.")
     
     # Question 6
+    print("\n" + "-"*50)
     print("QUESTION 6: What is the geometric relationship between 3D probability density surfaces and their 2D contour plot representations, and what are the advantages of each visualization?")
-    print("Generating step-by-step solution...")
+    print("-"*50)
+    print("Step 1: Creating step-by-step explanation of how contour plots are formed from 3D surfaces")
     step_by_step_geometric(save_dir)
+    print("Step 2: Generating comprehensive geometric interpretation visualization")
     geometric_interpretation(save_dir)
-    print("Step-by-step solution for Question 6 completed. Images saved.\n")
+    print("✓ Generated geometric interpretation visualizations: geometric_step1-5.png and geometric_interpretation.png")
     
-    print(f"Generated all answer images in {save_dir}")
-    print("All questions have been addressed with step-by-step solutions.")
+    print("\n" + "="*80)
+    print(f"All visualizations have been generated and saved to:")
+    print(f"{save_dir}")
+    print("="*80 + "\n")
+    
+    print("SUMMARY OF GENERATED IMAGES:")
+    print("1. Correlation effects: step_by_step_correlation.png, correlation_comparison.png")
+    print("2. Mahalanobis distance: mahalanobis_step1.png through mahalanobis_step4.png, mahalanobis_distance.png")
+    print("3. Conditional distributions: conditional_step1.png through conditional_step4.png")
+    print("4. Conditional distribution animation: conditional_demo_frame_1-9.png")
+    print("5. Geometric interpretation: geometric_step1-5.png, geometric_interpretation.png")
+    
     return save_dir
 
 if __name__ == "__main__":
