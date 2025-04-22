@@ -132,8 +132,6 @@ The quadratic equation and its solutions can be visualized as follows:
 
 ![Likelihood Function](../Images/L2_5_Quiz_17/likelihood_function.png)
 
-![Naive Bayes Solution](../Images/L2_5_Quiz_17/naive_bayes_solution.png)
-
 ## Visual Explanations
 
 ### Naive Bayes Graphical Model
@@ -174,5 +172,3 @@ In this problem, we determined that the prior probability of class 1 is $w_1 = P
 The solution process demonstrates how the Naive Bayes assumption of conditional independence allows us to factorize complex joint probabilities into simpler terms, making the model both computationally efficient and mathematically tractable.
 
 The fraction $\frac{1}{3}$ represents the prior probability of class 1, meaning that before considering any features, we believe there's a one-third chance that a randomly selected sample belongs to class 1. 
-
-![Solution Summary](../Images/L2_5_Quiz_17/naive_bayes_solution.png) 
