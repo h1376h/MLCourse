@@ -38,7 +38,7 @@ The covariance matrix is calculated as:
 
 $$\boldsymbol{\Sigma} = \frac{1}{n} \sum_{i=1}^{n} (\mathbf{x}^{(i)} - \boldsymbol{\mu})(\mathbf{x}^{(i)} - \boldsymbol{\mu})^T$$
 
-> **Note**: While some texts use $\frac{1}{n}$ for population covariance, we use $\frac{1}{n-1}$ here as it provides an unbiased sample estimator.
+> **Note**: We use $\frac{1}{n}$ for population covariance here, though this is not ideal for real-world applications. Using $\frac{1}{n-1}$ (sample covariance) would provide an unbiased estimator and is generally preferred when working with sample data to account for the loss of one degree of freedom in estimation.
 
 where:
 - $n$ is the number of samples (3 in our case)
