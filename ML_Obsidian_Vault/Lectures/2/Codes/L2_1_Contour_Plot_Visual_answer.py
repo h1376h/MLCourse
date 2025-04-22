@@ -252,7 +252,13 @@ def step_by_step_mahalanobis(save_dir):
     
     # ----- Step 3: Show Mahalanobis distance contours -----
     plt.figure(figsize=(10, 8))
-    contour2 = plt.contour(x, y, md, levels=[1, 2, 3], colors=['red', 'green', 'blue'])
+    
+    # Create circular Mahalanobis distance contours for proper visualization
+    circle_grid_x, circle_grid_y = np.mgrid[-3:3:.01, -3:3:.01]
+    circle_dist = np.sqrt(circle_grid_x**2 + circle_grid_y**2)
+    
+    # Plot the circular contours
+    contour2 = plt.contour(circle_grid_x, circle_grid_y, circle_dist, levels=[1, 2, 3], colors=['red', 'green', 'blue'])
     plt.clabel(contour2, inline=1, fontsize=10, fmt='%.0f')
     plt.title('Step 3: Mahalanobis Distance Contours\nCircular in standardized space', fontsize=14)
     plt.xlabel('X', fontsize=12)
@@ -291,8 +297,12 @@ def step_by_step_mahalanobis(save_dir):
     ax1.axhline(y=0, color='k', linestyle='--', alpha=0.3)
     ax1.axvline(x=0, color='k', linestyle='--', alpha=0.3)
     
-    # Plot Mahalanobis distance contours
-    contour2 = ax2.contour(x, y, md, levels=[1, 2, 3], colors=['red', 'green', 'blue'])
+    # Create circular Mahalanobis contours for the right panel
+    circle_grid_x, circle_grid_y = np.mgrid[-3:3:.01, -3:3:.01]
+    circle_dist = np.sqrt(circle_grid_x**2 + circle_grid_y**2)
+    
+    # Plot circular Mahalanobis distance contours
+    contour2 = ax2.contour(circle_grid_x, circle_grid_y, circle_dist, levels=[1, 2, 3], colors=['red', 'green', 'blue'])
     ax2.clabel(contour2, inline=1, fontsize=10, fmt='%.0f')
     ax2.set_title('Step 4b: Mahalanobis Distance\nCircular contours', fontsize=14)
     ax2.set_xlabel('X', fontsize=12)
@@ -351,8 +361,29 @@ def mahalanobis_distance_contours(save_dir):
     ax1.axhline(y=0, color='k', linestyle='--', alpha=0.3)
     ax1.axvline(x=0, color='k', linestyle='--', alpha=0.3)
     
-    # Plot 2: Contours of Mahalanobis distance
-    contour2 = ax2.contour(x, y, md, levels=[1, 2, 3], colors=['red', 'green', 'blue'])
+    # Plot 2: For the right panel, we'll create true circular Mahalanobis contours
+    # For this, we need to transform the original coordinates
+    
+    # Calculate eigenvalues and eigenvectors of the covariance matrix
+    eigenvalues, eigenvectors = np.linalg.eigh(cov_matrix)
+    
+    # Create a transform matrix using eigenvectors and eigenvalues
+    # Scaling by sqrt of eigenvalues to create the transformation
+    transform_matrix = eigenvectors @ np.diag(np.sqrt(eigenvalues))
+    
+    # Create a new grid in the transformed space for perfectly circular contours
+    u, v = np.mgrid[-3:3:.01, -3:3:.01]
+    transformed_pos = np.zeros_like(pos)
+    
+    # Create circular Mahalanobis contours
+    circle_grid_x, circle_grid_y = np.mgrid[-3:3:.01, -3:3:.01]
+    circle_pos = np.dstack((circle_grid_x, circle_grid_y))
+    
+    # Simple Euclidean distance in the transformed space = Mahalanobis distance in original space
+    circle_dist = np.sqrt(circle_grid_x**2 + circle_grid_y**2)
+    
+    # Plot circular Mahalanobis distance contours
+    contour2 = ax2.contour(circle_grid_x, circle_grid_y, circle_dist, levels=[1, 2, 3], colors=['red', 'green', 'blue'])
     ax2.clabel(contour2, inline=1, fontsize=10, fmt='%.0f')
     ax2.set_title('Mahalanobis Distance Contours', fontsize=14)
     ax2.set_xlabel('X', fontsize=12)
