@@ -11,8 +11,9 @@ Assume that the feature vectors in each class follow a multivariate Gaussian dis
 ### Task
 1. Calculate the mean vector and covariance matrix for each class
 2. Using the multivariate Gaussian probability density function, derive expressions for $P(\mathbf{x}|\text{class }0)$ and $P(\mathbf{x}|\text{class }1)$
-3. Assuming equal prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, apply Bayes' theorem to classify the new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$
-4. How would your classification change if the prior probabilities were $P(\text{class }0) = 0.8$ and $P(\text{class }1) = 0.2$?
+3. Assuming equal prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, calculate $P(\text{class }0|\text{data})$ and $P(\text{class }1|\text{data})$ for each data point using Bayes' theorem
+4. Assuming equal prior probabilities, apply Bayes' theorem to classify the new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$
+5. How would your classification change if the prior probabilities were $P(\text{class }0) = 0.8$ and $P(\text{class }1) = 0.2$?
 
 ## Understanding the Problem
 
@@ -207,7 +208,138 @@ We can also visualize the PDFs in 3D to better understand their shapes:
 
 ![3D PDFs](../Images/L2_1_Quiz_31/a_step2d_3d_gaussian_pdfs.png)
 
-### Step 3: Apply Bayes' Theorem with Equal Prior Probabilities
+### Step 3: Calculate Posterior Probabilities for Each Data Point
+
+Now that we have derived the probability density functions for each class, we can use Bayes' theorem to calculate the posterior probabilities for each data point in our training set. This step helps us verify the classification power of our model on the known data.
+
+Bayes' theorem states:
+
+$$P(\text{class}|\mathbf{x}) = \frac{P(\mathbf{x}|\text{class}) \cdot P(\text{class})}{P(\mathbf{x})}$$
+
+where $P(\mathbf{x})$ is the evidence and can be calculated as:
+
+$$P(\mathbf{x}) = \sum_{k} P(\mathbf{x}|\text{class}^{(k)}) \cdot P(\text{class}^{(k)})$$
+
+Assuming equal prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, we'll calculate the posterior probabilities for each data point.
+
+#### Class 0 Data Points
+
+For the first data point in Class 0, $\mathbf{x}^{(1)} = \begin{bmatrix} 1 \\ 2 \end{bmatrix}$:
+
+1. Calculate likelihoods:
+   - $P(\mathbf{x}^{(1)}|\text{class }0) = 0.30423385$
+   - $P(\mathbf{x}^{(1)}|\text{class }1) \approx 0$ (extremely small value)
+
+2. Calculate evidence:
+   - $P(\mathbf{x}^{(1)}) = 0.30423385 \times 0.5 + 0 \times 0.5 = 0.15211692$
+
+3. Calculate posteriors:
+   - $P(\text{class }0|\mathbf{x}^{(1)}) = \frac{0.30423385 \times 0.5}{0.15211692} = 1.0$
+   - $P(\text{class }1|\mathbf{x}^{(1)}) = \frac{0 \times 0.5}{0.15211692} = 0$
+
+For the second data point in Class 0, $\mathbf{x}^{(2)} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}$:
+
+1. Calculate likelihoods:
+   - $P(\mathbf{x}^{(2)}|\text{class }0) = 0.30423385$
+   - $P(\mathbf{x}^{(2)}|\text{class }1) \approx 0$ (extremely small value)
+
+2. Calculate evidence:
+   - $P(\mathbf{x}^{(2)}) = 0.30423385 \times 0.5 + 0 \times 0.5 = 0.15211692$
+
+3. Calculate posteriors:
+   - $P(\text{class }0|\mathbf{x}^{(2)}) = 1.0$
+   - $P(\text{class }1|\mathbf{x}^{(2)}) = 0$
+
+For the third data point in Class 0, $\mathbf{x}^{(3)} = \begin{bmatrix} 3 \\ 3 \end{bmatrix}$:
+
+1. Calculate likelihoods:
+   - $P(\mathbf{x}^{(3)}|\text{class }0) = 0.30423385$
+   - $P(\mathbf{x}^{(3)}|\text{class }1) \approx 0$ (extremely small value)
+
+2. Calculate evidence:
+   - $P(\mathbf{x}^{(3)}) = 0.30423385 \times 0.5 + 0 \times 0.5 = 0.15211692$
+
+3. Calculate posteriors:
+   - $P(\text{class }0|\mathbf{x}^{(3)}) = 1.0$
+   - $P(\text{class }1|\mathbf{x}^{(3)}) = 0$
+
+#### Class 1 Data Points
+
+For the first data point in Class 1, $\mathbf{x}^{(1)} = \begin{bmatrix} 5 \\ 2 \end{bmatrix}$:
+
+1. Calculate likelihoods:
+   - $P(\mathbf{x}^{(1)}|\text{class }0) \approx 0$ (extremely small value)
+   - $P(\mathbf{x}^{(1)}|\text{class }1) = 0.30423385$
+
+2. Calculate evidence:
+   - $P(\mathbf{x}^{(1)}) = 0 \times 0.5 + 0.30423385 \times 0.5 = 0.15211692$
+
+3. Calculate posteriors:
+   - $P(\text{class }0|\mathbf{x}^{(1)}) = 0$
+   - $P(\text{class }1|\mathbf{x}^{(1)}) = 1.0$
+
+For the second data point in Class 1, $\mathbf{x}^{(2)} = \begin{bmatrix} 6 \\ 3 \end{bmatrix}$:
+
+1. Calculate likelihoods:
+   - $P(\mathbf{x}^{(2)}|\text{class }0) \approx 0$ (extremely small value)
+   - $P(\mathbf{x}^{(2)}|\text{class }1) = 0.30423385$
+
+2. Calculate evidence:
+   - $P(\mathbf{x}^{(2)}) = 0 \times 0.5 + 0.30423385 \times 0.5 = 0.15211692$
+
+3. Calculate posteriors:
+   - $P(\text{class }0|\mathbf{x}^{(2)}) = 0$
+   - $P(\text{class }1|\mathbf{x}^{(2)}) = 1.0$
+
+For the third data point in Class 1, $\mathbf{x}^{(3)} = \begin{bmatrix} 6 \\ 4 \end{bmatrix}$:
+
+1. Calculate likelihoods:
+   - $P(\mathbf{x}^{(3)}|\text{class }0) \approx 0.00000009$ (very small but non-zero)
+   - $P(\mathbf{x}^{(3)}|\text{class }1) = 0.30423385$
+
+2. Calculate evidence:
+   - $P(\mathbf{x}^{(3)}) = 0.00000009 \times 0.5 + 0.30423385 \times 0.5 = 0.15211697$
+
+3. Calculate posteriors:
+   - $P(\text{class }0|\mathbf{x}^{(3)}) \approx 0.00000031$
+   - $P(\text{class }1|\mathbf{x}^{(3)}) \approx 0.99999969$
+
+#### Analysis of the Results
+
+Looking at the posterior probabilities for each data point, we observe that:
+
+1. All data points from Class 0 have posterior probability $P(\text{class }0|\mathbf{x}) = 1.0$, meaning they are correctly classified with 100% confidence.
+2. All data points from Class 1 have posterior probability $P(\text{class }1|\mathbf{x})$ very close to 1.0, meaning they are also correctly classified with near 100% confidence.
+
+This perfect separation indicates that our multivariate Gaussian model effectively captures the distribution of each class, allowing for accurate classification of the training data points. The visualization below shows the posterior probabilities for each class across all data points:
+
+![Posterior Probabilities](../Images/L2_1_Quiz_31/a_step3_posterior_probabilities.png)
+
+The visualization above combines two complementary perspectives:
+
+1. **Top Panel - Spatial Visualization**: 
+   - Shows the feature space with the original data points (blue circles for Class 0, red squares for Class 1)
+   - Displays the decision boundary (black line) where posterior probabilities for both classes are equal (0.5)
+   - Uses a color gradient to visualize posterior probability P(Class 0|x) across the entire feature space
+   - Darker blue regions indicate higher probability of Class 0, darker red regions indicate higher probability of Class 1
+   - Also includes the new point (green star) to be classified
+
+2. **Bottom Panel - Posterior Probabilities Bar Chart**:
+   - Displays the exact posterior probability values for each data point
+   - Blue bars represent P(Class 0|data), red bars represent P(Class 1|data)
+   - The horizontal dashed line at 0.5 represents the decision threshold
+   - The vertical separator divides the true Class 0 points (left) from the true Class 1 points (right)
+
+This comprehensive visualization reveals several key insights:
+
+1. All training points are classified correctly with extremely high confidence (posterior probabilities near 1.0)
+2. The decision boundary clearly separates the two classes with no overlap
+3. The probability gradient shows how confidence in classification changes smoothly across the feature space
+4. The new point (4,3) falls in the Class 0 region but is relatively close to the decision boundary
+
+This result demonstrates the strong discriminative power of our model on the training data, which is a good sign for its ability to correctly classify new, unseen data points.
+
+### Step 4: Apply Bayes' Theorem with Equal Prior Probabilities
 
 Bayes' theorem states:
 
@@ -240,7 +372,7 @@ This means points are classified as Class 1 if the log-likelihood ratio is posit
 
 ![Decision Boundary](../Images/L2_1_Quiz_31/a_step3a_decision_boundary.png)
 
-### Step 4: Classification with Different Prior Probabilities
+### Step 5: Classification with Different Prior Probabilities
 
 Now, let's apply Bayes' theorem with the new priors $P(\text{class }0) = 0.8$ and $P(\text{class }1) = 0.2$:
 
@@ -262,7 +394,7 @@ This means we need stronger evidence (a higher likelihood for Class 1) to classi
 
 ![Decision Boundaries Comparison](../Images/L2_1_Quiz_31/a_step4a_boundaries_comparison.png)
 
-### Step 5: Decision Regions
+### Step 6: Decision Regions
 
 To better visualize how the classification changes with different priors, we can plot the decision regions:
 

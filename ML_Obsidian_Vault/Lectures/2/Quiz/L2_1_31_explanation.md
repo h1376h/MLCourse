@@ -11,8 +11,9 @@ Assume that the feature vectors in each class follow a multivariate Gaussian dis
 ### Task
 1. Calculate the mean vector and covariance matrix for each class
 2. Using the multivariate Gaussian probability density function, derive expressions for $P(\mathbf{x}|\text{class }0)$ and $P(\mathbf{x}|\text{class }1)$
-3. Assuming equal prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, apply Bayes' theorem to classify the new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$
-4. How would your classification change if the prior probabilities were $P(\text{class }0) = 0.8$ and $P(\text{class }1) = 0.2$?
+3. Assuming equal prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, calculate $P(\text{class }0|\text{data})$ and $P(\text{class }1|\text{data})$ for each data point using Bayes' theorem
+4. Assuming equal prior probabilities, apply Bayes' theorem to classify the new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$
+5. How would your classification change if the prior probabilities were $P(\text{class }0) = 0.8$ and $P(\text{class }1) = 0.2$?
 
 ## Understanding the Problem
 
