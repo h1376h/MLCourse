@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 30 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 31 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -497,15 +497,14 @@ For a detailed explanation of this problem, including properties of bivariate no
 ### Problem Statement
 You are given data from two classes with the following 2-dimensional feature vectors:
 
-**Class 0:** $x_1=[1,2]$, $x_2=[2,3]$, $x_3=[3,3]$  
-**Class 1:** $x_1=[5,2]$, $x_2=[6,3]$, $x_3=[6,4]$
+**Class 0:** $\mathbf{x}^{(1)}=\begin{bmatrix} 1 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 2 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 3 \\ 3 \end{bmatrix}$  
+**Class 1:** $\mathbf{x}^{(1)}=\begin{bmatrix} 5 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 6 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 6 \\ 4 \end{bmatrix}$
 
 Assume that the feature vectors in each class follow a multivariate Gaussian distribution.
 
 #### Task
 1. Calculate the mean vector and covariance matrix for each class
-2. Using the multivariate Gaussian probability density function, derive expressions for $P(\mathbf{x}|\text{class 0})$ and $P(\mathbf{x}|\text{class 1})$
-3. Assuming equal prior probabilities for both classes $P(\text{class 0}) = P(\text{class 1}) = 0.5$, apply Bayes' theorem to classify the new data point $\mathbf{x}_{new} = [4,3]$
-4. How would your classification change if the prior probabilities were $P(\text{class 0}) = 0.8$ and $P(\text{class 1}) = 0.2$?
+2. Using the multivariate Gaussian probability density function, derive expressions for $P(\mathbf{x}|\text{class }0)$ and $P(\mathbf{x}|\text{class }1)$
+3. Assuming equal prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, apply Bayes' theorem to classify
 
 For a detailed explanation of this problem, including step-by-step calculations, multivariate Gaussian properties, and Bayesian classification, see [Question 31: Multivariate Gaussian Classification](L2_1_31_explanation.md).

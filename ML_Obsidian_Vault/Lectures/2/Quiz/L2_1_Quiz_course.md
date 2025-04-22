@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 24 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 25 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -406,3 +406,20 @@ The contour plot shows elliptical contours of a bivariate normal distribution.
 4. Draw a rough sketch of how the contour plot would change if the correlation between the variables became zero.
 
 For a detailed explanation of this problem, including properties of bivariate normal distributions and contour plot interpretation, see [Question 24: Contour Plot Interpretation](L2_1_30_explanation.md).
+
+## Question 25
+
+### Problem Statement
+You are given data from two classes with the following 2-dimensional feature vectors:
+
+**Class 0:** $\mathbf{x}^{(1)}=\begin{bmatrix} 1 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 2 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 3 \\ 3 \end{bmatrix}$  
+**Class 1:** $\mathbf{x}^{(1)}=\begin{bmatrix} 5 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 6 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 6 \\ 4 \end{bmatrix}$
+
+Assume that the feature vectors in each class follow a multivariate Gaussian distribution.
+
+#### Task
+1. Calculate the mean vector and covariance matrix for each class
+2. Using the multivariate Gaussian probability density function, derive expressions for $P(\mathbf{x}|\text{class }0)$ and $P(\mathbf{x}|\text{class }1)$
+3. Assuming equal prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, apply Bayes' theorem to classify
+
+For a detailed explanation of this problem, including step-by-step calculations, multivariate Gaussian properties, and Bayesian classification, see [Question 25: Multivariate Gaussian Classification](L2_1_31_explanation.md).
