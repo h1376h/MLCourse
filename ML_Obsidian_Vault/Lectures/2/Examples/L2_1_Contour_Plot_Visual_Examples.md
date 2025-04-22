@@ -224,6 +224,10 @@ As the correlation coefficient increases from 0 to 0.9, we can observe several k
 
 4. **Decreased area**: Though containing the same probability (95%), the area of the region decreases with higher correlation, showing that the uncertainty is concentrated in a narrower region along the correlation direction.
 
+**Step-by-step transformation:**
+
+![Step-by-step Correlation](../Images/Contour_Plot_Visual_Answer/step_by_step_correlation.png)
+
 This transformation visually demonstrates that as correlation increases:
 - The variables become more predictable from each other
 - A change in one variable is more likely to be accompanied by a proportional change in the other
@@ -258,6 +262,24 @@ The key insights:
    - The 1-unit Mahalanobis distance contour contains 39.4% of the probability
    - The 2-unit contour contains 86.5% of the probability
    - The 3-unit contour contains 98.9% of the probability
+
+**Step-by-step understanding:**
+
+![Mahalanobis Step 1](../Images/Contour_Plot_Visual_Answer/mahalanobis_step1.png)
+
+Step 1: The original probability density contours are elliptical due to correlation between variables.
+
+![Mahalanobis Step 2](../Images/Contour_Plot_Visual_Answer/mahalanobis_step2.png)
+
+Step 2: The covariance matrix (left) encodes the correlation and variances, while its inverse (right) is used in the Mahalanobis distance calculation.
+
+![Mahalanobis Step 3](../Images/Contour_Plot_Visual_Answer/mahalanobis_step3.png)
+
+Step 3: Mahalanobis distance contours are circular, with each circle representing a specific probability content.
+
+![Mahalanobis Step 4](../Images/Contour_Plot_Visual_Answer/mahalanobis_step4.png)
+
+Step 4: Comparison showing how the same distribution can be represented both as elliptical probability contours (left) and circular Mahalanobis distance contours (right).
 
 4. **Practical applications**: This transformation is crucial for:
    - **Outlier detection**: Identifying unusual observations consistently regardless of correlation structure
@@ -296,6 +318,24 @@ This visualization illustrates the concept of conditional probability in bivaria
    - The variance of the conditional distribution is constant: Var(Y|X) = σ²ᵧ(1-ρ²)
    - As correlation ρ increases, the conditional variance decreases, reflecting greater predictive power
 
+**Step-by-step understanding:**
+
+![Conditional Step 1](../Images/Contour_Plot_Visual_Answer/conditional_step1.png)
+
+Step 1: The joint distribution of X and Y, showing contours of equal probability density.
+
+![Conditional Step 2](../Images/Contour_Plot_Visual_Answer/conditional_step2.png)
+
+Step 2: Conditioning on X = 0 creates a vertical slice through the joint distribution.
+
+![Conditional Step 3](../Images/Contour_Plot_Visual_Answer/conditional_step3.png)
+
+Step 3: The conditional distribution P(Y|X=0) follows a normal distribution with mean 0 and reduced variance.
+
+![Conditional Step 4](../Images/Contour_Plot_Visual_Answer/conditional_step4.png)
+
+Step 4: Comparing conditional distributions at different X values shows how the mean shifts along the regression line while the variance remains constant.
+
 This visualization elegantly demonstrates how conditioning on one variable "slices" through the joint distribution, producing a normal distribution whose mean depends on the conditioning value and whose variance is reduced compared to the marginal variance of Y.
 
 ### Visual Question 4: Geometric Interpretation of Contour Plots
@@ -322,6 +362,28 @@ This visualization powerfully illustrates the geometric relationship between a 3
 4. **Contour lines**: The colored lines on the xy-plane (at z=0) are the projections of these intersection curves - these are precisely the contour lines we see in a traditional contour plot.
 
 5. **Vertical projection lines**: The dashed vertical lines show how points from the 3D intersection curves map down to the 2D contour lines.
+
+**Step-by-step understanding:**
+
+![Geometric Step 1](../Images/Contour_Plot_Visual_Answer/geometric_step1.png)
+
+Step 1: The 3D probability density surface, with height representing the density at each point (x,y).
+
+![Geometric Step 2](../Images/Contour_Plot_Visual_Answer/geometric_step2.png)
+
+Step 2: A horizontal plane (red) intersects the surface at a constant density level.
+
+![Geometric Step 3](../Images/Contour_Plot_Visual_Answer/geometric_step3.png)
+
+Step 3: The intersection forms a curve of constant probability density.
+
+![Geometric Step 4](../Images/Contour_Plot_Visual_Answer/geometric_step4.png)
+
+Step 4: Projecting this curve to the xy-plane creates a contour line.
+
+![Geometric Step 5](../Images/Contour_Plot_Visual_Answer/geometric_step5.png)
+
+Step 5: Multiple intersections at different heights create multiple contour lines, forming a complete contour plot.
 
 This visualization helps us understand that:
 
