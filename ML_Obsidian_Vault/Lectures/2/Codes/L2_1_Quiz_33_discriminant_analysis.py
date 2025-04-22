@@ -256,14 +256,32 @@ def main():
     print("Detailed calculation for the overall mean vector:")
     print(f"Data points from all classes:")
     for i, point in enumerate(all_data):
-        print(f"X_{i+1} = [{point[0]}, {point[1]}]")
+        print(f"X_{i+1} = [{point[0]:.1f}, {point[1]:.1f}]")
     
     print(f"\nTotal number of data points: N = {len(all_data)}")
-    print(f"Sum of all x1 values: {np.sum(all_data[:, 0])}")
-    print(f"Sum of all x2 values: {np.sum(all_data[:, 1])}")
     
-    overall_mean = np.mean(all_data, axis=0)
-    print(f"\nOverall mean vector μ = [Sum(x1)/N, Sum(x2)/N] = [{np.sum(all_data[:, 0])}/{len(all_data)}, {np.sum(all_data[:, 1])}/{len(all_data)}] = {overall_mean}")
+    # Calculate the sum of x1 and x2 values with detailed steps
+    x1_sum = 0
+    x2_sum = 0
+    
+    print("\nSumming all x1 values:")
+    for i, point in enumerate(all_data):
+        x1_sum += point[0]
+        if i < len(all_data) - 1:
+            print(f"{point[0]:.1f} + ", end="")
+        else:
+            print(f"{point[0]:.1f} = {x1_sum:.1f}")
+    
+    print("\nSumming all x2 values:")
+    for i, point in enumerate(all_data):
+        x2_sum += point[1]
+        if i < len(all_data) - 1:
+            print(f"{point[1]:.1f} + ", end="")
+        else:
+            print(f"{point[1]:.1f} = {x2_sum:.1f}")
+    
+    overall_mean = np.array([x1_sum / len(all_data), x2_sum / len(all_data)])
+    print(f"\nOverall mean vector μ = [Sum(x1)/N, Sum(x2)/N] = [{x1_sum:.1f}/{len(all_data)}, {x2_sum:.1f}/{len(all_data)}] = [{overall_mean[0]:.4f}, {overall_mean[1]:.4f}]")
     
     # Calculate class-specific mean vectors
     print_substep("Computing class-specific mean vectors")
@@ -273,14 +291,32 @@ def main():
         print(f"\nDetailed calculation for the mean vector of {class_name}:")
         print(f"Data points in {class_name}:")
         for i, point in enumerate(data):
-            print(f"X_{i+1}^({class_name[-1]}) = [{point[0]}, {point[1]}]")
+            print(f"X_{i+1}^({class_name[-1]}) = [{point[0]:.1f}, {point[1]:.1f}]")
         
         print(f"\nNumber of data points in {class_name}: N_{class_name[-1]} = {len(data)}")
-        print(f"Sum of x1 values in {class_name}: {np.sum(data[:, 0])}")
-        print(f"Sum of x2 values in {class_name}: {np.sum(data[:, 1])}")
         
-        mean_vectors[class_name] = np.mean(data, axis=0)
-        print(f"\nMean vector for {class_name} (μ_{class_name[-1]}) = [Sum(x1)/N_{class_name[-1]}, Sum(x2)/N_{class_name[-1]}] = [{np.sum(data[:, 0])}/{len(data)}, {np.sum(data[:, 1])}/{len(data)}] = {mean_vectors[class_name]}")
+        # Calculate the sum of x1 and x2 values for this class with detailed steps
+        class_x1_sum = 0
+        class_x2_sum = 0
+        
+        print(f"\nSumming all x1 values in {class_name}:")
+        for i, point in enumerate(data):
+            class_x1_sum += point[0]
+            if i < len(data) - 1:
+                print(f"{point[0]:.1f} + ", end="")
+            else:
+                print(f"{point[0]:.1f} = {class_x1_sum:.1f}")
+        
+        print(f"\nSumming all x2 values in {class_name}:")
+        for i, point in enumerate(data):
+            class_x2_sum += point[1]
+            if i < len(data) - 1:
+                print(f"{point[1]:.1f} + ", end="")
+            else:
+                print(f"{point[1]:.1f} = {class_x2_sum:.1f}")
+        
+        mean_vectors[class_name] = np.array([class_x1_sum / len(data), class_x2_sum / len(data)])
+        print(f"\nMean vector for {class_name} (μ_{class_name[-1]}) = [Sum(x1)/N_{class_name[-1]}, Sum(x2)/N_{class_name[-1]}] = [{class_x1_sum:.1f}/{len(data)}, {class_x2_sum:.1f}/{len(data)}] = [{mean_vectors[class_name][0]:.4f}, {mean_vectors[class_name][1]:.4f}]")
     
     # Plot the mean vectors
     print_substep("Visualizing mean vectors")
@@ -308,7 +344,9 @@ def main():
     # Calculate the within-class scatter matrix for omega1
     print_substep("Computing S_w^(1)")
     print(f"Within-class scatter matrix formula: S_w^(1) = Sum_i[(X_i^(1) - μ_1)(X_i^(1) - μ_1)^T]")
-    print(f"Where:\n- X_i^(1) is each data point in class omega1\n- μ_1 is the mean vector for class omega1: {mean_vectors['omega1']}")
+    print(f"Where:\n- X_i^(1) is each data point in class omega1\n- μ_1 is the mean vector for class omega1: [{mean_vectors['omega1'][0]:.4f}, {mean_vectors['omega1'][1]:.4f}]")
+    
+    running_sum_matrix = np.zeros((2, 2))
     
     for i, data_point in enumerate(class1_data):
         # Compute (x - μ_1)
@@ -316,24 +354,35 @@ def main():
         # Compute (x - μ_1)(x - μ_1)^T
         outer_product = np.outer(diff, diff)
         
-        print(f"\nCalculation for data point X_{i+1}^(1) = [{data_point[0]}, {data_point[1]}]:")
-        print(f"Difference from mean: X_{i+1}^(1) - μ_1 = [{data_point[0]}, {data_point[1]}] - [{mean_vectors['omega1'][0]}, {mean_vectors['omega1'][1]}] = {diff}")
-        print(f"Detailed outer product calculation:")
-        print(f"[{diff[0]}, {diff[1]}] × [{diff[0]}, {diff[1]}]^T =")
-        print(f"[{diff[0]} × {diff[0]}, {diff[0]} × {diff[1]}]")
-        print(f"[{diff[1]} × {diff[0]}, {diff[1]} × {diff[1]}] =")
-        print(f"[{diff[0] * diff[0]}, {diff[0] * diff[1]}]")
-        print(f"[{diff[1] * diff[0]}, {diff[1] * diff[1]}] =")
-        print(f"Outer product: \n{outer_product}")
+        print(f"\nCalculation for data point X_{i+1}^(1) = [{data_point[0]:.1f}, {data_point[1]:.1f}]:")
+        print(f"1. Difference from mean: X_{i+1}^(1) - μ_1 = [{data_point[0]:.1f}, {data_point[1]:.1f}] - [{mean_vectors['omega1'][0]:.4f}, {mean_vectors['omega1'][1]:.4f}] = [{diff[0]:.4f}, {diff[1]:.4f}]")
+        
+        print(f"2. Outer product calculation (X_{i+1}^(1) - μ_1)(X_{i+1}^(1) - μ_1)^T:")
+        print(f"   [{diff[0]:.4f}] × [{diff[0]:.4f}, {diff[1]:.4f}] = ")
+        print(f"   [{diff[1]:.4f}]")
+        
+        print(f"   [{diff[0]:.4f} × {diff[0]:.4f}, {diff[0]:.4f} × {diff[1]:.4f}]")
+        print(f"   [{diff[1]:.4f} × {diff[0]:.4f}, {diff[1]:.4f} × {diff[1]:.4f}]")
+        
+        print(f"   [{diff[0] * diff[0]:.4f}, {diff[0] * diff[1]:.4f}]")
+        print(f"   [{diff[1] * diff[0]:.4f}, {diff[1] * diff[1]:.4f}]")
         
         # Add to the scatter matrix
-        within_class_scatter_omega1 += outer_product
-        print(f"Running sum of scatter matrix after this point: \n{within_class_scatter_omega1}")
+        running_sum_matrix += outer_product
+        
+        print(f"3. Matrix from this data point: ")
+        print(f"   [{outer_product[0,0]:.4f}, {outer_product[0,1]:.4f}]")
+        print(f"   [{outer_product[1,0]:.4f}, {outer_product[1,1]:.4f}]")
+        
+        print(f"4. Running sum of scatter matrix after adding this point: ")
+        print(f"   [{running_sum_matrix[0,0]:.4f}, {running_sum_matrix[0,1]:.4f}]")
+        print(f"   [{running_sum_matrix[1,0]:.4f}, {running_sum_matrix[1,1]:.4f}]")
     
-    print(f"\nFinal within-class scatter matrix for omega1: \n{within_class_scatter_omega1}")
-    print(f"S_w^(1) = [" +
-          f"[{within_class_scatter_omega1[0, 0]:.8f}, {within_class_scatter_omega1[0, 1]:.8f}], " +
-          f"[{within_class_scatter_omega1[1, 0]:.8f}, {within_class_scatter_omega1[1, 1]:.8f}]]")
+    within_class_scatter_omega1 = running_sum_matrix
+    
+    print(f"\nFinal within-class scatter matrix for omega1 (S_w^(1)): ")
+    print(f"[{within_class_scatter_omega1[0, 0]:.4f}, {within_class_scatter_omega1[0, 1]:.4f}]")
+    print(f"[{within_class_scatter_omega1[1, 0]:.4f}, {within_class_scatter_omega1[1, 1]:.4f}]")
     
     # STEP 3: Compute discriminant functions
     print_step_header(3, "Computing Discriminant Functions")
@@ -353,20 +402,45 @@ def main():
     print_substep("Defining discriminant functions")
     print("For normal distributions with equal covariance matrices, the discriminant function is:")
     print("g_k(X) = -0.5(X - μ_k)^T Σ^(-1) (X - μ_k) + ln(P(ω_k))")
-    print("With Σ = I, this simplifies to:")
+    print("\nSince we're using the identity matrix as the covariance matrix (Σ = I),")
+    print("the inverse is also the identity matrix (Σ^(-1) = I).")
+    print("This simplifies our discriminant function to:")
     print("g_k(X) = -0.5(X - μ_k)^T(X - μ_k) + ln(P(ω_k))")
+    print("\nThe term (X - μ_k)^T(X - μ_k) is equivalent to the squared Euclidean distance:")
     print("g_k(X) = -0.5||X - μ_k||^2 + ln(P(ω_k))")
-    print("Where ||X - μ_k||^2 is the squared Euclidean distance between the point X and the class mean μ_k")
+    print("Where ||X - μ_k||^2 = (x_1 - μ_k1)^2 + (x_2 - μ_k2)^2 for our 2D feature space")
+    
+    print("\nNow, let's derive the discriminant function for each class:")
     
     for class_name, info in discriminant_info.items():
-        print(f"\nDiscriminant function for {class_name}:")
-        print(f"g_{class_name[-1]}(X) = -0.5(X - μ_{class_name[-1]})^T(X - μ_{class_name[-1]}) + ln(P({class_name}))")
-        print(f"g_{class_name[-1]}(X) = -0.5||X - [{info['mean'][0]:.2f}, {info['mean'][1]:.2f}]||^2 + ln({info['prior']:.2f})")
+        print(f"\n--- Discriminant function for {class_name} ---")
+        print(f"Mean vector μ_{class_name[-1]} = [{info['mean'][0]:.4f}, {info['mean'][1]:.4f}]")
+        print(f"Prior probability P({class_name}) = {info['prior']}")
+        print(f"ln(P({class_name})) = ln({info['prior']}) = {np.log(info['prior']):.4f}")
         
         # Expand the discriminant function algebraically
-        print(f"Expanding the discriminant function:")
         mean_x1, mean_x2 = info['mean'][0], info['mean'][1]
-        print(f"g_{class_name[-1]}(X) = -0.5[(x1 - {mean_x1:.2f})^2 + (x2 - {mean_x2:.2f})^2] + {np.log(info['prior']):.4f}")
+        print(f"\nThe discriminant function equation is:")
+        print(f"g_{class_name[-1]}(X) = -0.5||X - [{mean_x1:.4f}, {mean_x2:.4f}]||^2 + {np.log(info['prior']):.4f}")
+        
+        print(f"Expanding the distance term:")
+        print(f"||X - μ_{class_name[-1]}||^2 = (x_1 - {mean_x1:.4f})^2 + (x_2 - {mean_x2:.4f})^2")
+        
+        print(f"Therefore:")
+        print(f"g_{class_name[-1]}(X) = -0.5[(x_1 - {mean_x1:.4f})^2 + (x_2 - {mean_x2:.4f})^2] + {np.log(info['prior']):.4f}")
+        
+        # Further expand the discriminant function for a more explicit form
+        print(f"\nWe can further expand this as:")
+        print(f"g_{class_name[-1]}(X) = -0.5[x_1^2 - 2({mean_x1:.4f})x_1 + ({mean_x1:.4f})^2 + x_2^2 - 2({mean_x2:.4f})x_2 + ({mean_x2:.4f})^2] + {np.log(info['prior']):.4f}")
+        
+        # Group terms
+        const_term = -0.5 * (mean_x1**2 + mean_x2**2) + np.log(info['prior'])
+        linear_term_x1 = mean_x1
+        linear_term_x2 = mean_x2
+        
+        print(f"\nCollecting terms:")
+        print(f"g_{class_name[-1]}(X) = -0.5(x_1^2 + x_2^2) + {linear_term_x1:.4f}x_1 + {linear_term_x2:.4f}x_2 + {const_term:.4f}")
+        print(f"This is in the form: g_{class_name[-1]}(X) = w_{class_name[-1]}0 + w_{class_name[-1]}1*x_1 + w_{class_name[-1]}2*x_2 - 0.5(x_1^2 + x_2^2)")
         
     # Visualize the discriminant functions
     print_substep("Visualizing discriminant functions")
@@ -384,26 +458,27 @@ def main():
     print(f"For the new point X = [{new_point[0]}, {new_point[1]}], we evaluate each discriminant function:")
     
     for class_name, info in discriminant_info.items():
-        print(f"\nCalculating g_{class_name[-1]}(X) for class {class_name}:")
+        print(f"\n--- Evaluating g_{class_name[-1]}(X) for class {class_name} ---")
         
         # Calculate (x - μ)
         diff = new_point - info['mean']
         
-        # Show the difference calculation
-        print(f"X - μ_{class_name[-1]} = [{new_point[0]}, {new_point[1]}] - [{info['mean'][0]}, {info['mean'][1]}] = {diff}")
+        print(f"Step 1: Calculate the difference from the mean (X - μ_{class_name[-1]}):")
+        print(f"X - μ_{class_name[-1]} = [{new_point[0]}, {new_point[1]}] - [{info['mean'][0]:.4f}, {info['mean'][1]:.4f}] = [{diff[0]:.4f}, {diff[1]:.4f}]")
         
         # Calculate (x - μ)^T(x - μ) = ||x - μ||^2
-        squared_distance = np.sum(diff**2)
+        squared_distance = diff[0]**2 + diff[1]**2
         
-        # Show the squared distance calculation
-        print(f"||X - μ_{class_name[-1]}||^2 = ({diff[0]})^2 + ({diff[1]})^2 = {diff[0]**2} + {diff[1]**2} = {squared_distance}")
+        print(f"\nStep 2: Calculate the squared Euclidean distance ||X - μ_{class_name[-1]}||^2:")
+        print(f"||X - μ_{class_name[-1]}||^2 = ({diff[0]:.4f})^2 + ({diff[1]:.4f})^2")
+        print(f"||X - μ_{class_name[-1]}||^2 = {diff[0]**2:.4f} + {diff[1]**2:.4f} = {squared_distance:.4f}")
         
         # Calculate the discriminant function value
         g_value = -0.5 * squared_distance + np.log(info['prior'])
         g_values[class_name] = g_value
         
-        # Show the discriminant function calculation
-        print(f"g_{class_name[-1]}(X) = -0.5 * {squared_distance:.4f} + ln({info['prior']:.2f})")
+        print(f"\nStep 3: Evaluate the discriminant function:")
+        print(f"g_{class_name[-1]}(X) = -0.5 × {squared_distance:.4f} + ln({info['prior']:.2f})")
         print(f"g_{class_name[-1]}(X) = {-0.5 * squared_distance:.4f} + {np.log(info['prior']):.4f} = {g_value:.4f}")
     
     # Find the class with the highest discriminant value
@@ -414,8 +489,8 @@ def main():
     for class_name, g_value in g_values.items():
         print(f"g_{class_name[-1]}(X) = {g_value:.4f}")
     
-    print(f"\nSince g_{prediction[-1]}(X) has the highest value among all discriminant functions,")
-    print(f"the new point is classified as {prediction} with g-value: {g_values[prediction]:.4f}")
+    print(f"\nSince g_{prediction[-1]}(X) = {g_values[prediction]:.4f} has the highest value among all discriminant functions,")
+    print(f"the new point X = [{new_point[0]}, {new_point[1]}] is classified as belonging to class {prediction}.")
     
     # Visualize the decision boundary and classification result
     print_substep("Visualizing decision boundary and classification result")
