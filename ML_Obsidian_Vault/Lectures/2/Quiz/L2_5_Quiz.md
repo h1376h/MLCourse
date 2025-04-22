@@ -1,7 +1,7 @@
 # Lecture 2.5: Bayesian Approach to ML Quiz
 
 ## Overview
-This quiz contains 14 questions from different topics covered in section 2.5 of the lectures on Bayesian Framework.
+This quiz contains 15 questions from different topics covered in section 2.5 of the lectures on Bayesian Framework.
 
 ## Question 1
 
@@ -189,4 +189,39 @@ Using only the information provided in these visualizations:
 3. Based on the Bayesian updating graph, which has a greater impact on the final posterior: the initial prior or the observed data? Explain why.
 4. Determine the expected value of $\theta$ for the posterior distribution that uses the $\text{Beta}(5,2)$ prior.
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: Visual Bayesian Inference and Prior Selection](L2_5_14_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: Visual Bayesian Inference and Prior Selection](L2_5_14_explanation.md).
+
+## Question 15
+
+### Problem Statement
+Consider a Naive Bayes classifier for predicting heart disease based on two features: diabetes status and smoking status. The following table shows the training data:
+
+| Diabetes (D) | Smoke (S) | Heart Disease (H) |
+|-------------|-----------|-------------------|
+| Y | N | Y |
+| Y | N | N |
+| N | Y | N |
+| N | Y | N |
+| N | N | N |
+| N | Y | Y |
+| N | N | N |
+| N | Y | Y |
+| N | N | N |
+| Y | N | N |
+
+Given the following probabilities derived from the data:
+- $p(H = Yes) = 0.3$
+- $p(D = Yes|H = Yes) = \frac{1}{3}$
+- $p(S = Yes|H = Yes) = \frac{2}{3}$
+- $p(D = Yes|H = No) = \frac{2}{7}$
+- $p(S = Yes|H = No) = \frac{2}{7}$
+
+#### Task
+1. For a new patient with diabetes who also smokes ($x = [Yes, Yes]$), calculate:
+   - $p(H = Yes|x) \propto p(H = Yes)p(D = yes|H = Yes)p(S = yes|H = Yes)$
+   - $p(H = No|x) \propto p(H = No)p(D = yes|H = No)p(S = yes|H = No)$
+2. Based on your calculations, what would be the predicted class for this patient?
+3. Explain why we use proportionality ($\propto$) instead of equality ($=$) in the calculations.
+4. What assumption does Naive Bayes make about the features D and S? Is this assumption realistic in this medical context?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 15: Naive Bayes Classification](L2_5_15_explanation.md). 
