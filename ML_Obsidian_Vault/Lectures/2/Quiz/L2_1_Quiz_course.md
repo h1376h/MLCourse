@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 25 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 26 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -425,8 +425,29 @@ Assume that the feature vectors in each class follow a multivariate Gaussian dis
 #### Solution Approaches
 This problem can be tackled using multiple approaches:
 
-For a detailed explanation using the sample covariance formula (n-1 denominator), which provides an unbiased estimator, see [Question 31: Sample-based Solution](L2_1_31_explanation.md).
+For a detailed explanation using the sample covariance formula (n-1 denominator), which provides an unbiased estimator, see [Question 25: Sample-based Solution](L2_1_31_explanation.md).
 
 For an alternative approach using the population covariance formula (n denominator), which was used in our class lectures, see [Alternative Solution: Population-based Approach](L2_1_31_explanation_population.md).
 
 Note that while the numerical values differ between these approaches, the fundamental concepts and final classification decisions remain the same, as the relative relationships between variables are preserved.
+
+## Question 26
+
+### Problem Statement
+Consider the two-class problem where the two-dimensional feature vector $\mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$ obeys the following class conditional distributions:
+
+$$f(\mathbf{x}|C_1) = N(\boldsymbol{\mu}_1, \boldsymbol{\Sigma}_1)$$
+$$f(\mathbf{x}|C_2) = N(\boldsymbol{\mu}_2, \boldsymbol{\Sigma}_2)$$
+
+where:
+$$\boldsymbol{\mu}_1 = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \quad \boldsymbol{\mu}_2 = \begin{bmatrix} 0.5 \\ 0.5 \end{bmatrix}, \quad \boldsymbol{\Sigma}_1 = \boldsymbol{\Sigma}_2 = \begin{bmatrix} 0.8 & 0.01 \\ 0.01 & 0.2 \end{bmatrix}$$
+
+Assuming apriori probabilities of the classes are same (i.e., $P(C_1) = P(C_2) = 0.5$)
+
+#### Task
+1. Determine the discriminant function for class $C_1$
+2. Determine the discriminant function for class $C_2$
+3. Determine the decision boundary
+4. Classify the given feature vector $\mathbf{x} = \begin{bmatrix} 0.1 \\ 0.5 \end{bmatrix}$
+
+For a detailed explanation of this problem, including discriminant function derivation, decision boundary analysis, and distance metric comparison, see [Question 26: Two-Class Gaussian Classification](L2_1_32_explanation.md).
