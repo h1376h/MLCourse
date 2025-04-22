@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 31 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 32 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -515,3 +515,26 @@ For a detailed explanation using the sample covariance formula (n-1 denominator)
 For an alternative approach using the population covariance formula (n denominator), which was used in our class lectures, see [Alternative Solution: Population-based Approach](L2_1_31_explanation_population.md).
 
 Note that while the numerical values differ between these approaches, the fundamental concepts and final classification decisions remain the same, as the relative relationships between variables are preserved.
+
+## Question 32
+
+### Problem Statement
+Consider the two-class problem where the two-dimensional feature vector $\mathbf{x} = [x_1, x_2]^T$ obeys the following class conditional distributions:
+
+$$f(\mathbf{x}|C_1) = N(\boldsymbol{\mu}_1, \boldsymbol{\Sigma}_1)$$
+$$f(\mathbf{x}|C_2) = N(\boldsymbol{\mu}_2, \boldsymbol{\Sigma}_2)$$
+
+where:
+$$\boldsymbol{\mu}_1 = [0, 0]^T, \quad \boldsymbol{\mu}_2 = [0.5, 0.5]^T, \quad \boldsymbol{\Sigma}_1 = \boldsymbol{\Sigma}_2 = \begin{bmatrix} 0.8 & 0.01 \\ 0.01 & 0.2 \end{bmatrix}$$
+
+Assuming apriori probabilities of the classes are same (i.e., $P(C_1) = P(C_2) = 0.5$)
+
+#### Task
+1. Determine the discriminant function for class $C_1$
+2. Determine the discriminant function for class $C_2$
+3. Determine the decision boundary
+4. Draw the decision boundary obtained in part (iii) using Python
+5. Classify the given feature vector $\mathbf{x} = [0.1, 0.5]^T$
+6. Does the optimal classifier utilize the Euclidean distance or Mahalanobis distance? Why?
+
+For a detailed explanation of this problem, including discriminant function derivation, decision boundary analysis, and distance metric comparison, see [Question 32: Two-Class Gaussian Classification](L2_1_32_explanation.md).
