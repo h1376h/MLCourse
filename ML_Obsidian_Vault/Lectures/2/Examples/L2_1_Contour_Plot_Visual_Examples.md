@@ -49,11 +49,11 @@ Visualize and analyze how different correlation values and variances affect the 
 
 The shape of contour plots in a bivariate normal distribution changes in distinct ways when we modify correlation and variance:
 
-1. **Zero correlation (ρ = 0)**: Contours form perfect circles when variances are equal, indicating independent variables.
+1. **Zero correlation ($\rho = 0$)**: Contours form perfect circles when variances are equal, indicating independent variables.
 
-2. **Positive correlation (ρ > 0)**: Contours stretch into ellipses tilted upward (from lower left to upper right), becoming more elongated as correlation increases.
+2. **Positive correlation ($\rho > 0$)**: Contours stretch into ellipses tilted upward (from lower left to upper right), becoming more elongated as correlation increases.
 
-3. **Negative correlation (ρ < 0)**: Contours form ellipses tilted downward (from upper left to lower right), with stronger elongation as correlation becomes more negative.
+3. **Negative correlation ($\rho < 0$)**: Contours form ellipses tilted downward (from upper left to lower right), with stronger elongation as correlation becomes more negative.
 
 4. **Different variances**: Contours stretch along the axis with greater variance, forming ellipses aligned with the coordinate axes when correlation is zero.
 
@@ -191,19 +191,19 @@ Conditioning on specific values of one variable reveals important properties of 
 
 1. **Shape of Conditional Distributions**: For bivariate normal distributions, all conditional distributions are normal, regardless of the conditioning value.
 
-2. **Changing Mean**: As we vary the conditioning value (X), the mean of the conditional distribution (Y|X) shifts along the regression line. For a standard bivariate normal with correlation ρ:
-   - The conditional mean follows E[Y|X=x] = ρx
+2. **Changing Mean**: As we vary the conditioning value (X), the mean of the conditional distribution (Y|X) shifts along the regression line. For a standard bivariate normal with correlation $\rho$:
+   - The conditional mean follows $E[Y|X=x] = \rho x$
    - This linear relationship is the foundation of regression analysis
 
 3. **Constant Variance**: The variance of Y|X remains constant regardless of the value of X:
-   - Var(Y|X) = σ²ᵧ(1-ρ²)
+   - $Var(Y|X) = \sigma^2_Y(1-\rho^2)$
    - Stronger correlation leads to smaller conditional variance
 
 The step-by-step visualization of conditional distributions:
 
 ![Conditional Step 1: Joint Distribution](../Images/Contour_Plot_Visual_Answer/conditional_step1.png)
 
-![Conditional Step 2: Conditioning on X=0](../Images/Contour_Plot_Visual_Answer/conditional_step2.png)
+![Conditional Step 2: Conditioning on $X = 0$](../Images/Contour_Plot_Visual_Answer/conditional_step2.png)
 
 ![Conditional Step 3: Resulting Conditional Distribution](../Images/Contour_Plot_Visual_Answer/conditional_step3.png)
 
@@ -211,29 +211,29 @@ The step-by-step visualization of conditional distributions:
 
 The step-by-step visualization shows:
 1. The joint bivariate normal distribution (step 1)
-2. Conditioning on X = 0 (vertical slice through the joint distribution) (step 2)
-3. The resulting conditional distribution of Y given X = 0 (step 3)
-4. How conditional distributions change as we vary the conditioning value of X (step 4)
+2. Conditioning on $X = 0$ (vertical slice through the joint distribution) (step 2)
+3. The resulting conditional distribution of $Y$ given $X = 0$ (step 3)
+4. How conditional distributions change as we vary the conditioning value of $X$ (step 4)
 
 Here's an animation sequence showing how conditional distributions change as we vary the value of $X$:
 
-![Conditional Distribution (X = -2.0)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_1.png)
+![Conditional Distribution ($X = -2.0$)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_1.png)
 
-![Conditional Distribution (X = -1.5)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_2.png)
+![Conditional Distribution ($X = -1.5$)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_2.png)
 
-![Conditional Distribution (X = -1.0)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_3.png)
+![Conditional Distribution ($X = -1.0$)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_3.png)
 
-![Conditional Distribution (X = -0.5)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_4.png)
+![Conditional Distribution ($X = -0.5$)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_4.png)
 
-![Conditional Distribution (X = 0.0)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_5.png)
+![Conditional Distribution ($X = 0.0$)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_5.png)
 
-![Conditional Distribution (X = 0.5)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_6.png)
+![Conditional Distribution ($X = 0.5$)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_6.png)
 
-![Conditional Distribution (X = 1.0)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_7.png)
+![Conditional Distribution ($X = 1.0$)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_7.png)
 
-![Conditional Distribution (X = 1.5)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_8.png)
+![Conditional Distribution ($X = 1.5$)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_8.png)
 
-![Conditional Distribution (X = 2.0)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_9.png)
+![Conditional Distribution ($X = 2.0$)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_9.png)
 
 As $X$ increases from $-2.0$ to $2.0$, notice how the conditional distribution (red curve) shifts along the regression line, with its mean at $\rho \cdot X$. This visualizes how the expected value of $Y$ changes with $X$ while maintaining the same variance.
 
@@ -263,7 +263,7 @@ What is the relationship between joint and marginal distributions, and how does 
 
 Joint and marginal distributions have a complex relationship, and examining only marginals can lead to loss of important information:
 
-1. **Mathematical Relationship**: The marginal distribution of X is obtained by integrating the joint distribution over all values of Y: p(x) = ∫p(x,y)dy. Similarly for the marginal of Y.
+1. **Mathematical Relationship**: The marginal distribution of X is obtained by integrating the joint distribution over all values of Y: $p(x) = \int p(x,y)dy$. Similarly for the marginal of Y.
 
 2. **Information Preserved in Marginals**:
    - The central tendency (mean) of each variable
@@ -304,10 +304,10 @@ Contour plots and 3D surface plots provide complementary representations of the 
 ![Geometric Interpretation](../Images/Contour_Plot_Visual_Answer/geometric_interpretation.png)
 
 2. **Step-by-Step Formation of Contours**:
-   - The 3D surface represents the probability density at each point (x,y)
+   - The 3D surface represents the probability density at each point $(x,y)$
    - Horizontal planes at different heights intersect the surface
    - These intersections form curves of equal probability density
-   - Projecting these curves to the xy-plane creates the contour lines
+   - Projecting these curves to the $xy$-plane creates the contour lines
 
 The following sequence illustrates the geometric relationship between 3D surfaces and contour plots:
 
@@ -325,7 +325,7 @@ The step-by-step visualization shows:
 1. The 3D probability density surface (step 1)
 2. Adding a horizontal slice through the surface (step 2)
 3. The intersection curve formed at the slice (step 3)
-4. Projecting this curve to the XY plane creates a contour (step 4)
+4. Projecting this curve to the $XY$ plane creates a contour (step 4)
 5. Multiple slices create multiple contours, forming a complete contour plot (step 5)
 
 3. **Advantages of Contour Plots**:
