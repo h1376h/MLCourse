@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 20 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 21 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -395,3 +395,22 @@ Assume that the feature vectors in each class follow a multivariate Gaussian dis
 4. If you were designing a real-time system that needs to classify thousands of points per second, describe a simple pre-computation strategy using the MAP framework that would make classification significantly faster. How would the decision boundary change if the prior probabilities were adjusted to $P(\text{class }0) = 0.3$ and $P(\text{class }1) = 0.7$?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 20: Multivariate Gaussian Classification with MAP Estimation](L2_7_27_explanation.md).
+
+## Question 21
+
+### Problem Statement
+You are given data from two classes with the following 2-dimensional feature vectors:
+
+**Class 0:** $\mathbf{x}^{(1)}=\begin{bmatrix} 1 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 2 \\ 4 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 3 \\ 5 \end{bmatrix}$  
+**Class 1:** $\mathbf{x}^{(1)}=\begin{bmatrix} 6 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 7 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 8 \\ 4 \end{bmatrix}$
+
+Assume that the feature vectors in each class follow a multivariate Gaussian distribution.
+
+#### Task
+1. Calculate the mean vector and covariance matrix for each class. Verify that the covariance matrices are non-singular by computing their determinants.
+2. Assume we have a new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 3 \end{bmatrix}$
+3. Using MAP estimation with prior probabilities $P(\text{class }0) = 0.6$ and $P(\text{class }1) = 0.4$, determine which class the new point belongs to.
+4. Derive the quadratic discriminant function for this problem and explain how the decision boundary would change if the prior probabilities were adjusted to $P(\text{class }0) = 0.4$ and $P(\text{class }1) = 0.6$.
+5. How does having non-singular covariance matrices affect the classification?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 21: Multivariate Gaussian Classification with Non-Singular Covariance Matrices](L2_7_28_explanation.md).
