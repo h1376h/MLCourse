@@ -194,7 +194,7 @@ As correlation increases from 0 to 0.9, we observe:
 
 This visualization demonstrates how correlation affects our uncertainty about one variable given knowledge of the other, with stronger correlation leading to more predictable relationships.
 
-### Visual Question 2: Contour Plots for Non-Gaussian Distributions
+### Example 8: Contour Plots for Non-Gaussian Distributions
 
 **Question**: How do contour plots represent complex non-Gaussian probability distributions, and what insights can be gained from these visualizations?
 
@@ -221,7 +221,7 @@ These visualizations provide valuable insights:
 
 Contour plots make these complex structures interpretable in ways that would be difficult to visualize with marginal distributions or summary statistics alone.
 
-### Example 8: Probability Regions and Mahalanobis Distance
+### Example 9: Probability Regions and Mahalanobis Distance
 
 **Question**: What is the relationship between contour lines and probability regions in a bivariate normal distribution, and how does this extend our understanding of confidence intervals?
 
@@ -250,7 +250,7 @@ Contour lines in a multivariate normal distribution represent regions of equal p
 
 This framework allows us to make statistically valid statements about the joint probability of multiple variables, which is essential for hypothesis testing, outlier detection, and uncertainty quantification in multivariate settings.
 
-### Example 9: Conditional Distributions
+### Example 11: Conditional Distributions
 
 **Question**: How do conditional distributions change as we vary the value of one variable in a bivariate normal distribution, and what does this tell us about the relationship between variables?
 
@@ -286,7 +286,7 @@ This visualization demonstrates key principles:
 
 These principles form the foundation of prediction, regression, and conditional inference in statistics and machine learning.
 
-### Example 10: Joint and Marginal Distributions
+### Example 12: Joint and Marginal Distributions
 
 **Question**: What is the relationship between joint and marginal distributions, and what information is preserved or lost when examining only marginal distributions?
 
@@ -315,7 +315,7 @@ Joint and marginal distributions have a complex relationship, and examining only
 
 The joint distribution provides a complete picture of the relationship between variables, while marginals provide only a partial view. This highlights the importance of multivariate analysis and visualizations like contour plots that can reveal the full structure of the data.
 
-### Visual Question 6: Geometric Interpretation of Contour Plots
+### Example 13: Geometric Interpretation of Contour Plots
 
 **Question**: What is the geometric relationship between 3D probability density surfaces and their 2D contour plot representations, and what are the advantages of each visualization?
 
