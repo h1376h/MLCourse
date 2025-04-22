@@ -43,6 +43,16 @@ This example shows how different correlation values and variances affect the sha
 - Negative correlation (bottom left) produces ellipses tilted downward, showing that as $X$ increases, $Y$ tends to decrease
 - Different variances (bottom right) produce ellipses stretched along the axis with higher variance
 
+The shape of contour plots in a bivariate normal distribution changes in distinct ways when we modify correlation and variance:
+
+1. **Zero correlation (ρ = 0)**: Contours form perfect circles when variances are equal, indicating independent variables.
+
+2. **Positive correlation (ρ > 0)**: Contours stretch into ellipses tilted upward (from lower left to upper right), becoming more elongated as correlation increases.
+
+3. **Negative correlation (ρ < 0)**: Contours form ellipses tilted downward (from upper left to lower right), with stronger elongation as correlation becomes more negative.
+
+4. **Different variances**: Contours stretch along the axis with greater variance, forming ellipses aligned with the coordinate axes when correlation is zero.
+
 ##### How Correlation Changes Contour Shapes
 
 As correlation increases, the bivariate normal contours become more elongated and tilted:
@@ -50,6 +60,16 @@ As correlation increases, the bivariate normal contours become more elongated an
 ![Correlation Comparison](../Images/Contour_Plot_Visual_Answer/correlation_comparison.png)
 
 The pink ellipses show the 95% probability regions. Notice how they become more elliptical as correlation increases from $\rho = 0$ to $\rho = 0.9$, with the major axis aligning with the direction of positive correlation.
+
+![Step-by-step Correlation](../Images/Contour_Plot_Visual_Answer/step_by_step_correlation.png)
+
+As correlation increases from 0 to 0.9, we observe:
+- The contours transform from circles to increasingly elongated ellipses
+- The major axis of the ellipse aligns with the direction of correlation
+- The 95% probability region (pink) becomes narrower perpendicular to the correlation direction
+- The uncertainty is increasingly concentrated along the correlation direction
+
+This visualization demonstrates how correlation affects our uncertainty about one variable given knowledge of the other, with stronger correlation leading to more predictable relationships.
 
 ### Example 2: Non-Gaussian Probability Distributions
 
@@ -66,6 +86,25 @@ Contour plots can represent any bivariate distribution, not just normal distribu
 - The multimodal distribution (bottom left) shows three separate peaks at different locations
 - The valley-shaped distribution (bottom right) has higher probability density near the origin
 
+Contour plots effectively represent complex, non-Gaussian probability distributions through their level curves:
+
+1. **Mixture of Normals**: Multiple peaks appear as separate "islands" of contours, with each peak representing a component of the mixture. The contours reveal both the location and relative height of each mode.
+
+2. **Ring-Shaped Distribution**: Contours form concentric closed curves, with the highest density along a circular band rather than at a central point, indicating probability mass concentrated in a ring.
+
+3. **Multimodal Distribution**: Multiple distinct peaks appear, with contours clustering around each mode. The spacing between contours shows how sharply probability density changes near each peak.
+
+4. **Valley-Shaped Distribution**: Contours form a diamond-like pattern, with density decreasing linearly from the center in all directions, creating a tent-like probability surface.
+
+These visualizations provide valuable insights:
+- Location and number of modes in the distribution
+- Areas of high probability density
+- Shape and orientation of the distribution
+- Unusual features like rings, ridges, or valleys
+- Regions of rapid vs. gradual change in probability density
+
+Contour plots make these complex structures interpretable in ways that would be difficult to visualize with marginal distributions or summary statistics alone.
+
 ### Example 3: Probability Regions in Multivariate Space
 
 #### Problem Statement
@@ -80,6 +119,25 @@ Probability regions are essential for hypothesis testing and confidence interval
 - The middle contour (green) represents the 86.5% probability region (equivalent to $2\sigma$)
 - The outermost contour (blue) represents the 98.9% probability region (equivalent to $3\sigma$)
 - The elliptical shape is due to correlation between variables ($\rho = 0.5$)
+
+Contour lines in a multivariate normal distribution represent regions of equal probability density. These contours have a direct relationship with probability regions and the Mahalanobis distance:
+
+1. **Elliptical Regions**: For a bivariate normal distribution, contours form ellipses whose shape depends on the covariance structure of the variables.
+
+2. **Probability Content**: Each contour encloses a specific probability mass. For bivariate normal distributions:
+   - The innermost contour (red) contains 39.4% of the probability
+   - The middle contour (green) contains 86.5% of the probability
+   - The outermost contour (blue) contains 98.9% of the probability
+
+3. **Mahalanobis Distance**: Each contour corresponds to a specific Mahalanobis distance from the mean, which accounts for the correlation between variables.
+
+4. **Extension of Confidence Intervals**: These probability regions extend the concept of univariate confidence intervals to multiple dimensions by:
+   - Accounting for correlation between variables
+   - Forming elliptical regions rather than simple intervals
+   - Using the covariance matrix to determine the shape and orientation
+   - Providing the same probabilistic interpretation as univariate intervals
+
+This framework allows us to make statistically valid statements about the joint probability of multiple variables, which is essential for hypothesis testing, outlier detection, and uncertainty quantification in multivariate settings.
 
 ##### The Connection to Mahalanobis Distance
 
@@ -105,6 +163,18 @@ How do conditional distributions change as we fix one variable at different valu
 - Each conditional distribution is a normal distribution with mean $\mu_{Y|X} = \rho \cdot X$
 - The width of each conditional distribution is the same, reflecting constant conditional variance $\sigma^2_{Y|X} = \sigma^2_Y(1-\rho^2)$
 
+Conditioning on specific values of one variable reveals important properties of the relationship between variables in a bivariate normal distribution:
+
+1. **Shape of Conditional Distributions**: For bivariate normal distributions, all conditional distributions are normal, regardless of the conditioning value.
+
+2. **Changing Mean**: As we vary the conditioning value (X), the mean of the conditional distribution (Y|X) shifts along the regression line. For a standard bivariate normal with correlation ρ:
+   - The conditional mean follows E[Y|X=x] = ρx
+   - This linear relationship is the foundation of regression analysis
+
+3. **Constant Variance**: The variance of Y|X remains constant regardless of the value of X:
+   - Var(Y|X) = σ²ᵧ(1-ρ²)
+   - Stronger correlation leads to smaller conditional variance
+
 Here's an animation sequence showing how conditional distributions change as we vary the value of $X$:
 
 ![Conditional Distribution (X = -2.0)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_1.png)
@@ -127,6 +197,14 @@ Here's an animation sequence showing how conditional distributions change as we 
 
 As $X$ increases from $-2.0$ to $2.0$, notice how the conditional distribution (red curve) shifts along the regression line, with its mean at $\rho \cdot X$. This visualizes how the expected value of $Y$ changes with $X$ while maintaining the same variance.
 
+This visualization demonstrates key principles:
+- Conditioning creates a "slice" through the joint distribution
+- The mean of Y|X follows the regression line
+- The uncertainty in Y given X (conditional variance) is reduced compared to the marginal variance
+- The strength of correlation determines how much information X provides about Y
+
+These principles form the foundation of prediction, regression, and conditional inference in statistics and machine learning.
+
 ### Example 5: Joint and Marginal Distributions
 
 #### Problem Statement
@@ -142,162 +220,6 @@ What is the relationship between joint and marginal distributions, and how does 
 - The right panel shows the marginal distribution of $Y$ (integrating out $X$)
 - Both marginals are normal distributions even with correlation in the joint distribution
 - This illustrates that marginal distributions lose information about relationships between variables
-
-### Example 6: Contour Plots vs. 3D Surface Plots
-
-#### Problem Statement
-How do contour plots compare to 3D surface plots for visualizing bivariate distributions?
-
-#### Solution
-
-![Contour vs 3D](../Images/Contour_Plot_Visual_Question/contour_3d_comparison.png)
-
-**Key insights:**
-- Contour plots (left) show lines of equal probability density, like a topographic map
-- 3D surface plots (right) show the actual probability density function in three dimensions
-- Contour plots are often easier to read precise values from, while 3D plots give a better intuitive feel for the shape
-- Both representations show the same underlying bivariate normal distribution with correlation $\rho = 0.5$
-
-##### Geometric Interpretation
-
-This visualization helps understand the relationship between the 3D probability density surface and its 2D contour representation:
-
-![Geometric Interpretation](../Images/Contour_Plot_Visual_Answer/geometric_interpretation.png)
-
-The colored horizontal planes intersect the probability density surface, creating the contour lines that are projected onto the $XY$ plane below.
-
-### Example 7: Effect of Correlation and Variance on Contour Shapes
-
-#### Problem Statement
-How does changing the correlation coefficient and variance affect the shape of contour plots in a bivariate normal distribution?
-
-![Bivariate Normal Contours](../Images/Contour_Plot_Visual_Question/bivariate_normal_contours.png)
-
-#### Solution
-
-The shape of contour plots in a bivariate normal distribution changes in distinct ways when we modify correlation and variance:
-
-1. **Zero correlation (ρ = 0)**: Contours form perfect circles when variances are equal, indicating independent variables.
-
-2. **Positive correlation (ρ > 0)**: Contours stretch into ellipses tilted upward (from lower left to upper right), becoming more elongated as correlation increases.
-
-3. **Negative correlation (ρ < 0)**: Contours form ellipses tilted downward (from upper left to lower right), with stronger elongation as correlation becomes more negative.
-
-4. **Different variances**: Contours stretch along the axis with greater variance, forming ellipses aligned with the coordinate axes when correlation is zero.
-
-![Step-by-step Correlation](../Images/Contour_Plot_Visual_Answer/step_by_step_correlation.png)
-
-As correlation increases from 0 to 0.9, we observe:
-- The contours transform from circles to increasingly elongated ellipses
-- The major axis of the ellipse aligns with the direction of correlation
-- The 95% probability region (pink) becomes narrower perpendicular to the correlation direction
-- The uncertainty is increasingly concentrated along the correlation direction
-
-This visualization demonstrates how correlation affects our uncertainty about one variable given knowledge of the other, with stronger correlation leading to more predictable relationships.
-
-### Example 8: Contour Plots for Non-Gaussian Distributions
-
-#### Problem Statement
-How do contour plots represent complex non-Gaussian probability distributions, and what insights can be gained from these visualizations?
-
-![Non-Gaussian Distributions](../Images/Contour_Plot_Visual_Question/different_distributions_contours.png)
-
-#### Solution
-
-Contour plots effectively represent complex, non-Gaussian probability distributions through their level curves:
-
-1. **Mixture of Normals**: Multiple peaks appear as separate "islands" of contours, with each peak representing a component of the mixture. The contours reveal both the location and relative height of each mode.
-
-2. **Ring-Shaped Distribution**: Contours form concentric closed curves, with the highest density along a circular band rather than at a central point, indicating probability mass concentrated in a ring.
-
-3. **Multimodal Distribution**: Multiple distinct peaks appear, with contours clustering around each mode. The spacing between contours shows how sharply probability density changes near each peak.
-
-4. **Valley-Shaped Distribution**: Contours form a diamond-like pattern, with density decreasing linearly from the center in all directions, creating a tent-like probability surface.
-
-These visualizations provide valuable insights:
-- Location and number of modes in the distribution
-- Areas of high probability density
-- Shape and orientation of the distribution
-- Unusual features like rings, ridges, or valleys
-- Regions of rapid vs. gradual change in probability density
-
-Contour plots make these complex structures interpretable in ways that would be difficult to visualize with marginal distributions or summary statistics alone.
-
-### Example 9: Probability Regions and Mahalanobis Distance
-
-#### Problem Statement
-What is the relationship between contour lines and probability regions in a bivariate normal distribution, and how does this extend our understanding of confidence intervals?
-
-![Probability Regions](../Images/Contour_Plot_Visual_Question/bivariate_normal_probability_regions.png)
-
-#### Solution
-
-Contour lines in a multivariate normal distribution represent regions of equal probability density. These contours have a direct relationship with probability regions and the Mahalanobis distance:
-
-1. **Elliptical Regions**: For a bivariate normal distribution, contours form ellipses whose shape depends on the covariance structure of the variables.
-
-2. **Probability Content**: Each contour encloses a specific probability mass. For bivariate normal distributions:
-   - The innermost contour (red) contains 39.4% of the probability
-   - The middle contour (green) contains 86.5% of the probability
-   - The outermost contour (blue) contains 98.9% of the probability
-
-3. **Mahalanobis Distance**: Each contour corresponds to a specific Mahalanobis distance from the mean, which accounts for the correlation between variables:
-
-![Mahalanobis Distance](../Images/Contour_Plot_Visual_Answer/mahalanobis_distance.png)
-
-4. **Extension of Confidence Intervals**: These probability regions extend the concept of univariate confidence intervals to multiple dimensions by:
-   - Accounting for correlation between variables
-   - Forming elliptical regions rather than simple intervals
-   - Using the covariance matrix to determine the shape and orientation
-   - Providing the same probabilistic interpretation as univariate intervals
-
-This framework allows us to make statistically valid statements about the joint probability of multiple variables, which is essential for hypothesis testing, outlier detection, and uncertainty quantification in multivariate settings.
-
-### Example 10: Conditional Distributions
-
-#### Problem Statement
-How do conditional distributions change as we vary the value of one variable in a bivariate normal distribution, and what does this tell us about the relationship between variables?
-
-![Conditional Distributions](../Images/Contour_Plot_Visual_Question/conditional_distributions.png)
-
-#### Solution
-
-Conditioning on specific values of one variable reveals important properties of the relationship between variables in a bivariate normal distribution:
-
-1. **Shape of Conditional Distributions**: For bivariate normal distributions, all conditional distributions are normal, regardless of the conditioning value.
-
-2. **Changing Mean**: As we vary the conditioning value (X), the mean of the conditional distribution (Y|X) shifts along the regression line. For a standard bivariate normal with correlation ρ:
-   - The conditional mean follows E[Y|X=x] = ρx
-   - This linear relationship is the foundation of regression analysis
-
-3. **Constant Variance**: The variance of Y|X remains constant regardless of the value of X:
-   - Var(Y|X) = σ²ᵧ(1-ρ²)
-   - Stronger correlation leads to smaller conditional variance
-
-Here's a sequence showing how conditional distributions change as X varies:
-
-![Conditional Distribution (X = -2.0)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_1.png)
-
-![Conditional Distribution (X = 0.0)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_5.png)
-
-![Conditional Distribution (X = 2.0)](../Images/Contour_Plot_Visual_Answer/conditional_demo_frame_9.png)
-
-This visualization demonstrates key principles:
-- Conditioning creates a "slice" through the joint distribution
-- The mean of Y|X follows the regression line
-- The uncertainty in Y given X (conditional variance) is reduced compared to the marginal variance
-- The strength of correlation determines how much information X provides about Y
-
-These principles form the foundation of prediction, regression, and conditional inference in statistics and machine learning.
-
-### Example 11: Joint and Marginal Distributions
-
-#### Problem Statement
-What is the relationship between joint and marginal distributions, and what information is preserved or lost when examining only marginal distributions?
-
-![Marginal Distributions](../Images/Contour_Plot_Visual_Question/marginal_distributions.png)
-
-#### Solution
 
 Joint and marginal distributions have a complex relationship, and examining only marginals can lead to loss of important information:
 
@@ -320,14 +242,20 @@ Joint and marginal distributions have a complex relationship, and examining only
 
 The joint distribution provides a complete picture of the relationship between variables, while marginals provide only a partial view. This highlights the importance of multivariate analysis and visualizations like contour plots that can reveal the full structure of the data.
 
-### Example 12: Geometric Interpretation of Contour Plots
+### Example 6: Contour Plots vs. 3D Surface Plots
 
 #### Problem Statement
-What is the geometric relationship between 3D probability density surfaces and their 2D contour plot representations, and what are the advantages of each visualization?
+How do contour plots compare to 3D surface plots for visualizing bivariate distributions?
+
+#### Solution
 
 ![Contour vs 3D](../Images/Contour_Plot_Visual_Question/contour_3d_comparison.png)
 
-#### Solution
+**Key insights:**
+- Contour plots (left) show lines of equal probability density, like a topographic map
+- 3D surface plots (right) show the actual probability density function in three dimensions
+- Contour plots are often easier to read precise values from, while 3D plots give a better intuitive feel for the shape
+- Both representations show the same underlying bivariate normal distribution with correlation $\rho = 0.5$
 
 Contour plots and 3D surface plots provide complementary representations of the same underlying probability distribution:
 
@@ -355,6 +283,14 @@ Contour plots and 3D surface plots provide complementary representations of the 
    - Helpful for explaining the concept of probability density
 
 The relationship between these visualizations is analogous to topographic maps versus 3D terrain models. Contour plots provide precision and clarity for analysis, while 3D plots give intuition and overall shape understanding. Together, they provide a complete picture of multivariate probability distributions.
+
+##### Geometric Interpretation
+
+This visualization helps understand the relationship between the 3D probability density surface and its 2D contour representation:
+
+![Geometric Interpretation](../Images/Contour_Plot_Visual_Answer/geometric_interpretation.png)
+
+The colored horizontal planes intersect the probability density surface, creating the contour lines that are projected onto the $XY$ plane below.
 
 ## Key Insights
 
