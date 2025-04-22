@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 19 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 20 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -377,3 +377,21 @@ Suppose we have samples $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ from a Berno
 5. Suppose you collect additional samples and now have a total of 100 samples with 40 ones and 60 zeros. Calculate the new $\hat{\theta}_{MAP}$ using the same prior as in part (3). Compare this result with your answer from part (3) and explain how the influence of the prior changes as the sample size increases.
 
 For a detailed explanation, see [Question 19: MLE and MAP for Bernoulli Distribution with Small Sample](L2_7_26_explanation.md).
+
+## Question 20
+
+### Problem Statement
+You are given data from two classes with the following 2-dimensional feature vectors:
+
+**Class 0:** $\mathbf{x}^{(1)}=\begin{bmatrix} 1 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 2 \\ 4 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 3 \\ 5 \end{bmatrix}$  
+**Class 1:** $\mathbf{x}^{(1)}=\begin{bmatrix} 6 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 7 \\ 4 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 8 \\ 5 \end{bmatrix}$
+
+Assume that the feature vectors in each class follow a multivariate Gaussian distribution.
+
+#### Task
+1. Calculate the mean vector and covariance matrix for each class
+2. Assume we have a new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 4 \end{bmatrix}$
+3. Using MAP estimation with prior probabilities $P(\text{class }0) = 0.7$ and $P(\text{class }1) = 0.3$, determine which class the new point belongs to
+4. If you were designing a real-time system that needs to classify thousands of points per second, describe a simple pre-computation strategy using the MAP framework that would make classification significantly faster. How would the decision boundary change if the prior probabilities were adjusted to $P(\text{class }0) = 0.3$ and $P(\text{class }1) = 0.7$?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 20: Multivariate Gaussian Classification with MAP Estimation](L2_7_27_explanation.md).
