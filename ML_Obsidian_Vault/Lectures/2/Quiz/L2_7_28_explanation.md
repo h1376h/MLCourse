@@ -249,5 +249,6 @@ The quadratic nature of the decision boundary, resulting from the different cova
 
 ## Related Examples
 
-[[L2_1_31_explanation_population]], used in our class lectures
-[[L2_7_27_explanation]] 
+For the foundational approach to multivariate Gaussian classification with equal prior probabilities, see [[L2_1_31_explanation_population]], which was covered in our class lectures. This example introduces the basic concepts of Bayesian classification with multivariate Gaussian distributions and forms the basis for this more complex scenario.
+
+For a related problem that focuses on efficient implementation of MAP classification for real-time systems but with identical covariance matrices between classes, see [[L2_7_27_explanation]]. This example explores similar concepts but results in different decision boundaries due to the covariance structure. 

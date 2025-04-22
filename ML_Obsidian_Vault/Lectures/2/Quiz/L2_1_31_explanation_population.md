@@ -306,5 +306,6 @@ This example illustrates the fundamental principles of Bayesian classification a
 
 ## Related Examples
 
-[[L2_7_27_explanation]]
-[[L2_7_28_explanation]] 
+For applications of multivariate Gaussian classification with MAP estimation and unequal prior probabilities, see [[L2_7_27_explanation]]. This example extends the concepts covered here by focusing on real-time classification systems and precomputation strategies for efficient implementation.
+
+For a case with non-singular covariance matrices that results in quadratic decision boundaries, see [[L2_7_28_explanation]]. This extension demonstrates how having different covariance structures between classes affects the classification process and the geometry of the decision boundaries. 

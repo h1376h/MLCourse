@@ -286,5 +286,6 @@ This example illustrates the fundamental principles of MAP estimation and how it
 
 ## Related Examples
 
-[[L2_1_31_explanation_population]], used in our class lectures
-[[L2_7_28_explanation]]
+For the foundational approach to multivariate Gaussian classification with equal prior probabilities, see [[L2_1_31_explanation_population]], which was covered in our class lectures. This example introduces the basic concepts of Bayesian classification with multivariate Gaussian distributions using a simpler scenario.
+
+For an extension of this problem that deals with non-singular covariance matrices and explores how different covariance structures affect the decision boundary, see [[L2_7_28_explanation]]. This example builds on the MAP concepts covered here and demonstrates how quadratic discriminant functions arise when classes have different covariance matrices.
