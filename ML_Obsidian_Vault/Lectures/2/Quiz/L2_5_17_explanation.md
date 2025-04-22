@@ -5,8 +5,6 @@ We have a training set consisting of samples and their labels. All samples come 
 
 After learning the parameters of a Naive Bayes classifier we arrived at the following table:
 
-Table 1: Naive Bayes conditional probabilities
-
 | | $Y = 0$ | $Y = 1$ |
 |:---:|:---:|:---:|
 | $X1$ | $P(X1 = 1\|Y = 0) = 1/5$ | $P(X1 = 1\|Y = 1) = 3/8$ |
@@ -17,96 +15,148 @@ Denote by $w_1$ the probability of class 1 (that is $w_1 = P(Y = 1)$). If we kno
 
 ## Understanding the Problem
 
-We have a Naive Bayes classifier with the following conditional probabilities:
-- $P(X1=1|Y=0) = 1/5$
-- $P(X1=1|Y=1) = 3/8$
-- $P(X2=1|Y=0) = 1/3$
-- $P(X2=1|Y=1) = 3/4$
+In this problem, we're working with a Naive Bayes classifier that has already been trained, giving us the conditional probabilities $P(X_i|Y)$ for each feature and class. The goal is to determine the prior probability of class 1, denoted as $w_1 = P(Y=1)$, using the constraint that the likelihood of two specific data samples equals 1/180.
 
-We need to compute the likelihood of samples {1,0,1} and {0,1,0} and use the constraint that this likelihood equals 1/180 to find $w_1 = P(Y=1)$.
+The Naive Bayes model makes a key assumption: features are conditionally independent given the class. This means that for any sample $(X1, X2)$ and class $Y$:
 
-## Naive Bayes Model
+$$P(X1, X2|Y) = P(X1|Y) \times P(X2|Y)$$
 
-Naive Bayes assumes that features X1 and X2 are conditionally independent given the class Y.
-This means: $P(X1,X2|Y) = P(X1|Y) \times P(X2|Y)$
+The joint probability of the features and the class can be written as:
 
-The complete model is:
-$P(X1,X2,Y) = P(Y) \times P(X1|Y) \times P(X2|Y)$
+$$P(X1, X2, Y) = P(Y) \times P(X1|Y) \times P(X2|Y)$$
 
-### Visual Explanation: Naive Bayes Graphical Model
-The Naive Bayes model assumes that features X1 and X2 are conditionally independent given the class Y.
-In a graphical model, Y would directly influence both X1 and X2, but there's no direct connection between X1 and X2.
-Y → X1
-Y → X2
+We'll use this model along with the given conditional probabilities to determine the prior probability $w_1 = P(Y=1)$.
+
+![Naive Bayes Graphical Model](../Images/L2_5_Quiz_17/naive_bayes_graphical_model.png)
 
 ## Solution
 
-### Step 1: Calculating Probabilities for the Given Samples
+### Step 1: Setting up the Naive Bayes Model
 
-For sample {1,0,1}, we have X1=1, X2=0, Y=1:
-$P(X1=1,X2=0,Y=1) = P(Y=1) \times P(X1=1|Y=1) \times P(X2=0|Y=1)$
-$= w_1 \times 0.375 \times (1 - 0.75)$
-$= w_1 \times 0.375 \times 0.25$
-$= w_1 \times 0.09375$
+First, let's identify the known conditional probabilities from the problem statement:
 
-For sample {0,1,0}, we have X1=0, X2=1, Y=0:
-$P(X1=0,X2=1,Y=0) = P(Y=0) \times P(X1=0|Y=0) \times P(X2=1|Y=0)$
-$= (1 - w_1) \times (1 - 0.2) \times 0.3333333333333333$
-$= (1 - w_1) \times 0.8 \times 0.3333333333333333$
-$= (1 - w_1) \times 0.26666666666666666$
+- $P(X1 = 1|Y = 0) = 1/5 = 0.2$
+- $P(X1 = 1|Y = 1) = 3/8 = 0.375$
+- $P(X2 = 1|Y = 0) = 1/3 \approx 0.333$
+- $P(X2 = 1|Y = 1) = 3/4 = 0.75$
 
-Numerically:
-- $P(X1=1,X2=0,Y=1) = w_1 \times 0.09375$
-- $P(X1=0,X2=1,Y=0) = (1 - w_1) \times 0.26666666666666666$
+From these, we can derive:
+- $P(X1 = 0|Y = 0) = 1 - 0.2 = 0.8$
+- $P(X1 = 0|Y = 1) = 1 - 0.375 = 0.625$
+- $P(X2 = 0|Y = 0) = 1 - 0.333 = 0.667$
+- $P(X2 = 0|Y = 1) = 1 - 0.75 = 0.25$
 
-### Step 2: Setting up the Equation
+Also, we know:
+- $P(Y = 1) = w_1$
+- $P(Y = 0) = 1 - w_1$
 
-We're told that the likelihood of the two samples is 1/180.
-This means: $P(X1=1,X2=0,Y=1) \times P(X1=0,X2=1,Y=0) = 1/180$
+These conditional probabilities can be represented in the following tables:
+
+**Conditional Probability Table for X1 | Y:**
+
+|       | $Y = 0$ | $Y = 1$ |
+|-------|---------|---------|
+| $X1 = 0$ | 0.800   | 0.625   |
+| $X1 = 1$ | 0.200   | 0.375   |
+
+**Conditional Probability Table for X2 | Y:**
+
+|       | $Y = 0$ | $Y = 1$ |
+|-------|---------|---------|
+| $X2 = 0$ | 0.667   | 0.250   |
+| $X2 = 1$ | 0.333   | 0.750   |
+
+### Step 2: Calculating Joint Probabilities for the Given Samples
+
+We have two samples:
+1. Sample 1: $\{1, 0, 1\}$ meaning $X1=1, X2=0, Y=1$
+2. Sample 2: $\{0, 1, 0\}$ meaning $X1=0, X2=1, Y=0$
+
+For Sample 1, the joint probability is:
+$$P(X1=1, X2=0, Y=1) = P(Y=1) \times P(X1=1|Y=1) \times P(X2=0|Y=1)$$
+$$P(X1=1, X2=0, Y=1) = w_1 \times 0.375 \times 0.25 = 0.09375 \times w_1$$
+
+For Sample 2, the joint probability is:
+$$P(X1=0, X2=1, Y=0) = P(Y=0) \times P(X1=0|Y=0) \times P(X2=1|Y=0)$$
+$$P(X1=0, X2=1, Y=0) = (1-w_1) \times 0.8 \times 0.333 = 0.2667 \times (1-w_1)$$
+
+The following graph shows how these probabilities change with different values of $w_1$:
+
+![Sample Probabilities](../Images/L2_5_Quiz_17/sample_probabilities.png)
+
+### Step 3: Setting up the Equation Based on the Likelihood Constraint
+
+We're told that the likelihood of these two samples is 1/180. This means:
+
+$$P(X1=1, X2=0, Y=1) \times P(X1=0, X2=1, Y=0) = \frac{1}{180}$$
 
 Substituting our expressions:
-$[w_1 \times 0.09375] \times [(1 - w_1) \times 0.26666666666666666] = 1/180$
 
-This gives us the equation:
-$0.025 \times w_1 \times (1 - w_1) = 0.00555555555555556$
+$$[0.09375 \times w_1] \times [0.2667 \times (1-w_1)] = \frac{1}{180}$$
 
-Expanded equation:
-$-0.025 \times w_1^2 + 0.025 \times w_1 = 0.00555555555555556$
+Simplifying:
 
-### Step 3: Solving for $w_1$
+$$0.025 \times w_1 \times (1-w_1) = 0.00556$$
 
-Rearranging into standard form: $ax^2 + bx + c = 0$
+Expanding:
 
-$-0.025 \times w_1^2 + 0.025 \times w_1 - 0.00555555555555556 = 0$
+$$-0.025 \times w_1^2 + 0.025 \times w_1 = 0.00556$$
 
-Coefficients:
-- $a = -0.0250000000000000$
-- $b = 0.0250000000000000$
-- $c = -0.00555555555555556$
+Rearranging to standard form:
 
-Solutions: $[0.333333333333333, 0.666666666666667]$
+$$-0.025 \times w_1^2 + 0.025 \times w_1 - 0.00556 = 0$$
 
-The value of $w_1 = P(Y=1)$ is $0.3333333333333333$, which can be expressed as the fraction $\frac{1}{3}$.
+### Step 4: Solving the Quadratic Equation
 
-### Step 4: Verification
+We can solve this quadratic equation using the quadratic formula. Let's multiply everything by -40 to get cleaner numbers:
 
-Likelihood with $w_1 = 0.3333333333333333$: $0.005555555555555556$
-Expected likelihood: $0.005555555555555556$
-Difference: $0.0$
+$$w_1^2 - w_1 + 0.222 = 0$$
 
-Verification successful!
+Using the quadratic formula:
 
-### Likelihood Function Explanation
+$$w_1 = \frac{1 \pm \sqrt{1 - 4 \times 0.222}}{2} = \frac{1 \pm \sqrt{0.112}}{2} = \frac{1 \pm 0.333}{2}$$
 
-The likelihood function plotted against different values of $w_1$ would show a parabolic shape with two roots. Only one ($w_1 = \frac{1}{3}$) is our solution because:
-1. The parabolic shape is characteristic of the product of two linear functions in $w_1$ and $(1-w_1)$
-2. This is exactly what we get in the Naive Bayes model when multiplying the probabilities of two different samples
+This gives us:
+$$w_1 = \frac{1 + 0.333}{2} = 0.667 \text{ or } w_1 = \frac{1 - 0.333}{2} = 0.333$$
+
+Since $w_1$ represents a probability, it must be between 0 and 1. Both values satisfy this constraint. To determine which one is correct, we can verify with our original equation:
+
+For $w_1 = 0.333$:
+$$0.025 \times 0.333 \times (1-0.333) = 0.025 \times 0.333 \times 0.667 \approx 0.00556$$
+
+This matches our target value of $\frac{1}{180} \approx 0.00556$, so $w_1 = \frac{1}{3}$ is our solution.
+
+The quadratic equation and its solutions can be visualized as follows:
+
+![Quadratic Solution](../Images/L2_5_Quiz_17/quadratic_solution.png)
+
+![Likelihood Function](../Images/L2_5_Quiz_17/likelihood_function.png)
+
+![Naive Bayes Solution](../Images/L2_5_Quiz_17/naive_bayes_solution.png)
+
+## Visual Explanations
+
+### Naive Bayes Graphical Model
+
+The Naive Bayes model assumes that features X1 and X2 are conditionally independent given the class Y. This structure is depicted in the following graphical model:
+
+![Naive Bayes Graphical Model](../Images/L2_5_Quiz_17/naive_bayes_graphical_model.png)
+
+The arrows represent the conditional dependencies, showing that Y directly influences both X1 and X2, but there's no direct connection between X1 and X2.
+
+### Likelihood Function
+
+The likelihood function plotted against different values of $w_1$ shows a parabolic shape with two roots, but only one ($w_1 = \frac{1}{3}$) is our solution:
+
+![Likelihood Function](../Images/L2_5_Quiz_17/likelihood_function.png)
+
+The parabolic shape is characteristic of the product of two linear functions in $w_1$ and $(1-w_1)$, which is exactly what we get in the Naive Bayes model when multiplying the probabilities of two different samples.
 
 ## Key Insights
 
 ### Theoretical Foundations
-- **Naive Bayes Assumption**: Features are conditionally independent given the class. This simplifies the joint probability calculations significantly.
-- **Prior Probability**: The parameter $w_1 = P(Y=1)$ represents our belief about the class distribution before seeing any features.
+- **Naive Bayes Assumption**: The Naive Bayes model assumes that features are conditionally independent given the class. This simplifies the joint probability calculations significantly.
+- **Prior Probability**: The parameter $w_1 = P(Y=1)$ is a prior probability that represents our belief about the class distribution before seeing any features.
 - **Likelihood Constraint**: When given a constraint on the joint probability of multiple samples, this leads to an equation that can be solved for the unknown parameter.
 
 ### Mathematical Techniques
@@ -119,8 +169,10 @@ The likelihood function plotted against different values of $w_1$ would show a p
 
 ## Conclusion
 
-We determined that the prior probability of class 1 is $w_1 = P(Y=1) = \frac{1}{3}$. This was obtained by setting up joint probabilities for the given samples using the Naive Bayes model, then solving a quadratic equation based on the constraint that the likelihood equals 1/180.
+In this problem, we determined that the prior probability of class 1 is $w_1 = P(Y=1) = \frac{1}{3}$. This value was obtained by setting up joint probabilities for the given samples using the Naive Bayes model, then solving a quadratic equation based on the constraint that the likelihood equals $\frac{1}{180}$.
 
 The solution process demonstrates how the Naive Bayes assumption of conditional independence allows us to factorize complex joint probabilities into simpler terms, making the model both computationally efficient and mathematically tractable.
 
 The fraction $\frac{1}{3}$ represents the prior probability of class 1, meaning that before considering any features, we believe there's a one-third chance that a randomly selected sample belongs to class 1. 
+
+![Solution Summary](../Images/L2_5_Quiz_17/naive_bayes_solution.png) 
