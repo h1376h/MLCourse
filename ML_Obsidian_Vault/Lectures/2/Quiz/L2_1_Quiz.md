@@ -491,3 +491,21 @@ The contour plot shows elliptical contours of a bivariate normal distribution.
 4. Draw a rough sketch of how the contour plot would change if the correlation between the variables became zero.
 
 For a detailed explanation of this problem, including properties of bivariate normal distributions and contour plot interpretation, see [Question 30: Contour Plot Interpretation](L2_1_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+You are given data from two classes with the following 2-dimensional feature vectors:
+
+**Class 0:** $x_1=[1,2]$, $x_2=[2,3]$, $x_3=[3,3]$  
+**Class 1:** $x_1=[5,2]$, $x_2=[6,3]$, $x_3=[6,4]$
+
+Assume that the feature vectors in each class follow a multivariate Gaussian distribution.
+
+#### Task
+1. Calculate the mean vector and covariance matrix for each class
+2. Using the multivariate Gaussian probability density function, derive expressions for $P(\mathbf{x}|\text{class 0})$ and $P(\mathbf{x}|\text{class 1})$
+3. Assuming equal prior probabilities for both classes $P(\text{class 0}) = P(\text{class 1}) = 0.5$, apply Bayes' theorem to classify the new data point $\mathbf{x}_{new} = [4,3]$
+4. How would your classification change if the prior probabilities were $P(\text{class 0}) = 0.8$ and $P(\text{class 1}) = 0.2$?
+
+For a detailed explanation of this problem, including step-by-step calculations, multivariate Gaussian properties, and Bayesian classification, see [Question 31: Multivariate Gaussian Classification](L2_1_31_explanation.md).
