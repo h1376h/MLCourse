@@ -186,6 +186,13 @@ $$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x
 where:
 $$\boldsymbol{\mu}^{(0)} = \begin{bmatrix} 2 \\ 2.667 \end{bmatrix}, \quad \boldsymbol{\mu}^{(1)} = \begin{bmatrix} 5.667 \\ 3 \end{bmatrix}$$
 
+Substituting all the values:
+$$p(\mathbf{x}|\text{class }0) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix})^T \begin{bmatrix} 5.86 & -8.79 \\ -8.79 & 17.58 \end{bmatrix} (\mathbf{x} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix})\right)$$
+
+$$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix})^T \begin{bmatrix} 17.58 & -8.79 \\ -8.79 & 5.86 \end{bmatrix} (\mathbf{x} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix})\right)$$
+
+---
+
 For the new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$, we calculate:
 
 For **Class 0**:
