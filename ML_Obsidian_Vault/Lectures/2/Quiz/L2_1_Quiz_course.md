@@ -422,4 +422,11 @@ Assume that the feature vectors in each class follow a multivariate Gaussian dis
 2. Using the multivariate Gaussian probability density function, derive expressions for $P(\mathbf{x}|\text{class }0)$ and $P(\mathbf{x}|\text{class }1)$
 3. Assuming equal prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, apply Bayes' theorem to classify
 
-For a detailed explanation of this problem, including step-by-step calculations, multivariate Gaussian properties, and Bayesian classification, see [Question 25: Multivariate Gaussian Classification](L2_1_31_explanation.md).
+#### Solution Approaches
+This problem can be tackled using multiple approaches:
+
+For a detailed explanation using the sample covariance formula (n-1 denominator), which provides an unbiased estimator, see [Question 31: Sample-based Solution](L2_1_31_explanation.md).
+
+For an alternative approach using the population covariance formula (n denominator), which was used in our class lectures, see [Alternative Solution: Population-based Approach](L2_1_31_explanation_population.md).
+
+Note that while the numerical values differ between these approaches, the fundamental concepts and final classification decisions remain the same, as the relative relationships between variables are preserved.
