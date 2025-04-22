@@ -231,13 +231,6 @@ fig1.delaxes(fig1.add_subplot(gs[1, 1]))
 plt.tight_layout()
 save_figure(fig1, "step1_data_visualization.png")
 
-# Create a simple version of the scatter plot
-fig1b, ax1b = plt.subplots(figsize=(10, 8))
-plot_data_with_ellipses(ax1b, class0_data, class1_data, mean_class0, mean_class1, 
-                       cov_class0, cov_class1, new_point=new_point,
-                       title='Data Points with Mean Vectors and Covariance Ellipses')
-save_figure(fig1b, "step1b_data_scatter.png")
-
 # Plot the covariance matrices as heatmaps
 fig1c, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 sns.heatmap(cov_class0, annot=True, fmt=".3f", cmap="Blues", square=True, ax=ax1)
@@ -372,32 +365,6 @@ ax2.set_xlabel('Feature 1', fontsize=12)
 ax2.set_ylabel('Feature 2', fontsize=12)
 plt.colorbar(contour1, ax=ax2, label='Probability Density')
 save_figure(fig2b, "step2b_pdf_class1.png")
-
-# Combined view
-fig2c, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 7))
-
-# Class 0 PDF
-c0 = ax1.contourf(x_grid, y_grid, pdf_class0, levels=20, cmap='Blues')
-ax1.scatter(class0_data[:, 0], class0_data[:, 1], color='blue', s=80, edgecolor='black')
-ax1.scatter(mean_class0[0], mean_class0[1], color='blue', marker='X', s=150, edgecolor='black')
-ax1.scatter(new_point[0], new_point[1], color='green', marker='*', s=200, edgecolor='black')
-ax1.set_title('PDF for Class 0', fontsize=14)
-ax1.set_xlabel('Feature 1', fontsize=12)
-ax1.set_ylabel('Feature 2', fontsize=12)
-plt.colorbar(c0, ax=ax1, label='Probability Density')
-
-# Class 1 PDF
-c1 = ax2.contourf(x_grid, y_grid, pdf_class1, levels=20, cmap='Reds')
-ax2.scatter(class1_data[:, 0], class1_data[:, 1], color='red', s=80, edgecolor='black')
-ax2.scatter(mean_class1[0], mean_class1[1], color='red', marker='X', s=150, edgecolor='black')
-ax2.scatter(new_point[0], new_point[1], color='green', marker='*', s=200, edgecolor='black')
-ax2.set_title('PDF for Class 1', fontsize=14)
-ax2.set_xlabel('Feature 1', fontsize=12)
-ax2.set_ylabel('Feature 2', fontsize=12)
-plt.colorbar(c1, ax=ax2, label='Probability Density')
-
-plt.tight_layout()
-save_figure(fig2c, "step2c_gaussian_pdfs.png")
 
 # Visualize 3D PDFs
 fig2d = plt.figure(figsize=(16, 7))
@@ -543,44 +510,6 @@ ax3a.set_xlim(x_min, x_max)
 ax3a.set_ylim(y_min, y_max)
 save_figure(fig3a, "step3a_decision_boundary.png")
 
-# Create full visualization with log likelihood ratio
-fig3b, ax3b = plt.subplots(figsize=(12, 10))
-
-# Plot the log likelihood ratio and decision boundary
-contour = ax3b.contourf(x_grid, y_grid, log_likelihood_ratio, cmap='coolwarm', alpha=0.5,
-                      levels=np.linspace(-5, 5, 21))
-plt.colorbar(contour, ax=ax3b, label='Log Likelihood Ratio (ln[P(x|class 1) / P(x|class 0)])')
-
-# Add the decision boundary
-ax3b.contour(x_grid, y_grid, log_likelihood_ratio, levels=[0], colors='k', linewidths=2)
-
-# Plot data points with different markers and colors
-ax3b.scatter(class0_data[:, 0], class0_data[:, 1], color='blue', marker='o', s=100, 
-           edgecolor='black', linewidth=1.5, label='Class 0')
-ax3b.scatter(class1_data[:, 0], class1_data[:, 1], color='red', marker='s', s=100, 
-           edgecolor='black', linewidth=1.5, label='Class 1')
-
-# Plot mean vectors
-ax3b.scatter(mean_class0[0], mean_class0[1], color='blue', marker='X', s=200, 
-           edgecolor='black', linewidth=2, label='Class 0 Mean')
-ax3b.scatter(mean_class1[0], mean_class1[1], color='red', marker='X', s=200, 
-           edgecolor='black', linewidth=2, label='Class 1 Mean')
-
-# Plot new point
-ax3b.scatter(new_point[0], new_point[1], color='green', marker='*', s=300, 
-           edgecolor='black', linewidth=2, label=f'New Point ({decision})')
-
-# Add labels and legend
-ax3b.set_xlabel('Feature 1', fontsize=14)
-ax3b.set_ylabel('Feature 2', fontsize=14)
-ax3b.set_title('Bayesian Classification with Equal Priors', fontsize=16)
-ax3b.legend(fontsize=12)
-
-ax3b.set_xlim(x_min, x_max)
-ax3b.set_ylim(y_min, y_max)
-
-save_figure(fig3b, "step3b_equal_priors_classification.png")
-
 # ==============================
 # STEP 4: Classification with Different Priors
 # ==============================
@@ -698,137 +627,6 @@ ax4a.legend(fontsize=12)
 ax4a.set_xlim(x_min, x_max)
 ax4a.set_ylim(y_min, y_max)
 save_figure(fig4a, "step4a_boundaries_comparison.png")
-
-# Full visualization with log likelihood ratio
-fig4b, ax4b = plt.subplots(figsize=(12, 10))
-
-# Plot the log likelihood ratio and decision boundary
-contour = ax4b.contourf(x_grid, y_grid, log_likelihood_ratio, cmap='coolwarm', alpha=0.5,
-                      levels=np.linspace(-5, 5, 21))
-plt.colorbar(contour, ax=ax4b, label='Log Likelihood Ratio (ln[P(x|class 1)/P(x|class 0)])')
-
-# Add both decision boundaries
-ax4b.contour(x_grid, y_grid, log_likelihood_ratio, levels=[0], colors='k', linewidths=2, 
-          linestyles='solid', label='Equal Priors Boundary')
-ax4b.contour(x_grid, y_grid, log_likelihood_ratio, levels=[log_prior_ratio], colors='k', 
-          linewidths=2, linestyles='dashed', label='Unequal Priors Boundary')
-
-# Add legend items for boundaries
-ax4b.plot([], [], color='k', linewidth=2, linestyle='solid', label='Equal Priors Boundary')
-ax4b.plot([], [], color='k', linewidth=2, linestyle='dashed', label='Unequal Priors Boundary')
-
-# Plot data points with different markers and colors
-ax4b.scatter(class0_data[:, 0], class0_data[:, 1], color='blue', marker='o', s=100, 
-           edgecolor='black', linewidth=1.5, label='Class 0')
-ax4b.scatter(class1_data[:, 0], class1_data[:, 1], color='red', marker='s', s=100, 
-           edgecolor='black', linewidth=1.5, label='Class 1')
-
-# Plot mean vectors
-ax4b.scatter(mean_class0[0], mean_class0[1], color='blue', marker='X', s=200, 
-           edgecolor='black', linewidth=2, label='Class 0 Mean')
-ax4b.scatter(mean_class1[0], mean_class1[1], color='red', marker='X', s=200, 
-           edgecolor='black', linewidth=2, label='Class 1 Mean')
-
-# Plot new point
-ax4b.scatter(new_point[0], new_point[1], color='green', marker='*', s=300, 
-           edgecolor='black', linewidth=2, label=f'New Point ({new_decision})')
-
-# Add labels and legend
-ax4b.set_xlabel('Feature 1', fontsize=14)
-ax4b.set_ylabel('Feature 2', fontsize=14)
-ax4b.set_title('Bayesian Classification with Different Priors', fontsize=16)
-ax4b.legend(fontsize=12)
-
-ax4b.set_xlim(x_min, x_max)
-ax4b.set_ylim(y_min, y_max)
-
-save_figure(fig4b, "step4b_unequal_priors_classification.png")
-
-# ==============================
-# STEP 5: Compare both classification approaches
-# ==============================
-print_step_header(5, "Comparing Equal vs. Unequal Priors")
-
-print_substep("Summary of Classification Results")
-print(f"Equal priors classification result: {decision}")
-print(f"   - P(class 0) = {prior_class0}, P(class 1) = {prior_class1}")
-print(f"   - P(class 0|x) = {posterior_class0:.6f}")
-print(f"   - P(class 1|x) = {posterior_class1:.6f}")
-
-print(f"\nUnequal priors classification result: {new_decision}")
-print(f"   - P(class 0) = {new_prior_class0}, P(class 1) = {new_prior_class1}")
-print(f"   - P(class 0|x) = {new_posterior_class0:.6f}")
-print(f"   - P(class 1|x) = {new_posterior_class1:.6f}")
-
-print_substep("Effect of Changing Priors")
-if decision != new_decision:
-    print(f"   - The classification decision changed from {decision} to {new_decision}.")
-    print(f"   - This demonstrates the significant impact of prior probabilities on the decision.")
-else:
-    print(f"   - The classification decision remains {decision}.")
-    print(f"   - However, the posterior probabilities have changed:")
-    print(f"     * P(class 0|x) increased from {posterior_class0:.6f} to {new_posterior_class0:.6f}")
-    print(f"     * P(class 1|x) decreased from {posterior_class1:.6f} to {new_posterior_class1:.6f}")
-
-print_substep("Key Insights")
-print("1. When prior probabilities are equal, the decision boundary is determined solely by the likelihood ratio.")
-print("   - Points are classified based only on their relative likelihoods under each class model.")
-print("\n2. When prior probabilities favor one class, the decision boundary shifts to make it easier to classify points as the favored class.")
-print(f"   - In this case, increasing P(class 0) to {new_prior_class0} shifted the boundary toward class 1.")
-print("   - This means we need stronger evidence (higher likelihood) to classify a point as class 1.")
-print("\n3. The mathematical relationship between the decision boundaries:")
-print("   - Equal priors: Classify as Class 1 if ln[P(x|class 1)/P(x|class 0)] > 0")
-print(f"   - Unequal priors: Classify as Class 1 if ln[P(x|class 1)/P(x|class 0)] > {log_prior_ratio:.4f}")
-
-# Create a side-by-side comparison plot
-print_substep("Creating Visual Comparisons")
-fig5a, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 8))
-
-# Function to set up a comparison plot
-def setup_comparison_plot(ax, class0_data, class1_data, mean_class0, mean_class1, 
-                          new_point, log_likelihood_ratio, boundary_level, title, decision):
-    ax.contourf(x_grid, y_grid, log_likelihood_ratio, cmap='coolwarm', alpha=0.5,
-               levels=np.linspace(-5, 5, 21))
-    
-    # Add decision boundary
-    ax.contour(x_grid, y_grid, log_likelihood_ratio, levels=[boundary_level], 
-              colors='k', linewidths=2)
-    
-    # Plot data points
-    ax.scatter(class0_data[:, 0], class0_data[:, 1], color='blue', marker='o', s=80, 
-              edgecolor='black', linewidth=1.5, label='Class 0')
-    ax.scatter(class1_data[:, 0], class1_data[:, 1], color='red', marker='s', s=80, 
-              edgecolor='black', linewidth=1.5, label='Class 1')
-    
-    # Plot means
-    ax.scatter(mean_class0[0], mean_class0[1], color='blue', marker='X', s=150, 
-              edgecolor='black', linewidth=1.5)
-    ax.scatter(mean_class1[0], mean_class1[1], color='red', marker='X', s=150, 
-              edgecolor='black', linewidth=1.5)
-    
-    # Plot new point
-    ax.scatter(new_point[0], new_point[1], color='green', marker='*', s=200, 
-              edgecolor='black', linewidth=1.5, label=f'New Point ({decision})')
-    
-    ax.set_title(title, fontsize=14)
-    ax.set_xlabel('Feature 1', fontsize=12)
-    ax.set_ylabel('Feature 2', fontsize=12)
-    ax.set_xlim(x_min, x_max)
-    ax.set_ylim(y_min, y_max)
-    ax.legend(fontsize=10)
-
-# Plot equal priors case
-setup_comparison_plot(ax1, class0_data, class1_data, mean_class0, mean_class1, 
-                     new_point, log_likelihood_ratio, 0, 
-                     f"Equal Priors (P(C0)={prior_class0}, P(C1)={prior_class1})", decision)
-
-# Plot unequal priors case
-setup_comparison_plot(ax2, class0_data, class1_data, mean_class0, mean_class1, 
-                     new_point, log_likelihood_ratio, log_prior_ratio, 
-                     f"Unequal Priors (P(C0)={new_prior_class0}, P(C1)={new_prior_class1})", new_decision)
-
-plt.tight_layout()
-save_figure(fig5a, "step5a_comparison.png")
 
 # Create a visualization of regions assigned to each class
 fig5b, (ax1, ax2) = plt.subplots(1, 2, figsize=(18, 8))
