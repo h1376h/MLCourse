@@ -166,11 +166,7 @@ This visualization helps understand the relationship between the 3D probability 
 
 The colored horizontal planes intersect the probability density surface, creating the contour lines that are projected onto the $XY$ plane below.
 
-## Visual Exploration Questions
-
-In this section, we explore contour plots through a series of visual questions. Each question is accompanied by visualizations and step-by-step solutions to build intuition about multivariate distributions and their properties.
-
-### Visual Question 1: Effect of Correlation and Variance on Contour Shapes
+### Example 7: Effect of Correlation and Variance on Contour Shapes
 
 **Question**: How does changing the correlation coefficient and variance affect the shape of contour plots in a bivariate normal distribution?
 
@@ -225,7 +221,7 @@ These visualizations provide valuable insights:
 
 Contour plots make these complex structures interpretable in ways that would be difficult to visualize with marginal distributions or summary statistics alone.
 
-### Visual Question 3: Probability Regions and Mahalanobis Distance
+### Example 8: Probability Regions and Mahalanobis Distance
 
 **Question**: What is the relationship between contour lines and probability regions in a bivariate normal distribution, and how does this extend our understanding of confidence intervals?
 
@@ -254,7 +250,7 @@ Contour lines in a multivariate normal distribution represent regions of equal p
 
 This framework allows us to make statistically valid statements about the joint probability of multiple variables, which is essential for hypothesis testing, outlier detection, and uncertainty quantification in multivariate settings.
 
-### Visual Question 4: Conditional Distributions
+### Example 9: Conditional Distributions
 
 **Question**: How do conditional distributions change as we vary the value of one variable in a bivariate normal distribution, and what does this tell us about the relationship between variables?
 
@@ -290,7 +286,7 @@ This visualization demonstrates key principles:
 
 These principles form the foundation of prediction, regression, and conditional inference in statistics and machine learning.
 
-### Visual Question 5: Joint and Marginal Distributions
+### Example 10: Joint and Marginal Distributions
 
 **Question**: What is the relationship between joint and marginal distributions, and what information is preserved or lost when examining only marginal distributions?
 
