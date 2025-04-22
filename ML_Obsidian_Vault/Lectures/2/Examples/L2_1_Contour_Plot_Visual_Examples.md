@@ -17,7 +17,7 @@ Where:
 - $\sigma_X, \sigma_Y$ = Standard deviations of $X$ and $Y$
 - $\rho$ = Correlation coefficient between $X$ and $Y$
 
-## Visual Examples
+## Examples
 
 The following examples demonstrate contour plots for various probability distributions:
 
@@ -168,7 +168,8 @@ The colored horizontal planes intersect the probability density surface, creatin
 
 ### Example 7: Effect of Correlation and Variance on Contour Shapes
 
-**Question**: How does changing the correlation coefficient and variance affect the shape of contour plots in a bivariate normal distribution?
+#### Problem Statement
+How does changing the correlation coefficient and variance affect the shape of contour plots in a bivariate normal distribution?
 
 ![Bivariate Normal Contours](../Images/Contour_Plot_Visual_Question/bivariate_normal_contours.png)
 
@@ -196,7 +197,8 @@ This visualization demonstrates how correlation affects our uncertainty about on
 
 ### Example 8: Contour Plots for Non-Gaussian Distributions
 
-**Question**: How do contour plots represent complex non-Gaussian probability distributions, and what insights can be gained from these visualizations?
+#### Problem Statement
+How do contour plots represent complex non-Gaussian probability distributions, and what insights can be gained from these visualizations?
 
 ![Non-Gaussian Distributions](../Images/Contour_Plot_Visual_Question/different_distributions_contours.png)
 
@@ -223,7 +225,8 @@ Contour plots make these complex structures interpretable in ways that would be 
 
 ### Example 9: Probability Regions and Mahalanobis Distance
 
-**Question**: What is the relationship between contour lines and probability regions in a bivariate normal distribution, and how does this extend our understanding of confidence intervals?
+#### Problem Statement
+What is the relationship between contour lines and probability regions in a bivariate normal distribution, and how does this extend our understanding of confidence intervals?
 
 ![Probability Regions](../Images/Contour_Plot_Visual_Question/bivariate_normal_probability_regions.png)
 
@@ -250,9 +253,10 @@ Contour lines in a multivariate normal distribution represent regions of equal p
 
 This framework allows us to make statistically valid statements about the joint probability of multiple variables, which is essential for hypothesis testing, outlier detection, and uncertainty quantification in multivariate settings.
 
-### Example 11: Conditional Distributions
+### Example 10: Conditional Distributions
 
-**Question**: How do conditional distributions change as we vary the value of one variable in a bivariate normal distribution, and what does this tell us about the relationship between variables?
+#### Problem Statement
+How do conditional distributions change as we vary the value of one variable in a bivariate normal distribution, and what does this tell us about the relationship between variables?
 
 ![Conditional Distributions](../Images/Contour_Plot_Visual_Question/conditional_distributions.png)
 
@@ -286,9 +290,10 @@ This visualization demonstrates key principles:
 
 These principles form the foundation of prediction, regression, and conditional inference in statistics and machine learning.
 
-### Example 12: Joint and Marginal Distributions
+### Example 11: Joint and Marginal Distributions
 
-**Question**: What is the relationship between joint and marginal distributions, and what information is preserved or lost when examining only marginal distributions?
+#### Problem Statement
+What is the relationship between joint and marginal distributions, and what information is preserved or lost when examining only marginal distributions?
 
 ![Marginal Distributions](../Images/Contour_Plot_Visual_Question/marginal_distributions.png)
 
@@ -315,9 +320,10 @@ Joint and marginal distributions have a complex relationship, and examining only
 
 The joint distribution provides a complete picture of the relationship between variables, while marginals provide only a partial view. This highlights the importance of multivariate analysis and visualizations like contour plots that can reveal the full structure of the data.
 
-### Example 13: Geometric Interpretation of Contour Plots
+### Example 12: Geometric Interpretation of Contour Plots
 
-**Question**: What is the geometric relationship between 3D probability density surfaces and their 2D contour plot representations, and what are the advantages of each visualization?
+#### Problem Statement
+What is the geometric relationship between 3D probability density surfaces and their 2D contour plot representations, and what are the advantages of each visualization?
 
 ![Contour vs 3D](../Images/Contour_Plot_Visual_Question/contour_3d_comparison.png)
 
@@ -349,6 +355,35 @@ Contour plots and 3D surface plots provide complementary representations of the 
    - Helpful for explaining the concept of probability density
 
 The relationship between these visualizations is analogous to topographic maps versus 3D terrain models. Contour plots provide precision and clarity for analysis, while 3D plots give intuition and overall shape understanding. Together, they provide a complete picture of multivariate probability distributions.
+
+## Key Insights
+
+### Theoretical Insights
+- Contour plots of bivariate normal distributions form ellipses whose orientation and shape are determined by correlation and variances
+- Conditional distributions in bivariate normals follow the regression line with constant variance
+- Probability regions in multivariate space generalize univariate confidence intervals
+- Mahalanobis distance provides a correlation-adjusted measure of distance in multivariate space
+
+### Practical Applications
+- Contour plots reveal correlation structures that might be missed in univariate or marginal analyses
+- They allow visualization of complex, non-Gaussian distributions with multiple modes
+- Understanding conditional distributions is fundamental for regression and prediction
+- Probability regions provide a framework for multivariate hypothesis testing and outlier detection
+
+### Common Pitfalls
+- Examining only marginal distributions can hide important correlation structure
+- Misinterpreting contour spacing (steep vs. gradual changes in probability density)
+- Forgetting that probability content of contours depends on dimensionality
+- Overlooking Simpson's paradox effects when analyzing grouped vs. ungrouped data
+
+## Running the Examples
+
+You can run the code that generates these examples and visualizations using:
+
+```bash
+python3 ML_Obsidian_Vault/Lectures/2/Codes/L2_1_Contour_Plot_Visual_question.py
+python3 ML_Obsidian_Vault/Lectures/2/Codes/L2_1_Contour_Plot_Visual_answer.py
+```
 
 ## Related Topics
 
