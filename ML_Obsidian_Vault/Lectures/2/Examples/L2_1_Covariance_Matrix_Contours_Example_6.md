@@ -122,6 +122,10 @@ This example demonstrates the fundamental importance of coordinate systems in mu
 ![Rotation Steps Visualization](../Images/Contour_Plots/ex6_rotation_steps.png)
 *Comprehensive visualization showing the effect of rotation at multiple angles (0°, 30°, 60°, 90°, 135°, 180°). For each angle, the correlation coefficient changes with the covariance ellipse (red dashed line) rotating accordingly.*
 
+### Theory vs Reality Visualization
+![Theory vs Reality Explanation](../Images/Contour_Plots/ex6_theory_vs_reality_explanation.png)
+*Simple visual explanation of why theoretical and actual correlation values differ after rotation. Blue points show perfectly uncorrelated data (theoretical case), while red points show slightly correlated data (realistic case). The visualization demonstrates how initial correlation in the data affects the outcome of rotation.*
+
 ## Key Insights
 
 ### Mathematical Properties

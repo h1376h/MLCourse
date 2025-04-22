@@ -75,6 +75,10 @@ This emoji example powerfully demonstrates why data visualization should accompa
 ![Emoji Covariance Example](../Images/Contour_Plots/ex8_emoji_covariance_example.png)
 *Visualization of correlation patterns using emoji-like faces. The left panel shows data arranged in a "smile" pattern, representing positive trends where variables move together. The right panel shows data arranged in a "frown" pattern, representing negative trends where variables move in opposite directions.*
 
+### Linear vs Non-Linear Correlation Comparison
+![Linear vs Non-Linear Patterns](../Images/Contour_Plots/ex8_linear_vs_nonlinear_explanation.png)
+*Visual comparison of how the Pearson correlation coefficient behaves with different relationship patterns. Left: Linear relationship with high correlation. Middle: U-shaped (quadratic) relationship with near-zero correlation despite clear pattern. Right: Sinusoidal relationship with near-zero correlation. This illustrates why linear correlation fails to capture non-linear patterns like our emoji examples.*
+
 ## Key Insights
 
 ### Intuitive Understanding

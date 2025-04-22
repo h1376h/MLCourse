@@ -221,6 +221,67 @@ def emoji_covariance_example():
     except Exception as e:
         print(f"\nError saving figure: {e}")
         
+    # Create a simple educational visualization showing why linear correlation fails to capture non-linear relationships
+    fig_explanation = plt.figure(figsize=(12, 5))
+    
+    # Left panel - Linear scatter plot with high correlation
+    ax1 = fig_explanation.add_subplot(131)
+    
+    # Generate linearly correlated data
+    x_linear = np.linspace(-3, 3, 30)
+    y_linear = 0.8 * x_linear + np.random.normal(0, 0.5, len(x_linear))
+    corr_linear = np.corrcoef(x_linear, y_linear)[0, 1]
+    
+    ax1.scatter(x_linear, y_linear, color='blue', s=30)
+    ax1.axline((0, 0), slope=0.8, color='r', linestyle='--', alpha=0.7)
+    ax1.set_xlim(-3.5, 3.5)
+    ax1.set_ylim(-3.5, 3.5)
+    ax1.set_aspect('equal')
+    ax1.grid(True, alpha=0.3)
+    ax1.set_title(f'Linear Relationship\nCorrelation = {corr_linear:.2f}')
+    
+    # Middle panel - Quadratic scatter plot (U shape)
+    ax2 = fig_explanation.add_subplot(132)
+    
+    # Generate quadratic pattern
+    x_quad = np.linspace(-3, 3, 30)
+    y_quad = 0.8 * x_quad**2 + np.random.normal(0, 0.5, len(x_quad))
+    corr_quad = np.corrcoef(x_quad, y_quad)[0, 1]
+    
+    ax2.scatter(x_quad, y_quad, color='green', s=30)
+    x_curve = np.linspace(-3, 3, 100)
+    y_curve = 0.8 * x_curve**2
+    ax2.plot(x_curve, y_curve, 'r--', alpha=0.7)
+    ax2.set_xlim(-3.5, 3.5)
+    ax2.set_ylim(-1, 8)
+    ax2.grid(True, alpha=0.3)
+    ax2.set_title(f'U-Shaped Relationship\nCorrelation = {corr_quad:.2f}')
+    
+    # Right panel - Sinusoidal scatter plot (wave)
+    ax3 = fig_explanation.add_subplot(133)
+    
+    # Generate sinusoidal pattern
+    x_sin = np.linspace(-3, 3, 30)
+    y_sin = np.sin(x_sin * 2) * 2 + np.random.normal(0, 0.3, len(x_sin))
+    corr_sin = np.corrcoef(x_sin, y_sin)[0, 1]
+    
+    ax3.scatter(x_sin, y_sin, color='purple', s=30)
+    x_curve = np.linspace(-3, 3, 100)
+    y_curve = np.sin(x_curve * 2) * 2
+    ax3.plot(x_curve, y_curve, 'r--', alpha=0.7)
+    ax3.set_xlim(-3.5, 3.5)
+    ax3.set_ylim(-2.5, 2.5)
+    ax3.grid(True, alpha=0.3)
+    ax3.set_title(f'Sinusoidal Relationship\nCorrelation = {corr_sin:.2f}')
+    
+    plt.suptitle('Why Linear Correlation Fails for Non-Linear Patterns', fontsize=14)
+    plt.tight_layout()
+    
+    # Save the figure
+    explanation_path = os.path.join(images_dir, "ex8_linear_vs_nonlinear_explanation.png")
+    fig_explanation.savefig(explanation_path, dpi=300, bbox_inches='tight')
+    print(f"Educational explanation about linear vs non-linear correlation saved to: {explanation_path}")
+    
     return fig
 
 if __name__ == "__main__":

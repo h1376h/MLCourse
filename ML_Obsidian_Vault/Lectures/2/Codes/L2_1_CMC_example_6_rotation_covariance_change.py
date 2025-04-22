@@ -626,6 +626,57 @@ def toy_data_covariance_change():
         rotation_steps_fig.savefig(rotation_steps_save_path, bbox_inches='tight', dpi=300)
         print(f"Rotation steps visualization saved to: {rotation_steps_save_path}")
         
+        # Create a simple educational visualization of theory vs actual correlation
+        fig_explanation = plt.figure(figsize=(10, 5))
+        ax = fig_explanation.add_subplot(111)
+        
+        # Perfect uncorrelated data (theoretical case)
+        theta_perfect = np.linspace(0, 2*np.pi, 100)
+        perfect_x = np.cos(theta_perfect)
+        perfect_y = np.sin(theta_perfect)
+        
+        # Slightly correlated data (realistic case)
+        theta_real = np.linspace(0, 2*np.pi, 100)
+        real_x = np.cos(theta_real)
+        real_y = 0.9*np.sin(theta_real) + 0.3*np.cos(theta_real)  # Adding slight correlation
+        
+        # Draw circles/ellipses
+        ax.scatter(perfect_x, perfect_y, c='blue', alpha=0.5, s=30, label='Perfectly Uncorrelated (Theory)')
+        ax.scatter(real_x, real_y, c='red', alpha=0.5, s=30, label='Slightly Correlated (Reality)')
+        
+        # Draw coordinate axes
+        ax.axhline(y=0, color='k', linestyle='-', alpha=0.3)
+        ax.axvline(x=0, color='k', linestyle='-', alpha=0.3)
+        
+        # Draw arrows for rotation
+        rotation_angle = np.pi/6  # 30 degrees
+        ax.arrow(0, 0, 3*np.cos(rotation_angle), 3*np.sin(rotation_angle), head_width=0.2, 
+                 head_length=0.3, fc='purple', ec='purple', label='Rotation Direction')
+        
+        # Add arrows showing coordinate system rotation
+        ax.arrow(0, 0, 2, 0, head_width=0.2, head_length=0.3, fc='black', ec='black')
+        ax.arrow(0, 0, 0, 2, head_width=0.2, head_length=0.3, fc='black', ec='black')
+        
+        # Rotated coordinate system
+        ax.arrow(0, 0, 2*np.cos(rotation_angle), 2*np.sin(rotation_angle), head_width=0.2, 
+                 head_length=0.3, fc='green', ec='green')
+        ax.arrow(0, 0, -2*np.sin(rotation_angle), 2*np.cos(rotation_angle), head_width=0.2, 
+                 head_length=0.3, fc='green', ec='green')
+        
+        ax.set_xlim(-3, 3)
+        ax.set_ylim(-3, 3)
+        ax.set_aspect('equal')
+        ax.grid(True, alpha=0.3)
+        ax.legend(loc='upper right')
+        
+        # Add title
+        ax.set_title('Why Theory ≠ Reality: Effect of Initial Correlation', fontsize=14)
+        
+        # Save the figure
+        explanation_path = os.path.join(images_dir, "ex6_theory_vs_reality_explanation.png")
+        fig_explanation.savefig(explanation_path, dpi=300, bbox_inches='tight')
+        print(f"Educational explanation saved to: {explanation_path}")
+        
     except Exception as e:
         print(f"\nError saving figures: {e}")
     
