@@ -3,16 +3,16 @@
 ## Problem Statement
 You are given data from two classes with the following 2-dimensional feature vectors:
 
-**Class 0:** $x_1=[1,2]$, $x_2=[2,3]$, $x_3=[3,3]$  
-**Class 1:** $x_1=[5,2]$, $x_2=[6,3]$, $x_3=[6,4]$
+**Class 0:** $\mathbf{x}^{(1)}=\begin{bmatrix} 1 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 2 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 3 \\ 3 \end{bmatrix}$  
+**Class 1:** $\mathbf{x}^{(1)}=\begin{bmatrix} 5 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 6 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 6 \\ 4 \end{bmatrix}$
 
 Assume that the feature vectors in each class follow a multivariate Gaussian distribution.
 
 ### Task
 1. Calculate the mean vector and covariance matrix for each class
-2. Using the multivariate Gaussian probability density function, derive expressions for $P(\mathbf{x}|\text{class 0})$ and $P(\mathbf{x}|\text{class 1})$
-3. Assuming equal prior probabilities for both classes $P(\text{class 0}) = P(\text{class 1}) = 0.5$, apply Bayes' theorem to classify the new data point $\mathbf{x}_{new} = [4,3]$
-4. How would your classification change if the prior probabilities were $P(\text{class 0}) = 0.8$ and $P(\text{class 1}) = 0.2$?
+2. Using the multivariate Gaussian probability density function, derive expressions for $P(\mathbf{x}|\text{class }0)$ and $P(\mathbf{x}|\text{class }1)$
+3. Assuming equal prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, apply Bayes' theorem to classify the new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$
+4. How would your classification change if the prior probabilities were $P(\text{class }0) = 0.8$ and $P(\text{class }1) = 0.2$?
 
 ## Understanding the Problem
 
@@ -26,53 +26,28 @@ The multivariate Gaussian (or normal) distribution is a generalization of the on
 
 The mean vector for a class is calculated by taking the average of all feature vectors in that class:
 
-$$\boldsymbol{\mu} = \frac{1}{n} \sum_{i=1}^{n} \mathbf{x}_i$$
+$$\boldsymbol{\mu} = \frac{1}{n} \sum_{i=1}^{n} \mathbf{x}^{(i)}$$
 
 For **Class 0**, we have:
-```
-Mean vector = (1/3)([1,2] + [2,3] + [3,3])
-            = (1/3)([6,8])
-            = [2, 2.667]
-```
+$$\boldsymbol{\mu}_0 = \frac{1}{3}\left(\begin{bmatrix} 1 \\ 2 \end{bmatrix} + \begin{bmatrix} 2 \\ 3 \end{bmatrix} + \begin{bmatrix} 3 \\ 3 \end{bmatrix}\right) = \begin{bmatrix} 2 \\ 2.667 \end{bmatrix}$$
 
 For **Class 1**, we have:
-```
-Mean vector = (1/3)([5,2] + [6,3] + [6,4])
-            = (1/3)([17,9])
-            = [5.667, 3]
-```
+$$\boldsymbol{\mu}_1 = \frac{1}{3}\left(\begin{bmatrix} 5 \\ 2 \end{bmatrix} + \begin{bmatrix} 6 \\ 3 \end{bmatrix} + \begin{bmatrix} 6 \\ 4 \end{bmatrix}\right) = \begin{bmatrix} 5.667 \\ 3 \end{bmatrix}$$
 
 The covariance matrix is calculated as:
 
-$$\boldsymbol{\Sigma} = \frac{1}{n} \sum_{i=1}^{n} (\mathbf{x}_i - \boldsymbol{\mu})(\mathbf{x}_i - \boldsymbol{\mu})^T$$
+$$\boldsymbol{\Sigma} = \frac{1}{n} \sum_{i=1}^{n} (\mathbf{x}^{(i)} - \boldsymbol{\mu})(\mathbf{x}^{(i)} - \boldsymbol{\mu})^T$$
 
 For **Class 0**, we first compute the differences from the mean:
-```
-Point 1 - mean = [1,2] - [2,2.667] = [-1, -0.667]
-Point 2 - mean = [2,3] - [2,2.667] = [0, 0.333]
-Point 3 - mean = [3,3] - [2,2.667] = [1, 0.333]
-```
+$$\mathbf{x}^{(1)} - \boldsymbol{\mu}_0 = \begin{bmatrix} -1 \\ -0.667 \end{bmatrix}$$
+$$\mathbf{x}^{(2)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 0 \\ 0.333 \end{bmatrix}$$
+$$\mathbf{x}^{(3)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 1 \\ 0.333 \end{bmatrix}$$
 
 Then we compute the outer products and average them:
-```
-Outer product for point 1:
-[-1, -0.667] × [-1, -0.667]ᵀ = [[1, 0.667], [0.667, 0.444]]
-
-Outer product for point 2:
-[0, 0.333] × [0, 0.333]ᵀ = [[0, 0], [0, 0.111]]
-
-Outer product for point 3:
-[1, 0.333] × [1, 0.333]ᵀ = [[1, 0.333], [0.333, 0.111]]
-
-Average of outer products:
-Σ₀ = (1/3)(Outer product 1 + Outer product 2 + Outer product 3)
-   = [[1, 0.5], [0.5, 0.333]]
-```
+$$\boldsymbol{\Sigma}_0 = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix}$$
 
 Similarly, for **Class 1**, the covariance matrix is:
-```
-Σ₁ = [[0.333, 0.5], [0.5, 1]]
-```
+$$\boldsymbol{\Sigma}_1 = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix}$$
 
 ![Data and Covariance Visualization](../Images/L2_1_Quiz_31/step1_data_visualization.png)
 
@@ -94,12 +69,12 @@ where:
 For both classes, we need to compute:
 
 1. The determinant of the covariance matrix:
-   - $|\boldsymbol{\Sigma}_0| = 0.083333$
-   - $|\boldsymbol{\Sigma}_1| = 0.083333$
+   - $|\boldsymbol{\Sigma}^{(0)}| = 0.083333$
+   - $|\boldsymbol{\Sigma}^{(1)}| = 0.083333$
 
 2. The inverse of the covariance matrix:
-   - $\boldsymbol{\Sigma}_0^{-1} = \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix}$
-   - $\boldsymbol{\Sigma}_1^{-1} = \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix}$
+   - $\boldsymbol{\Sigma}^{(0)-1} = \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix}$
+   - $\boldsymbol{\Sigma}^{(1)-1} = \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix}$
 
 3. The normalization constant:
    - $\frac{1}{(2\pi)^{1}|\boldsymbol{\Sigma}|^{1/2}} = 0.551329$ (same for both classes)
@@ -107,26 +82,25 @@ For both classes, we need to compute:
 Therefore, the PDF expressions are:
 
 For **Class 0**:
-$$p(\mathbf{x}|\text{class 0}) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x} - [2, 2.667])^T \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix} (\mathbf{x} - [2, 2.667])\right)$$
+$$p(\mathbf{x}|\text{class }0) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x} - \boldsymbol{\mu}^{(0)})^T \boldsymbol{\Sigma}^{(0)-1} (\mathbf{x} - \boldsymbol{\mu}^{(0)})\right)$$
 
 For **Class 1**:
-$$p(\mathbf{x}|\text{class 1}) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x} - [5.667, 3])^T \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix} (\mathbf{x} - [5.667, 3])\right)$$
+$$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x} - \boldsymbol{\mu}^{(1)})^T \boldsymbol{\Sigma}^{(1)-1} (\mathbf{x} - \boldsymbol{\mu}^{(1)})\right)$$
 
-For the new point $\mathbf{x}_{new} = [4, 3]$, we calculate:
+where:
+$$\boldsymbol{\mu}^{(0)} = \begin{bmatrix} 2 \\ 2.667 \end{bmatrix}, \quad \boldsymbol{\mu}^{(1)} = \begin{bmatrix} 5.667 \\ 3 \end{bmatrix}$$
+
+For the new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$, we calculate:
 
 For **Class 0**:
-```
-x - μ₀ = [4, 3] - [2, 2.667] = [2, 0.333]
-Quadratic form (x - μ₀)ᵀ Σ₀⁻¹ (x - μ₀) = 9.333
-PDF value = 0.551329 × exp(-0.5 × 9.333) = 0.00518446
-```
+$$\mathbf{x} - \boldsymbol{\mu}_0 = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
+$$(\mathbf{x} - \boldsymbol{\mu}_0)^T \boldsymbol{\Sigma}_0^{-1} (\mathbf{x} - \boldsymbol{\mu}_0) = 9.333$$
+$$p(\mathbf{x}|\text{class }0) = 0.551329 \cdot \exp(-0.5 \cdot 9.333) = 0.00518446$$
 
 For **Class 1**:
-```
-x - μ₁ = [4, 3] - [5.667, 3] = [-1.667, 0]
-Quadratic form (x - μ₁)ᵀ Σ₁⁻¹ (x - μ₁) = 33.333
-PDF value = 0.551329 × exp(-0.5 × 33.333) = 0.00000003
-```
+$$\mathbf{x} - \boldsymbol{\mu}_1 = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} -1.667 \\ 0 \end{bmatrix}$$
+$$(\mathbf{x} - \boldsymbol{\mu}_1)^T \boldsymbol{\Sigma}_1^{-1} (\mathbf{x} - \boldsymbol{\mu}_1) = 33.333$$
+$$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp(-0.5 \cdot 33.333) = 0.00000003$$
 
 The PDF values show that the new point is much more likely under the Class 0 distribution.
 
@@ -145,26 +119,26 @@ $$P(\text{class}|\mathbf{x}) = \frac{P(\mathbf{x}|\text{class}) \cdot P(\text{cl
 
 where $P(\mathbf{x})$ is the evidence and can be calculated as:
 
-$$P(\mathbf{x}) = \sum_{k} P(\mathbf{x}|\text{class}_k) \cdot P(\text{class}_k)$$
+$$P(\mathbf{x}) = \sum_{k} P(\mathbf{x}|\text{class}^{(k)}) \cdot P(\text{class}^{(k)})$$
 
-Given the prior probabilities $P(\text{class 0}) = P(\text{class 1}) = 0.5$, we calculate:
+Given the prior probabilities $P(\text{class }0) = P(\text{class }1) = 0.5$, we calculate:
 
 1. Class-conditional densities (from Step 2):
-   - $P(\mathbf{x}_{new}|\text{class 0}) = 0.00518446$
-   - $P(\mathbf{x}_{new}|\text{class 1}) = 0.00000003$
-   - Likelihood ratio: $\frac{P(\mathbf{x}_{new}|\text{class 0})}{P(\mathbf{x}_{new}|\text{class 1})} \approx 162,755$
+   - $P(\mathbf{x}_{\text{new}}|\text{class }0) = 0.00518446$
+   - $P(\mathbf{x}_{\text{new}}|\text{class }1) = 0.00000003$
+   - Likelihood ratio: $\frac{P(\mathbf{x}_{\text{new}}|\text{class }0)}{P(\mathbf{x}_{\text{new}}|\text{class }1)} \approx 162,755$
 
 2. Evidence:
-   - $P(\mathbf{x}_{new}) = 0.00518446 \times 0.5 + 0.00000003 \times 0.5 = 0.00259224$
+   - $P(\mathbf{x}_{\text{new}}) = 0.00518446 \times 0.5 + 0.00000003 \times 0.5 = 0.00259224$
 
 3. Posterior probabilities:
-   - $P(\text{class 0}|\mathbf{x}_{new}) = \frac{0.00518446 \times 0.5}{0.00259224} = 0.99999386$
-   - $P(\text{class 1}|\mathbf{x}_{new}) = \frac{0.00000003 \times 0.5}{0.00259224} = 0.00000614$
+   - $P(\text{class }0|\mathbf{x}_{\text{new}}) = \frac{0.00518446 \times 0.5}{0.00259224} = 0.99999386$
+   - $P(\text{class }1|\mathbf{x}_{\text{new}}) = \frac{0.00000003 \times 0.5}{0.00259224} = 0.00000614$
 
-Since $P(\text{class 0}|\mathbf{x}_{new}) > P(\text{class 1}|\mathbf{x}_{new})$, we classify the new point as **Class 0**.
+Since $P(\text{class }0|\mathbf{x}_{\text{new}}) > P(\text{class }1|\mathbf{x}_{\text{new}})$, we classify the new point as **Class 0**.
 
 The decision boundary is determined by the log likelihood ratio:
-$$\ln\frac{P(\mathbf{x}|\text{class 1})}{P(\mathbf{x}|\text{class 0})} = 0$$
+$$\ln\frac{P(\mathbf{x}|\text{class }1)}{P(\mathbf{x}|\text{class }0)} = 0$$
 
 This means points are classified as Class 1 if the log-likelihood ratio is positive, and as Class 0 otherwise.
 
@@ -172,21 +146,21 @@ This means points are classified as Class 1 if the log-likelihood ratio is posit
 
 ### Step 4: Classification with Different Prior Probabilities
 
-Now, let's apply Bayes' theorem with the new priors $P(\text{class 0}) = 0.8$ and $P(\text{class 1}) = 0.2$:
+Now, let's apply Bayes' theorem with the new priors $P(\text{class }0) = 0.8$ and $P(\text{class }1) = 0.2$:
 
-1. Prior ratio: $\frac{P(\text{class 0})}{P(\text{class 1})} = \frac{0.8}{0.2} = 4$
+1. Prior ratio: $\frac{P(\text{class }0)}{P(\text{class }1)} = \frac{0.8}{0.2} = 4$
 
 2. New evidence:
-   $$P(\mathbf{x}_{new}) = 0.00518446 \times 0.8 + 0.00000003 \times 0.2 = 0.00414757$$
+   $$P(\mathbf{x}_{\text{new}}) = 0.00518446 \times 0.8 + 0.00000003 \times 0.2 = 0.00414757$$
 
 3. New posterior probabilities:
-   $$P(\text{class 0}|\mathbf{x}_{new}) = \frac{0.00518446 \times 0.8}{0.00414757} = 0.99999846$$
-   $$P(\text{class 1}|\mathbf{x}_{new}) = \frac{0.00000003 \times 0.2}{0.00414757} = 0.00000154$$
+   $$P(\text{class }0|\mathbf{x}_{\text{new}}) = \frac{0.00518446 \times 0.8}{0.00414757} = 0.99999846$$
+   $$P(\text{class }1|\mathbf{x}_{\text{new}}) = \frac{0.00000003 \times 0.2}{0.00414757} = 0.00000154$$
 
 The classification decision remains **Class 0**, but the posterior probability for Class 0 has increased from 0.99999386 to 0.99999846, showing even greater confidence in our classification.
 
 With unequal priors, the decision boundary shifts. The new boundary is where:
-$$\ln\frac{P(\mathbf{x}|\text{class 1})}{P(\mathbf{x}|\text{class 0})} = \ln\frac{P(\text{class 0})}{P(\text{class 1})} = \ln\frac{0.8}{0.2} \approx 1.386$$
+$$\ln\frac{P(\mathbf{x}|\text{class }1)}{P(\mathbf{x}|\text{class }0)} = \ln\frac{P(\text{class }0)}{P(\text{class }1)} = \ln\frac{0.8}{0.2} \approx 1.386$$
 
 This means we need stronger evidence (a higher likelihood for Class 1) to classify a point as Class 1 when we have a stronger prior belief in Class 0.
 
@@ -211,8 +185,8 @@ The blue regions represent areas where points would be classified as Class 0, an
 - **Equal Priors**: When prior probabilities are equal, the decision boundary is determined solely by the likelihood ratio. Points are classified based only on their relative likelihoods under each class model.
 - **Unequal Priors**: When prior probabilities favor one class, the decision boundary shifts to make it easier to classify points as the favored class. This means we need stronger evidence (higher likelihood) to classify a point as the less favored class.
 - **Mathematical Relationship**: 
-  - Equal priors: Classify as Class 1 if $\ln\frac{P(\mathbf{x}|\text{class 1})}{P(\mathbf{x}|\text{class 0})} > 0$
-  - Unequal priors: Classify as Class 1 if $\ln\frac{P(\mathbf{x}|\text{class 1})}{P(\mathbf{x}|\text{class 0})} > \ln\frac{P(\text{class 0})}{P(\text{class 1})}$
+  - Equal priors: Classify as Class 1 if $\ln\frac{P(\mathbf{x}|\text{class }1)}{P(\mathbf{x}|\text{class }0)} > 0$
+  - Unequal priors: Classify as Class 1 if $\ln\frac{P(\mathbf{x}|\text{class }1)}{P(\mathbf{x}|\text{class }0)} > \ln\frac{P(\text{class }0)}{P(\text{class }1)}$
 
 ### Practical Implications
 - **Prior Knowledge**: In real-world applications, priors should reflect the true class distribution in the population or our prior belief about class membership.
