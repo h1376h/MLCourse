@@ -15,7 +15,11 @@ def create_directories():
     return question_dir
 
 def bivariate_normal_contour(save_dir):
-    """Generate contour plots for bivariate normal distributions with different covariance matrices"""
+    """Generate contour plots for bivariate normal distributions with different covariance matrices
+    
+    QUESTION: How does changing the correlation coefficient and variance affect the shape of 
+    contour plots in a bivariate normal distribution?
+    """
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
@@ -84,9 +88,15 @@ def bivariate_normal_contour(save_dir):
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'bivariate_normal_contours.png'), dpi=300)
     plt.close()
+    
+    print("QUESTION 1: How does changing the correlation coefficient and variance affect the shape of contour plots in a bivariate normal distribution?")
 
 def different_distributions_contour(save_dir):
-    """Generate contour plots for various bivariate distributions"""
+    """Generate contour plots for various bivariate distributions
+    
+    QUESTION: How do contour plots represent complex non-Gaussian probability distributions,
+    and what insights can be gained from these visualizations?
+    """
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
@@ -148,9 +158,15 @@ def different_distributions_contour(save_dir):
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'different_distributions_contours.png'), dpi=300)
     plt.close()
+    
+    print("QUESTION 2: How do contour plots represent complex non-Gaussian probability distributions, and what insights can be gained from these visualizations?")
 
 def bivariate_normal_probability_regions(save_dir):
-    """Generate contour plots showing probability regions for bivariate normal"""
+    """Generate contour plots showing probability regions for bivariate normal
+    
+    QUESTION: What is the relationship between contour lines and probability regions in a 
+    bivariate normal distribution, and how does this extend our understanding of confidence intervals?
+    """
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
@@ -210,9 +226,15 @@ def bivariate_normal_probability_regions(save_dir):
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'bivariate_normal_probability_regions.png'), dpi=300)
     plt.close()
+    
+    print("QUESTION 3: What is the relationship between contour lines and probability regions in a bivariate normal distribution, and how does this extend our understanding of confidence intervals?")
 
 def conditional_distributions_visual(save_dir):
-    """Generate visualization of conditional distributions from a joint distribution"""
+    """Generate visualization of conditional distributions from a joint distribution
+    
+    QUESTION: How do conditional distributions change as we vary the value of one variable in a
+    bivariate normal distribution, and what does this tell us about the relationship between variables?
+    """
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
@@ -272,9 +294,15 @@ def conditional_distributions_visual(save_dir):
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'conditional_distributions.png'), dpi=300)
     plt.close()
+    
+    print("QUESTION 4: How do conditional distributions change as we vary the value of one variable in a bivariate normal distribution, and what does this tell us about the relationship between variables?")
 
 def marginal_distributions_visual(save_dir):
-    """Generate visualization of marginal distributions from a joint distribution"""
+    """Generate visualization of marginal distributions from a joint distribution
+    
+    QUESTION: What is the relationship between joint and marginal distributions, and what
+    information is preserved or lost when examining only marginal distributions?
+    """
     # Create a grid of points
     x, y = np.mgrid[-3:3:.01, -3:3:.01]
     pos = np.dstack((x, y))
@@ -331,9 +359,15 @@ def marginal_distributions_visual(save_dir):
     
     plt.savefig(os.path.join(save_dir, 'marginal_distributions.png'), dpi=300)
     plt.close()
+    
+    print("QUESTION 5: What is the relationship between joint and marginal distributions, and what information is preserved or lost when examining only marginal distributions?")
 
 def contour_3d_comparison(save_dir):
-    """Generate comparison of contour plots and 3D surface plots"""
+    """Generate comparison of contour plots and 3D surface plots
+    
+    QUESTION: What is the geometric relationship between 3D probability density surfaces and 
+    their 2D contour plot representations, and what are the advantages of each visualization?
+    """
     # Create a grid of points
     x, y = np.mgrid[-3:3:.1, -3:3:.1]
     pos = np.dstack((x, y))
@@ -371,6 +405,8 @@ def contour_3d_comparison(save_dir):
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'contour_3d_comparison.png'), dpi=300)
     plt.close()
+    
+    print("QUESTION 6: What is the geometric relationship between 3D probability density surfaces and their 2D contour plot representations, and what are the advantages of each visualization?")
 
 def generate_question_images():
     """Generate all images for the contour plot visual examples"""
@@ -386,6 +422,14 @@ def generate_question_images():
     contour_3d_comparison(save_dir)
     
     print(f"Generated all question images in {save_dir}")
+    print("\nThe following questions need to be solved in the answer file:")
+    print("1. How does changing the correlation coefficient and variance affect the shape of contour plots in a bivariate normal distribution?")
+    print("2. How do contour plots represent complex non-Gaussian probability distributions, and what insights can be gained from these visualizations?")
+    print("3. What is the relationship between contour lines and probability regions in a bivariate normal distribution, and how does this extend our understanding of confidence intervals?")
+    print("4. How do conditional distributions change as we vary the value of one variable in a bivariate normal distribution, and what does this tell us about the relationship between variables?")
+    print("5. What is the relationship between joint and marginal distributions, and what information is preserved or lost when examining only marginal distributions?")
+    print("6. What is the geometric relationship between 3D probability density surfaces and their 2D contour plot representations, and what are the advantages of each visualization?")
+    
     return save_dir
 
 if __name__ == "__main__":

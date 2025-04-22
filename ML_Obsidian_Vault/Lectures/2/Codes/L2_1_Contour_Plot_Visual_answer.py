@@ -889,189 +889,54 @@ def geometric_interpretation(save_dir):
     plt.savefig(os.path.join(save_dir, 'geometric_interpretation.png'), dpi=300)
     plt.close()
 
-def application_examples(save_dir):
-    """Generate visualizations showing practical applications of contour plots"""
-    # Create a figure with multiple plots
-    plt.figure(figsize=(15, 12))
-    
-    # Example 1: Bayesian Posterior for two parameters
-    plt.subplot(221)
-    
-    # Generate a grid
-    theta1, theta2 = np.mgrid[0:10:100j, 0:10:100j]
-    pos = np.dstack((theta1, theta2))
-    
-    # Create a multivariate normal for the posterior
-    posterior = multivariate_normal(mean=[5, 5], cov=[[1, 0.7], [0.7, 1]])
-    posterior_pdf = posterior.pdf(pos)
-    
-    # Plot contours
-    plt.contour(theta1, theta2, posterior_pdf, levels=10, colors='black', alpha=0.5)
-    plt.contourf(theta1, theta2, posterior_pdf, levels=20, cmap='Blues', alpha=0.7)
-    
-    # Mark the MAP (maximum a posteriori) estimate
-    plt.plot(5, 5, 'ro', markersize=10, label='MAP Estimate')
-    
-    # Add 95% credible region
-    confidence_ellipse(5, 5, 1, 1, 0.7, plt.gca(), n_std=2, edgecolor='red', linewidth=2, 
-                     label='95% Credible Region', fill=False)
-    
-    plt.title('Bayesian Posterior Distribution', fontsize=14)
-    plt.xlabel('Parameter θ₁', fontsize=12)
-    plt.ylabel('Parameter θ₂', fontsize=12)
-    plt.grid(alpha=0.3)
-    plt.legend()
-    
-    # Example 2: Clustering visualization
-    plt.subplot(222)
-    
-    # Generate three clusters
-    np.random.seed(42)
-    n_points = 300
-    
-    # Generate the cluster centers and data
-    centers = [(2, 2), (5, 7), (8, 3)]
-    colors = ['red', 'green', 'blue']
-    
-    # Create the dataset
-    X = np.zeros((n_points, 2))
-    true_labels = np.zeros(n_points, dtype=int)
-    
-    for i in range(n_points):
-        cluster = i % 3
-        X[i] = np.random.multivariate_normal(centers[cluster], [[1, 0.5], [0.5, 1]])
-        true_labels[i] = cluster
-    
-    # Plot points
-    for i, color in enumerate(colors):
-        cluster_points = X[true_labels == i]
-        plt.scatter(cluster_points[:, 0], cluster_points[:, 1], c=color, s=30, alpha=0.6,
-                  label=f'Cluster {i+1}')
-    
-    # Plot contours for each cluster
-    for i, (center, color) in enumerate(zip(centers, colors)):
-        # Estimate covariance matrix from the points
-        cluster_points = X[true_labels == i]
-        cov = np.cov(cluster_points.T)
-        
-        # Create a grid for this cluster
-        grid_x, grid_y = np.mgrid[0:10:100j, 0:10:100j]
-        grid_pos = np.dstack((grid_x, grid_y))
-        
-        # Create the multivariate normal
-        cluster_rv = multivariate_normal(mean=center, cov=cov)
-        cluster_pdf = cluster_rv.pdf(grid_pos)
-        
-        # Plot contours
-        plt.contour(grid_x, grid_y, cluster_pdf, levels=3, colors=color, alpha=0.8)
-    
-    plt.title('Clustering Analysis', fontsize=14)
-    plt.xlabel('Feature 1', fontsize=12)
-    plt.ylabel('Feature 2', fontsize=12)
-    plt.grid(alpha=0.3)
-    plt.legend()
-    
-    # Example 3: Optimization landscape
-    plt.subplot(223)
-    
-    # Create a grid
-    x, y = np.mgrid[-4:4:100j, -4:4:100j]
-    
-    # Create a complex optimization landscape (e.g., a loss function)
-    # Rosenbrock function: f(x,y) = (1-x)² + 100(y-x²)²
-    z = (1 - x)**2 + 100 * (y - x**2)**2
-    
-    # Take log to better visualize
-    z_log = np.log(z + 1)
-    
-    # Contour plot of the optimization landscape
-    plt.contour(x, y, z_log, levels=20, colors='black', alpha=0.5)
-    plt.contourf(x, y, z_log, levels=50, cmap='viridis')
-    
-    # Mark the global minimum
-    plt.plot(1, 1, 'r*', markersize=15, label='Global Minimum')
-    
-    # Add an optimization path
-    # Simulated gradient descent path
-    np.random.seed(42)
-    path_x = [-3]
-    path_y = [3]
-    
-    for _ in range(20):
-        # Add some noise to make the path interesting
-        step_x = 0.3 * (1 - path_x[-1]) + 0.05 * np.random.randn()
-        step_y = 0.3 * (path_x[-1]**2 - path_y[-1]) + 0.05 * np.random.randn()
-        
-        path_x.append(path_x[-1] + step_x)
-        path_y.append(path_y[-1] + step_y)
-    
-    plt.plot(path_x, path_y, 'r-o', linewidth=2, markersize=5, label='Optimization Path')
-    
-    plt.title('Optimization Landscape', fontsize=14)
-    plt.xlabel('Parameter x', fontsize=12)
-    plt.ylabel('Parameter y', fontsize=12)
-    plt.grid(alpha=0.3)
-    plt.legend()
-    
-    # Example 4: Error ellipses in measurements
-    plt.subplot(224)
-    
-    # Create some measurement data with errors
-    np.random.seed(42)
-    n_measurements = 100
-    
-    # True value
-    true_x, true_y = 5, 5
-    
-    # Generate measurements with correlated errors
-    cov_matrix = [[0.5, 0.3], [0.3, 0.8]]
-    measurements = np.random.multivariate_normal([true_x, true_y], cov_matrix, n_measurements)
-    
-    # Plot the measurements
-    plt.scatter(measurements[:, 0], measurements[:, 1], s=30, alpha=0.6, label='Measurements')
-    
-    # Plot the true value
-    plt.plot(true_x, true_y, 'r*', markersize=15, label='True Value')
-    
-    # Calculate mean and covariance of measurements
-    mean_x = np.mean(measurements[:, 0])
-    mean_y = np.mean(measurements[:, 1])
-    
-    # Plot error ellipses
-    for n_std in [1, 2, 3]:
-        confidence_ellipse(mean_x, mean_y, np.sqrt(cov_matrix[0][0]), np.sqrt(cov_matrix[1][1]), 
-                         cov_matrix[0][1]/np.sqrt(cov_matrix[0][0]*cov_matrix[1][1]),
-                         plt.gca(), n_std=n_std, edgecolor='red', alpha=0.3, facecolor='pink' if n_std==1 else None)
-    
-    plt.title('Error Ellipses in Measurements', fontsize=14)
-    plt.xlabel('Measurement X', fontsize=12)
-    plt.ylabel('Measurement Y', fontsize=12)
-    plt.grid(alpha=0.3)
-    plt.legend()
-    
-    plt.tight_layout()
-    plt.savefig(os.path.join(save_dir, 'applications.png'), dpi=300)
-    plt.close()
-
 def generate_answer_images():
     """Generate all images for the contour plot visual answers"""
     # Create directories
     save_dir = create_directories()
     
-    # Generate standard visualizations
-    correlation_comparison(save_dir)
-    mahalanobis_distance_contours(save_dir)
-    interactive_conditional_demo(save_dir)
-    geometric_interpretation(save_dir)
-    application_examples(save_dir)
+    # Print the questions and generate corresponding step-by-step solutions
+    print("\n----- SOLVING VISUAL QUESTIONS WITH STEP-BY-STEP SOLUTIONS -----\n")
     
-    # Generate step-by-step solutions
+    # Question 1
+    print("QUESTION 1: How does changing the correlation coefficient and variance affect the shape of contour plots in a bivariate normal distribution?")
+    print("Generating step-by-step solution...")
     step_by_step_correlation_visual(save_dir)
+    correlation_comparison(save_dir)
+    print("Step-by-step solution for Question 1 completed. Images saved.\n")
+    
+    # Question 2
+    print("QUESTION 2: How do contour plots represent complex non-Gaussian probability distributions, and what insights can be gained from these visualizations?")
+    print("This is answered through visualization of different distributions in the question file.")
+    print("Complex distributions like multimodal, ring-shaped, and other non-Gaussian forms can be effectively visualized with contour plots.\n")
+    
+    # Question 3
+    print("QUESTION 3: What is the relationship between contour lines and probability regions in a bivariate normal distribution, and how does this extend our understanding of confidence intervals?")
+    print("Generating step-by-step solution...")
     step_by_step_mahalanobis(save_dir)
+    mahalanobis_distance_contours(save_dir)
+    print("Step-by-step solution for Question 3 completed. Images saved.\n")
+    
+    # Question 4
+    print("QUESTION 4: How do conditional distributions change as we vary the value of one variable in a bivariate normal distribution, and what does this tell us about the relationship between variables?")
+    print("Generating step-by-step solution...")
     step_by_step_conditional(save_dir)
+    interactive_conditional_demo(save_dir)
+    print("Step-by-step solution for Question 4 completed. Images saved.\n")
+    
+    # Question 5 
+    print("QUESTION 5: What is the relationship between joint and marginal distributions, and what information is preserved or lost when examining only marginal distributions?")
+    print("This is answered through visualization of marginal distributions in the question file.")
+    print("Marginal distributions lose information about the correlation structure between variables when projected from the joint distribution.\n")
+    
+    # Question 6
+    print("QUESTION 6: What is the geometric relationship between 3D probability density surfaces and their 2D contour plot representations, and what are the advantages of each visualization?")
+    print("Generating step-by-step solution...")
     step_by_step_geometric(save_dir)
+    geometric_interpretation(save_dir)
+    print("Step-by-step solution for Question 6 completed. Images saved.\n")
     
     print(f"Generated all answer images in {save_dir}")
+    print("All questions have been addressed with step-by-step solutions.")
     return save_dir
 
 if __name__ == "__main__":
