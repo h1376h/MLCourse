@@ -38,6 +38,8 @@ The covariance matrix is calculated as:
 
 $$\boldsymbol{\Sigma} = \frac{1}{n-1} \sum_{i=1}^{n} (\mathbf{x}^{(i)} - \boldsymbol{\mu})(\mathbf{x}^{(i)} - \boldsymbol{\mu})^T$$
 
+> **Note**: While some texts use $\frac{1}{n}$ for population covariance, we use $\frac{1}{n-1}$ here as it provides an unbiased sample estimator.
+
 where:
 - $n$ is the number of samples (3 in our case)
 - $\mathbf{x}^{(i)}$ is the i-th feature vector
