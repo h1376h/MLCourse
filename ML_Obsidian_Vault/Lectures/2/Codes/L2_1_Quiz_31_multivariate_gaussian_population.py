@@ -841,9 +841,9 @@ plt.tight_layout()
 save_figure(fig5b, "a_step5b_decision_regions.png")
 
 # ==============================
-# STEP 7: SUMMARY
+# STEP 6: SUMMARY
 # ==============================
-print_step_header(7, "SUMMARY")
+print_step_header(6, "SUMMARY")
 
 print("We analyzed a 2-class problem with 2D multivariate Gaussian distributions.")
 print("\nProblem statement:")
