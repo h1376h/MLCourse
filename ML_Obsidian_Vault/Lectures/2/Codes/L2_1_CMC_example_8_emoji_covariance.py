@@ -20,8 +20,8 @@ def emoji_covariance_example():
     
     print("\nStep 1: Creating Visual Metaphors for Correlation Patterns")
     print("We will use emoji-like faces to represent different correlation patterns:")
-    print("- Smiley face for positive correlation: variables tend to increase or decrease together")
-    print("- Sad face for negative correlation: as one variable increases, the other decreases")
+    print("- Smiley face for quadratic relationship with points following a smile curve")
+    print("- Sad face for quadratic relationship with points following a frown curve")
     
     # Create figure with two side-by-side plots
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 7))
@@ -30,12 +30,12 @@ def emoji_covariance_example():
     np.random.seed(42) # for reproducibility of noise
     noise_level = 0.2 # Adjust noise level for scatter
 
-    print("\nStep 2: Drawing the Positive Correlation (Smiley Face) Example")
-    print("Key Concepts Illustrated for Positive Correlation:")
-    print("- Variables tend to increase or decrease together")
+    print("\nStep 2: Drawing the Smiley Face Pattern Example")
+    print("Key Concepts Illustrated for the Smiley Face Pattern:")
+    print("- Points follow a U-shaped pattern (quadratic relationship)")
     print("- Data points visually follow the smiling curve")
-    print("- The covariance ellipse reflects the overall trend")
-    print("- Common in naturally related quantities (height-weight, study time-grades)")
+    print("- The covariance ellipse reflects the overall spread of data")
+    print("- This pattern has very low linear correlation because it's not a linear relationship")
     
     # Create a smiley face for the positive correlation that matches the data pattern
     theta = np.linspace(0, 2*np.pi, 100)
@@ -71,7 +71,7 @@ def emoji_covariance_example():
     corr_pos = np.corrcoef(rv_pos, rowvar=False)[0, 1]
 
     # Print detailed calculation steps for positive correlation based on generated data
-    print("\nDetailed Calculation for Positive Correlation (from generated data):")
+    print("\nDetailed Calculation for Smiley Face Pattern (from generated data):")
     print(f"Mean vector = {mean_pos}")
     print(f"Covariance Matrix = \n{cov_pos}")
     print(f"Variance of X = {cov_pos[0, 0]}")
@@ -90,7 +90,7 @@ def emoji_covariance_example():
     eigenvalues_pos, eigenvectors_pos = np.linalg.eig(cov_pos)
     
     # Print eigenvalue decomposition details
-    print("\nEigenvalue Decomposition (Positive Correlation - from data):")
+    print("\nEigenvalue Decomposition (Smiley Face Pattern - from data):")
     print(f"Eigenvalues = {eigenvalues_pos}")
     print(f"Eigenvectors = \n{eigenvectors_pos}")
     print("Interpretation: The principal axes of the data's spread")
@@ -114,7 +114,7 @@ def emoji_covariance_example():
     ax1.add_patch(ell_pos)
     
     # Set title and labels
-    ax1.set_title(f'Positive Correlation: Happy Data! 😊\nPoints follow smile (Calculated ρ = {corr_pos:.2f})')
+    ax1.set_title(f'Smiley Face Pattern\nCorrelation = {corr_pos:.2f} (Near Zero!)')
     ax1.set_xlim(-4, 4)
     ax1.set_ylim(-4, 4)
     ax1.set_aspect('equal')
@@ -122,12 +122,12 @@ def emoji_covariance_example():
     ax1.set_xlabel('x')
     ax1.set_ylabel('y')
     
-    print("\nStep 3: Drawing the Negative Correlation (Sad Face) Example")
-    print("Key Concepts Illustrated for Negative Correlation:")
-    print("- As one variable increases, the other tends to decrease")
+    print("\nStep 3: Drawing the Frowny Face Pattern Example")
+    print("Key Concepts Illustrated for the Frowny Face Pattern:")
+    print("- Points follow an inverted U-shaped pattern (quadratic relationship)")
     print("- Data points visually follow the frowning curve")
-    print("- The covariance ellipse reflects the overall trend")
-    print("- Common in trade-off relationships (speed-accuracy, price-demand)")
+    print("- The covariance ellipse reflects the overall spread of data")
+    print("- This pattern has almost zero linear correlation despite the clear pattern")
     
     # Sad mouth curve (inverted parabola-like)
     sad_mouth_x_range = np.linspace(-2, 2, 50)
@@ -150,7 +150,7 @@ def emoji_covariance_example():
     corr_neg = np.corrcoef(rv_neg, rowvar=False)[0, 1]
 
     # Print detailed calculation steps for negative correlation based on generated data
-    print("\nDetailed Calculation for Negative Correlation (from generated data):")
+    print("\nDetailed Calculation for Frowny Face Pattern (from generated data):")
     print(f"Mean vector = {mean_neg}")
     print(f"Covariance Matrix = \n{cov_neg}")
     print(f"Variance of X = {cov_neg[0, 0]}")
@@ -169,7 +169,7 @@ def emoji_covariance_example():
     eigenvalues_neg, eigenvectors_neg = np.linalg.eig(cov_neg)
     
     # Print eigenvalue decomposition details
-    print("\nEigenvalue Decomposition (Negative Correlation - from data):")
+    print("\nEigenvalue Decomposition (Frowny Face Pattern - from data):")
     print(f"Eigenvalues = {eigenvalues_neg}")
     print(f"Eigenvectors = \n{eigenvectors_neg}")
     print("Interpretation: The principal axes of the data's spread")
@@ -192,7 +192,7 @@ def emoji_covariance_example():
     ax2.add_patch(ell_neg)
     
     # Set title and labels
-    ax2.set_title(f'Negative Correlation: Sad Data! 😢\nPoints follow frown (Calculated ρ = {corr_neg:.2f})')
+    ax2.set_title(f'Frowny Face Pattern\nCorrelation = {corr_neg:.2f} (Almost Zero!)')
     ax2.set_xlim(-4, 4)
     ax2.set_ylim(-4, 4)
     ax2.set_aspect('equal')
@@ -204,7 +204,7 @@ def emoji_covariance_example():
     print("The smiley/sad faces provide an intuitive memory aid:")
     print("- Smile curves upward ⌣, data points follow this shape, showing a general trend where y decreases then increases as x changes.")
     print("- Frown curves downward ⌢, data points follow this shape, showing a trend where y increases then decreases as x changes.")
-    print("- Note: The *linear* correlation coefficient (ρ) might be low here because the relationship isn't purely linear, but the visual pattern is clear.")
+    print("- Note: The *linear* correlation coefficient (ρ) is near zero in both cases because the relationships aren't linear, but the visual patterns are clear.")
 
     plt.tight_layout()
     
@@ -249,45 +249,48 @@ def emoji_covariance_example():
     corr_quad = np.corrcoef(x_quad, y_quad)[0, 1]
     
     ax2.scatter(x_quad, y_quad, color='green', s=30)
-    x_curve = np.linspace(-3, 3, 100)
-    y_curve = 0.8 * x_curve**2
-    ax2.plot(x_curve, y_curve, 'r--', alpha=0.7)
+    xx = np.linspace(-3, 3, 100)
+    ax2.plot(xx, 0.8 * xx**2, 'r--', alpha=0.7)
     ax2.set_xlim(-3.5, 3.5)
-    ax2.set_ylim(-1, 8)
+    ax2.set_ylim(-0.5, 8)
+    ax2.set_aspect(0.6)
     ax2.grid(True, alpha=0.3)
-    ax2.set_title(f'U-Shaped Relationship\nCorrelation = {corr_quad:.2f}')
+    ax2.set_title(f'Quadratic Relationship\nCorrelation = {corr_quad:.2f}')
     
-    # Right panel - Sinusoidal scatter plot (wave)
+    # Right panel - Sinusoidal scatter plot
     ax3 = fig_explanation.add_subplot(133)
     
     # Generate sinusoidal pattern
     x_sin = np.linspace(-3, 3, 30)
-    y_sin = np.sin(x_sin * 2) * 2 + np.random.normal(0, 0.3, len(x_sin))
+    y_sin = 2 * np.sin(x_sin * 1.5) + np.random.normal(0, 0.5, len(x_sin))
     corr_sin = np.corrcoef(x_sin, y_sin)[0, 1]
     
     ax3.scatter(x_sin, y_sin, color='purple', s=30)
-    x_curve = np.linspace(-3, 3, 100)
-    y_curve = np.sin(x_curve * 2) * 2
-    ax3.plot(x_curve, y_curve, 'r--', alpha=0.7)
+    xx = np.linspace(-3, 3, 100)
+    ax3.plot(xx, 2 * np.sin(xx * 1.5), 'r--', alpha=0.7)
     ax3.set_xlim(-3.5, 3.5)
-    ax3.set_ylim(-2.5, 2.5)
+    ax3.set_ylim(-3, 3)
+    ax3.set_aspect('equal')
     ax3.grid(True, alpha=0.3)
     ax3.set_title(f'Sinusoidal Relationship\nCorrelation = {corr_sin:.2f}')
     
-    plt.suptitle('Why Linear Correlation Fails for Non-Linear Patterns', fontsize=14)
     plt.tight_layout()
     
-    # Save the figure
-    explanation_path = os.path.join(images_dir, "ex8_linear_vs_nonlinear_explanation.png")
-    fig_explanation.savefig(explanation_path, dpi=300, bbox_inches='tight')
-    print(f"Educational explanation about linear vs non-linear correlation saved to: {explanation_path}")
-    
-    return fig
+    # Save the educational figure
+    try:
+        explanation_path = os.path.join(images_dir, "ex8_linear_vs_nonlinear_explanation.png")
+        fig_explanation.savefig(explanation_path, bbox_inches='tight', dpi=300)
+        print(f"Educational explanation about linear vs non-linear correlation saved to: {explanation_path}")
+    except Exception as e:
+        print(f"\nError saving educational figure: {e}")
+        
+    # Print summary message
+    print("\nEXAMPLE: EMOJI VISUALIZATION OF CORRELATION")
+    print("\nKey Insights:")
+    print("1. The linear correlation coefficient is near zero for both emoji patterns despite clear visual relationships")
+    print("2. This demonstrates a limitation of linear correlation for capturing non-linear patterns")
+    print("3. Always visualize your data - plotting can reveal patterns that correlation coefficients miss")
+    print("4. Consider applying non-linear correlation measures for curved relationships")
 
 if __name__ == "__main__":
-    print("\n\n" + "*"*80)
-    print("EXAMPLE: EMOJI VISUALIZATION OF CORRELATION")
-    print("*"*80)
-    
-    # Run the example with detailed step-by-step printing
-    fig = emoji_covariance_example()
+    emoji_covariance_example()
