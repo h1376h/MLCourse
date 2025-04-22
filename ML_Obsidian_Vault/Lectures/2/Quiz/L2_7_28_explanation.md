@@ -246,3 +246,8 @@ In this problem, we have successfully applied multivariate Gaussian classificati
 5. We examined the importance of non-singular covariance matrices for proper classification.
 
 The quadratic nature of the decision boundary, resulting from the different covariance structures of the two classes, allows for more flexible and accurate classification compared to linear methods. This highlights the power of generative models like multivariate Gaussian classification in capturing complex data structures. 
+
+## Related Examples
+
+[[L2_1_31_explanation_population]], used in our class lectures
+[[L2_7_27_explanation]] 

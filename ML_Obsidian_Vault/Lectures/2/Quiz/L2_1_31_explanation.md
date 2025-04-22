@@ -302,4 +302,9 @@ In this problem, we have demonstrated a complete pipeline for Bayesian classific
 
 Despite the change in prior probabilities, our new point was classified as Class 0 in both scenarios. This is because the likelihood ratio strongly favored Class 0 (by a factor of about 162,755), making the classification decision robust to reasonable changes in the prior probabilities.
 
-This example illustrates the fundamental principles of Bayesian classification and how it elegantly combines our prior beliefs with the evidence from the data to make optimal classification decisions. 
+This example illustrates the fundamental principles of Bayesian classification and how it elegantly combines our prior beliefs with the evidence from the data to make optimal classification decisions.
+
+## Related Examples
+
+[[L2_7_27_explanation]]
+[[L2_7_28_explanation]] 
