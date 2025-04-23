@@ -133,10 +133,111 @@ In this case, $\mathbf{Q}$ transforms the standard basis vectors to a new orthon
 
 Since the covariance matrix of the original distribution is the identity matrix (meaning the variables are uncorrelated and have unit variance), and the transformation preserves this property, the distribution looks the same from any orthogonal perspective. This is why a standard multivariate normal distribution is spherically symmetric.
 
+## Example 3: Calculating Probabilities of Linear Transformations
+
+### Problem Statement
+Given a multivariate normal random vector $\mathbf{X} = \begin{bmatrix} X_1 \\ X_2 \\ X_3 \\ X_4 \end{bmatrix} \sim \mathcal{N}_4(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ with:
+
+$$\boldsymbol{\mu} = \begin{bmatrix} 15 \\ 30 \\ 7 \\ 10 \end{bmatrix} \text{ and } \boldsymbol{\Sigma} = \begin{bmatrix} 3 & -4 & 0 & 2 \\ -4 & 1 & 2 & 1 \\ 0 & 2 & 9 & 9 \\ 2 & 1 & 9 & 1 \end{bmatrix}$$
+
+Find the following probabilities:
+
+a) $P(X_1 - 5X_4 < 16)$
+b) $P(3X_2 - 4X_3 > 35)$
+c) $P(7X_1 + 3X_2 + 2X_3 < 56)$
+
+### Solution
+
+To find these probabilities, we need to apply the properties of linear transformations of multivariate normal variables. When we have a linear transformation of the form $Y = \mathbf{a}^T\mathbf{X}$ (where $\mathbf{a}$ is a vector of coefficients), the resulting variable $Y$ follows a univariate normal distribution with:
+
+- Mean: $\mu_Y = \mathbf{a}^T\boldsymbol{\mu}$
+- Variance: $\sigma_Y^2 = \mathbf{a}^T\boldsymbol{\Sigma}\mathbf{a}$
+
+#### Part a: Finding $P(X_1 - 5X_4 < 16)$
+
+Let $Y_1 = X_1 - 5X_4$, which corresponds to $\mathbf{a}_1 = [1, 0, 0, -5]^T$
+
+The mean of $Y_1$ is:
+$$\mu_{Y_1} = \mathbf{a}_1^T\boldsymbol{\mu} = 1 \cdot 15 + 0 \cdot 30 + 0 \cdot 7 + (-5) \cdot 10 = 15 - 50 = -35$$
+
+The variance of $Y_1$ is:
+$$\sigma_{Y_1}^2 = \mathbf{a}_1^T\boldsymbol{\Sigma}\mathbf{a}_1 = [1, 0, 0, -5] \begin{bmatrix} 3 & -4 & 0 & 2 \\ -4 & 1 & 2 & 1 \\ 0 & 2 & 9 & 9 \\ 2 & 1 & 9 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \\ 0 \\ -5 \end{bmatrix}$$
+
+First computing $\mathbf{a}_1^T\boldsymbol{\Sigma}$:
+$$\mathbf{a}_1^T\boldsymbol{\Sigma} = [3 - 2 \cdot 5, -4 - 1 \cdot 5, 0 - 9 \cdot 5, 2 - 1 \cdot 5] = [3 - 10, -4 - 5, 0 - 45, 2 - 5] = [-7, -9, -45, -3]$$
+
+Then computing $\mathbf{a}_1^T\boldsymbol{\Sigma}\mathbf{a}_1$:
+$$\sigma_{Y_1}^2 = (-7) \cdot 1 + (-9) \cdot 0 + (-45) \cdot 0 + (-3) \cdot (-5) = -7 + 15 = 8$$
+
+Therefore, $Y_1 \sim \mathcal{N}(-35, 8)$
+
+Using the standard normal CDF, we compute:
+$$P(Y_1 < 16) = P\left(\frac{Y_1 - (-35)}{\sqrt{8}} < \frac{16 - (-35)}{\sqrt{8}}\right) = P\left(Z < \frac{51}{\sqrt{8}}\right) = P(Z < 18.03)$$
+
+Since 18.03 is far beyond several standard deviations, and the standard normal CDF approaches 1 as the argument increases:
+$$P(Y_1 < 16) \approx 1$$
+
+#### Part b: Finding $P(3X_2 - 4X_3 > 35)$
+
+Let $Y_2 = 3X_2 - 4X_3$, which corresponds to $\mathbf{a}_2 = [0, 3, -4, 0]^T$
+
+The mean of $Y_2$ is:
+$$\mu_{Y_2} = \mathbf{a}_2^T\boldsymbol{\mu} = 0 \cdot 15 + 3 \cdot 30 + (-4) \cdot 7 + 0 \cdot 10 = 90 - 28 = 62$$
+
+The variance of $Y_2$ is:
+$$\sigma_{Y_2}^2 = \mathbf{a}_2^T\boldsymbol{\Sigma}\mathbf{a}_2 = [0, 3, -4, 0] \begin{bmatrix} 3 & -4 & 0 & 2 \\ -4 & 1 & 2 & 1 \\ 0 & 2 & 9 & 9 \\ 2 & 1 & 9 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ 3 \\ -4 \\ 0 \end{bmatrix}$$
+
+First computing $\mathbf{a}_2^T\boldsymbol{\Sigma}$:
+$$\mathbf{a}_2^T\boldsymbol{\Sigma} = [0 \cdot 3 + 3 \cdot (-4) + (-4) \cdot 0 + 0 \cdot 2, 0 \cdot (-4) + 3 \cdot 1 + (-4) \cdot 2 + 0 \cdot 1, 0 \cdot 0 + 3 \cdot 2 + (-4) \cdot 9 + 0 \cdot 9, 0 \cdot 2 + 3 \cdot 1 + (-4) \cdot 9 + 0 \cdot 1]$$
+$$\mathbf{a}_2^T\boldsymbol{\Sigma} = [-12, 3 - 8, 6 - 36, 3 - 36] = [-12, -5, -30, -33]$$
+
+Then computing $\mathbf{a}_2^T\boldsymbol{\Sigma}\mathbf{a}_2$:
+$$\sigma_{Y_2}^2 = (-12) \cdot 0 + (-5) \cdot 3 + (-30) \cdot (-4) + (-33) \cdot 0 = 0 - 15 + 120 + 0 = 105$$
+
+Therefore, $Y_2 \sim \mathcal{N}(62, 105)$
+
+Using the standard normal CDF, we compute:
+$$P(Y_2 > 35) = P\left(\frac{Y_2 - 62}{\sqrt{105}} > \frac{35 - 62}{\sqrt{105}}\right) = P\left(Z > \frac{-27}{\sqrt{105}}\right) = P(Z > -2.64)$$
+$$P(Y_2 > 35) = 1 - P(Z \leq -2.64) \approx 1 - 0.0041 \approx 0.9959$$
+
+#### Part c: Finding $P(7X_1 + 3X_2 + 2X_3 < 56)$
+
+Let $Y_3 = 7X_1 + 3X_2 + 2X_3$, which corresponds to $\mathbf{a}_3 = [7, 3, 2, 0]^T$
+
+The mean of $Y_3$ is:
+$$\mu_{Y_3} = \mathbf{a}_3^T\boldsymbol{\mu} = 7 \cdot 15 + 3 \cdot 30 + 2 \cdot 7 + 0 \cdot 10 = 105 + 90 + 14 = 209$$
+
+The variance of $Y_3$ is:
+$$\sigma_{Y_3}^2 = \mathbf{a}_3^T\boldsymbol{\Sigma}\mathbf{a}_3 = [7, 3, 2, 0] \begin{bmatrix} 3 & -4 & 0 & 2 \\ -4 & 1 & 2 & 1 \\ 0 & 2 & 9 & 9 \\ 2 & 1 & 9 & 1 \end{bmatrix} \begin{bmatrix} 7 \\ 3 \\ 2 \\ 0 \end{bmatrix}$$
+
+First computing $\mathbf{a}_3^T\boldsymbol{\Sigma}$:
+$$\mathbf{a}_3^T\boldsymbol{\Sigma} = [7 \cdot 3 + 3 \cdot (-4) + 2 \cdot 0 + 0 \cdot 2, 7 \cdot (-4) + 3 \cdot 1 + 2 \cdot 2 + 0 \cdot 1, ...]$$
+$$\mathbf{a}_3^T\boldsymbol{\Sigma} = [21 - 12 + 0 + 0, -28 + 3 + 4 + 0, 0 + 6 + 18 + 0, 14 + 3 + 18 + 0]$$
+$$\mathbf{a}_3^T\boldsymbol{\Sigma} = [9, -21, 24, 35]$$
+
+Then computing $\mathbf{a}_3^T\boldsymbol{\Sigma}\mathbf{a}_3$:
+$$\sigma_{Y_3}^2 = 9 \cdot 7 + (-21) \cdot 3 + 24 \cdot 2 + 35 \cdot 0 = 63 - 63 + 48 + 0 = 48$$
+
+Therefore, $Y_3 \sim \mathcal{N}(209, 48)$
+
+Using the standard normal CDF, we compute:
+$$P(Y_3 < 56) = P\left(\frac{Y_3 - 209}{\sqrt{48}} < \frac{56 - 209}{\sqrt{48}}\right) = P\left(Z < \frac{-153}{\sqrt{48}}\right) = P(Z < -22.08)$$
+
+Since -22.08 is far beyond several standard deviations in the negative direction, and the standard normal CDF approaches 0 as the argument decreases:
+$$P(Y_3 < 56) \approx 0$$
+
+### Interpretation
+
+These examples illustrate how to calculate probabilities for linear combinations of multivariate normal random variables:
+
+1. For part (a), the probability is approximately 1, indicating that $X_1 - 5X_4 < 16$ is almost certain to occur.
+2. For part (b), the probability is approximately 0.9959, indicating that $3X_2 - 4X_3 > 35$ is highly likely to occur.
+3. For part (c), the probability is approximately 0, indicating that $7X_1 + 3X_2 + 2X_3 < 56$ is extremely unlikely to occur.
+
+The key insight is that any linear combination of multivariate normal random variables is itself normally distributed, with mean and variance determined by the coefficient vector, the mean vector, and the covariance matrix.
+
 ## Related Topics
 
 - [[L2_1_Multivariate_Normal_Examples|Multivariate Normal Examples]]: More examples of multivariate normal distributions
 - [[L2_1_Linear_Transformation|Linear Transformations]]: Detailed theory of linear transformations
-- [[L2_1_PCA|Principal Component Analysis]]: Application of eigendecomposition for dimension reduction
-- [[L2_1_Covariance_Examples|Covariance Examples]]: Understanding covariance structures
-- [[L2_1_Eigendecomposition|Eigendecomposition]]: Mathematical basis for understanding transformations 
+- [[L2_1_Probability_Application_Examples|Probability Applications]]: Further examples of probability calculations in multivariate settings 
