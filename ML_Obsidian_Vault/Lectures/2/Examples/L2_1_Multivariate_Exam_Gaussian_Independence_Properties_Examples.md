@@ -225,7 +225,9 @@ Since the off-diagonal element in the conditional covariance matrix is 2 (not 0)
 
 ### Problem Statement
 
-A random vector $\mathbf{X} = \begin{bmatrix} X_1 \\ X_2 \\ X_3 \\ X_4 \\ X_5 \end{bmatrix}$ has a multivariate normal distribution with mean vector $\boldsymbol{\mu}$ and covariance matrix $\boldsymbol{\Sigma}$ given by $\boldsymbol{\mu} = \begin{bmatrix} 4 \\ 45 \\ 30 \\ 35 \\ 40 \end{bmatrix}$ and:
+A random vector $\mathbf{X} = \begin{bmatrix} X_1 \\ X_2 \\ X_3 \\ X_4 \\ X_5 \end{bmatrix}$ has a multivariate normal distribution with mean vector $\boldsymbol{\mu}$ and covariance matrix $\boldsymbol{\Sigma}$ given by:
+
+$$\boldsymbol{\mu} = \begin{bmatrix} 4 \\ 45 \\ 30 \\ 35 \\ 40 \end{bmatrix}$$
 
 $$\boldsymbol{\Sigma} = \begin{bmatrix}
 1 & 1 & 0 & 0 & 0 \\
@@ -248,9 +250,11 @@ c) Determine the distribution of $\mathbf{X}_1$ conditioned on $\mathbf{X}_2 = \
 For a multivariate normal distribution, the marginal distribution of any subset of variables is also multivariate normal, with the corresponding subvector of the mean and the appropriate submatrix of the covariance matrix.
 
 The mean vector of $\mathbf{X}_2$ is:
+
 $$\boldsymbol{\mu}_{\mathbf{X}_2} = \begin{bmatrix} 4 \\ 30 \end{bmatrix}$$
 
 The covariance matrix of $\mathbf{X}_2$ is the submatrix of $\boldsymbol{\Sigma}$ corresponding to variables $X_1$ and $X_3$:
+
 $$\boldsymbol{\Sigma}_{\mathbf{X}_2} = \begin{bmatrix}
 1 & 0 \\
 0 & 5
@@ -280,27 +284,28 @@ $$\text{Cov}(\mathbf{Y}) = \begin{bmatrix}
 \end{bmatrix}$$
 
 Where:
-- $\text{Cov}(\mathbf{X}_1, \mathbf{X}_1) = \begin{bmatrix}
+
+$$\text{Cov}(\mathbf{X}_1, \mathbf{X}_1) = \begin{bmatrix}
 15 & 4 & 0 \\
 4 & 8 & 0 \\
 0 & 0 & 9
-\end{bmatrix}$
+\end{bmatrix}$$
 
-- $\text{Cov}(\mathbf{X}_1, \mathbf{X}_2) = \begin{bmatrix}
+$$\text{Cov}(\mathbf{X}_1, \mathbf{X}_2) = \begin{bmatrix}
 1 & 1 \\
 0 & 4 \\
 0 & 0
-\end{bmatrix}$
+\end{bmatrix}$$
 
-- $\text{Cov}(\mathbf{X}_2, \mathbf{X}_1) = \begin{bmatrix}
+$$\text{Cov}(\mathbf{X}_2, \mathbf{X}_1) = \begin{bmatrix}
 1 & 0 & 0 \\
 1 & 4 & 0
-\end{bmatrix}$
+\end{bmatrix}$$
 
-- $\text{Cov}(\mathbf{X}_2, \mathbf{X}_2) = \begin{bmatrix}
+$$\text{Cov}(\mathbf{X}_2, \mathbf{X}_2) = \begin{bmatrix}
 1 & 0 \\
 0 & 5
-\end{bmatrix}$
+\end{bmatrix}$$
 
 Therefore, the covariance matrix of $\mathbf{Y}$ is:
 
@@ -323,32 +328,39 @@ Where:
 - $\boldsymbol{\mu}_{\mathbf{X}_1} = \begin{bmatrix} 45 \\ 35 \\ 40 \end{bmatrix}$
 - $\mathbf{x}_2 = \begin{bmatrix} 6 \\ 24 \end{bmatrix}$
 - $\boldsymbol{\mu}_{\mathbf{X}_2} = \begin{bmatrix} 4 \\ 30 \end{bmatrix}$
-- $\boldsymbol{\Sigma}_{11} = \text{Cov}(\mathbf{X}_1, \mathbf{X}_1) = \begin{bmatrix}
+
+$$\boldsymbol{\Sigma}_{11} = \text{Cov}(\mathbf{X}_1, \mathbf{X}_1) = \begin{bmatrix}
 15 & 4 & 0 \\
 4 & 8 & 0 \\
 0 & 0 & 9
-\end{bmatrix}$
-- $\boldsymbol{\Sigma}_{12} = \text{Cov}(\mathbf{X}_1, \mathbf{X}_2) = \begin{bmatrix}
+\end{bmatrix}$$
+
+$$\boldsymbol{\Sigma}_{12} = \text{Cov}(\mathbf{X}_1, \mathbf{X}_2) = \begin{bmatrix}
 1 & 1 \\
 0 & 4 \\
 0 & 0
-\end{bmatrix}$
-- $\boldsymbol{\Sigma}_{21} = \text{Cov}(\mathbf{X}_2, \mathbf{X}_1) = \begin{bmatrix}
+\end{bmatrix}$$
+
+$$\boldsymbol{\Sigma}_{21} = \text{Cov}(\mathbf{X}_2, \mathbf{X}_1) = \begin{bmatrix}
 1 & 0 & 0 \\
 1 & 4 & 0
-\end{bmatrix}$
-- $\boldsymbol{\Sigma}_{22} = \text{Cov}(\mathbf{X}_2, \mathbf{X}_2) = \begin{bmatrix}
+\end{bmatrix}$$
+
+$$\boldsymbol{\Sigma}_{22} = \text{Cov}(\mathbf{X}_2, \mathbf{X}_2) = \begin{bmatrix}
 1 & 0 \\
 0 & 5
-\end{bmatrix}$
-- $\boldsymbol{\Sigma}_{22}^{-1} = \begin{bmatrix}
+\end{bmatrix}$$
+
+$$\boldsymbol{\Sigma}_{22}^{-1} = \begin{bmatrix}
 1 & 0 \\
 0 & \frac{1}{5}
-\end{bmatrix}$
+\end{bmatrix}$$
 
-First, let's calculate $\mathbf{x}_2 - \boldsymbol{\mu}_{\mathbf{X}_2} = \begin{bmatrix} 6 \\ 24 \end{bmatrix} - \begin{bmatrix} 4 \\ 30 \end{bmatrix} = \begin{bmatrix} 2 \\ -6 \end{bmatrix}$
+First, let's calculate:
+$$\mathbf{x}_2 - \boldsymbol{\mu}_{\mathbf{X}_2} = \begin{bmatrix} 6 \\ 24 \end{bmatrix} - \begin{bmatrix} 4 \\ 30 \end{bmatrix} = \begin{bmatrix} 2 \\ -6 \end{bmatrix}$$
 
 Now, calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_{\mathbf{X}_2})$:
+
 $$\begin{bmatrix}
 1 & 1 \\
 0 & 4 \\
@@ -359,14 +371,18 @@ $$\begin{bmatrix}
 \end{bmatrix} \begin{bmatrix}
 2 \\
 -6
-\end{bmatrix} = \begin{bmatrix}
+\end{bmatrix}$$
+
+$$= \begin{bmatrix}
 1 & \frac{1}{5} \\
 0 & \frac{4}{5} \\
 0 & 0
 \end{bmatrix} \begin{bmatrix}
 2 \\
 -6
-\end{bmatrix} = \begin{bmatrix}
+\end{bmatrix}$$
+
+$$= \begin{bmatrix}
 2 - \frac{6}{5} \\
 -\frac{24}{5} \\
 0
@@ -377,6 +393,7 @@ $$\begin{bmatrix}
 \end{bmatrix}$$
 
 Therefore, the conditional mean is:
+
 $$\boldsymbol{\mu}_{\mathbf{X}_1|\mathbf{X}_2} = \begin{bmatrix}
 45 \\
 35 \\
@@ -385,7 +402,9 @@ $$\boldsymbol{\mu}_{\mathbf{X}_1|\mathbf{X}_2} = \begin{bmatrix}
 \frac{4}{5} \\
 -\frac{24}{5} \\
 0
-\end{bmatrix} = \begin{bmatrix}
+\end{bmatrix}$$
+
+$$= \begin{bmatrix}
 45 + \frac{4}{5} \\
 35 - \frac{24}{5} \\
 40
@@ -396,6 +415,7 @@ $$\boldsymbol{\mu}_{\mathbf{X}_1|\mathbf{X}_2} = \begin{bmatrix}
 \end{bmatrix}$$
 
 Next, calculate the conditional covariance matrix:
+
 $$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{bmatrix}
 1 & 1 \\
 0 & 4 \\
@@ -419,6 +439,7 @@ $$= \begin{bmatrix}
 \end{bmatrix}$$
 
 Therefore, the conditional covariance matrix is:
+
 $$\boldsymbol{\Sigma}_{\mathbf{X}_1|\mathbf{X}_2} = \begin{bmatrix}
 15 & 4 & 0 \\
 4 & 8 & 0 \\
@@ -427,7 +448,9 @@ $$\boldsymbol{\Sigma}_{\mathbf{X}_1|\mathbf{X}_2} = \begin{bmatrix}
 \frac{6}{5} & \frac{4}{5} & 0 \\
 \frac{4}{5} & \frac{16}{5} & 0 \\
 0 & 0 & 0
-\end{bmatrix} = \begin{bmatrix}
+\end{bmatrix}$$
+
+$$= \begin{bmatrix}
 15 - \frac{6}{5} & 4 - \frac{4}{5} & 0 \\
 4 - \frac{4}{5} & 8 - \frac{16}{5} & 0 \\
 0 & 0 & 9
@@ -438,9 +461,11 @@ $$\boldsymbol{\Sigma}_{\mathbf{X}_1|\mathbf{X}_2} = \begin{bmatrix}
 \end{bmatrix}$$
 
 The conditional distribution of $\mathbf{X}_1$ given $\mathbf{X}_2 = \begin{bmatrix} 6 \\ 24 \end{bmatrix}$ is therefore:
+
 $$\mathbf{X}_1|\mathbf{X}_2 = \begin{bmatrix} 6 \\ 24 \end{bmatrix} \sim \mathcal{N}\left(\begin{bmatrix} \frac{229}{5} \\ \frac{151}{5} \\ 40 \end{bmatrix}, \begin{bmatrix} \frac{69}{5} & \frac{16}{5} & 0 \\ \frac{16}{5} & \frac{24}{5} & 0 \\ 0 & 0 & 9 \end{bmatrix}\right)$$
 
 Which simplifies to:
+
 $$\mathbf{X}_1|\mathbf{X}_2 = \begin{bmatrix} 6 \\ 24 \end{bmatrix} \sim \mathcal{N}\left(\begin{bmatrix} 45.8 \\ 30.2 \\ 40 \end{bmatrix}, \begin{bmatrix} 13.8 & 3.2 & 0 \\ 3.2 & 4.8 & 0 \\ 0 & 0 & 9 \end{bmatrix}\right)$$
 
 ## Related Topics
