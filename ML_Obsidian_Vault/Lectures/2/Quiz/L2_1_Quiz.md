@@ -580,8 +580,9 @@ Consider two species of flowers with the following petal measurements (length, w
 Assume these measurements follow a multivariate Gaussian distribution for each species.
 
 #### Task
-1. Calculate the mean vector for each species
-2. Using just the mean vectors and assuming equal prior probabilities, classify a new flower with measurements $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 3 \end{bmatrix}$ by computing the Euclidean distance to each mean
-3. If Species A is three times more common than Species B in this region (i.e., $P(\text{Species A}) = 0.75$ and $P(\text{Species B}) = 0.25$), would your classification change? Explain briefly.
+1. Calculate the mean vector and covariance matrix for each species
+2. Using just the mean vectors and assuming equal prior probabilities, classify a new flower with measurements $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 4 \end{bmatrix}$ by computing the Euclidean distance to each mean
+3. Using the multivariate Gaussian probability density function, classify the new flower with equal prior probabilities
+4. If Species B is three times more common than Species A in this region (i.e., $P(\text{Species A}) = 0.25$ and $P(\text{Species B}) = 0.75$), would your classification change using either method? Explain briefly.
 
 For a detailed explanation of this problem, including nearest centroid classification and Bayesian decision theory, see [Question 34: Quick Flower Classification](L2_1_34_explanation.md).
