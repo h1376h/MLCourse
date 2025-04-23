@@ -468,6 +468,107 @@ Which simplifies to:
 
 $$\mathbf{X}_1|\mathbf{X}_2 = \begin{bmatrix} 6 \\ 24 \end{bmatrix} \sim \mathcal{N}\left(\begin{bmatrix} 45.8 \\ 30.2 \\ 40 \end{bmatrix}, \begin{bmatrix} 13.8 & 3.2 & 0 \\ 3.2 & 4.8 & 0 \\ 0 & 0 & 9 \end{bmatrix}\right)$$
 
+## Example 5: Independent Variables with Inverse of Covariance Matrix
+
+### Problem Statement
+
+Assume we have the following three dimensional normal random variable
+
+$$\mathbf{X} = \begin{bmatrix} X_1 \\ X_2 \\ X_3 \end{bmatrix} \sim \mathcal{N} \left( \begin{bmatrix} 0 \\ 1 \\ -2 \end{bmatrix}, \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \right).$$
+
+It will be useful to know that the inverse matrix of $\begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix}$ is $\begin{bmatrix} 1/2 & -1/2 & 1/2 \\ -1/2 & 3/2 & -1/2 \\ 1/2 & -1/2 & 3/2 \end{bmatrix}$.
+
+The inverse of $\begin{bmatrix} 1/2 & -1/2 \\ -1/2 & 3/2 \end{bmatrix}$ is $\begin{bmatrix} 3 & 1 \\ 1 & 1 \end{bmatrix}$.
+
+(a) Which two variables are independent with each other?
+
+(b) Define 
+$$Z = X_1 - aX_2 - bX_3,$$
+where $a, b \in \mathbb{R}$ are two constants. Is it possible to set the values of $a$ and $b$ such that $Z$ is independent with $X_1$ (that is, $Z \perp X_1$)? If so, give an example of such $a$ and $b$.
+
+(c) For $Z = X_1 - aX_2 - bX_3$, is it possible to set the value of $a$ and $b$ such that $Z$ is independent with $X_1$ conditional on $X_3 = x_3$ (i.e., $Z \perp X_1 \mid X_3 = x_3$), for any fixed value $x_3 \in \mathbb{R}$? In other word, we hope to make $X_1$ and $Z$ independent conditional on that $X_3$ equals to a fixed number $x_3$, regardless what the value of $x_3$ is. If this can be done, give an example of $(a, b)$ that satisfy the condition.
+
+### Solution
+
+#### Part a: Identifying independent pairs of variables
+
+For a multivariate normal distribution, two random variables are independent if and only if their covariance is zero. Looking at the covariance matrix:
+
+- $\text{Cov}(X_1, X_2) = \Sigma_{12} = 1 \neq 0$, so $X_1$ and $X_2$ are not independent.
+- $\text{Cov}(X_1, X_3) = \Sigma_{13} = -1 \neq 0$, so $X_1$ and $X_3$ are not independent.
+- $\text{Cov}(X_2, X_3) = \Sigma_{23} = 0$, so $X_2$ and $X_3$ are independent.
+
+Therefore, $X_2$ and $X_3$ are independent.
+
+#### Part b: Finding values of $a$ and $b$ for independence
+
+For $Z = X_1 - aX_2 - bX_3$ to be independent of $X_1$, we need $\text{Cov}(Z, X_1) = 0$.
+
+$$\text{Cov}(Z, X_1) = \text{Cov}(X_1 - aX_2 - bX_3, X_1)$$
+$$= \text{Cov}(X_1, X_1) - a\text{Cov}(X_2, X_1) - b\text{Cov}(X_3, X_1)$$
+$$= \Sigma_{11} - a\Sigma_{21} - b\Sigma_{31}$$
+$$= 4 - a \cdot 1 - b \cdot (-1)$$
+$$= 4 - a + b$$
+
+For $\text{Cov}(Z, X_1) = 0$, we need:
+$$4 - a + b = 0$$
+$$a = 4 + b$$
+
+So $a$ and $b$ must satisfy $a = 4 + b$. Any pair of values that satisfies this equation will make $Z$ and $X_1$ independent.
+
+For example, if $b = 0$, then $a = 4$, so $Z = X_1 - 4X_2$ would be independent of $X_1$.
+
+Another example: if $b = 1$, then $a = 5$, so $Z = X_1 - 5X_2 - X_3$ would be independent of $X_1$.
+
+#### Part c: Conditional independence given $X_3 = x_3$
+
+To determine if $Z = X_1 - aX_2 - bX_3$ can be independent of $X_1$ conditional on $X_3 = x_3$, we need to find the conditional covariance of $Z$ and $X_1$ given $X_3 = x_3$.
+
+First, let's rewrite $Z$ by substituting $X_3 = x_3$ since we're conditioning on this value:
+$$Z|X_3 = x_3 = X_1 - aX_2 - bx_3$$
+
+Since $x_3$ is a constant when conditioning on $X_3 = x_3$, we have:
+$$\text{Cov}(Z, X_1|X_3 = x_3) = \text{Cov}(X_1 - aX_2, X_1|X_3 = x_3)$$
+
+We need the conditional covariance matrix of $(X_1, X_2)$ given $X_3 = x_3$. For a multivariate normal distribution, the conditional covariance matrix does not depend on the value of the conditioning variable, only on which variables we're conditioning on.
+
+Let's partition the covariance matrix as:
+$$\boldsymbol{\Sigma} = \begin{bmatrix} \boldsymbol{\Sigma}_{11} & \boldsymbol{\Sigma}_{12} \\ \boldsymbol{\Sigma}_{21} & \boldsymbol{\Sigma}_{22} \end{bmatrix}$$
+
+where:
+- $\boldsymbol{\Sigma}_{11} = \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix}$ (covariance of $X_1$ and $X_2$)
+- $\boldsymbol{\Sigma}_{12} = \begin{bmatrix} -1 \\ 0 \end{bmatrix}$ (covariance between $(X_1, X_2)$ and $X_3$)
+- $\boldsymbol{\Sigma}_{21} = \begin{bmatrix} -1 & 0 \end{bmatrix}$ (covariance between $X_3$ and $(X_1, X_2)$)
+- $\boldsymbol{\Sigma}_{22} = \begin{bmatrix} 1 \end{bmatrix}$ (variance of $X_3$)
+
+The conditional covariance matrix is:
+$$\boldsymbol{\Sigma}_{11|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
+
+$$= \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix} - \begin{bmatrix} -1 \\ 0 \end{bmatrix} \cdot \frac{1}{1} \cdot \begin{bmatrix} -1 & 0 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix} - \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 3 & 1 \\ 1 & 1 \end{bmatrix}$$
+
+This is confirmed by the inverse matrix information given in the problem statement. The inverse of $\begin{bmatrix} 1/2 & -1/2 \\ -1/2 & 3/2 \end{bmatrix}$ is $\begin{bmatrix} 3 & 1 \\ 1 & 1 \end{bmatrix}$, which is our conditional covariance matrix.
+
+Now, for $Z$ to be independent of $X_1$ conditional on $X_3 = x_3$, we need:
+$$\text{Cov}(X_1 - aX_2, X_1|X_3 = x_3) = 0$$
+
+$$\text{Cov}(X_1, X_1|X_3 = x_3) - a\text{Cov}(X_2, X_1|X_3 = x_3) = 0$$
+
+From the conditional covariance matrix, we have:
+- $\text{Cov}(X_1, X_1|X_3 = x_3) = 3$
+- $\text{Cov}(X_2, X_1|X_3 = x_3) = 1$
+
+Therefore:
+$$3 - a \cdot 1 = 0$$
+$$a = 3$$
+
+The value of $b$ doesn't matter for conditional independence given $X_3 = x_3$, because when we condition on $X_3 = x_3$, the term $bX_3$ becomes a constant $bx_3$ which doesn't affect the covariance.
+
+So, to achieve conditional independence of $Z$ and $X_1$ given $X_3 = x_3$, we need $a = 3$ and $b$ can be any value. For instance, $(a,b) = (3,0)$ would give $Z = X_1 - 3X_2$ which is independent of $X_1$ conditional on $X_3 = x_3$.
+
 ## Related Topics
 
 - [[L2_1_Multivariate_Normal_Examples|Multivariate Normal Examples]]: Detailed examples of multivariate normal distributions
