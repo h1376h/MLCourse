@@ -236,6 +236,86 @@ These examples illustrate how to calculate probabilities for linear combinations
 
 The key insight is that any linear combination of multivariate normal random variables is itself normally distributed, with mean and variance determined by the coefficient vector, the mean vector, and the covariance matrix.
 
+## Example 4: Component Extraction and Linear Combinations
+
+### Problem Statement
+Let $\mathbf{X} = [X_1 \ X_2 \ X_3 \ X_4]^T$ be a four-variate Gaussian random vector with
+$$\boldsymbol{\mu}_X = \begin{bmatrix} 2 \\ 1 \\ 1 \\ 0 \end{bmatrix}, \quad \text{and} \quad \mathbf{C}_X = \begin{bmatrix} 6 & 3 & 2 & 1 \\ 3 & 4 & 3 & 2 \\ 2 & 3 & 4 & 3 \\ 1 & 2 & 3 & 3 \end{bmatrix}.$$
+
+Let $\mathbf{X}_1$, $\mathbf{X}_2$, and $\mathbf{Y}$ be defined as
+$$\mathbf{X}_1 = \begin{bmatrix} X_1 \\ X_2 \end{bmatrix}, \quad \mathbf{X}_2 = \begin{bmatrix} X_3 \\ X_4 \end{bmatrix}, \quad \mathbf{Y} = \begin{bmatrix} 2X_1 \\ X_1 + 2X_2 \\ X_3 + X_4 \end{bmatrix}.$$
+
+a) Find the distribution of $\mathbf{X}_1$, its mean vector and covariance matrix.
+b) Find the distribution of $\mathbf{Y}$, its mean vector and covariance matrix.
+
+### Solution
+
+#### Part a: Finding the distribution of $\mathbf{X}_1$
+
+We can express $\mathbf{X}_1$ as a linear transformation of $\mathbf{X}$ using a matrix $\mathbf{A}_1$:
+
+$$\mathbf{X}_1 = \mathbf{A}_1 \mathbf{X}$$
+
+where $\mathbf{A}_1 = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \end{bmatrix}$.
+
+For linear transformations of multivariate normal distributions, we know that if $\mathbf{X} \sim \mathcal{N}(\boldsymbol{\mu}, \boldsymbol{\Sigma})$ and $\mathbf{Y} = \mathbf{A}\mathbf{X} + \mathbf{b}$, then $\mathbf{Y} \sim \mathcal{N}(\mathbf{A}\boldsymbol{\mu} + \mathbf{b}, \mathbf{A}\boldsymbol{\Sigma}\mathbf{A}^T)$.
+
+In this case, since $\mathbf{X}_1 = \mathbf{A}_1 \mathbf{X}$ (with no shift vector), we have:
+
+$$\boldsymbol{\mu}_{\mathbf{X}_1} = \mathbf{A}_1 \boldsymbol{\mu}_X = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \end{bmatrix} \begin{bmatrix} 2 \\ 1 \\ 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 2 \\ 1 \end{bmatrix}$$
+
+The covariance matrix of $\mathbf{X}_1$ is:
+
+$$\boldsymbol{\Sigma}_{\mathbf{X}_1} = \mathbf{A}_1 \mathbf{C}_X \mathbf{A}_1^T = \begin{bmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \end{bmatrix} \begin{bmatrix} 6 & 3 & 2 & 1 \\ 3 & 4 & 3 & 2 \\ 2 & 3 & 4 & 3 \\ 1 & 2 & 3 & 3 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \\ 0 & 0 \end{bmatrix}$$
+
+Computing $\mathbf{A}_1 \mathbf{C}_X$ first:
+
+$$\mathbf{A}_1 \mathbf{C}_X = \begin{bmatrix} 6 & 3 & 2 & 1 \\ 3 & 4 & 3 & 2 \end{bmatrix}$$
+
+Then multiplying by $\mathbf{A}_1^T$:
+
+$$\boldsymbol{\Sigma}_{\mathbf{X}_1} = \begin{bmatrix} 6 & 3 & 2 & 1 \\ 3 & 4 & 3 & 2 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 6 & 3 \\ 3 & 4 \end{bmatrix}$$
+
+Therefore, $\mathbf{X}_1 \sim \mathcal{N}\left(\begin{bmatrix} 2 \\ 1 \end{bmatrix}, \begin{bmatrix} 6 & 3 \\ 3 & 4 \end{bmatrix}\right)$.
+
+#### Part b: Finding the distribution of $\mathbf{Y}$
+
+Similarly, we can express $\mathbf{Y}$ as a linear transformation of $\mathbf{X}$ using a matrix $\mathbf{A}_2$:
+
+$$\mathbf{Y} = \mathbf{A}_2 \mathbf{X}$$
+
+where $\mathbf{A}_2 = \begin{bmatrix} 2 & 0 & 0 & 0 \\ 1 & 2 & 0 & 0 \\ 0 & 0 & 1 & 1 \end{bmatrix}$.
+
+The mean vector of $\mathbf{Y}$ is:
+
+$$\boldsymbol{\mu}_{\mathbf{Y}} = \mathbf{A}_2 \boldsymbol{\mu}_X = \begin{bmatrix} 2 & 0 & 0 & 0 \\ 1 & 2 & 0 & 0 \\ 0 & 0 & 1 & 1 \end{bmatrix} \begin{bmatrix} 2 \\ 1 \\ 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 4 \\ 4 \\ 1 \end{bmatrix}$$
+
+The covariance matrix of $\mathbf{Y}$ is:
+
+$$\boldsymbol{\Sigma}_{\mathbf{Y}} = \mathbf{A}_2 \mathbf{C}_X \mathbf{A}_2^T$$
+
+Computing $\mathbf{A}_2 \mathbf{C}_X$ first:
+
+$$\mathbf{A}_2 \mathbf{C}_X = \begin{bmatrix} 2 & 0 & 0 & 0 \\ 1 & 2 & 0 & 0 \\ 0 & 0 & 1 & 1 \end{bmatrix} \begin{bmatrix} 6 & 3 & 2 & 1 \\ 3 & 4 & 3 & 2 \\ 2 & 3 & 4 & 3 \\ 1 & 2 & 3 & 3 \end{bmatrix} = \begin{bmatrix} 12 & 6 & 4 & 2 \\ 12 & 11 & 8 & 5 \\ 3 & 5 & 7 & 6 \end{bmatrix}$$
+
+Then multiplying by $\mathbf{A}_2^T$:
+
+$$\boldsymbol{\Sigma}_{\mathbf{Y}} = \begin{bmatrix} 12 & 6 & 4 & 2 \\ 12 & 11 & 8 & 5 \\ 3 & 5 & 7 & 6 \end{bmatrix} \begin{bmatrix} 2 & 1 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 1 \end{bmatrix} = \begin{bmatrix} 24 & 18 & 6 \\ 18 & 25 & 7 \\ 6 & 7 & 13 \end{bmatrix}$$
+
+Therefore, $\mathbf{Y} \sim \mathcal{N}\left(\begin{bmatrix} 4 \\ 4 \\ 1 \end{bmatrix}, \begin{bmatrix} 24 & 18 & 6 \\ 18 & 25 & 7 \\ 6 & 7 & 13 \end{bmatrix}\right)$.
+
+### Key Insights
+
+This example illustrates several important concepts:
+
+1. **Component Extraction**: We can extract components of a multivariate normal vector by using an appropriate transformation matrix, and the resulting subvector is also multivariate normal.
+
+2. **Linear Combinations**: When we form linear combinations of components (as in $\mathbf{Y}$), the resulting vector maintains the multivariate normal distribution.
+
+3. **Transformation Formula**: The mean vector and covariance matrix of the transformed variables can be directly computed using the formulas $\boldsymbol{\mu}_{\mathbf{Y}} = \mathbf{A}\boldsymbol{\mu}_X$ and $\boldsymbol{\Sigma}_{\mathbf{Y}} = \mathbf{A}\mathbf{C}_X\mathbf{A}^T$.
+
+4. **Block Extraction**: When extracting specific components (like $\mathbf{X}_1$), the resulting covariance matrix is simply the corresponding submatrix of the original covariance matrix.
+
 ## Related Topics
 
 - [[L2_1_Multivariate_Normal_Examples|Multivariate Normal Examples]]: More examples of multivariate normal distributions
