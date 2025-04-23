@@ -281,6 +281,8 @@ This means we need stronger evidence (a higher likelihood) to classify a point a
 
 ![Decision Boundaries Comparison](../Images/L2_1_Quiz_31/a_step4a_boundaries_comparison.png)
 
+> **Note**: Instead of calculations, focus on understanding the geometric intuition: changing priors shifts the decision boundary toward the class with lower prior probability.
+
 ### Step 5: Decision Regions
 
 To better visualize how the classification changes with different priors, we can plot the decision regions:
