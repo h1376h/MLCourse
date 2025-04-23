@@ -260,17 +260,18 @@ def multivariate_gaussian_pdf(x, mean, cov):
     diff = x - mean
     
     # Multivariate Gaussian formula
-    exponent = -0.5 * diff.T @ inv_cov @ diff
+    quadratic_form = np.dot(np.dot(diff, inv_cov), diff)
+    exponent = -0.5 * quadratic_form
     normalizer = 1 / ((2 * np.pi) ** (n/2) * np.sqrt(det_cov))
     pdf_value = normalizer * np.exp(exponent)
     
     print(f"  - n (dimensions): {n}")
     print(f"  - |Σ| (determinant): {det_cov:.6f}")
     print(f"  - x - μ (difference): {diff}")
-    print(f"  - (x - μ)ᵀ Σ⁻¹ (x - μ) (quadratic form): {diff.T @ inv_cov @ diff:.6f}")
+    print(f"  - (x - μ)ᵀ Σ⁻¹ (x - μ) (quadratic form): {quadratic_form:.6f}")
     print(f"  - exp(-0.5 * quadratic form): {np.exp(exponent):.6f}")
     print(f"  - Normalizer: {normalizer:.6f}")
-    print(f"  - Final PDF value: {normalizer * np.exp(exponent):.8f}")
+    print(f"  - Final PDF value: {pdf_value:.8f}")
     
     return pdf_value
 
@@ -328,6 +329,76 @@ print(f"\nP(x|class 0) = {pdf_new_class0:.8f}")
 print("\nCalculating P(x|class 1):")
 pdf_new_class1 = multivariate_gaussian_pdf(new_point, mean_class1, cov_class1)
 print(f"\nP(x|class 1) = {pdf_new_class1:.8f}")
+
+# Manual calculation for verification
+print_substep("Manual Calculation Verification")
+print("For Class 0:")
+diff0 = new_point - mean_class0
+print(f"x - μ₀ = {new_point} - {mean_class0} = {diff0}")
+
+# Manual matrix multiplication
+print("\nMatrix multiplication (x - μ₀)ᵀ Σ₀⁻¹ (x - μ₀):")
+print(f"[{diff0[0]:.3f}, {diff0[1]:.3f}] × [")
+print(f"  [{inv_cov_class0[0,0]:.2f}, {inv_cov_class0[0,1]:.2f}],")
+print(f"  [{inv_cov_class0[1,0]:.2f}, {inv_cov_class0[1,1]:.2f}]")
+print(f"] × [{diff0[0]:.3f}]")
+print(f"    [{diff0[1]:.3f}]")
+
+# First matrix multiplication step by step
+first_product_0 = [
+    diff0[0] * inv_cov_class0[0,0] + diff0[1] * inv_cov_class0[1,0],
+    diff0[0] * inv_cov_class0[0,1] + diff0[1] * inv_cov_class0[1,1]
+]
+print(f"\nFirst step: [{diff0[0]:.3f} × {inv_cov_class0[0,0]:.2f} + {diff0[1]:.3f} × {inv_cov_class0[1,0]:.2f}, {diff0[0]:.3f} × {inv_cov_class0[0,1]:.2f} + {diff0[1]:.3f} × {inv_cov_class0[1,1]:.2f}]")
+print(f"           = [{first_product_0[0]:.3f}, {first_product_0[1]:.3f}]")
+
+# Second multiplication
+quadratic_form_0 = first_product_0[0] * diff0[0] + first_product_0[1] * diff0[1]
+print(f"\nSecond step: {first_product_0[0]:.3f} × {diff0[0]:.3f} + {first_product_0[1]:.3f} × {diff0[1]:.3f} = {quadratic_form_0:.3f}")
+
+# Final PDF calculation
+exponent_0 = -0.5 * quadratic_form_0
+norm_const_0 = 1 / ((2 * np.pi) ** 1 * np.sqrt(det_class0))
+manual_pdf_0 = norm_const_0 * np.exp(exponent_0)
+
+print(f"\nQuadratic form: {quadratic_form_0:.3f}")
+print(f"Exponent: -0.5 × {quadratic_form_0:.3f} = {exponent_0:.3f}")
+print(f"Normalizer: {norm_const_0:.6f}")
+print(f"Manual PDF value: {norm_const_0:.6f} × exp({exponent_0:.3f}) = {manual_pdf_0:.8f}")
+
+print("\nFor Class 1:")
+diff1 = new_point - mean_class1
+print(f"x - μ₁ = {new_point} - {mean_class1} = {diff1}")
+
+# Manual matrix multiplication 
+print("\nMatrix multiplication (x - μ₁)ᵀ Σ₁⁻¹ (x - μ₁):")
+print(f"[{diff1[0]:.3f}, {diff1[1]:.3f}] × [")
+print(f"  [{inv_cov_class1[0,0]:.2f}, {inv_cov_class1[0,1]:.2f}],")
+print(f"  [{inv_cov_class1[1,0]:.2f}, {inv_cov_class1[1,1]:.2f}]")
+print(f"] × [{diff1[0]:.3f}]")
+print(f"    [{diff1[1]:.3f}]")
+
+# First matrix multiplication step by step
+first_product_1 = [
+    diff1[0] * inv_cov_class1[0,0] + diff1[1] * inv_cov_class1[1,0],
+    diff1[0] * inv_cov_class1[0,1] + diff1[1] * inv_cov_class1[1,1]
+]
+print(f"\nFirst step: [{diff1[0]:.3f} × {inv_cov_class1[0,0]:.2f} + {diff1[1]:.3f} × {inv_cov_class1[1,0]:.2f}, {diff1[0]:.3f} × {inv_cov_class1[0,1]:.2f} + {diff1[1]:.3f} × {inv_cov_class1[1,1]:.2f}]")
+print(f"           = [{first_product_1[0]:.3f}, {first_product_1[1]:.3f}]")
+
+# Second multiplication
+quadratic_form_1 = first_product_1[0] * diff1[0] + first_product_1[1] * diff1[1]
+print(f"\nSecond step: {first_product_1[0]:.3f} × {diff1[0]:.3f} + {first_product_1[1]:.3f} × {diff1[1]:.3f} = {quadratic_form_1:.3f}")
+
+# Final PDF calculation
+exponent_1 = -0.5 * quadratic_form_1
+norm_const_1 = 1 / ((2 * np.pi) ** 1 * np.sqrt(det_class1))
+manual_pdf_1 = norm_const_1 * np.exp(exponent_1)
+
+print(f"\nQuadratic form: {quadratic_form_1:.3f}")
+print(f"Exponent: -0.5 × {quadratic_form_1:.3f} = {exponent_1:.3f}")
+print(f"Normalizer: {norm_const_1:.6f}")
+print(f"Manual PDF value: {norm_const_1:.6f} × exp({exponent_1:.3f}) = {manual_pdf_1:.8f}")
 
 print(f"\nLog likelihood ratio: ln[P(x|class 1)/P(x|class 0)] = {np.log(pdf_new_class1/pdf_new_class0):.6f}")
 
