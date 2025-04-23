@@ -169,7 +169,22 @@ print(f"Classification with equal priors: {classification_equal_priors}")
 # Visualize the classification with distances
 fig, ax = plt.subplots(figsize=(10, 6))
 
-# Plot data and means as before
+# Create grid for decision regions
+xx_grid, yy_grid = np.meshgrid(np.linspace(2, 10, 100), np.linspace(0, 5, 100))
+points = np.c_[xx_grid.ravel(), yy_grid.ravel()]
+
+# Calculate distances for each point in the grid
+distances_to_A = np.linalg.norm(points - mean_A, axis=1).reshape(xx_grid.shape)
+distances_to_B = np.linalg.norm(points - mean_B, axis=1).reshape(xx_grid.shape)
+
+# Decision regions (blue for Species A, red for Species B)
+decision_regions = np.zeros_like(xx_grid)
+decision_regions[distances_to_A <= distances_to_B] = 1  # Species A regions
+
+# Fill areas with colors (Species A: blue, Species B: red)
+ax.contourf(xx_grid, yy_grid, decision_regions, alpha=0.1, levels=[-0.5, 0.5, 1.5], colors=['red', 'blue'])
+
+# Plot data and means
 ax.scatter(species_A_data[:, 0], species_A_data[:, 1], color='blue', label='Species A', s=100)
 ax.scatter(species_B_data[:, 0], species_B_data[:, 1], color='red', label='Species B', s=100)
 ax.scatter(mean_A[0], mean_A[1], color='blue', marker='*', s=300, edgecolor='black', label='Mean A')
@@ -191,6 +206,22 @@ ax.annotate(f"d = {dist_to_A:.2f}", (midpoint_A[0], midpoint_A[1]),
 ax.annotate(f"d = {dist_to_B:.2f}", (midpoint_B[0], midpoint_B[1]), 
             xytext=(midpoint_B[0]-0.5, midpoint_B[1]+0.3), color='red',
             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="red", alpha=0.8))
+
+# Draw the decision boundary
+mid_point = (mean_A + mean_B) / 2
+# Direction perpendicular to the line connecting means
+direction = np.array([-(mean_B[1] - mean_A[1]), mean_B[0] - mean_A[0]])
+direction = direction / np.linalg.norm(direction)
+# Create points for the boundary line
+boundary_points = np.vstack([
+    mid_point + 10 * direction,
+    mid_point - 10 * direction
+])
+ax.plot(boundary_points[:, 0], boundary_points[:, 1], 'k-', linewidth=2)
+
+# Add text for equal priors
+ax.text(3, 4.5, "P(A) = P(B) = 0.5", 
+        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
 
 # Set labels and title
 ax.set_xlabel('Petal Length (cm)')
@@ -268,15 +299,17 @@ contour_B = ax.contour(xx, yy, Z_B, levels=levels, colors='red', alpha=0.5)
 # Plot the decision boundary
 ax.contour(xx, yy, Z_decision, levels=[0], colors='black', linewidths=2, linestyles='solid')
 
-# Add filled contours for better visualization
-ax.contourf(xx, yy, Z_A, levels=levels, colors=['blue'], alpha=0.1)
-ax.contourf(xx, yy, Z_B, levels=levels, colors=['red'], alpha=0.1)
+# Create decision regions (1 for Species A, 0 for Species B)
+decision_regions_gaussian = (Z_A > Z_B).astype(int)
+
+# Add filled contours for better visualization - blue for Species A, red for Species B
+ax.contourf(xx, yy, decision_regions_gaussian, alpha=0.1, levels=[-0.5, 0.5, 1.5], colors=['red', 'blue'])
 
 # Plot data points
-ax.scatter(species_A_data[:, 0], species_A_data[:, 1], color='blue', label='Species A', s=80)
-ax.scatter(species_B_data[:, 0], species_B_data[:, 1], color='red', label='Species B', s=80)
-ax.scatter(mean_A[0], mean_A[1], color='blue', marker='*', s=200, edgecolor='black')
-ax.scatter(mean_B[0], mean_B[1], color='red', marker='*', s=200, edgecolor='black')
+ax.scatter(species_A_data[:, 0], species_A_data[:, 1], color='blue', label='Species A', s=100)
+ax.scatter(species_B_data[:, 0], species_B_data[:, 1], color='red', label='Species B', s=100)
+ax.scatter(mean_A[0], mean_A[1], color='blue', marker='*', s=300, edgecolor='black')
+ax.scatter(mean_B[0], mean_B[1], color='red', marker='*', s=300, edgecolor='black')
 ax.scatter(new_flower[0], new_flower[1], color='green', marker='x', s=150, linewidth=3, label='New Flower')
 
 # Set labels and title
@@ -343,52 +376,165 @@ classification_pdf_unequal = "Species A" if posterior_A_pdf > posterior_B_pdf el
 print(f"Classification with unequal priors using distance: {classification_dist_unequal}")
 print(f"Classification with unequal priors using PDF: {classification_pdf_unequal}")
 
-# Create a decision boundary grid for unequal priors
-Z_A_prior = Z_A * prior_A
-Z_B_prior = Z_B * prior_B
-Z_decision_prior = Z_A_prior - Z_B_prior
-
 # Create a composite visualization showing the impact of priors on PDF decision boundaries
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
 
 # Equal priors plot (left)
-ax1.contour(xx, yy, Z_decision, levels=[0], colors='black', linewidths=2, linestyles='solid')
-ax1.contourf(xx, yy, Z_A > Z_B, alpha=0.1, colors=['blue', 'red'])
-ax1.scatter(species_A_data[:, 0], species_A_data[:, 1], color='blue', label='Species A', s=80)
-ax1.scatter(species_B_data[:, 0], species_B_data[:, 1], color='red', label='Species B', s=80)
-ax1.scatter(mean_A[0], mean_A[1], color='blue', marker='*', s=200, edgecolor='black')
-ax1.scatter(mean_B[0], mean_B[1], color='red', marker='*', s=200, edgecolor='black')
+ax1.scatter(species_A_data[:, 0], species_A_data[:, 1], color='blue', label='Species A', s=100)
+ax1.scatter(species_B_data[:, 0], species_B_data[:, 1], color='red', label='Species B', s=100)
+ax1.scatter(mean_A[0], mean_A[1], color='blue', marker='*', s=300, edgecolor='black')
+ax1.scatter(mean_B[0], mean_B[1], color='red', marker='*', s=300, edgecolor='black')
 ax1.scatter(new_flower[0], new_flower[1], color='green', marker='x', s=150, linewidth=3, label='New Flower')
+
+# Create grid for decision regions (left plot - equal priors)
+xx_grid, yy_grid = np.meshgrid(np.linspace(2, 10, 100), np.linspace(0, 5, 100))
+points = np.c_[xx_grid.ravel(), yy_grid.ravel()]
+
+# Calculate distances for each point in the grid
+distances_to_A = np.linalg.norm(points - mean_A, axis=1).reshape(xx_grid.shape)
+distances_to_B = np.linalg.norm(points - mean_B, axis=1).reshape(xx_grid.shape)
+
+# Decision regions (blue for Species A, red for Species B)
+decision_regions = np.zeros_like(xx_grid)
+decision_regions[distances_to_A <= distances_to_B] = 1  # Species A regions
+
+# Draw decision boundary for equal priors
+mid_point = (mean_A + mean_B) / 2
+direction = np.array([-(mean_B[1] - mean_A[1]), mean_B[0] - mean_A[0]])
+direction = direction / np.linalg.norm(direction)
+boundary_points = np.vstack([
+    mid_point + 10 * direction,
+    mid_point - 10 * direction
+])
+ax1.plot(boundary_points[:, 0], boundary_points[:, 1], 'k-', linewidth=2)
+
+# Fill areas with colors (Species A: blue, Species B: red)
+ax1.contourf(xx_grid, yy_grid, decision_regions, alpha=0.1, levels=[-0.5, 0.5, 1.5], colors=['red', 'blue'])
+
 ax1.text(3, 4.5, "P(A) = P(B) = 0.5", 
          bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
 ax1.set_xlabel('Petal Length (cm)')
 ax1.set_ylabel('Petal Width (cm)')
-ax1.set_title('Classification with Equal Priors')
+ax1.set_title('Classification with Equal Priors Using Euclidean Distance')
 ax1.grid(True, alpha=0.3)
 ax1.legend()
 ax1.set_xlim(x_min, x_max)
 ax1.set_ylim(y_min, y_max)
 
 # Unequal priors plot (right)
-ax2.contour(xx, yy, Z_decision_prior, levels=[0], colors='black', linewidths=2, linestyles='solid')
-ax2.contourf(xx, yy, Z_A_prior > Z_B_prior, alpha=0.1, colors=['blue', 'red'])
-ax2.scatter(species_A_data[:, 0], species_A_data[:, 1], color='blue', label='Species A', s=80)
-ax2.scatter(species_B_data[:, 0], species_B_data[:, 1], color='red', label='Species B', s=80)
-ax2.scatter(mean_A[0], mean_A[1], color='blue', marker='*', s=200, edgecolor='black')
-ax2.scatter(mean_B[0], mean_B[1], color='red', marker='*', s=200, edgecolor='black')
+ax2.scatter(species_A_data[:, 0], species_A_data[:, 1], color='blue', label='Species A', s=100)
+ax2.scatter(species_B_data[:, 0], species_B_data[:, 1], color='red', label='Species B', s=100)
+ax2.scatter(mean_A[0], mean_A[1], color='blue', marker='*', s=300, edgecolor='black')
+ax2.scatter(mean_B[0], mean_B[1], color='red', marker='*', s=300, edgecolor='black')
 ax2.scatter(new_flower[0], new_flower[1], color='green', marker='x', s=150, linewidth=3, label='New Flower')
+
+# Calculate shifted boundary for unequal priors
+ln_prior_ratio = np.log(prior_B / prior_A)
+boundary_shift = ln_prior_ratio / np.linalg.norm(mean_B - mean_A)**2 * (mean_B - mean_A)
+shifted_mid_point = mid_point + boundary_shift
+
+# Draw shifted decision boundary
+shifted_boundary_points = np.vstack([
+    shifted_mid_point + 10 * direction,
+    shifted_mid_point - 10 * direction
+])
+ax2.plot(shifted_boundary_points[:, 0], shifted_boundary_points[:, 1], 'k-', linewidth=2)
+
+# Create decision regions for unequal priors with Euclidean distance
+decision_regions_unequal = np.zeros_like(xx_grid)
+
+# Function to determine which side of the shifted boundary a point falls on
+def is_species_A(point, midpoint, normal_vector):
+    direction_vector = point - midpoint
+    return np.dot(direction_vector, normal_vector) > 0
+
+# Normal vector to the boundary (pointing toward Species A region)
+normal = np.array([direction[1], -direction[0]])  # Rotate 90 degrees
+if np.dot(normal, mean_A - shifted_mid_point) < 0:
+    normal = -normal  # Ensure it points toward Species A
+
+# Determine regions
+for i in range(xx_grid.shape[0]):
+    for j in range(xx_grid.shape[1]):
+        point = np.array([xx_grid[i, j], yy_grid[i, j]])
+        decision_regions_unequal[i, j] = 1 if is_species_A(point, shifted_mid_point, normal) else 0
+
+# Fill areas with colors (Species A: blue, Species B: red)
+ax2.contourf(xx_grid, yy_grid, decision_regions_unequal, alpha=0.1, levels=[-0.5, 0.5, 1.5], colors=['red', 'blue'])
+
 ax2.text(3, 4.5, "P(A) = 0.25, P(B) = 0.75", 
          bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
 ax2.set_xlabel('Petal Length (cm)')
 ax2.set_ylabel('Petal Width (cm)')
-ax2.set_title('Classification with Unequal Priors')
+ax2.set_title('Classification with Unequal Priors Using Euclidean Distance')
 ax2.grid(True, alpha=0.3)
 ax2.legend()
 ax2.set_xlim(x_min, x_max)
 ax2.set_ylim(y_min, y_max)
 
 plt.tight_layout()
-save_figure(fig, "step4_pdf_equal_vs_unequal_priors.png")
+save_figure(fig, "step4_euclidean_equal_vs_unequal_priors.png")
+
+# Now create a separate visualization for Gaussian PDF with equal and unequal priors
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+
+# Equal priors plot (left)
+ax1.scatter(species_A_data[:, 0], species_A_data[:, 1], color='blue', label='Species A', s=100)
+ax1.scatter(species_B_data[:, 0], species_B_data[:, 1], color='red', label='Species B', s=100)
+ax1.scatter(mean_A[0], mean_A[1], color='blue', marker='*', s=300, edgecolor='black')
+ax1.scatter(mean_B[0], mean_B[1], color='red', marker='*', s=300, edgecolor='black')
+ax1.scatter(new_flower[0], new_flower[1], color='green', marker='x', s=150, linewidth=3, label='New Flower')
+
+# Plot the contours of the PDFs
+ax1.contour(xx, yy, Z_A, levels=6, colors='blue', alpha=0.5)
+ax1.contour(xx, yy, Z_B, levels=6, colors='red', alpha=0.5)
+ax1.contour(xx, yy, Z_decision, levels=[0], colors='black', linewidths=2)
+
+# Create decision regions (1 for Species A, 0 for Species B)
+decision_regions_gaussian = (Z_A > Z_B).astype(int)
+ax1.contourf(xx, yy, decision_regions_gaussian, alpha=0.1, levels=[-0.5, 0.5, 1.5], colors=['red', 'blue'])
+
+ax1.text(3, 4.5, "P(A) = P(B) = 0.5", 
+         bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
+ax1.set_xlabel('Petal Length (cm)')
+ax1.set_ylabel('Petal Width (cm)')
+ax1.set_title('Classification with Equal Priors Using Gaussian PDF')
+ax1.grid(True, alpha=0.3)
+ax1.legend()
+ax1.set_xlim(x_min, x_max)
+ax1.set_ylim(y_min, y_max)
+
+# Unequal priors plot (right)
+ax2.scatter(species_A_data[:, 0], species_A_data[:, 1], color='blue', label='Species A', s=100)
+ax2.scatter(species_B_data[:, 0], species_B_data[:, 1], color='red', label='Species B', s=100)
+ax2.scatter(mean_A[0], mean_A[1], color='blue', marker='*', s=300, edgecolor='black')
+ax2.scatter(mean_B[0], mean_B[1], color='red', marker='*', s=300, edgecolor='black')
+ax2.scatter(new_flower[0], new_flower[1], color='green', marker='x', s=150, linewidth=3, label='New Flower')
+
+# Plot the contours of the PDFs
+ax2.contour(xx, yy, Z_A, levels=6, colors='blue', alpha=0.5)
+ax2.contour(xx, yy, Z_B, levels=6, colors='red', alpha=0.5)
+
+# Apply the unequal priors to create a new decision boundary with Gaussian PDFs
+Z_decision_unequal = Z_A * prior_A - Z_B * prior_B
+ax2.contour(xx, yy, Z_decision_unequal, levels=[0], colors='black', linewidths=2)
+
+# Shade the decision regions for the unequal priors case
+decision_regions_gaussian_unequal = (Z_A * prior_A > Z_B * prior_B).astype(int)
+ax2.contourf(xx, yy, decision_regions_gaussian_unequal, alpha=0.1, levels=[-0.5, 0.5, 1.5], colors=['red', 'blue'])
+
+ax2.text(3, 4.5, "P(A) = 0.25, P(B) = 0.75", 
+         bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
+ax2.set_xlabel('Petal Length (cm)')
+ax2.set_ylabel('Petal Width (cm)')
+ax2.set_title('Classification with Unequal Priors Using Gaussian PDF')
+ax2.grid(True, alpha=0.3)
+ax2.legend()
+ax2.set_xlim(x_min, x_max)
+ax2.set_ylim(y_min, y_max)
+
+plt.tight_layout()
+save_figure(fig, "step4_gaussian_equal_vs_unequal_priors.png")
 
 # Create 3D visualization of PDFs
 fig = plt.figure(figsize=(15, 10))

@@ -77,7 +77,7 @@ Since $d(\mathbf{x}_{\text{new}}, \boldsymbol{\mu}^{(A)}) < d(\mathbf{x}_{\text{
 
 ![Classification with Equal Priors using Euclidean Distance](../Images/L2_1_Quiz_34/step2_classification_equal_priors.png)
 
-With equal priors using the Euclidean distance approach, the decision boundary is the perpendicular bisector of the line connecting the two means. As seen in the visualization, the new flower falls on the Species A side of this boundary, but is very close to the boundary line.
+With equal priors using the Euclidean distance approach, the decision boundary is the perpendicular bisector of the line connecting the two means. As seen in the visualization, the new flower falls on the Species A side of this boundary (blue region), but is very close to the boundary line.
 
 ### Step 3: Classification with multivariate Gaussian PDF and equal prior probabilities
 
@@ -109,7 +109,7 @@ Interestingly, this gives us a different classification result than the Euclidea
 
 ![Classification with Multivariate Gaussian PDFs](../Images/L2_1_Quiz_34/step3_classification_pdf.png)
 
-The contour lines represent the probability density function of each class. The decision boundary (solid black line) is where the two PDFs are equal. Note that the decision boundary is quite different from the one obtained using Euclidean distance because it accounts for the different covariance structures of the two species. The new flower (green 'x') falls on the Species B side of this boundary.
+The contour lines represent the probability density function of each class. The decision boundary (solid black line) is where the two PDFs are equal. Note that the decision boundary is quite different from the one obtained using Euclidean distance because it accounts for the different covariance structures of the two species. The new flower (green 'x') falls on the Species B side of this boundary (red region).
 
 The 3D visualization of the probability density functions gives a clearer picture of how the multivariate Gaussian models represent the data:
 
@@ -142,6 +142,8 @@ $$P(\text{Species B}|\mathbf{x}_{\text{new}}) = \frac{0.000110 \times 0.75}{0.00
 
 With unequal priors using the Euclidean distance method, the new flower is classified as **Species B** with about 55% confidence.
 
+![Classification with Euclidean Distance - Equal vs. Unequal Priors](../Images/L2_1_Quiz_34/step4_euclidean_equal_vs_unequal_priors.png)
+
 #### 4.2 Using multivariate Gaussian PDF
 
 For the multivariate Gaussian method, we directly use the PDF values as likelihoods:
@@ -152,11 +154,11 @@ $$P(\text{Species B}|\mathbf{x}_{\text{new}}) = \frac{0.0025922 \times 0.75}{0.0
 
 With unequal priors using the multivariate Gaussian PDF method, the new flower is classified as **Species B** with about 99% confidence.
 
-This demonstrates the impact of prior probabilities on our classification. When we changed from equal priors to making Species B three times more common, the Euclidean distance classification actually switched from Species A to Species B, though with only moderate confidence (55%). For the Gaussian PDF method, the classification remained Species B but became even more confident (99% compared to about 90% with equal priors).
+![Classification with Gaussian PDF - Equal vs. Unequal Priors](../Images/L2_1_Quiz_34/step4_gaussian_equal_vs_unequal_priors.png)
 
-![Comparison of Decision Boundaries with Equal and Unequal Priors](../Images/L2_1_Quiz_34/step4_pdf_equal_vs_unequal_priors.png)
+This demonstrates the impact of prior probabilities on our classification. When we changed from equal priors to making Species B three times more common, the Euclidean distance classification actually switched from Species A to Species B, though with only moderate confidence (55%). For the Gaussian PDF method, the classification remained Species B but became even more confident (99% compared to about 97% with equal priors).
 
-The figure shows how the decision boundaries shift when we consider the prior probabilities. The left plot shows the boundaries with equal priors, while the right plot shows the boundaries with unequal priors. The boundaries move toward Species B, expanding the region classified as Species A to reflect our prior knowledge that Species A is less common. However, the new flower remains on the Species B side of the Gaussian PDF boundary despite this shift.
+The figures show how the decision boundaries shift when we consider the prior probabilities. For both methods, the left plots show the boundaries with equal priors, while the right plots show the boundaries with unequal priors. In both cases, the boundaries move toward Species A, expanding the region classified as Species B (red region) to reflect our prior knowledge that Species B is more common. For the Euclidean distance method, this shift was significant enough to change the classification of the new flower, while for the Gaussian PDF method, the new flower remains on the Species B side of the boundary despite this shift.
 
 ## Key Insights
 
@@ -192,11 +194,13 @@ In this problem, we demonstrated two classification methods for multivariate Gau
 1. **Euclidean Distance Method**:
    - We calculated the mean vectors for each species: $\boldsymbol{\mu}^{(A)} = \begin{bmatrix} 3.33 \\ 1.67 \end{bmatrix}$ and $\boldsymbol{\mu}^{(B)} = \begin{bmatrix} 8.00 \\ 3.67 \end{bmatrix}$
    - The distances from the new flower to each mean were: $d(\mathbf{x}_{\text{new}}, \boldsymbol{\mu}^{(A)}) = 2.87$ and $d(\mathbf{x}_{\text{new}}, \boldsymbol{\mu}^{(B)}) = 3.02$
+   - With equal priors, this method classified the new flower as Species A (since 2.87 < 3.02)
    - With unequal priors (Species B is three times more common), this method classified the new flower as Species B with 55% confidence
 
 2. **Multivariate Gaussian PDF Method**:
    - We calculated both mean vectors and covariance matrices: $\boldsymbol{\Sigma}^{(A)} = \begin{bmatrix} 0.333 & 0.167 \\ 0.167 & 0.333 \end{bmatrix}$ and $\boldsymbol{\Sigma}^{(B)} = \begin{bmatrix} 1.000 & 0.000 \\ 0.000 & 0.333 \end{bmatrix}$
    - The PDF values for the new flower were: $p(\mathbf{x}_{\text{new}}|\text{Species A}) = 0.0000950$ and $p(\mathbf{x}_{\text{new}}|\text{Species B}) = 0.0025922$
+   - With equal priors, this method classified the new flower as Species B (as the PDF for B is about 27 times higher)
    - With unequal priors, this method classified the new flower as Species B with 99% confidence
 
 When we incorporated the unequal prior probabilities (Species B being three times more common), the classification from the Euclidean distance method changed from Species A to Species B, though with moderate confidence (55%). For the Gaussian PDF method, the classification remained Species B but with even higher confidence (99%).
