@@ -73,11 +73,11 @@ $$d(\mathbf{x}_{\text{new}}, \boldsymbol{\mu}^{(A)}) = \sqrt{(5 - 3.33)^2 + (4 -
 Distance to Species B mean:
 $$d(\mathbf{x}_{\text{new}}, \boldsymbol{\mu}^{(B)}) = \sqrt{(5 - 8.00)^2 + (4 - 3.67)^2} = \sqrt{(-3.00)^2 + (0.33)^2} = \sqrt{9.11} = 3.02$$
 
-Since $d(\mathbf{x}_{\text{new}}, \boldsymbol{\mu}^{(A)}) < d(\mathbf{x}_{\text{new}}, \boldsymbol{\mu}^{(B)})$, we classify the new flower as **Species A** when using Euclidean distance with equal prior probabilities. However, note that the difference in distances is relatively small (3.02 - 2.87 = 0.15), indicating that the new flower is almost equidistant from both means.
+Since $d(\mathbf{x}_{\text{new}}, \boldsymbol{\mu}^{(A)}) < d(\mathbf{x}_{\text{new}}, \boldsymbol{\mu}^{(B)})$, we classify the new flower as **Species A** when using Euclidean distance with equal prior probabilities. The difference in distances is small (3.02 - 2.87 = 0.15), but sufficient to make the classification.
 
 ![Classification with Equal Priors using Euclidean Distance](../Images/L2_1_Quiz_34/step2_classification_equal_priors.png)
 
-With equal priors using the Euclidean distance approach, the decision boundary is the perpendicular bisector of the line connecting the two means. As seen in the visualization, the new flower falls on the Species A side of this boundary (blue region), but is very close to the boundary line.
+With equal priors using the Euclidean distance approach, the decision boundary is where points are equidistant from both means. As seen in the visualization, the new flower falls on the Species A side of this boundary (blue region). The blue and red shaded regions correctly represent the areas where points would be classified as Species A and Species B respectively, based on which mean they are closer to.
 
 ### Step 3: Classification with multivariate Gaussian PDF and equal prior probabilities
 
@@ -144,6 +144,15 @@ With unequal priors using the Euclidean distance method, the new flower is class
 
 ![Classification with Euclidean Distance - Equal vs. Unequal Priors](../Images/L2_1_Quiz_34/step4_euclidean_equal_vs_unequal_priors.png)
 
+The visualization shows how the decision boundary shifts when we consider unequal prior probabilities. The left panel shows the boundary with equal priors, where the new flower (green X) falls on the Species A side (blue region), as it is closer to the Species A mean (2.87 vs. 3.02). 
+
+The right panel shows the boundary with unequal priors. When we factor in that Species B is three times more common, the decision boundary moves toward the Species A region, effectively shrinking it. This represents the Bayesian principle that we need stronger evidence (closer distance) to classify a sample as the less common class.
+
+The decision rule with unequal priors becomes:
+- Classify as Species A if: $d(\mathbf{x}, \boldsymbol{\mu}^{(A)})^2 - d(\mathbf{x}, \boldsymbol{\mu}^{(B)})^2 < 2\ln\left(\frac{P(\text{Species B})}{P(\text{Species A})}\right)$
+
+With our prior ratio of 3:1, the threshold term on the right becomes $2\ln(3) \approx 2.2$. The squared distance difference for our new flower is approximately -0.89, which is less than the threshold of 2.2, so the classification changes from Species A (with equal priors) to Species B (with unequal priors). The posterior probability gives us approximately 55% confidence in this classification.
+
 #### 4.2 Using multivariate Gaussian PDF
 
 For the multivariate Gaussian method, we directly use the PDF values as likelihoods:
@@ -156,9 +165,17 @@ With unequal priors using the multivariate Gaussian PDF method, the new flower i
 
 ![Classification with Gaussian PDF - Equal vs. Unequal Priors](../Images/L2_1_Quiz_34/step4_gaussian_equal_vs_unequal_priors.png)
 
-This demonstrates the impact of prior probabilities on our classification. When we changed from equal priors to making Species B three times more common, the Euclidean distance classification actually switched from Species A to Species B, though with only moderate confidence (55%). For the Gaussian PDF method, the classification remained Species B but became even more confident (99% compared to about 97% with equal priors).
+This visualization demonstrates the impact of prior probabilities on our classification. The left panel shows that even with equal priors, the Gaussian PDF method classifies the new flower as Species B with high confidence, as the PDF value for Species B is approximately 27 times higher than for Species A.
 
-The figures show how the decision boundaries shift when we consider the prior probabilities. For both methods, the left plots show the boundaries with equal priors, while the right plots show the boundaries with unequal priors. In both cases, the boundaries move toward Species A, expanding the region classified as Species B (red region) to reflect our prior knowledge that Species B is more common. For the Euclidean distance method, this shift was significant enough to change the classification of the new flower, while for the Gaussian PDF method, the new flower remains on the Species B side of the boundary despite this shift.
+When we change from equal priors to making Species B three times more common (right panel), the Gaussian PDF classification remains Species B but with even higher confidence (99% compared to about 97% with equal priors). The decision boundary shifts toward Species A, expanding the region classified as Species B (red region) to reflect our prior knowledge that Species B is more common.
+
+The multivariate Gaussian PDFs for both species can be visualized in 3D, showing the probability density at each point in the feature space:
+
+![3D Visualization of PDFs](../Images/L2_1_Quiz_34/step5_3d_pdfs.png)
+
+This 3D visualization shows why the new flower (green X) has a much higher probability under Species B's distribution. The blue surface represents the probability density function for Species A, while the red surface represents Species B. The vertical blue and red dashed lines from the new flower point up to the respective surfaces show the PDF values for each species. As can be seen, the PDF value at the new flower's location is about 27 times higher for Species B than for Species A, making the classification highly confident even before incorporating the unequal priors.
+
+The key insight here is that while the Euclidean distance classification changed from Species A to Species B when incorporating the unequal priors, the Gaussian PDF method already strongly favored Species B even with equal priors, and this preference became even stronger with unequal priors. This highlights how the Gaussian model, by accounting for the covariance structure of the data, can provide more robust classification decisions that are less susceptible to changes in prior probabilities when the evidence is strong enough.
 
 ## Key Insights
 
@@ -203,8 +220,23 @@ In this problem, we demonstrated two classification methods for multivariate Gau
    - With equal priors, this method classified the new flower as Species B (as the PDF for B is about 27 times higher)
    - With unequal priors, this method classified the new flower as Species B with 99% confidence
 
-When we incorporated the unequal prior probabilities (Species B being three times more common), the classification from the Euclidean distance method changed from Species A to Species B, though with moderate confidence (55%). For the Gaussian PDF method, the classification remained Species B but with even higher confidence (99%).
+When we incorporated the unequal prior probabilities (Species B being three times more common), the classification from the Euclidean distance method changed from Species A to Species B, with moderate confidence (55%). For the Gaussian PDF method, the classification remained Species B but with even higher confidence (99%).
 
-This example illustrates how incorporating the full covariance structure of the data can lead to more nuanced decision boundaries compared to simple distance-based methods. It also demonstrates how prior probabilities can significantly impact classification decisions, especially for points near the decision boundary. In this case, the Euclidean distance classification was flipped by the change in priors, while the Gaussian PDF classification became even more confident in its original decision.
+This example illustrates several important concepts:
 
-This example illustrates how incorporating the full covariance structure of the data can lead to more nuanced decision boundaries compared to simple distance-based methods, potentially yielding different classifications for points that are close to the decision boundary. It also demonstrates how the relative strengths of prior beliefs and observed evidence interact in Bayesian classification. 
+1. **Different Decision Boundaries**: 
+   - The Euclidean distance method creates a boundary where points are equidistant from both means
+   - The Gaussian PDF method creates a more complex boundary that accounts for the covariance structure of each class
+   - These different approaches can lead to different classifications for the same point
+
+2. **Effect of Priors on Decision Boundaries**: 
+   - When we introduce unequal priors, both decision boundaries shift toward the less probable class (Species A)
+   - This shift reflects the Bayesian principle that we need stronger evidence to classify a sample as belonging to a less common class
+   - For our example, this shift was significant enough to change the Euclidean distance classification
+
+3. **Role of Covariance Structure**:
+   - The multivariate Gaussian approach accounts for the different variance and correlation patterns in each species
+   - Species A has correlated features, while Species B has uncorrelated features with higher variance in petal length
+   - This information helps explain why the new flower, despite being closer to Species A's mean in Euclidean space, is more likely to belong to Species B according to the PDF method
+
+This example demonstrates how incorporating the full covariance structure and prior probabilities provides a more nuanced and potentially more accurate classification approach compared to simple distance-based methods. 
