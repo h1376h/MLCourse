@@ -222,7 +222,7 @@ In this problem, we demonstrated two classification methods for multivariate Gau
 
 When we incorporated the unequal prior probabilities (Species B being three times more common), the classification from the Euclidean distance method changed from Species A to Species B, with moderate confidence (55%). For the Gaussian PDF method, the classification remained Species B but with even higher confidence (99%).
 
-This example illustrates several important concepts:
+This example demonstrates several important concepts:
 
 1. **Different Decision Boundaries**: 
    - The Euclidean distance method creates a boundary where points are equidistant from both means
@@ -240,3 +240,11 @@ This example illustrates several important concepts:
    - This information helps explain why the new flower, despite being closer to Species A's mean in Euclidean space, is more likely to belong to Species B according to the PDF method
 
 This example demonstrates how incorporating the full covariance structure and prior probabilities provides a more nuanced and potentially more accurate classification approach compared to simple distance-based methods. 
+
+## Related Examples
+
+For an in-depth exploration of multivariate Gaussian classification with sample covariance matrices, see [[L2_1_31_explanation]]. This example demonstrates the calculation of mean vectors, covariance matrices, and the application of Bayes' theorem for classification with both equal and unequal prior probabilities.
+
+For applications of multivariate Gaussian classification with MAP estimation and unequal prior probabilities, see [[L2_7_27_explanation]]. This example extends these concepts by focusing on real-time classification systems and precomputation strategies for efficient implementation.
+
+For a case with non-singular covariance matrices that results in quadratic decision boundaries, see [[L2_7_28_explanation]]. This extension demonstrates how having different covariance structures between classes affects the classification process and the geometry of the decision boundaries. 

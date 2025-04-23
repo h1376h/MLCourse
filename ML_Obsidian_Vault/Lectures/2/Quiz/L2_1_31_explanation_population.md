@@ -335,4 +335,6 @@ This example illustrates the fundamental principles of Bayesian classification a
 
 For applications of multivariate Gaussian classification with MAP estimation and unequal prior probabilities, see [[L2_7_27_explanation]]. This example extends the concepts covered here by focusing on real-time classification systems and precomputation strategies for efficient implementation.
 
-For a case with non-singular covariance matrices that results in quadratic decision boundaries, see [[L2_7_28_explanation]]. This extension demonstrates how having different covariance structures between classes affects the classification process and the geometry of the decision boundaries. 
+For a case with non-singular covariance matrices that results in quadratic decision boundaries, see [[L2_7_28_explanation]]. This extension demonstrates how having different covariance structures between classes affects the classification process and the geometry of the decision boundaries.
+
+For another example of flower species classification using multivariate Gaussian distributions, see [[L2_1_34_explanation]]. This example explores the effect of different covariance structures between classes and compares Euclidean distance and Mahalanobis distance approaches in classification.

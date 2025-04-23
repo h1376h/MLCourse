@@ -289,3 +289,5 @@ This example illustrates the fundamental principles of MAP estimation and how it
 For the foundational approach to multivariate Gaussian classification with equal prior probabilities, see [[L2_1_31_explanation_population]], which was covered in our class lectures. This example introduces the basic concepts of Bayesian classification with multivariate Gaussian distributions using a simpler scenario.
 
 For an extension of this problem that deals with non-singular covariance matrices and explores how different covariance structures affect the decision boundary, see [[L2_7_28_explanation]]. This example builds on the MAP concepts covered here and demonstrates how quadratic discriminant functions arise when classes have different covariance matrices.
+
+For another example of flower species classification using multivariate Gaussian distributions, see [[L2_1_34_explanation]]. This example explores the effect of different covariance structures between classes and compares Euclidean distance and Mahalanobis distance approaches in classification.
