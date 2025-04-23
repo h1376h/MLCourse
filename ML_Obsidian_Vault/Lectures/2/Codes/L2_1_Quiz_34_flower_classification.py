@@ -1,15 +1,19 @@
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 import matplotlib.transforms as transforms
-import os
 from pathlib import Path
 import scipy.stats as stats
+from scipy.stats import multivariate_normal
+import matplotlib.cm as cm
+from mpl_toolkits.mplot3d import Axes3D
 
-# Create images directory if it doesn't exist
-base_path = Path('ML_Obsidian_Vault/Lectures/2/Images')
-image_path = base_path / 'L2_1_Quiz_34'
-os.makedirs(image_path, exist_ok=True)
+# Define the path to save figures
+IMAGES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Images", "L2_1_Quiz_34")
+
+# Create the directory if it doesn't exist
+os.makedirs(IMAGES_DIR, exist_ok=True)
 
 # Helper functions
 def print_step_header(step_number, step_title):
@@ -26,9 +30,9 @@ def print_substep(substep_title):
 
 def save_figure(fig, filename):
     """Save figure to both the PNG file and show it."""
-    filepath = image_path / filename
-    fig.savefig(filepath, dpi=300, bbox_inches='tight')
-    print(f"Figure saved to: {filepath}")
+    fig.savefig(os.path.join(IMAGES_DIR, filename), dpi=300, bbox_inches='tight')
+    print(f"Figure saved to: {os.path.join(IMAGES_DIR, filename)}")
+    plt.close(fig)
 
 # Define the data
 species_A_data = np.array([[3, 1], [4, 2], [3, 2]])
@@ -288,11 +292,11 @@ ax.set_ylim(y_min, y_max)
 save_figure(fig, "step3_classification_pdf.png")
 
 # Step 4: Classify with unequal prior probabilities
-print_step_header(4, "Classify with unequal priors")
+print_step_header(4, "Classify with unequal priors (Species B is three times more common)")
 
 # Define priors
-prior_A = 0.75  # Species A is three times more common
-prior_B = 0.25
+prior_A = 0.25  # Species B is three times more common
+prior_B = 0.75
 
 # Calculate posterior probabilities using Bayes' theorem with Euclidean distance
 # P(Species|x) ∝ P(x|Species) * P(Species)
@@ -372,7 +376,7 @@ ax2.scatter(species_B_data[:, 0], species_B_data[:, 1], color='red', label='Spec
 ax2.scatter(mean_A[0], mean_A[1], color='blue', marker='*', s=200, edgecolor='black')
 ax2.scatter(mean_B[0], mean_B[1], color='red', marker='*', s=200, edgecolor='black')
 ax2.scatter(new_flower[0], new_flower[1], color='green', marker='x', s=150, linewidth=3, label='New Flower')
-ax2.text(3, 4.5, "P(A) = 0.75, P(B) = 0.25", 
+ax2.text(3, 4.5, "P(A) = 0.25, P(B) = 0.75", 
          bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
 ax2.set_xlabel('Petal Length (cm)')
 ax2.set_ylabel('Petal Width (cm)')
@@ -386,7 +390,6 @@ plt.tight_layout()
 save_figure(fig, "step4_pdf_equal_vs_unequal_priors.png")
 
 # Create 3D visualization of PDFs
-from mpl_toolkits.mplot3d import Axes3D
 fig = plt.figure(figsize=(15, 10))
 
 # 3D plot for Species A
@@ -399,15 +402,6 @@ ax1.set_xlabel('Petal Length (cm)')
 ax1.set_ylabel('Petal Width (cm)')
 ax1.set_zlabel('Probability Density')
 ax1.set_title('Species A PDF')
-# Set view angle for better visualization
-ax1.view_init(elev=30, azim=45)
-ax1.set_xlim(x_min, x_max)
-ax1.set_ylim(y_min, y_max)
-# Add a marker at the new flower with a line to show its PDF value
-ax1.scatter(new_flower[0], new_flower[1], multivariate_gaussian_pdf(new_flower, mean_A, cov_A), 
-           color='green', marker='o', s=100)
-ax1.plot([new_flower[0], new_flower[0]], [new_flower[1], new_flower[1]], 
-        [0, multivariate_gaussian_pdf(new_flower, mean_A, cov_A)], 'g-', linewidth=2)
 
 # 3D plot for Species B
 ax2 = fig.add_subplot(122, projection='3d')
@@ -419,15 +413,6 @@ ax2.set_xlabel('Petal Length (cm)')
 ax2.set_ylabel('Petal Width (cm)')
 ax2.set_zlabel('Probability Density')
 ax2.set_title('Species B PDF')
-# Set view angle for better visualization
-ax2.view_init(elev=30, azim=45)
-ax2.set_xlim(x_min, x_max)
-ax2.set_ylim(y_min, y_max)
-# Add a marker at the new flower with a line to show its PDF value
-ax2.scatter(new_flower[0], new_flower[1], multivariate_gaussian_pdf(new_flower, mean_B, cov_B), 
-           color='green', marker='o', s=100)
-ax2.plot([new_flower[0], new_flower[0]], [new_flower[1], new_flower[1]], 
-        [0, multivariate_gaussian_pdf(new_flower, mean_B, cov_B)], 'g-', linewidth=2)
 
 plt.tight_layout()
 save_figure(fig, "step5_3d_pdfs.png")
