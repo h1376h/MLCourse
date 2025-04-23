@@ -44,6 +44,7 @@ For detailed examples and solutions organized by topic:
 3. [[L2_1_Multivariate_Exam_Conditional_Distribution_Examples|Conditional Distribution Examples]]: Problems on conditional distributions, inference, and predictions
 4. [[L2_1_Multivariate_Exam_Mahalanobis_Classification_Examples|Mahalanobis Distance and Classification Examples]]: Applications of Mahalanobis distance in classification and outlier detection
 5. [[L2_1_Multivariate_Exam_Eigendecomposition_Examples|Eigendecomposition Examples]]: Examples on eigenvalue decomposition, principal components, and dimensionality reduction
+6. [[L2_1_Multivariate_Exam_Gaussian_Independence_Properties_Examples|Multivariate Gaussian Independence Properties Examples]]: Problems focusing on independence relationships in multivariate normal distributions and creating independent variables through transformations
 
 ### Related Topics
 
