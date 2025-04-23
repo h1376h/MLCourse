@@ -70,10 +70,10 @@ For **Class 0**, let's compute this step by step:
    $$\begin{bmatrix} 1 \\ 0.333 \end{bmatrix} \begin{bmatrix} 1 & 0.333 \end{bmatrix} = \begin{bmatrix} 1 & 0.333 \\ 0.333 & 0.111 \end{bmatrix}$$
 
 3. Sum all outer products:
-   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(0)})(\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(0)}^T = \begin{bmatrix} 2 & 1 \\ 1 & 0.667 \end{bmatrix}$$
+   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(0)})(\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(0)})^T = \begin{bmatrix} 2 & 1 \\ 1 & 0.667 \end{bmatrix}$$
 
 4. Divide by (n-1) = 2 to get the final covariance matrix:
-   $$\boldsymbol{\Sigma}_0 = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix}$$
+   $$\boldsymbol{\Sigma}^{(0)} = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix}$$
 
 The elements of this covariance matrix have specific interpretations:
 - $\Sigma_{11} = 1$: Variance of the first feature (x-coordinate)
@@ -101,10 +101,10 @@ Similarly, for **Class 1**, we follow the same steps:
    $$\begin{bmatrix} 0.333 \\ 1 \end{bmatrix} \begin{bmatrix} 0.333 & 1 \end{bmatrix} = \begin{bmatrix} 0.111 & 0.333 \\ 0.333 & 1 \end{bmatrix}$$
 
 3. Sum all outer products:
-   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}_1)(\mathbf{x}^{(i)} - \boldsymbol{\mu}_1)^T = \begin{bmatrix} 0.667 & 1 \\ 1 & 2 \end{bmatrix}$$
+   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(1)})(\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(1)})^T = \begin{bmatrix} 0.667 & 1 \\ 1 & 2 \end{bmatrix}$$
 
 4. Divide by (n-1) = 2 to get the final covariance matrix:
-   $$\boldsymbol{\Sigma}_1 = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix}$$
+   $$\boldsymbol{\Sigma}^{(1)} = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix}$$
 
 Note that this covariance matrix has:
 - $\Sigma_{11} = 0.333$: Smaller variance in x-coordinate compared to Class 0
@@ -198,7 +198,7 @@ For the new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix
 For **Class 0**:
 $$\mathbf{x} - \boldsymbol{\mu}^{(0)} = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
 
-$$(\mathbf{x} - \boldsymbol{\mu}^{(0)}^T \boldsymbol{\Sigma}^{(0)-1} (\mathbf{x} - \boldsymbol{\mu}_0) = \begin{bmatrix} 2 & 0.333 \end{bmatrix} \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
+$$(\mathbf{x} - \boldsymbol{\mu}^{(0)})^T \boldsymbol{\Sigma}^{(0)-1} (\mathbf{x} - \boldsymbol{\mu}_0) = \begin{bmatrix} 2 & 0.333 \end{bmatrix} \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
 
 $$= \begin{bmatrix} 8 - 2 & -12 + 4 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix} = \begin{bmatrix} 6 & -8 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
 

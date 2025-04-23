@@ -73,7 +73,7 @@ For **Class 0**, let's compute this step by step:
    $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(0)})(\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(0)})^T = \begin{bmatrix} 2 & 1 \\ 1 & 0.667 \end{bmatrix}$$
 
 4. Divide by n = 3 to get the final covariance matrix:
-   $$\boldsymbol{\Sigma}_0 = \begin{bmatrix} 0.667 & 0.333 \\ 0.333 & 0.222 \end{bmatrix}$$
+   $$\boldsymbol{\Sigma}^{(0)} = \begin{bmatrix} 0.667 & 0.333 \\ 0.333 & 0.222 \end{bmatrix}$$
 
 The elements of this covariance matrix have specific interpretations:
 - $\Sigma_{11} = 0.667$: Variance of the first feature (x-coordinate)
@@ -104,7 +104,7 @@ Similarly, for **Class 1**, we follow the same steps:
    $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(1)})(\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(1)})^T = \begin{bmatrix} 0.667 & 1 \\ 1 & 2 \end{bmatrix}$$
 
 4. Divide by n = 3 to get the final covariance matrix:
-   $$\boldsymbol{\Sigma}_1 = \begin{bmatrix} 0.222 & 0.333 \\ 0.333 & 0.667 \end{bmatrix}$$
+   $$\boldsymbol{\Sigma}^{(1)} = \begin{bmatrix} 0.222 & 0.333 \\ 0.333 & 0.667 \end{bmatrix}$$
 
 Note that this covariance matrix has:
 - $\Sigma_{11} = 0.222$: Smaller variance in x-coordinate compared to Class 0
