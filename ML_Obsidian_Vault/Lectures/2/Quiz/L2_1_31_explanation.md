@@ -134,17 +134,17 @@ Note that both covariance matrices have the same determinant, which is a measure
 
 ### Step 1.2: Calculate Inverse Matrices
 
-For a 2×2 matrix, the inverse is calculated using the formula:
+For a 2×2 matrix $\mathbf{A} = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}$, the inverse is calculated using the formula:
 $$\mathbf{A}^{-1} = \frac{1}{|\mathbf{A}|} \begin{bmatrix} a_{22} & -a_{12} \\ -a_{21} & a_{11} \end{bmatrix}$$
 
 For **Class 0**:
-$$\boldsymbol{\Sigma}_0^{-1} = \frac{1}{0.083333} \begin{bmatrix} 0.333 & -0.5 \\ -0.5 & 1 \end{bmatrix} = \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}_0^{-1} = \frac{1}{|\boldsymbol{\Sigma}_0|} \begin{bmatrix} \Sigma_{0,22} & -\Sigma_{0,12} \\ -\Sigma_{0,21} & \Sigma_{0,11} \end{bmatrix} = \frac{1}{0.083333} \begin{bmatrix} 0.333 & -0.5 \\ -0.5 & 1 \end{bmatrix} = \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix}$$
 
 Verification:
 $$\boldsymbol{\Sigma}_0 \boldsymbol{\Sigma}_0^{-1} = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix} \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
 
 For **Class 1**:
-$$\boldsymbol{\Sigma}_1^{-1} = \frac{1}{0.083333} \begin{bmatrix} 1 & -0.5 \\ -0.5 & 0.333 \end{bmatrix} = \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}_1^{-1} = \frac{1}{|\boldsymbol{\Sigma}_1|} \begin{bmatrix} \Sigma_{1,22} & -\Sigma_{1,12} \\ -\Sigma_{1,21} & \Sigma_{1,11} \end{bmatrix} = \frac{1}{0.083333} \begin{bmatrix} 1 & -0.5 \\ -0.5 & 0.333 \end{bmatrix} = \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix}$$
 
 Verification:
 $$\boldsymbol{\Sigma}_1 \boldsymbol{\Sigma}_1^{-1} = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix} \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
@@ -197,12 +197,24 @@ For the new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix
 
 For **Class 0**:
 $$\mathbf{x} - \boldsymbol{\mu}_0 = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
-$$(\mathbf{x} - \boldsymbol{\mu}_0)^T \boldsymbol{\Sigma}^{(0)-1} (\mathbf{x} - \boldsymbol{\mu}_0) = 9.333$$
+
+$$(\mathbf{x} - \boldsymbol{\mu}_0)^T \boldsymbol{\Sigma}^{(0)-1} (\mathbf{x} - \boldsymbol{\mu}_0) = \begin{bmatrix} 2 & 0.333 \end{bmatrix} \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 8 - 2 & -12 + 4 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix} = \begin{bmatrix} 6 & -8 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
+
+$$= 12 - 2.667 = 9.333$$
+
 $$p(\mathbf{x}|\text{class }0) = 0.551329 \cdot \exp(-0.5 \cdot 9.333) = 0.00518446$$
 
 For **Class 1**:
 $$\mathbf{x} - \boldsymbol{\mu}_1 = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} -1.667 \\ 0 \end{bmatrix}$$
-$$(\mathbf{x} - \boldsymbol{\mu}_1)^T \boldsymbol{\Sigma}^{(1)-1} (\mathbf{x} - \boldsymbol{\mu}_1) = 33.333$$
+
+$$(\mathbf{x} - \boldsymbol{\mu}_1)^T \boldsymbol{\Sigma}^{(1)-1} (\mathbf{x} - \boldsymbol{\mu}_1) = \begin{bmatrix} -1.667 & 0 \end{bmatrix} \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix} \begin{bmatrix} -1.667 \\ 0 \end{bmatrix}$$
+
+$$= \begin{bmatrix} -20 & 10 \end{bmatrix} \begin{bmatrix} -1.667 \\ 0 \end{bmatrix} = (-20) \cdot (-1.667) + (10) \cdot (0)$$
+
+$$= 33.333$$
+
 $$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp(-0.5 \cdot 33.333) = 0.00000003$$
 
 The PDF values show that the new point is much more likely under the Class 0 distribution.
