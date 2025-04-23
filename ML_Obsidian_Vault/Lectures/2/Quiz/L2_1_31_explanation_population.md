@@ -31,10 +31,10 @@ The mean vector for a class is calculated by taking the average of all feature v
 $$\boldsymbol{\mu} = \frac{1}{n} \sum_{i=1}^{n} \mathbf{x}^{(i)}$$
 
 For **Class 0**, we have:
-$$\boldsymbol{\mu}_0 = \frac{1}{3}\left(\begin{bmatrix} 1 \\ 2 \end{bmatrix} + \begin{bmatrix} 2 \\ 3 \end{bmatrix} + \begin{bmatrix} 3 \\ 3 \end{bmatrix}\right) = \begin{bmatrix} 2 \\ 2.667 \end{bmatrix}$$
+$$\boldsymbol{\mu}^{(0)} = \frac{1}{3}\left(\begin{bmatrix} 1 \\ 2 \end{bmatrix} + \begin{bmatrix} 2 \\ 3 \end{bmatrix} + \begin{bmatrix} 3 \\ 3 \end{bmatrix}\right) = \begin{bmatrix} 2 \\ 2.667 \end{bmatrix}$$
 
 For **Class 1**, we have:
-$$\boldsymbol{\mu}_1 = \frac{1}{3}\left(\begin{bmatrix} 5 \\ 2 \end{bmatrix} + \begin{bmatrix} 6 \\ 3 \end{bmatrix} + \begin{bmatrix} 6 \\ 4 \end{bmatrix}\right) = \begin{bmatrix} 5.667 \\ 3 \end{bmatrix}$$
+$$\boldsymbol{\mu}^{(1)} = \frac{1}{3}\left(\begin{bmatrix} 5 \\ 2 \end{bmatrix} + \begin{bmatrix} 6 \\ 3 \end{bmatrix} + \begin{bmatrix} 6 \\ 4 \end{bmatrix}\right) = \begin{bmatrix} 5.667 \\ 3 \end{bmatrix}$$
 
 The covariance matrix is calculated as:
 
@@ -53,9 +53,9 @@ where:
 For **Class 0**, let's compute this step by step:
 
 1. First, compute the differences from the mean for each point:
-   $$\mathbf{x}^{(1)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 1 \\ 2 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} -1 \\ -0.667 \end{bmatrix}$$
-   $$\mathbf{x}^{(2)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 2 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 0 \\ 0.333 \end{bmatrix}$$
-   $$\mathbf{x}^{(3)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 3 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 1 \\ 0.333 \end{bmatrix}$$
+   $$\mathbf{x}^{(1)} - \boldsymbol{\mu}^{(0)} = \begin{bmatrix} 1 \\ 2 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} -1 \\ -0.667 \end{bmatrix}$$
+   $$\mathbf{x}^{(2)} - \boldsymbol{\mu}^{(0)} = \begin{bmatrix} 2 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 0 \\ 0.333 \end{bmatrix}$$
+   $$\mathbf{x}^{(3)} - \boldsymbol{\mu}^{(0)} = \begin{bmatrix} 3 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 1 \\ 0.333 \end{bmatrix}$$
 
 2. Compute the outer product for each difference vector. For a vector $\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix}$, its outer product with itself is:
    $$\mathbf{v}\mathbf{v}^T = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} \begin{bmatrix} v_1 & v_2 \end{bmatrix} = \begin{bmatrix} v_1^2 & v_1v_2 \\ v_1v_2 & v_2^2 \end{bmatrix}$$
@@ -70,7 +70,7 @@ For **Class 0**, let's compute this step by step:
    $$\begin{bmatrix} 1 \\ 0.333 \end{bmatrix} \begin{bmatrix} 1 & 0.333 \end{bmatrix} = \begin{bmatrix} 1 & 0.333 \\ 0.333 & 0.111 \end{bmatrix}$$
 
 3. Sum all outer products:
-   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}_0)(\mathbf{x}^{(i)} - \boldsymbol{\mu}_0)^T = \begin{bmatrix} 2 & 1 \\ 1 & 0.667 \end{bmatrix}$$
+   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(0)})(\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(0)})^T = \begin{bmatrix} 2 & 1 \\ 1 & 0.667 \end{bmatrix}$$
 
 4. Divide by n = 3 to get the final covariance matrix:
    $$\boldsymbol{\Sigma}_0 = \begin{bmatrix} 0.667 & 0.333 \\ 0.333 & 0.222 \end{bmatrix}$$
@@ -86,9 +86,9 @@ $$\rho = \frac{\Sigma_{12}}{\sqrt{\Sigma_{11}\Sigma_{22}}} = \frac{0.333}{\sqrt{
 Similarly, for **Class 1**, we follow the same steps:
 
 1. Compute differences from mean:
-   $$\mathbf{x}^{(1)} - \boldsymbol{\mu}_1 = \begin{bmatrix} 5 \\ 2 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} -0.667 \\ -1 \end{bmatrix}$$
-   $$\mathbf{x}^{(2)} - \boldsymbol{\mu}_1 = \begin{bmatrix} 6 \\ 3 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} 0.333 \\ 0 \end{bmatrix}$$
-   $$\mathbf{x}^{(3)} - \boldsymbol{\mu}_1 = \begin{bmatrix} 6 \\ 4 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} 0.333 \\ 1 \end{bmatrix}$$
+   $$\mathbf{x}^{(1)} - \boldsymbol{\mu}^{(1)} = \begin{bmatrix} 5 \\ 2 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} -0.667 \\ -1 \end{bmatrix}$$
+   $$\mathbf{x}^{(2)} - \boldsymbol{\mu}^{(1)} = \begin{bmatrix} 6 \\ 3 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} 0.333 \\ 0 \end{bmatrix}$$
+   $$\mathbf{x}^{(3)} - \boldsymbol{\mu}^{(1)} = \begin{bmatrix} 6 \\ 4 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} 0.333 \\ 1 \end{bmatrix}$$
 
 2. Compute outer products:
    For point 1:
@@ -101,7 +101,7 @@ Similarly, for **Class 1**, we follow the same steps:
    $$\begin{bmatrix} 0.333 \\ 1 \end{bmatrix} \begin{bmatrix} 0.333 & 1 \end{bmatrix} = \begin{bmatrix} 0.111 & 0.333 \\ 0.333 & 1 \end{bmatrix}$$
 
 3. Sum all outer products:
-   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}_1)(\mathbf{x}^{(i)} - \boldsymbol{\mu}_1)^T = \begin{bmatrix} 0.667 & 1 \\ 1 & 2 \end{bmatrix}$$
+   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(1)})(\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(1)})^T = \begin{bmatrix} 0.667 & 1 \\ 1 & 2 \end{bmatrix}$$
 
 4. Divide by n = 3 to get the final covariance matrix:
    $$\boldsymbol{\Sigma}_1 = \begin{bmatrix} 0.222 & 0.333 \\ 0.333 & 0.667 \end{bmatrix}$$
@@ -125,10 +125,10 @@ The covariance matrices can be visualized as heatmaps:
 ### Step 1.1: Calculate Determinants
 
 For **Class 0**, the determinant is calculated as:
-$$|\boldsymbol{\Sigma}_0| = \begin{vmatrix} 0.667 & 0.333 \\ 0.333 & 0.222 \end{vmatrix} = (0.667 \cdot 0.222) - (0.333 \cdot 0.333) = 0.148074 - 0.110889 = 0.037037$$
+$$|\boldsymbol{\Sigma}^{(0)}| = \begin{vmatrix} 0.667 & 0.333 \\ 0.333 & 0.222 \end{vmatrix} = (0.667 \cdot 0.222) - (0.333 \cdot 0.333) = 0.148074 - 0.110889 = 0.037037$$
 
 For **Class 1**, the determinant is calculated as:
-$$|\boldsymbol{\Sigma}_1| = \begin{vmatrix} 0.222 & 0.333 \\ 0.333 & 0.667 \end{vmatrix} = (0.222 \cdot 0.667) - (0.333 \cdot 0.333) = 0.148074 - 0.110889 = 0.037037$$
+$$|\boldsymbol{\Sigma}^{(1)}| = \begin{vmatrix} 0.222 & 0.333 \\ 0.333 & 0.667 \end{vmatrix} = (0.222 \cdot 0.667) - (0.333 \cdot 0.333) = 0.148074 - 0.110889 = 0.037037$$
 
 Note that both covariance matrices have the same determinant, which is a measure of the "volume" or "spread" of the distribution in 2D space.
 
@@ -138,16 +138,16 @@ For a 2×2 matrix, the inverse is calculated using the formula:
 $$\mathbf{A}^{-1} = \frac{1}{|\mathbf{A}|} \begin{bmatrix} a_{22} & -a_{12} \\ -a_{21} & a_{11} \end{bmatrix}$$
 
 For **Class 0**:
-$$\boldsymbol{\Sigma}_0^{-1} = \frac{1}{0.037037} \begin{bmatrix} 0.222 & -0.333 \\ -0.333 & 0.667 \end{bmatrix} = \begin{bmatrix} 6 & -9 \\ -9 & 18 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}^{(0)-1} = \frac{1}{0.037037} \begin{bmatrix} 0.222 & -0.333 \\ -0.333 & 0.667 \end{bmatrix} = \begin{bmatrix} 6 & -9 \\ -9 & 18 \end{bmatrix}$$
 
 Verification:
-$$\boldsymbol{\Sigma}_0 \boldsymbol{\Sigma}_0^{-1} = \begin{bmatrix} 0.667 & 0.333 \\ 0.333 & 0.222 \end{bmatrix} \begin{bmatrix} 6 & -9 \\ -9 & 18 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}^{(0)} \boldsymbol{\Sigma}^{(0)-1} = \begin{bmatrix} 0.667 & 0.333 \\ 0.333 & 0.222 \end{bmatrix} \begin{bmatrix} 6 & -9 \\ -9 & 18 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
 
 For **Class 1**:
-$$\boldsymbol{\Sigma}_1^{-1} = \frac{1}{0.037037} \begin{bmatrix} 0.667 & -0.333 \\ -0.333 & 0.222 \end{bmatrix} = \begin{bmatrix} 18 & -9 \\ -9 & 6 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}^{(1)-1} = \frac{1}{0.037037} \begin{bmatrix} 0.667 & -0.333 \\ -0.333 & 0.222 \end{bmatrix} = \begin{bmatrix} 18 & -9 \\ -9 & 6 \end{bmatrix}$$
 
 Verification:
-$$\boldsymbol{\Sigma}_1 \boldsymbol{\Sigma}_1^{-1} = \begin{bmatrix} 0.222 & 0.333 \\ 0.333 & 0.667 \end{bmatrix} \begin{bmatrix} 18 & -9 \\ -9 & 6 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}^{(1)} \boldsymbol{\Sigma}^{(1)-1} = \begin{bmatrix} 0.222 & 0.333 \\ 0.333 & 0.667 \end{bmatrix} \begin{bmatrix} 18 & -9 \\ -9 & 6 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
 
 The inverse matrices will be used in calculating the quadratic form $(x-\mu)^T \Sigma^{-1} (x-\mu)$ in the multivariate Gaussian PDF.
 
@@ -196,9 +196,9 @@ $$p(\mathbf{x}|\text{class }1) = 0.826993 \cdot \exp\left(-\frac{1}{2}(\mathbf{x
 For the new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$, we calculate:
 
 For **Class 0**:
-$$\mathbf{x} - \boldsymbol{\mu}_0 = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
+$$\mathbf{x} - \boldsymbol{\mu}^{(0)} = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
 
-$$(\mathbf{x} - \boldsymbol{\mu}_0)^T \boldsymbol{\Sigma}^{(0)-1} (\mathbf{x} - \boldsymbol{\mu}_0) = \begin{bmatrix} 2 & 0.333 \end{bmatrix} \begin{bmatrix} 6 & -9 \\ -9 & 18 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
+$$(\mathbf{x} - \boldsymbol{\mu}^{(0)})^T \boldsymbol{\Sigma}^{(0)-1} (\mathbf{x} - \boldsymbol{\mu}^{(0)}) = \begin{bmatrix} 2 & 0.333 \end{bmatrix} \begin{bmatrix} 6 & -9 \\ -9 & 18 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
 
 $$= \begin{bmatrix} 12 - 3 & -18 + 6 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix} = \begin{bmatrix} 9 & -12 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
 
@@ -207,9 +207,9 @@ $$= 18 - 4 = 14$$
 $$p(\mathbf{x}|\text{class }0) = 0.826993 \cdot \exp(-0.5 \cdot 14) = 0.00075412$$
 
 For **Class 1**:
-$$\mathbf{x} - \boldsymbol{\mu}_1 = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} -1.667 \\ 0 \end{bmatrix}$$
+$$\mathbf{x} - \boldsymbol{\mu}^{(1)} = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} -1.667 \\ 0 \end{bmatrix}$$
 
-$$(\mathbf{x} - \boldsymbol{\mu}_1)^T \boldsymbol{\Sigma}^{(1)-1} (\mathbf{x} - \boldsymbol{\mu}_1) = \begin{bmatrix} -1.667 & 0 \end{bmatrix} \begin{bmatrix} 18 & -9 \\ -9 & 6 \end{bmatrix} \begin{bmatrix} -1.667 \\ 0 \end{bmatrix}$$
+$$(\mathbf{x} - \boldsymbol{\mu}^{(1)})^T \boldsymbol{\Sigma}^{(1)-1} (\mathbf{x} - \boldsymbol{\mu}^{(1)}) = \begin{bmatrix} -1.667 & 0 \end{bmatrix} \begin{bmatrix} 18 & -9 \\ -9 & 6 \end{bmatrix} \begin{bmatrix} -1.667 \\ 0 \end{bmatrix}$$
 
 $$= \begin{bmatrix} -30 & 15 \end{bmatrix} \begin{bmatrix} -1.667 \\ 0 \end{bmatrix} = (-30) \cdot (-1.667) + (15) \cdot (0)$$
 
@@ -277,7 +277,7 @@ The classification decision remains **Class 0**. In both prior probability scena
 With unequal priors, the decision boundary shifts. The new boundary is where:
 $$\ln\frac{P(\mathbf{x}|\text{class }1)}{P(\mathbf{x}|\text{class }0)} = \ln\frac{P(\text{class }0)}{P(\text{class }1)} = \ln\frac{0.8}{0.2} \approx 1.386294$$
 
-This means we need stronger evidence (a higher likelihood for Class 1) to classify a point as Class 1 when we have a stronger prior belief in Class 0.
+This means we need stronger evidence (a higher likelihood) to classify a point as Class 1 when we have a stronger prior belief in Class 0.
 
 ![Decision Boundaries Comparison](../Images/L2_1_Quiz_31/a_step4a_boundaries_comparison.png)
 
