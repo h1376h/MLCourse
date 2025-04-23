@@ -590,6 +590,14 @@ This plot shows how the conditional distribution of $Z$ (solid red line) differs
 
 These insights about multivariate distributions are crucial for understanding many machine learning algorithms, especially those involving Gaussian processes, probabilistic graphical models, and Bayesian methods. By mastering these concepts, you'll have a solid foundation for advanced topics in statistical and machine learning.
 
+## Running the Examples
+
+You can run the code that generates these examples and visualizations using:
+
+```bash
+python3 ML_Obsidian_Vault/Lectures/2/Codes/1_multivariate_density_solutions.py
+```
+
 ## Related Topics
 
 - [[L2_1_Multivariate_Normal_Examples|Multivariate Normal Examples]]: More examples of multivariate normal distributions
