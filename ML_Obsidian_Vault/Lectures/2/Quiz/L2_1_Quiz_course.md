@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 27 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 28 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -483,3 +483,23 @@ $$g_k(\mathbf{X}) = -\frac{1}{2}(\mathbf{X} - \boldsymbol{\mu}_k)^T(\mathbf{X} -
 4. For a new sample point $\mathbf{X} = \begin{bmatrix} 2.0 \\ 1.0 \end{bmatrix}$, determine which class it belongs to using your discriminant functions.
 
 For a detailed explanation of this problem, including mean vector calculations, scatter matrix analysis, and discriminant function derivation, see [Question 27: Discriminant Analysis](L2_1_33_explanation.md).
+
+## Question 28
+
+### Problem Statement
+Consider two species of flowers with the following petal measurements (length, width) in centimeters:
+
+**Species A:** $\mathbf{x}^{(1)}=\begin{bmatrix} 3 \\ 1 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 4 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 3 \\ 2 \end{bmatrix}$  
+**Species B:** $\mathbf{x}^{(1)}=\begin{bmatrix} 7 \\ 4 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 8 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 9 \\ 4 \end{bmatrix}$
+
+Assume these measurements follow a multivariate Gaussian distribution for each species.
+
+#### Task
+1. Calculate the mean vector and covariance matrix for each species
+2. Using just the mean vectors and assuming equal prior probabilities, classify a new flower with measurements $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 4 \end{bmatrix}$ by computing the Euclidean distance to each mean
+3. Using the multivariate Gaussian probability density function, classify the new flower with equal prior probabilities
+4. If Species B is three times more common than Species A in this region (i.e., $P(\text{Species A}) = 0.25$ and $P(\text{Species B}) = 0.75$), would your classification change using either method? Explain briefly.te the mean vector for each species
+2. Using just the mean vectors and assuming equal prior probabilities, classify a new flower with measurements $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 3 \end{bmatrix}$ by computing the Euclidean distance to each mean
+3. If Species A is three times more common than Species B in this region (i.e., $P(\text{Species A}) = 0.75$ and $P(\text{Species B}) = 0.25$), would your classification change? Explain briefly.
+
+For a detailed explanation of this problem, including nearest centroid classification and Bayesian decision theory, see [Question 28: Quick Flower Classification](L2_1_34_explanation.md).

@@ -31,10 +31,10 @@ The mean vector for a class is calculated by taking the average of all feature v
 $$\boldsymbol{\mu} = \frac{1}{n} \sum_{i=1}^{n} \mathbf{x}^{(i)}$$
 
 For **Class 0**, we have:
-$$\boldsymbol{\mu}_0 = \frac{1}{3}\left(\begin{bmatrix} 1 \\ 2 \end{bmatrix} + \begin{bmatrix} 2 \\ 3 \end{bmatrix} + \begin{bmatrix} 3 \\ 3 \end{bmatrix}\right) = \begin{bmatrix} 2 \\ 2.667 \end{bmatrix}$$
+$$\boldsymbol{\mu}^{(0)} = \frac{1}{3}\left(\begin{bmatrix} 1 \\ 2 \end{bmatrix} + \begin{bmatrix} 2 \\ 3 \end{bmatrix} + \begin{bmatrix} 3 \\ 3 \end{bmatrix}\right) = \begin{bmatrix} 2 \\ 2.667 \end{bmatrix}$$
 
 For **Class 1**, we have:
-$$\boldsymbol{\mu}_1 = \frac{1}{3}\left(\begin{bmatrix} 5 \\ 2 \end{bmatrix} + \begin{bmatrix} 6 \\ 3 \end{bmatrix} + \begin{bmatrix} 6 \\ 4 \end{bmatrix}\right) = \begin{bmatrix} 5.667 \\ 3 \end{bmatrix}$$
+$$\boldsymbol{\mu}^{(1)} = \frac{1}{3}\left(\begin{bmatrix} 5 \\ 2 \end{bmatrix} + \begin{bmatrix} 6 \\ 3 \end{bmatrix} + \begin{bmatrix} 6 \\ 4 \end{bmatrix}\right) = \begin{bmatrix} 5.667 \\ 3 \end{bmatrix}$$
 
 The covariance matrix is calculated as:
 
@@ -53,9 +53,9 @@ where:
 For **Class 0**, let's compute this step by step:
 
 1. First, compute the differences from the mean for each point:
-   $$\mathbf{x}^{(1)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 1 \\ 2 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} -1 \\ -0.667 \end{bmatrix}$$
-   $$\mathbf{x}^{(2)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 2 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 0 \\ 0.333 \end{bmatrix}$$
-   $$\mathbf{x}^{(3)} - \boldsymbol{\mu}_0 = \begin{bmatrix} 3 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 1 \\ 0.333 \end{bmatrix}$$
+   $$\mathbf{x}^{(1)} - \boldsymbol{\mu}^{(0)} = \begin{bmatrix} 1 \\ 2 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} -1 \\ -0.667 \end{bmatrix}$$
+   $$\mathbf{x}^{(2)} - \boldsymbol{\mu}^{(0)} = \begin{bmatrix} 2 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 0 \\ 0.333 \end{bmatrix}$$
+   $$\mathbf{x}^{(3)} - \boldsymbol{\mu}^{(0)} = \begin{bmatrix} 3 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 1 \\ 0.333 \end{bmatrix}$$
 
 2. Compute the outer product for each difference vector. For a vector $\mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix}$, its outer product with itself is:
    $$\mathbf{v}\mathbf{v}^T = \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} \begin{bmatrix} v_1 & v_2 \end{bmatrix} = \begin{bmatrix} v_1^2 & v_1v_2 \\ v_1v_2 & v_2^2 \end{bmatrix}$$
@@ -70,10 +70,10 @@ For **Class 0**, let's compute this step by step:
    $$\begin{bmatrix} 1 \\ 0.333 \end{bmatrix} \begin{bmatrix} 1 & 0.333 \end{bmatrix} = \begin{bmatrix} 1 & 0.333 \\ 0.333 & 0.111 \end{bmatrix}$$
 
 3. Sum all outer products:
-   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}_0)(\mathbf{x}^{(i)} - \boldsymbol{\mu}_0)^T = \begin{bmatrix} 2 & 1 \\ 1 & 0.667 \end{bmatrix}$$
+   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(0)})(\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(0)})^T = \begin{bmatrix} 2 & 1 \\ 1 & 0.667 \end{bmatrix}$$
 
 4. Divide by (n-1) = 2 to get the final covariance matrix:
-   $$\boldsymbol{\Sigma}_0 = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix}$$
+   $$\boldsymbol{\Sigma}^{(0)} = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix}$$
 
 The elements of this covariance matrix have specific interpretations:
 - $\Sigma_{11} = 1$: Variance of the first feature (x-coordinate)
@@ -101,10 +101,10 @@ Similarly, for **Class 1**, we follow the same steps:
    $$\begin{bmatrix} 0.333 \\ 1 \end{bmatrix} \begin{bmatrix} 0.333 & 1 \end{bmatrix} = \begin{bmatrix} 0.111 & 0.333 \\ 0.333 & 1 \end{bmatrix}$$
 
 3. Sum all outer products:
-   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}_1)(\mathbf{x}^{(i)} - \boldsymbol{\mu}_1)^T = \begin{bmatrix} 0.667 & 1 \\ 1 & 2 \end{bmatrix}$$
+   $$\sum_{i=1}^{3} (\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(1)})(\mathbf{x}^{(i)} - \boldsymbol{\mu}^{(1)})^T = \begin{bmatrix} 0.667 & 1 \\ 1 & 2 \end{bmatrix}$$
 
 4. Divide by (n-1) = 2 to get the final covariance matrix:
-   $$\boldsymbol{\Sigma}_1 = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix}$$
+   $$\boldsymbol{\Sigma}^{(1)} = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix}$$
 
 Note that this covariance matrix has:
 - $\Sigma_{11} = 0.333$: Smaller variance in x-coordinate compared to Class 0
@@ -125,29 +125,29 @@ The covariance matrices can be visualized as heatmaps:
 ### Step 1.1: Calculate Determinants
 
 For **Class 0**, the determinant is calculated as:
-$$|\boldsymbol{\Sigma}_0| = \begin{vmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{vmatrix} = (1 \cdot 0.333) - (0.5 \cdot 0.5) = 0.333 - 0.25 = 0.083333$$
+$$|\boldsymbol{\Sigma}^{(0)}| = \begin{vmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{vmatrix} = (1 \cdot 0.333) - (0.5 \cdot 0.5) = 0.333 - 0.25 = 0.083333$$
 
 For **Class 1**, the determinant is calculated as:
-$$|\boldsymbol{\Sigma}_1| = \begin{vmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{vmatrix} = (0.333 \cdot 1) - (0.5 \cdot 0.5) = 0.333 - 0.25 = 0.083333$$
+$$|\boldsymbol{\Sigma}^{(1)}| = \begin{vmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{vmatrix} = (0.333 \cdot 1) - (0.5 \cdot 0.5) = 0.333 - 0.25 = 0.083333$$
 
 Note that both covariance matrices have the same determinant, which is a measure of the "volume" or "spread" of the distribution in 2D space.
 
 ### Step 1.2: Calculate Inverse Matrices
 
-For a 2×2 matrix, the inverse is calculated using the formula:
+For a 2×2 matrix $\mathbf{A} = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}$, the inverse is calculated using the formula:
 $$\mathbf{A}^{-1} = \frac{1}{|\mathbf{A}|} \begin{bmatrix} a_{22} & -a_{12} \\ -a_{21} & a_{11} \end{bmatrix}$$
 
 For **Class 0**:
-$$\boldsymbol{\Sigma}_0^{-1} = \frac{1}{0.083333} \begin{bmatrix} 0.333 & -0.5 \\ -0.5 & 1 \end{bmatrix} = \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}^{(0)-1} = \frac{1}{|\boldsymbol{\Sigma}_0|} \begin{bmatrix} \Sigma_{0,22} & -\Sigma_{0,12} \\ -\Sigma_{0,21} & \Sigma_{0,11} \end{bmatrix} = \frac{1}{0.083333} \begin{bmatrix} 0.333 & -0.5 \\ -0.5 & 1 \end{bmatrix} = \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix}$$
 
 Verification:
-$$\boldsymbol{\Sigma}_0 \boldsymbol{\Sigma}_0^{-1} = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix} \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}^{(0)} \boldsymbol{\Sigma}^{(0)-1} = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 0.333 \end{bmatrix} \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
 
 For **Class 1**:
-$$\boldsymbol{\Sigma}_1^{-1} = \frac{1}{0.083333} \begin{bmatrix} 1 & -0.5 \\ -0.5 & 0.333 \end{bmatrix} = \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}^{(1)-1} = \frac{1}{|\boldsymbol{\Sigma}_1|} \begin{bmatrix} \Sigma_{1,22} & -\Sigma_{1,12} \\ -\Sigma_{1,21} & \Sigma_{1,11} \end{bmatrix} = \frac{1}{0.083333} \begin{bmatrix} 1 & -0.5 \\ -0.5 & 0.333 \end{bmatrix} = \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix}$$
 
 Verification:
-$$\boldsymbol{\Sigma}_1 \boldsymbol{\Sigma}_1^{-1} = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix} \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}^{(1)} \boldsymbol{\Sigma}^{(1)-1} = \begin{bmatrix} 0.333 & 0.5 \\ 0.5 & 1 \end{bmatrix} \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
 
 The inverse matrices will be used in calculating the quadratic form $(x-\mu)^T \Sigma^{-1} (x-\mu)$ in the multivariate Gaussian PDF.
 
@@ -196,13 +196,25 @@ $$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp\left(-\frac{1}{2}(\mathbf{x
 For the new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$, we calculate:
 
 For **Class 0**:
-$$\mathbf{x} - \boldsymbol{\mu}_0 = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
-$$(\mathbf{x} - \boldsymbol{\mu}_0)^T \boldsymbol{\Sigma}^{(0)-1} (\mathbf{x} - \boldsymbol{\mu}_0) = 9.333$$
+$$\mathbf{x} - \boldsymbol{\mu}^{(0)} = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 2 \\ 2.667 \end{bmatrix} = \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
+
+$$(\mathbf{x} - \boldsymbol{\mu}^{(0)})^T \boldsymbol{\Sigma}^{(0)-1} (\mathbf{x} - \boldsymbol{\mu}_0) = \begin{bmatrix} 2 & 0.333 \end{bmatrix} \begin{bmatrix} 4 & -6 \\ -6 & 12 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 8 - 2 & -12 + 4 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix} = \begin{bmatrix} 6 & -8 \end{bmatrix} \begin{bmatrix} 2 \\ 0.333 \end{bmatrix}$$
+
+$$= 12 - 2.667 = 9.333$$
+
 $$p(\mathbf{x}|\text{class }0) = 0.551329 \cdot \exp(-0.5 \cdot 9.333) = 0.00518446$$
 
 For **Class 1**:
-$$\mathbf{x} - \boldsymbol{\mu}_1 = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} -1.667 \\ 0 \end{bmatrix}$$
-$$(\mathbf{x} - \boldsymbol{\mu}_1)^T \boldsymbol{\Sigma}^{(1)-1} (\mathbf{x} - \boldsymbol{\mu}_1) = 33.333$$
+$$\mathbf{x} - \boldsymbol{\mu}^{(1)} = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 5.667 \\ 3 \end{bmatrix} = \begin{bmatrix} -1.667 \\ 0 \end{bmatrix}$$
+
+$$(\mathbf{x} - \boldsymbol{\mu}^{(1)})^T \boldsymbol{\Sigma}^{(1)-1} (\mathbf{x} - \boldsymbol{\mu}^{(1)}) = \begin{bmatrix} -1.667 & 0 \end{bmatrix} \begin{bmatrix} 12 & -6 \\ -6 & 4 \end{bmatrix} \begin{bmatrix} -1.667 \\ 0 \end{bmatrix}$$
+
+$$= \begin{bmatrix} -20 & 10 \end{bmatrix} \begin{bmatrix} -1.667 \\ 0 \end{bmatrix} = (-20) \cdot (-1.667) + (10) \cdot (0)$$
+
+$$= 33.333$$
+
 $$p(\mathbf{x}|\text{class }1) = 0.551329 \cdot \exp(-0.5 \cdot 33.333) = 0.00000003$$
 
 The PDF values show that the new point is much more likely under the Class 0 distribution.
@@ -265,7 +277,7 @@ The classification decision remains **Class 0**, but the posterior probability f
 With unequal priors, the decision boundary shifts. The new boundary is where:
 $$\ln\frac{P(\mathbf{x}|\text{class }1)}{P(\mathbf{x}|\text{class }0)} = \ln\frac{P(\text{class }0)}{P(\text{class }1)} = \ln\frac{0.8}{0.2} \approx 1.386$$
 
-This means we need stronger evidence (a higher likelihood for Class 1) to classify a point as Class 1 when we have a stronger prior belief in Class 0.
+This means we need stronger evidence (a higher likelihood) to classify a point as Class 1 when we have a stronger prior belief in Class 0.
 
 ![Decision Boundaries Comparison](../Images/L2_1_Quiz_31/step4a_boundaries_comparison.png)
 
@@ -324,3 +336,5 @@ This example illustrates the fundamental principles of Bayesian classification a
 For applications of multivariate Gaussian classification with MAP estimation and unequal prior probabilities, see [[L2_7_27_explanation]]. This example extends the concepts covered here by focusing on real-time classification systems and precomputation strategies for efficient implementation.
 
 For a case with non-singular covariance matrices that results in quadratic decision boundaries, see [[L2_7_28_explanation]]. This extension demonstrates how having different covariance structures between classes affects the classification process and the geometry of the decision boundaries. 
+
+For another example of flower species classification using multivariate Gaussian distributions, see [[L2_1_34_explanation]]. This example explores the effect of different covariance structures between classes and compares Euclidean distance and Mahalanobis distance approaches in classification.
