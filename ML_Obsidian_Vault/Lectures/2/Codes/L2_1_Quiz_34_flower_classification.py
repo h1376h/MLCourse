@@ -9,11 +9,11 @@ from scipy.stats import multivariate_normal
 import matplotlib.cm as cm
 from mpl_toolkits.mplot3d import Axes3D
 
-# Define the path to save figures
-IMAGES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Images", "L2_1_Quiz_34")
-
-# Create the directory if it doesn't exist
-os.makedirs(IMAGES_DIR, exist_ok=True)
+# Create the directory to save figures
+script_dir = os.path.dirname(os.path.abspath(__file__))
+images_dir = os.path.join(os.path.dirname(script_dir), "Images")
+save_dir = os.path.join(images_dir, "L2_1_Quiz_34")
+os.makedirs(save_dir, exist_ok=True)
 
 # Helper functions
 def print_step_header(step_number, step_title):
@@ -30,8 +30,9 @@ def print_substep(substep_title):
 
 def save_figure(fig, filename):
     """Save figure to both the PNG file and show it."""
-    fig.savefig(os.path.join(IMAGES_DIR, filename), dpi=300, bbox_inches='tight')
-    print(f"Figure saved to: {os.path.join(IMAGES_DIR, filename)}")
+    filepath = os.path.join(save_dir, filename)
+    fig.savefig(filepath, dpi=300, bbox_inches='tight')
+    print(f"Figure saved to: {filepath}")
     plt.close(fig)
 
 # Define the data
