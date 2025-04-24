@@ -45,7 +45,7 @@ For multivariate normal distributions, zero covariance implies independence. Loo
 
 Therefore, the pairs $(X_1, X_2)$ and $(X_2, X_3)$ are independent.
 
-#### Part b: Determining if $Z$ is independent of $X_2$
+#### Part b: Independence of $Z$ and $X_2$
 
 We need to find the covariance between $Z = 3X_1 - 6X_3$ and $X_2$.
 
@@ -62,7 +62,7 @@ Since $Z$ and $X_2$ are jointly normal (as linear combinations of multivariate n
 
 #### Part c: Conditional independence of $X_1$ and $X_3$ given $X_2$
 
-To determine if $X_1$ and $X_3$ are conditionally independent given $X_2$, we need to calculate the conditional covariance matrix. Let's do this step by step:
+To determine if $X_1$ and $X_3$ are conditionally independent given $X_2$, we need to calculate the conditional covariance matrix:
 
 1. First, we partition the covariance matrix for $(X_1, X_3)$ and $X_2$:
 
@@ -82,6 +82,28 @@ $$\begin{bmatrix} 0 \\ 0 \end{bmatrix} \cdot \frac{1}{3} \cdot \begin{bmatrix} 0
 $$\boldsymbol{\Sigma}_{a|b} = \boldsymbol{\Sigma}_{aa} - \boldsymbol{\Sigma}_{ab}\boldsymbol{\Sigma}_{bb}^{-1}\boldsymbol{\Sigma}_{ba} = \begin{bmatrix} 4 & 2 \\ 2 & 6 \end{bmatrix} - \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 4 & 2 \\ 2 & 6 \end{bmatrix}$$
 
 Since the off-diagonal element in the conditional covariance matrix is 2 (not 0), $X_1$ and $X_3$ are not conditionally independent given $X_2$. This means that even after knowing the value of $X_2$, there is still a significant relationship between $X_1$ and $X_3$.
+
+### Additional Analysis and Verification
+
+#### Correlation Analysis
+For a more complete understanding, we can calculate the correlation coefficients:
+
+1. For $(X_1, X_2)$:
+   $$\rho_{12} = \frac{\text{Cov}(X_1, X_2)}{\sqrt{\text{Var}(X_1)\text{Var}(X_2)}} = \frac{0}{\sqrt{4 \cdot 3}} = 0$$
+
+2. For $(X_2, X_3)$:
+   $$\rho_{23} = \frac{\text{Cov}(X_2, X_3)}{\sqrt{\text{Var}(X_2)\text{Var}(X_3)}} = \frac{0}{\sqrt{3 \cdot 6}} = 0$$
+
+3. For $(X_1, X_3)$:
+   $$\rho_{13} = \frac{\text{Cov}(X_1, X_3)}{\sqrt{\text{Var}(X_1)\text{Var}(X_3)}} = \frac{2}{\sqrt{4 \cdot 6}} = 0.4082$$
+
+#### Conditional Distribution Properties
+For $X_2 = 2$, we can calculate the conditional mean:
+$$\begin{align*}
+\boldsymbol{\mu}_{a|b} &= \boldsymbol{\mu}_a + \boldsymbol{\Sigma}_{ab}\boldsymbol{\Sigma}_{bb}^{-1}(x_2 - \mu_2) \\
+&= \begin{bmatrix} 1 \\ 3 \end{bmatrix} + \begin{bmatrix} 0 \\ 0 \end{bmatrix} \cdot \frac{1}{3} \cdot (2 - 2) \\
+&= \begin{bmatrix} 1 \\ 3 \end{bmatrix}
+\end{align*}$$
 
 The geometric interpretation is that conditioning on $X_2$ changes the shape of the joint distribution of $(X_1,X_3)$, but does not make them independent. This can be visualized in the plots showing both the original and conditional distributions.
 
@@ -137,18 +159,16 @@ $$\begin{align*}
 
 Since the covariance is not zero, $Z_1$ and $Z_2$ are not independent.
 
-#### Part c: Finding a Linear Transformation for Independence
+#### Part c: Finding Independent Variables Through Linear Transformation
 
 To find a linear transformation that creates independent variables, we'll use eigendecomposition of the covariance matrix for $(X_1,X_2)$:
 
 1. Extract the relevant covariance matrix:
-   $$\boldsymbol{\Sigma}_{12} = \begin{bmatrix} 4 & 2 \\ 2 & 5 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}_{12} = \begin{bmatrix} 4 & 2 \\ 2 & 5 \end{bmatrix}$$
 
 2. Find eigenvalues by solving the characteristic equation $|\boldsymbol{\Sigma}_{12} - \lambda\mathbf{I}| = 0$:
    $$\begin{vmatrix} 4-\lambda & 2 \\ 2 & 5-\lambda \end{vmatrix} = 0$$
-   
    $$(4-\lambda)(5-\lambda) - 4 = 0$$
-   
    $$\lambda^2 - 9\lambda + 16 = 0$$
 
    Using the quadratic formula:
@@ -159,7 +179,6 @@ To find a linear transformation that creates independent variables, we'll use ei
    $$\lambda_2 = \frac{9 - \sqrt{17}}{2} \approx 2.4384$$
 
 3. Find eigenvectors for each eigenvalue:
-
    For $\lambda_1 \approx 6.5616$:
    $$\begin{bmatrix} 4-6.5616 & 2 \\ 2 & 5-6.5616 \end{bmatrix} \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
    
@@ -202,6 +221,29 @@ These new variables $Y_1$ and $Y_2$ are independent because:
 2. Their covariance matrix is diagonal, which for normal variables implies independence
 3. The eigenvalues (2.4384 and 6.5616) represent their respective variances
 
+### Additional Analysis and Verification
+
+#### Verification of Independence
+To verify the independence of the transformed variables:
+
+1. Calculate transformed covariance matrix:
+   $$\mathbf{A}\boldsymbol{\Sigma}_{12}\mathbf{A}^T = \begin{bmatrix} 2.4384 & 0 \\ 0 & 6.5616 \end{bmatrix}$$
+
+2. Verify orthogonality of eigenvectors:
+   $$\mathbf{v}_1^T\mathbf{v}_2 = (-0.6154)(-0.7882) + (-0.7882)(0.6154) = 0$$
+
+#### Correlation Analysis
+For completeness, we can calculate the correlation coefficients:
+
+1. For $(X_1,X_2)$:
+   $$\rho_{12} = \frac{2}{\sqrt{4 \cdot 5}} = 0.4472$$
+
+2. For $(X_2,X_3)$:
+   $$\rho_{23} = \frac{1}{\sqrt{5 \cdot 3}} = 0.2582$$
+
+3. For $(X_1,X_3)$:
+   $$\rho_{13} = \frac{0}{\sqrt{4 \cdot 3}} = 0$$
+
 The geometric interpretation is that we've rotated the coordinate system to align with the principal axes of the covariance ellipse, where the variables become uncorrelated and thus independent.
 
 ![Example 2: Original Joint Distribution](../Images/Multivariate_Gaussian/example2_original.png)
@@ -229,25 +271,13 @@ c) Are $X_1$ and $X_3$ conditionally independent given $X_2$? Explain.
 For multivariate normal distributions, zero covariance implies independence. Let's analyze each pair:
 
 1. For $(X_1,X_2)$:
-   - $\text{Cov}(X_1,X_2) = \boldsymbol{\Sigma}_{12} = 1$
-   - $\text{Var}(X_1) = \boldsymbol{\Sigma}_{11} = 3$
-   - $\text{Var}(X_2) = \boldsymbol{\Sigma}_{22} = 4$
-   - $\text{Correlation} = \frac{1}{\sqrt{3 \cdot 4}} = 0.2887$
-   - Not independent since covariance ≠ 0
+   $$\text{Cov}(X_1,X_2) = \boldsymbol{\Sigma}_{12} = 1 \neq 0 \implies \text{not independent}$$
 
 2. For $(X_2,X_3)$:
-   - $\text{Cov}(X_2,X_3) = \boldsymbol{\Sigma}_{23} = 0$
-   - $\text{Var}(X_2) = \boldsymbol{\Sigma}_{22} = 4$
-   - $\text{Var}(X_3) = \boldsymbol{\Sigma}_{33} = 5$
-   - $\text{Correlation} = \frac{0}{\sqrt{4 \cdot 5}} = 0$
-   - Independent since covariance = 0
+   $$\text{Cov}(X_2,X_3) = \boldsymbol{\Sigma}_{23} = 0 \implies \text{independent}$$
 
 3. For $(X_1,X_3)$:
-   - $\text{Cov}(X_1,X_3) = \boldsymbol{\Sigma}_{13} = 2$
-   - $\text{Var}(X_1) = \boldsymbol{\Sigma}_{11} = 3$
-   - $\text{Var}(X_3) = \boldsymbol{\Sigma}_{33} = 5$
-   - $\text{Correlation} = \frac{2}{\sqrt{3 \cdot 5}} = 0.5164$
-   - Not independent since covariance ≠ 0
+   $$\text{Cov}(X_1,X_3) = \boldsymbol{\Sigma}_{13} = 2 \neq 0 \implies \text{not independent}$$
 
 Therefore, only $X_2$ and $X_3$ are independent.
 
@@ -263,27 +293,11 @@ Let's analyze the covariance between $Z = 3X_1 - 6X_3$ and $X_2$:
    &= 3
    \end{align*}$$
 
-2. Calculate $\text{Var}(Z)$:
-   $$\begin{align*}
-   \text{Var}(Z) &= \text{Var}(3X_1 - 6X_3) \\
-   &= 9\text{Var}(X_1) + 36\text{Var}(X_3) - 36\text{Cov}(X_1,X_3) \\
-   &= 9(3) + 36(5) - 36(2) \\
-   &= 27 + 180 - 72 \\
-   &= 135
-   \end{align*}$$
-
-3. Calculate correlation between $Z$ and $X_2$:
-   $$\begin{align*}
-   \text{Corr}(Z,X_2) &= \frac{\text{Cov}(Z,X_2)}{\sqrt{\text{Var}(Z)\text{Var}(X_2)}} \\
-   &= \frac{3}{\sqrt{135 \cdot 4}} \\
-   &= 0.1291
-   \end{align*}$$
-
-Since the covariance is not zero (and consequently, correlation is not zero), $Z$ and $X_2$ are not independent.
+Since the covariance is not zero, $Z$ and $X_2$ are not independent.
 
 #### Part c: Conditional independence of $X_1$ and $X_3$ given $X_2$
 
-To determine conditional independence, we need to calculate the conditional covariance matrix. Let's do this step by step:
+To determine conditional independence, we need to calculate the conditional covariance matrix:
 
 1. First, partition the covariance matrix:
    $$\boldsymbol{\Sigma}_{11} = \begin{bmatrix} 3 & 2 \\ 2 & 5 \end{bmatrix} \text{ (Covariance of } X_1, X_3)$$
@@ -305,20 +319,51 @@ To determine conditional independence, we need to calculate the conditional cova
    &= \begin{bmatrix} 2.75 & 2 \\ 2 & 5 \end{bmatrix}
    \end{align*}$$
 
-5. Calculate conditional correlation:
-   $$\begin{align*}
-   \text{Corr}(X_1,X_3|X_2) &= \frac{2}{\sqrt{2.75 \cdot 5}} \\
-   &= 0.5420
-   \end{align*}$$
+Since the off-diagonal element in the conditional covariance matrix is 2 (not 0), $X_1$ and $X_3$ are not conditionally independent given $X_2$.
 
-6. For $X_2 = 2$, calculate conditional mean:
-   $$\begin{align*}
-   \boldsymbol{\mu}_{1|2} &= \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(x_2 - \mu_2) \\
-   &= \begin{bmatrix} 1 \\ 3 \end{bmatrix} + \begin{bmatrix} 1 \\ 0 \end{bmatrix} \cdot \frac{1}{4} \cdot (2 - 2) \\
-   &= \begin{bmatrix} 1 \\ 3 \end{bmatrix}
-   \end{align*}$$
+### Additional Analysis and Verification
 
-Since the off-diagonal element in the conditional covariance matrix is 2 (not 0), and the conditional correlation is approximately 0.5420, $X_1$ and $X_3$ are not conditionally independent given $X_2$. This means that even after knowing the value of $X_2$, there is still a significant relationship between $X_1$ and $X_3$.
+#### Correlation Analysis
+Let's calculate the correlation coefficients for a complete understanding:
+
+1. For $(X_1,X_2)$:
+   - $\text{Cov}(X_1,X_2) = \boldsymbol{\Sigma}_{12} = 1$
+   - $\text{Var}(X_1) = \boldsymbol{\Sigma}_{11} = 3$
+   - $\text{Var}(X_2) = \boldsymbol{\Sigma}_{22} = 4$
+   $$\text{Corr}(X_1,X_2) = \frac{1}{\sqrt{3 \cdot 4}} = 0.2887$$
+
+2. For $(X_2,X_3)$:
+   - $\text{Cov}(X_2,X_3) = \boldsymbol{\Sigma}_{23} = 0$
+   - $\text{Var}(X_2) = \boldsymbol{\Sigma}_{22} = 4$
+   - $\text{Var}(X_3) = \boldsymbol{\Sigma}_{33} = 5$
+   $$\text{Corr}(X_2,X_3) = \frac{0}{\sqrt{4 \cdot 5}} = 0$$
+
+3. For $(X_1,X_3)$:
+   - $\text{Cov}(X_1,X_3) = \boldsymbol{\Sigma}_{13} = 2$
+   - $\text{Var}(X_1) = \boldsymbol{\Sigma}_{11} = 3$
+   - $\text{Var}(X_3) = \boldsymbol{\Sigma}_{33} = 5$
+   $$\text{Corr}(X_1,X_3) = \frac{2}{\sqrt{3 \cdot 5}} = 0.5164$$
+
+4. Conditional correlation:
+   $$\text{Corr}(X_1,X_3|X_2) = \frac{2}{\sqrt{2.75 \cdot 5}} = 0.5420$$
+
+#### Conditional Distribution Properties
+For $X_2 = 2$, we can calculate the conditional mean:
+$$\begin{align*}
+\boldsymbol{\mu}_{1|2} &= \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(x_2 - \mu_2) \\
+&= \begin{bmatrix} 1 \\ 3 \end{bmatrix} + \begin{bmatrix} 1 \\ 0 \end{bmatrix} \cdot \frac{1}{4} \cdot (2 - 2) \\
+&= \begin{bmatrix} 1 \\ 3 \end{bmatrix}
+\end{align*}$$
+
+#### Variance Analysis of $Z$
+For completeness, let's calculate the variance of $Z$:
+$$\begin{align*}
+\text{Var}(Z) &= \text{Var}(3X_1 - 6X_3) \\
+&= 9\text{Var}(X_1) + 36\text{Var}(X_3) - 36\text{Cov}(X_1,X_3) \\
+&= 9(3) + 36(5) - 36(2) \\
+&= 27 + 180 - 72 \\
+&= 135
+\end{align*}$$
 
 The geometric interpretation is that conditioning on $X_2$ changes the shape of the joint distribution of $(X_1,X_3)$, but does not make them independent. This can be visualized in the plots showing both the original and conditional distributions.
 
@@ -437,25 +482,39 @@ To find the conditional distribution of $\mathbf{X}_1$ given $\mathbf{X}_2 = \be
    &= \begin{bmatrix} 13.8 & 3.2 \\ 3.2 & 4.8 \end{bmatrix}
    \end{align*}$$
 
-6. Calculate conditional correlation:
-   - Conditional covariance = 3.2
-   - Conditional variance of $X_2|X_1,X_3$ = 13.8
-   - Conditional variance of $X_4|X_1,X_3$ = 4.8
-   - Conditional correlation = $\frac{3.2}{\sqrt{13.8 \times 4.8}} = 0.3953$
+Therefore, $\mathbf{X}_1|\mathbf{X}_2$ follows a multivariate normal distribution with mean $\boldsymbol{\mu}_{1|2}$ and covariance matrix $\boldsymbol{\Sigma}_{1|2}$.
+
+### Additional Analysis and Verification
+
+#### Properties of the Covariance Matrix
+1. Symmetry verification:
+   - The matrix $\boldsymbol{\Sigma}_Y$ is symmetric ($\boldsymbol{\Sigma}_Y = \boldsymbol{\Sigma}_Y^T$)
+   - All diagonal elements are positive
+   - The matrix is positive definite
+
+#### Correlation Analysis
+1. Conditional correlation between $X_2$ and $X_4$ given $X_1,X_3$:
+   $$\text{Corr}(X_2,X_4|\mathbf{X}_2) = \frac{3.2}{\sqrt{13.8 \times 4.8}} = 0.3953$$
+
+2. Original correlations:
+   - $\text{Corr}(X_2,X_4) = \frac{4}{\sqrt{15 \times 8}} = 0.3651$
+   - $\text{Corr}(X_2,X_1) = \frac{1}{\sqrt{15 \times 1}} = 0.2582$
+   - $\text{Corr}(X_4,X_3) = \frac{4}{\sqrt{8 \times 5}} = 0.6325$
+
+#### Determinant and Inverse Properties
+1. For $\boldsymbol{\Sigma}_2$:
+   $$|\boldsymbol{\Sigma}_2| = (1)(5) - (0)(0) = 5$$
+
+2. For $\boldsymbol{\Sigma}_{1|2}$:
+   $$|\boldsymbol{\Sigma}_{1|2}| = (13.8)(4.8) - (3.2)^2 = 56.32$$
 
 ### Geometric Interpretation
 
 1. The original joint distribution shows the unconstrained relationship between $X_2$ and $X_4$, which can be visualized as a bivariate normal distribution with the specified mean and covariance.
 
-2. Conditioning on $X_1 = 6$ and $X_3 = 24$ creates a slice through the 5-dimensional distribution, resulting in a new bivariate normal distribution with adjusted mean and covariance. This can be thought of as observing the distribution of $X_2$ and $X_4$ on the hyperplane where $X_1 = 6$ and $X_3 = 24$.
+2. Conditioning on $X_1 = 6$ and $X_3 = 24$ creates a slice through the 5-dimensional distribution, resulting in a new bivariate normal distribution with adjusted mean and covariance.
 
-3. The conditional correlation coefficient of 0.3953 indicates a moderate positive relationship between $X_2$ and $X_4$ even after conditioning on $X_1$ and $X_3$. This means that knowing the values of $X_1$ and $X_3$ reduces but does not eliminate the dependence between $X_2$ and $X_4$.
-
-4. The plots visualize:
-   - The original joint distribution of $X_2$ and $X_4$
-   - The conditional distribution after fixing $X_1 = 6$ and $X_3 = 24$
-   
-   The change in the shape and orientation of the distribution illustrates how conditioning affects the relationship between the variables.
+3. The conditional correlation coefficient of 0.3953 indicates a moderate positive relationship between $X_2$ and $X_4$ even after conditioning on $X_1$ and $X_3$.
 
 ![Example 4: Original Joint Distribution](../Images/Multivariate_Gaussian/example4_original.png)
 ![Example 4: Conditional Distribution](../Images/Multivariate_Gaussian/example4_conditional.png)
@@ -474,54 +533,35 @@ $$\boldsymbol{\Sigma}^{-1} = \begin{bmatrix} 1/2 & -1/2 & 1/2 \\ -1/2 & 3/2 & -1
 We can verify this is correct by checking that $\boldsymbol{\Sigma}\boldsymbol{\Sigma}^{-1} = \mathbf{I}$.
 
 (a) Which pairs of variables are independent?
-
-(b) Define 
-$$Z = X_1 - aX_2 - bX_3,$$
-where $a, b \in \mathbb{R}$ are two constants. Is it possible to set the values of $a$ and $b$ such that $Z$ is independent with $X_1$ (that is, $Z \perp X_1$)? If so, give an example of such $a$ and $b$.
-
-(c) For $Z = X_1 - aX_2 - bX_3$, is it possible to set the value of $a$ and $b$ such that $Z$ is independent with $X_1$ conditional on $X_3 = x_3$ (i.e., $Z \perp X_1 \mid X_3 = x_3$), for any fixed value $x_3 \in \mathbb{R}$? In other words, we hope to make $X_1$ and $Z$ independent conditional on that $X_3$ equals to a fixed number $x_3$, regardless what the value of $x_3$ is. If this can be done, give an example of $(a, b)$ that satisfy the condition.
+(b) Define $Z = X_1 - aX_2 - bX_3$, where $a, b \in \mathbb{R}$ are two constants. Is it possible to set the values of $a$ and $b$ such that $Z$ is independent with $X_1$ (that is, $Z \perp X_1$)? If so, give an example of such $a$ and $b$.
+(c) For $Z = X_1 - aX_2 - bX_3$, is it possible to set the value of $a$ and $b$ such that $Z$ is independent with $X_1$ conditional on $X_3 = x_3$ (i.e., $Z \perp X_1 \mid X_3 = x_3$), for any fixed value $x_3 \in \mathbb{R}$? If this can be done, give an example of $(a, b)$ that satisfy the condition.
 
 ### Solution
 
-#### Part 1: Independence Between Pairs
+#### Part a: Independence Between Pairs
 
-Let's check independence between each pair of variables by calculating their covariances and correlations:
+Let's check independence between each pair of variables by calculating their covariances:
 
 1. For $(X_1,X_2)$:
-   
    Calculate covariance:
    $$\text{Cov}(X_1,X_2) = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix} \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} = 1$$
-   
-   Calculate correlation:
-   $$\rho = \frac{\text{Cov}(X_1,X_2)}{\sqrt{\text{Var}(X_1)\text{Var}(X_2)}} = \frac{1}{\sqrt{4 \cdot 1}} = 0.5$$
-   
-   Since covariance ≠ 0, $X_1$ and $X_2$ are not independent.
+   $$\text{Cov}(X_1,X_2) = \boldsymbol{\Sigma}_{12} = 1 \neq 0 \implies \text{not independent}$$
 
 2. For $(X_2,X_3)$:
-   
    Calculate covariance:
    $$\text{Cov}(X_2,X_3) = \begin{bmatrix} 0 & 1 & 0 \end{bmatrix} \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} = 0$$
-   
-   Calculate correlation:
-   $$\rho = \frac{\text{Cov}(X_2,X_3)}{\sqrt{\text{Var}(X_2)\text{Var}(X_3)}} = \frac{0}{\sqrt{1 \cdot 1}} = 0$$
-   
-   Since covariance = 0, $X_2$ and $X_3$ are independent.
+   $$\text{Cov}(X_2,X_3) = \boldsymbol{\Sigma}_{23} = 0 \implies \text{independent}$$
 
 3. For $(X_1,X_3)$:
-   
    Calculate covariance:
    $$\text{Cov}(X_1,X_3) = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix} \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} = -1$$
-   
-   Calculate correlation:
-   $$\rho = \frac{\text{Cov}(X_1,X_3)}{\sqrt{\text{Var}(X_1)\text{Var}(X_3)}} = \frac{-1}{\sqrt{4 \cdot 1}} = -0.5$$
-   
-   Since covariance ≠ 0, $X_1$ and $X_3$ are not independent.
+   $$\text{Cov}(X_1,X_3) = \boldsymbol{\Sigma}_{13} = -1 \neq 0 \implies \text{not independent}$$
 
-#### Part 2: Finding Values of a and b for Independence
+Therefore, only $X_2$ and $X_3$ are independent.
+
+#### Part b: Finding Values of a and b for Independence
 
 For $Z = X_1 - aX_2 - bX_3$ to be independent of $X_1$, we need $\text{Cov}(Z,X_1) = 0$.
-
-Let's calculate this covariance:
 
 1. Express Z in vector form:
    $$Z = \begin{bmatrix} 1 & -a & -b \end{bmatrix} \begin{bmatrix} X_1 \\ X_2 \\ X_3 \end{bmatrix}$$
@@ -551,7 +591,7 @@ Example 2: $b = 1$
 - $Z = X_1 - 5X_2 - X_3$
 - Verify: $\text{Cov}(Z,X_1) = 4 - 5(1) - 1(-1) = 0$
 
-#### Part 3: Conditional Independence Given $X_3$
+#### Part c: Conditional Independence Given $X_3$
 
 To determine if $Z$ and $X_1$ can be conditionally independent given $X_3$, we:
 
@@ -590,9 +630,18 @@ Therefore, to achieve conditional independence of $Z$ and $X_1$ given $X_3$, we 
 
 For example, $(a,b) = (3,0)$ gives $Z = X_1 - 3X_2$ which is independent of $X_1$ conditional on $X_3$.
 
-#### Verification: Calculating the Inverse of Covariance Matrix
+### Additional Analysis and Verification
 
-Let's calculate the inverse of the covariance matrix step by step:
+#### Correlation Analysis
+1. Original correlations:
+   $$\rho_{12} = \frac{1}{\sqrt{4 \cdot 1}} = 0.5$$
+   $$\rho_{23} = \frac{0}{\sqrt{1 \cdot 1}} = 0$$
+   $$\rho_{13} = \frac{-1}{\sqrt{4 \cdot 1}} = -0.5$$
+
+2. Conditional correlations:
+   $$\text{Corr}(X_1,X_2|X_3) = \frac{1}{\sqrt{3 \cdot 1}} = 0.5774$$
+
+#### Calculation of Covariance Matrix Inverse 
 
 1. First, we calculate the minors and cofactors for each element:
 
@@ -684,12 +733,20 @@ $$\begin{bmatrix}
 0 & 0 & 1
 \end{bmatrix}$$
 
-### Geometric Interpretation
+#### Verification of Covariance Matrix Inverse
+Let's verify $\boldsymbol{\Sigma}\boldsymbol{\Sigma}^{-1} = \mathbf{I}$:
 
-1. The original joint distribution shows correlation between $X_1$ and $X_2$, with correlation coefficient 0.5.
-2. Conditioning on $X_3$ changes the correlation structure, reducing the variance of $X_1$ from 4 to 3.
-3. With $a = 3$, we create a linear combination $Z = X_1 - 3X_2$ that is conditionally independent of $X_1$ given $X_3$.
-4. The plots visualize how conditioning affects the joint distribution.
+$$\begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 1/2 & -1/2 & 1/2 \\ -1/2 & 3/2 & -1/2 \\ 1/2 & -1/2 & 3/2 \end{bmatrix} = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}$$
+
+#### Properties of Conditional Distribution
+1. Conditional mean given $X_3 = x_3$:
+   $$\boldsymbol{\mu}_{1|3} = \begin{bmatrix} 0 \\ 1 \end{bmatrix} + \begin{bmatrix} -1 \\ 0 \end{bmatrix} (x_3 - (-2))$$
+
+2. Conditional variance properties:
+   - $\text{Var}(X_1|X_3) = 3 < \text{Var}(X_1) = 4$ (reduction in variance)
+   - $\text{Var}(X_2|X_3) = 1 = \text{Var}(X_2)$ (no reduction due to independence)
+
+The geometric interpretation is that conditioning on $X_3$ changes the correlation structure between $X_1$ and $X_2$, but in a way that still allows for finding values of $a$ and $b$ that create conditional independence.
 
 ![Example 5: Original Joint Distribution](../Images/Multivariate_Gaussian/example5_original.png)
 ![Example 5: Conditional Distribution](../Images/Multivariate_Gaussian/example5_conditional.png)
