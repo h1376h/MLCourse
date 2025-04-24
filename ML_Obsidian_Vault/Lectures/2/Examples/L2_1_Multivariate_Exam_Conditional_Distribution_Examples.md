@@ -29,7 +29,7 @@ c) Calculate the reduction in variance when predicting $X_1$ after observing $X_
 
 #### Part a: Finding the conditional distribution
 
-First, let's identify the parameters from the given bivariate normal distribution:
+Step 1: Identify the parameters from the given bivariate normal distribution:
 - $\mu_1 = 3$ (mean of $X_1$)
 - $\mu_2 = 5$ (mean of $X_2$)
 - $\sigma_{11} = 9$ (variance of $X_1$)
@@ -37,8 +37,7 @@ First, let's identify the parameters from the given bivariate normal distributio
 - $\sigma_{22} = 16$ (variance of $X_2$)
 - $\rho = \frac{\sigma_{12}}{\sqrt{\sigma_{11}\sigma_{22}}} = \frac{6}{\sqrt{9 \times 16}} = 0.5$ (correlation coefficient)
 
-For a bivariate normal, the conditional distribution of $X_1$ given $X_2 = x_2$ is also normal with:
-
+Step 2: Calculate the conditional mean using the formula:
 $$\mu_{1|2} = \mu_1 + \frac{\sigma_{12}}{\sigma_{22}}(x_2 - \mu_2)$$
 
 Substituting these values for the conditional mean:
@@ -48,8 +47,10 @@ $$\mu_{1|2} = 3 + 0.375 \times 2$$
 $$\mu_{1|2} = 3 + 0.75$$
 $$\mu_{1|2} = 3.75$$
 
-Next, we calculate the conditional variance:
+Step 3: Calculate the conditional variance using the formula:
 $$\sigma_{1|2}^2 = \sigma_{11} - \frac{\sigma_{12}^2}{\sigma_{22}}$$
+
+Substituting the values:
 $$\sigma_{1|2}^2 = 9 - \frac{6^2}{16}$$
 $$\sigma_{1|2}^2 = 9 - \frac{36}{16}$$
 $$\sigma_{1|2}^2 = 9 - 2.25$$
@@ -95,7 +96,7 @@ c) Calculate the reduction in variance of our prediction of $X_1$ when we observ
 
 #### Part a: Finding the conditional distribution of $X_1$ given $X_2 = 8$ and $X_3 = 11$
 
-To find the conditional distribution, we partition the variables:
+Step 1: Partition the parameters for conditional distribution:
 - $\mathbf{X}_1 = X_1$ (the variable of interest)
 - $\mathbf{X}_2 = (X_2, X_3)$ (the conditioning variables)
 
@@ -107,21 +108,21 @@ With this partition:
 - $\boldsymbol{\Sigma}_{21} = (2, 1)^T$ (transpose of $\boldsymbol{\Sigma}_{12}$)
 - $\boldsymbol{\Sigma}_{22} = \begin{bmatrix} 9 & 3 \\ 3 & 5 \end{bmatrix}$ (covariance matrix of $(X_2, X_3)$)
 
-Step 1: Calculate $\boldsymbol{\Sigma}_{22}^{-1}$
+Step 2: Calculate $\boldsymbol{\Sigma}_{22}^{-1}$ using the formula for 2x2 matrix inversion:
 
-First, we find the determinant of $\boldsymbol{\Sigma}_{22}$:
+First, find the determinant of $\boldsymbol{\Sigma}_{22}$:
 $$|\boldsymbol{\Sigma}_{22}| = 9 \times 5 - 3 \times 3 = 45 - 9 = 36$$
 
-Then, we find the adjugate matrix:
+Then, find the adjugate matrix:
 $$\text{adj}(\boldsymbol{\Sigma}_{22}) = \begin{bmatrix} 5 & -3 \\ -3 & 9 \end{bmatrix}$$
 
-Finally, we compute the inverse:
+Finally, compute the inverse:
 $$\boldsymbol{\Sigma}_{22}^{-1} = \frac{1}{36} \begin{bmatrix} 5 & -3 \\ -3 & 9 \end{bmatrix} = \begin{bmatrix} 0.1389 & -0.0833 \\ -0.0833 & 0.2500 \end{bmatrix}$$
 
-Step 2: Calculate $(\mathbf{x}_2 - \boldsymbol{\mu}_2)$
+Step 3: Calculate $(\mathbf{x}_2 - \boldsymbol{\mu}_2)$:
 $$\mathbf{x}_2 - \boldsymbol{\mu}_2 = \begin{pmatrix} 8 \\ 11 \end{pmatrix} - \begin{pmatrix} 7 \\ 10 \end{pmatrix} = \begin{pmatrix} 1 \\ 1 \end{pmatrix}$$
 
-Step 3: Calculate the conditional mean $\boldsymbol{\mu}_{1|2}$
+Step 4: Calculate the conditional mean $\boldsymbol{\mu}_{1|2}$:
 $$\boldsymbol{\mu}_{1|2} = \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$$
 
 First, calculate $\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$:
@@ -134,7 +135,7 @@ $$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymb
 Finally, calculate the complete expression:
 $$\boldsymbol{\mu}_{1|2} = 5 + 0.2778 = 5.2778$$
 
-Step 4: Calculate the conditional variance $\boldsymbol{\Sigma}_{1|2}$
+Step 5: Calculate the conditional variance $\boldsymbol{\Sigma}_{1|2}$:
 $$\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
 
 First, calculate $\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$:
@@ -155,20 +156,21 @@ $$X_1 | (X_2 = 8, X_3 = 11) \sim \mathcal{N}(5.2778, 3.5278)$$
 
 When we observe only $X_2 = 8$, we use a simpler bivariate conditioning:
 
+Step 1: Extract the relevant parameters:
 - $\mu_1 = 5$ (mean of $X_1$)
 - $\mu_2 = 7$ (mean of $X_2$)
 - $\sigma_{11} = 4$ (variance of $X_1$)
 - $\sigma_{12} = \sigma_{21} = 2$ (covariance between $X_1$ and $X_2$)
 - $\sigma_{22} = 9$ (variance of $X_2$)
 
-The conditional mean is:
+Step 2: Calculate the conditional mean:
 $$\mu_{1|2} = \mu_1 + \frac{\sigma_{12}}{\sigma_{22}}(x_2 - \mu_2)$$
 $$\mu_{1|2} = 5 + \frac{2}{9}(8 - 7)$$
 $$\mu_{1|2} = 5 + \frac{2}{9} \times 1$$
 $$\mu_{1|2} = 5 + 0.2222$$
 $$\mu_{1|2} = 5.2222$$
 
-The conditional variance is:
+Step 3: Calculate the conditional variance:
 $$\sigma_{1|2}^2 = \sigma_{11} - \frac{\sigma_{12}^2}{\sigma_{22}}$$
 $$\sigma_{1|2}^2 = 4 - \frac{2^2}{9}$$
 $$\sigma_{1|2}^2 = 4 - \frac{4}{9}$$
@@ -226,9 +228,7 @@ c) How much of the variance in final exam scores can be explained by knowing bot
 
 #### Part a: Predicted final exam score
 
-We need to find the conditional distribution of $Y$ given $X_1 = 85$ and $X_2 = 90$.
-
-First, we partition the parameters:
+Step 1: Partition the parameters for conditional distribution:
 - $\boldsymbol{\mu}_1 = 78$ (mean of final exam, $Y$)
 - $\boldsymbol{\mu}_2 = (75, 80)$ (mean of midterm and homework, $(X_1, X_2)$)
 - $\boldsymbol{\Sigma}_{11} = 81$ (variance of final exam)
@@ -236,21 +236,21 @@ First, we partition the parameters:
 - $\boldsymbol{\Sigma}_{21} = (70, 48)^T$ (transpose of $\boldsymbol{\Sigma}_{12}$)
 - $\boldsymbol{\Sigma}_{22} = \begin{bmatrix} 100 & 60 \\ 60 & 64 \end{bmatrix}$ (covariance matrix of midterm and homework)
 
-Step 1: Calculate $\boldsymbol{\Sigma}_{22}^{-1}$
+Step 2: Calculate $\boldsymbol{\Sigma}_{22}^{-1}$:
 
-First, we find the determinant of $\boldsymbol{\Sigma}_{22}$:
+First, find the determinant of $\boldsymbol{\Sigma}_{22}$:
 $$|\boldsymbol{\Sigma}_{22}| = 100 \times 64 - 60 \times 60 = 6400 - 3600 = 2800$$
 
-Then, we find the adjugate matrix:
+Then, find the adjugate matrix:
 $$\text{adj}(\boldsymbol{\Sigma}_{22}) = \begin{bmatrix} 64 & -60 \\ -60 & 100 \end{bmatrix}$$
 
-Finally, we compute the inverse:
+Finally, compute the inverse:
 $$\boldsymbol{\Sigma}_{22}^{-1} = \frac{1}{2800} \begin{bmatrix} 64 & -60 \\ -60 & 100 \end{bmatrix} = \begin{bmatrix} 0.0229 & -0.0214 \\ -0.0214 & 0.0357 \end{bmatrix}$$
 
-Step 2: Calculate $(\mathbf{x}_2 - \boldsymbol{\mu}_2)$
+Step 3: Calculate $(\mathbf{x}_2 - \boldsymbol{\mu}_2)$:
 $$\mathbf{x}_2 - \boldsymbol{\mu}_2 = \begin{pmatrix} 85 \\ 90 \end{pmatrix} - \begin{pmatrix} 75 \\ 80 \end{pmatrix} = \begin{pmatrix} 10 \\ 10 \end{pmatrix}$$
 
-Step 3: Calculate the conditional mean (predicted final exam score)
+Step 4: Calculate the conditional mean (predicted final exam score):
 $$\boldsymbol{\mu}_{1|2} = \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$$
 
 First, calculate $\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$:
@@ -272,7 +272,7 @@ Therefore, the predicted final exam score for this student is approximately 85.8
 
 #### Part b: 95% prediction interval
 
-To find the prediction interval, we need the conditional variance:
+Step 5: Calculate the conditional variance:
 $$\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
 
 First, calculate $\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$:
