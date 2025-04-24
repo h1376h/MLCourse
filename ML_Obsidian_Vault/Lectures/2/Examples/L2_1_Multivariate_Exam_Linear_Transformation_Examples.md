@@ -391,17 +391,17 @@ Therefore, $\mathbf{Y} \sim \mathcal{N}\left(\begin{bmatrix} 4 \\ 4 \\ 1 \end{bm
 ### Visualizations
 
 #### Original Distribution Projection
-This visualization shows the original four-dimensional distribution projected onto the X1-X2 plane. The contour lines represent regions of equal probability density, and the red X marks the mean vector position (2,1).
+This visualization shows the original four-dimensional distribution projected onto the $X_1$-$X_2$ plane. The contour lines represent regions of equal probability density, and the red X marks the mean vector position $(2,1)$.
 
 ![Original Distribution Projected onto X1-X2 Plane](../Images/Linear_Transformations/example4_original_projection.png)
 
 #### Extracted Components Distribution
-This visualization shows the bivariate normal distribution of the extracted components X1 = [X1, X2]ᵀ. The contour lines and color gradient represent the probability density function.
+This visualization shows the bivariate normal distribution of the extracted components $\mathbf{X}_1 = [X_1, X_2]^T$. The contour lines and color gradient represent the probability density function.
 
 ![Extracted Components Distribution](../Images/Linear_Transformations/example4_extracted_components.png)
 
 #### Linear Transformation Distribution
-This visualization shows the transformed distribution of Y projected onto the Y1-Y2 plane. The contour lines represent regions of equal probability density for the new variables Y1 = 2X1 and Y2 = X1 + 2X2.
+This visualization shows the transformed distribution of $\mathbf{Y}$ projected onto the $Y_1$-$Y_2$ plane. The contour lines represent regions of equal probability density for the new variables $Y_1 = 2X_1$ and $Y_2 = X_1 + 2X_2$.
 
 ![Linear Transformation Distribution](../Images/Linear_Transformations/example4_linear_transformation.png)
 
