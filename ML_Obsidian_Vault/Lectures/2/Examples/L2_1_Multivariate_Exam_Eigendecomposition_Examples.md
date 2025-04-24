@@ -143,6 +143,12 @@ $$\text{Cov}(\mathbf{Y}) = \mathbf{P}^T \boldsymbol{\Sigma} \mathbf{P} = \begin{
 
 This transformation is equivalent to rotating the data so that the axes align with the directions of maximum and minimum variance.
 
+![Original Covariance Ellipse with Eigenvectors](../Images/Multivariate_Eigendecomposition/example1_original.png)
+*Figure 1: Original covariance ellipse with eigenvectors showing the directions of maximum and minimum variance.*
+
+![Whitened Data](../Images/Multivariate_Eigendecomposition/example1_whitened.png)
+*Figure 2: Whitened data showing the transformed distribution with uncorrelated variables.*
+
 ## Example 2: Eigendecomposition for Dimension Reduction
 
 ### Problem Statement
@@ -232,6 +238,9 @@ Step 4: Break down individual contributions
 - First PC: $\frac{17.127}{23.000} \times 100\% = 74.47\%$
 - Second PC: $\frac{4.035}{23.000} \times 100\% = 17.54\%$
 - Third PC: $\frac{1.838}{23.000} \times 100\% = 7.99\%$
+
+![Variance Explained by Principal Components](../Images/Multivariate_Eigendecomposition/example2_variance_explained.png)
+*Figure 3: Bar plot showing the variance explained by each principal component and the cumulative variance explained.*
 
 #### Part c: Possibility of preserving at least 90% variance
 
@@ -363,6 +372,14 @@ The result is:
 - All variables have unit variance (diagonal elements are 1)
 - The data distribution becomes spherical instead of elliptical
 
+Maximum deviation from identity matrix: 8.88e-16
+
+![Original Covariance Ellipse](../Images/Multivariate_Eigendecomposition/example3_original.png)
+*Figure 4: Original covariance ellipse before whitening transformation.*
+
+![Whitened Distribution](../Images/Multivariate_Eigendecomposition/example3_whitened.png)
+*Figure 5: Whitened distribution showing uncorrelated variables with unit variance.*
+
 ## Running the Examples
 
 You can run the code that generates these examples and visualizations using:
@@ -378,21 +395,3 @@ python3 ML_Obsidian_Vault/Lectures/2/Codes/1_multivariate_eigendecomposition_exa
 - [[L2_1_Covariance_Matrix_Contours_Examples|Covariance Matrix Contours]]: Visualization of eigendecomposition effects
 - [[L2_1_Linear_Transformation|Linear Transformations]]: Mathematical basis for eigendecomposition transformations
 - [[L2_1_Dimension_Reduction|Dimension Reduction]]: Techniques for reducing data dimensionality 
-
-## Key Takeaways
-
-1. Eigendecomposition provides insights into:
-   - Directions of maximum variance (eigenvectors)
-   - Amount of variance in each direction (eigenvalues)
-   - Natural coordinate system for the data
-
-2. Applications include:
-   - Dimensionality reduction while preserving variance
-   - Decorrelation of variables (whitening)
-   - Feature extraction and data compression
-
-3. Important properties:
-   - Eigenvectors are orthogonal for symmetric matrices
-   - Eigenvalues are real for symmetric matrices
-   - Total variance = sum of eigenvalues
-   - Proportion of variance explained = eigenvalue / sum of eigenvalues 
