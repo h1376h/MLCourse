@@ -26,7 +26,7 @@ Let $\mathbf{X} = \begin{bmatrix} X_1 \\ X_2 \\ X_3 \end{bmatrix}$ follow a mult
 Define $\mathbf{Y} = \mathbf{A}\mathbf{X} + \mathbf{b}$ where $\mathbf{A} = \begin{bmatrix} 2 & 1 & 0 \\ 0 & 3 & 1 \end{bmatrix}$ and $\mathbf{b} = \begin{bmatrix} 5 \\ -2 \end{bmatrix}$.
 
 a) Find the distribution of $\mathbf{Y}$.
-b) Calculate $Cov(Y_1, Y_2)$.
+b) Calculate $\text{Cov}(Y_1, Y_2)$.
 c) Are $Y_1$ and $Y_2$ independent? Why or why not?
 
 ### Solution
@@ -63,19 +63,19 @@ $$\boldsymbol{\Sigma}_Y = \begin{bmatrix} 29 & 35 \\ 35 & 109 \end{bmatrix}$$
 
 Therefore, $\mathbf{Y} \sim \mathcal{N}\left(\begin{bmatrix} 9 \\ 7 \end{bmatrix}, \begin{bmatrix} 29 & 35 \\ 35 & 109 \end{bmatrix}\right)$
 
-#### Part b: Calculating $Cov(Y_1, Y_2)$
+#### Part b: Calculating $\text{Cov}(Y_1, Y_2)$
 
 From the covariance matrix, we can directly read that:
-$$Cov(Y_1, Y_2) = \boldsymbol{\Sigma}_Y[1,2] = 35$$
+$$\text{Cov}(Y_1, Y_2) = \boldsymbol{\Sigma}_Y(1,2) = 35$$
 
 #### Part c: Determining independence
 
-For multivariate normal distributions, zero covariance means independence. Since $Cov(Y_1, Y_2) = 35 \neq 0$, $Y_1$ and $Y_2$ are not independent.
+For multivariate normal distributions, zero covariance means independence. Since $\text{Cov}(Y_1, Y_2) = 35 \neq 0$, $Y_1$ and $Y_2$ are not independent.
 
 The non-zero covariance indicates that knowledge of one variable provides information about the other. This is also evident from the structure of the linear transformation, where both $Y_1$ and $Y_2$ depend on overlapping components of the original vector $\mathbf{X}$.
 
 The correlation coefficient between $Y_1$ and $Y_2$ is:
-$$\rho = \frac{Cov(Y_1, Y_2)}{\sqrt{Var(Y_1) \cdot Var(Y_2)}} = \frac{35}{\sqrt{29 \cdot 109}} \approx 0.623$$
+$$\rho = \frac{\text{Cov}(Y_1, Y_2)}{\sqrt{\text{Var}(Y_1) \cdot \text{Var}(Y_2)}} = \frac{35}{\sqrt{29 \cdot 109}} \approx 0.623$$
 
 ### Visualizations
 
