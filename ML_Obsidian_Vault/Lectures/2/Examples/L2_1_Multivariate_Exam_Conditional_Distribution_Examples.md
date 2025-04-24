@@ -13,8 +13,24 @@ If $\mathbf{X} = \begin{bmatrix} \mathbf{X}_1 \\ \mathbf{X}_2 \end{bmatrix} \sim
 $$\mathbf{X}_1 | \mathbf{X}_2 = \mathbf{x}_2 \sim \mathcal{N}(\boldsymbol{\mu}_{1|2}, \boldsymbol{\Sigma}_{1|2})$$
 
 Where:
-- $\boldsymbol{\mu}_{1|2} = \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$
-- $\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$
+- $\boldsymbol{\mu}_{1|2} = \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$ (Conditional mean)
+- $\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$ (Conditional covariance)
+
+For the special case of bivariate normal distribution, these formulas simplify to:
+
+$$\mu_{1|2} = \mu_1 + \frac{\sigma_{12}}{\sigma_{22}}(x_2 - \mu_2)$$
+
+$$\sigma_{1|2}^2 = \sigma_{11} - \frac{\sigma_{12}^2}{\sigma_{22}}$$
+
+Where $\frac{\sigma_{12}}{\sigma_{22}}$ represents the regression coefficient of $X_1$ on $X_2$.
+
+### Key Properties of Conditional Distributions
+
+1. **Linearity**: The conditional mean is a linear function of the conditioning variables
+2. **Variance Reduction**: The conditional variance is always less than or equal to the unconditional variance
+3. **Independence**: If variables are independent, conditioning has no effect
+4. **Normality Preservation**: For multivariate normal distributions, conditional distributions remain normal
+5. **Regression Interpretation**: The conditional mean formula can be interpreted as a regression of $\mathbf{X}_1$ on $\mathbf{X}_2$
 
 ## Example 1: Conditional Distributions in Bivariate Normal
 
@@ -27,7 +43,15 @@ c) Calculate the reduction in variance when predicting $X_1$ after observing $X_
 
 ### Solution
 
+Let's first calculate the correlation coefficient to understand the relationship between $X_1$ and $X_2$:
+
+$$\rho = \frac{\sigma_{12}}{\sqrt{\sigma_{11}\sigma_{22}}} = \frac{6}{\sqrt{9 \times 16}} = \frac{6}{\sqrt{144}} = \frac{6}{12} = 0.5$$
+
+This indicates a moderately positive relationship between $X_1$ and $X_2$.
+
 #### Part a: Finding the conditional distribution
+
+To find the conditional distribution, we need to apply the conditional distribution formulas for multivariate normal distributions.
 
 Step 1: Identify the parameters from the given bivariate normal distribution:
 - $\mu_1 = 3$ (mean of $X_1$)
@@ -35,14 +59,15 @@ Step 1: Identify the parameters from the given bivariate normal distribution:
 - $\sigma_{11} = 9$ (variance of $X_1$)
 - $\sigma_{12} = \sigma_{21} = 6$ (covariance between $X_1$ and $X_2$)
 - $\sigma_{22} = 16$ (variance of $X_2$)
-- $\rho = \frac{\sigma_{12}}{\sqrt{\sigma_{11}\sigma_{22}}} = \frac{6}{\sqrt{9 \times 16}} = 0.5$ (correlation coefficient)
 
 Step 2: Calculate the conditional mean using the formula:
 $$\mu_{1|2} = \mu_1 + \frac{\sigma_{12}}{\sigma_{22}}(x_2 - \mu_2)$$
 
-Substituting these values for the conditional mean:
+First, compute the regression coefficient $\frac{\sigma_{12}}{\sigma_{22}}$:
+$$\frac{\sigma_{12}}{\sigma_{22}} = \frac{6}{16} = \frac{3}{8} = 0.375$$
+
+Now, substituting these values for the conditional mean:
 $$\mu_{1|2} = 3 + \frac{6}{16}(7 - 5)$$
-$$\mu_{1|2} = 3 + \frac{6}{16} \times 2$$
 $$\mu_{1|2} = 3 + 0.375 \times 2$$
 $$\mu_{1|2} = 3 + 0.75$$
 $$\mu_{1|2} = 3.75$$
@@ -50,38 +75,72 @@ $$\mu_{1|2} = 3.75$$
 Step 3: Calculate the conditional variance using the formula:
 $$\sigma_{1|2}^2 = \sigma_{11} - \frac{\sigma_{12}^2}{\sigma_{22}}$$
 
-Substituting the values:
-$$\sigma_{1|2}^2 = 9 - \frac{6^2}{16}$$
+First, compute the reduction in variance $\frac{\sigma_{12}^2}{\sigma_{22}}$:
+$$\frac{\sigma_{12}^2}{\sigma_{22}} = \frac{6^2}{16} = \frac{36}{16} = 2.25$$
+
+Now, substituting the values:
 $$\sigma_{1|2}^2 = 9 - \frac{36}{16}$$
 $$\sigma_{1|2}^2 = 9 - 2.25$$
 $$\sigma_{1|2}^2 = 6.75$$
-$$\sigma_{1|2} = \sqrt{6.75} \approx 2.60$$
+
+Step 4: Calculate the conditional standard deviation:
+$$\sigma_{1|2} = \sqrt{\sigma_{1|2}^2} = \sqrt{6.75} \approx 2.598 \approx 2.60$$
 
 Therefore, the conditional distribution is:
 $$X_1 | (X_2 = 7) \sim \mathcal{N}(3.75, 6.75)$$
 
+This means that given $X_2 = 7$, the random variable $X_1$ follows a normal distribution with mean 3.75 and variance 6.75.
+
 #### Part b: Best prediction for $X_1$
 
-The best prediction for $X_1$ given $X_2 = 7$ is the conditional mean:
+The best prediction for $X_1$ given $X_2 = 7$ is the conditional mean, which minimizes the expected squared prediction error:
+
 $$E[X_1 | X_2 = 7] = \mu_{1|2} = 3.75$$
+
+We can verify this is indeed the best predictor by noting that for a random variable $Y$ with mean $\mu$, the value of $c$ that minimizes $E[(Y-c)^2]$ is $c = \mu$. In our case, $Y = X_1|X_2=7$ has mean $\mu_{1|2} = 3.75$.
 
 #### Part c: Reduction in variance
 
-The unconditional variance of $X_1$ is $\sigma_{11} = 9$.
-The conditional variance after observing $X_2$ is $\sigma_{1|2}^2 = 6.75$.
+To calculate the reduction in variance, we compare the unconditional (marginal) variance of $X_1$ with the conditional variance after observing $X_2$.
 
-The reduction in variance is:
+Step 1: Identify the unconditional variance of $X_1$:
+$$\sigma_{11} = 9$$
+
+Step 2: Note the conditional variance after observing $X_2$ (calculated in part a):
+$$\sigma_{1|2}^2 = 6.75$$
+
+Step 3: Calculate the absolute reduction in variance:
 $$\sigma_{11} - \sigma_{1|2}^2 = 9 - 6.75 = 2.25$$
 
-This represents a reduction of $\frac{2.25}{9} \times 100\% = 25\%$ in the variance, indicating that knowledge of $X_2$ reduces our uncertainty about $X_1$ by 25%.
+Step 4: Calculate the percentage reduction in variance:
+$$\frac{\sigma_{11} - \sigma_{1|2}^2}{\sigma_{11}} \times 100\% = \frac{2.25}{9} \times 100\% = 25\%$$
 
-The regression equation for predicting $X_1$ from any value of $X_2$ is:
+This 25% reduction in variance indicates that knowing $X_2$ reduces our uncertainty about $X_1$ by one-quarter.
+
+We can also express this in terms of the correlation coefficient:
+$$\frac{\sigma_{12}^2}{\sigma_{11}\sigma_{22}} = \rho^2 = 0.5^2 = 0.25 = 25\%$$
+
+This confirms that the percentage reduction in variance equals the square of the correlation coefficient, which is a general property for bivariate normal distributions.
+
+Step 5: Derive the general regression equation for predicting $X_1$ from any value of $X_2$:
+$$E[X_1|X_2=x_2] = \mu_1 + \frac{\sigma_{12}}{\sigma_{22}}(x_2 - \mu_2)$$
 $$E[X_1|X_2=x_2] = 3 + 0.375 \times (x_2 - 5)$$
+$$E[X_1|X_2=x_2] = 3 + 0.375x_2 - 1.875$$
 $$E[X_1|X_2=x_2] = 1.125 + 0.375 \times x_2$$
 
-![Bivariate Normal Distribution](../Images/Conditional_Distributions/example1_bivariate_normal.png)
-![Conditional Distribution of X1 given X2=7](../Images/Conditional_Distributions/example1_conditional_x2_7.png)
-![Prediction of X1 based on X2](../Images/Conditional_Distributions/example1_prediction_interval.png)
+This linear equation gives us the expected value of $X_1$ for any observed value of $X_2$.
+
+#### Key Insights
+
+1. The conditional distribution of $X_1$ given $X_2 = 7$ has mean 3.75, which is higher than the unconditional mean of $X_1$ (which is 3). This makes sense because $X_2 = 7$ is higher than its mean of 5, and the variables are positively correlated.
+
+2. The conditional variance (6.75) is reduced by 25% compared to the unconditional variance (9), reflecting the information gained from knowing $X_2$.
+
+3. The regression line shows how the expected value of $X_1$ changes linearly with $X_2$, with slope equal to $\frac{\sigma_{12}}{\sigma_{22}} = 0.375$.
+
+4. The regression coefficient 0.375 tells us that, on average, a one-unit increase in $X_2$ corresponds to a 0.375-unit increase in the expected value of $X_1$.
+
+5. The formula for conditional variance shows that uncertainty decreases as the magnitude of correlation increases, which aligns with our intuition that stronger relationships between variables lead to better predictions.
 
 ## Example 2: Conditional Distributions and Inference in Trivariate Normal
 
@@ -94,7 +153,22 @@ c) Calculate the reduction in variance of our prediction of $X_1$ when we observ
 
 ### Solution
 
+Let's first compute the correlation matrix to better understand the relationships between variables:
+
+Step 0: Compute the correlation matrix from the covariance matrix
+The correlation between variables $i$ and $j$ is:
+$$\rho_{ij} = \frac{\sigma_{ij}}{\sqrt{\sigma_{ii}\sigma_{jj}}}$$
+
+Calculating each correlation:
+- $\rho_{12} = \frac{2}{\sqrt{4 \times 9}} = \frac{2}{\sqrt{36}} = \frac{2}{6} = 0.333$
+- $\rho_{13} = \frac{1}{\sqrt{4 \times 5}} = \frac{1}{\sqrt{20}} = \frac{1}{4.47} \approx 0.224$
+- $\rho_{23} = \frac{3}{\sqrt{9 \times 5}} = \frac{3}{\sqrt{45}} = \frac{3}{6.71} \approx 0.447$
+
+From the correlation matrix, we can see that $X_1$ has a stronger correlation with $X_2$ (0.333) than with $X_3$ (0.224). This suggests that $X_2$ might be more informative for predicting $X_1$ than $X_3$.
+
 #### Part a: Finding the conditional distribution of $X_1$ given $X_2 = 8$ and $X_3 = 11$
+
+When conditioning on multiple variables, we need to use the general matrix form of the conditional distribution formula.
 
 Step 1: Partition the parameters for conditional distribution:
 - $\mathbf{X}_1 = X_1$ (the variable of interest)
@@ -108,7 +182,10 @@ With this partition:
 - $\boldsymbol{\Sigma}_{21} = (2, 1)^T$ (transpose of $\boldsymbol{\Sigma}_{12}$)
 - $\boldsymbol{\Sigma}_{22} = \begin{bmatrix} 9 & 3 \\ 3 & 5 \end{bmatrix}$ (covariance matrix of $(X_2, X_3)$)
 
-Step 2: Calculate $\boldsymbol{\Sigma}_{22}^{-1}$ using the formula for 2x2 matrix inversion:
+Step 2: Calculate $\boldsymbol{\Sigma}_{22}^{-1}$ using the formula for 2×2 matrix inversion:
+
+For a 2×2 matrix $A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$, the inverse is:
+$$A^{-1} = \frac{1}{ad-bc} \begin{bmatrix} d & -b \\ -c & a \end{bmatrix}$$
 
 First, find the determinant of $\boldsymbol{\Sigma}_{22}$:
 $$|\boldsymbol{\Sigma}_{22}| = 9 \times 5 - 3 \times 3 = 45 - 9 = 36$$
@@ -117,66 +194,96 @@ Then, find the adjugate matrix:
 $$\text{adj}(\boldsymbol{\Sigma}_{22}) = \begin{bmatrix} 5 & -3 \\ -3 & 9 \end{bmatrix}$$
 
 Finally, compute the inverse:
-$$\boldsymbol{\Sigma}_{22}^{-1} = \frac{1}{36} \begin{bmatrix} 5 & -3 \\ -3 & 9 \end{bmatrix} = \begin{bmatrix} 0.1389 & -0.0833 \\ -0.0833 & 0.2500 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}_{22}^{-1} = \frac{1}{36} \begin{bmatrix} 5 & -3 \\ -3 & 9 \end{bmatrix}$$
 
-Step 3: Calculate $(\mathbf{x}_2 - \boldsymbol{\mu}_2)$:
+Let's calculate each element:
+$$\boldsymbol{\Sigma}_{22}^{-1}[1,1] = \frac{5}{36} \approx 0.1389$$
+$$\boldsymbol{\Sigma}_{22}^{-1}[1,2] = \frac{-3}{36} = -0.0833$$
+$$\boldsymbol{\Sigma}_{22}^{-1}[2,1] = \frac{-3}{36} = -0.0833$$
+$$\boldsymbol{\Sigma}_{22}^{-1}[2,2] = \frac{9}{36} = 0.2500$$
+
+Therefore:
+$$\boldsymbol{\Sigma}_{22}^{-1} = \begin{bmatrix} 0.1389 & -0.0833 \\ -0.0833 & 0.2500 \end{bmatrix}$$
+
+Step 3: Calculate $(\mathbf{x}_2 - \boldsymbol{\mu}_2)$, the deviation of observed values from their means:
 $$\mathbf{x}_2 - \boldsymbol{\mu}_2 = \begin{pmatrix} 8 \\ 11 \end{pmatrix} - \begin{pmatrix} 7 \\ 10 \end{pmatrix} = \begin{pmatrix} 1 \\ 1 \end{pmatrix}$$
 
-Step 4: Calculate the conditional mean $\boldsymbol{\mu}_{1|2}$:
+Step 4: Calculate the conditional mean $\boldsymbol{\mu}_{1|2}$ using the formula:
 $$\boldsymbol{\mu}_{1|2} = \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$$
 
-First, calculate $\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$:
-$$\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = \begin{bmatrix} 0.1389 & -0.0833 \\ -0.0833 & 0.2500 \end{bmatrix} \begin{pmatrix} 1 \\ 1 \end{pmatrix} = \begin{pmatrix} 0.0556 \\ 0.1667 \end{pmatrix}$$
+First, calculate $\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$ - this is a matrix-vector multiplication:
+$$\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = \begin{bmatrix} 0.1389 & -0.0833 \\ -0.0833 & 0.2500 \end{bmatrix} \begin{pmatrix} 1 \\ 1 \end{pmatrix}$$
 
-Next, calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$:
+Let's compute this multiplication:
+$$\begin{pmatrix} (0.1389 \times 1) + (-0.0833 \times 1) \\ (-0.0833 \times 1) + (0.2500 \times 1) \end{pmatrix} = \begin{pmatrix} 0.1389 - 0.0833 \\ -0.0833 + 0.2500 \end{pmatrix} = \begin{pmatrix} 0.0556 \\ 0.1667 \end{pmatrix}$$
+
+Next, calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$ - this is a vector-vector multiplication:
 $$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = \begin{pmatrix} 2 & 1 \end{pmatrix} \begin{pmatrix} 0.0556 \\ 0.1667 \end{pmatrix}$$
-$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = 2 \times 0.0556 + 1 \times 0.1667 = 0.1111 + 0.1667 = 0.2778$$
 
-Finally, calculate the complete expression:
+Let's compute this multiplication:
+$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = (2 \times 0.0556) + (1 \times 0.1667)$$
+$$= 0.1112 + 0.1667$$
+$$= 0.2779 \approx 0.2778$$
+
+Finally, calculate the complete expression for the conditional mean:
 $$\boldsymbol{\mu}_{1|2} = 5 + 0.2778 = 5.2778$$
 
-Step 5: Calculate the conditional variance $\boldsymbol{\Sigma}_{1|2}$:
+Step 5: Calculate the conditional variance $\boldsymbol{\Sigma}_{1|2}$ using the formula:
 $$\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
 
-First, calculate $\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$:
-$$\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{bmatrix} 0.1389 & -0.0833 \\ -0.0833 & 0.2500 \end{bmatrix} \begin{pmatrix} 2 \\ 1 \end{pmatrix} = \begin{pmatrix} 0.1944 \\ 0.0833 \end{pmatrix}$$
+First, calculate $\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$ - this is a matrix-vector multiplication:
+$$\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{bmatrix} 0.1389 & -0.0833 \\ -0.0833 & 0.2500 \end{bmatrix} \begin{pmatrix} 2 \\ 1 \end{pmatrix}$$
 
-Next, calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$:
+Let's compute this multiplication:
+$$\begin{pmatrix} (0.1389 \times 2) + (-0.0833 \times 1) \\ (-0.0833 \times 2) + (0.2500 \times 1) \end{pmatrix} = \begin{pmatrix} 0.2778 - 0.0833 \\ -0.1666 + 0.2500 \end{pmatrix} = \begin{pmatrix} 0.1945 \\ 0.0834 \end{pmatrix} \approx \begin{pmatrix} 0.1944 \\ 0.0833 \end{pmatrix}$$
+
+Next, calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$ - this is a vector-vector multiplication:
 $$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{pmatrix} 2 & 1 \end{pmatrix} \begin{pmatrix} 0.1944 \\ 0.0833 \end{pmatrix}$$
-$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = 2 \times 0.1944 + 1 \times 0.0833 = 0.3889 + 0.0833 = 0.4722$$
 
-Finally, calculate the complete expression:
+Let's compute this multiplication:
+$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = (2 \times 0.1944) + (1 \times 0.0833)$$
+$$= 0.3888 + 0.0833$$
+$$= 0.4721 \approx 0.4722$$
+
+Finally, calculate the complete expression for the conditional variance:
 $$\boldsymbol{\Sigma}_{1|2} = 4 - 0.4722 = 3.5278$$
-$$\sigma_{1|2} = \sqrt{3.5278} \approx 1.8782$$
+
+Step 6: Calculate the conditional standard deviation:
+$$\sigma_{1|2} = \sqrt{\boldsymbol{\Sigma}_{1|2}} = \sqrt{3.5278} \approx 1.8782$$
 
 Therefore, the conditional distribution is:
 $$X_1 | (X_2 = 8, X_3 = 11) \sim \mathcal{N}(5.2778, 3.5278)$$
 
 #### Part b: Best prediction for $X_1$ given only $X_2 = 8$
 
-When we observe only $X_2 = 8$, we use a simpler bivariate conditioning:
+When we observe only $X_2 = 8$, we can use a simpler bivariate conditioning approach (similar to Example 1).
 
-Step 1: Extract the relevant parameters:
+Step 1: Extract the relevant parameters for this bivariate case:
 - $\mu_1 = 5$ (mean of $X_1$)
 - $\mu_2 = 7$ (mean of $X_2$)
 - $\sigma_{11} = 4$ (variance of $X_1$)
 - $\sigma_{12} = \sigma_{21} = 2$ (covariance between $X_1$ and $X_2$)
 - $\sigma_{22} = 9$ (variance of $X_2$)
 
-Step 2: Calculate the conditional mean:
-$$\mu_{1|2} = \mu_1 + \frac{\sigma_{12}}{\sigma_{22}}(x_2 - \mu_2)$$
+Step 2: Calculate the regression coefficient of $X_1$ on $X_2$:
+$$\beta_{1|2} = \frac{\sigma_{12}}{\sigma_{22}} = \frac{2}{9} \approx 0.2222$$
+
+Step 3: Calculate the conditional mean using the bivariate formula:
+$$\mu_{1|2} = \mu_1 + \beta_{1|2}(x_2 - \mu_2)$$
 $$\mu_{1|2} = 5 + \frac{2}{9}(8 - 7)$$
 $$\mu_{1|2} = 5 + \frac{2}{9} \times 1$$
 $$\mu_{1|2} = 5 + 0.2222$$
 $$\mu_{1|2} = 5.2222$$
 
-Step 3: Calculate the conditional variance:
+Step 4: Calculate the conditional variance using the bivariate formula:
 $$\sigma_{1|2}^2 = \sigma_{11} - \frac{\sigma_{12}^2}{\sigma_{22}}$$
 $$\sigma_{1|2}^2 = 4 - \frac{2^2}{9}$$
 $$\sigma_{1|2}^2 = 4 - \frac{4}{9}$$
 $$\sigma_{1|2}^2 = 4 - 0.4444$$
 $$\sigma_{1|2}^2 = 3.5556$$
-$$\sigma_{1|2} = \sqrt{3.5556} \approx 1.8856$$
+
+Step 5: Calculate the conditional standard deviation:
+$$\sigma_{1|2} = \sqrt{\sigma_{1|2}^2} = \sqrt{3.5556} \approx 1.8856$$
 
 Therefore, the conditional distribution considering only $X_2$ is:
 $$X_1 | (X_2 = 8) \sim \mathcal{N}(5.2222, 3.5556)$$
@@ -188,128 +295,262 @@ $$E[X_1 | X_2 = 8] = 5.2222$$
 
 Let's analyze the reduction in variance step by step:
 
+Step 1: Identify the three variance values:
 1. Unconditional variance of $X_1$: $\sigma_{11} = 4$
 2. Variance when conditioning on $X_2$ only: $\sigma_{1|2}^2 = 3.5556$
 3. Variance when conditioning on both $X_2$ and $X_3$: $\sigma_{1|2,3}^2 = 3.5278$
 
-Reduction from unconditional to conditioning on $X_2$:
-$$4 - 3.5556 = 0.4444$$
-Percentage reduction: $\frac{0.4444}{4} \times 100\% = 11.11\%$
+Step 2: Calculate the reduction from unconditional to conditioning on $X_2$:
+$$\Delta\sigma^2_1 = \sigma_{11} - \sigma_{1|2}^2 = 4 - 3.5556 = 0.4444$$
 
-Additional reduction when also conditioning on $X_3$:
-$$3.5556 - 3.5278 = 0.0278$$
-Percentage additional reduction: $\frac{0.0278}{3.5556} \times 100\% = 0.78\%$
+Step 3: Calculate the percentage reduction:
+$$\frac{\Delta\sigma^2_1}{\sigma_{11}} \times 100\% = \frac{0.4444}{4} \times 100\% = 11.11\%$$
 
-Total reduction from unconditional to conditioning on both $X_2$ and $X_3$:
-$$4 - 3.5278 = 0.4722$$
-Percentage total reduction: $\frac{0.4722}{4} \times 100\% = 11.81\%$
+Step 4: Calculate the additional reduction when also conditioning on $X_3$:
+$$\Delta\sigma^2_2 = \sigma_{1|2}^2 - \sigma_{1|2,3}^2 = 3.5556 - 3.5278 = 0.0278$$
+
+Step 5: Calculate the percentage additional reduction:
+$$\frac{\Delta\sigma^2_2}{\sigma_{1|2}^2} \times 100\% = \frac{0.0278}{3.5556} \times 100\% = 0.78\%$$
+
+Step 6: Calculate the total reduction from unconditional to conditioning on both $X_2$ and $X_3$:
+$$\Delta\sigma^2_{total} = \sigma_{11} - \sigma_{1|2,3}^2 = 4 - 3.5278 = 0.4722$$
+
+Step 7: Calculate the percentage total reduction:
+$$\frac{\Delta\sigma^2_{total}}{\sigma_{11}} \times 100\% = \frac{0.4722}{4} \times 100\% = 11.81\%$$
 
 This small additional reduction in variance (only 0.78%) indicates that knowing $X_3$ in addition to $X_2$ provides relatively little additional information about $X_1$. This makes sense given the covariance structure, where $X_1$ has a stronger correlation with $X_2$ (covariance of 2) than with $X_3$ (covariance of 1).
+
+We can also relate this to the partial correlation concept. The small additional variance reduction suggests that the partial correlation between $X_1$ and $X_3$ given $X_2$ is small.
+
+#### Key Insights
+
+1. When conditioning on multiple variables, the calculations become more complex as we need to work with matrices rather than scalar values. The general formula allows us to account for the joint effect of multiple conditioning variables.
+
+2. The conditional mean of $X_1$ given both $X_2 = 8$ and $X_3 = 11$ (5.2778) is very close to the conditional mean of $X_1$ given only $X_2 = 8$ (5.2222). This suggests that $X_3$ provides minimal additional predictive power once we know $X_2$.
+
+3. The variance reduction from additionally conditioning on $X_3$ (after already conditioning on $X_2$) is very small (0.78%), confirming that $X_3$ adds little marginal information beyond what $X_2$ already provides for predicting $X_1$.
+
+4. This example illustrates an important principle in statistical modeling: sometimes adding more predictors may not substantially improve prediction accuracy, especially if the additional variables are not strongly correlated with the target variable or are correlated with predictors already in the model.
+
+5. The concept of partial correlation is relevant here - the small additional variance reduction suggests that the partial correlation between $X_1$ and $X_3$ given $X_2$ is small.
+
+6. In regression analysis, this phenomenon is related to the concept of multicollinearity, where predictor variables are correlated. When predictors are correlated, adding more variables may yield diminishing returns in terms of predictive power.
 
 ## Example 3: Prediction and Conditional Inference
 
 ### Problem Statement
-A researcher has developed a model to predict a student's final exam score ($Y$) based on their midterm score ($X_1$) and homework average ($X_2$). Based on historical data, the variables follow a multivariate normal distribution with:
-$$\boldsymbol{\mu} = \begin{bmatrix} 75 \\ 80 \\ 78 \end{bmatrix}$$
+A professor wants to predict a student's final exam score based on their midterm and homework scores. From historical data, the professor knows that the scores follow a trivariate normal distribution with the following parameters:
 
-$$\boldsymbol{\Sigma} = \begin{bmatrix} 
-100 & 60 & 70 \\
-60 & 64 & 48 \\
-70 & 48 & 81
-\end{bmatrix}$$
+- Mean vector: $\boldsymbol{\mu} = (82, 78, 85)$ (Final, Midterm, Homework)
+- Covariance matrix: $\boldsymbol{\Sigma} = \begin{bmatrix} 100 & 60 & 40 \\ 60 & 64 & 30 \\ 40 & 30 & 25 \end{bmatrix}$
 
-A new student scored 85 on the midterm and has a homework average of 90.
-
-a) What is the predicted final exam score for this student?
-b) What is the 95% prediction interval for this student's final exam score?
-c) How much of the variance in final exam scores can be explained by knowing both the midterm score and homework average?
+If a student scores 85 on the midterm and 90 on homework, what is the predicted final exam score? Provide a 95% prediction interval for the student's final exam score.
 
 ### Solution
 
-#### Part a: Predicted final exam score
+Step 0: Analyze the correlation structure between scores
 
-Step 1: Partition the parameters for conditional distribution:
-- $\boldsymbol{\mu}_1 = 78$ (mean of final exam, $Y$)
-- $\boldsymbol{\mu}_2 = (75, 80)$ (mean of midterm and homework, $(X_1, X_2)$)
-- $\boldsymbol{\Sigma}_{11} = 81$ (variance of final exam)
-- $\boldsymbol{\Sigma}_{12} = (70, 48)$ (covariance between final exam and (midterm, homework))
-- $\boldsymbol{\Sigma}_{21} = (70, 48)^T$ (transpose of $\boldsymbol{\Sigma}_{12}$)
-- $\boldsymbol{\Sigma}_{22} = \begin{bmatrix} 100 & 60 \\ 60 & 64 \end{bmatrix}$ (covariance matrix of midterm and homework)
+Let's first calculate the correlation matrix to understand the relationships between the three scores:
 
-Step 2: Calculate $\boldsymbol{\Sigma}_{22}^{-1}$:
+- $\rho_{\text{Final,Midterm}} = \frac{\sigma_{\text{FM}}}{\sqrt{\sigma_{\text{FF}}\sigma_{\text{MM}}}} = \frac{60}{\sqrt{100 \times 64}} = \frac{60}{\sqrt{6400}} = \frac{60}{80} = 0.75$
+
+- $\rho_{\text{Final,Homework}} = \frac{\sigma_{\text{FH}}}{\sqrt{\sigma_{\text{FF}}\sigma_{\text{HH}}}} = \frac{40}{\sqrt{100 \times 25}} = \frac{40}{\sqrt{2500}} = \frac{40}{50} = 0.80$
+
+- $\rho_{\text{Midterm,Homework}} = \frac{\sigma_{\text{MH}}}{\sqrt{\sigma_{\text{MM}}\sigma_{\text{HH}}}} = \frac{30}{\sqrt{64 \times 25}} = \frac{30}{\sqrt{1600}} = \frac{30}{40} = 0.75$
+
+From these correlations, we can see that:
+- Final exam has a strong positive correlation of 0.75 with midterm scores
+- Final exam has an even stronger correlation of 0.80 with homework scores
+- Midterm has a strong correlation of 0.75 with homework scores
+
+These strong positive correlations suggest that both midterm and homework scores are good predictors of the final exam score. The slightly higher correlation between final exam and homework suggests that homework scores might be marginally more predictive of final exam performance.
+
+#### Partitioning the Variables for Conditional Distribution
+
+To find the conditional distribution of the final exam score given both the midterm and homework scores, we need to partition our variables:
+
+- $\mathbf{X}_1 = \text{Final}$ (the variable we want to predict)
+- $\mathbf{X}_2 = (\text{Midterm}, \text{Homework})$ (the conditioning variables)
+
+With this partition:
+- $\boldsymbol{\mu}_1 = 82$ (mean final exam score)
+- $\boldsymbol{\mu}_2 = (78, 85)$ (mean midterm and homework scores)
+- $\boldsymbol{\Sigma}_{11} = 100$ (variance of final exam score)
+- $\boldsymbol{\Sigma}_{12} = (60, 40)$ (covariance between final and (midterm, homework))
+- $\boldsymbol{\Sigma}_{21} = (60, 40)^T$ (transpose of $\boldsymbol{\Sigma}_{12}$)
+- $\boldsymbol{\Sigma}_{22} = \begin{bmatrix} 64 & 30 \\ 30 & 25 \end{bmatrix}$ (covariance matrix of midterm and homework)
+
+#### Step 1: Calculate $\boldsymbol{\Sigma}_{22}^{-1}$ (inverse of the covariance matrix of conditioning variables)
 
 First, find the determinant of $\boldsymbol{\Sigma}_{22}$:
-$$|\boldsymbol{\Sigma}_{22}| = 100 \times 64 - 60 \times 60 = 6400 - 3600 = 2800$$
+$$|\boldsymbol{\Sigma}_{22}| = 64 \times 25 - 30 \times 30 = 1600 - 900 = 700$$
 
-Then, find the adjugate matrix:
-$$\text{adj}(\boldsymbol{\Sigma}_{22}) = \begin{bmatrix} 64 & -60 \\ -60 & 100 \end{bmatrix}$$
+Next, find the adjugate matrix:
+$$\text{adj}(\boldsymbol{\Sigma}_{22}) = \begin{bmatrix} 25 & -30 \\ -30 & 64 \end{bmatrix}$$
 
-Finally, compute the inverse:
-$$\boldsymbol{\Sigma}_{22}^{-1} = \frac{1}{2800} \begin{bmatrix} 64 & -60 \\ -60 & 100 \end{bmatrix} = \begin{bmatrix} 0.0229 & -0.0214 \\ -0.0214 & 0.0357 \end{bmatrix}$$
+Now, compute the inverse using the formula $A^{-1} = \frac{1}{|A|}\text{adj}(A)$:
+$$\boldsymbol{\Sigma}_{22}^{-1} = \frac{1}{700} \begin{bmatrix} 25 & -30 \\ -30 & 64 \end{bmatrix}$$
 
-Step 3: Calculate $(\mathbf{x}_2 - \boldsymbol{\mu}_2)$:
-$$\mathbf{x}_2 - \boldsymbol{\mu}_2 = \begin{pmatrix} 85 \\ 90 \end{pmatrix} - \begin{pmatrix} 75 \\ 80 \end{pmatrix} = \begin{pmatrix} 10 \\ 10 \end{pmatrix}$$
+Let's calculate each element precisely:
+$$\boldsymbol{\Sigma}_{22}^{-1}[1,1] = \frac{25}{700} = 0.0357$$
+$$\boldsymbol{\Sigma}_{22}^{-1}[1,2] = \frac{-30}{700} = -0.0429$$
+$$\boldsymbol{\Sigma}_{22}^{-1}[2,1] = \frac{-30}{700} = -0.0429$$
+$$\boldsymbol{\Sigma}_{22}^{-1}[2,2] = \frac{64}{700} = 0.0914$$
 
-Step 4: Calculate the conditional mean (predicted final exam score):
+Therefore:
+$$\boldsymbol{\Sigma}_{22}^{-1} = \begin{bmatrix} 0.0357 & -0.0429 \\ -0.0429 & 0.0914 \end{bmatrix}$$
+
+#### Step 2: Calculate $(\mathbf{x}_2 - \boldsymbol{\mu}_2)$ (deviation of observed scores from their means)
+
+For the student with midterm = 85 and homework = 90:
+$$\mathbf{x}_2 - \boldsymbol{\mu}_2 = \begin{pmatrix} 85 \\ 90 \end{pmatrix} - \begin{pmatrix} 78 \\ 85 \end{pmatrix} = \begin{pmatrix} 7 \\ 5 \end{pmatrix}$$
+
+The student scored 7 points above the mean on the midterm and 5 points above the mean on the homework.
+
+#### Step 3: Calculate the conditional mean (predicted final exam score)
+
+We apply the formula for the conditional mean:
 $$\boldsymbol{\mu}_{1|2} = \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$$
 
-First, calculate $\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$:
-$$\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = \begin{bmatrix} 0.0229 & -0.0214 \\ -0.0214 & 0.0357 \end{bmatrix} \begin{pmatrix} 10 \\ 10 \end{pmatrix}$$
+First, we calculate $\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$ through matrix-vector multiplication:
+$$\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = \begin{bmatrix} 0.0357 & -0.0429 \\ -0.0429 & 0.0914 \end{bmatrix} \begin{pmatrix} 7 \\ 5 \end{pmatrix}$$
 
-First row calculation: $0.0229 \times 10 + (-0.0214) \times 10 = 0.2286 + (-0.2143) = 0.0143$
-Second row calculation: $(-0.0214) \times 10 + 0.0357 \times 10 = (-0.2143) + 0.3571 = 0.1429$
+Breaking this down step by step:
+$$\begin{pmatrix} (0.0357 \times 7) + (-0.0429 \times 5) \\ (-0.0429 \times 7) + (0.0914 \times 5) \end{pmatrix}$$
+$$= \begin{pmatrix} 0.2499 - 0.2145 \\ -0.3003 + 0.4570 \end{pmatrix}$$
+$$= \begin{pmatrix} 0.0354 \\ 0.1567 \end{pmatrix}$$
 
-$$\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = \begin{pmatrix} 0.0143 \\ 0.1429 \end{pmatrix}$$
+Next, we calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$ through vector-vector multiplication:
+$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = \begin{pmatrix} 60 & 40 \end{pmatrix} \begin{pmatrix} 0.0354 \\ 0.1567 \end{pmatrix}$$
 
-Next, calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$:
-$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = \begin{pmatrix} 70 & 48 \end{pmatrix} \begin{pmatrix} 0.0143 \\ 0.1429 \end{pmatrix}$$
-$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = 70 \times 0.0143 + 48 \times 0.1429 = 1.0000 + 6.8571 = 7.8571$$
+Computing this product:
+$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) = (60 \times 0.0354) + (40 \times 0.1567)$$
+$$= 2.124 + 6.268 = 8.392$$
 
-Finally, calculate the complete expression:
-$$\boldsymbol{\mu}_{1|2} = 78 + 7.8571 = 85.8571$$
+Now we can calculate the conditional mean:
+$$\boldsymbol{\mu}_{1|2} = 82 + 8.392 = 90.392 \approx 90.4$$
 
-Therefore, the predicted final exam score for this student is approximately 85.86.
+Let's verify this calculation more carefully:
+$$\boldsymbol{\mu}_{1|2} = 82 + \begin{pmatrix} 60 & 40 \end{pmatrix} \begin{bmatrix} 0.0357 & -0.0429 \\ -0.0429 & 0.0914 \end{bmatrix} \begin{pmatrix} 7 \\ 5 \end{pmatrix}$$
 
-#### Part b: 95% prediction interval
+Calculating the matrix product first:
+$$\begin{pmatrix} 60 & 40 \end{pmatrix} \begin{bmatrix} 0.0357 & -0.0429 \\ -0.0429 & 0.0914 \end{bmatrix} = \begin{pmatrix} (60 \times 0.0357) + (40 \times -0.0429) & (60 \times -0.0429) + (40 \times 0.0914) \end{pmatrix}$$
+$$= \begin{pmatrix} 2.142 - 1.716 & -2.574 + 3.656 \end{pmatrix}$$
+$$= \begin{pmatrix} 0.426 & 1.082 \end{pmatrix}$$
 
-Step 5: Calculate the conditional variance:
+Now multiplying by the vector:
+$$\begin{pmatrix} 0.426 & 1.082 \end{pmatrix} \begin{pmatrix} 7 \\ 5 \end{pmatrix} = (0.426 \times 7) + (1.082 \times 5) = 2.982 + 5.41 = 8.392$$
+
+So our final result is:
+$$\boldsymbol{\mu}_{1|2} = 82 + 8.392 = 90.392 \approx 90.4$$
+
+Therefore, the predicted final exam score for this student is approximately 90.4.
+
+#### Step 4: Calculate the conditional variance
+
+We apply the formula for the conditional variance:
 $$\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
 
-First, calculate $\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$:
-$$\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{bmatrix} 0.0229 & -0.0214 \\ -0.0214 & 0.0357 \end{bmatrix} \begin{pmatrix} 70 \\ 48 \end{pmatrix}$$
+First, we calculate $\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$ through matrix-vector multiplication:
+$$\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{bmatrix} 0.0357 & -0.0429 \\ -0.0429 & 0.0914 \end{bmatrix} \begin{pmatrix} 60 \\ 40 \end{pmatrix}$$
 
-First row calculation: $0.0229 \times 70 + (-0.0214) \times 48 = 1.6000 + (-1.0286) = 0.5714$
-Second row calculation: $(-0.0214) \times 70 + 0.0357 \times 48 = (-1.5000) + 1.7143 = 0.2143$
+Breaking this down step by step:
+$$\begin{pmatrix} (0.0357 \times 60) + (-0.0429 \times 40) \\ (-0.0429 \times 60) + (0.0914 \times 40) \end{pmatrix}$$
+$$= \begin{pmatrix} 2.142 - 1.716 \\ -2.574 + 3.656 \end{pmatrix}$$
+$$= \begin{pmatrix} 0.426 & 1.082 \end{pmatrix}$$
 
-$$\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{pmatrix} 0.5714 \\ 0.2143 \end{pmatrix}$$
+Next, we calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$ through vector-vector multiplication:
+$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{pmatrix} 60 & 40 \end{pmatrix} \begin{pmatrix} 0.426 & 1.082 \end{pmatrix}$$
 
-Next, calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$:
-$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{pmatrix} 70 & 48 \end{pmatrix} \begin{pmatrix} 0.5714 \\ 0.2143 \end{pmatrix}$$
-$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = 70 \times 0.5714 + 48 \times 0.2143 = 40.0000 + 10.2857 = 50.2857$$
+Computing this product:
+$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} = (60 \times 0.426) + (40 \times 1.082) = 25.56 + 43.28 = 68.84$$
 
-Finally, calculate the conditional variance:
-$$\boldsymbol{\Sigma}_{1|2} = 81 - 50.2857 = 30.7143$$
-$$\sigma_{1|2} = \sqrt{30.7143} \approx 5.5420$$
+Now we can calculate the conditional variance:
+$$\boldsymbol{\Sigma}_{1|2} = 100 - 68.84 = 31.16$$
 
-For a 95% prediction interval, we use a normal multiplier of 1.96:
+And the conditional standard deviation:
+$$\sigma_{1|2} = \sqrt{\boldsymbol{\Sigma}_{1|2}} = \sqrt{31.16} \approx 5.58$$
 
-$$\text{Lower bound} = \mu_{1|2} - 1.96 \times \sigma_{1|2} = 85.8571 - 1.96 \times 5.5420 = 74.99$$
-$$\text{Upper bound} = \mu_{1|2} + 1.96 \times \sigma_{1|2} = 85.8571 + 1.96 \times 5.5420 = 96.72$$
+Therefore, the conditional distribution of the final exam score is:
+$$\text{Final} | (\text{Midterm} = 85, \text{Homework} = 90) \sim \mathcal{N}(90.4, 31.16)$$
 
-Therefore, with 95% confidence, the student's final exam score will be between 74.99 and 96.72.
+#### Step 5: Calculate a 95% prediction interval
 
-#### Part c: Variance explained
+For a 95% prediction interval, we need to find the values that encompass the middle 95% of the conditional distribution. For a normal distribution, this corresponds to approximately ±1.96 standard deviations from the mean.
 
-The total variance in final exam scores is $\boldsymbol{\Sigma}_{11} = 81$.
-The residual variance after conditioning on midterm and homework is $\boldsymbol{\Sigma}_{1|2} = 30.7143$.
+The formula for the prediction interval is:
+$$[\mu_{1|2} - 1.96\sigma_{1|2}, \mu_{1|2} + 1.96\sigma_{1|2}]$$
 
-The proportion of variance explained is:
-$$1 - \frac{\boldsymbol{\Sigma}_{1|2}}{\boldsymbol{\Sigma}_{11}} = 1 - \frac{30.7143}{81} = 1 - 0.3792 = 0.6208$$
+Let's substitute our calculated values:
+$$[90.4 - 1.96 \times 5.58, 90.4 + 1.96 \times 5.58]$$
+$$[90.4 - 10.94, 90.4 + 10.94]$$
+$$[79.46, 101.34]$$
 
-Therefore, approximately 62.08% of the variance in final exam scores can be explained by knowing both the midterm score and homework average.
+Rounded to two decimal places:
+$$[79.46, 101.34]$$
 
-![Student Exam Score Prediction](../Images/Conditional_Distributions/example3_student_prediction.png)
-![Regression Plane for Student Scores](../Images/Conditional_Distributions/example3_regression_plane.png)
+Therefore, we are 95% confident that the student's final exam score will be between approximately 79.5 and 101.3.
+
+Note: This is a prediction interval, not a confidence interval. A prediction interval accounts for both the uncertainty in estimating the mean and the inherent variability of individual observations, which is why it's wider than a confidence interval would be for the same level of confidence.
+
+#### Step 6: Analysis of variance explained
+
+The variance of the final exam score is reduced from the marginal variance of 100 to the conditional variance of 31.16. This represents a reduction in variance of:
+$$\Delta\sigma^2 = 100 - 31.16 = 68.84$$
+
+The proportion of variance explained (or coefficient of determination, $R^2$) is:
+$$R^2 = \frac{\Delta\sigma^2}{\sigma_{11}} = \frac{68.84}{100} \times 100\% = 68.84\%$$
+
+This means that knowing the midterm and homework scores explains approximately 68.84% of the variability in the final exam scores.
+
+We can also compute the multiple correlation coefficient as:
+$$R = \sqrt{R^2} = \sqrt{0.6884} \approx 0.8297$$
+
+This high multiple correlation coefficient (0.83) indicates a strong linear relationship between the final exam score and the combination of midterm and homework scores.
+
+#### Regression Equation for Prediction
+
+We can express the prediction as a multiple regression equation:
+$$\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2$$
+
+Where:
+- $\hat{y}$ is the predicted final exam score
+- $x_1$ is the midterm score
+- $x_2$ is the homework score
+
+From our calculation of $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}$ above, we found:
+$$\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1} = \begin{pmatrix} 0.426 & 1.082 \end{pmatrix}$$
+
+These are our regression coefficients $\beta_1 = 0.426$ and $\beta_2 = 1.082$.
+
+The intercept $\beta_0$ can be calculated as:
+$$\beta_0 = \mu_1 - \beta_1 \mu_{21} - \beta_2 \mu_{22} = 82 - (0.426 \times 78) - (1.082 \times 85)$$
+$$= 82 - 33.228 - 91.97 = -43.198$$
+
+So our regression equation is:
+$$\hat{y} = -43.198 + 0.426 \times \text{midterm} + 1.082 \times \text{homework}$$
+
+Plugging in our student's scores:
+$$\hat{y} = -43.198 + 0.426 \times 85 + 1.082 \times 90$$
+$$= -43.198 + 36.21 + 97.38 = 90.392 \approx 90.4$$
+
+This matches our earlier calculation using the conditional mean formula.
+
+#### Key Insights
+
+1. **Predictive Power**: Both midterm and homework scores are good predictors of the final exam score, with high correlations (0.75 and 0.80, respectively). The regression coefficients suggest that homework scores (β₂ = 1.082) have a slightly larger impact on final exam prediction than midterm scores (β₁ = 0.426).
+
+2. **Precision of Prediction**: The conditional variance (31.16) is significantly lower than the marginal variance (100), indicating that knowing the midterm and homework scores substantially reduces uncertainty in predicting the final exam score.
+
+3. **Variance Explained**: Approximately 68.84% of the variability in final exam scores can be explained by midterm and homework scores. This high percentage indicates that these two predictors are capturing most of the relevant information for predicting final exam performance.
+
+4. **Prediction Interval**: The 95% prediction interval [79.46, 101.34] provides a range within which we can be reasonably confident the student's actual final exam score will fall. This interval accounts for both the uncertainty in our estimate of the mean and the inherent variability in exam performance.
+
+5. **Conditional Expectation**: The predicted final exam score (90.4) is higher than the population mean (82) because the student performed above average on both the midterm and homework. This demonstrates how conditional expectations adjust based on observed information.
+
+6. **Application to Real-World Prediction**: This example illustrates how multivariate normal theory can be applied to practical prediction problems, such as educational assessment. It provides a principled way to make predictions and quantify uncertainty in those predictions.
+
+7. **Relationship to Multiple Regression**: The conditional distribution approach gives the same point predictions as traditional multiple regression, but also provides a complete predictive distribution, allowing for proper quantification of uncertainty through prediction intervals.
 
 ## Related Topics
 
