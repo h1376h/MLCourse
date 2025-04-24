@@ -111,6 +111,8 @@ $$\sigma_{1|2} = \sqrt{\sigma_{1|2}^2} = \sqrt{6.75} \approx 2.598 \approx 2.60$
 Therefore, the conditional distribution is:
 $$X_1 | (X_2 = 7) \sim \mathcal{N}(3.75, 6.75)$$
 
+This means that given $X_2 = 7$, the random variable $X_1$ follows a normal distribution with mean 3.75 and standard deviation approximately 2.60.
+
 This means that given $X_2 = 7$, the random variable $X_1$ follows a normal distribution with mean 3.75 and variance 6.75.
 
 #### Part b: Best prediction for $X_1$
@@ -330,6 +332,8 @@ $$\sigma_{1|2} = \sqrt{\boldsymbol{\Sigma}_{1|2}} = \sqrt{3.5278} \approx 1.8782
 
 Therefore, the conditional distribution is:
 $$X_1 | (X_2 = 8, X_3 = 11) \sim \mathcal{N}(5.2778, 3.5278)$$
+
+This means that given $X_2 = 8$ and $X_3 = 11$, the random variable $X_1$ follows a normal distribution with mean 5.2778 and standard deviation approximately 1.8782.
 
 #### Part b: Best prediction for $X_1$ given only $X_2 = 8$
 
