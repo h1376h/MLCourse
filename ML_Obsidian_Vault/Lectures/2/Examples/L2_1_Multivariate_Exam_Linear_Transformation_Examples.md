@@ -74,6 +74,28 @@ For multivariate normal distributions, zero covariance means independence. Since
 
 The non-zero covariance indicates that knowledge of one variable provides information about the other. This is also evident from the structure of the linear transformation, where both $Y_1$ and $Y_2$ depend on overlapping components of the original vector $\mathbf{X}$.
 
+### Visualizations
+
+#### PDF Contour Plot
+The contour plot shows the probability density function of the bivariate normal distribution $\mathbf{Y}$. The concentric curves represent areas of equal probability density, and the red dot marks the mean vector $\boldsymbol{\mu}_Y = [9, 7]^T$.
+
+![PDF Contour Plot of Bivariate Normal Distribution](../Images/Linear_Transformations/example1_pdf_contour.png)
+
+#### Covariance Ellipses
+This plot illustrates the shape of the distribution using covariance ellipses. Each ellipse represents a confidence region containing a certain percentage of the probability mass. The orientation of the ellipses reflects the positive covariance between $Y_1$ and $Y_2$.
+
+![Covariance Ellipses of Bivariate Normal Distribution](../Images/Linear_Transformations/example1_covariance_ellipses.png)
+
+#### 3D Surface Plot
+The 3D surface represents the probability density function in three dimensions, with height corresponding to probability density. The peak occurs at the mean vector $\boldsymbol{\mu}_Y = [9, 7]^T$.
+
+![3D Surface of Probability Density Function](../Images/Linear_Transformations/example1_3d_surface.png)
+
+#### Joint Distribution
+This scatter plot with marginal distributions demonstrates the correlation between $Y_1$ and $Y_2$. The red regression line indicates the linear relationship between the variables, with a correlation coefficient of approximately 0.623.
+
+![Joint and Marginal Distributions](../Images/Linear_Transformations/example1_joint_distribution.png)
+
 ## Example 2: Orthogonal Transformations and Preservation of Distances
 
 ### Problem Statement
@@ -132,6 +154,28 @@ The orthogonal transformation $\mathbf{Q}$ represents a rotation or reflection (
 In this case, $\mathbf{Q}$ transforms the standard basis vectors to a new orthonormal basis. The columns of $\mathbf{Q}$ represent the directions of this new basis. The geometric interpretation is that we are viewing the same multivariate normal distribution but from a different coordinate system.
 
 Since the covariance matrix of the original distribution is the identity matrix (meaning the variables are uncorrelated and have unit variance), and the transformation preserves this property, the distribution looks the same from any orthogonal perspective. This is why a standard multivariate normal distribution is spherically symmetric.
+
+### Visualizations
+
+#### Original Distribution
+The original distribution is a standard multivariate normal distribution in 3 dimensions, shown here with the standard basis vectors (e1, e2, e3) in red, green, and black respectively.
+
+![Original Standard Normal Distribution](../Images/Linear_Transformations/example2_original_distribution.png)
+
+#### Transformed Distribution
+The transformed distribution after applying the orthogonal transformation Q. Note that while the basis vectors have changed (Qe1, Qe2, Qe3), the shape of the distribution remains the same - still a standard normal distribution.
+
+![Transformed Distribution](../Images/Linear_Transformations/example2_transformed_distribution.png)
+
+#### Distance Preservation
+This visualization demonstrates how distances between points are preserved under orthogonal transformations. The blue line shows the distance between two points in the original space, while the black dashed line shows the distance between their transformed counterparts. Both distances are equal.
+
+![Distance Preservation](../Images/Linear_Transformations/example2_distance_preservation.png)
+
+#### Orthogonality Preservation
+This heatmap visualization shows how orthogonality is preserved. In both the standard basis and the transformed basis, the dot product between any two different basis vectors is 0 (indicating orthogonality), while the dot product of any vector with itself is 1 (indicating unit length).
+
+![Orthogonality Preservation](../Images/Linear_Transformations/example2_orthogonality.png)
 
 ## Example 3: Calculating Probabilities of Linear Transformations
 
@@ -236,6 +280,28 @@ These examples illustrate how to calculate probabilities for linear combinations
 
 The key insight is that any linear combination of multivariate normal random variables is itself normally distributed, with mean and variance determined by the coefficient vector, the mean vector, and the covariance matrix.
 
+### Visualizations
+
+#### Probability Distribution for Y₁ = X₁ - 5X₄
+This plot shows the normal distribution of Y₁ = X₁ - 5X₄ with mean -35 and standard deviation 2.83. The blue shaded area represents the probability P(Y₁ < 16) ≈ 1, indicating that this event is almost certain to occur.
+
+![Probability Distribution for Y₁ = X₁ - 5X₄](../Images/Linear_Transformations/example3_probability_a.png)
+
+#### Probability Distribution for Y₂ = 3X₂ - 4X₃
+This plot shows the normal distribution of Y₂ = 3X₂ - 4X₃ with mean 62 and standard deviation 10.25. The green shaded area represents the probability P(Y₂ > 35) ≈ 0.9958, indicating that this event is highly likely to occur.
+
+![Probability Distribution for Y₂ = 3X₂ - 4X₃](../Images/Linear_Transformations/example3_probability_b.png)
+
+#### Probability Distribution for Y₃ = 7X₁ + 3X₂ + 2X₃
+This plot shows the normal distribution of Y₃ = 7X₁ + 3X₂ + 2X₃ with mean 209 and standard deviation 6.93. The purple shaded area represents the probability P(Y₃ < 56) ≈ 0, indicating that this event is extremely unlikely to occur.
+
+![Probability Distribution for Y₃ = 7X₁ + 3X₂ + 2X₃](../Images/Linear_Transformations/example3_probability_c.png)
+
+#### Combined Probability Distributions
+This plot shows all three probability distributions together, highlighting their different means, variances, and locations relative to their respective thresholds.
+
+![Combined Probability Distributions](../Images/Linear_Transformations/example3_combined_distributions.png)
+
 ## Example 4: Component Extraction and Linear Combinations
 
 ### Problem Statement
@@ -278,6 +344,8 @@ $$\boldsymbol{\Sigma}_{\mathbf{X}_1} = \begin{bmatrix} 6 & 3 & 2 & 1 \\ 3 & 4 & 
 
 Therefore, $\mathbf{X}_1 \sim \mathcal{N}\left(\begin{bmatrix} 2 \\ 1 \end{bmatrix}, \begin{bmatrix} 6 & 3 \\ 3 & 4 \end{bmatrix}\right)$.
 
+An important observation is that the covariance matrix of $\mathbf{X}_1$ is exactly the upper-left 2×2 submatrix of the original covariance matrix $\mathbf{C}_X$. This is a general property of component extraction from multivariate normal distributions.
+
 #### Part b: Finding the distribution of $\mathbf{Y}$
 
 Similarly, we can express $\mathbf{Y}$ as a linear transformation of $\mathbf{X}$ using a matrix $\mathbf{A}_2$:
@@ -304,17 +372,46 @@ $$\boldsymbol{\Sigma}_{\mathbf{Y}} = \begin{bmatrix} 12 & 6 & 4 & 2 \\ 12 & 11 &
 
 Therefore, $\mathbf{Y} \sim \mathcal{N}\left(\begin{bmatrix} 4 \\ 4 \\ 1 \end{bmatrix}, \begin{bmatrix} 24 & 18 & 6 \\ 18 & 25 & 7 \\ 6 & 7 & 13 \end{bmatrix}\right)$.
 
+### Visualizations
+
+#### Original Distribution Projection
+This visualization shows the original four-dimensional distribution projected onto the X1-X2 plane. The contour lines represent regions of equal probability density, and the red X marks the mean vector position (2,1).
+
+![Original Distribution Projected onto X1-X2 Plane](../Images/Linear_Transformations/example4_original_projection.png)
+
+#### Extracted Components Distribution
+This visualization shows the bivariate normal distribution of the extracted components X1 = [X1, X2]ᵀ. The contour lines and color gradient represent the probability density function.
+
+![Extracted Components Distribution](../Images/Linear_Transformations/example4_extracted_components.png)
+
+#### Linear Transformation Distribution
+This visualization shows the transformed distribution of Y projected onto the Y1-Y2 plane. The contour lines represent regions of equal probability density for the new variables Y1 = 2X1 and Y2 = X1 + 2X2.
+
+![Linear Transformation Distribution](../Images/Linear_Transformations/example4_linear_transformation.png)
+
+#### Original vs. Transformed Distribution Comparison
+This side-by-side comparison shows how the original distribution (left) is transformed into the new distribution (right). Note the change in spread and orientation due to the linear transformation.
+
+![Original vs. Transformed Distribution Comparison](../Images/Linear_Transformations/example4_comparison.png)
+
+#### Correlation Matrices
+This visualization shows the correlation matrices for the original random vector X, the extracted components X1, and the transformed vector Y. The correlation matrices provide insight into the relationships between variables in each distribution.
+
+![Correlation Matrices](../Images/Linear_Transformations/example4_correlation_matrices.png)
+
 ### Key Insights
 
 This example illustrates several important concepts:
 
-1. **Component Extraction**: We can extract components of a multivariate normal vector by using an appropriate transformation matrix, and the resulting subvector is also multivariate normal.
+1. **Component Extraction**: When we extract components of a multivariate normal vector (as in $\mathbf{X}_1$), the resulting subvector is also multivariate normal with mean and covariance given by the corresponding subvector and submatrix of the original distribution.
 
-2. **Linear Combinations**: When we form linear combinations of components (as in $\mathbf{Y}$), the resulting vector maintains the multivariate normal distribution.
+2. **Linear Combinations**: When we form linear combinations of components (as in $\mathbf{Y}$), the resulting vector maintains the multivariate normal distribution with transformed mean and covariance.
 
 3. **Transformation Formula**: The mean vector and covariance matrix of the transformed variables can be directly computed using the formulas $\boldsymbol{\mu}_{\mathbf{Y}} = \mathbf{A}\boldsymbol{\mu}_X$ and $\boldsymbol{\Sigma}_{\mathbf{Y}} = \mathbf{A}\mathbf{C}_X\mathbf{A}^T$.
 
 4. **Block Extraction**: When extracting specific components (like $\mathbf{X}_1$), the resulting covariance matrix is simply the corresponding submatrix of the original covariance matrix.
+
+5. **Distribution Shape**: The shape, orientation, and spread of the probability density function changes according to the linear transformation, as shown in the comparison visualization.
 
 ## Related Topics
 
