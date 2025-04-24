@@ -95,7 +95,7 @@ The 3D surface represents the probability density function in three dimensions, 
 ![3D Surface of Probability Density Function](../Images/Linear_Transformations/example1_3d_surface.png)
 
 #### Joint Distribution
-This scatter plot with marginal distributions demonstrates the correlation between $Y_1$ and $Y_2$. The red regression line indicates the linear relationship between the variables, with a correlation coefficient of approximately 0.623.
+This scatter plot with marginal distributions demonstrates the correlation between $Y_1$ and $Y_2$. The red regression line indicates the linear relationship between the variables, with a correlation coefficient of approximately $0.623$.
 
 ![Joint and Marginal Distributions](../Images/Linear_Transformations/example1_joint_distribution.png)
 
@@ -180,12 +180,12 @@ Since the covariance matrix of the original distribution is the identity matrix 
 ### Visualizations
 
 #### Original Distribution
-The original distribution is a standard multivariate normal distribution in 3 dimensions, shown here with the standard basis vectors (e1, e2, e3) in red, green, and black respectively.
+The original distribution is a standard multivariate normal distribution in 3 dimensions, shown here with the standard basis vectors ($\mathbf{e}_1$, $\mathbf{e}_2$, $\mathbf{e}_3$) in red, green, and black respectively.
 
 ![Original Standard Normal Distribution](../Images/Linear_Transformations/example2_original_distribution.png)
 
 #### Transformed Distribution
-The transformed distribution after applying the orthogonal transformation Q. Note that while the basis vectors have changed (Qe1, Qe2, Qe3), the shape of the distribution remains the same - still a standard normal distribution.
+The transformed distribution after applying the orthogonal transformation $\mathbf{Q}$. Note that while the basis vectors have changed ($\mathbf{Q}\mathbf{e}_1$, $\mathbf{Q}\mathbf{e}_2$, $\mathbf{Q}\mathbf{e}_3$), the shape of the distribution remains the same - still a standard normal distribution.
 
 ![Transformed Distribution](../Images/Linear_Transformations/example2_transformed_distribution.png)
 
@@ -195,7 +195,7 @@ This visualization demonstrates how distances between points are preserved under
 ![Distance Preservation](../Images/Linear_Transformations/example2_distance_preservation.png)
 
 #### Orthogonality Preservation
-This heatmap visualization shows how orthogonality is preserved. In both the standard basis and the transformed basis, the dot product between any two different basis vectors is 0 (indicating orthogonality), while the dot product of any vector with itself is 1 (indicating unit length).
+This heatmap visualization shows how orthogonality is preserved. In both the standard basis and the transformed basis, the dot product between any two different basis vectors is $0$ (indicating orthogonality), while the dot product of any vector with itself is $1$ (indicating unit length).
 
 ![Orthogonality Preservation](../Images/Linear_Transformations/example2_orthogonality.png)
 
