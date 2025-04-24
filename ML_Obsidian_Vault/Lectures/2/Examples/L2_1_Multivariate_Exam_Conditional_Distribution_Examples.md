@@ -203,9 +203,9 @@ With this partition:
 - $\boldsymbol{\Sigma}_{21} = \begin{bmatrix} 2 \\ 1 \end{bmatrix}$ (transpose of $\boldsymbol{\Sigma}_{12}$)
 - $\boldsymbol{\Sigma}_{22} = \begin{bmatrix} 9 & 3 \\ 3 & 5 \end{bmatrix}$ (covariance matrix of $(X_2, X_3)$)
 
-**Step 2:** Calculate $\boldsymbol{\Sigma}_{22}^{-1}$ using the formula for 2×2 matrix inversion:
+**Step 2:** Calculate $\boldsymbol{\Sigma}_{22}^{-1}$
 
-First, find the determinant of $\boldsymbol{\Sigma}_{22}$:
+First, calculate the determinant of $\boldsymbol{\Sigma}_{22}$:
 $$|\boldsymbol{\Sigma}_{22}| = 9 \times 5 - 3 \times 3 = 45 - 9 = 36$$
 
 Then, find the adjugate matrix:
@@ -476,14 +476,14 @@ $$\mu_{1|2} = \mu_1 + \Sigma_{12}\Sigma_{22}^{-1}(x_2 - \mu_2) = 82 + 8.4286 = 9
 We apply the formula for the conditional variance:
 $$\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
 
-First, calculate $\Sigma_{22}^{-1}\Sigma_{21}$:
-$$\Sigma_{22}^{-1}\Sigma_{21} = \begin{bmatrix} 0.0357 & -0.0429 \\ -0.0429 & 0.0914 \end{bmatrix} \begin{bmatrix} 60 \\ 40 \end{bmatrix} = \begin{bmatrix} 0.4286 \\ 1.0857 \end{bmatrix}$$
+First, calculate $\Sigma_{22}^{-1}\boldsymbol{\Sigma}_{21}$:
+$$\Sigma_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{bmatrix} 0.0357 & -0.0429 \\ -0.0429 & 0.0914 \end{bmatrix} \begin{bmatrix} 60 \\ 40 \end{bmatrix} = \begin{bmatrix} 0.4286 \\ 1.0857 \end{bmatrix}$$
 
-Next, calculate $\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}$:
-$$\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21} = \begin{bmatrix} 60 & 40 \end{bmatrix} \begin{bmatrix} 0.4286 \\ 1.0857 \end{bmatrix} = 69.1429$$
+Next, calculate $\Sigma_{12}\Sigma_{22}^{-1}\boldsymbol{\Sigma}_{21}$:
+$$\Sigma_{12}\Sigma_{22}^{-1}\boldsymbol{\Sigma}_{21} = \begin{bmatrix} 60 & 40 \end{bmatrix} \begin{bmatrix} 0.4286 \\ 1.0857 \end{bmatrix} = 69.1429$$
 
 Finally, calculate the conditional variance:
-$$\Sigma_{1|2}^2 = \Sigma_{11} - \Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21} = 100 - 69.1429 = 30.8571$$
+$$\Sigma_{1|2}^2 = \Sigma_{11} - \Sigma_{12}\Sigma_{22}^{-1}\boldsymbol{\Sigma}_{21} = 100 - 69.1429 = 30.8571$$
 
 Calculate the conditional standard deviation:
 $$\Sigma_{1|2} = \sqrt{\Sigma_{1|2}^2} = \sqrt{30.8571} = 5.5549$$
@@ -494,6 +494,18 @@ For a 95% prediction interval, we use z = 1.96:
 
 $$[\mu_{1|2} \pm 1.96\Sigma_{1|2}] = [90.4286 \pm 1.96 \times 5.5549]$$
 $$= [90.4286 \pm 10.8876]$$
+$$= [79.5409, 101.3162]$$
+
+#### Step 7 (Optional): Express as regression equation
+
+The regression equation for predicting the final exam score can be written as:
+
+$$\text{Final} = -43.7143 + 0.4286 \times \text{Midterm} + 1.0857 \times \text{Homework}$$
+
+Verification: For a student with Midterm = 85 and Homework = 90:
+$$\text{Final} = -43.7143 + 0.4286 \times 85 + 1.0857 \times 90 = 90.4286$$
+
+This matches our earlier calculation of the conditional mean.
 
 #### Key Insights
 
