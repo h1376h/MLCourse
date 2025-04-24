@@ -61,10 +61,10 @@ def example1_linear_transformation():
     
     # First row calculation - more detailed
     print("\nCalculating the first element of μ_Y (row 1):")
-    row1_step1 = f"μ_Y[1] = 2×{mu_X[0]} + 1×{mu_X[1]} + 0×{mu_X[2]} + {b[0]}"
-    row1_step2 = f"μ_Y[1] = {2*mu_X[0]} + {1*mu_X[1]} + 0 + {b[0]}"
-    row1_step3 = f"μ_Y[1] = {2*mu_X[0] + 1*mu_X[1]} + {b[0]}"
-    row1_step4 = f"μ_Y[1] = {2*mu_X[0] + 1*mu_X[1] + b[0]}"
+    row1_step1 = f"μ_Y[1] = {A[0,0]}×{mu_X[0]} + {A[0,1]}×{mu_X[1]} + {A[0,2]}×{mu_X[2]} + {b[0]}"
+    row1_step2 = f"μ_Y[1] = {A[0,0]*mu_X[0]} + {A[0,1]*mu_X[1]} + {A[0,2]*mu_X[2]} + {b[0]}"
+    row1_step3 = f"μ_Y[1] = {A[0,0]*mu_X[0] + A[0,1]*mu_X[1] + A[0,2]*mu_X[2]} + {b[0]}"
+    row1_step4 = f"μ_Y[1] = {A[0,0]*mu_X[0] + A[0,1]*mu_X[1] + A[0,2]*mu_X[2] + b[0]}"
     print(row1_step1)
     print(row1_step2)
     print(row1_step3)
@@ -72,10 +72,10 @@ def example1_linear_transformation():
     
     # Second row calculation - more detailed
     print("\nCalculating the second element of μ_Y (row 2):")
-    row2_step1 = f"μ_Y[2] = 0×{mu_X[0]} + 3×{mu_X[1]} + 1×{mu_X[2]} + {b[1]}"
-    row2_step2 = f"μ_Y[2] = 0 + {3*mu_X[1]} + {1*mu_X[2]} + {b[1]}"
-    row2_step3 = f"μ_Y[2] = {3*mu_X[1] + 1*mu_X[2]} + {b[1]}"
-    row2_step4 = f"μ_Y[2] = {3*mu_X[1] + 1*mu_X[2] + b[1]}"
+    row2_step1 = f"μ_Y[2] = {A[1,0]}×{mu_X[0]} + {A[1,1]}×{mu_X[1]} + {A[1,2]}×{mu_X[2]} + {b[1]}"
+    row2_step2 = f"μ_Y[2] = {A[1,0]*mu_X[0]} + {A[1,1]*mu_X[1]} + {A[1,2]*mu_X[2]} + {b[1]}"
+    row2_step3 = f"μ_Y[2] = {A[1,0]*mu_X[0] + A[1,1]*mu_X[1] + A[1,2]*mu_X[2]} + {b[1]}"
+    row2_step4 = f"μ_Y[2] = {A[1,0]*mu_X[0] + A[1,1]*mu_X[1] + A[1,2]*mu_X[2] + b[1]}"
     print(row2_step1)
     print(row2_step2)
     print(row2_step3)
@@ -92,13 +92,71 @@ def example1_linear_transformation():
     print("\nFor a linear transformation Y = AX + b, the covariance matrix is given by Σ_Y = A·Σ_X·A^T")
     print("This formula does not involve the vector b because shifting does not affect covariance.")
     
+    # Detailed calculation of A·Σ_X
+    print("\nSTEP 2.1: Calculate A·Σ_X:")
+    
+    # First row of A·Σ_X
+    print("\nFirst row of A·Σ_X calculation:")
+    ASigma_row1_step1 = f"[{A[0,0]}, {A[0,1]}, {A[0,2]}] · {Sigma_X.tolist()}"
+    ASigma_row1_step2 = f"[{A[0,0]}×{Sigma_X[0,0]} + {A[0,1]}×{Sigma_X[1,0]} + {A[0,2]}×{Sigma_X[2,0]}, {A[0,0]}×{Sigma_X[0,1]} + {A[0,1]}×{Sigma_X[1,1]} + {A[0,2]}×{Sigma_X[2,1]}, {A[0,0]}×{Sigma_X[0,2]} + {A[0,1]}×{Sigma_X[1,2]} + {A[0,2]}×{Sigma_X[2,2]}]"
+    ASigma_row1_step3 = f"[{A[0,0]*Sigma_X[0,0]} + {A[0,1]*Sigma_X[1,0]} + {A[0,2]*Sigma_X[2,0]}, {A[0,0]*Sigma_X[0,1]} + {A[0,1]*Sigma_X[1,1]} + {A[0,2]*Sigma_X[2,1]}, {A[0,0]*Sigma_X[0,2]} + {A[0,1]*Sigma_X[1,2]} + {A[0,2]*Sigma_X[2,2]}]"
+    ASigma_row1_result = f"[{A[0,0]*Sigma_X[0,0] + A[0,1]*Sigma_X[1,0] + A[0,2]*Sigma_X[2,0]}, {A[0,0]*Sigma_X[0,1] + A[0,1]*Sigma_X[1,1] + A[0,2]*Sigma_X[2,1]}, {A[0,0]*Sigma_X[0,2] + A[0,1]*Sigma_X[1,2] + A[0,2]*Sigma_X[2,2]}]"
+    print(ASigma_row1_step1)
+    print(ASigma_row1_step2)
+    print(ASigma_row1_step3)
+    print(ASigma_row1_result)
+    
+    # Second row of A·Σ_X
+    print("\nSecond row of A·Σ_X calculation:")
+    ASigma_row2_step1 = f"[{A[1,0]}, {A[1,1]}, {A[1,2]}] · {Sigma_X.tolist()}"
+    ASigma_row2_step2 = f"[{A[1,0]}×{Sigma_X[0,0]} + {A[1,1]}×{Sigma_X[1,0]} + {A[1,2]}×{Sigma_X[2,0]}, {A[1,0]}×{Sigma_X[0,1]} + {A[1,1]}×{Sigma_X[1,1]} + {A[1,2]}×{Sigma_X[2,1]}, {A[1,0]}×{Sigma_X[0,2]} + {A[1,1]}×{Sigma_X[1,2]} + {A[1,2]}×{Sigma_X[2,2]}]"
+    ASigma_row2_step3 = f"[{A[1,0]*Sigma_X[0,0]} + {A[1,1]*Sigma_X[1,0]} + {A[1,2]*Sigma_X[2,0]}, {A[1,0]*Sigma_X[0,1]} + {A[1,1]*Sigma_X[1,1]} + {A[1,2]*Sigma_X[2,1]}, {A[1,0]*Sigma_X[0,2]} + {A[1,1]*Sigma_X[1,2]} + {A[1,2]*Sigma_X[2,2]}]"
+    ASigma_row2_result = f"[{A[1,0]*Sigma_X[0,0] + A[1,1]*Sigma_X[1,0] + A[1,2]*Sigma_X[2,0]}, {A[1,0]*Sigma_X[0,1] + A[1,1]*Sigma_X[1,1] + A[1,2]*Sigma_X[2,1]}, {A[1,0]*Sigma_X[0,2] + A[1,1]*Sigma_X[1,2] + A[1,2]*Sigma_X[2,2]}]"
+    print(ASigma_row2_step1)
+    print(ASigma_row2_step2)
+    print(ASigma_row2_step3)
+    print(ASigma_row2_result)
+    
     # Compute A·Σ_X
     ASigma = np.dot(A, Sigma_X)
     print(f"\nResult of A·Σ_X = \n{ASigma}")
     
-    # Compute the full covariance matrix
+    # Detailed calculation of (A·Σ_X)·A^T
+    print("\nSTEP 2.2: Calculate (A·Σ_X)·A^T:")
+    print(f"A^T = \n{A.T}")
+    print("Where A^T is the transpose of A, with dimensions 3×2.")
+    
+    # Calculate elements of Σ_Y
+    print("\nElement-by-element calculation of Σ_Y:")
+    
+    # Upper-left element (0,0) - should be the dot product of first row of ASigma with first column of A^T
+    ASigma_00 = ASigma[0, 0] * A.T[0, 0] + ASigma[0, 1] * A.T[1, 0] + ASigma[0, 2] * A.T[2, 0]
+    print(f"Σ_Y[0,0] = {ASigma[0, 0]}×{A.T[0, 0]} + {ASigma[0, 1]}×{A.T[1, 0]} + {ASigma[0, 2]}×{A.T[2, 0]} = {ASigma_00}")
+    
+    # Upper-right element (0,1) - should be the dot product of first row of ASigma with second column of A^T
+    ASigma_01 = ASigma[0, 0] * A.T[0, 1] + ASigma[0, 1] * A.T[1, 1] + ASigma[0, 2] * A.T[2, 1]
+    print(f"Σ_Y[0,1] = {ASigma[0, 0]}×{A.T[0, 1]} + {ASigma[0, 1]}×{A.T[1, 1]} + {ASigma[0, 2]}×{A.T[2, 1]} = {ASigma_01}")
+    
+    # Lower-left element (1,0) - should be the dot product of second row of ASigma with first column of A^T
+    ASigma_10 = ASigma[1, 0] * A.T[0, 0] + ASigma[1, 1] * A.T[1, 0] + ASigma[1, 2] * A.T[2, 0]
+    print(f"Σ_Y[1,0] = {ASigma[1, 0]}×{A.T[0, 0]} + {ASigma[1, 1]}×{A.T[1, 0]} + {ASigma[1, 2]}×{A.T[2, 0]} = {ASigma_10}")
+    
+    # Lower-right element (1,1) - should be the dot product of second row of ASigma with second column of A^T
+    ASigma_11 = ASigma[1, 0] * A.T[0, 1] + ASigma[1, 1] * A.T[1, 1] + ASigma[1, 2] * A.T[2, 1]
+    print(f"Σ_Y[1,1] = {ASigma[1, 0]}×{A.T[0, 1]} + {ASigma[1, 1]}×{A.T[1, 1]} + {ASigma[1, 2]}×{A.T[2, 1]} = {ASigma_11}")
+    
+    # Verify our manual calculations match the matrix multiplication
+    Sigma_Y_manual = np.array([
+        [ASigma_00, ASigma_01],
+        [ASigma_10, ASigma_11]
+    ])
+    
+    # Compute the full covariance matrix using numpy
     Sigma_Y = np.dot(ASigma, A.T)
     print(f"\nFinal result: Σ_Y = A·Σ_X·A^T = \n{Sigma_Y}")
+    
+    # Verify that manual calculation matches numpy calculation
+    print(f"\nVerification - are manual and numpy calculations equal? {np.allclose(Sigma_Y_manual, Sigma_Y)}")
     
     print("\nThus, Y follows the distribution:")
     print(f"Y ~ N({mu_Y}, \n{Sigma_Y})")
@@ -110,7 +168,7 @@ def example1_linear_transformation():
     
     cov_Y1_Y2 = Sigma_Y[0, 1]
     print(f"The covariance between Y₁ and Y₂ is given by the off-diagonal element of Σ_Y:")
-    print(f"Cov(Y₁, Y₂) = Σ_Y[1,2] = {cov_Y1_Y2}")
+    print(f"Cov(Y₁, Y₂) = Σ_Y[0,1] = {cov_Y1_Y2}")
     
     # (c) Are Y₁ and Y₂ independent?
     print("\n" + "-"*60)

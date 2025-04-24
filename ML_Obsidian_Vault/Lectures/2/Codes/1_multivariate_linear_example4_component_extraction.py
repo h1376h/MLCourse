@@ -45,6 +45,10 @@ def example4_component_extraction():
     print(f"Mean vector μ_X = {mu_X}")
     print(f"Covariance matrix C_X = \n{C_X}")
     
+    # Verify the covariance matrix is symmetric
+    is_symmetric = np.allclose(C_X, C_X.T)
+    print(f"\nVerification: Is the covariance matrix symmetric? {is_symmetric}")
+    
     # Create images directory
     current_dir = os.path.dirname(os.path.abspath(__file__))
     parent_dir = os.path.dirname(current_dir)
@@ -78,20 +82,45 @@ def example4_component_extraction():
     
     print("To extract the first two components of X, we use the extraction matrix:")
     print(f"A1 = \n{A1}")
+    print("\nThis matrix acts as a 'selector' - when multiplied by X, it keeps only X₁ and X₂")
+    print("The first row selects X₁, and the second row selects X₂")
     
-    # Calculate mean of X₁
+    # Calculate mean of X₁ - detailed explanation
+    print("\nStep 1: Calculate the mean vector of X₁ using μ_X₁ = A₁·μ_X")
+    print("This gives us:")
+    print(f"μ_X₁ = A₁·μ_X = \n{A1} · {mu_X}")
+    
+    mu_X1_detailed = [
+        A1[0,0]*mu_X[0] + A1[0,1]*mu_X[1] + A1[0,2]*mu_X[2] + A1[0,3]*mu_X[3],
+        A1[1,0]*mu_X[0] + A1[1,1]*mu_X[1] + A1[1,2]*mu_X[2] + A1[1,3]*mu_X[3]
+    ]
+    
+    print(f"First component: μ_X₁[0] = {A1[0,0]}×{mu_X[0]} + {A1[0,1]}×{mu_X[1]} + {A1[0,2]}×{mu_X[2]} + {A1[0,3]}×{mu_X[3]} = {mu_X1_detailed[0]}")
+    print(f"Second component: μ_X₁[1] = {A1[1,0]}×{mu_X[0]} + {A1[1,1]}×{mu_X[1]} + {A1[1,2]}×{mu_X[2]} + {A1[1,3]}×{mu_X[3]} = {mu_X1_detailed[1]}")
+    
     mu_X1 = np.dot(A1, mu_X)
-    print(f"\nMean vector of X1: μ_X1 = {mu_X1}")
+    print(f"Thus, μ_X₁ = {mu_X1}")
     
-    # Calculate covariance of X₁
+    # Calculate covariance of X₁ - detailed explanation
+    print("\nStep 2: Calculate the covariance matrix of X₁ using C_X₁ = A₁·C_X·A₁ᵀ")
+    
+    # First multiply A₁ by C_X
+    print("\nStep 2.1: First calculate A₁·C_X:")
     A1_CX = np.dot(A1, C_X)
-    C_X1 = np.dot(A1_CX, A1.T)
-    print(f"Covariance matrix of X1: C_X1 = \n{C_X1}")
+    print(f"A₁·C_X = \n{A1} · \n{C_X} = \n{A1_CX}")
     
-    # Observation about submatrix
-    print("\nNote: C_X1 is the upper-left 2×2 submatrix of C_X:")
-    print(f"Upper-left 2×2 submatrix of C_X = \n{C_X[0:2, 0:2]}")
-    print("\nTherefore, X1 ~ N([2, 1], [[6, 3], [3, 4]])")
+    # Then multiply by A₁ᵀ
+    print("\nStep 2.2: Then calculate (A₁·C_X)·A₁ᵀ:")
+    print(f"A₁ᵀ = \n{A1.T}")
+    C_X1 = np.dot(A1_CX, A1.T)
+    print(f"C_X₁ = A₁·C_X·A₁ᵀ = \n{A1_CX} · \n{A1.T} = \n{C_X1}")
+    
+    # Observation about submatrix - verify that this is indeed the upper-left submatrix
+    print("\nVerification: C_X₁ should be the upper-left 2×2 submatrix of C_X")
+    upper_left = C_X[0:2, 0:2]
+    print(f"Upper-left 2×2 submatrix of C_X = \n{upper_left}")
+    print(f"Are they equal? {np.allclose(C_X1, upper_left)}")
+    print("\nTherefore, X₁ ~ N([2, 1], [[6, 3], [3, 4]])")
     
     # (b) Find the distribution of Y
     print("\n" + "-"*60)
@@ -108,18 +137,44 @@ def example4_component_extraction():
     print("To create the linear combinations for Y, we use the transformation matrix:")
     print(f"A2 = \n{A2}")
     print("\nThis creates the following linear combinations:")
-    print("Y1 = 2X1")
-    print("Y2 = X1 + 2X2")
-    print("Y3 = X3 + X4")
+    print("Y₁ = 2×X₁ + 0×X₂ + 0×X₃ + 0×X₄ = 2X₁")
+    print("Y₂ = 1×X₁ + 2×X₂ + 0×X₃ + 0×X₄ = X₁ + 2X₂")
+    print("Y₃ = 0×X₁ + 0×X₂ + 1×X₃ + 1×X₄ = X₃ + X₄")
     
-    # Calculate mean of Y
+    # Calculate mean of Y - detailed explanation
+    print("\nStep 1: Calculate the mean vector of Y using μ_Y = A₂·μ_X")
+    print("This gives us:")
+    print(f"μ_Y = A₂·μ_X = \n{A2} · {mu_X}")
+    
+    mu_Y_detailed = [
+        A2[0,0]*mu_X[0] + A2[0,1]*mu_X[1] + A2[0,2]*mu_X[2] + A2[0,3]*mu_X[3],
+        A2[1,0]*mu_X[0] + A2[1,1]*mu_X[1] + A2[1,2]*mu_X[2] + A2[1,3]*mu_X[3],
+        A2[2,0]*mu_X[0] + A2[2,1]*mu_X[1] + A2[2,2]*mu_X[2] + A2[2,3]*mu_X[3]
+    ]
+    
+    print(f"First component: μ_Y[0] = {A2[0,0]}×{mu_X[0]} + {A2[0,1]}×{mu_X[1]} + {A2[0,2]}×{mu_X[2]} + {A2[0,3]}×{mu_X[3]} = {mu_Y_detailed[0]}")
+    print(f"Second component: μ_Y[1] = {A2[1,0]}×{mu_X[0]} + {A2[1,1]}×{mu_X[1]} + {A2[1,2]}×{mu_X[2]} + {A2[1,3]}×{mu_X[3]} = {mu_Y_detailed[1]}")
+    print(f"Third component: μ_Y[2] = {A2[2,0]}×{mu_X[0]} + {A2[2,1]}×{mu_X[1]} + {A2[2,2]}×{mu_X[2]} + {A2[2,3]}×{mu_X[3]} = {mu_Y_detailed[2]}")
+    
     mu_Y = np.dot(A2, mu_X)
-    print(f"\nMean vector of Y: μ_Y = {mu_Y}")
+    print(f"Thus, μ_Y = {mu_Y}")
     
-    # Calculate covariance of Y
+    # Verify calculation
+    print(f"\nVerification: Are the detailed calculation and numpy's results equal? {np.allclose(mu_Y, mu_Y_detailed)}")
+    
+    # Calculate covariance of Y - detailed explanation
+    print("\nStep 2: Calculate the covariance matrix of Y using C_Y = A₂·C_X·A₂ᵀ")
+    
+    # First multiply A₂ by C_X
+    print("\nStep 2.1: First calculate A₂·C_X:")
     A2_CX = np.dot(A2, C_X)
+    print(f"A₂·C_X = \n{A2_CX}")
+    
+    # Then multiply by A₂ᵀ
+    print("\nStep 2.2: Then calculate (A₂·C_X)·A₂ᵀ:")
+    print(f"A₂ᵀ = \n{A2.T}")
     C_Y = np.dot(A2_CX, A2.T)
-    print(f"Covariance matrix of Y: C_Y = \n{C_Y}")
+    print(f"C_Y = A₂·C_X·A₂ᵀ = \n{C_Y}")
     
     print("\nTherefore, Y ~ N([4, 4, 1], C_Y)")
     
@@ -177,9 +232,9 @@ def example4_component_extraction():
     plt.scatter(mu_X1[0], mu_X1[1], color='red', s=50, marker='x', label='Mean')
     
     # Set labels and title
-    plt.title('Extracted Components Distribution (X1=[X1,X2])')
-    plt.xlabel('X1')
-    plt.ylabel('X2')
+    plt.title('Extracted Components Distribution (X₁=[X₁,X₂]ᵀ)')
+    plt.xlabel('X₁')
+    plt.ylabel('X₂')
     plt.grid(True, alpha=0.3)
     plt.legend()
     
@@ -217,8 +272,8 @@ def example4_component_extraction():
     
     # Set labels and title
     plt.title('Linear Transformation Distribution (Y1-Y2 Plane)')
-    plt.xlabel('Y1 = 2X1')
-    plt.ylabel('Y2 = X1 + 2X2')
+    plt.xlabel('Y₁ = 2X₁')
+    plt.ylabel('Y₂ = X₁ + 2X₂')
     plt.grid(True, alpha=0.3)
     plt.legend()
     
@@ -235,17 +290,17 @@ def example4_component_extraction():
     # Plot original X1-X2 distribution on the left
     cf1 = axes[0].contourf(X1, X2, Z, levels=15, cmap='Blues', alpha=0.8)
     axes[0].scatter(mu_X1[0], mu_X1[1], color='red', s=50, marker='x', label='Mean')
-    axes[0].set_title('Original X1-X2 Distribution')
-    axes[0].set_xlabel('X1')
-    axes[0].set_ylabel('X2')
+    axes[0].set_title('Original X₁-X₂ Distribution')
+    axes[0].set_xlabel('X₁')
+    axes[0].set_ylabel('X₂')
     axes[0].grid(True, alpha=0.3)
     
     # Plot transformed Y1-Y2 distribution on the right
     cf2 = axes[1].contourf(Y1, Y2, Z_y, levels=15, cmap='Greens', alpha=0.8)
     axes[1].scatter(mu_Y[0], mu_Y[1], color='red', s=50, marker='x', label='Mean')
-    axes[1].set_title('Transformed Y1-Y2 Distribution')
-    axes[1].set_xlabel('Y1 = 2X1')
-    axes[1].set_ylabel('Y2 = X1 + 2X2')
+    axes[1].set_title('Transformed Y₁-Y₂ Distribution')
+    axes[1].set_xlabel('Y₁ = 2X₁')
+    axes[1].set_ylabel('Y₂ = X₁ + 2X₂')
     axes[1].grid(True, alpha=0.3)
     
     # Add colorbars
@@ -283,7 +338,7 @@ def example4_component_extraction():
     
     # X1 correlation matrix
     sns.heatmap(corr_X1, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=axes[1])
-    axes[1].set_title('X1 Components Correlation Matrix')
+    axes[1].set_title('X₁ Components Correlation Matrix')
     
     # Y correlation matrix
     sns.heatmap(corr_Y, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=axes[2])

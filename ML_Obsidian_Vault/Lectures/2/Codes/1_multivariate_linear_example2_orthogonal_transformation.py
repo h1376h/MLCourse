@@ -45,12 +45,14 @@ def example2_orthogonal_transformation():
     
     # Print numeric values for better understanding
     print("\nQ with numeric values (approximate):")
-    Q_numeric = np.array([
-        [1/np.sqrt(3), 1/np.sqrt(2), 1/np.sqrt(6)],
-        [1/np.sqrt(3), -1/np.sqrt(2), 1/np.sqrt(6)],
-        [1/np.sqrt(3), 0, -2/np.sqrt(6)]
-    ])
+    Q_numeric = Q.copy()  # No need to redefine, just use the one we already have
     print(np.round(Q_numeric, 4))
+    
+    # Print the exact values for reference
+    print("\nQ with exact symbolic values:")
+    print(f"Q[0,0] = Q[1,0] = Q[2,0] = 1/√3 ≈ {1/np.sqrt(3):.6f}")
+    print(f"Q[0,1] = -Q[1,1] = 1/√2 ≈ {1/np.sqrt(2):.6f}, Q[2,1] = 0")
+    print(f"Q[0,2] = Q[1,2] = 1/√6 ≈ {1/np.sqrt(6):.6f}, Q[2,2] = -2/√6 ≈ {-2/np.sqrt(6):.6f}")
     
     # Verify Q is orthogonal: Q^T Q = I
     print("\n" + "-"*60)
@@ -59,13 +61,36 @@ def example2_orthogonal_transformation():
     
     print(f"Q^T (transpose of Q) = \n{np.round(Q.T, 4)}")
     
+    # Detailed calculation of Q^T Q - first show some dot products
+    print("\nDetailed verification of orthogonality - calculating Q^T·Q element by element:")
+    
+    # Calculate dot products of columns
+    print("\nChecking orthogonality of columns (dot products should be 1 for i=j, 0 for i≠j):")
+    for i in range(3):
+        for j in range(3):
+            dot_product = np.dot(Q[:, i], Q[:, j])
+            if i == j:
+                print(f"Column {i+1}·Column {i+1} = {dot_product:.10f} ≈ 1 (expected)")
+            else:
+                print(f"Column {i+1}·Column {j+1} = {dot_product:.10f} ≈ 0 (expected)")
+    
     # Calculate full Q^T Q matrix
-    QTQ = np.round(np.dot(Q.T, Q), decimals=10)  # Round to handle numerical precision
-    print(f"\nFull Q^T Q matrix = \n{QTQ}")
+    QTQ = np.dot(Q.T, Q)
+    print(f"\nFull Q^T Q matrix (before rounding) = \n{QTQ}")
+    
+    # Round to handle numerical precision
+    QTQ_rounded = np.round(QTQ, decimals=10)
+    print(f"\nFull Q^T Q matrix (after rounding) = \n{QTQ_rounded}")
     
     # Check if Q^T Q is approximately identity
     is_orthogonal = np.allclose(QTQ, np.eye(3), atol=1e-10)
     print(f"Is Q orthogonal? {is_orthogonal}")
+    
+    # Verify columns have unit length (necessary condition for orthogonality)
+    print("\nVerifying that columns of Q have unit length:")
+    for i in range(3):
+        col_norm = np.linalg.norm(Q[:, i])
+        print(f"||Column {i+1}|| = {col_norm:.10f} ≈ 1")
     
     # (a) Find the distribution of Y
     print("\n" + "-"*60)
@@ -84,10 +109,24 @@ def example2_orthogonal_transformation():
     print("Since Σ_X = I (identity matrix), this simplifies to:")
     print("Σ_Y = Q·I·Q^T = Q·Q^T")
     
+    # Manual calculation of Q·Q^T to demonstrate the process
+    print("\nCalculating Q·Q^T manually:")
+    QQT_manual = np.zeros((3, 3))
+    for i in range(3):
+        for j in range(3):
+            # Calculate each element as the dot product of row i of Q with column j of Q^T
+            # Which is the same as dot product of row i of Q with row j of Q
+            QQT_manual[i, j] = np.dot(Q[i, :], Q[j, :])
+    
+    print(f"Manual calculation of Q·Q^T = \n{np.round(QQT_manual, 10)}")
+    
     # Calculate with numpy
-    Sigma_Y = np.dot(np.dot(Q, Sigma_X), Q.T)
+    Sigma_Y = np.dot(Q, np.dot(Sigma_X, Q.T))
     Sigma_Y_rounded = np.round(Sigma_Y, decimals=10)
     print(f"\nFull Σ_Y = Q·Σ_X·Q^T = \n{Sigma_Y_rounded}")
+    
+    # Verify the manual calculation matches the numpy calculation
+    print(f"\nDo manual and numpy calculations match? {np.allclose(QQT_manual, Sigma_Y, atol=1e-10)}")
     
     # Check if Q·Q^T is approximately identity
     is_identity = np.allclose(Sigma_Y_rounded, np.eye(3), atol=1e-10)
@@ -116,37 +155,60 @@ def example2_orthogonal_transformation():
     print("\nStep 5: Calculate the Euclidean distance between x₁ and x₂:")
     
     x_diff = x1 - x2
-    x_diff_squared = x_diff**2
-    x_diff_sum = np.sum(x_diff_squared)
-    dist_X = np.sqrt(x_diff_sum)
+    print(f"x₁ - x₂ = {np.round(x_diff, 4)}")
     
-    print(f"Euclidean distance ||x₁ - x₂|| = {np.round(dist_X, 6)}")
+    x_diff_squared = x_diff**2
+    print(f"(x₁ - x₂)² = {np.round(x_diff_squared, 4)}")
+    
+    x_diff_sum = np.sum(x_diff_squared)
+    print(f"Sum of squared differences = {np.round(x_diff_sum, 6)}")
+    
+    dist_X = np.sqrt(x_diff_sum)
+    print(f"Euclidean distance ||x₁ - x₂|| = √{np.round(x_diff_sum, 6)} = {np.round(dist_X, 6)}")
+    
+    # Verify using numpy's built-in norm function
+    dist_X_numpy = np.linalg.norm(x1 - x2)
+    print(f"Verification using numpy: ||x₁ - x₂|| = {np.round(dist_X_numpy, 6)}")
+    print(f"Are the calculations equal? {np.isclose(dist_X, dist_X_numpy)}")
     
     # Transform to Y space
     print("\nStep 6: Transform the points to Y space using y₁ = Qx₁ and y₂ = Qx₂:")
     
     y1 = np.dot(Q, x1)
-    y2 = np.dot(Q, x2)
+    print(f"y₁ = Q·x₁ = {np.round(y1, 4)}")
     
-    print(f"\nTransformed points:")
-    print(f"y₁ = {np.round(y1, 4)}")
-    print(f"y₂ = {np.round(y2, 4)}")
+    y2 = np.dot(Q, x2)
+    print(f"y₂ = Q·x₂ = {np.round(y2, 4)}")
     
     # Calculate distance in Y space
     print("\nStep 7: Calculate the Euclidean distance between y₁ and y₂:")
     
     y_diff = y1 - y2
-    y_diff_squared = y_diff**2
-    y_diff_sum = np.sum(y_diff_squared)
-    dist_Y = np.sqrt(y_diff_sum)
+    print(f"y₁ - y₂ = {np.round(y_diff, 4)}")
     
-    print(f"Euclidean distance ||y₁ - y₂|| = {np.round(dist_Y, 6)}")
+    y_diff_squared = y_diff**2
+    print(f"(y₁ - y₂)² = {np.round(y_diff_squared, 4)}")
+    
+    y_diff_sum = np.sum(y_diff_squared)
+    print(f"Sum of squared differences = {np.round(y_diff_sum, 6)}")
+    
+    dist_Y = np.sqrt(y_diff_sum)
+    print(f"Euclidean distance ||y₁ - y₂|| = √{np.round(y_diff_sum, 6)} = {np.round(dist_Y, 6)}")
+    
+    # Verify using numpy's built-in norm function
+    dist_Y_numpy = np.linalg.norm(y1 - y2)
+    print(f"Verification using numpy: ||y₁ - y₂|| = {np.round(dist_Y_numpy, 6)}")
     
     # Compare distances
     print(f"\nStep 8: Compare the distances:")
     print(f"Distance in X space: ||x₁ - x₂|| = {np.round(dist_X, 6)}")
     print(f"Distance in Y space: ||y₁ - y₂|| = {np.round(dist_Y, 6)}")
     print(f"Difference: |{np.round(dist_X, 6)} - {np.round(dist_Y, 6)}| = {np.round(abs(dist_X - dist_Y), 10)} (due to floating-point precision)")
+    
+    # Theoretical explanation
+    print("\nTheoretical explanation:")
+    print("For orthogonal matrix Q, ||Qx||² = (Qx)ᵀ(Qx) = xᵀQᵀQx = xᵀx = ||x||²")
+    print("Therefore, ||y₁ - y₂|| = ||Q(x₁ - x₂)|| = ||x₁ - x₂||")
     
     # (c) Geometric interpretation
     print("\n" + "-"*60)
@@ -165,19 +227,19 @@ def example2_orthogonal_transformation():
     e1 = np.array([1, 0, 0])
     Qe1 = np.dot(Q, e1)
     print(f"e₁ = [1, 0, 0] (standard X axis) maps to:")
-    print(f"Qe₁ = {np.round(Qe1, 4)}")
+    print(f"Qe₁ = {np.round(Qe1, 4)} = first column of Q")
     
     # Second basis vector
     e2 = np.array([0, 1, 0])
     Qe2 = np.dot(Q, e2)
     print(f"\ne₂ = [0, 1, 0] (standard Y axis) maps to:")
-    print(f"Qe₂ = {np.round(Qe2, 4)}")
+    print(f"Qe₂ = {np.round(Qe2, 4)} = second column of Q")
     
     # Third basis vector
     e3 = np.array([0, 0, 1])
     Qe3 = np.dot(Q, e3)
     print(f"\ne₃ = [0, 0, 1] (standard Z axis) maps to:")
-    print(f"Qe₃ = {np.round(Qe3, 4)}")
+    print(f"Qe₃ = {np.round(Qe3, 4)} = third column of Q")
     
     print("\n5. Since the original distribution is spherically symmetric (Σ_X = I), it looks the same after rotation.")
     print("6. The orthogonal matrix Q maintains orthogonality and unit length of basis vectors.")

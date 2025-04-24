@@ -41,6 +41,10 @@ def example3_probabilities_linear_transformations():
     print(f"Mean vector μ = {mu}")
     print(f"Covariance matrix Σ = \n{Sigma}")
     
+    # Verify that Sigma is symmetric (important property of covariance matrices)
+    is_symmetric = np.allclose(Sigma, Sigma.T)
+    print(f"\nVerification: Is covariance matrix symmetric? {is_symmetric}")
+    
     # Key concept explanation
     print("\n" + "-"*60)
     print("Key Concept: Linear Transformations of Multivariate Normal")
@@ -72,24 +76,45 @@ def example3_probabilities_linear_transformations():
     print(f"The linear combination Y₁ = X₁ - 5X₄ corresponds to coefficient vector:")
     print(f"a₁ = {a1}")
     
-    # Calculate mean of Y₁
+    # Calculate mean of Y₁ - detailed calculation
+    print("\nStep 1: Calculate the mean of Y₁ using μ_Y₁ = a₁ᵀμ")
+    print(f"μ_Y₁ = a₁ᵀμ = {a1[0]}×{mu[0]} + {a1[1]}×{mu[1]} + {a1[2]}×{mu[2]} + {a1[3]}×{mu[3]}")
+    print(f"μ_Y₁ = {a1[0]*mu[0]} + {a1[1]*mu[1]} + {a1[2]*mu[2]} + {a1[3]*mu[3]}")
     mu_Y1 = np.dot(a1, mu)
-    print(f"\nMean of Y1 = {mu_Y1}")
+    print(f"μ_Y₁ = {mu_Y1}")
     
-    # Calculate variance of Y₁
+    # Calculate variance of Y₁ - detailed calculation
+    print("\nStep 2: Calculate the variance of Y₁ using σ²_Y₁ = a₁ᵀΣa₁")
+    
+    # First, calculate Σa₁
+    print("\nStep 2.1: First calculate Σa₁:")
     Sigma_a1 = np.dot(Sigma, a1)
-    sigma2_Y1 = np.dot(a1, Sigma_a1)
-    sigma_Y1 = np.sqrt(sigma2_Y1)
-    print(f"Variance of Y1 = {sigma2_Y1}")
-    print(f"Standard deviation of Y1 = {sigma_Y1}")
+    print(f"Σa₁ = Σ·a₁ = \n{Sigma} · {a1} = {Sigma_a1}")
     
-    # Calculate the standardized value
+    # Then, calculate a₁ᵀ(Σa₁)
+    print("\nStep 2.2: Then calculate a₁ᵀ(Σa₁):")
+    print(f"a₁ᵀ(Σa₁) = {a1[0]}×{Sigma_a1[0]} + {a1[1]}×{Sigma_a1[1]} + {a1[2]}×{Sigma_a1[2]} + {a1[3]}×{Sigma_a1[3]}")
+    
+    # Calculate detailed terms
+    terms = [a1[i] * Sigma_a1[i] for i in range(4)]
+    print(f"a₁ᵀ(Σa₁) = {terms[0]} + {terms[1]} + {terms[2]} + {terms[3]}")
+    
+    sigma2_Y1 = np.dot(a1, Sigma_a1)
+    print(f"σ²_Y₁ = {sigma2_Y1}")
+    
+    # Calculate standard deviation
+    sigma_Y1 = np.sqrt(sigma2_Y1)
+    print(f"σ_Y₁ = √{sigma2_Y1} = {sigma_Y1}")
+    
+    # Calculate the standardized value - detailed calculation
+    print("\nStep 3: Standardize the threshold by calculating z₁ = (16 - μ_Y₁)/σ_Y₁")
     z1 = (16 - mu_Y1) / sigma_Y1
-    print(f"\nStandardized value z1 = {z1}")
+    print(f"z₁ = (16 - {mu_Y1})/{sigma_Y1} = {16 - mu_Y1}/{sigma_Y1} = {z1}")
     
     # Calculate the probability using standard normal CDF
+    print("\nStep 4: Find the probability using the standard normal CDF")
     prob_a = norm.cdf(z1)
-    print(f"P(Y1 < 16) = P(Z < {z1}) = {prob_a}")
+    print(f"P(Y₁ < 16) = P(Z < {z1}) = Φ({z1}) = {prob_a}")
     
     # Create visualization for part (a)
     plt.figure(figsize=(10, 6))
@@ -129,23 +154,46 @@ def example3_probabilities_linear_transformations():
     print(f"The linear combination Y₂ = 3X₂ - 4X₃ corresponds to coefficient vector:")
     print(f"a₂ = {a2}")
     
-    # Calculate mean and variance
+    # Calculate mean of Y₂ - detailed calculation
+    print("\nStep 1: Calculate the mean of Y₂ using μ_Y₂ = a₂ᵀμ")
+    print(f"μ_Y₂ = a₂ᵀμ = {a2[0]}×{mu[0]} + {a2[1]}×{mu[1]} + {a2[2]}×{mu[2]} + {a2[3]}×{mu[3]}")
+    print(f"μ_Y₂ = {a2[0]*mu[0]} + {a2[1]*mu[1]} + {a2[2]*mu[2]} + {a2[3]*mu[3]}")
     mu_Y2 = np.dot(a2, mu)
+    print(f"μ_Y₂ = {mu_Y2}")
+    
+    # Calculate variance of Y₂ - detailed calculation
+    print("\nStep 2: Calculate the variance of Y₂ using σ²_Y₂ = a₂ᵀΣa₂")
+    
+    # First, calculate Σa₂
+    print("\nStep 2.1: First calculate Σa₂:")
     Sigma_a2 = np.dot(Sigma, a2)
+    print(f"Σa₂ = Σ·a₂ = {Sigma_a2}")
+    
+    # Then, calculate a₂ᵀ(Σa₂)
+    print("\nStep 2.2: Then calculate a₂ᵀ(Σa₂):")
+    print(f"a₂ᵀ(Σa₂) = {a2[0]}×{Sigma_a2[0]} + {a2[1]}×{Sigma_a2[1]} + {a2[2]}×{Sigma_a2[2]} + {a2[3]}×{Sigma_a2[3]}")
+    
+    # Calculate detailed terms
+    terms = [a2[i] * Sigma_a2[i] for i in range(4)]
+    print(f"a₂ᵀ(Σa₂) = {terms[0]} + {terms[1]} + {terms[2]} + {terms[3]}")
+    
     sigma2_Y2 = np.dot(a2, Sigma_a2)
+    print(f"σ²_Y₂ = {sigma2_Y2}")
+    
+    # Calculate standard deviation
     sigma_Y2 = np.sqrt(sigma2_Y2)
+    print(f"σ_Y₂ = √{sigma2_Y2} = {sigma_Y2}")
     
-    print(f"\nMean of Y2 = {mu_Y2}")
-    print(f"Variance of Y2 = {sigma2_Y2}")
-    print(f"Standard deviation of Y2 = {sigma_Y2}")
-    
-    # Calculate the standardized value for Y₂ > 35
+    # Calculate the standardized value for Y₂ > 35 - detailed calculation
+    print("\nStep 3: Standardize the threshold by calculating z₂ = (35 - μ_Y₂)/σ_Y₂")
     z2 = (35 - mu_Y2) / sigma_Y2
-    print(f"\nStandardized value z2 = {z2}")
+    print(f"z₂ = (35 - {mu_Y2})/{sigma_Y2} = {35 - mu_Y2}/{sigma_Y2} = {z2}")
     
     # Calculate the probability
+    print("\nStep 4: Find the probability using the standard normal CDF")
+    print(f"Note: Since we want P(Y₂ > 35) = P(Z > {z2}), we need to use 1 - Φ({z2})")
     prob_b = 1 - norm.cdf(z2)
-    print(f"P(Y2 > 35) = P(Z > {z2}) = 1 - Φ({z2}) = {prob_b}")
+    print(f"P(Y₂ > 35) = P(Z > {z2}) = 1 - Φ({z2}) = 1 - {norm.cdf(z2):.6f} = {prob_b}")
     
     # Create visualization for part (b)
     plt.figure(figsize=(10, 6))
@@ -185,23 +233,45 @@ def example3_probabilities_linear_transformations():
     print(f"The linear combination Y₃ = 7X₁ + 3X₂ + 2X₃ corresponds to coefficient vector:")
     print(f"a₃ = {a3}")
     
-    # Calculate mean and variance
+    # Calculate mean of Y₃ - detailed calculation
+    print("\nStep 1: Calculate the mean of Y₃ using μ_Y₃ = a₃ᵀμ")
+    print(f"μ_Y₃ = a₃ᵀμ = {a3[0]}×{mu[0]} + {a3[1]}×{mu[1]} + {a3[2]}×{mu[2]} + {a3[3]}×{mu[3]}")
+    print(f"μ_Y₃ = {a3[0]*mu[0]} + {a3[1]*mu[1]} + {a3[2]*mu[2]} + {a3[3]*mu[3]}")
     mu_Y3 = np.dot(a3, mu)
+    print(f"μ_Y₃ = {mu_Y3}")
+    
+    # Calculate variance of Y₃ - detailed calculation
+    print("\nStep 2: Calculate the variance of Y₃ using σ²_Y₃ = a₃ᵀΣa₃")
+    
+    # First, calculate Σa₃
+    print("\nStep 2.1: First calculate Σa₃:")
     Sigma_a3 = np.dot(Sigma, a3)
+    print(f"Σa₃ = Σ·a₃ = {Sigma_a3}")
+    
+    # Then, calculate a₃ᵀ(Σa₃)
+    print("\nStep 2.2: Then calculate a₃ᵀ(Σa₃):")
+    print(f"a₃ᵀ(Σa₃) = {a3[0]}×{Sigma_a3[0]} + {a3[1]}×{Sigma_a3[1]} + {a3[2]}×{Sigma_a3[2]} + {a3[3]}×{Sigma_a3[3]}")
+    
+    # Calculate detailed terms
+    terms = [a3[i] * Sigma_a3[i] for i in range(4)]
+    print(f"a₃ᵀ(Σa₃) = {terms[0]} + {terms[1]} + {terms[2]} + {terms[3]}")
+    
     sigma2_Y3 = np.dot(a3, Sigma_a3)
+    print(f"σ²_Y₃ = {sigma2_Y3}")
+    
+    # Calculate standard deviation
     sigma_Y3 = np.sqrt(sigma2_Y3)
+    print(f"σ_Y₃ = √{sigma2_Y3} = {sigma_Y3}")
     
-    print(f"\nMean of Y3 = {mu_Y3}")
-    print(f"Variance of Y3 = {sigma2_Y3}")
-    print(f"Standard deviation of Y3 = {sigma_Y3}")
-    
-    # Calculate the standardized value
+    # Calculate the standardized value - detailed calculation
+    print("\nStep 3: Standardize the threshold by calculating z₃ = (56 - μ_Y₃)/σ_Y₃")
     z3 = (56 - mu_Y3) / sigma_Y3
-    print(f"\nStandardized value z3 = {z3}")
+    print(f"z₃ = (56 - {mu_Y3})/{sigma_Y3} = {56 - mu_Y3}/{sigma_Y3} = {z3}")
     
     # Calculate the probability
+    print("\nStep 4: Find the probability using the standard normal CDF")
     prob_c = norm.cdf(z3)
-    print(f"P(Y3 < 56) = P(Z < {z3}) = Φ({z3}) = {prob_c}")
+    print(f"P(Y₃ < 56) = P(Z < {z3}) = Φ({z3}) = {prob_c}")
     
     # Create visualization for part (c)
     plt.figure(figsize=(10, 6))
@@ -246,6 +316,11 @@ def example3_probabilities_linear_transformations():
     x3 = np.linspace(mu_Y3 - 4*sigma_Y3, mu_Y3 + 4*sigma_Y3, 1000)
     y3 = norm.pdf(x3, mu_Y3, sigma_Y3)
     plt.plot(x3, y3, 'purple', linewidth=2, label=f'Y3 ~ N({mu_Y3:.1f}, {sigma_Y3:.1f}²)')
+    
+    # Add threshold lines
+    plt.axvline(x=16, color='blue', linestyle='--', alpha=0.5)
+    plt.axvline(x=35, color='green', linestyle='--', alpha=0.5)
+    plt.axvline(x=56, color='purple', linestyle='--', alpha=0.5)
     
     plt.title('Probability Distributions of Linear Combinations')
     plt.xlabel('Value')
