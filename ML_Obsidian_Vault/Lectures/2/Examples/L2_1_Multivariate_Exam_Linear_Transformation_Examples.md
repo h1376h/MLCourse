@@ -384,9 +384,9 @@ $$\mathbf{A}_2 \mathbf{C}_X = \begin{bmatrix} 2 & 0 & 0 & 0 \\ 1 & 2 & 0 & 0 \\ 
 
 Then multiplying by $\mathbf{A}_2^T$:
 
-$$\boldsymbol{\Sigma}_{\mathbf{Y}} = \begin{bmatrix} 12 & 6 & 4 & 2 \\ 12 & 11 & 8 & 5 \\ 3 & 5 & 7 & 6 \end{bmatrix} \begin{bmatrix} 2 & 1 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 1 \end{bmatrix} = \begin{bmatrix} 24 & 18 & 6 \\ 18 & 25 & 7 \\ 6 & 7 & 13 \end{bmatrix}$$
+$$\boldsymbol{\Sigma}_{\mathbf{Y}} = \begin{bmatrix} 12 & 6 & 4 & 2 \\ 12 & 11 & 8 & 5 \\ 3 & 5 & 7 & 6 \end{bmatrix} \begin{bmatrix} 2 & 1 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 1 \end{bmatrix} = \begin{bmatrix} 24 & 24 & 6 \\ 24 & 34 & 13 \\ 6 & 13 & 13 \end{bmatrix}$$
 
-Therefore, $\mathbf{Y} \sim \mathcal{N}\left(\begin{bmatrix} 4 \\ 4 \\ 1 \end{bmatrix}, \begin{bmatrix} 24 & 18 & 6 \\ 18 & 25 & 7 \\ 6 & 7 & 13 \end{bmatrix}\right)$.
+Therefore, $\mathbf{Y} \sim \mathcal{N}\left(\begin{bmatrix} 4 \\ 4 \\ 1 \end{bmatrix}, \begin{bmatrix} 24 & 24 & 6 \\ 24 & 34 & 13 \\ 6 & 13 & 13 \end{bmatrix}\right)$.
 
 ### Visualizations
 
