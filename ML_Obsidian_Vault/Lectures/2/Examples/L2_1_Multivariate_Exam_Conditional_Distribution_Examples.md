@@ -497,15 +497,15 @@ $$= [90.4286 \pm 10.8876]$$
 
 #### Key Insights
 
-1. **Predictive Power**: Both midterm and homework scores are good predictors of the final exam score, with high correlations (0.75 and 0.80, respectively). The regression coefficients suggest that homework scores (β₂ = 1.082) have a slightly larger impact on final exam prediction than midterm scores (β₁ = 0.426).
+1. **Predictive Power**: Both midterm and homework scores are good predictors of the final exam score, with high correlations (0.75 and 0.80, respectively). The regression coefficients suggest that homework scores (β₂ = 1.0857) have a slightly larger impact on final exam prediction than midterm scores (β₁ = 0.4286).
 
-2. **Precision of Prediction**: The conditional variance (31.16) is significantly lower than the marginal variance (100), indicating that knowing the midterm and homework scores substantially reduces uncertainty in predicting the final exam score.
+2. **Precision of Prediction**: The conditional variance (30.8571) is significantly lower than the marginal variance (100), indicating that knowing the midterm and homework scores substantially reduces uncertainty in predicting the final exam score.
 
-3. **Variance Explained**: Approximately 68.84% of the variability in final exam scores can be explained by midterm and homework scores. This high percentage indicates that these two predictors are capturing most of the relevant information for predicting final exam performance.
+3. **Variance Explained**: Approximately 69.14% of the variability in final exam scores can be explained by midterm and homework scores. This high percentage indicates that these two predictors are capturing most of the relevant information for predicting final exam performance.
 
-4. **Prediction Interval**: The 95% prediction interval [79.46, 101.34] provides a range within which we can be reasonably confident the student's actual final exam score will fall. This interval accounts for both the uncertainty in our estimate of the mean and the inherent variability in exam performance.
+4. **Prediction Interval**: The 95% prediction interval [79.54, 101.32] provides a range within which we can be reasonably confident the student's actual final exam score will fall. This interval accounts for both the uncertainty in our estimate of the mean and the inherent variability in exam performance.
 
-5. **Conditional Expectation**: The predicted final exam score (90.4) is higher than the population mean (82) because the student performed above average on both the midterm and homework. This demonstrates how conditional expectations adjust based on observed information.
+5. **Conditional Expectation**: The predicted final exam score (90.43) is higher than the population mean (82) because the student performed above average on both the midterm and homework. This demonstrates how conditional expectations adjust based on observed information.
 
 6. **Application to Real-World Prediction**: This example illustrates how multivariate normal theory can be applied to practical prediction problems, such as educational assessment. It provides a principled way to make predictions and quantify uncertainty in those predictions.
 
