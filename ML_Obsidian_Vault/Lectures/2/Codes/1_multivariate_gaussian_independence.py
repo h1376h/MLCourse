@@ -198,20 +198,27 @@ def example2():
         print(f"→ Variables are {'independent' if cov == 0 else 'not independent'}")
     
     print_step(3, "Calculate covariance between Z₁ = X₁ - ½X₂ and Z₂ = X₂ - ⅕X₃")
-    # Z₁ = X₁ - ½X₂
-    z1_coef = np.array([1, -0.5, 0])
-    # Z₂ = X₂ - ⅕X₃
-    z2_coef = np.array([0, 1, -0.2])
+    # Define coefficients for Z₁ and Z₂
+    z1_coef = np.array([1, -0.5, 0])    # Z₁ = X₁ - ½X₂
+    z2_coef = np.array([0, 1, -0.2])    # Z₂ = X₂ - ⅕X₃
     
+    # Calculate covariance using matrix operations
     cov_z1_z2 = calculate_covariance(z1_coef, z2_coef, Sigma)
+    
+    # Show detailed calculation steps
     print("\nCov(Z₁,Z₂) = Cov(X₁ - ½X₂, X₂ - ⅕X₃)")
     print("         = Cov(X₁,X₂) - ⅕Cov(X₁,X₃) - ½Cov(X₂,X₂) + ⅒Cov(X₂,X₃)")
     print(f"         = {Sigma[0,1]} - ⅕·{Sigma[0,2]} - ½·{Sigma[1,1]} + ⅒·{Sigma[1,2]}")
+    print(f"         = {Sigma[0,1]} - {0.2 * Sigma[0,2]} - {0.5 * Sigma[1,1]} + {0.1 * Sigma[1,2]}")
     print(f"         = {cov_z1_z2[0,0]}")
     
     print_step(4, "Find linear transformation for independence")
     # Extract 2x2 submatrix for X₁,X₂
     Sigma_12 = Sigma[:2,:2]
+    print("\nCovariance matrix of (X₁,X₂):")
+    print_matrix("Σ₁₂", Sigma_12)
+    
+    # Perform eigendecomposition
     eigenvals, eigenvecs = np.linalg.eig(Sigma_12)
     
     print("\nEigendecomposition of Σ₁₂:")
@@ -220,19 +227,25 @@ def example2():
     
     # Calculate transformation matrix A
     A = eigenvecs.T
-    print_matrix("Transformation matrix A", A)
+    print_matrix("Transformation matrix A = eigenvectors^T", A)
     
     # Calculate transformed covariance
     transformed_cov = A @ Sigma_12 @ A.T
-    print_matrix("Transformed covariance matrix", transformed_cov)
+    print("\nVerifying independence in transformed space:")
+    print_matrix("Transformed covariance matrix = AΣ₁₂A^T", transformed_cov)
+    print("\nNote: The off-diagonal elements are effectively zero (up to numerical precision)")
+    
+    # Calculate transformed mean
+    transformed_mean = A @ mu[:2]
+    print_matrix("Transformed mean = Aμ", transformed_mean)
     
     # Plot original and transformed distributions
     plot_2d_gaussian(mu[:2], Sigma_12, 
-                    'Original Joint Distribution of X₁ and X₂',
+                    'Original Joint Distribution of X₁ and X₂\nCorrelated Variables',
                     'example2_original')
     
-    plot_2d_gaussian(np.zeros(2), transformed_cov,
-                    'Transformed Distribution\n(Independent Variables Y₁ and Y₂)',
+    plot_2d_gaussian(transformed_mean, transformed_cov,
+                    'Transformed Distribution\nIndependent Variables Y₁ and Y₂',
                     'example2_transformed',
                     x_label='Y₁', y_label='Y₂')
 

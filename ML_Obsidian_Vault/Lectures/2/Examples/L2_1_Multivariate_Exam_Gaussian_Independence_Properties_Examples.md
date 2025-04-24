@@ -104,58 +104,55 @@ c) Find a linear transformation of $X_1$ and $X_2$ that creates two independent 
 
 #### Part a: Identifying independent variables
 
-Examining the covariance matrix $\boldsymbol{\Sigma}$:
+For multivariate normal distributions, zero covariance implies independence. Looking at the covariance matrix $\boldsymbol{\Sigma}$:
+
 - $\text{Cov}(X_1, X_2) = \boldsymbol{\Sigma}_{12} = 2 \neq 0$, so $X_1$ and $X_2$ are not independent.
 - $\text{Cov}(X_2, X_3) = \boldsymbol{\Sigma}_{23} = 1 \neq 0$, so $X_2$ and $X_3$ are not independent.
 - $\text{Cov}(X_1, X_3) = \boldsymbol{\Sigma}_{13} = 0$, so $X_1$ and $X_3$ are independent.
 
 Therefore, only $X_1$ and $X_3$ are independent.
 
-#### Part b: Independence of $Z_1$ and $Z_3$
+#### Part b: Independence of $Z_1$ and $Z_2$
 
-We need to find the covariance between $Z_1 = X_1 - \frac{1}{2}X_2$ and $Z_3 = X_3$.
+We need to find the covariance between $Z_1 = X_1 - \frac{1}{2}X_2$ and $Z_2 = X_2 - \frac{1}{5}X_3$.
 
-$$\text{Cov}(Z_1, Z_3) = \text{Cov}(X_1 - \frac{1}{2}X_2, X_3) = \text{Cov}(X_1, X_3) - \frac{1}{2}\text{Cov}(X_2, X_3)$$
+$$\text{Cov}(Z_1, Z_2) = \text{Cov}(X_1 - \frac{1}{2}X_2, X_2 - \frac{1}{5}X_3)$$
+$$= \text{Cov}(X_1,X_2) - \frac{1}{5}\text{Cov}(X_1,X_3) - \frac{1}{2}\text{Cov}(X_2,X_2) + \frac{1}{10}\text{Cov}(X_2,X_3)$$
+$$= 2 - \frac{1}{5} \cdot 0 - \frac{1}{2} \cdot 5 + \frac{1}{10} \cdot 1$$
+$$= 2 - 0 - 2.5 + 0.1 = -0.4$$
 
-From the covariance matrix:
-- $\text{Cov}(X_1, X_3) = 0$
-- $\text{Cov}(X_2, X_3) = 1$
+Since the covariance is not zero, $Z_1$ and $Z_2$ are not independent.
 
-Therefore:
-$$\text{Cov}(Z_1, Z_3) = 0 - \frac{1}{2} \cdot 1 = -\frac{1}{2} \neq 0$$
+#### Part c: Finding a linear transformation for independence
 
-Since the covariance is not zero, $Z_1$ and $Z_3$ are not independent.
+To create independent variables from $X_1$ and $X_2$, we use eigendecomposition of their covariance matrix:
 
-#### Part c: Linear transformation for independence
-
-To create independent variables from $X_1$ and $X_2$, we can use eigendecomposition of the covariance matrix of $(X_1, X_2)$:
-
+1. Extract the covariance matrix for $(X_1, X_2)$:
 $$\boldsymbol{\Sigma}_{12} = \begin{bmatrix} 4 & 2 \\ 2 & 5 \end{bmatrix}$$
 
-Finding the eigenvalues by solving $|\boldsymbol{\Sigma}_{12} - \lambda \mathbf{I}| = 0$:
+2. Find eigenvalues and eigenvectors:
+$$\text{eigenvalues} = \begin{bmatrix} 2.4384 \\ 6.5616 \end{bmatrix}$$
 
-$$\begin{vmatrix} 4 - \lambda & 2 \\ 2 & 5 - \lambda \end{vmatrix} = 0$$
+$$\text{eigenvectors} = \begin{bmatrix} -0.7882 & -0.6154 \\ 0.6154 & -0.7882 \end{bmatrix}$$
 
-$$(4 - \lambda)(5 - \lambda) - 2 \cdot 2 = 0$$
+3. Define transformation matrix $A$ as the transpose of the eigenvector matrix:
+$$A = \begin{bmatrix} -0.7882 & 0.6154 \\ -0.6154 & -0.7882 \end{bmatrix}$$
 
-$$\lambda^2 - 9\lambda + 20 - 4 = 0$$
+4. Calculate transformed covariance matrix:
+$$\text{Transformed covariance} = A\boldsymbol{\Sigma}_{12}A^T = \begin{bmatrix} 2.4384 & 0 \\ 0 & 6.5616 \end{bmatrix}$$
 
-$$\lambda^2 - 9\lambda + 16 = 0$$
+5. Calculate transformed mean:
+$$\text{Transformed mean} = A\boldsymbol{\mu} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
 
-Using the quadratic formula:
-$$\lambda = \frac{9 \pm \sqrt{81 - 64}}{2} = \frac{9 \pm \sqrt{17}}{2}$$
+The resulting transformed variables $Y_1$ and $Y_2$ are independent because:
+1. The transformed covariance matrix is diagonal (off-diagonal elements are zero up to numerical precision)
+2. For multivariate normal distributions, uncorrelated variables are independent
 
-$$\lambda_1 \approx 6.56, \lambda_2 \approx 2.44$$
+Therefore, we can define new independent variables:
+$$Y_1 = -0.7882X_1 + 0.6154X_2$$
+$$Y_2 = -0.6154X_1 - 0.7882X_2$$
 
-The corresponding eigenvectors (after normalization) are:
-$$\mathbf{v}_1 \approx \begin{bmatrix} 0.525 \\ 0.851 \end{bmatrix}$$
-$$\mathbf{v}_2 \approx \begin{bmatrix} 0.851 \\ -0.525 \end{bmatrix}$$
-
-We can define new variables:
-$$Y_1 = 0.525X_1 + 0.851X_2$$
-$$Y_2 = 0.851X_1 - 0.525X_2$$
-
-These variables $Y_1$ and $Y_2$ will be independent since they are projections onto orthogonal eigenvectors of the covariance matrix.
+These variables $Y_1$ and $Y_2$ are independent since they are projections onto orthogonal eigenvectors of the covariance matrix. The eigenvalues (2.4384 and 6.5616) represent the variances of $Y_1$ and $Y_2$ respectively.
 
 ## Example 3: Independence Properties in Statistical Inference
 
