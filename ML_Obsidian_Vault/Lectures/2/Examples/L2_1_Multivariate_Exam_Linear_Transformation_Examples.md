@@ -129,10 +129,14 @@ Since $\mathbf{X} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_3)$, we have $\boldsym
 Therefore:
 $$\mathbf{Y} \sim \mathcal{N}(\mathbf{Q}\mathbf{0}, \mathbf{Q}\mathbf{I}_3\mathbf{Q}^T) = \mathcal{N}(\mathbf{0}, \mathbf{Q}\mathbf{Q}^T)$$
 
-Since $\mathbf{Q}$ is orthogonal, $\mathbf{Q}\mathbf{Q}^T = \mathbf{I}_3$. Thus:
+Since $\mathbf{Q}$ is orthogonal, $\mathbf{Q}\mathbf{Q}^T = \mathbf{I}_3$, which we can verify:
+
+$$\mathbf{Q}\mathbf{Q}^T = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}$$
+
+Thus:
 $$\mathbf{Y} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_3)$$
 
-This shows that $\mathbf{Y}$ follows the same distribution as $\mathbf{X}$, namely a standard multivariate normal distribution.
+This shows that $\mathbf{Y}$ follows the same distribution as $\mathbf{X}$, namely a standard multivariate normal distribution. The key insight is that an orthogonal transformation of a standard multivariate normal distribution remains a standard multivariate normal distribution.
 
 #### Part b: Preservation of Euclidean distances
 
@@ -150,11 +154,26 @@ $$(\mathbf{x}_1 - \mathbf{x}_2)^T\mathbf{Q}^T\mathbf{Q}(\mathbf{x}_1 - \mathbf{x
 
 Therefore, $d(\mathbf{y}_1, \mathbf{y}_2) = d(\mathbf{x}_1, \mathbf{x}_2)$, showing that the orthogonal transformation preserves distances.
 
+This is verified empirically with two random points:
+- For points $\mathbf{x}_1 = [0.4967, -0.1383, 0.6477]$ and $\mathbf{x}_2 = [1.523, -0.2342, -0.2341]$:
+  - Distance in X space: $\|\mathbf{x}_1 - \mathbf{x}_2\| = 1.356516$
+- After transformation:
+  - $\mathbf{y}_1 = \mathbf{Q}\mathbf{x}_1 = [0.4534, 0.649, -0.2421]$
+  - $\mathbf{y}_2 = \mathbf{Q}\mathbf{x}_2 = [0.6182, 0.9493, 1.0705]$
+  - Distance in Y space: $\|\mathbf{y}_1 - \mathbf{y}_2\| = 1.356516$
+
+The distances are identical, confirming the theoretical result.
+
 #### Part c: Geometric interpretation
 
 The orthogonal transformation $\mathbf{Q}$ represents a rotation or reflection (or a combination of both) in the 3-dimensional space. Since it preserves distances and angles, it is considered a rigid transformation.
 
-In this case, $\mathbf{Q}$ transforms the standard basis vectors to a new orthonormal basis. The columns of $\mathbf{Q}$ represent the directions of this new basis. The geometric interpretation is that we are viewing the same multivariate normal distribution but from a different coordinate system.
+In this case, $\mathbf{Q}$ transforms the standard basis vectors to a new orthonormal basis:
+- $\mathbf{e}_1 = [1, 0, 0]$ maps to $\mathbf{Q}\mathbf{e}_1 = [0.5774, 0.5774, 0.5774]$
+- $\mathbf{e}_2 = [0, 1, 0]$ maps to $\mathbf{Q}\mathbf{e}_2 = [0.7071, -0.7071, 0]$
+- $\mathbf{e}_3 = [0, 0, 1]$ maps to $\mathbf{Q}\mathbf{e}_3 = [0.4082, 0.4082, -0.8165]$
+
+The geometric interpretation is that we are viewing the same multivariate normal distribution but from a different coordinate system.
 
 Since the covariance matrix of the original distribution is the identity matrix (meaning the variables are uncorrelated and have unit variance), and the transformation preserves this property, the distribution looks the same from any orthogonal perspective. This is why a standard multivariate normal distribution is spherically symmetric.
 
@@ -210,100 +229,94 @@ $$\mu_{Y_1} = \mathbf{a}_1^T\boldsymbol{\mu} = 1 \cdot 15 + 0 \cdot 30 + 0 \cdot
 The variance of $Y_1$ is:
 $$\sigma_{Y_1}^2 = \mathbf{a}_1^T\boldsymbol{\Sigma}\mathbf{a}_1 = [1, 0, 0, -5] \begin{bmatrix} 3 & -4 & 0 & 2 \\ -4 & 1 & 2 & 1 \\ 0 & 2 & 9 & 9 \\ 2 & 1 & 9 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \\ 0 \\ -5 \end{bmatrix}$$
 
-First computing $\mathbf{a}_1^T\boldsymbol{\Sigma}$:
-$$\mathbf{a}_1^T\boldsymbol{\Sigma} = [3 - 2 \cdot 5, -4 - 1 \cdot 5, 0 - 9 \cdot 5, 2 - 1 \cdot 5] = [3 - 10, -4 - 5, 0 - 45, 2 - 5] = [-7, -9, -45, -3]$$
+First computing $\boldsymbol{\Sigma}\mathbf{a}_1$:
+$$\boldsymbol{\Sigma}\mathbf{a}_1 = \begin{bmatrix} 3 & -4 & 0 & 2 \\ -4 & 1 & 2 & 1 \\ 0 & 2 & 9 & 9 \\ 2 & 1 & 9 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \\ 0 \\ -5 \end{bmatrix} = \begin{bmatrix} -7 \\ -9 \\ -45 \\ -3 \end{bmatrix}$$
 
 Then computing $\mathbf{a}_1^T\boldsymbol{\Sigma}\mathbf{a}_1$:
-$$\sigma_{Y_1}^2 = (-7) \cdot 1 + (-9) \cdot 0 + (-45) \cdot 0 + (-3) \cdot (-5) = -7 + 15 = 8$$
+$$\sigma_{Y_1}^2 = [1, 0, 0, -5] \begin{bmatrix} -7 \\ -9 \\ -45 \\ -3 \end{bmatrix} = 1 \cdot (-7) + 0 \cdot (-9) + 0 \cdot (-45) + (-5) \cdot (-3) = -7 + 15 = 8$$
 
-Therefore, $Y_1 \sim \mathcal{N}(-35, 8)$
+Therefore, $Y_1 \sim \mathcal{N}(-35, 8)$ with standard deviation $\sigma_{Y_1} = \sqrt{8} \approx 2.83$
 
 Using the standard normal CDF, we compute:
 $$P(Y_1 < 16) = P\left(\frac{Y_1 - (-35)}{\sqrt{8}} < \frac{16 - (-35)}{\sqrt{8}}\right) = P\left(Z < \frac{51}{\sqrt{8}}\right) = P(Z < 18.03)$$
 
 Since 18.03 is far beyond several standard deviations, and the standard normal CDF approaches 1 as the argument increases:
-$$P(Y_1 < 16) \approx 1$$
+$$P(Y_1 < 16) \approx 1.0$$
 
 #### Part b: Finding $P(3X_2 - 4X_3 > 35)$
 
 Let $Y_2 = 3X_2 - 4X_3$, which corresponds to $\mathbf{a}_2 = [0, 3, -4, 0]^T$
 
 The mean of $Y_2$ is:
-$$\mu_{Y_2} = \mathbf{a}_2^T\boldsymbol{\mu} = 0 \cdot 15 + 3 \cdot 30 + (-4) \cdot 7 + 0 \cdot 10 = 90 - 28 = 62$$
+$$\mu_{Y_2} = \mathbf{a}_2^T\boldsymbol{\mu} = 0 \cdot 15 + 3 \cdot 30 + (-4) \cdot 7 + 0 \cdot 10 = 0 + 90 - 28 + 0 = 62$$
 
 The variance of $Y_2$ is:
-$$\sigma_{Y_2}^2 = \mathbf{a}_2^T\boldsymbol{\Sigma}\mathbf{a}_2 = [0, 3, -4, 0] \begin{bmatrix} 3 & -4 & 0 & 2 \\ -4 & 1 & 2 & 1 \\ 0 & 2 & 9 & 9 \\ 2 & 1 & 9 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ 3 \\ -4 \\ 0 \end{bmatrix}$$
+$$\sigma_{Y_2}^2 = \mathbf{a}_2^T\boldsymbol{\Sigma}\mathbf{a}_2$$
 
-First computing $\mathbf{a}_2^T\boldsymbol{\Sigma}$:
-$$\mathbf{a}_2^T\boldsymbol{\Sigma} = [0 \cdot 3 + 3 \cdot (-4) + (-4) \cdot 0 + 0 \cdot 2, 0 \cdot (-4) + 3 \cdot 1 + (-4) \cdot 2 + 0 \cdot 1, 0 \cdot 0 + 3 \cdot 2 + (-4) \cdot 9 + 0 \cdot 9, 0 \cdot 2 + 3 \cdot 1 + (-4) \cdot 9 + 0 \cdot 1]$$
-$$\mathbf{a}_2^T\boldsymbol{\Sigma} = [-12, 3 - 8, 6 - 36, 3 - 36] = [-12, -5, -30, -33]$$
+First computing $\boldsymbol{\Sigma}\mathbf{a}_2$:
+$$\boldsymbol{\Sigma}\mathbf{a}_2 = \begin{bmatrix} -12 \\ -5 \\ -30 \\ -33 \end{bmatrix}$$
 
 Then computing $\mathbf{a}_2^T\boldsymbol{\Sigma}\mathbf{a}_2$:
-$$\sigma_{Y_2}^2 = (-12) \cdot 0 + (-5) \cdot 3 + (-30) \cdot (-4) + (-33) \cdot 0 = 0 - 15 + 120 + 0 = 105$$
+$$\sigma_{Y_2}^2 = [0, 3, -4, 0] \begin{bmatrix} -12 \\ -5 \\ -30 \\ -33 \end{bmatrix} = 0 \cdot (-12) + 3 \cdot (-5) + (-4) \cdot (-30) + 0 \cdot (-33) = 0 - 15 + 120 + 0 = 105$$
 
-Therefore, $Y_2 \sim \mathcal{N}(62, 105)$
+Therefore, $Y_2 \sim \mathcal{N}(62, 105)$ with standard deviation $\sigma_{Y_2} = \sqrt{105} \approx 10.25$
 
 Using the standard normal CDF, we compute:
-$$P(Y_2 > 35) = P\left(\frac{Y_2 - 62}{\sqrt{105}} > \frac{35 - 62}{\sqrt{105}}\right) = P\left(Z > \frac{-27}{\sqrt{105}}\right) = P(Z > -2.64)$$
-$$P(Y_2 > 35) = 1 - P(Z \leq -2.64) \approx 1 - 0.0041 \approx 0.9959$$
+$$P(Y_2 > 35) = P\left(\frac{Y_2 - 62}{\sqrt{105}} > \frac{35 - 62}{\sqrt{105}}\right) = P\left(Z > \frac{-27}{\sqrt{105}}\right) = P(Z > -2.63)$$
+$$P(Y_2 > 35) = 1 - P(Z \leq -2.63) \approx 1 - 0.0042 \approx 0.9958$$
 
 #### Part c: Finding $P(7X_1 + 3X_2 + 2X_3 < 56)$
 
 Let $Y_3 = 7X_1 + 3X_2 + 2X_3$, which corresponds to $\mathbf{a}_3 = [7, 3, 2, 0]^T$
 
 The mean of $Y_3$ is:
-$$\mu_{Y_3} = \mathbf{a}_3^T\boldsymbol{\mu} = 7 \cdot 15 + 3 \cdot 30 + 2 \cdot 7 + 0 \cdot 10 = 105 + 90 + 14 = 209$$
+$$\mu_{Y_3} = \mathbf{a}_3^T\boldsymbol{\mu} = 7 \cdot 15 + 3 \cdot 30 + 2 \cdot 7 + 0 \cdot 10 = 105 + 90 + 14 + 0 = 209$$
 
 The variance of $Y_3$ is:
-$$\sigma_{Y_3}^2 = \mathbf{a}_3^T\boldsymbol{\Sigma}\mathbf{a}_3 = [7, 3, 2, 0] \begin{bmatrix} 3 & -4 & 0 & 2 \\ -4 & 1 & 2 & 1 \\ 0 & 2 & 9 & 9 \\ 2 & 1 & 9 & 1 \end{bmatrix} \begin{bmatrix} 7 \\ 3 \\ 2 \\ 0 \end{bmatrix}$$
+$$\sigma_{Y_3}^2 = \mathbf{a}_3^T\boldsymbol{\Sigma}\mathbf{a}_3$$
 
-First computing $\mathbf{a}_3^T\boldsymbol{\Sigma}$:
-$$\mathbf{a}_3^T\boldsymbol{\Sigma} = [7 \cdot 3 + 3 \cdot (-4) + 2 \cdot 0 + 0 \cdot 2, 7 \cdot (-4) + 3 \cdot 1 + 2 \cdot 2 + 0 \cdot 1, ...]$$
-$$\mathbf{a}_3^T\boldsymbol{\Sigma} = [21 - 12 + 0 + 0, -28 + 3 + 4 + 0, 0 + 6 + 18 + 0, 14 + 3 + 18 + 0]$$
-$$\mathbf{a}_3^T\boldsymbol{\Sigma} = [9, -21, 24, 35]$$
+First computing $\boldsymbol{\Sigma}\mathbf{a}_3$:
+$$\boldsymbol{\Sigma}\mathbf{a}_3 = \begin{bmatrix} 9 \\ -21 \\ 24 \\ 35 \end{bmatrix}$$
 
 Then computing $\mathbf{a}_3^T\boldsymbol{\Sigma}\mathbf{a}_3$:
-$$\sigma_{Y_3}^2 = 9 \cdot 7 + (-21) \cdot 3 + 24 \cdot 2 + 35 \cdot 0 = 63 - 63 + 48 + 0 = 48$$
+$$\sigma_{Y_3}^2 = [7, 3, 2, 0] \begin{bmatrix} 9 \\ -21 \\ 24 \\ 35 \end{bmatrix} = 7 \cdot 9 + 3 \cdot (-21) + 2 \cdot 24 + 0 \cdot 35 = 63 - 63 + 48 + 0 = 48$$
 
-Therefore, $Y_3 \sim \mathcal{N}(209, 48)$
+Therefore, $Y_3 \sim \mathcal{N}(209, 48)$ with standard deviation $\sigma_{Y_3} = \sqrt{48} \approx 6.93$
 
 Using the standard normal CDF, we compute:
 $$P(Y_3 < 56) = P\left(\frac{Y_3 - 209}{\sqrt{48}} < \frac{56 - 209}{\sqrt{48}}\right) = P\left(Z < \frac{-153}{\sqrt{48}}\right) = P(Z < -22.08)$$
 
 Since -22.08 is far beyond several standard deviations in the negative direction, and the standard normal CDF approaches 0 as the argument decreases:
-$$P(Y_3 < 56) \approx 0$$
+$$P(Y_3 < 56) \approx 0.0000$$
 
-### Interpretation
+The exact computed probability is approximately $2.27 \times 10^{-108}$, which is effectively zero.
 
-These examples illustrate how to calculate probabilities for linear combinations of multivariate normal random variables:
-
-1. For part (a), the probability is approximately 1, indicating that $X_1 - 5X_4 < 16$ is almost certain to occur.
-2. For part (b), the probability is approximately 0.9959, indicating that $3X_2 - 4X_3 > 35$ is highly likely to occur.
-3. For part (c), the probability is approximately 0, indicating that $7X_1 + 3X_2 + 2X_3 < 56$ is extremely unlikely to occur.
-
-The key insight is that any linear combination of multivariate normal random variables is itself normally distributed, with mean and variance determined by the coefficient vector, the mean vector, and the covariance matrix.
+### Summary of Probabilities
+- $P(X_1 - 5X_4 < 16) = 1.0000$
+- $P(3X_2 - 4X_3 > 35) = 0.9958$
+- $P(7X_1 + 3X_2 + 2X_3 < 56) = 0.0000$
 
 ### Visualizations
 
 #### Probability Distribution for Y₁ = X₁ - 5X₄
-This plot shows the normal distribution of Y₁ = X₁ - 5X₄ with mean -35 and standard deviation 2.83. The blue shaded area represents the probability P(Y₁ < 16) ≈ 1, indicating that this event is almost certain to occur.
+This visualization shows the normal distribution for $Y_1 \sim \mathcal{N}(-35, 8)$ with the shaded area representing the probability $P(Y_1 < 16) \approx 1$.
 
-![Probability Distribution for Y₁ = X₁ - 5X₄](../Images/Linear_Transformations/example3_probability_a.png)
+![Probability Distribution for Y₁](../Images/Linear_Transformations/example3_probability_a.png)
 
 #### Probability Distribution for Y₂ = 3X₂ - 4X₃
-This plot shows the normal distribution of Y₂ = 3X₂ - 4X₃ with mean 62 and standard deviation 10.25. The green shaded area represents the probability P(Y₂ > 35) ≈ 0.9958, indicating that this event is highly likely to occur.
+This visualization shows the normal distribution for $Y_2 \sim \mathcal{N}(62, 105)$ with the shaded area representing the probability $P(Y_2 > 35) \approx 0.9958$.
 
-![Probability Distribution for Y₂ = 3X₂ - 4X₃](../Images/Linear_Transformations/example3_probability_b.png)
+![Probability Distribution for Y₂](../Images/Linear_Transformations/example3_probability_b.png)
 
 #### Probability Distribution for Y₃ = 7X₁ + 3X₂ + 2X₃
-This plot shows the normal distribution of Y₃ = 7X₁ + 3X₂ + 2X₃ with mean 209 and standard deviation 6.93. The purple shaded area represents the probability P(Y₃ < 56) ≈ 0, indicating that this event is extremely unlikely to occur.
+This visualization shows the normal distribution for $Y_3 \sim \mathcal{N}(209, 48)$ with the (virtually invisible) shaded area representing the probability $P(Y_3 < 56) \approx 0$.
 
-![Probability Distribution for Y₃ = 7X₁ + 3X₂ + 2X₃](../Images/Linear_Transformations/example3_probability_c.png)
+![Probability Distribution for Y₃](../Images/Linear_Transformations/example3_probability_c.png)
 
-#### Combined Probability Distributions
-This plot shows all three probability distributions together, highlighting their different means, variances, and locations relative to their respective thresholds.
+#### Combined Distributions
+This visualization shows all three probability distributions together for comparison.
 
-![Combined Probability Distributions](../Images/Linear_Transformations/example3_combined_distributions.png)
+![Combined Distributions](../Images/Linear_Transformations/example3_combined_distributions.png)
 
 ## Example 4: Component Extraction and Linear Combinations
 
