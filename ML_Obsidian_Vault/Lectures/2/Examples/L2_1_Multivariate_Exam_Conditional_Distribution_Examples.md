@@ -111,11 +111,15 @@ $$\Sigma_{1|2} = \sqrt{\Sigma_{1|2}^2} = \sqrt{6.7500} = 2.5981$$
 Therefore, the conditional distribution is:
 $$X_1 | (X_2 = 7) \sim \mathcal{N}(3.7500, 6.7500)$$
 
+![Joint Distribution and Conditioning](../Images/Conditional_Distribution/example1_step1.png)
+
 #### Part b: Best prediction for $X_1$
 
 The best prediction for $X_1$ given $X_2 = 7$ is the conditional mean:
 
 $$E[X_1 | X_2 = 7] = \mu_{1|2} = 3.7500$$
+
+![Conditional Distribution at X₂=7](../Images/Conditional_Distribution/example1_step2.png)
 
 #### Part c: Reduction in variance
 
@@ -155,6 +159,8 @@ Distributing the coefficient:
 $$E[X_1|X_2=x_2] = 1.1250 + 0.3750 \times x_2$$
 
 This linear equation gives us the expected value of $X_1$ for any observed value of $X_2$.
+
+![Variance Reduction through Conditioning](../Images/Conditional_Distribution/example1_step3.png)
 
 ## Example 2: Conditional Distributions and Inference in Trivariate Normal
 
@@ -379,6 +385,8 @@ We can also relate this to the partial correlation concept. The small additional
 
 #### Key Insights
 
+![Variance Reduction through Progressive Conditioning](../Images/Conditional_Distribution/example2_variance_reduction.png)
+
 1. When conditioning on multiple variables, the calculations become more complex as we need to work with matrices rather than scalar values. The general formula allows us to account for the joint effect of multiple conditioning variables.
 
 2. The conditional mean of $X_1$ given both $X_2 = 8$ and $X_3 = 11$ (5.2778) is very close to the conditional mean of $X_1$ given only $X_2 = 8$ (5.2222). This suggests that $X_3$ provides minimal additional predictive power once we know $X_2$.
@@ -416,6 +424,8 @@ Let's first calculate the correlation matrix to understand the relationships bet
 - $\rho_{\text{Final,Homework}} = \frac{\Sigma_{\text{FH}}}{\sqrt{\Sigma_{\text{FF}}\Sigma_{\text{HH}}}} = \frac{40}{\sqrt{100 \times 25}} = \frac{40}{\sqrt{2500}} = \frac{40}{50} = 0.8000$
 
 - $\rho_{\text{Midterm,Homework}} = \frac{\Sigma_{\text{MH}}}{\sqrt{\Sigma_{\text{MM}}\Sigma_{\text{HH}}}} = \frac{30}{\sqrt{64 \times 25}} = \frac{30}{\sqrt{1600}} = \frac{30}{40} = 0.7500$
+
+![Score Correlation Structure](../Images/Conditional_Distribution/example3_step1.png)
 
 From these correlations, we can see that:
 - Final exam has a strong positive correlation of 0.7500 with midterm scores
@@ -495,6 +505,8 @@ For a 95% prediction interval, we use z = 1.96:
 $$[\mu_{1|2} \pm 1.96\Sigma_{1|2}] = [90.4286 \pm 1.96 \times 5.5549]$$
 $$= [90.4286 \pm 10.8876]$$
 $$= [79.5409, 101.3162]$$
+
+![Score Prediction](../Images/Conditional_Distribution/example3_step2.png)
 
 #### Step 7 (Optional): Express as regression equation
 
