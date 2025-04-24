@@ -85,6 +85,10 @@ Since the off-diagonal element in the conditional covariance matrix is 2 (not 0)
 
 This makes intuitive sense as conditioning on $X_2$ doesn't add any new information about the relationship between $X_1$ and $X_3$ since $X_2$ is already independent of both $X_1$ and $X_3$.
 
+The geometric interpretation is that conditioning on $X_2$ changes the shape of the joint distribution of $(X_1,X_3)$, but does not make them independent. This can be visualized in the plots showing both the original and conditional distributions.
+
+![Example 1: Independent Pairs Visualization](../Images/Multivariate_Gaussian/example1_independent_pair.png)
+
 ## Example 2: Creating Independent Variables Through Linear Transformations
 
 ### Problem Statement
@@ -200,6 +204,9 @@ These new variables $Y_1$ and $Y_2$ are independent because:
 
 The geometric interpretation is that we've rotated the coordinate system to align with the principal axes of the covariance ellipse, where the variables become uncorrelated and thus independent.
 
+![Example 2: Original Joint Distribution](../Images/Multivariate_Gaussian/example2_original.png)
+![Example 2: Transformed Independent Variables](../Images/Multivariate_Gaussian/example2_transformed.png)
+
 ## Example 3: Independence Properties in Statistical Inference
 
 ### Problem Statement
@@ -314,6 +321,9 @@ To determine conditional independence, we need to calculate the conditional cova
 Since the off-diagonal element in the conditional covariance matrix is 2 (not 0), and the conditional correlation is approximately 0.5420, $X_1$ and $X_3$ are not conditionally independent given $X_2$. This means that even after knowing the value of $X_2$, there is still a significant relationship between $X_1$ and $X_3$.
 
 The geometric interpretation is that conditioning on $X_2$ changes the shape of the joint distribution of $(X_1,X_3)$, but does not make them independent. This can be visualized in the plots showing both the original and conditional distributions.
+
+![Example 3: Original Joint Distribution](../Images/Multivariate_Gaussian/example3_original.png)
+![Example 3: Conditional Distribution](../Images/Multivariate_Gaussian/example3_conditional.png)
 
 ## Example 4: Multivariate Normal with Partitioned Vectors
 
@@ -441,11 +451,14 @@ To find the conditional distribution of $\mathbf{X}_1$ given $\mathbf{X}_2 = \be
 
 3. The conditional correlation coefficient of 0.3953 indicates a moderate positive relationship between $X_2$ and $X_4$ even after conditioning on $X_1$ and $X_3$. This means that knowing the values of $X_1$ and $X_3$ reduces but does not eliminate the dependence between $X_2$ and $X_4$.
 
-4. The visualization shows both:
+4. The plots visualize:
    - The original joint distribution of $X_2$ and $X_4$
    - The conditional distribution after fixing $X_1 = 6$ and $X_3 = 24$
    
    The change in the shape and orientation of the distribution illustrates how conditioning affects the relationship between the variables.
+
+![Example 4: Original Joint Distribution](../Images/Multivariate_Gaussian/example4_original.png)
+![Example 4: Conditional Distribution](../Images/Multivariate_Gaussian/example4_conditional.png)
 
 ## Example 5: Independent Variables with Inverse of Covariance Matrix
 
@@ -676,17 +689,10 @@ For example, $(a,b) = (3,0)$ gives $Z = X_1 - 3X_2$ which is independent of $X_1
 1. The original joint distribution shows correlation between $X_1$ and $X_2$, with correlation coefficient 0.5.
 2. Conditioning on $X_3$ changes the correlation structure, reducing the variance of $X_1$ from 4 to 3.
 3. With $a = 3$, we create a linear combination $Z = X_1 - 3X_2$ that is conditionally independent of $X_1$ given $X_3$.
-4. The plots visualize:
-   - The original joint distribution of $X_1$ and $X_2$
-   - The conditional distribution after fixing $X_3 = -2$
-   - How the linear transformation creates conditional independence
+4. The plots visualize how conditioning affects the joint distribution.
 
-### Visualization
-
-The plots show:
-1. The original joint distribution of $X_1$ and $X_2$, which exhibits correlation
-2. The conditional distribution after fixing $X_3 = -2$, which shows how conditioning affects the relationship between $X_1$ and $X_2$
-3. The effect of the linear transformation $Z = X_1 - 3X_2$ in creating conditional independence
+![Example 5: Original Joint Distribution](../Images/Multivariate_Gaussian/example5_original.png)
+![Example 5: Conditional Distribution](../Images/Multivariate_Gaussian/example5_conditional.png)
 
 ## Running the Examples
 
