@@ -569,6 +569,14 @@ The value of $b$ doesn't matter for conditional independence given $X_3 = x_3$, 
 
 So, to achieve conditional independence of $Z$ and $X_1$ given $X_3 = x_3$, we need $a = 3$ and $b$ can be any value. For instance, $(a,b) = (3,0)$ would give $Z = X_1 - 3X_2$ which is independent of $X_1$ conditional on $X_3 = x_3$.
 
+## Running the Examples
+
+You can run the code that generates these examples and visualizations using:
+
+```bash
+python3 ML_Obsidian_Vault/Lectures/2/Codes/1_multivariate_gaussian_independence.py
+```
+
 ## Related Topics
 
 - [[L2_1_Multivariate_Normal_Examples|Multivariate Normal Examples]]: Detailed examples of multivariate normal distributions
