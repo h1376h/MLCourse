@@ -416,7 +416,7 @@ To find the conditional distribution of $\mathbf{X}_1$ given $\mathbf{X}_2 = \be
 4. Calculate conditional mean:
    $$\begin{align*}
    \boldsymbol{\mu}_{1|2} &= \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) \\
-   &= \begin{bmatrix} 45 \\ 35 \end{bmatrix} + \begin{bmatrix} 1 & 0.2 \\ 0 & 0.8 \end{bmatrix} \begin{bmatrix} 2 \\ -6 \end{bmatrix} \\
+   &= \begin{bmatrix} 45 \\ 35 \end{bmatrix} + \begin{bmatrix} 1 & 0.2 \\ 0 & 0.8 \end{bmatrix} \begin{bmatrix} 6 \\ 24 \end{bmatrix} \\
    &= \begin{bmatrix} 45.8 \\ 30.2 \end{bmatrix}
    \end{align*}$$
 
@@ -449,6 +449,7 @@ To find the conditional distribution of $\mathbf{X}_1$ given $\mathbf{X}_2 = \be
 
 ## Example 5: Independent Variables with Inverse of Covariance Matrix
 
+### Problem Statement
 Assume we have the following three dimensional normal random variable
 
 $$\mathbf{X} = \begin{bmatrix} X_1 \\ X_2 \\ X_3 \end{bmatrix} \sim \mathcal{N} \left( \begin{bmatrix} 0 \\ 1 \\ -2 \end{bmatrix}, \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \right).$$
@@ -469,110 +470,223 @@ where $a, b \in \mathbb{R}$ are two constants. Is it possible to set the values 
 
 ### Solution
 
-#### Part 1: Finding the Inverse of the Covariance Matrix
+#### Part 1: Calculating the Inverse of Covariance Matrix
 
-To find $\boldsymbol{\Sigma}^{-1}$, we follow these steps:
+Let's calculate the inverse of the covariance matrix step by step:
 
-1. Calculate the cofactor matrix:
-   For each element $(i,j)$, we calculate the cofactor $C_{ij} = (-1)^{i+j}M_{ij}$ where $M_{ij}$ is the minor (determinant of the 2×2 matrix after removing row $i$ and column $j$).
+1. First, we calculate the minors and cofactors for each element:
 
-   For example, for position (1,1):
-   $$M_{11} = \begin{vmatrix} 1 & 0 \\ 0 & 1 \end{vmatrix} = 1$$
-   $$C_{11} = 1$$
+For position (1,1):
+- Submatrix: $\begin{vmatrix} 1 & 0 \\ 0 & 1 \end{vmatrix}$
+- Minor = $(1 \times 1) - (0 \times 0) = 1$
+- Cofactor = $(-1)^{1+1} \times 1 = 1$
 
-   Complete cofactor matrix:
-   $$\begin{bmatrix} 
-   1 & -1 & 1 \\
-   -1 & 3 & -1 \\
-   1 & -1 & 3
-   \end{bmatrix}$$
+For position (1,2):
+- Submatrix: $\begin{vmatrix} 1 & 0 \\ -1 & 1 \end{vmatrix}$
+- Minor = $(1 \times 1) - (0 \times -1) = 1$
+- Cofactor = $(-1)^{1+2} \times 1 = -1$
 
-2. Calculate determinant using first row expansion:
-   $$|\boldsymbol{\Sigma}| = 4(1) + 1(-1) + (-1)(1) = 2$$
+For position (1,3):
+- Submatrix: $\begin{vmatrix} 1 & 1 \\ -1 & 0 \end{vmatrix}$
+- Minor = $(1 \times 0) - (1 \times -1) = 1$
+- Cofactor = $(-1)^{1+3} \times 1 = 1$
 
-3. Calculate adjugate matrix (transpose of cofactor matrix):
-   $$\text{adj}(\boldsymbol{\Sigma}) = \begin{bmatrix} 
-   1 & -1 & 1 \\
-   -1 & 3 & -1 \\
-   1 & -1 & 3
-   \end{bmatrix}$$
+For position (2,1):
+- Submatrix: $\begin{vmatrix} 1 & -1 \\ 0 & 1 \end{vmatrix}$
+- Minor = $(1 \times 1) - (-1 \times 0) = 1$
+- Cofactor = $(-1)^{2+1} \times 1 = -1$
 
-4. Divide by determinant to get inverse:
-   $$\boldsymbol{\Sigma}^{-1} = \frac{1}{2}\begin{bmatrix} 
-   1 & -1 & 1 \\
-   -1 & 3 & -1 \\
-   1 & -1 & 3
-   \end{bmatrix} = \begin{bmatrix} 
-   0.5 & -0.5 & 0.5 \\
-   -0.5 & 1.5 & -0.5 \\
-   0.5 & -0.5 & 1.5
-   \end{bmatrix}$$
+For position (2,2):
+- Submatrix: $\begin{vmatrix} 4 & -1 \\ -1 & 1 \end{vmatrix}$
+- Minor = $(4 \times 1) - (-1 \times -1) = 3$
+- Cofactor = $(-1)^{2+2} \times 3 = 3$
 
-Verification: $\boldsymbol{\Sigma}\boldsymbol{\Sigma}^{-1} = \mathbf{I}$
+For position (2,3):
+- Submatrix: $\begin{vmatrix} 4 & 1 \\ -1 & 0 \end{vmatrix}$
+- Minor = $(4 \times 0) - (1 \times -1) = 1$
+- Cofactor = $(-1)^{2+3} \times 1 = -1$
+
+For position (3,1):
+- Submatrix: $\begin{vmatrix} 1 & -1 \\ 1 & 0 \end{vmatrix}$
+- Minor = $(1 \times 0) - (-1 \times 1) = 1$
+- Cofactor = $(-1)^{3+1} \times 1 = 1$
+
+For position (3,2):
+- Submatrix: $\begin{vmatrix} 4 & -1 \\ 1 & 0 \end{vmatrix}$
+- Minor = $(4 \times 0) - (-1 \times 1) = 1$
+- Cofactor = $(-1)^{3+2} \times 1 = -1$
+
+For position (3,3):
+- Submatrix: $\begin{vmatrix} 4 & 1 \\ 1 & 1 \end{vmatrix}$
+- Minor = $(4 \times 1) - (1 \times 1) = 3$
+- Cofactor = $(-1)^{3+3} \times 3 = 3$
+
+2. The cofactor matrix is:
+$$\mathbf{C} = \begin{bmatrix} 
+1 & -1 & 1 \\
+-1 & 3 & -1 \\
+1 & -1 & 3
+\end{bmatrix}$$
+
+3. Calculate determinant using first row expansion:
+$$|\boldsymbol{\Sigma}| = 4(1) + 1(-1) + (-1)(1) = 2$$
+
+4. Calculate adjugate matrix (transpose of cofactor matrix):
+$$\text{adj}(\boldsymbol{\Sigma}) = \mathbf{C}^T = \begin{bmatrix} 
+1 & -1 & 1 \\
+-1 & 3 & -1 \\
+1 & -1 & 3
+\end{bmatrix}$$
+
+5. Calculate inverse by dividing adjugate by determinant:
+$$\boldsymbol{\Sigma}^{-1} = \frac{1}{2}\begin{bmatrix} 
+1 & -1 & 1 \\
+-1 & 3 & -1 \\
+1 & -1 & 3
+\end{bmatrix} = \begin{bmatrix} 
+0.5 & -0.5 & 0.5 \\
+-0.5 & 1.5 & -0.5 \\
+0.5 & -0.5 & 1.5
+\end{bmatrix}$$
+
+6. Verify $\boldsymbol{\Sigma}\boldsymbol{\Sigma}^{-1} = \mathbf{I}$:
+$$\begin{bmatrix} 
+4 & 1 & -1 \\
+1 & 1 & 0 \\
+-1 & 0 & 1
+\end{bmatrix} \begin{bmatrix} 
+0.5 & -0.5 & 0.5 \\
+-0.5 & 1.5 & -0.5 \\
+0.5 & -0.5 & 1.5
+\end{bmatrix} = \begin{bmatrix} 
+1 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 1
+\end{bmatrix}$$
 
 #### Part 2: Independence Between Pairs
 
-For multivariate normal distributions, zero covariance implies independence. Looking at the covariance matrix $\boldsymbol{\Sigma}$:
+Let's check independence between each pair of variables by calculating their covariances and correlations:
 
 1. For $(X_1,X_2)$:
-   $$\text{Cov}(X_1,X_2) = \boldsymbol{\Sigma}_{12} = 1 \neq 0 \implies \text{not independent}$$
+   
+   Calculate covariance:
+   $$\text{Cov}(X_1,X_2) = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix} \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ 1 \\ 0 \end{bmatrix} = 1$$
+   
+   Calculate correlation:
+   $$\rho = \frac{\text{Cov}(X_1,X_2)}{\sqrt{\text{Var}(X_1)\text{Var}(X_2)}} = \frac{1}{\sqrt{4 \cdot 1}} = 0.5$$
+   
+   Since covariance ≠ 0, $X_1$ and $X_2$ are not independent.
 
 2. For $(X_2,X_3)$:
-   $$\text{Cov}(X_2,X_3) = \boldsymbol{\Sigma}_{23} = 0 \implies \text{independent}$$
+   
+   Calculate covariance:
+   $$\text{Cov}(X_2,X_3) = \begin{bmatrix} 0 & 1 & 0 \end{bmatrix} \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} = 0$$
+   
+   Calculate correlation:
+   $$\rho = \frac{\text{Cov}(X_2,X_3)}{\sqrt{\text{Var}(X_2)\text{Var}(X_3)}} = \frac{0}{\sqrt{1 \cdot 1}} = 0$$
+   
+   Since covariance = 0, $X_2$ and $X_3$ are independent.
 
 3. For $(X_1,X_3)$:
-   $$\text{Cov}(X_1,X_3) = \boldsymbol{\Sigma}_{13} = -1 \neq 0 \implies \text{not independent}$$
+   
+   Calculate covariance:
+   $$\text{Cov}(X_1,X_3) = \begin{bmatrix} 1 & 0 & 0 \end{bmatrix} \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 0 \\ 0 \\ 1 \end{bmatrix} = -1$$
+   
+   Calculate correlation:
+   $$\rho = \frac{\text{Cov}(X_1,X_3)}{\sqrt{\text{Var}(X_1)\text{Var}(X_3)}} = \frac{-1}{\sqrt{4 \cdot 1}} = -0.5$$
+   
+   Since covariance ≠ 0, $X_1$ and $X_3$ are not independent.
 
-Therefore, only $X_2$ and $X_3$ are independent.
-
-#### Part 3: Finding Values of $a$ and $b$ for Independence
+#### Part 3: Finding Values of a and b for Independence
 
 For $Z = X_1 - aX_2 - bX_3$ to be independent of $X_1$, we need $\text{Cov}(Z,X_1) = 0$.
 
-Step-by-step calculation:
-1. Express covariance:
-   $$\text{Cov}(Z,X_1) = \text{Cov}(X_1 - aX_2 - bX_3, X_1)$$
-   $$= \text{Var}(X_1) - a\text{Cov}(X_2,X_1) - b\text{Cov}(X_3,X_1)$$
+Let's calculate this covariance:
 
-2. Substitute values:
-   $$4 - a(1) - b(-1) = 0$$
-   $$4 - a + b = 0$$
+1. Express Z in vector form:
+   $$Z = \begin{bmatrix} 1 & -a & -b \end{bmatrix} \begin{bmatrix} X_1 \\ X_2 \\ X_3 \end{bmatrix}$$
 
-3. Solve for $a$:
+2. Calculate $\text{Cov}(Z,X_1)$ using matrix multiplication:
+   $$\text{Cov}(Z,X_1) = \begin{bmatrix} 1 & -a & -b \end{bmatrix} \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 0 \\ 0 \end{bmatrix}$$
+   
+   First multiplication:
+   $$\begin{bmatrix} 1 & -a & -b \end{bmatrix} \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} = \begin{bmatrix} 4-a+b & 1-a & -1+b \end{bmatrix}$$
+   
+   Final result:
+   $$\text{Cov}(Z,X_1) = 4-a+b$$
+
+3. For independence, we need:
+   $$4-a+b = 0$$
    $$a = 4 + b$$
 
-Any pair $(a,b)$ satisfying this equation will make $Z$ and $X_1$ independent. For example:
-- If $b = 0$, then $a = 4$
-- If $b = 1$, then $a = 5$
-- If $b = -1$, then $a = 3$
+Therefore, any pair $(a,b)$ satisfying $a = 4 + b$ will make $Z$ and $X_1$ independent. Let's verify this with two examples:
+
+Example 1: $b = 0$
+- This gives $a = 4$
+- $Z = X_1 - 4X_2$
+- Verify: $\text{Cov}(Z,X_1) = 4 - 4(1) - 0(-1) = 0$
+
+Example 2: $b = 1$
+- This gives $a = 5$
+- $Z = X_1 - 5X_2 - X_3$
+- Verify: $\text{Cov}(Z,X_1) = 4 - 5(1) - 1(-1) = 0$
 
 #### Part 4: Conditional Independence Given $X_3$
 
 To determine if $Z$ and $X_1$ can be conditionally independent given $X_3$, we:
 
-1. Extract relevant submatrices:
+1. Partition the covariance matrix:
    $$\boldsymbol{\Sigma}_{11} = \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix} \text{ (covariance of } X_1,X_2)$$
    
    $$\boldsymbol{\Sigma}_{12} = \begin{bmatrix} -1 \\ 0 \end{bmatrix} \text{ (covariance with } X_3)$$
    
    $$\boldsymbol{\Sigma}_{22} = [1] \text{ (variance of } X_3)$$
 
-2. Calculate conditional covariance matrix:
+2. Calculate $\boldsymbol{\Sigma}_{22}^{-1}$:
+   $$\boldsymbol{\Sigma}_{22}^{-1} = [1]$$
+
+3. Calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$:
+   $$\begin{bmatrix} -1 \\ 0 \end{bmatrix} [1] \begin{bmatrix} -1 & 0 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}$$
+
+4. Calculate conditional covariance matrix:
    $$\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
    
-   $$= \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix} - \begin{bmatrix} -1 \\ 0 \end{bmatrix} [1] \begin{bmatrix} -1 & 0 \end{bmatrix}$$
-   
-   $$= \begin{bmatrix} 3 & 1 \\ 1 & 1 \end{bmatrix}$$
+   $$= \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix} - \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 3 & 1 \\ 1 & 1 \end{bmatrix}$$
 
-3. For conditional independence, we need:
-   $$\text{Cov}(Z,X_1|X_3) = 0$$
-   $$\text{Cov}(X_1 - aX_2,X_1|X_3) = 0$$
-   $$3 - a(1) = 0$$
+5. For conditional independence between $Z = X_1 - aX_2$ and $X_1$ given $X_3$:
+   
+   Calculate conditional covariance:
+   $$\text{Cov}(Z,X_1|X_3) = \text{Cov}(X_1 - aX_2,X_1|X_3)$$
+   $$= \text{Var}(X_1|X_3) - a\text{Cov}(X_2,X_1|X_3)$$
+   $$= 3 - a(1) = 0$$
+   
+   Solve for $a$:
+   $$3 - a = 0$$
    $$a = 3$$
 
-Therefore, to achieve conditional independence of $Z$ and $X_1$ given $X_3$, we need $a = 3$ and $b$ can be any value (since we're conditioning on $X_3$). For instance, $(a,b) = (3,0)$ would give $Z = X_1 - 3X_2$ which is independent of $X_1$ conditional on $X_3$.
+Therefore, to achieve conditional independence of $Z$ and $X_1$ given $X_3$, we need:
+- $a = 3$
+- $b$ can be any value (since we're conditioning on $X_3$)
 
-The geometric interpretation is that conditioning on $X_3$ changes the correlation structure between $X_1$ and $X_2$, and with $a = 3$, we find a linear combination that eliminates this conditional correlation.
+For example, $(a,b) = (3,0)$ gives $Z = X_1 - 3X_2$ which is independent of $X_1$ conditional on $X_3$.
+
+### Geometric Interpretation
+
+1. The original joint distribution shows correlation between $X_1$ and $X_2$, with correlation coefficient 0.5.
+2. Conditioning on $X_3$ changes the correlation structure, reducing the variance of $X_1$ from 4 to 3.
+3. With $a = 3$, we create a linear combination $Z = X_1 - 3X_2$ that is conditionally independent of $X_1$ given $X_3$.
+4. The plots visualize:
+   - The original joint distribution of $X_1$ and $X_2$
+   - The conditional distribution after fixing $X_3 = -2$
+   - How the linear transformation creates conditional independence
+
+### Visualization
+
+The plots show:
+1. The original joint distribution of $X_1$ and $X_2$, which exhibits correlation
+2. The conditional distribution after fixing $X_3 = -2$, which shows how conditioning affects the relationship between $X_1$ and $X_2$
+3. The effect of the linear transformation $Z = X_1 - 3X_2$ in creating conditional independence
 
 ## Running the Examples
 
