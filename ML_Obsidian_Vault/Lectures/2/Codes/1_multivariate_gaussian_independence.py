@@ -520,10 +520,18 @@ def example3():
     pairs = [(0,1), (1,2), (0,2)]
     pair_names = ["(X₁,X₂)", "(X₂,X₃)", "(X₁,X₃)"]
     
+    # Calculate correlations for each pair
+    print("\nCalculating correlations:")
     for (i,j), name in zip(pairs, pair_names):
         cov = Sigma[i,j]
-        print(f"\nChecking {name}:")
+        var_i = Sigma[i,i]
+        var_j = Sigma[j,j]
+        corr = cov / np.sqrt(var_i * var_j)
+        print(f"\nPair {name}:")
         print(f"Cov{name} = Σ[{i},{j}] = {cov}")
+        print(f"Var(X_{i+1}) = Σ[{i},{i}] = {var_i}")
+        print(f"Var(X_{j+1}) = Σ[{j},{j}] = {var_j}")
+        print(f"Correlation = {cov}/√({var_i}×{var_j}) = {corr:.4f}")
         print(f"→ Variables are {'independent' if cov == 0 else 'not independent'}")
     
     print_step(3, "Calculate covariance between Z = 3X₁ - 6X₃ and X₂")
@@ -535,38 +543,72 @@ def example3():
     cov_z_x2 = calculate_covariance(z_coef, x2_coef, Sigma)
     
     # Show detailed calculation steps
-    print("\nCov(Z,X₂) = Cov(3X₁ - 6X₃, X₂)")
-    print(f"         = 3·Cov(X₁,X₂) - 6·Cov(X₃,X₂)")
-    print(f"         = 3·({Sigma[0,1]}) - 6·({Sigma[2,1]})")
-    print(f"         = {3 * Sigma[0,1]} - {6 * Sigma[2,1]}")
-    print(f"         = {cov_z_x2[0,0]}")
+    print("\nDetailed calculation of Cov(Z,X₂):")
+    print("Z = 3X₁ - 6X₃")
+    print("Cov(Z,X₂) = Cov(3X₁ - 6X₃, X₂)")
+    print("          = 3Cov(X₁,X₂) - 6Cov(X₃,X₂)")
+    print(f"          = 3·({Sigma[0,1]}) - 6·({Sigma[2,1]})")
+    print(f"          = {3 * Sigma[0,1]} - {6 * Sigma[2,1]}")
+    print(f"          = {cov_z_x2[0,0]}")
+    
+    # Calculate correlation between Z and X₂
+    var_z = z_coef.T @ Sigma @ z_coef
+    var_x2 = Sigma[1,1]
+    corr_z_x2 = cov_z_x2[0,0] / np.sqrt(var_z * var_x2)
+    
+    print("\nCalculating correlation between Z and X₂:")
+    print(f"Var(Z) = Var(3X₁ - 6X₃)")
+    print(f"       = 9Var(X₁) + 36Var(X₃) - 36Cov(X₁,X₃)")
+    print(f"       = 9·({Sigma[0,0]}) + 36·({Sigma[2,2]}) - 36·({Sigma[0,2]})")
+    print(f"       = {var_z[0]}")
+    print(f"Var(X₂) = {var_x2}")
+    print(f"Correlation = {cov_z_x2[0,0]}/√({var_z[0]}×{var_x2}) = {corr_z_x2:.4f}")
     
     print_step(4, "Calculate conditional independence of X₁ and X₃ given X₂")
-    print("\nCalculating conditional covariance matrix:")
-    print("Σ₁₁ = covariance matrix of (X₁,X₃)")
+    print("\nStep-by-step calculation of conditional covariance matrix:")
     
-    # Extract relevant submatrices
+    # Step 1: Partition the covariance matrix
+    print("\n1. Partition the covariance matrix:")
     Sigma_11 = np.array([[Sigma[0,0], Sigma[0,2]],
                         [Sigma[2,0], Sigma[2,2]]])  # Covariance of (X₁,X₃)
-    print_matrix("Σ₁₁", Sigma_11)
+    print_matrix("Σ₁₁ (Covariance of X₁,X₃)", Sigma_11)
     
-    print("\nΣ₁₂ = covariance vector between (X₁,X₃) and X₂")
     Sigma_12 = np.array([[Sigma[0,1]],
                         [Sigma[2,1]]])  # Covariance between (X₁,X₃) and X₂
-    print_matrix("Σ₁₂", Sigma_12)
+    print_matrix("Σ₁₂ (Covariance between (X₁,X₃) and X₂)", Sigma_12)
     
-    print("\nΣ₂₂ = variance of X₂")
     Sigma_22 = np.array([[Sigma[1,1]]])  # Variance of X₂
-    print_matrix("Σ₂₂", Sigma_22)
+    print_matrix("Σ₂₂ (Variance of X₂)", Sigma_22)
     
-    # Calculate conditional covariance matrix
-    Sigma_22_inv = np.linalg.inv(Sigma_22)
-    Sigma_cond = Sigma_11 - Sigma_12 @ Sigma_22_inv @ Sigma_12.T
+    # Step 2: Calculate inverse of Sigma_22
+    print("\n2. Calculate Σ₂₂⁻¹:")
+    Sigma_22_inv = 1/Sigma[1,1]  # For 1x1 matrix, inverse is reciprocal
+    print(f"Σ₂₂⁻¹ = 1/{Sigma[1,1]} = {Sigma_22_inv}")
     
-    print("\nConditional covariance matrix:")
-    print_matrix("Σ₁₁|₂ = Σ₁₁ - Σ₁₂Σ₂₂⁻¹Σ₂₁", Sigma_cond)
+    # Step 3: Calculate Sigma_12 @ Sigma_22_inv @ Sigma_12.T
+    print("\n3. Calculate Σ₁₂Σ₂₂⁻¹Σ₂₁:")
+    temp = Sigma_12 @ np.array([[Sigma_22_inv]]) @ Sigma_12.T
+    print_matrix("Σ₁₂Σ₂₂⁻¹Σ₂₁", temp)
     
-    print("\nSince the off-diagonal element is not 0, X₁ and X₃ are not conditionally independent given X₂")
+    # Step 4: Calculate conditional covariance matrix
+    print("\n4. Calculate conditional covariance matrix:")
+    print("Σ₁₁|₂ = Σ₁₁ - Σ₁₂Σ₂₂⁻¹Σ₂₁")
+    Sigma_cond = Sigma_11 - temp
+    print_matrix("Σ₁₁|₂", Sigma_cond)
+    
+    # Calculate conditional correlation
+    cond_cov = Sigma_cond[0,1]
+    cond_var1 = Sigma_cond[0,0]
+    cond_var2 = Sigma_cond[1,1]
+    cond_corr = cond_cov / np.sqrt(cond_var1 * cond_var2)
+    
+    print("\n5. Calculate conditional correlation:")
+    print(f"Conditional covariance = {cond_cov}")
+    print(f"Conditional variance of X₁|X₂ = {cond_var1}")
+    print(f"Conditional variance of X₃|X₂ = {cond_var2}")
+    print(f"Conditional correlation = {cond_cov}/√({cond_var1}×{cond_var2}) = {cond_corr:.4f}")
+    
+    print("\nSince the conditional covariance is not 0, X₁ and X₃ are not conditionally independent given X₂")
     
     # Plot distributions
     plot_2d_gaussian(mu[[0,1]], Sigma[:2,:2],
@@ -576,11 +618,19 @@ def example3():
     # Plot conditional distribution
     x2_value = 2  # Conditioning on X₂ = 2
     # Calculate conditional mean
-    mu_cond = mu[[0,2]] + Sigma_12 @ Sigma_22_inv @ np.array([[x2_value - mu[1]]])
+    mu_cond = mu[[0,2]] + Sigma_12 @ np.array([[Sigma_22_inv]]) @ np.array([[x2_value - mu[1]]])
     mu_cond = mu_cond.flatten()  # Convert to 1D array
     
+    print("\n6. Calculate conditional mean:")
+    print(f"μ₁|₂ = μ₁ + Σ₁₂Σ₂₂⁻¹(x₂ - μ₂)")
+    print(f"    = [{mu[0]}] + [{Sigma_12[0,0]}] · {Sigma_22_inv} · ({x2_value} - {mu[1]})")
+    print(f"    = {mu_cond[0]}")
+    print(f"μ₃|₂ = μ₃ + Σ₃₂Σ₂₂⁻¹(x₂ - μ₂)")
+    print(f"    = [{mu[2]}] + [{Sigma_12[1,0]}] · {Sigma_22_inv} · ({x2_value} - {mu[1]})")
+    print(f"    = {mu_cond[1]}")
+    
     # Plot conditional distribution
-    plot_2d_gaussian(mu_cond[[0,1]], Sigma_cond,
+    plot_2d_gaussian(mu_cond, Sigma_cond,
                     f'Conditional Distribution of X₁ and X₃ given X₂ = {x2_value}\nStill Dependent',
                     'example3_conditional',
                     x_label='X₁', y_label='X₃')

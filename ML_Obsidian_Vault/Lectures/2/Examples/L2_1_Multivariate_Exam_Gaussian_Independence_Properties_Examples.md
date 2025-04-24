@@ -219,49 +219,101 @@ c) Are $X_1$ and $X_3$ conditionally independent given $X_2$? Explain.
 
 #### Part a: Identifying independent pairs of variables
 
-For multivariate normal distributions, zero covariance implies independence. Looking at the covariance matrix $\boldsymbol{\Sigma}$:
+For multivariate normal distributions, zero covariance implies independence. Let's analyze each pair:
 
-- $\text{Cov}(X_1, X_2) = \boldsymbol{\Sigma}_{12} = 1 \neq 0$, so $X_1$ and $X_2$ are not independent.
-- $\text{Cov}(X_2, X_3) = \boldsymbol{\Sigma}_{23} = 0$, so $X_2$ and $X_3$ are independent.
-- $\text{Cov}(X_1, X_3) = \boldsymbol{\Sigma}_{13} = 2 \neq 0$, so $X_1$ and $X_3$ are not independent.
+1. For $(X_1,X_2)$:
+   - $\text{Cov}(X_1,X_2) = \boldsymbol{\Sigma}_{12} = 1$
+   - $\text{Var}(X_1) = \boldsymbol{\Sigma}_{11} = 3$
+   - $\text{Var}(X_2) = \boldsymbol{\Sigma}_{22} = 4$
+   - $\text{Correlation} = \frac{1}{\sqrt{3 \cdot 4}} = 0.2887$
+   - Not independent since covariance ≠ 0
+
+2. For $(X_2,X_3)$:
+   - $\text{Cov}(X_2,X_3) = \boldsymbol{\Sigma}_{23} = 0$
+   - $\text{Var}(X_2) = \boldsymbol{\Sigma}_{22} = 4$
+   - $\text{Var}(X_3) = \boldsymbol{\Sigma}_{33} = 5$
+   - $\text{Correlation} = \frac{0}{\sqrt{4 \cdot 5}} = 0$
+   - Independent since covariance = 0
+
+3. For $(X_1,X_3)$:
+   - $\text{Cov}(X_1,X_3) = \boldsymbol{\Sigma}_{13} = 2$
+   - $\text{Var}(X_1) = \boldsymbol{\Sigma}_{11} = 3$
+   - $\text{Var}(X_3) = \boldsymbol{\Sigma}_{33} = 5$
+   - $\text{Correlation} = \frac{2}{\sqrt{3 \cdot 5}} = 0.5164$
+   - Not independent since covariance ≠ 0
 
 Therefore, only $X_2$ and $X_3$ are independent.
 
 #### Part b: Independence of $Z$ and $X_2$
 
-We need to find the covariance between $Z = 3X_1 - 6X_3$ and $X_2$.
+Let's analyze the covariance between $Z = 3X_1 - 6X_3$ and $X_2$:
 
-$$\text{Cov}(Z, X_2) = \text{Cov}(3X_1 - 6X_3, X_2) = 3\text{Cov}(X_1, X_2) - 6\text{Cov}(X_3, X_2)$$
+1. Calculate $\text{Cov}(Z,X_2)$:
+   $$\begin{align*}
+   \text{Cov}(Z,X_2) &= \text{Cov}(3X_1 - 6X_3, X_2) \\
+   &= 3\text{Cov}(X_1,X_2) - 6\text{Cov}(X_3,X_2) \\
+   &= 3(1) - 6(0) \\
+   &= 3
+   \end{align*}$$
 
-From the covariance matrix:
-- $\text{Cov}(X_1, X_2) = 1$
-- $\text{Cov}(X_3, X_2) = 0$
+2. Calculate $\text{Var}(Z)$:
+   $$\begin{align*}
+   \text{Var}(Z) &= \text{Var}(3X_1 - 6X_3) \\
+   &= 9\text{Var}(X_1) + 36\text{Var}(X_3) - 36\text{Cov}(X_1,X_3) \\
+   &= 9(3) + 36(5) - 36(2) \\
+   &= 27 + 180 - 72 \\
+   &= 135
+   \end{align*}$$
 
-Therefore:
-$$\text{Cov}(Z, X_2) = 3 \cdot 1 - 6 \cdot 0 = 3$$
+3. Calculate correlation between $Z$ and $X_2$:
+   $$\begin{align*}
+   \text{Corr}(Z,X_2) &= \frac{\text{Cov}(Z,X_2)}{\sqrt{\text{Var}(Z)\text{Var}(X_2)}} \\
+   &= \frac{3}{\sqrt{135 \cdot 4}} \\
+   &= 0.1291
+   \end{align*}$$
 
-Since the covariance is not zero, $Z$ and $X_2$ are not independent.
+Since the covariance is not zero (and consequently, correlation is not zero), $Z$ and $X_2$ are not independent.
 
 #### Part c: Conditional independence of $X_1$ and $X_3$ given $X_2$
 
-To determine conditional independence, we calculate the conditional covariance matrix of $(X_1, X_3)$ given $X_2$.
+To determine conditional independence, we need to calculate the conditional covariance matrix. Let's do this step by step:
 
-First, we partition the covariance matrix:
-$$\boldsymbol{\Sigma}_{aa} = \begin{bmatrix} 3 & 2 \\ 2 & 5 \end{bmatrix}$$
-$$\boldsymbol{\Sigma}_{ab} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$$
-$$\boldsymbol{\Sigma}_{ba} = \begin{bmatrix} 1 & 0 \end{bmatrix}$$
-$$\boldsymbol{\Sigma}_{bb} = \begin{bmatrix} 4 \end{bmatrix}$$
+1. First, partition the covariance matrix:
+   $$\boldsymbol{\Sigma}_{11} = \begin{bmatrix} 3 & 2 \\ 2 & 5 \end{bmatrix} \text{ (Covariance of } X_1, X_3)$$
+   
+   $$\boldsymbol{\Sigma}_{12} = \begin{bmatrix} 1 \\ 0 \end{bmatrix} \text{ (Covariance between } (X_1,X_3) \text{ and } X_2)$$
+   
+   $$\boldsymbol{\Sigma}_{22} = \begin{bmatrix} 4 \end{bmatrix} \text{ (Variance of } X_2)$$
 
-The conditional covariance matrix is:
-$$\boldsymbol{\Sigma}_{a|b} = \boldsymbol{\Sigma}_{aa} - \boldsymbol{\Sigma}_{ab}\boldsymbol{\Sigma}_{bb}^{-1}\boldsymbol{\Sigma}_{ba}$$
+2. Calculate $\boldsymbol{\Sigma}_{22}^{-1}$:
+   $$\boldsymbol{\Sigma}_{22}^{-1} = \begin{bmatrix} \frac{1}{4} \end{bmatrix}$$
 
-$$\boldsymbol{\Sigma}_{a|b} = \begin{bmatrix} 3 & 2 \\ 2 & 5 \end{bmatrix} - \begin{bmatrix} 1 \\ 0 \end{bmatrix} \cdot \frac{1}{4} \cdot \begin{bmatrix} 1 & 0 \end{bmatrix}$$
+3. Calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$:
+   $$\begin{bmatrix} 1 \\ 0 \end{bmatrix} \cdot \frac{1}{4} \cdot \begin{bmatrix} 1 & 0 \end{bmatrix} = \begin{bmatrix} 0.25 & 0 \\ 0 & 0 \end{bmatrix}$$
 
-$$\boldsymbol{\Sigma}_{a|b} = \begin{bmatrix} 3 & 2 \\ 2 & 5 \end{bmatrix} - \begin{bmatrix} 0.25 & 0 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 2.75 & 2 \\ 2 & 5 \end{bmatrix}$$
+4. Calculate the conditional covariance matrix:
+   $$\begin{align*}
+   \boldsymbol{\Sigma}_{1|2} &= \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} \\
+   &= \begin{bmatrix} 3 & 2 \\ 2 & 5 \end{bmatrix} - \begin{bmatrix} 0.25 & 0 \\ 0 & 0 \end{bmatrix} \\
+   &= \begin{bmatrix} 2.75 & 2 \\ 2 & 5 \end{bmatrix}
+   \end{align*}$$
 
-Since the off-diagonal element in the conditional covariance matrix is 2 (not 0), $X_1$ and $X_3$ are not conditionally independent given $X_2$.
+5. Calculate conditional correlation:
+   $$\begin{align*}
+   \text{Corr}(X_1,X_3|X_2) &= \frac{2}{\sqrt{2.75 \cdot 5}} \\
+   &= 0.5420
+   \end{align*}$$
 
-This means that even after knowing the value of $X_2$, there is still a statistical dependence between $X_1$ and $X_3$. The conditional covariance of 2 indicates a positive relationship between $X_1$ and $X_3$ that persists even after conditioning on $X_2$.
+6. For $X_2 = 2$, calculate conditional mean:
+   $$\begin{align*}
+   \boldsymbol{\mu}_{1|2} &= \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(x_2 - \mu_2) \\
+   &= \begin{bmatrix} 1 \\ 3 \end{bmatrix} + \begin{bmatrix} 1 \\ 0 \end{bmatrix} \cdot \frac{1}{4} \cdot (2 - 2) \\
+   &= \begin{bmatrix} 1 \\ 3 \end{bmatrix}
+   \end{align*}$$
+
+Since the off-diagonal element in the conditional covariance matrix is 2 (not 0), and the conditional correlation is approximately 0.5420, $X_1$ and $X_3$ are not conditionally independent given $X_2$. This means that even after knowing the value of $X_2$, there is still a significant relationship between $X_1$ and $X_3$.
+
+The geometric interpretation is that conditioning on $X_2$ changes the shape of the joint distribution of $(X_1,X_3)$, but does not make them independent. This can be visualized in the plots showing both the original and conditional distributions.
 
 ## Example 4: Multivariate Normal with Partitioned Vectors
 
