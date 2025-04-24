@@ -74,6 +74,9 @@ For multivariate normal distributions, zero covariance means independence. Since
 
 The non-zero covariance indicates that knowledge of one variable provides information about the other. This is also evident from the structure of the linear transformation, where both $Y_1$ and $Y_2$ depend on overlapping components of the original vector $\mathbf{X}$.
 
+The correlation coefficient between $Y_1$ and $Y_2$ is:
+$$\rho = \frac{Cov(Y_1, Y_2)}{\sqrt{Var(Y_1) \cdot Var(Y_2)}} = \frac{35}{\sqrt{29 \cdot 109}} \approx 0.623$$
+
 ### Visualizations
 
 #### PDF Contour Plot
