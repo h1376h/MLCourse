@@ -51,7 +51,7 @@ We need to find the covariance between $Z = 3X_1 - 6X_3$ and $X_2$.
 
 $$\text{Cov}(Z, X_2) = \text{Cov}(3X_1 - 6X_3, X_2) = 3\text{Cov}(X_1, X_2) - 6\text{Cov}(X_3, X_2)$$
 
-From the covariance matrix, we know:
+From the covariance matrix:
 - $\text{Cov}(X_1, X_2) = 0$
 - $\text{Cov}(X_3, X_2) = 0$
 
@@ -62,27 +62,24 @@ Since $Z$ and $X_2$ are jointly normal (as linear combinations of multivariate n
 
 #### Part c: Conditional independence of $X_1$ and $X_3$ given $X_2$
 
-To determine if $X_1$ and $X_3$ are conditionally independent given $X_2$, we need to look at the conditional covariance matrix of $(X_1, X_3)$ given $X_2$.
+To determine if $X_1$ and $X_3$ are conditionally independent given $X_2$, we need to calculate the conditional covariance matrix. Let's do this step by step:
 
-For a multivariate normal distribution partitioned as $\mathbf{X} = (\mathbf{X}_a, \mathbf{X}_b)$ with covariance matrix partitioned accordingly:
+1. First, we partition the covariance matrix for $(X_1, X_3)$ and $X_2$:
 
-$$\boldsymbol{\Sigma} = \begin{bmatrix}
-\boldsymbol{\Sigma}_{aa} & \boldsymbol{\Sigma}_{ab} \\
-\boldsymbol{\Sigma}_{ba} & \boldsymbol{\Sigma}_{bb}
-\end{bmatrix}$$
+$$\boldsymbol{\Sigma}_{aa} = \begin{bmatrix} 4 & 2 \\ 2 & 6 \end{bmatrix} \text{ (Covariance of } X_1, X_3)$$
 
-The conditional covariance matrix is:
-$$\boldsymbol{\Sigma}_{a|b} = \boldsymbol{\Sigma}_{aa} - \boldsymbol{\Sigma}_{ab}\boldsymbol{\Sigma}_{bb}^{-1}\boldsymbol{\Sigma}_{ba}$$
+$$\boldsymbol{\Sigma}_{ab} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \text{ (Covariance between } (X_1,X_3) \text{ and } X_2)$$
 
-In our case, $\mathbf{X}_a = (X_1, X_3)$ and $\mathbf{X}_b = X_2$, so:
+$$\boldsymbol{\Sigma}_{bb} = \begin{bmatrix} 3 \end{bmatrix} \text{ (Variance of } X_2)$$
 
-$$\boldsymbol{\Sigma}_{aa} = \begin{bmatrix} 4 & 2 \\ 2 & 6 \end{bmatrix}$$
-$$\boldsymbol{\Sigma}_{ab} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
-$$\boldsymbol{\Sigma}_{ba} = \begin{bmatrix} 0 & 0 \end{bmatrix}$$
-$$\boldsymbol{\Sigma}_{bb} = \begin{bmatrix} 3 \end{bmatrix}$$
+2. Calculate $\boldsymbol{\Sigma}_{bb}^{-1}$:
+$$\boldsymbol{\Sigma}_{bb}^{-1} = \begin{bmatrix} \frac{1}{3} \end{bmatrix}$$
 
-Therefore:
-$$\boldsymbol{\Sigma}_{a|b} = \begin{bmatrix} 4 & 2 \\ 2 & 6 \end{bmatrix} - \begin{bmatrix} 0 \\ 0 \end{bmatrix} \cdot \frac{1}{3} \cdot \begin{bmatrix} 0 & 0 \end{bmatrix} = \begin{bmatrix} 4 & 2 \\ 2 & 6 \end{bmatrix}$$
+3. Calculate $\boldsymbol{\Sigma}_{ab}\boldsymbol{\Sigma}_{bb}^{-1}\boldsymbol{\Sigma}_{ba}$:
+$$\begin{bmatrix} 0 \\ 0 \end{bmatrix} \cdot \frac{1}{3} \cdot \begin{bmatrix} 0 & 0 \end{bmatrix} = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix}$$
+
+4. Calculate the conditional covariance matrix:
+$$\boldsymbol{\Sigma}_{a|b} = \boldsymbol{\Sigma}_{aa} - \boldsymbol{\Sigma}_{ab}\boldsymbol{\Sigma}_{bb}^{-1}\boldsymbol{\Sigma}_{ba} = \begin{bmatrix} 4 & 2 \\ 2 & 6 \end{bmatrix} - \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 4 & 2 \\ 2 & 6 \end{bmatrix}$$
 
 Since the off-diagonal element in the conditional covariance matrix is 2 (not 0), $X_1$ and $X_3$ are not conditionally independent given $X_2$.
 
