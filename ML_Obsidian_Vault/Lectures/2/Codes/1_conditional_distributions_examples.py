@@ -5,6 +5,7 @@ import os
 import matplotlib.gridspec as gridspec
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.patches import Ellipse
+import matplotlib.cm as cm
 
 # Get the directory where this script is located
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -26,7 +27,7 @@ def print_section_header(title):
     print("="*80 + "\n")
 
 def plot_bivariate_normal(mu, cov, title, filename):
-    """Plot simplified bivariate normal distribution"""
+    """Plot enhanced bivariate normal distribution with correlation ellipses and confidence regions"""
     # Create grid of points
     x = np.linspace(-5, 10, 100)
     y = np.linspace(-5, 15, 100)
@@ -37,35 +38,75 @@ def plot_bivariate_normal(mu, cov, title, filename):
     rv = stats.multivariate_normal(mu, cov)
     Z = rv.pdf(pos)
     
-    # Create figure
-    fig, ax = plt.subplots(figsize=(8, 6))
+    # Create figure with two subplots
+    fig = plt.figure(figsize=(15, 6))
+    
+    # 3D surface plot
+    ax1 = fig.add_subplot(121, projection='3d')
+    surf = ax1.plot_surface(X, Y, Z, cmap='viridis', alpha=0.8, linewidth=0, antialiased=True)
+    
+    # Add contours at the bottom of 3D plot
+    offset = Z.min()
+    ax1.contour(X, Y, Z, zdir='z', offset=offset, levels=10, cmap='viridis', alpha=0.5)
+    
+    # Add conditioning plane at x2 = 7
+    x2_value = 7
+    x1_plane = np.linspace(-5, 10, 100)
+    z_plane = np.linspace(offset, Z.max(), 100)
+    X1_plane, Z_plane = np.meshgrid(x1_plane, z_plane)
+    Y_plane = np.full_like(X1_plane, x2_value)
+    ax1.plot_surface(X1_plane, Y_plane, Z_plane, alpha=0.3, color='red')
+    
+    # Add mean point and vertical line to peak
+    ax1.scatter([mu[0]], [mu[1]], [Z.max()], color='red', s=100, marker='*')
+    ax1.plot([mu[0], mu[0]], [mu[1], mu[1]], [offset, Z.max()], 'r--', alpha=0.5)
+    
+    # Add correlation structure visualization
+    if cov[0,1] != 0:
+        # Add regression line at the bottom
+        slope = cov[0,1] / cov[1,1]
+        intercept = mu[0] - slope * mu[1]
+        x_line = np.array([mu[1] - 2*np.sqrt(cov[1,1]), mu[1] + 2*np.sqrt(cov[1,1])])
+        y_line = slope * x_line + intercept
+        ax1.plot(y_line, x_line, [offset, offset], 'r-', linewidth=2, alpha=0.7)
+    
+    # Set labels and title
+    ax1.set_xlabel('X₁')
+    ax1.set_ylabel('X₂')
+    ax1.set_zlabel('Probability Density')
+    ax1.set_title('3D PDF Surface with Conditioning Plane')
+    ax1.view_init(elev=30, azim=45)
+    
+    # 2D contour plot with confidence regions
+    ax2 = fig.add_subplot(122)
     
     # Plot contours
-    contour = ax.contourf(X, Y, Z, levels=20, cmap='viridis', alpha=0.6)
-    ax.contour(X, Y, Z, levels=10, colors='black', alpha=0.3)
+    ax2.contour(X, Y, Z, levels=15, cmap='viridis')
     
-    # Add correlation ellipse
-    eigenvalues, eigenvectors = np.linalg.eigh(cov)
-    order = eigenvalues.argsort()[::-1]
-    eigenvalues = eigenvalues[order]
-    eigenvectors = eigenvectors[:, order]
-    
-    # Calculate angles and lengths for ellipse
-    angle = np.degrees(np.arctan2(eigenvectors[1, 0], eigenvectors[0, 0]))
-    width, height = 2 * np.sqrt(eigenvalues)
-    ellipse = Ellipse(mu, width=width, height=height, angle=angle, 
-                    edgecolor='red', facecolor='none', linewidth=2)
-    ax.add_patch(ellipse)
+    # Add conditioning line
+    ax2.axhline(y=x2_value, color='red', linestyle='--', alpha=0.7, label='Conditioning on X₂=7')
     
     # Add mean point
-    ax.scatter(mu[0], mu[1], c='red', s=100, label='Mean')
+    ax2.scatter(mu[0], mu[1], color='red', s=100, marker='*', label='Mean')
     
-    # Basic plot settings
-    ax.set_title(title, fontsize=12)
-    ax.set_xlabel('X₁', fontsize=10)
-    ax.set_ylabel('X₂', fontsize=10)
-    ax.grid(alpha=0.3)
-    ax.legend(loc='lower right')
+    # Add regression line if there's correlation
+    if cov[0,1] != 0:
+        slope = cov[0,1] / cov[1,1]
+        intercept = mu[0] - slope * mu[1]
+        x_line = np.array([mu[1] - 2*np.sqrt(cov[1,1]), mu[1] + 2*np.sqrt(cov[1,1])])
+        y_line = slope * x_line + intercept
+        ax2.plot(y_line, x_line, 'r-', linewidth=2, alpha=0.7, label='Regression Line')
+    
+    # Set labels and title
+    ax2.set_xlabel('X₁')
+    ax2.set_ylabel('X₂')
+    ax2.set_title('Contour Plot with Conditioning Line')
+    ax2.grid(True, alpha=0.15, linestyle='--')
+    ax2.set_aspect('equal')
+    ax2.legend()
+    
+    # Add colorbar
+    plt.colorbar(surf, ax=ax1, label='Probability Density')
     
     # Save figure
     plt.tight_layout()
@@ -73,6 +114,124 @@ def plot_bivariate_normal(mu, cov, title, filename):
     plt.close()
     print(f"Figure saved to {filename}")
 
+def plot_conditional_steps(mu, cov, x2_value, mu1_given_2, sigma1_given_2, filename_prefix):
+    """Create step-by-step visualizations explaining conditional distributions"""
+    
+    # Step 1: Joint Distribution with Conditioning Line
+    fig, ax = plt.subplots(figsize=(10, 8))
+    
+    # Create grid of points
+    x = np.linspace(-5, 10, 100)
+    y = np.linspace(-5, 15, 100)
+    X, Y = np.meshgrid(x, y)
+    pos = np.dstack((X, Y))
+    
+    # Calculate PDF values
+    rv = stats.multivariate_normal(mu, cov)
+    Z = rv.pdf(pos)
+    
+    # Plot contours
+    contour = ax.contour(X, Y, Z, levels=15, cmap='viridis')
+    plt.colorbar(contour, label='Joint Probability Density')
+    
+    # Add conditioning line
+    ax.axhline(y=x2_value, color='red', linestyle='--', linewidth=2, 
+               label=f'Conditioning on X₂={x2_value}')
+    
+    # Add mean point
+    ax.scatter(mu[0], mu[1], color='red', s=100, marker='*', label='Mean (μ₁,μ₂)')
+    
+    # Add regression line
+    slope = cov[0,1] / cov[1,1]
+    intercept = mu[0] - slope * mu[1]
+    x_line = np.array([mu[1] - 2*np.sqrt(cov[1,1]), mu[1] + 2*np.sqrt(cov[1,1])])
+    y_line = slope * x_line + intercept
+    ax.plot(y_line, x_line, 'g-', linewidth=2, alpha=0.7, label='E[X₁|X₂]')
+    
+    # Set labels and title
+    ax.set_xlabel('X₁', fontsize=14)
+    ax.set_ylabel('X₂', fontsize=14)
+    ax.set_title('Step 1: Joint Distribution and Conditioning', fontsize=16)
+    ax.grid(True, alpha=0.3)
+    ax.legend(fontsize=12)
+    
+    # Save figure
+    plt.tight_layout()
+    plt.savefig(os.path.join(images_dir, f'{filename_prefix}_step1.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    # Step 2: Slice at X₂=x2_value
+    fig, ax = plt.subplots(figsize=(12, 6))
+    
+    # Calculate conditional distribution
+    x1_range = np.linspace(-5, 10, 1000)
+    conditional_pdf = stats.norm.pdf(x1_range, mu1_given_2, np.sqrt(sigma1_given_2))
+    
+    # Plot the slice
+    ax.plot(x1_range, conditional_pdf, 'r-', linewidth=2.5, 
+            label=f'P(X₁|X₂={x2_value})')
+    
+    # Add mean line
+    ax.axvline(mu1_given_2, color='red', linestyle='--', linewidth=2,
+               label=f'Conditional Mean (μ₁|₂={mu1_given_2:.2f})')
+    
+    # Add confidence interval
+    ci_lower = mu1_given_2 - 1.96 * np.sqrt(sigma1_given_2)
+    ci_upper = mu1_given_2 + 1.96 * np.sqrt(sigma1_given_2)
+    ax.fill_between(x1_range, conditional_pdf, where=(x1_range >= ci_lower) & (x1_range <= ci_upper),
+                   alpha=0.3, color='red', label='95% Interval')
+    
+    # Set labels and title
+    ax.set_xlabel('X₁', fontsize=14)
+    ax.set_ylabel('Conditional Probability Density', fontsize=14)
+    ax.set_title('Step 2: Conditional Distribution at X₂=7', fontsize=16)
+    ax.grid(True, alpha=0.3)
+    ax.legend(fontsize=12)
+    
+    # Save figure
+    plt.tight_layout()
+    plt.savefig(os.path.join(images_dir, f'{filename_prefix}_step2.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    # Step 3: Variance Reduction Visualization
+    fig, ax = plt.subplots(figsize=(12, 6))
+    
+    # Calculate marginal distribution
+    marginal_pdf = stats.norm.pdf(x1_range, mu[0], np.sqrt(cov[0,0]))
+    
+    # Plot both distributions
+    ax.plot(x1_range, marginal_pdf, 'b-', linewidth=2.5, alpha=0.8,
+            label=f'Marginal: X₁~N({mu[0]}, {cov[0,0]})')
+    ax.plot(x1_range, conditional_pdf, 'r-', linewidth=2.5, alpha=0.8,
+            label=f'Conditional: X₁|X₂={x2_value}~N({mu1_given_2:.2f}, {sigma1_given_2:.2f})')
+    
+    # Fill areas to show variance reduction
+    ax.fill_between(x1_range, marginal_pdf, alpha=0.2, color='blue')
+    ax.fill_between(x1_range, conditional_pdf, alpha=0.2, color='red')
+    
+    # Add means
+    ax.axvline(mu[0], color='blue', linestyle='--', alpha=0.8,
+               label=f'Marginal Mean (μ₁={mu[0]})')
+    ax.axvline(mu1_given_2, color='red', linestyle='--', alpha=0.8,
+               label=f'Conditional Mean (μ₁|₂={mu1_given_2:.2f})')
+    
+    # Add variance reduction annotation
+    variance_reduction = (cov[0,0] - sigma1_given_2) / cov[0,0] * 100
+    ax.text(0.02, 0.98, f'Variance Reduction: {variance_reduction:.1f}%',
+            transform=ax.transAxes, fontsize=12, verticalalignment='top',
+            bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+    
+    # Set labels and title
+    ax.set_xlabel('X₁', fontsize=14)
+    ax.set_ylabel('Probability Density', fontsize=14)
+    ax.set_title('Step 3: Variance Reduction through Conditioning', fontsize=16)
+    ax.grid(True, alpha=0.3)
+    ax.legend(fontsize=12)
+    
+    # Save figure
+    plt.tight_layout()
+    plt.savefig(os.path.join(images_dir, f'{filename_prefix}_step3.png'), dpi=300, bbox_inches='tight')
+    plt.close()
 
 def example1_bivariate_normal_conditional():
     """Example 1: Conditional Distributions in Bivariate Normal"""
@@ -177,88 +336,9 @@ def example1_bivariate_normal_conditional():
     print(f"E[X₁|X₂=x₂] = {mu1} + {beta:.4f}x₂ - {beta:.4f}×{mu2}")
     print(f"E[X₁|X₂=x₂] = {intercept:.4f} + {beta:.4f}x₂")
     
-    # Create visualizations
-    print("\nCreating visualizations...")
-    
-    # 1. Plot the joint distribution
-    plot_bivariate_normal(mu, cov, 
-                         'Bivariate Normal Distribution',
-                         'example1_joint_distribution.png')
-    
-    # 2. Visualize conditional distribution
-    fig, ax = plt.subplots(figsize=(8, 6))
-    
-    # Range for X₁
-    x1_range = np.linspace(-5, 10, 1000)
-    
-    # Calculate marginal distribution of X₁
-    x1_marginal = stats.norm.pdf(x1_range, mu1, np.sqrt(sigma11))
-    
-    # Calculate conditional distribution of X₁ given X₂=7
-    x1_conditional = stats.norm.pdf(x1_range, mu1_given_2, sigma1_given_2)
-    
-    # Plot both distributions
-    ax.plot(x1_range, x1_marginal, 'b-', linewidth=2, label='Marginal Distribution')
-    ax.plot(x1_range, x1_conditional, 'r-', linewidth=2, label='Conditional Distribution')
-    
-    # Add mean lines
-    ax.axvline(x=mu1, color='blue', linestyle='--', alpha=0.7, label='Marginal Mean')
-    ax.axvline(x=mu1_given_2, color='red', linestyle='--', alpha=0.7, label='Conditional Mean')
-    
-    # Basic plot settings
-    ax.set_title('Marginal vs Conditional Distribution', fontsize=12)
-    ax.set_xlabel('X₁', fontsize=10)
-    ax.set_ylabel('Probability Density', fontsize=10)
-    ax.grid(alpha=0.3)
-    ax.legend(fontsize=10)
-    
-    # Save figure
-    plt.tight_layout()
-    plt.savefig(os.path.join(images_dir, 'example1_conditional_vs_marginal.png'), dpi=300, bbox_inches='tight')
-    plt.close()
-    print("Figure saved to example1_conditional_vs_marginal.png")
-    
-    # 3. Create 3D visualization showing the conditioning
-    fig = plt.figure(figsize=(8, 6))
-    ax = fig.add_subplot(111, projection='3d')
-    
-    # Create grid
-    x1 = np.linspace(-5, 10, 50)
-    x2 = np.linspace(-5, 15, 50)
-    X1, X2 = np.meshgrid(x1, x2)
-    pos = np.dstack((X1, X2))
-    
-    # Calculate PDF
-    rv = stats.multivariate_normal(mu, cov)
-    Z = rv.pdf(pos)
-    
-    # Plot surface
-    surf = ax.plot_surface(X1, X2, Z, cmap='viridis', alpha=0.7)
-    
-    # Add conditioning plane at X₂=7
-    x1_plane = np.linspace(-5, 10, 20)
-    x2_plane = np.ones(20) * x2_value
-    z_plane = np.zeros(20)
-    
-    # Get PDF values along the conditioning line
-    for i in range(len(x1_plane)):
-        z_plane[i] = rv.pdf(np.array([x1_plane[i], x2_plane[i]]))
-    
-    # Plot conditioning plane
-    ax.plot(x1_plane, x2_plane, z_plane, 'r-', linewidth=2, label='Conditioning Plane')
-    
-    # Basic plot settings
-    ax.set_xlabel('X₁', fontsize=10)
-    ax.set_ylabel('X₂', fontsize=10)
-    ax.set_zlabel('Density', fontsize=10)
-    ax.set_title('3D Visualization of Conditioning', fontsize=12)
-    ax.legend(fontsize=10)
-    
-    # Save figure
-    plt.tight_layout()
-    plt.savefig(os.path.join(images_dir, 'example1_3d_conditioning.png'), dpi=300, bbox_inches='tight')
-    plt.close()
-    print("Figure saved to example1_3d_conditioning.png")
+    # Create step-by-step visualizations
+    print("\nCreating step-by-step visualizations...")
+    plot_conditional_steps(mu, cov, x2_value, mu1_given_2, sigma1_given_2, 'example1')
     
     return mu, cov, mu1_given_2, sigma1_given_2_squared
 
@@ -293,6 +373,10 @@ def example2_trivariate_normal_conditional():
         [-Sigma22[1, 0], Sigma22[0, 0]]
     ])
     print(f"Adjugate matrix of Σ₂₂: \n{adj_Sigma22}")
+    
+    # Calculate determinant
+    det_Sigma22 = Sigma22[0, 0] * Sigma22[1, 1] - Sigma22[0, 1] * Sigma22[1, 0]
+    print(f"Determinant of Σ₂₂: |Σ₂₂| = {det_Sigma22}")
     
     # Calculate inverse
     Sigma22_inv = adj_Sigma22 / det_Sigma22
@@ -423,107 +507,64 @@ def example2_trivariate_normal_conditional():
     print(f"\nSquared multiple correlation coefficient: R² = {r_squared:.4f}")
     print(f"This means that knowing both X₂ and X₃ explains {r_squared * 100:.2f}% of the variability in X₁")
     
-    # Create visualizations
-    print("\nCreating visualizations...")
+    # Create step-by-step visualizations
+    print("\nCreating step-by-step visualizations...")
+    plot_trivariate_steps(mu, cov, x23_value[0], x23_value[1], 
+                         mu1_given_2, sigma1_given_2,
+                         mu1_given_23, sigma1_given_23, 'example2')
     
-    # 1. Visualize marginal vs conditional distributions
-    fig, ax = plt.subplots(figsize=(12, 8))
+    return mu, cov, mu1_given_23, sigma1_given_23
+
+def plot_trivariate_steps(mu, cov, x2, x3, mu1_given_2, sigma1_given_2, mu1_given_23, sigma1_given_23, filename_prefix):
+    """Create step-by-step visualizations for trivariate case"""
     
-    # Range for X₁
-    x1_range = np.linspace(0, 10, 1000)
+    # Step 1: Variance Reduction Comparison
+    fig, ax = plt.subplots(figsize=(12, 6))
     
     # Calculate distributions
-    x1_marginal = stats.norm.pdf(x1_range, mu1, np.sqrt(Sigma11))
-    x1_cond_given_2 = stats.norm.pdf(x1_range, mu1_given_2, np.sqrt(sigma1_given_2))
-    x1_cond_given_23 = stats.norm.pdf(x1_range, mu1_given_23, np.sqrt(sigma1_given_23))
+    x1_range = np.linspace(mu[0]-4*np.sqrt(cov[0,0]), mu[0]+4*np.sqrt(cov[0,0]), 1000)
+    marginal = stats.norm.pdf(x1_range, mu[0], np.sqrt(cov[0,0]))
+    cond_x2 = stats.norm.pdf(x1_range, mu1_given_2, np.sqrt(sigma1_given_2))
+    cond_x2x3 = stats.norm.pdf(x1_range, mu1_given_23, np.sqrt(sigma1_given_23))
     
     # Plot distributions
-    ax.plot(x1_range, x1_marginal, 'b-', linewidth=2, label=f'Marginal: X₁ ~ N({mu1}, {Sigma11})')
-    ax.plot(x1_range, x1_cond_given_2, 'g-', linewidth=2, 
-           label=f'Conditional on X₂: X₁|(X₂={x2_value_b}) ~ N({mu1_given_2:.4f}, {sigma1_given_2:.4f})')
-    ax.plot(x1_range, x1_cond_given_23, 'r-', linewidth=2, 
-           label=f'Conditional on X₂,X₃: X₁|(X₂={x23_value[0]},X₃={x23_value[1]}) ~ N({mu1_given_23:.4f}, {sigma1_given_23:.4f})')
+    ax.plot(x1_range, marginal, 'b-', linewidth=2.5, alpha=0.8,
+            label=f'Marginal: X₁')
+    ax.plot(x1_range, cond_x2, 'g-', linewidth=2.5, alpha=0.8,
+            label=f'Given X₂={x2}')
+    ax.plot(x1_range, cond_x2x3, 'r-', linewidth=2.5, alpha=0.8,
+            label=f'Given X₂={x2}, X₃={x3}')
     
-    # Add mean lines
-    ax.axvline(x=mu1, color='blue', linestyle='--', alpha=0.5)
-    ax.axvline(x=mu1_given_2, color='green', linestyle='--', alpha=0.5)
-    ax.axvline(x=mu1_given_23, color='red', linestyle='--', alpha=0.5)
+    # Fill areas
+    ax.fill_between(x1_range, marginal, alpha=0.2, color='blue')
+    ax.fill_between(x1_range, cond_x2, alpha=0.2, color='green')
+    ax.fill_between(x1_range, cond_x2x3, alpha=0.2, color='red')
     
-    # Add annotations
-    ax.annotate(f'Variance reduction with X₂: {pct_reduction_step1:.2f}%', 
-               xy=(0.05, 0.95), xycoords='axes fraction',
-               bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8),
-               fontsize=12)
-    ax.annotate(f'Additional reduction with X₃: {pct_reduction_step2:.2f}%', 
-               xy=(0.05, 0.89), xycoords='axes fraction',
-               bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8),
-               fontsize=12)
-    ax.annotate(f'Total variance reduction: {pct_reduction_total:.2f}%', 
-               xy=(0.05, 0.83), xycoords='axes fraction',
-               bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8),
-               fontsize=12)
+    # Add means
+    ax.axvline(mu[0], color='blue', linestyle='--', alpha=0.8)
+    ax.axvline(mu1_given_2, color='green', linestyle='--', alpha=0.8)
+    ax.axvline(mu1_given_23, color='red', linestyle='--', alpha=0.8)
     
-    # Add labels and title
-    ax.set_title('Marginal vs Conditional Distributions of X₁', fontsize=16)
+    # Add variance reduction annotations
+    var_red_x2 = (cov[0,0] - sigma1_given_2) / cov[0,0] * 100
+    var_red_x2x3 = (cov[0,0] - sigma1_given_23) / cov[0,0] * 100
+    additional_red = (sigma1_given_2 - sigma1_given_23) / sigma1_given_2 * 100
+    
+    ax.text(0.02, 0.98, f'Variance Reduction:\nWith X₂: {var_red_x2:.1f}%\nWith X₂,X₃: {var_red_x2x3:.1f}%\nAdditional from X₃: {additional_red:.1f}%',
+            transform=ax.transAxes, fontsize=12, verticalalignment='top',
+            bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+    
+    # Set labels and title
     ax.set_xlabel('X₁', fontsize=14)
     ax.set_ylabel('Probability Density', fontsize=14)
-    ax.grid(alpha=0.3)
+    ax.set_title('Progressive Variance Reduction through Conditioning', fontsize=16)
+    ax.grid(True, alpha=0.3)
     ax.legend(fontsize=12)
     
     # Save figure
     plt.tight_layout()
-    plt.savefig(os.path.join(images_dir, 'example2_conditional_distributions.png'), dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(images_dir, f'{filename_prefix}_variance_reduction.png'), dpi=300, bbox_inches='tight')
     plt.close()
-    print("Figure saved to example2_conditional_distributions.png")
-    
-    # 2. Create bar chart comparing variances
-    fig, ax = plt.subplots(figsize=(10, 6))
-    
-    # Data for bar chart
-    labels = ['Unconditional\nVar(X₁)', 'Conditional\nVar(X₁|X₂)', 'Conditional\nVar(X₁|X₂,X₃)']
-    variances = [Sigma11, sigma1_given_2, sigma1_given_23]
-    colors = ['blue', 'green', 'red']
-    
-    # Create bar chart
-    bars = ax.bar(labels, variances, color=colors, alpha=0.7)
-    
-    # Add value labels on top of bars
-    for bar in bars:
-        height = bar.get_height()
-        ax.annotate(f'{height:.2f}',
-                    xy=(bar.get_x() + bar.get_width() / 2, height),
-                    xytext=(0, 3),  # 3 points vertical offset
-                    textcoords="offset points",
-                    ha='center', va='bottom')
-    
-    # Add variance reduction arrows and text
-    ax.annotate('', xy=(0.5, Sigma11*0.6), xytext=(0, Sigma11*0.6),
-                arrowprops=dict(arrowstyle='<->', color='black'))
-    ax.text(0.25, Sigma11*0.65, f'{abs_reduction_step1:.2f} ({pct_reduction_step1:.1f}%)', 
-           ha='center', fontsize=10)
-    
-    ax.annotate('', xy=(1.5, sigma1_given_2*0.6), xytext=(1, sigma1_given_2*0.6),
-                arrowprops=dict(arrowstyle='<->', color='black'))
-    ax.text(1.25, sigma1_given_2*0.65, f'{abs_reduction_step2:.2f} ({pct_reduction_step2:.1f}%)', 
-           ha='center', fontsize=10)
-    
-    ax.annotate('', xy=(2, Sigma11*0.2), xytext=(0, Sigma11*0.2),
-                arrowprops=dict(arrowstyle='<->', color='black', linestyle='--'))
-    ax.text(1, Sigma11*0.25, f'Total reduction: {abs_reduction_total:.2f} ({pct_reduction_total:.1f}%)', 
-           ha='center', fontsize=12, bbox=dict(facecolor='white', alpha=0.7))
-    
-    # Add labels and title
-    ax.set_title('Comparison of Variances', fontsize=16)
-    ax.set_ylabel('Variance', fontsize=14)
-    ax.grid(axis='y', alpha=0.3)
-    
-    # Save figure
-    plt.tight_layout()
-    plt.savefig(os.path.join(images_dir, 'example2_variance_comparison.png'), dpi=300, bbox_inches='tight')
-    plt.close()
-    print("Figure saved to example2_variance_comparison.png")
-    
-    return mu, cov, mu1_given_23, sigma1_given_23
 
 def example3_prediction_conditional_inference():
     """Example 3: Prediction and Conditional Inference"""
@@ -702,118 +743,81 @@ def example3_prediction_conditional_inference():
     print(f"\nVerification: {beta0:.4f} + {beta1:.4f} × {observed[0]} + {beta2:.4f} × {observed[1]} = {verification:.4f}")
     print(f"This matches our earlier calculation of the conditional mean: {mu1_given_2:.4f}")
     
-    # Create visualizations
-    print("\nCreating visualizations...")
-    
-    # 1. Visualize conditional vs marginal distribution
-    fig, ax = plt.subplots(figsize=(12, 8))
-    
-    # Range for final exam score
-    x_range = np.linspace(40, 120, 1000)
-    
-    # Calculate distributions
-    x_marginal = stats.norm.pdf(x_range, mu1, np.sqrt(sigma11))
-    x_conditional = stats.norm.pdf(x_range, mu1_given_2, np.sqrt(sigma1_given_2))
-    
-    # Plot distributions
-    ax.plot(x_range, x_marginal, 'b-', linewidth=2, 
-           label=f'Marginal: Final ~ N({mu1}, {sigma11})')
-    ax.plot(x_range, x_conditional, 'r-', linewidth=2, 
-           label=f'Conditional: Final|(Midterm={observed[0]}, Homework={observed[1]}) ~ N({mu1_given_2:.1f}, {sigma1_given_2:.1f})')
-    
-    # Add mean lines
-    ax.axvline(x=mu1, color='blue', linestyle='--', alpha=0.7, label=f'Marginal mean: {mu1}')
-    ax.axvline(x=mu1_given_2, color='red', linestyle='--', alpha=0.7, label=f'Predicted score: {mu1_given_2:.1f}')
-    
-    # Shade prediction interval
-    ax.axvspan(interval_lower, interval_upper, alpha=0.2, color='red', 
-              label=f'95% prediction interval: [{interval_lower:.1f}, {interval_upper:.1f}]')
-    
-    # Add annotations
-    ax.annotate(f'Variance reduction: {percentage_reduction:.1f}%', 
-               xy=(0.05, 0.95), xycoords='axes fraction',
-               bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8),
-               fontsize=12)
-    
-    ax.annotate(f'Multiple correlation (R): {R:.4f}', 
-               xy=(0.05, 0.89), xycoords='axes fraction',
-               bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8),
-               fontsize=12)
-    
-    # Add labels and title
-    ax.set_title('Final Exam Score Prediction', fontsize=16)
-    ax.set_xlabel('Final Exam Score', fontsize=14)
-    ax.set_ylabel('Probability Density', fontsize=14)
-    ax.grid(alpha=0.3)
-    ax.legend(fontsize=11)
-    
-    # Save figure
-    plt.tight_layout()
-    plt.savefig(os.path.join(images_dir, 'example3_score_prediction.png'), dpi=300, bbox_inches='tight')
-    plt.close()
-    print("Figure saved to example3_score_prediction.png")
-    
-    # 2. Create 3D visualization of relationship
-    fig = plt.figure(figsize=(14, 12))
-    ax = fig.add_subplot(111, projection='3d')
-    
-    # Create grid for midterm and homework scores
-    midterm_range = np.linspace(60, 100, 20)
-    homework_range = np.linspace(70, 100, 20)
-    midterm_grid, homework_grid = np.meshgrid(midterm_range, homework_range)
-    
-    # Calculate predicted final scores for each combination
-    final_predictions = np.zeros_like(midterm_grid)
-    
-    for i in range(midterm_grid.shape[0]):
-        for j in range(midterm_grid.shape[1]):
-            # Current midterm and homework scores
-            current_scores = np.array([midterm_grid[i, j], homework_grid[i, j]])
-            # Calculate deviation from mean
-            current_deviation = current_scores - mu2
-            # Calculate predicted final score
-            final_predictions[i, j] = mu1 + sigma12 @ sigma22_inv @ current_deviation
-    
-    # Plot surface
-    surf = ax.plot_surface(midterm_grid, homework_grid, final_predictions, 
-                          cmap='viridis', alpha=0.8, rstride=1, cstride=1)
-    
-    # Add point for the specific student
-    ax.scatter([observed[0]], [observed[1]], [mu1_given_2], 
-              c='red', s=200, marker='o', label='Student scores')
-    
-    # Add vertical line from surface to point
-    ax.plot([observed[0], observed[0]], [observed[1], observed[1]], 
-           [min(final_predictions.flatten()), mu1_given_2], 'r-', linewidth=2)
-    
-    # Add labels and annotations
-    ax.set_xlabel('Midterm Score', fontsize=14)
-    ax.set_ylabel('Homework Score', fontsize=14)
-    ax.set_zlabel('Predicted Final Score', fontsize=14)
-    ax.set_title('Prediction Surface for Final Exam Scores', fontsize=16)
-    
-    # Add text annotation for student prediction
-    ax.text(observed[0], observed[1], mu1_given_2+2, 
-           f'Predicted: {mu1_given_2:.1f}', color='black', fontsize=12,
-           bbox=dict(facecolor='white', alpha=0.7))
-    
-    # Add colorbar
-    cbar = fig.colorbar(surf, ax=ax, shrink=0.6, aspect=10)
-    cbar.set_label('Predicted Final Score', fontsize=12)
-    
-    # Add regression equation as text
-    equation_text = f'Final = {beta0:.1f} + {beta1:.2f} × Midterm + {beta2:.2f} × Homework'
-    ax.text2D(0.05, 0.95, equation_text, transform=ax.transAxes, fontsize=14,
-             bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5'))
-    
-    # Save figure
-    plt.tight_layout()
-    plt.savefig(os.path.join(images_dir, 'example3_prediction_surface.png'), dpi=300, bbox_inches='tight')
-    plt.close()
-    print("Figure saved to example3_prediction_surface.png")
+    # Create step-by-step visualizations
+    print("\nCreating step-by-step visualizations...")
+    plot_exam_prediction_steps(mu, cov, observed[0], observed[1],
+                             mu1_given_2, sigma1_given_2,
+                             [interval_lower, interval_upper], 'example3')
     
     return mu, cov, mu1_given_2, sigma1_given_2, interval_lower, interval_upper
 
+def plot_exam_prediction_steps(mu, cov, midterm, homework, mu_pred, sigma_pred, interval, filename_prefix):
+    """Create step-by-step visualizations for exam score prediction"""
+    
+    # Step 1: Correlation Structure
+    fig, ax = plt.subplots(figsize=(10, 8))
+    
+    # Create correlation matrix visualization
+    sigma_sqrt = np.sqrt(np.diag(cov))
+    corr = cov / (sigma_sqrt[:, None] * sigma_sqrt[None, :])
+    
+    im = ax.imshow(corr, cmap='RdYlBu', vmin=-1, vmax=1)
+    plt.colorbar(im, label='Correlation')
+    
+    # Add correlation values
+    for i in range(3):
+        for j in range(3):
+            ax.text(j, i, f'{corr[i,j]:.2f}', ha='center', va='center',
+                   color='black' if abs(corr[i,j]) < 0.7 else 'white')
+    
+    ax.set_xticks([0, 1, 2])
+    ax.set_yticks([0, 1, 2])
+    ax.set_xticklabels(['Final', 'Midterm', 'Homework'])
+    ax.set_yticklabels(['Final', 'Midterm', 'Homework'])
+    ax.set_title('Step 1: Score Correlation Structure', fontsize=16)
+    
+    # Save figure
+    plt.tight_layout()
+    plt.savefig(os.path.join(images_dir, f'{filename_prefix}_step1.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    # Step 2: Prediction Distribution
+    fig, ax = plt.subplots(figsize=(12, 6))
+    
+    # Calculate distribution
+    x_range = np.linspace(mu_pred-4*np.sqrt(sigma_pred), mu_pred+4*np.sqrt(sigma_pred), 1000)
+    pred_pdf = stats.norm.pdf(x_range, mu_pred, np.sqrt(sigma_pred))
+    
+    # Plot distribution
+    ax.plot(x_range, pred_pdf, 'b-', linewidth=2.5)
+    
+    # Add prediction interval
+    ax.fill_between(x_range, pred_pdf, 
+                   where=(x_range >= interval[0]) & (x_range <= interval[1]),
+                   alpha=0.3, color='blue', 
+                   label='95% Prediction Interval')
+    
+    # Add mean line
+    ax.axvline(mu_pred, color='red', linestyle='--', linewidth=2,
+               label=f'Predicted Score: {mu_pred:.1f}')
+    
+    # Add annotations
+    ax.text(0.02, 0.98, 
+            f'Student Scores:\nMidterm: {midterm}\nHomework: {homework}\n\nPrediction Interval:\n[{interval[0]:.1f}, {interval[1]:.1f}]',
+            transform=ax.transAxes, fontsize=12, verticalalignment='top',
+            bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+    
+    # Set labels and title
+    ax.set_xlabel('Final Exam Score', fontsize=14)
+    ax.set_ylabel('Probability Density', fontsize=14)
+    ax.set_title('Step 2: Final Exam Score Prediction', fontsize=16)
+    ax.grid(True, alpha=0.3)
+    ax.legend(fontsize=12)
+    
+    # Save figure
+    plt.tight_layout()
+    plt.savefig(os.path.join(images_dir, f'{filename_prefix}_step2.png'), dpi=300, bbox_inches='tight')
+    plt.close()
 
 def main():
     """Main function to run all examples"""
