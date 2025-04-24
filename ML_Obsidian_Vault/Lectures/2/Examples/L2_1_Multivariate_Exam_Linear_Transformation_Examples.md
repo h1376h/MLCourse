@@ -429,6 +429,17 @@ This example illustrates several important concepts:
 
 5. **Distribution Shape**: The shape, orientation, and spread of the probability density function changes according to the linear transformation, as shown in the comparison visualization.
 
+## Running the Examples
+
+You can run all the examples using the Python files:
+
+```bash
+python3 ML_Obsidian_Vault/Lectures/2/Codes/1_multivariate_linear_example1_linear_transformation.py
+python3 ML_Obsidian_Vault/Lectures/2/Codes/1_multivariate_linear_example2_orthogonal_transformation.py
+python3 ML_Obsidian_Vault/Lectures/2/Codes/1_multivariate_linear_example3_probabilities.py
+python3 ML_Obsidian_Vault/Lectures/2/Codes/1_multivariate_linear_example4_component_extraction.py
+```
+
 ## Related Topics
 
 - [[L2_1_Multivariate_Normal_Examples|Multivariate Normal Examples]]: More examples of multivariate normal distributions
