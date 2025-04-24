@@ -233,7 +233,7 @@ $$\boldsymbol{\Sigma} = \begin{bmatrix}
 0 & 0 & 0 & 0 & 9
 \end{bmatrix}$$
 
-Let $\mathbf{X}_1 = \begin{bmatrix} X_2 \\ X_4 \\ X_5 \end{bmatrix}$ and $\mathbf{X}_2 = \begin{bmatrix} X_1 \\ X_3 \end{bmatrix}$.
+Let $\mathbf{X}_1 = \begin{bmatrix} X_2 \\ X_4 \end{bmatrix}$ and $\mathbf{X}_2 = \begin{bmatrix} X_1 \\ X_3 \end{bmatrix}$.
 
 a) Determine the probability density function of $\mathbf{X}_2$.
 b) If $\mathbf{Y} = \begin{bmatrix} \mathbf{X}_1 \\ \mathbf{X}_2 \end{bmatrix}$, write down the covariance matrix of $\mathbf{Y}$.
@@ -243,34 +243,40 @@ c) Determine the distribution of $\mathbf{X}_1$ conditioned on $\mathbf{X}_2 = \
 
 #### Part a: PDF of $\mathbf{X}_2 = \begin{bmatrix} X_1 \\ X_3 \end{bmatrix}$
 
-For a multivariate normal distribution, the marginal distribution of any subset of variables is also multivariate normal. For $\mathbf{X}_2$:
-
-The mean vector is:
-$$\boldsymbol{\mu}_{\mathbf{X}_2} = \begin{bmatrix} 4 \\ 30 \end{bmatrix}$$
-
-The covariance matrix is:
-$$\boldsymbol{\Sigma}_{\mathbf{X}_2} = \begin{bmatrix}
-1 & 0 \\
-0 & 5
-\end{bmatrix}$$
-
-To write the PDF, we need:
-1. Determinant: $|\boldsymbol{\Sigma}_{\mathbf{X}_2}| = 5$
-2. Inverse: $\boldsymbol{\Sigma}_{\mathbf{X}_2}^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & 0.2 \end{bmatrix}$
-
-The probability density function is:
-
-$$f_{\mathbf{X}_2}(\mathbf{x}_2) = \frac{1}{2\pi \sqrt{|\boldsymbol{\Sigma}_{\mathbf{X}_2}|}} \exp\left(-\frac{1}{2}(\mathbf{x}_2 - \boldsymbol{\mu}_{\mathbf{X}_2})^T \boldsymbol{\Sigma}_{\mathbf{X}_2}^{-1} (\mathbf{x}_2 - \boldsymbol{\mu}_{\mathbf{X}_2})\right)$$
-
-#### Part b: Covariance matrix of $\mathbf{Y}$
-
-For $\mathbf{Y} = \begin{bmatrix} \mathbf{X}_1 \\ \mathbf{X}_2 \end{bmatrix} = \begin{bmatrix} X_2 \\ X_4 \\ X_5 \\ X_1 \\ X_3 \end{bmatrix}$, we need to reorder the mean vector and covariance matrix accordingly:
+For a multivariate normal distribution, we need to find the marginal mean vector and covariance matrix for $\mathbf{X}_2$:
 
 Mean vector:
-$$\boldsymbol{\mu}_{\mathbf{Y}} = \begin{bmatrix} 45 \\ 35 \\ 40 \\ 4 \\ 30 \end{bmatrix}$$
+$$\boldsymbol{\mu}_2 = \begin{bmatrix} 4 \\ 30 \end{bmatrix}$$
 
 Covariance matrix:
-$$\boldsymbol{\Sigma}_{\mathbf{Y}} = \begin{bmatrix}
+$$\boldsymbol{\Sigma}_2 = \begin{bmatrix} 1 & 0 \\ 0 & 5 \end{bmatrix}$$
+
+To find the PDF, we need the determinant and inverse of $\boldsymbol{\Sigma}_2$:
+
+1. Determinant calculation:
+   For 2×2 matrix:
+   $$\begin{vmatrix} 1 & 0 \\ 0 & 5 \end{vmatrix} = (1)(5) - (0)(0) = 5$$
+
+2. Inverse calculation:
+   For 2×2 matrix:
+   - Calculate determinant = 5
+   - Form adjugate matrix:
+     $$\text{adj}(\boldsymbol{\Sigma}_2) = \begin{bmatrix} 5 & 0 \\ 0 & 1 \end{bmatrix}$$
+   - Multiply by 1/determinant:
+     $$\boldsymbol{\Sigma}_2^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & 0.2 \end{bmatrix}$$
+
+The probability density function is:
+$$f_{\mathbf{X}_2}(\mathbf{x}_2) = \frac{1}{2\pi \sqrt{|\boldsymbol{\Sigma}_2|}} \exp\left(-\frac{1}{2}(\mathbf{x}_2 - \boldsymbol{\mu}_2)^T \boldsymbol{\Sigma}_2^{-1} (\mathbf{x}_2 - \boldsymbol{\mu}_2)\right)$$
+
+#### Part b: Covariance Matrix of $\mathbf{Y}$
+
+For $\mathbf{Y} = \begin{bmatrix} X_2 \\ X_4 \\ X_5 \\ X_1 \\ X_3 \end{bmatrix}$, we need to reorder the mean vector and covariance matrix:
+
+Mean vector:
+$$\boldsymbol{\mu}_Y = \begin{bmatrix} 45 \\ 35 \\ 40 \\ 4 \\ 30 \end{bmatrix}$$
+
+Covariance matrix:
+$$\boldsymbol{\Sigma}_Y = \begin{bmatrix}
 15 & 4 & 0 & 1 & 1 \\
 4 & 8 & 0 & 0 & 4 \\
 0 & 0 & 9 & 0 & 0 \\
@@ -278,50 +284,33 @@ $$\boldsymbol{\Sigma}_{\mathbf{Y}} = \begin{bmatrix}
 1 & 4 & 0 & 0 & 5
 \end{bmatrix}$$
 
-#### Part c: Conditional distribution of $\mathbf{X}_1$ given $\mathbf{X}_2 = \begin{bmatrix} 6 \\ 24 \end{bmatrix}$
+#### Part c: Conditional Distribution of $\mathbf{X}_1$ given $\mathbf{X}_2$
 
-For the conditional distribution, we need:
+To find the conditional distribution, we need to calculate:
 
-1. Partition matrices:
-$$\boldsymbol{\Sigma}_{11} = \begin{bmatrix}
-15 & 4 & 0 \\
-4 & 8 & 0 \\
-0 & 0 & 9
-\end{bmatrix}$$
+1. Calculate $\boldsymbol{\Sigma}_{22}^{-1}$:
+   For 2×2 matrix:
+   - Calculate determinant = 5
+   - Form adjugate matrix:
+     $$\text{adj}(\boldsymbol{\Sigma}_{22}) = \begin{bmatrix} 5 & 0 \\ 0 & 1 \end{bmatrix}$$
+   - Multiply by 1/determinant:
+     $$\boldsymbol{\Sigma}_{22}^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & 0.2 \end{bmatrix}$$
 
-$$\boldsymbol{\Sigma}_{12} = \begin{bmatrix}
-1 & 1 \\
-0 & 4 \\
-0 & 0
-\end{bmatrix}$$
+2. Calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}$:
+   $$\begin{bmatrix} 1 & 1 \\ 0 & 4 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 0.2 \end{bmatrix} = \begin{bmatrix} 1 & 0.2 \\ 0 & 0.8 \end{bmatrix}$$
 
-$$\boldsymbol{\Sigma}_{22} = \begin{bmatrix}
-1 & 0 \\
-0 & 5
-\end{bmatrix}$$
+3. Calculate conditional mean $\boldsymbol{\mu}_{1|2}$:
+   $$\boldsymbol{\mu}_{1|2} = \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$$
+   $$= \begin{bmatrix} 45 \\ 35 \end{bmatrix} + \begin{bmatrix} 1 & 0.2 \\ 0 & 0.8 \end{bmatrix} \begin{bmatrix} 2 \\ -6 \end{bmatrix}$$
+   $$= \begin{bmatrix} 45.8 \\ 30.2 \end{bmatrix}$$
 
-2. Calculate $\boldsymbol{\Sigma}_{22}^{-1}$:
-$$\boldsymbol{\Sigma}_{22}^{-1} = \begin{bmatrix}
-1 & 0 \\
-0 & 0.2
-\end{bmatrix}$$
-
-3. Mean vectors:
-$$\boldsymbol{\mu}_1 = \begin{bmatrix} 45 \\ 35 \\ 40 \end{bmatrix}$$
-$$\boldsymbol{\mu}_2 = \begin{bmatrix} 4 \\ 30 \end{bmatrix}$$
-
-4. Calculate conditional mean:
-$$\boldsymbol{\mu}_{\mathbf{X}_1|\mathbf{X}_2} = \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$$
-$$= \begin{bmatrix} 45 \\ 35 \\ 40 \end{bmatrix} + \begin{bmatrix} 1 & 1 \\ 0 & 4 \\ 0 & 0 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 0.2 \end{bmatrix} \begin{bmatrix} 2 \\ -6 \end{bmatrix}$$
-$$= \begin{bmatrix} 45.8 \\ 30.2 \\ 40 \end{bmatrix}$$
-
-5. Calculate conditional covariance:
-$$\boldsymbol{\Sigma}_{\mathbf{X}_1|\mathbf{X}_2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
-$$= \begin{bmatrix} 13.8 & 3.2 & 0 \\ 3.2 & 4.8 & 0 \\ 0 & 0 & 9 \end{bmatrix}$$
+4. Calculate conditional covariance $\boldsymbol{\Sigma}_{1|2}$:
+   $$\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
+   $$= \begin{bmatrix} 15 & 4 \\ 4 & 8 \end{bmatrix} - \begin{bmatrix} 1 & 0.2 \\ 0 & 0.8 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 1 & 4 \end{bmatrix}$$
+   $$= \begin{bmatrix} 13.8 & 3.2 \\ 3.2 & 4.8 \end{bmatrix}$$
 
 Therefore, the conditional distribution is:
-
-$$\mathbf{X}_1|\mathbf{X}_2 = \begin{bmatrix} 6 \\ 24 \end{bmatrix} \sim \mathcal{N}\left(\begin{bmatrix} 45.8 \\ 30.2 \\ 40 \end{bmatrix}, \begin{bmatrix} 13.8 & 3.2 & 0 \\ 3.2 & 4.8 & 0 \\ 0 & 0 & 9 \end{bmatrix}\right)$$
+$$\mathbf{X}_1|\mathbf{X}_2 = \begin{bmatrix} 6 \\ 24 \end{bmatrix} \sim \mathcal{N}\left(\begin{bmatrix} 45.8 \\ 30.2 \end{bmatrix}, \begin{bmatrix} 13.8 & 3.2 \\ 3.2 & 4.8 \end{bmatrix}\right)$$
 
 ## Example 5: Independent Variables with Inverse of Covariance Matrix
 
@@ -331,90 +320,114 @@ Assume we have the following three dimensional normal random variable
 
 $$\mathbf{X} = \begin{bmatrix} X_1 \\ X_2 \\ X_3 \end{bmatrix} \sim \mathcal{N} \left( \begin{bmatrix} 0 \\ 1 \\ -2 \end{bmatrix}, \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \right).$$
 
-The inverse of the covariance matrix is:
-
-$$\boldsymbol{\Sigma}^{-1} = \begin{bmatrix} 1/2 & -1/2 & 1/2 \\ -1/2 & 3/2 & -1/2 \\ 1/2 & -1/2 & 3/2 \end{bmatrix}$$
-
-We can verify this is correct by checking that $\boldsymbol{\Sigma}\boldsymbol{\Sigma}^{-1} = \mathbf{I}$.
-
-(a) Which pairs of variables are independent?
-
-(b) Define 
-$$Z = X_1 - aX_2 - bX_3,$$
-where $a, b \in \mathbb{R}$ are two constants. Is it possible to set the values of $a$ and $b$ such that $Z$ is independent with $X_1$ (that is, $Z \perp X_1$)? If so, give an example of such $a$ and $b$.
-
-(c) For $Z = X_1 - aX_2 - bX_3$, is it possible to set the value of $a$ and $b$ such that $Z$ is independent with $X_1$ conditional on $X_3 = x_3$ (i.e., $Z \perp X_1 \mid X_3 = x_3$), for any fixed value $x_3 \in \mathbb{R}$? In other words, we hope to make $X_1$ and $Z$ independent conditional on that $X_3$ equals to a fixed number $x_3$, regardless what the value of $x_3$ is. If this can be done, give an example of $(a, b)$ that satisfy the condition.
+We need to find the inverse of the covariance matrix $\boldsymbol{\Sigma}^{-1}$ and verify various independence properties.
 
 ### Solution
 
-#### Part a: Identifying independent pairs of variables
+#### Part 1: Finding the Inverse of the Covariance Matrix
 
-For a multivariate normal distribution, two random variables are independent if and only if their covariance is zero. Looking at the covariance matrix:
+To find $\boldsymbol{\Sigma}^{-1}$, we follow these steps:
 
-- $\text{Cov}(X_1, X_2) = \Sigma_{12} = 1 \neq 0$, so $X_1$ and $X_2$ are not independent.
-- $\text{Cov}(X_2, X_3) = \Sigma_{23} = 0$, so $X_2$ and $X_3$ are independent.
-- $\text{Cov}(X_1, X_3) = \Sigma_{13} = -1 \neq 0$, so $X_1$ and $X_3$ are not independent.
+1. Calculate the cofactor matrix:
+   For each element $(i,j)$, we calculate the cofactor $C_{ij} = (-1)^{i+j}M_{ij}$ where $M_{ij}$ is the minor (determinant of the 2×2 matrix after removing row $i$ and column $j$).
+
+   For example, for position (1,1):
+   $$M_{11} = \begin{vmatrix} 1 & 0 \\ 0 & 1 \end{vmatrix} = 1$$
+   $$C_{11} = 1$$
+
+   Complete cofactor matrix:
+   $$\begin{bmatrix} 
+   1 & -1 & 1 \\
+   -1 & 3 & -1 \\
+   1 & -1 & 3
+   \end{bmatrix}$$
+
+2. Calculate determinant using first row expansion:
+   $$|\boldsymbol{\Sigma}| = 4(1) + 1(-1) + (-1)(1) = 2$$
+
+3. Calculate adjugate matrix (transpose of cofactor matrix):
+   $$\text{adj}(\boldsymbol{\Sigma}) = \begin{bmatrix} 
+   1 & -1 & 1 \\
+   -1 & 3 & -1 \\
+   1 & -1 & 3
+   \end{bmatrix}$$
+
+4. Divide by determinant to get inverse:
+   $$\boldsymbol{\Sigma}^{-1} = \frac{1}{2}\begin{bmatrix} 
+   1 & -1 & 1 \\
+   -1 & 3 & -1 \\
+   1 & -1 & 3
+   \end{bmatrix} = \begin{bmatrix} 
+   0.5 & -0.5 & 0.5 \\
+   -0.5 & 1.5 & -0.5 \\
+   0.5 & -0.5 & 1.5
+   \end{bmatrix}$$
+
+Verification: $\boldsymbol{\Sigma}\boldsymbol{\Sigma}^{-1} = \mathbf{I}$
+
+#### Part 2: Independence Between Pairs
+
+For multivariate normal distributions, zero covariance implies independence. Looking at the covariance matrix $\boldsymbol{\Sigma}$:
+
+1. For $(X_1,X_2)$:
+   $$\text{Cov}(X_1,X_2) = \boldsymbol{\Sigma}_{12} = 1 \neq 0 \implies \text{not independent}$$
+
+2. For $(X_2,X_3)$:
+   $$\text{Cov}(X_2,X_3) = \boldsymbol{\Sigma}_{23} = 0 \implies \text{independent}$$
+
+3. For $(X_1,X_3)$:
+   $$\text{Cov}(X_1,X_3) = \boldsymbol{\Sigma}_{13} = -1 \neq 0 \implies \text{not independent}$$
 
 Therefore, only $X_2$ and $X_3$ are independent.
 
-#### Part b: Finding values of $a$ and $b$ for independence
+#### Part 3: Finding Values of $a$ and $b$ for Independence
 
-For $Z = X_1 - aX_2 - bX_3$ to be independent of $X_1$, we need $\text{Cov}(Z, X_1) = 0$.
+For $Z = X_1 - aX_2 - bX_3$ to be independent of $X_1$, we need $\text{Cov}(Z,X_1) = 0$.
 
-$$\text{Cov}(Z, X_1) = \text{Cov}(X_1 - aX_2 - bX_3, X_1)$$
-$$= \text{Var}(X_1) - a\text{Cov}(X_2, X_1) - b\text{Cov}(X_3, X_1)$$
-$$= 4 - a \cdot 1 - b \cdot (-1)$$
-$$= 4 - a + b$$
+Step-by-step calculation:
+1. Express covariance:
+   $$\text{Cov}(Z,X_1) = \text{Cov}(X_1 - aX_2 - bX_3, X_1)$$
+   $$= \text{Var}(X_1) - a\text{Cov}(X_2,X_1) - b\text{Cov}(X_3,X_1)$$
 
-For $\text{Cov}(Z, X_1) = 0$, we need:
-$$4 - a + b = 0$$
-$$a = 4 + b$$
+2. Substitute values:
+   $$4 - a(1) - b(-1) = 0$$
+   $$4 - a + b = 0$$
 
-So $a$ and $b$ must satisfy $a = 4 + b$. Any pair of values that satisfies this equation will make $Z$ and $X_1$ independent.
+3. Solve for $a$:
+   $$a = 4 + b$$
 
-For example, if we choose $b = 0$, then $a = 4$, and $Z = X_1 - 4X_2$ would be independent of $X_1$.
+Any pair $(a,b)$ satisfying this equation will make $Z$ and $X_1$ independent. For example:
+- If $b = 0$, then $a = 4$
+- If $b = 1$, then $a = 5$
+- If $b = -1$, then $a = 3$
 
-We can verify this solution:
-```python
-z_coef = [1, -4, 0]  # Coefficients for Z = X₁ - 4X₂
-x1_coef = [1, 0, 0]  # Coefficients for X₁
-Cov(Z,X₁) = 0  # Verified through calculation
-```
+#### Part 4: Conditional Independence Given $X_3$
 
-#### Part c: Conditional independence given $X_3 = x_3$
+To determine if $Z$ and $X_1$ can be conditionally independent given $X_3$, we:
 
-To determine if $Z = X_1 - aX_2 - bX_3$ can be independent of $X_1$ conditional on $X_3 = x_3$, we need to:
+1. Extract relevant submatrices:
+   $$\boldsymbol{\Sigma}_{11} = \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix} \text{ (covariance of } X_1,X_2)$$
+   
+   $$\boldsymbol{\Sigma}_{12} = \begin{bmatrix} -1 \\ 0 \end{bmatrix} \text{ (covariance with } X_3)$$
+   
+   $$\boldsymbol{\Sigma}_{22} = [1] \text{ (variance of } X_3)$$
 
-1. Calculate the conditional covariance matrix of $(X_1, X_2)$ given $X_3$:
+2. Calculate conditional covariance matrix:
+   $$\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
+   
+   $$= \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix} - \begin{bmatrix} -1 \\ 0 \end{bmatrix} [1] \begin{bmatrix} -1 & 0 \end{bmatrix}$$
+   
+   $$= \begin{bmatrix} 3 & 1 \\ 1 & 1 \end{bmatrix}$$
 
-First, partition the covariance matrix:
-$$\boldsymbol{\Sigma}_{11} = \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix} \text{ (covariance of } X_1, X_2)$$
+3. For conditional independence, we need:
+   $$\text{Cov}(Z,X_1|X_3) = 0$$
+   $$\text{Cov}(X_1 - aX_2,X_1|X_3) = 0$$
+   $$3 - a(1) = 0$$
+   $$a = 3$$
 
-$$\boldsymbol{\Sigma}_{12} = \begin{bmatrix} -1 \\ 0 \end{bmatrix} \text{ (covariance between } (X_1,X_2) \text{ and } X_3)$$
+Therefore, to achieve conditional independence of $Z$ and $X_1$ given $X_3$, we need $a = 3$ and $b$ can be any value (since we're conditioning on $X_3$). For instance, $(a,b) = (3,0)$ would give $Z = X_1 - 3X_2$ which is independent of $X_1$ conditional on $X_3$.
 
-$$\boldsymbol{\Sigma}_{22} = \begin{bmatrix} 1 \end{bmatrix} \text{ (variance of } X_3)$$
-
-2. Calculate the conditional covariance matrix:
-$$\boldsymbol{\Sigma}_{11|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
-
-$$= \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix} - \begin{bmatrix} -1 \\ 0 \end{bmatrix} \cdot [1] \cdot \begin{bmatrix} -1 & 0 \end{bmatrix}$$
-
-$$= \begin{bmatrix} 3 & 1 \\ 1 & 1 \end{bmatrix}$$
-
-3. For $Z$ to be independent of $X_1$ conditional on $X_3$, we need:
-   - The conditional covariance between $X_1$ and $Z$ given $X_3$ must be zero
-   - Looking at the conditional covariance matrix, we need $a = 3$
-   - The value of $b$ doesn't matter when conditioning on $X_3$
-
-We can verify this solution:
-```python
-a = 3
-z_coef = [1, -3, 0]  # b doesn't matter when conditioning on X₃
-x1_coef = [1, 0]
-Conditional_Cov(Z,X₁|X₃) = 0.0  # Verified through calculation
-```
-
-Therefore, to achieve conditional independence of $Z$ and $X_1$ given $X_3 = x_3$, we need $a = 3$ and $b$ can be any value. For instance, $(a,b) = (3,0)$ would give $Z = X_1 - 3X_2$ which is independent of $X_1$ conditional on $X_3 = x_3$.
+The geometric interpretation is that conditioning on $X_3$ changes the correlation structure between $X_1$ and $X_2$, and with $a = 3$, we find a linear combination that eliminates this conditional correlation.
 
 ## Running the Examples
 

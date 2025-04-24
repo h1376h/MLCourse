@@ -107,6 +107,196 @@ def calculate_conditional_distribution(mu, Sigma, conditioning_vars, given_value
     
     return mu_cond, Sigma_cond
 
+def calculate_determinant_2x2(matrix):
+    """Calculate determinant of 2x2 matrix with steps."""
+    a, b = matrix[0,0], matrix[0,1]
+    c, d = matrix[1,0], matrix[1,1]
+    det = a*d - b*c
+    steps = [
+        "For 2x2 matrix:",
+        f"|{a} {b}| = ({a})({d}) - ({b})({c})",
+        f"|{c} {d}|",
+        f"= {a*d} - {b*c}",
+        f"= {det}"
+    ]
+    return det, "\n".join(steps)
+
+def calculate_inverse_2x2(matrix):
+    """Calculate inverse of 2x2 matrix with steps."""
+    a, b = matrix[0,0], matrix[0,1]
+    c, d = matrix[1,0], matrix[1,1]
+    det = a*d - b*c
+    if det == 0:
+        return None, "Matrix is not invertible (determinant = 0)"
+    
+    inv = np.array([[d/det, -b/det], [-c/det, a/det]])
+    steps = [
+        "For 2x2 matrix inverse:",
+        f"1. Calculate determinant = {det}",
+        "2. Adjugate matrix:",
+        f"   |{d} {-b}|",
+        f"   |{-c} {a}|",
+        "3. Multiply by 1/determinant:",
+        f"   |{d/det:.4f} {-b/det:.4f}|",
+        f"   |{-c/det:.4f} {a/det:.4f}|"
+    ]
+    return inv, "\n".join(steps)
+
+def calculate_conditional_distribution_steps(mu, Sigma, idx_X1, idx_cond, x2_values):
+    """Calculate conditional distribution with detailed steps."""
+    # Extract submatrices with steps
+    Sigma_11 = Sigma[np.ix_(idx_X1, idx_X1)]
+    Sigma_12 = Sigma[np.ix_(idx_X1, idx_cond)]
+    Sigma_21 = Sigma[np.ix_(idx_cond, idx_X1)]
+    Sigma_22 = Sigma[np.ix_(idx_cond, idx_cond)]
+    
+    # Calculate inverse with steps
+    Sigma_22_inv, inv_steps = calculate_inverse_2x2(Sigma_22)
+    
+    # Calculate conditional mean
+    mu_1 = mu[idx_X1]
+    mu_2_cond = mu[idx_cond]
+    diff = x2_values - mu_2_cond
+    
+    # Calculate Sigma_12 @ Sigma_22_inv with steps
+    S12_S22inv = Sigma_12 @ Sigma_22_inv
+    S12_S22inv_steps = [
+        "Calculate Σ₁₂Σ₂₂⁻¹:",
+        f"[{Sigma_12[0,0]} {Sigma_12[0,1]}] [{Sigma_22_inv[0,0]:.4f} {Sigma_22_inv[0,1]:.4f}]",
+        f"[{Sigma_12[1,0]} {Sigma_12[1,1]}] [{Sigma_22_inv[1,0]:.4f} {Sigma_22_inv[1,1]:.4f}]",
+        f"= [{S12_S22inv[0,0]:.4f} {S12_S22inv[0,1]:.4f}]",
+        f"  [{S12_S22inv[1,0]:.4f} {S12_S22inv[1,1]:.4f}]"
+    ]
+    
+    # Calculate conditional mean with steps
+    mu_cond = mu_1 + S12_S22inv @ diff
+    mu_cond_steps = [
+        "Calculate conditional mean μ₁|₂ = μ₁ + Σ₁₂Σ₂₂⁻¹(x₂ - μ₂):",
+        f"μ₁|₂ = [{mu_1[0]}] + [{S12_S22inv[0,0]:.4f} {S12_S22inv[0,1]:.4f}] [{diff[0]}]",
+        f"       [{mu_1[1]}]   [{S12_S22inv[1,0]:.4f} {S12_S22inv[1,1]:.4f}] [{diff[1]}]",
+        f"= [{mu_cond[0]:.4f}]",
+        f"  [{mu_cond[1]:.4f}]"
+    ]
+    
+    # Calculate conditional covariance
+    Sigma_cond = Sigma_11 - S12_S22inv @ Sigma_21
+    Sigma_cond_steps = [
+        "Calculate conditional covariance Σ₁|₂ = Σ₁₁ - Σ₁₂Σ₂₂⁻¹Σ₂₁:",
+        f"Σ₁|₂ = [{Sigma_11[0,0]} {Sigma_11[0,1]}] - [{S12_S22inv[0,0]:.4f} {S12_S22inv[0,1]:.4f}] [{Sigma_21[0,0]} {Sigma_21[0,1]}]",
+        f"       [{Sigma_11[1,0]} {Sigma_11[1,1]}]   [{S12_S22inv[1,0]:.4f} {S12_S22inv[1,1]:.4f}] [{Sigma_21[1,0]} {Sigma_21[1,1]}]",
+        f"= [{Sigma_cond[0,0]:.4f} {Sigma_cond[0,1]:.4f}]",
+        f"  [{Sigma_cond[1,0]:.4f} {Sigma_cond[1,1]:.4f}]"
+    ]
+    
+    return {
+        'mu_cond': mu_cond,
+        'Sigma_cond': Sigma_cond,
+        'steps': {
+            'inverse': inv_steps,
+            'S12_S22inv': "\n".join(S12_S22inv_steps),
+            'mu_cond': "\n".join(mu_cond_steps),
+            'Sigma_cond': "\n".join(Sigma_cond_steps)
+        }
+    }
+
+def calculate_3x3_inverse(matrix):
+    """Calculate inverse of 3x3 matrix with detailed steps."""
+    # Step 1: Calculate cofactor matrix
+    def cofactor(i, j):
+        # Get the 2x2 submatrix
+        sub_matrix = np.delete(np.delete(matrix, i, 0), j, 1)
+        # Calculate determinant of 2x2 matrix
+        det = sub_matrix[0,0]*sub_matrix[1,1] - sub_matrix[0,1]*sub_matrix[1,0]
+        # Apply (-1)^(i+j)
+        return (-1)**(i+j) * det
+    
+    cofactor_matrix = np.zeros((3,3))
+    for i in range(3):
+        for j in range(3):
+            cofactor_matrix[i,j] = cofactor(i,j)
+    
+    # Step 2: Calculate determinant using first row expansion
+    det = sum(matrix[0,j] * cofactor_matrix[0,j] for j in range(3))
+    
+    # Step 3: Calculate adjugate (transpose of cofactor matrix)
+    adjugate = cofactor_matrix.T
+    
+    # Step 4: Divide by determinant
+    inverse = adjugate / det
+    
+    steps = [
+        "1. Calculate cofactor matrix:",
+        f"   {cofactor_matrix[0,0]:.4f} {cofactor_matrix[0,1]:.4f} {cofactor_matrix[0,2]:.4f}",
+        f"   {cofactor_matrix[1,0]:.4f} {cofactor_matrix[1,1]:.4f} {cofactor_matrix[1,2]:.4f}",
+        f"   {cofactor_matrix[2,0]:.4f} {cofactor_matrix[2,1]:.4f} {cofactor_matrix[2,2]:.4f}",
+        "\n2. Calculate determinant using first row expansion:",
+        f"   det = {matrix[0,0]}·{cofactor_matrix[0,0]:.4f} + {matrix[0,1]}·{cofactor_matrix[0,1]:.4f} + {matrix[0,2]}·{cofactor_matrix[0,2]:.4f}",
+        f"   det = {det:.4f}",
+        "\n3. Calculate adjugate (transpose of cofactor matrix):",
+        f"   {adjugate[0,0]:.4f} {adjugate[0,1]:.4f} {adjugate[0,2]:.4f}",
+        f"   {adjugate[1,0]:.4f} {adjugate[1,1]:.4f} {adjugate[1,2]:.4f}",
+        f"   {adjugate[2,0]:.4f} {adjugate[2,1]:.4f} {adjugate[2,2]:.4f}",
+        "\n4. Divide by determinant to get inverse:",
+        f"   {inverse[0,0]:.4f} {inverse[0,1]:.4f} {inverse[0,2]:.4f}",
+        f"   {inverse[1,0]:.4f} {inverse[1,1]:.4f} {inverse[1,2]:.4f}",
+        f"   {inverse[2,0]:.4f} {inverse[2,1]:.4f} {inverse[2,2]:.4f}"
+    ]
+    
+    return inverse, det, "\n".join(steps)
+
+def calculate_independence_conditions(Sigma, a, b):
+    """Calculate covariance between Z and X₁ with detailed steps."""
+    # Z = X₁ - aX₂ - bX₃
+    z_coef = np.array([1, -a, -b])
+    x1_coef = np.array([1, 0, 0])
+    
+    # Calculate Cov(Z,X₁)
+    cov = z_coef.T @ Sigma @ x1_coef
+    
+    steps = [
+        "Calculate Cov(Z,X₁) = Cov(X₁ - aX₂ - bX₃, X₁):",
+        "= Var(X₁) - a·Cov(X₂,X₁) - b·Cov(X₃,X₁)",
+        f"= {Sigma[0,0]} - ({a})·({Sigma[0,1]}) - ({b})·({Sigma[0,2]})",
+        f"= {Sigma[0,0]} - {a*Sigma[0,1]} - {b*Sigma[0,2]}",
+        f"= {cov}"
+    ]
+    
+    return cov, "\n".join(steps)
+
+def calculate_conditional_independence(Sigma, a, x3_value=None):
+    """Calculate conditional covariance between Z and X₁ given X₃."""
+    # Extract relevant submatrices for X₁,X₂ given X₃
+    Sigma_11 = Sigma[:2,:2]
+    Sigma_12 = Sigma[:2,2:3]
+    Sigma_21 = Sigma[2:3,:2]
+    Sigma_22 = Sigma[2:3,2:3]
+    
+    # Calculate conditional covariance matrix
+    Sigma_22_inv = 1/Sigma_22[0,0]
+    Sigma_cond = Sigma_11 - Sigma_12 @ np.array([[Sigma_22_inv]]) @ Sigma_21
+    
+    # Calculate conditional covariance between Z and X₁
+    z_coef = np.array([1, -a])
+    x1_coef = np.array([1, 0])
+    cond_cov = z_coef.T @ Sigma_cond @ x1_coef
+    
+    steps = [
+        "1. Extract submatrices:",
+        f"Σ₁₁ = [{Sigma_11[0,0]} {Sigma_11[0,1]}]",
+        f"     [{Sigma_11[1,0]} {Sigma_11[1,1]}]",
+        f"\nΣ₁₂ = [{Sigma_12[0,0]}]",
+        f"     [{Sigma_12[1,0]}]",
+        f"\nΣ₂₂ = [{Sigma_22[0,0]}]",
+        "\n2. Calculate conditional covariance matrix:",
+        "Σ₁₁|₃ = Σ₁₁ - Σ₁₂Σ₂₂⁻¹Σ₂₁",
+        f"= [{Sigma_cond[0,0]:.4f} {Sigma_cond[0,1]:.4f}]",
+        f"  [{Sigma_cond[1,0]:.4f} {Sigma_cond[1,1]:.4f}]",
+        "\n3. Calculate conditional covariance between Z and X₁:",
+        f"Cov(Z,X₁|X₃) = {cond_cov:.4f}"
+    ]
+    
+    return cond_cov, Sigma_cond, "\n".join(steps)
+
 def example1():
     """Example 1: Independence in Multivariate Normal Variables"""
     print("\n=== Example 1: Independence in Multivariate Normal Variables ===")
@@ -356,24 +546,15 @@ def example4():
     print_matrix("Mean vector μ₂", mu_2)
     print_matrix("Covariance matrix Σ₂", Sigma_2)
     
-    # Calculate determinant and inverse of Sigma_2
-    det_Sigma_2 = np.linalg.det(Sigma_2)
-    inv_Sigma_2 = np.linalg.inv(Sigma_2)
+    # Calculate determinant with steps
+    det_Sigma_2, det_steps = calculate_determinant_2x2(Sigma_2)
+    print("\nDeterminant calculation:")
+    print(det_steps)
     
-    print("\nPDF components:")
-    print(f"Determinant |Σ₂| = {det_Sigma_2}")
-    print_matrix("Inverse Σ₂⁻¹", inv_Sigma_2)
-    
-    # Create a function for the PDF
-    def pdf_X2(x1, x3):
-        x = np.array([x1, x3])
-        diff = x - mu_2
-        exponent = -0.5 * diff.T @ inv_Sigma_2 @ diff
-        coefficient = 1 / (2 * np.pi * np.sqrt(det_Sigma_2))
-        return coefficient * np.exp(exponent)
-    
-    print("\nPDF formula:")
-    print("f(x₁,x₃) = (2πΣ₂)^(-1/2) exp(-½(x-μ₂)ᵀΣ₂⁻¹(x-μ₂))")
+    # Calculate inverse with steps
+    inv_Sigma_2, inv_steps = calculate_inverse_2x2(Sigma_2)
+    print("\nInverse calculation:")
+    print(inv_steps)
     
     print_step(3, "Calculate covariance matrix of Y = [X₁, X₂, X₃, X₄, X₅]")
     # Reorder variables according to Y = [X₂, X₄, X₅, X₁, X₃]
@@ -386,59 +567,31 @@ def example4():
     print_matrix("Covariance matrix ΣY", Sigma_Y)
     
     print_step(4, "Calculate conditional distribution of X₁ given X₂ = [6, 24]")
-    # X₁ = [X₂, X₄, X₅], X₂ = [X₁, X₃]
     x2_values = np.array([6, 24])
-    
-    # Calculate conditional distribution
-    idx_X1 = [1, 3, 4]  # Indices for X₂, X₄, X₅
+    idx_X1 = [1, 3]  # Indices for X₂, X₄
     idx_cond = [0, 2]   # Indices for X₁, X₃
     
-    # Extract submatrices
-    Sigma_11 = Sigma[np.ix_(idx_X1, idx_X1)]
-    Sigma_12 = Sigma[np.ix_(idx_X1, idx_cond)]
-    Sigma_21 = Sigma[np.ix_(idx_cond, idx_X1)]
-    Sigma_22 = Sigma[np.ix_(idx_cond, idx_cond)]
+    # Calculate conditional distribution with detailed steps
+    cond_dist = calculate_conditional_distribution_steps(mu, Sigma, idx_X1, idx_cond, x2_values)
     
-    # Calculate conditional parameters
-    Sigma_22_inv = np.linalg.inv(Sigma_22)
-    mu_1 = mu[idx_X1]
-    mu_2_cond = mu[idx_cond]
+    print("\nStep-by-step calculations:")
+    print("\n1. Calculate Σ₂₂⁻¹:")
+    print(cond_dist['steps']['inverse'])
+    print("\n2. Calculate Σ₁₂Σ₂₂⁻¹:")
+    print(cond_dist['steps']['S12_S22inv'])
+    print("\n3. Calculate conditional mean:")
+    print(cond_dist['steps']['mu_cond'])
+    print("\n4. Calculate conditional covariance:")
+    print(cond_dist['steps']['Sigma_cond'])
     
-    # Calculate conditional mean and covariance
-    mu_cond = mu_1 + Sigma_12 @ Sigma_22_inv @ (x2_values - mu_2_cond)
-    Sigma_cond = Sigma_11 - Sigma_12 @ Sigma_22_inv @ Sigma_21
-    
-    print("\nStep-by-step calculation of conditional distribution:")
-    print("\nΣ₁₁ = covariance matrix of X₁ = [X₂, X₄, X₅]")
-    print_matrix("Σ₁₁", Sigma_11)
-    
-    print("\nΣ₁₂ = covariance between X₁ and X₂")
-    print_matrix("Σ₁₂", Sigma_12)
-    
-    print("\nΣ₂₂ = covariance matrix of X₂ = [X₁, X₃]")
-    print_matrix("Σ₂₂", Sigma_22)
-    
-    print("\nΣ₂₂⁻¹ = inverse of Σ₂₂")
-    print_matrix("Σ₂₂⁻¹", Sigma_22_inv)
-    
-    print("\nμ₁ = mean of X₁")
-    print_matrix("μ₁", mu_1)
-    
-    print("\nμ₂ = mean of X₂")
-    print_matrix("μ₂", mu_2_cond)
-    
-    print("\nConditional distribution parameters:")
-    print_matrix("Conditional mean μ₁|₂", mu_cond)
-    print_matrix("Conditional covariance Σ₁|₂", Sigma_cond)
-    
-    # Plot original and conditional distributions
+    # Plot distributions
     plot_2d_gaussian(mu[[1,3]], Sigma[np.ix_([1,3], [1,3])],
                     'Joint Distribution of X₂ and X₄',
                     'example4_original',
                     x_label='X₂', y_label='X₄')
     
     # Plot conditional distribution for X₂ and X₄
-    plot_2d_gaussian(mu_cond[[0,1]], Sigma_cond[np.ix_([0,1], [0,1])],
+    plot_2d_gaussian(cond_dist['mu_cond'], cond_dist['Sigma_cond'],
                     'Conditional Distribution of X₂ and X₄\ngiven X₁ = 6, X₃ = 24',
                     'example4_conditional',
                     x_label='X₂', y_label='X₄')
@@ -452,15 +605,15 @@ def example5():
     Sigma = np.array([[4, 1, -1],
                      [1, 1, 0],
                      [-1, 0, 1]])
-    Sigma_inv = np.array([[1/2, -1/2, 1/2],
-                         [-1/2, 3/2, -1/2],
-                         [1/2, -1/2, 3/2]])
     
     print_matrix("Mean vector μ", mu)
     print_matrix("Covariance matrix Σ", Sigma)
-    print_matrix("Inverse covariance matrix Σ⁻¹", Sigma_inv)
     
-    # Verify the inverse
+    # Calculate inverse with detailed steps
+    Sigma_inv, det, inv_steps = calculate_3x3_inverse(Sigma)
+    print("\nDetailed inverse calculation:")
+    print(inv_steps)
+    
     print("\nVerifying Σ·Σ⁻¹ = I:")
     print_matrix("Σ·Σ⁻¹", Sigma @ Sigma_inv)
     
@@ -475,72 +628,34 @@ def example5():
         print(f"→ Variables are {'independent' if cov == 0 else 'not independent'}")
     
     print_step(3, "Find values of a and b for Z = X₁ - aX₂ - bX₃ to be independent of X₁")
-    print("\nFor Z to be independent of X₁, we need Cov(Z,X₁) = 0:")
-    print("Cov(X₁ - aX₂ - bX₃, X₁) = 0")
-    print("Var(X₁) - a·Cov(X₂,X₁) - b·Cov(X₃,X₁) = 0")
-    print(f"{Sigma[0,0]} - a·{Sigma[0,1]} - b·({Sigma[0,2]}) = 0")
-    print("4 - a + b = 0")
-    print("Therefore: a = 4 + b")
-    
-    # Example solution
+    # Example solution with b = 0
     b = 0
     a = 4 + b
-    print(f"\nExample solution: b = {b}, a = {a}")
     
-    # Verify the solution
-    z_coef = np.array([1, -a, -b])
-    x1_coef = np.array([1, 0, 0])
-    cov_z_x1 = calculate_covariance(z_coef, x1_coef, Sigma)
-    print(f"\nVerification - Cov(Z,X₁) = {cov_z_x1[0,0]}")
+    # Calculate covariance with detailed steps
+    cov_z_x1, cov_steps = calculate_independence_conditions(Sigma, a, b)
+    print("\nDetailed covariance calculation:")
+    print(cov_steps)
+    
+    print(f"\nExample solution: b = {b}, a = {a}")
+    print(f"Verification - Cov(Z,X₁) = {cov_z_x1}")
     
     print_step(4, "Check conditional independence given X₃")
-    # Calculate conditional covariance matrix
-    idx_X1X2 = [0, 1]  # Indices for X₁ and X₂
-    idx_X3 = [2]       # Index for X₃
-    
-    # Extract relevant submatrices
-    Sigma_11 = Sigma[np.ix_(idx_X1X2, idx_X1X2)]  # Covariance of (X₁,X₂)
-    Sigma_12 = Sigma[np.ix_(idx_X1X2, idx_X3)]    # Covariance between (X₁,X₂) and X₃
-    Sigma_21 = Sigma[np.ix_(idx_X3, idx_X1X2)]    # Covariance between X₃ and (X₁,X₂)
-    Sigma_22 = Sigma[np.ix_(idx_X3, idx_X3)]      # Variance of X₃
-    
-    # Calculate conditional covariance matrix
-    Sigma_22_inv = np.linalg.inv(Sigma_22)
-    Sigma_cond = Sigma_11 - Sigma_12 @ Sigma_22_inv @ Sigma_21
-    
-    print("\nStep-by-step calculation of conditional distribution:")
-    print("\nΣ₁₁ = covariance matrix of (X₁,X₂)")
-    print_matrix("Σ₁₁", Sigma_11)
-    
-    print("\nΣ₁₂ = covariance vector between (X₁,X₂) and X₃")
-    print_matrix("Σ₁₂", Sigma_12)
-    
-    print("\nΣ₂₂ = variance of X₃")
-    print_matrix("Σ₂₂", Sigma_22)
-    
-    print("\nConditional covariance matrix:")
-    print_matrix("Σ₁₁|₂ = Σ₁₁ - Σ₁₂Σ₂₂⁻¹Σ₂₁", Sigma_cond)
-    
-    # Calculate the value of a needed for conditional independence
-    print("\nFor conditional independence between X₁ and Z given X₃:")
-    print("We need the conditional covariance between X₁ and Z|X₃ to be 0")
-    print("Looking at the conditional covariance matrix, we need a = 3")
-    
-    # Verify conditional independence with a = 3
+    # Calculate conditional independence with a = 3
     a_cond = 3
-    z_coef_cond = np.array([1, -a_cond, 0])  # Note: b doesn't matter when conditioning on X₃
-    x1_coef_cond = np.array([1, 0])
-    cov_z_x1_cond = z_coef_cond[:2].T @ Sigma_cond @ x1_coef_cond
-    print(f"\nVerification - Conditional Cov(Z,X₁|X₃) with a = {a_cond}: {cov_z_x1_cond}")
+    cond_cov, Sigma_cond, cond_steps = calculate_conditional_independence(Sigma, a_cond)
+    
+    print("\nDetailed conditional independence calculation:")
+    print(cond_steps)
     
     # Plot distributions
-    plot_2d_gaussian(mu[:2], Sigma[:2,:2],
+    plot_2d_gaussian(mu[:2], Sigma[:2,:2], 
                     'Joint Distribution of X₁ and X₂',
                     'example5_original')
     
     # Plot conditional distribution
     x3_value = -2  # Conditioning on X₃ = -2
-    mu_cond = mu[:2] + Sigma_12 @ Sigma_22_inv @ np.array([x3_value - mu[2]])
+    mu_cond = mu[:2] + Sigma[:2,2:3] @ np.array([[1/Sigma[2,2]]]) @ np.array([x3_value - mu[2]])
     plot_2d_gaussian(mu_cond, Sigma_cond,
                     'Conditional Distribution of X₁ and X₂\ngiven X₃ = -2',
                     'example5_conditional',
