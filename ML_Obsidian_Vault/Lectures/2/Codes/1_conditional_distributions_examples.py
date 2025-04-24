@@ -600,20 +600,20 @@ def example3_prediction_conditional_inference():
     
     print(f"Correlation between Final and Midterm: ρ_FM = {cov[0,1]}/√({cov[0,0]}×{cov[1,1]})")
     print(f"  = {cov[0,1]}/√{cov[0,0]*cov[1,1]}")
-    print(f"  = {cov[0,1]}/{np.sqrt(cov[0,0]*cov[1,1]):.4f} = {rho_fm:.4f}")
+    print(f"  = {cov[0,1]}/{np.sqrt(cov[0,0]*cov[1,1]):.8f} = {rho_fm:.8f}")
     
     print(f"\nCorrelation between Final and Homework: ρ_FH = {cov[0,2]}/√({cov[0,0]}×{cov[2,2]})")
     print(f"  = {cov[0,2]}/√{cov[0,0]*cov[2,2]}")
-    print(f"  = {cov[0,2]}/{np.sqrt(cov[0,0]*cov[2,2]):.4f} = {rho_fh:.4f}")
+    print(f"  = {cov[0,2]}/{np.sqrt(cov[0,0]*cov[2,2]):.8f} = {rho_fh:.8f}")
     
     print(f"\nCorrelation between Midterm and Homework: ρ_MH = {cov[1,2]}/√({cov[1,1]}×{cov[2,2]})")
     print(f"  = {cov[1,2]}/√{cov[1,1]*cov[2,2]}")
-    print(f"  = {cov[1,2]}/{np.sqrt(cov[1,1]*cov[2,2]):.4f} = {rho_mh:.4f}")
+    print(f"  = {cov[1,2]}/{np.sqrt(cov[1,1]*cov[2,2]):.8f} = {rho_mh:.8f}")
     
     print("\nCorrelation analysis:")
-    print(f"- Final exam has a strong positive correlation of {rho_fm:.2f} with midterm scores")
-    print(f"- Final exam has an even stronger correlation of {rho_fh:.2f} with homework scores")
-    print(f"- Midterm has a strong correlation of {rho_mh:.2f} with homework scores")
+    print(f"- Final exam has a strong positive correlation of {rho_fm:.8f} with midterm scores")
+    print(f"- Final exam has an even stronger correlation of {rho_fh:.8f} with homework scores")
+    print(f"- Midterm has a strong correlation of {rho_mh:.8f} with homework scores")
     print("These strong positive correlations suggest both scores are good predictors of final exam performance.")
     
     # Step 1: Partition the variables
@@ -641,7 +641,7 @@ def example3_prediction_conditional_inference():
     
     # Calculate determinant
     det_sigma22 = np.linalg.det(sigma22)
-    print(f"Determinant of σ₂₂: |σ₂₂| = {det_sigma22}")
+    print(f"Determinant of σ₂₂: |σ₂₂| = {det_sigma22:.16f}")
     
     # Calculate adjugate matrix
     adj_sigma22 = np.array([
@@ -670,30 +670,31 @@ def example3_prediction_conditional_inference():
     print(f"σ₂₂⁻¹(x₂ - μ₂) = \n{sigma22_inv} @ {x2_minus_mu2} = {temp}")
     
     # Calculate sigma12 * sigma22_inv * (x2 - mu2)
-    adjustment = sigma12 @ temp
-    print(f"σ₁₂σ₂₂⁻¹(x₂ - μ₂) = {sigma12} @ {temp} = {adjustment:.4f}")
+    adjustment = np.dot(sigma12, temp)  # Using np.dot for more precise calculation
+    print(f"σ₁₂σ₂₂⁻¹(x₂ - μ₂) = {sigma12} @ {temp} = {adjustment:.8f}")
     
     # Calculate conditional mean
     mu1_given_2 = mu1 + adjustment
-    print(f"μ₁|₂ = μ₁ + σ₁₂σ₂₂⁻¹(x₂ - μ₂) = {mu1} + {adjustment:.4f} = {mu1_given_2:.4f}")
+    print(f"μ₁|₂ = μ₁ + σ₁₂σ₂₂⁻¹(x₂ - μ₂) = {mu1} + {adjustment:.8f} = {mu1_given_2:.8f}")
     
     # Step 5: Calculate conditional variance
     print("\nStep 5: Calculate conditional variance")
     
-    # Calculate sigma12 * sigma22_inv * sigma21
+    # Calculate sigma22_inv * sigma21
     temp2 = sigma22_inv @ sigma21
     print(f"σ₂₂⁻¹σ₂₁ = \n{sigma22_inv} @ {sigma21} = {temp2}")
     
-    variance_reduction = sigma12 @ temp2
-    print(f"σ₁₂σ₂₂⁻¹σ₂₁ = {sigma12} @ {temp2} = {variance_reduction:.4f}")
+    # Calculate sigma12 * sigma22_inv * sigma21
+    variance_reduction = np.dot(sigma12, temp2)  # Using np.dot for more precise calculation
+    print(f"σ₁₂σ₂₂⁻¹σ₂₁ = {sigma12} @ {temp2} = {variance_reduction:.8f}")
     
     # Calculate conditional variance
     sigma1_given_2 = sigma11 - variance_reduction
-    print(f"σ₁|₂² = σ₁₁ - σ₁₂σ₂₂⁻¹σ₂₁ = {sigma11} - {variance_reduction:.4f} = {sigma1_given_2:.4f}")
+    print(f"σ₁|₂² = σ₁₁ - σ₁₂σ₂₂⁻¹σ₂₁ = {sigma11} - {variance_reduction:.8f} = {sigma1_given_2:.8f}")
     
     # Calculate conditional standard deviation
     sigma1_given_2_std = np.sqrt(sigma1_given_2)
-    print(f"σ₁|₂ = √{sigma1_given_2:.4f} = {sigma1_given_2_std:.4f}")
+    print(f"σ₁|₂ = √{sigma1_given_2:.8f} = {sigma1_given_2_std:.8f}")
     
     # Step 6: Calculate 95% prediction interval
     print("\nStep 6: Calculate 95% prediction interval")
@@ -704,9 +705,9 @@ def example3_prediction_conditional_inference():
     interval_upper = mu1_given_2 + z * sigma1_given_2_std
     
     print(f"95% prediction interval: μ₁|₂ ± 1.96σ₁|₂")
-    print(f"  = {mu1_given_2:.4f} ± 1.96 × {sigma1_given_2_std:.4f}")
-    print(f"  = {mu1_given_2:.4f} ± {z * sigma1_given_2_std:.4f}")
-    print(f"  = [{interval_lower:.4f}, {interval_upper:.4f}]")
+    print(f"  = {mu1_given_2:.8f} ± 1.96 × {sigma1_given_2_std:.8f}")
+    print(f"  = {mu1_given_2:.8f} ± {z * sigma1_given_2_std:.8f}")
+    print(f"  = [{interval_lower:.8f}, {interval_upper:.8f}]")
     
     # Step 7: Analysis of variance explained
     print("\nStep 7: Analysis of variance explained")
@@ -715,13 +716,13 @@ def example3_prediction_conditional_inference():
     absolute_reduction = sigma11 - sigma1_given_2
     percentage_reduction = (absolute_reduction / sigma11) * 100
     
-    print(f"Variance reduction: {sigma11} - {sigma1_given_2:.4f} = {absolute_reduction:.4f}")
-    print(f"Proportion of variance explained (R²): {absolute_reduction:.4f}/{sigma11} = {absolute_reduction/sigma11:.4f}")
-    print(f"Percentage of variance explained: {percentage_reduction:.2f}%")
+    print(f"Variance reduction: {sigma11} - {sigma1_given_2:.8f} = {absolute_reduction:.8f}")
+    print(f"Proportion of variance explained (R²): {absolute_reduction:.8f}/{sigma11} = {absolute_reduction/sigma11:.8f}")
+    print(f"Percentage of variance explained: {percentage_reduction:.8f}%")
     
     # Calculate multiple correlation coefficient
     R = np.sqrt(absolute_reduction / sigma11)
-    print(f"Multiple correlation coefficient: R = √{absolute_reduction/sigma11:.4f} = {R:.4f}")
+    print(f"Multiple correlation coefficient: R = √{absolute_reduction/sigma11:.8f} = {R:.8f}")
     
     # Step 8: Express as regression equation
     print("\nStep 8: Express as a regression equation")
@@ -733,15 +734,15 @@ def example3_prediction_conditional_inference():
     # Calculate intercept
     beta0 = mu1 - beta @ mu2
     
-    print(f"Regression coefficients: β = σ₁₂σ₂₂⁻¹ = {sigma12} @ \n{sigma22_inv} = [{beta1:.4f}, {beta2:.4f}]")
-    print(f"Intercept: β₀ = μ₁ - β·μ₂ = {mu1} - [{beta1:.4f}, {beta2:.4f}]·{mu2} = {beta0:.4f}")
+    print(f"Regression coefficients: β = σ₁₂σ₂₂⁻¹ = {sigma12} @ \n{sigma22_inv} = [{beta1:.8f}, {beta2:.8f}]")
+    print(f"Intercept: β₀ = μ₁ - β·μ₂ = {mu1} - [{beta1:.8f}, {beta2:.8f}]·{mu2} = {beta0:.8f}")
     print("\nRegression equation:")
-    print(f"Final = {beta0:.4f} + {beta1:.4f} × Midterm + {beta2:.4f} × Homework")
+    print(f"Final = {beta0:.8f} + {beta1:.8f} × Midterm + {beta2:.8f} × Homework")
     
     # Verification
     verification = beta0 + beta1 * observed[0] + beta2 * observed[1]
-    print(f"\nVerification: {beta0:.4f} + {beta1:.4f} × {observed[0]} + {beta2:.4f} × {observed[1]} = {verification:.4f}")
-    print(f"This matches our earlier calculation of the conditional mean: {mu1_given_2:.4f}")
+    print(f"\nVerification: {beta0:.8f} + {beta1:.8f} × {observed[0]} + {beta2:.8f} × {observed[1]} = {verification:.8f}")
+    print(f"This matches our earlier calculation of the conditional mean: {mu1_given_2:.8f}")
     
     # Create step-by-step visualizations
     print("\nCreating step-by-step visualizations...")
