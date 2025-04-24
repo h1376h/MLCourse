@@ -97,7 +97,7 @@ $$\boldsymbol{\Sigma} = \begin{bmatrix}
 \end{bmatrix}$$
 
 a) Which variables or pairs of variables, if any, are independent?
-b) Define $Z_1 = X_1 - \frac{1}{2}X_2$ and $Z_2 = X_2 - \frac{1}{5}X_3$. Show whether $Z_1$ and $Z_3=X_3$ are independent.
+b) Define $Z_1 = X_1 - \frac{1}{2}X_2$ and $Z_2 = X_2 - \frac{1}{5}X_3$. Show whether $Z_1$ and $Z_2$ are independent.
 c) Find a linear transformation of $X_1$ and $X_2$ that creates two independent variables.
 
 ### Solution
@@ -106,53 +106,99 @@ c) Find a linear transformation of $X_1$ and $X_2$ that creates two independent 
 
 For multivariate normal distributions, zero covariance implies independence. Looking at the covariance matrix $\boldsymbol{\Sigma}$:
 
-- $\text{Cov}(X_1, X_2) = \boldsymbol{\Sigma}_{12} = 2 \neq 0$, so $X_1$ and $X_2$ are not independent.
-- $\text{Cov}(X_2, X_3) = \boldsymbol{\Sigma}_{23} = 1 \neq 0$, so $X_2$ and $X_3$ are not independent.
-- $\text{Cov}(X_1, X_3) = \boldsymbol{\Sigma}_{13} = 0$, so $X_1$ and $X_3$ are independent.
+1. For $(X_1,X_2)$:
+   $$\text{Cov}(X_1,X_2) = \boldsymbol{\Sigma}_{12} = 2 \neq 0 \implies \text{not independent}$$
+
+2. For $(X_2,X_3)$:
+   $$\text{Cov}(X_2,X_3) = \boldsymbol{\Sigma}_{23} = 1 \neq 0 \implies \text{not independent}$$
+
+3. For $(X_1,X_3)$:
+   $$\text{Cov}(X_1,X_3) = \boldsymbol{\Sigma}_{13} = 0 \implies \text{independent}$$
 
 Therefore, only $X_1$ and $X_3$ are independent.
 
 #### Part b: Independence of $Z_1$ and $Z_2$
 
-We need to find the covariance between $Z_1 = X_1 - \frac{1}{2}X_2$ and $Z_2 = X_2 - \frac{1}{5}X_3$.
+To determine if $Z_1$ and $Z_2$ are independent, we need to calculate their covariance:
 
-$$\text{Cov}(Z_1, Z_2) = \text{Cov}(X_1 - \frac{1}{2}X_2, X_2 - \frac{1}{5}X_3)$$
-$$= \text{Cov}(X_1,X_2) - \frac{1}{5}\text{Cov}(X_1,X_3) - \frac{1}{2}\text{Cov}(X_2,X_2) + \frac{1}{10}\text{Cov}(X_2,X_3)$$
-$$= 2 - \frac{1}{5} \cdot 0 - \frac{1}{2} \cdot 5 + \frac{1}{10} \cdot 1$$
-$$= 2 - 0 - 2.5 + 0.1 = -0.4$$
+$$\text{Cov}(Z_1,Z_2) = \text{Cov}(X_1 - \frac{1}{2}X_2, X_2 - \frac{1}{5}X_3)$$
+
+Using the linearity of covariance:
+$$\begin{align*}
+\text{Cov}(Z_1,Z_2) &= \text{Cov}(X_1,X_2) - \frac{1}{5}\text{Cov}(X_1,X_3) - \frac{1}{2}\text{Cov}(X_2,X_2) + \frac{1}{10}\text{Cov}(X_2,X_3) \\
+&= 2 - \frac{1}{5}(0) - \frac{1}{2}(5) + \frac{1}{10}(1) \\
+&= 2 - 0 - 2.5 + 0.1 \\
+&= -0.4
+\end{align*}$$
 
 Since the covariance is not zero, $Z_1$ and $Z_2$ are not independent.
 
-#### Part c: Finding a linear transformation for independence
+#### Part c: Finding a Linear Transformation for Independence
 
-To create independent variables from $X_1$ and $X_2$, we use eigendecomposition of their covariance matrix:
+To find a linear transformation that creates independent variables, we'll use eigendecomposition of the covariance matrix for $(X_1,X_2)$:
 
-1. Extract the covariance matrix for $(X_1, X_2)$:
-$$\boldsymbol{\Sigma}_{12} = \begin{bmatrix} 4 & 2 \\ 2 & 5 \end{bmatrix}$$
+1. Extract the relevant covariance matrix:
+   $$\boldsymbol{\Sigma}_{12} = \begin{bmatrix} 4 & 2 \\ 2 & 5 \end{bmatrix}$$
 
-2. Find eigenvalues and eigenvectors:
-$$\text{eigenvalues} = \begin{bmatrix} 2.4384 \\ 6.5616 \end{bmatrix}$$
+2. Find eigenvalues by solving the characteristic equation $|\boldsymbol{\Sigma}_{12} - \lambda\mathbf{I}| = 0$:
+   $$\begin{vmatrix} 4-\lambda & 2 \\ 2 & 5-\lambda \end{vmatrix} = 0$$
+   
+   $$(4-\lambda)(5-\lambda) - 4 = 0$$
+   
+   $$\lambda^2 - 9\lambda + 16 = 0$$
 
-$$\text{eigenvectors} = \begin{bmatrix} -0.7882 & -0.6154 \\ 0.6154 & -0.7882 \end{bmatrix}$$
+   Using the quadratic formula:
+   $$\lambda = \frac{9 \pm \sqrt{81-64}}{2} = \frac{9 \pm \sqrt{17}}{2}$$
 
-3. Define transformation matrix $A$ as the transpose of the eigenvector matrix:
-$$A = \begin{bmatrix} -0.7882 & 0.6154 \\ -0.6154 & -0.7882 \end{bmatrix}$$
+   Therefore:
+   $$\lambda_1 = \frac{9 + \sqrt{17}}{2} \approx 6.5616$$
+   $$\lambda_2 = \frac{9 - \sqrt{17}}{2} \approx 2.4384$$
 
-4. Calculate transformed covariance matrix:
-$$\text{Transformed covariance} = A\boldsymbol{\Sigma}_{12}A^T = \begin{bmatrix} 2.4384 & 0 \\ 0 & 6.5616 \end{bmatrix}$$
+3. Find eigenvectors for each eigenvalue:
 
-5. Calculate transformed mean:
-$$\text{Transformed mean} = A\boldsymbol{\mu} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
+   For $\lambda_1 \approx 6.5616$:
+   $$\begin{bmatrix} 4-6.5616 & 2 \\ 2 & 5-6.5616 \end{bmatrix} \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
+   
+   $$\begin{bmatrix} -2.5616 & 2 \\ 2 & -1.5616 \end{bmatrix} \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
+   
+   From first equation:
+   $$-2.5616v_1 + 2v_2 = 0$$
+   $$v_2 = 1.2808v_1$$
+   
+   Normalizing to get unit vector:
+   $$\mathbf{v}_1 = \begin{bmatrix} -0.6154 \\ -0.7882 \end{bmatrix}$$
 
-The resulting transformed variables $Y_1$ and $Y_2$ are independent because:
-1. The transformed covariance matrix is diagonal (off-diagonal elements are zero up to numerical precision)
-2. For multivariate normal distributions, uncorrelated variables are independent
+   For $\lambda_2 \approx 2.4384$:
+   $$\begin{bmatrix} 4-2.4384 & 2 \\ 2 & 5-2.4384 \end{bmatrix} \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
+   
+   $$\begin{bmatrix} 1.5616 & 2 \\ 2 & 2.5616 \end{bmatrix} \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
+   
+   From first equation:
+   $$1.5616v_1 + 2v_2 = 0$$
+   $$v_2 = -0.7808v_1$$
+   
+   Normalizing to get unit vector:
+   $$\mathbf{v}_2 = \begin{bmatrix} -0.7882 \\ 0.6154 \end{bmatrix}$$
 
-Therefore, we can define new independent variables:
+4. Form transformation matrix $\mathbf{A}$ from eigenvectors:
+   $$\mathbf{A} = \begin{bmatrix} -0.7882 & 0.6154 \\ -0.6154 & -0.7882 \end{bmatrix}$$
+
+5. Verify independence in transformed space:
+   $$\mathbf{A}\boldsymbol{\Sigma}_{12}\mathbf{A}^T = \begin{bmatrix} 2.4384 & 0 \\ 0 & 6.5616 \end{bmatrix}$$
+
+The diagonal matrix confirms that the transformed variables are independent. The transformation:
+$$\begin{bmatrix} Y_1 \\ Y_2 \end{bmatrix} = \mathbf{A}\begin{bmatrix} X_1 \\ X_2 \end{bmatrix}$$
+
+gives:
 $$Y_1 = -0.7882X_1 + 0.6154X_2$$
 $$Y_2 = -0.6154X_1 - 0.7882X_2$$
 
-These variables $Y_1$ and $Y_2$ are independent since they are projections onto orthogonal eigenvectors of the covariance matrix. The eigenvalues (2.4384 and 6.5616) represent the variances of $Y_1$ and $Y_2$ respectively.
+These new variables $Y_1$ and $Y_2$ are independent because:
+1. They are linear combinations of jointly normal variables, so they are also normally distributed
+2. Their covariance matrix is diagonal, which for normal variables implies independence
+3. The eigenvalues (2.4384 and 6.5616) represent their respective variances
+
+The geometric interpretation is that we've rotated the coordinate system to align with the principal axes of the covariance ellipse, where the variables become uncorrelated and thus independent.
 
 ## Example 3: Independence Properties in Statistical Inference
 

@@ -297,6 +297,72 @@ def calculate_conditional_independence(Sigma, a, x3_value=None):
     
     return cond_cov, Sigma_cond, "\n".join(steps)
 
+def calculate_eigendecomposition_2x2(matrix):
+    """Calculate eigenvalues and eigenvectors of 2x2 matrix with detailed steps."""
+    a, b = matrix[0,0], matrix[0,1]
+    c, d = matrix[1,0], matrix[1,1]
+    
+    # Step 1: Characteristic equation
+    # |A - λI| = 0
+    # |(a-λ  b  )| = 0
+    # |(c    d-λ)|
+    # (a-λ)(d-λ) - bc = 0
+    # λ² - (a+d)λ + (ad-bc) = 0
+    
+    # Calculate coefficients
+    sum_diag = a + d  # trace
+    det = a*d - b*c
+    
+    # Step 2: Solve quadratic equation
+    # λ = [-(-trace) ± √(trace² - 4det)] / 2
+    discriminant = sum_diag**2 - 4*det
+    sqrt_disc = np.sqrt(discriminant)
+    lambda1 = (sum_diag + sqrt_disc) / 2
+    lambda2 = (sum_diag - sqrt_disc) / 2
+    eigenvals = np.array([lambda1, lambda2])
+    
+    # Step 3: Find eigenvectors
+    eigenvecs = np.zeros((2,2))
+    for i, lambda_i in enumerate(eigenvals):
+        # For each λ, solve (A - λI)v = 0
+        # (a-λ)v₁ + bv₂ = 0
+        # cv₁ + (d-λ)v₂ = 0
+        
+        # Use first equation: v₁ = [-b/(a-λ)]v₂
+        # Normalize to get unit vector
+        v2 = 1.0
+        v1 = -b/(a-lambda_i) if abs(a-lambda_i) > 1e-10 else 1.0
+        norm = np.sqrt(v1*v1 + v2*v2)
+        eigenvecs[:,i] = np.array([v1/norm, v2/norm])
+    
+    steps = [
+        "1. Form characteristic equation |A - λI| = 0:",
+        f"   |(a-λ  b  )| = |(({a}-λ)  {b}  )| = 0",
+        f"   |(c    d-λ)| = |({c}    ({d}-λ))| = 0",
+        f"   ({a}-λ)({d}-λ) - ({b})({c}) = 0",
+        f"   λ² - ({a}+{d})λ + ({a}·{d}-{b}·{c}) = 0",
+        "\n2. Solve quadratic equation:",
+        f"   trace = {sum_diag}",
+        f"   det = {det}",
+        f"   discriminant = {discriminant}",
+        f"   λ₁ = {lambda1:.4f}",
+        f"   λ₂ = {lambda2:.4f}",
+        "\n3. Find eigenvectors:",
+        "   For each λᵢ, solve (A - λᵢI)v = 0:",
+        f"   For λ₁ = {lambda1:.4f}:",
+        f"   ({a}-{lambda1:.4f})v₁ + {b}v₂ = 0",
+        f"   {c}v₁ + ({d}-{lambda1:.4f})v₂ = 0",
+        f"   v₁ = [{eigenvecs[0,0]:.4f}]",
+        f"   v₂ = [{eigenvecs[1,0]:.4f}]",
+        f"\n   For λ₂ = {lambda2:.4f}:",
+        f"   ({a}-{lambda2:.4f})v₁ + {b}v₂ = 0",
+        f"   {c}v₁ + ({d}-{lambda2:.4f})v₂ = 0",
+        f"   v₁ = [{eigenvecs[0,1]:.4f}]",
+        f"   v₂ = [{eigenvecs[1,1]:.4f}]"
+    ]
+    
+    return eigenvals, eigenvecs, "\n".join(steps)
+
 def example1():
     """Example 1: Independence in Multivariate Normal Variables"""
     print("\n=== Example 1: Independence in Multivariate Normal Variables ===")
@@ -408,16 +474,14 @@ def example2():
     print("\nCovariance matrix of (X₁,X₂):")
     print_matrix("Σ₁₂", Sigma_12)
     
-    # Perform eigendecomposition
-    eigenvals, eigenvecs = np.linalg.eig(Sigma_12)
-    
-    print("\nEigendecomposition of Σ₁₂:")
-    print_matrix("Eigenvalues", eigenvals)
-    print_matrix("Eigenvectors", eigenvecs)
+    # Perform eigendecomposition with detailed steps
+    eigenvals, eigenvecs, eig_steps = calculate_eigendecomposition_2x2(Sigma_12)
+    print("\nDetailed eigendecomposition steps:")
+    print(eig_steps)
     
     # Calculate transformation matrix A
     A = eigenvecs.T
-    print_matrix("Transformation matrix A = eigenvectors^T", A)
+    print_matrix("\nTransformation matrix A = eigenvectors^T", A)
     
     # Calculate transformed covariance
     transformed_cov = A @ Sigma_12 @ A.T
