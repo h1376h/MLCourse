@@ -243,7 +243,7 @@ This example demonstrates how incorporating the full covariance structure and pr
 
 ## Related Examples
 
-For an in-depth exploration of multivariate Gaussian classification with sample covariance matrices, see [[L2_1_31_explanation]]. This example demonstrates the calculation of mean vectors, covariance matrices, and the application of Bayes' theorem for classification with both equal and unequal prior probabilities.
+For the foundational approach to multivariate Gaussian classification with equal prior probabilities, see [[L2_1_31_explanation_population]], which was covered in our class lectures. This example introduces the basic concepts of Bayesian classification with multivariate Gaussian distributions using a simpler scenario.
 
 For applications of multivariate Gaussian classification with MAP estimation and unequal prior probabilities, see [[L2_7_27_explanation]]. This example extends these concepts by focusing on real-time classification systems and precomputation strategies for efficient implementation.
 

@@ -77,6 +77,7 @@ For practice multiple-choice questions on probability, see:
 - [[L2_1_Joint_Distributions_Examples|Joint Distributions Examples]]: Discrete and continuous joint distributions with applications
 - [[L2_1_Multivariate_Analysis_Examples|Multivariate Analysis Examples]]: Mean vectors, PCA, and Mahalanobis distance
 - [[L2_1_Multivariate_Normal_Examples|Multivariate Normal Examples]]: Working with multivariate normal distributions
+- [[L2_1_Multivariate_Exam_Problems|Multivariate Exam Problems]]: Practice problems and solutions covering density functions, multivariate Gaussian, transformation techniques, and common exam questions
 - [[L2_1_Contour_Plot_Examples|Contour Plot Examples]]: Visualizing multivariate distributions using contour plots
 
 ### Advanced Topics
