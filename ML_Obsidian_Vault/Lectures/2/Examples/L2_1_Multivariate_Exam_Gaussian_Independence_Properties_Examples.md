@@ -343,82 +343,129 @@ c) Determine the distribution of $\mathbf{X}_1$ conditioned on $\mathbf{X}_2 = \
 
 For a multivariate normal distribution, we need to find the marginal mean vector and covariance matrix for $\mathbf{X}_2$:
 
-Mean vector:
-$$\boldsymbol{\mu}_2 = \begin{bmatrix} 4 \\ 30 \end{bmatrix}$$
+1. Extract marginal parameters:
+   $$\boldsymbol{\mu}_2 = \begin{bmatrix} 4 \\ 30 \end{bmatrix}$$
+   
+   $$\boldsymbol{\Sigma}_2 = \begin{bmatrix} 1 & 0 \\ 0 & 5 \end{bmatrix}$$
 
-Covariance matrix:
-$$\boldsymbol{\Sigma}_2 = \begin{bmatrix} 1 & 0 \\ 0 & 5 \end{bmatrix}$$
+2. Calculate determinant:
+   $$\begin{align*}
+   |\boldsymbol{\Sigma}_2| &= \begin{vmatrix} 1 & 0 \\ 0 & 5 \end{vmatrix} \\
+   &= (1)(5) - (0)(0) \\
+   &= 5
+   \end{align*}$$
 
-To find the PDF, we need the determinant and inverse of $\boldsymbol{\Sigma}_2$:
+3. Calculate inverse:
+   $$\begin{align*}
+   \boldsymbol{\Sigma}_2^{-1} &= \frac{1}{5}\begin{bmatrix} 5 & 0 \\ 0 & 1 \end{bmatrix} \\
+   &= \begin{bmatrix} 1 & 0 \\ 0 & 0.2 \end{bmatrix}
+   \end{align*}$$
 
-1. Determinant calculation:
-   For 2×2 matrix:
-   $$\begin{vmatrix} 1 & 0 \\ 0 & 5 \end{vmatrix} = (1)(5) - (0)(0) = 5$$
+4. The probability density function is:
+   $$f_{\mathbf{X}_2}(\mathbf{x}_2) = \frac{1}{2\pi \sqrt{|\boldsymbol{\Sigma}_2|}} \exp\left(-\frac{1}{2}(\mathbf{x}_2 - \boldsymbol{\mu}_2)^T \boldsymbol{\Sigma}_2^{-1} (\mathbf{x}_2 - \boldsymbol{\mu}_2)\right)$$
 
-2. Inverse calculation:
-   For 2×2 matrix:
-   - Calculate determinant = 5
-   - Form adjugate matrix:
-     $$\text{adj}(\boldsymbol{\Sigma}_2) = \begin{bmatrix} 5 & 0 \\ 0 & 1 \end{bmatrix}$$
-   - Multiply by 1/determinant:
-     $$\boldsymbol{\Sigma}_2^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & 0.2 \end{bmatrix}$$
-
-The probability density function is:
-$$f_{\mathbf{X}_2}(\mathbf{x}_2) = \frac{1}{2\pi \sqrt{|\boldsymbol{\Sigma}_2|}} \exp\left(-\frac{1}{2}(\mathbf{x}_2 - \boldsymbol{\mu}_2)^T \boldsymbol{\Sigma}_2^{-1} (\mathbf{x}_2 - \boldsymbol{\mu}_2)\right)$$
+   where:
+   - $n = 2$ (dimension)
+   - $|\boldsymbol{\Sigma}_2| = 5$
+   - $(2\pi)^{-n/2} = 0.159155$
+   - $|\boldsymbol{\Sigma}_2|^{-1/2} = 0.447214$
+   - Normalizing constant = $(2\pi)^{-n/2}|\boldsymbol{\Sigma}_2|^{-1/2} = 0.071175$
 
 #### Part b: Covariance Matrix of $\mathbf{Y}$
 
 For $\mathbf{Y} = \begin{bmatrix} X_2 \\ X_4 \\ X_5 \\ X_1 \\ X_3 \end{bmatrix}$, we need to reorder the mean vector and covariance matrix:
 
-Mean vector:
-$$\boldsymbol{\mu}_Y = \begin{bmatrix} 45 \\ 35 \\ 40 \\ 4 \\ 30 \end{bmatrix}$$
+1. Reordered mean vector:
+   $$\boldsymbol{\mu}_Y = \begin{bmatrix} 45 \\ 35 \\ 40 \\ 4 \\ 30 \end{bmatrix}$$
 
-Covariance matrix:
-$$\boldsymbol{\Sigma}_Y = \begin{bmatrix}
-15 & 4 & 0 & 1 & 1 \\
-4 & 8 & 0 & 0 & 4 \\
-0 & 0 & 9 & 0 & 0 \\
-1 & 0 & 0 & 1 & 0 \\
-1 & 4 & 0 & 0 & 5
-\end{bmatrix}$$
+2. Reordered covariance matrix:
+   $$\boldsymbol{\Sigma}_Y = \begin{bmatrix}
+   15 & 4 & 0 & 1 & 1 \\
+   4 & 8 & 0 & 0 & 4 \\
+   0 & 0 & 9 & 0 & 0 \\
+   1 & 0 & 0 & 1 & 0 \\
+   1 & 4 & 0 & 0 & 5
+   \end{bmatrix}$$
+
+3. Properties of the reordered covariance matrix:
+   - Symmetry: The matrix is symmetric (verified by $\boldsymbol{\Sigma}_Y = \boldsymbol{\Sigma}_Y^T$)
+   - Positive definiteness: All eigenvalues are positive:
+     - $\lambda_1 = 15.8721$
+     - $\lambda_2 = 9.0000$
+     - $\lambda_3 = 7.3279$
+     - $\lambda_4 = 4.8000$
+     - $\lambda_5 = 1.0000$
 
 #### Part c: Conditional Distribution of $\mathbf{X}_1$ given $\mathbf{X}_2$
 
-To find the conditional distribution, we need to calculate:
+To find the conditional distribution of $\mathbf{X}_1$ given $\mathbf{X}_2 = \begin{bmatrix} 6 \\ 24 \end{bmatrix}$, we follow these steps:
 
-1. Calculate $\boldsymbol{\Sigma}_{22}^{-1}$:
-   For 2×2 matrix:
-   - Calculate determinant = 5
-   - Form adjugate matrix:
-     $$\text{adj}(\boldsymbol{\Sigma}_{22}) = \begin{bmatrix} 5 & 0 \\ 0 & 1 \end{bmatrix}$$
-   - Multiply by 1/determinant:
-     $$\boldsymbol{\Sigma}_{22}^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & 0.2 \end{bmatrix}$$
+1. Partition the covariance matrix:
+   $$\boldsymbol{\Sigma}_{11} = \begin{bmatrix} 15 & 4 \\ 4 & 8 \end{bmatrix} \text{ (Covariance of } X_2,X_4)$$
+   
+   $$\boldsymbol{\Sigma}_{12} = \begin{bmatrix} 1 & 1 \\ 0 & 4 \end{bmatrix} \text{ (Covariance between } (X_2,X_4) \text{ and } (X_1,X_3))$$
+   
+   $$\boldsymbol{\Sigma}_{22} = \begin{bmatrix} 1 & 0 \\ 0 & 5 \end{bmatrix} \text{ (Covariance of } X_1,X_3)$$
 
-2. Calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}$:
+2. Calculate $\boldsymbol{\Sigma}_{22}^{-1}$:
+   $$\boldsymbol{\Sigma}_{22}^{-1} = \begin{bmatrix} 1 & 0 \\ 0 & 0.2 \end{bmatrix}$$
+
+3. Calculate $\boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}$:
    $$\begin{bmatrix} 1 & 1 \\ 0 & 4 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 0.2 \end{bmatrix} = \begin{bmatrix} 1 & 0.2 \\ 0 & 0.8 \end{bmatrix}$$
 
-3. Calculate conditional mean $\boldsymbol{\mu}_{1|2}$:
-   $$\boldsymbol{\mu}_{1|2} = \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2)$$
-   $$= \begin{bmatrix} 45 \\ 35 \end{bmatrix} + \begin{bmatrix} 1 & 0.2 \\ 0 & 0.8 \end{bmatrix} \begin{bmatrix} 2 \\ -6 \end{bmatrix}$$
-   $$= \begin{bmatrix} 45.8 \\ 30.2 \end{bmatrix}$$
+4. Calculate conditional mean:
+   $$\begin{align*}
+   \boldsymbol{\mu}_{1|2} &= \boldsymbol{\mu}_1 + \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}(\mathbf{x}_2 - \boldsymbol{\mu}_2) \\
+   &= \begin{bmatrix} 45 \\ 35 \end{bmatrix} + \begin{bmatrix} 1 & 0.2 \\ 0 & 0.8 \end{bmatrix} \begin{bmatrix} 2 \\ -6 \end{bmatrix} \\
+   &= \begin{bmatrix} 45.8 \\ 30.2 \end{bmatrix}
+   \end{align*}$$
 
-4. Calculate conditional covariance $\boldsymbol{\Sigma}_{1|2}$:
-   $$\boldsymbol{\Sigma}_{1|2} = \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21}$$
-   $$= \begin{bmatrix} 15 & 4 \\ 4 & 8 \end{bmatrix} - \begin{bmatrix} 1 & 0.2 \\ 0 & 0.8 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 1 & 4 \end{bmatrix}$$
-   $$= \begin{bmatrix} 13.8 & 3.2 \\ 3.2 & 4.8 \end{bmatrix}$$
+5. Calculate conditional covariance:
+   $$\begin{align*}
+   \boldsymbol{\Sigma}_{1|2} &= \boldsymbol{\Sigma}_{11} - \boldsymbol{\Sigma}_{12}\boldsymbol{\Sigma}_{22}^{-1}\boldsymbol{\Sigma}_{21} \\
+   &= \begin{bmatrix} 15 & 4 \\ 4 & 8 \end{bmatrix} - \begin{bmatrix} 1 & 0.2 \\ 0 & 0.8 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 1 & 4 \end{bmatrix} \\
+   &= \begin{bmatrix} 13.8 & 3.2 \\ 3.2 & 4.8 \end{bmatrix}
+   \end{align*}$$
 
-Therefore, the conditional distribution is:
-$$\mathbf{X}_1|\mathbf{X}_2 = \begin{bmatrix} 6 \\ 24 \end{bmatrix} \sim \mathcal{N}\left(\begin{bmatrix} 45.8 \\ 30.2 \end{bmatrix}, \begin{bmatrix} 13.8 & 3.2 \\ 3.2 & 4.8 \end{bmatrix}\right)$$
+6. Calculate conditional correlation:
+   - Conditional covariance = 3.2
+   - Conditional variance of $X_2|X_1,X_3$ = 13.8
+   - Conditional variance of $X_4|X_1,X_3$ = 4.8
+   - Conditional correlation = $\frac{3.2}{\sqrt{13.8 \times 4.8}} = 0.3953$
+
+### Geometric Interpretation
+
+1. The original joint distribution shows the unconstrained relationship between $X_2$ and $X_4$, which can be visualized as a bivariate normal distribution with the specified mean and covariance.
+
+2. Conditioning on $X_1 = 6$ and $X_3 = 24$ creates a slice through the 5-dimensional distribution, resulting in a new bivariate normal distribution with adjusted mean and covariance. This can be thought of as observing the distribution of $X_2$ and $X_4$ on the hyperplane where $X_1 = 6$ and $X_3 = 24$.
+
+3. The conditional correlation coefficient of 0.3953 indicates a moderate positive relationship between $X_2$ and $X_4$ even after conditioning on $X_1$ and $X_3$. This means that knowing the values of $X_1$ and $X_3$ reduces but does not eliminate the dependence between $X_2$ and $X_4$.
+
+4. The visualization shows both:
+   - The original joint distribution of $X_2$ and $X_4$
+   - The conditional distribution after fixing $X_1 = 6$ and $X_3 = 24$
+   
+   The change in the shape and orientation of the distribution illustrates how conditioning affects the relationship between the variables.
 
 ## Example 5: Independent Variables with Inverse of Covariance Matrix
-
-### Problem Statement
 
 Assume we have the following three dimensional normal random variable
 
 $$\mathbf{X} = \begin{bmatrix} X_1 \\ X_2 \\ X_3 \end{bmatrix} \sim \mathcal{N} \left( \begin{bmatrix} 0 \\ 1 \\ -2 \end{bmatrix}, \begin{bmatrix} 4 & 1 & -1 \\ 1 & 1 & 0 \\ -1 & 0 & 1 \end{bmatrix} \right).$$
 
-We need to find the inverse of the covariance matrix $\boldsymbol{\Sigma}^{-1}$ and verify various independence properties.
+The inverse of the covariance matrix is:
+
+$$\boldsymbol{\Sigma}^{-1} = \begin{bmatrix} 1/2 & -1/2 & 1/2 \\ -1/2 & 3/2 & -1/2 \\ 1/2 & -1/2 & 3/2 \end{bmatrix}$$
+
+We can verify this is correct by checking that $\boldsymbol{\Sigma}\boldsymbol{\Sigma}^{-1} = \mathbf{I}$.
+
+(a) Which pairs of variables are independent?
+
+(b) Define 
+$$Z = X_1 - aX_2 - bX_3,$$
+where $a, b \in \mathbb{R}$ are two constants. Is it possible to set the values of $a$ and $b$ such that $Z$ is independent with $X_1$ (that is, $Z \perp X_1$)? If so, give an example of such $a$ and $b$.
+
+(c) For $Z = X_1 - aX_2 - bX_3$, is it possible to set the value of $a$ and $b$ such that $Z$ is independent with $X_1$ conditional on $X_3 = x_3$ (i.e., $Z \perp X_1 \mid X_3 = x_3$), for any fixed value $x_3 \in \mathbb{R}$? In other words, we hope to make $X_1$ and $Z$ independent conditional on that $X_3$ equals to a fixed number $x_3$, regardless what the value of $x_3$ is. If this can be done, give an example of $(a, b)$ that satisfy the condition.
 
 ### Solution
 

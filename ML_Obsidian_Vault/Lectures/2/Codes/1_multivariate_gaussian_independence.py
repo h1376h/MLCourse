@@ -200,100 +200,199 @@ def calculate_conditional_distribution_steps(mu, Sigma, idx_X1, idx_cond, x2_val
     }
 
 def calculate_3x3_inverse(matrix):
-    """Calculate inverse of 3x3 matrix with detailed steps."""
-    # Step 1: Calculate cofactor matrix
-    def cofactor(i, j):
-        # Get the 2x2 submatrix
-        sub_matrix = np.delete(np.delete(matrix, i, 0), j, 1)
-        # Calculate determinant of 2x2 matrix
-        det = sub_matrix[0,0]*sub_matrix[1,1] - sub_matrix[0,1]*sub_matrix[1,0]
-        # Apply (-1)^(i+j)
-        return (-1)**(i+j) * det
+    """Calculate inverse of 3x3 matrix with very detailed steps."""
+    steps = ["Calculating inverse of 3x3 matrix using cofactor method:"]
     
+    # Step 1: Calculate minors and cofactors
+    steps.append("\n1. Calculate minors and cofactors for each element:")
     cofactor_matrix = np.zeros((3,3))
+    minor_steps = []
+    
     for i in range(3):
         for j in range(3):
-            cofactor_matrix[i,j] = cofactor(i,j)
+            # Get the 2x2 submatrix
+            sub_matrix = np.delete(np.delete(matrix, i, 0), j, 1)
+            minor_steps.append(f"\nPosition ({i+1},{j+1}):")
+            minor_steps.append(f"Submatrix:")
+            minor_steps.append(f"[{sub_matrix[0,0]} {sub_matrix[0,1]}]")
+            minor_steps.append(f"[{sub_matrix[1,0]} {sub_matrix[1,1]}]")
+            
+            # Calculate determinant of 2x2 matrix
+            det = sub_matrix[0,0]*sub_matrix[1,1] - sub_matrix[0,1]*sub_matrix[1,0]
+            minor_steps.append(f"Minor = ({sub_matrix[0,0]}×{sub_matrix[1,1]}) - ({sub_matrix[0,1]}×{sub_matrix[1,0]}) = {det}")
+            
+            # Apply (-1)^(i+j)
+            cofactor = (-1)**(i+j) * det
+            minor_steps.append(f"Cofactor = (-1)^({i+1}+{j+1}) × {det} = {cofactor}")
+            
+            cofactor_matrix[i,j] = cofactor
+    
+    steps.extend(minor_steps)
+    
+    steps.append("\nCofactor matrix:")
+    steps.append(f"[{cofactor_matrix[0,0]:.4f} {cofactor_matrix[0,1]:.4f} {cofactor_matrix[0,2]:.4f}]")
+    steps.append(f"[{cofactor_matrix[1,0]:.4f} {cofactor_matrix[1,1]:.4f} {cofactor_matrix[1,2]:.4f}]")
+    steps.append(f"[{cofactor_matrix[2,0]:.4f} {cofactor_matrix[2,1]:.4f} {cofactor_matrix[2,2]:.4f}]")
     
     # Step 2: Calculate determinant using first row expansion
-    det = sum(matrix[0,j] * cofactor_matrix[0,j] for j in range(3))
+    steps.append("\n2. Calculate determinant using first row expansion:")
+    det_terms = [matrix[0,j] * cofactor_matrix[0,j] for j in range(3)]
+    det = sum(det_terms)
+    det_expansion = " + ".join([f"({matrix[0,j]}×{cofactor_matrix[0,j]:.4f})" for j in range(3)])
+    steps.append(f"|A| = {det_expansion} = {det:.4f}")
     
     # Step 3: Calculate adjugate (transpose of cofactor matrix)
     adjugate = cofactor_matrix.T
+    steps.append("\n3. Calculate adjugate (transpose of cofactor matrix):")
+    steps.append(f"[{adjugate[0,0]:.4f} {adjugate[0,1]:.4f} {adjugate[0,2]:.4f}]")
+    steps.append(f"[{adjugate[1,0]:.4f} {adjugate[1,1]:.4f} {adjugate[1,2]:.4f}]")
+    steps.append(f"[{adjugate[2,0]:.4f} {adjugate[2,1]:.4f} {adjugate[2,2]:.4f}]")
     
     # Step 4: Divide by determinant
     inverse = adjugate / det
+    steps.append("\n4. Divide adjugate by determinant to get inverse:")
+    steps.append(f"A⁻¹ = (1/{det:.4f}) × adjugate =")
+    steps.append(f"[{inverse[0,0]:.4f} {inverse[0,1]:.4f} {inverse[0,2]:.4f}]")
+    steps.append(f"[{inverse[1,0]:.4f} {inverse[1,1]:.4f} {inverse[1,2]:.4f}]")
+    steps.append(f"[{inverse[2,0]:.4f} {inverse[2,1]:.4f} {inverse[2,2]:.4f}]")
     
-    steps = [
-        "1. Calculate cofactor matrix:",
-        f"   {cofactor_matrix[0,0]:.4f} {cofactor_matrix[0,1]:.4f} {cofactor_matrix[0,2]:.4f}",
-        f"   {cofactor_matrix[1,0]:.4f} {cofactor_matrix[1,1]:.4f} {cofactor_matrix[1,2]:.4f}",
-        f"   {cofactor_matrix[2,0]:.4f} {cofactor_matrix[2,1]:.4f} {cofactor_matrix[2,2]:.4f}",
-        "\n2. Calculate determinant using first row expansion:",
-        f"   det = {matrix[0,0]}·{cofactor_matrix[0,0]:.4f} + {matrix[0,1]}·{cofactor_matrix[0,1]:.4f} + {matrix[0,2]}·{cofactor_matrix[0,2]:.4f}",
-        f"   det = {det:.4f}",
-        "\n3. Calculate adjugate (transpose of cofactor matrix):",
-        f"   {adjugate[0,0]:.4f} {adjugate[0,1]:.4f} {adjugate[0,2]:.4f}",
-        f"   {adjugate[1,0]:.4f} {adjugate[1,1]:.4f} {adjugate[1,2]:.4f}",
-        f"   {adjugate[2,0]:.4f} {adjugate[2,1]:.4f} {adjugate[2,2]:.4f}",
-        "\n4. Divide by determinant to get inverse:",
-        f"   {inverse[0,0]:.4f} {inverse[0,1]:.4f} {inverse[0,2]:.4f}",
-        f"   {inverse[1,0]:.4f} {inverse[1,1]:.4f} {inverse[1,2]:.4f}",
-        f"   {inverse[2,0]:.4f} {inverse[2,1]:.4f} {inverse[2,2]:.4f}"
-    ]
+    # Step 5: Verify the inverse
+    product = matrix @ inverse
+    steps.append("\n5. Verify A×A⁻¹ = I:")
+    steps.append("A×A⁻¹ =")
+    steps.append(f"[{product[0,0]:.4f} {product[0,1]:.4f} {product[0,2]:.4f}]")
+    steps.append(f"[{product[1,0]:.4f} {product[1,1]:.4f} {product[1,2]:.4f}]")
+    steps.append(f"[{product[2,0]:.4f} {product[2,1]:.4f} {product[2,2]:.4f}]")
     
     return inverse, det, "\n".join(steps)
 
 def calculate_independence_conditions(Sigma, a, b):
-    """Calculate covariance between Z and X₁ with detailed steps."""
-    # Z = X₁ - aX₂ - bX₃
+    """Calculate covariance between Z and X₁ with very detailed steps."""
+    steps = ["Calculating independence conditions for Z = X₁ - aX₂ - bX₃:"]
+    
+    # Step 1: Write out Z in vector form
     z_coef = np.array([1, -a, -b])
     x1_coef = np.array([1, 0, 0])
     
-    # Calculate Cov(Z,X₁)
-    cov = z_coef.T @ Sigma @ x1_coef
+    steps.append("\n1. Express Z in vector form:")
+    steps.append(f"Z = [1 -a -b][X₁]")
+    steps.append(f"      = [1 {-a:.4f} {-b:.4f}][X₂]")
+    steps.append("                    [X₃]")
     
-    steps = [
-        "Calculate Cov(Z,X₁) = Cov(X₁ - aX₂ - bX₃, X₁):",
-        "= Var(X₁) - a·Cov(X₂,X₁) - b·Cov(X₃,X₁)",
-        f"= {Sigma[0,0]} - ({a})·({Sigma[0,1]}) - ({b})·({Sigma[0,2]})",
-        f"= {Sigma[0,0]} - {a*Sigma[0,1]} - {b*Sigma[0,2]}",
-        f"= {cov}"
-    ]
+    # Step 2: Calculate Cov(Z,X₁) using matrix multiplication
+    steps.append("\n2. Calculate Cov(Z,X₁) = Cov(X₁ - aX₂ - bX₃, X₁):")
+    steps.append("Using the formula: Cov(Z,X₁) = [1 -a -b]·Σ·[1]")
+    steps.append("                                          [0]")
+    steps.append("                                          [0]")
+    
+    # Step 3: Show intermediate matrix multiplication
+    temp1 = z_coef.T @ Sigma
+    steps.append("\n3. First matrix multiplication [1 -a -b]·Σ:")
+    steps.append(f"[1 {-a:.4f} {-b:.4f}]·[{Sigma[0,0]} {Sigma[0,1]} {Sigma[0,2]}]")
+    steps.append(f"                  [{Sigma[1,0]} {Sigma[1,1]} {Sigma[1,2]}]")
+    steps.append(f"                  [{Sigma[2,0]} {Sigma[2,1]} {Sigma[2,2]}]")
+    steps.append(f"= [{temp1[0]:.4f} {temp1[1]:.4f} {temp1[2]:.4f}]")
+    
+    # Step 4: Complete the calculation
+    cov = temp1 @ x1_coef
+    steps.append("\n4. Complete calculation by multiplying with [1 0 0]ᵀ:")
+    steps.append(f"[{temp1[0]:.4f} {temp1[1]:.4f} {temp1[2]:.4f}]·[1]")
+    steps.append("                                    [0]")
+    steps.append("                                    [0]")
+    steps.append(f"= {cov:.4f}")
+    
+    # Step 5: Expand in terms of individual covariances
+    steps.append("\n5. Alternative calculation using covariance properties:")
+    steps.append("Cov(Z,X₁) = Cov(X₁ - aX₂ - bX₃, X₁)")
+    steps.append("          = Cov(X₁,X₁) - a·Cov(X₂,X₁) - b·Cov(X₃,X₁)")
+    steps.append(f"          = {Sigma[0,0]} - ({a:.4f})·({Sigma[1,0]}) - ({b:.4f})·({Sigma[2,0]})")
+    steps.append(f"          = {Sigma[0,0]} - {a*Sigma[1,0]:.4f} - {b*Sigma[2,0]:.4f}")
+    steps.append(f"          = {cov:.4f}")
+    
+    # Step 6: Condition for independence
+    steps.append("\n6. Condition for independence:")
+    steps.append("For Z to be independent of X₁, we need Cov(Z,X₁) = 0:")
+    steps.append(f"{Sigma[0,0]} - {a:.4f}·({Sigma[1,0]}) - {b:.4f}·({Sigma[2,0]}) = 0")
+    steps.append(f"Solving for a in terms of b: a = ({Sigma[0,0]} - {b:.4f}·({Sigma[2,0]}))/{Sigma[1,0]}")
     
     return cov, "\n".join(steps)
 
 def calculate_conditional_independence(Sigma, a, x3_value=None):
-    """Calculate conditional covariance between Z and X₁ given X₃."""
-    # Extract relevant submatrices for X₁,X₂ given X₃
-    Sigma_11 = Sigma[:2,:2]
-    Sigma_12 = Sigma[:2,2:3]
-    Sigma_21 = Sigma[2:3,:2]
-    Sigma_22 = Sigma[2:3,2:3]
+    """Calculate conditional covariance between Z and X₁ given X₃ with very detailed steps."""
+    steps = ["Calculating conditional independence between Z and X₁ given X₃:"]
     
-    # Calculate conditional covariance matrix
+    # Step 1: Extract relevant submatrices
+    steps.append("\n1. Partition the covariance matrix:")
+    Sigma_11 = Sigma[:2,:2]  # Covariance of (X₁,X₂)
+    Sigma_12 = Sigma[:2,2:3]  # Covariance between (X₁,X₂) and X₃
+    Sigma_21 = Sigma[2:3,:2]  # Covariance between X₃ and (X₁,X₂)
+    Sigma_22 = Sigma[2:3,2:3]  # Variance of X₃
+    
+    steps.append("Σ₁₁ (Covariance of X₁,X₂):")
+    steps.append(f"[{Sigma_11[0,0]} {Sigma_11[0,1]}]")
+    steps.append(f"[{Sigma_11[1,0]} {Sigma_11[1,1]}]")
+    
+    steps.append("\nΣ₁₂ (Covariance between (X₁,X₂) and X₃):")
+    steps.append(f"[{Sigma_12[0,0]}]")
+    steps.append(f"[{Sigma_12[1,0]}]")
+    
+    steps.append("\nΣ₂₂ (Variance of X₃):")
+    steps.append(f"[{Sigma_22[0,0]}]")
+    
+    # Step 2: Calculate Σ₂₂⁻¹
+    steps.append("\n2. Calculate Σ₂₂⁻¹:")
     Sigma_22_inv = 1/Sigma_22[0,0]
-    Sigma_cond = Sigma_11 - Sigma_12 @ np.array([[Sigma_22_inv]]) @ Sigma_21
+    steps.append(f"Σ₂₂⁻¹ = 1/{Sigma_22[0,0]} = {Sigma_22_inv:.4f}")
     
-    # Calculate conditional covariance between Z and X₁
-    z_coef = np.array([1, -a])
-    x1_coef = np.array([1, 0])
-    cond_cov = z_coef.T @ Sigma_cond @ x1_coef
+    # Step 3: Calculate Σ₁₂Σ₂₂⁻¹Σ₂₁
+    steps.append("\n3. Calculate Σ₁₂Σ₂₂⁻¹Σ₂₁:")
+    temp1 = Sigma_12 @ np.array([[Sigma_22_inv]])
+    steps.append("First multiply Σ₁₂Σ₂₂⁻¹:")
+    steps.append(f"[{Sigma_12[0,0]}]·[{Sigma_22_inv:.4f}] = [{temp1[0,0]:.4f}]")
+    steps.append(f"[{Sigma_12[1,0]}]                = [{temp1[1,0]:.4f}]")
     
-    steps = [
-        "1. Extract submatrices:",
-        f"Σ₁₁ = [{Sigma_11[0,0]} {Sigma_11[0,1]}]",
-        f"     [{Sigma_11[1,0]} {Sigma_11[1,1]}]",
-        f"\nΣ₁₂ = [{Sigma_12[0,0]}]",
-        f"     [{Sigma_12[1,0]}]",
-        f"\nΣ₂₂ = [{Sigma_22[0,0]}]",
-        "\n2. Calculate conditional covariance matrix:",
-        "Σ₁₁|₃ = Σ₁₁ - Σ₁₂Σ₂₂⁻¹Σ₂₁",
-        f"= [{Sigma_cond[0,0]:.4f} {Sigma_cond[0,1]:.4f}]",
-        f"  [{Sigma_cond[1,0]:.4f} {Sigma_cond[1,1]:.4f}]",
-        "\n3. Calculate conditional covariance between Z and X₁:",
-        f"Cov(Z,X₁|X₃) = {cond_cov:.4f}"
-    ]
+    temp2 = temp1 @ Sigma_21
+    steps.append("\nThen multiply by Σ₂₁:")
+    steps.append(f"[{temp1[0,0]:.4f}]·[{Sigma_21[0,0]} {Sigma_21[0,1]}] =")
+    steps.append(f"[{temp1[1,0]:.4f}]")
+    steps.append(f"[{temp2[0,0]:.4f} {temp2[0,1]:.4f}]")
+    steps.append(f"[{temp2[1,0]:.4f} {temp2[1,1]:.4f}]")
+    
+    # Step 4: Calculate conditional covariance matrix
+    steps.append("\n4. Calculate conditional covariance matrix:")
+    steps.append("Σ₁₁|₃ = Σ₁₁ - Σ₁₂Σ₂₂⁻¹Σ₂₁")
+    Sigma_cond = Sigma_11 - temp2
+    steps.append(f"= [   {Sigma_11[0,0]} {Sigma_11[0,1]}   ] - [   {temp2[0,0]:.4f} {temp2[0,1]:.4f}   ]")
+    steps.append(f"  [   {Sigma_11[1,0]} {Sigma_11[1,1]}   ]   [   {temp2[1,0]:.4f} {temp2[1,1]:.4f}   ]")
+    steps.append(f"= [   {Sigma_cond[0,0]:.4f} {Sigma_cond[0,1]:.4f}   ]")
+    steps.append(f"  [   {Sigma_cond[1,0]:.4f} {Sigma_cond[1,1]:.4f}   ]")
+    
+    # Step 5: Calculate conditional covariance between Z and X₁
+    steps.append("\n5. Calculate conditional covariance between Z and X₁:")
+    z_coef = np.array([1, -a])  # Coefficients for Z in terms of X₁,X₂
+    x1_coef = np.array([1, 0])  # Coefficients for X₁
+    
+    steps.append("For Z = X₁ - aX₂, calculate Cov(Z,X₁|X₃):")
+    steps.append(f"Using vector form: [1 {-a:.4f}]·Σ₁₁|₃·[1]")
+    steps.append("                                    [0]")
+    
+    temp3 = z_coef.T @ Sigma_cond
+    steps.append("\nFirst multiply [1 -a]·Σ₁₁|₃:")
+    steps.append(f"[1 {-a:.4f}]·[{Sigma_cond[0,0]:.4f} {Sigma_cond[0,1]:.4f}]")
+    steps.append(f"          [{Sigma_cond[1,0]:.4f} {Sigma_cond[1,1]:.4f}]")
+    steps.append(f"= [{temp3[0]:.4f} {temp3[1]:.4f}]")
+    
+    cond_cov = temp3 @ x1_coef
+    steps.append("\nThen multiply by [1 0]ᵀ:")
+    steps.append(f"[{temp3[0]:.4f} {temp3[1]:.4f}]·[1] = {cond_cov:.4f}")
+    steps.append("                           [0]")
+    
+    # Step 6: Interpret the result
+    steps.append("\n6. Interpretation:")
+    if abs(cond_cov) < 1e-10:
+        steps.append("Since conditional covariance ≈ 0, Z and X₁ are conditionally independent given X₃")
+    else:
+        steps.append(f"Since conditional covariance = {cond_cov:.4f} ≠ 0, Z and X₁ are not conditionally independent given X₃")
     
     return cond_cov, Sigma_cond, "\n".join(steps)
 
@@ -650,7 +749,7 @@ def example4():
     print_matrix("Mean vector μ", mu)
     print_matrix("Covariance matrix Σ", Sigma)
     
-    print_step(2, "Calculate PDF of X₂ = [X₁, X₃]")
+    print_step(2, "Calculate marginal distribution of X₂ = [X₁, X₃]")
     # Extract relevant components
     idx_X2 = [0, 2]  # Indices for X₁ and X₃
     mu_2 = mu[idx_X2]
@@ -670,6 +769,16 @@ def example4():
     print("\nInverse calculation:")
     print(inv_steps)
     
+    # Calculate PDF components
+    print("\nPDF calculation components:")
+    print("f(x₂) = (2π)^(-n/2)|Σ₂|^(-1/2)exp(-½(x₂-μ₂)ᵀΣ₂⁻¹(x₂-μ₂))")
+    print(f"n = 2 (dimension)")
+    print(f"|Σ₂| = {det_Sigma_2}")
+    print(f"(2π)^(-n/2) = {(2*np.pi)**(-1):.6f}")
+    print(f"|Σ₂|^(-1/2) = {det_Sigma_2**(-0.5):.6f}")
+    print("Normalizing constant = (2π)^(-n/2)|Σ₂|^(-1/2) = " + 
+          f"{((2*np.pi)**(-1) * det_Sigma_2**(-0.5)):.6f}")
+    
     print_step(3, "Calculate covariance matrix of Y = [X₁, X₂, X₃, X₄, X₅]")
     # Reorder variables according to Y = [X₂, X₄, X₅, X₁, X₃]
     idx_Y = [1, 3, 4, 0, 2]
@@ -680,6 +789,19 @@ def example4():
     print_matrix("Mean vector μY", mu_Y)
     print_matrix("Covariance matrix ΣY", Sigma_Y)
     
+    print("\nVerifying properties of reordered covariance matrix:")
+    print("1. Symmetry check:")
+    is_symmetric = np.allclose(Sigma_Y, Sigma_Y.T)
+    print(f"   Is symmetric: {is_symmetric}")
+    
+    print("2. Positive definiteness check:")
+    eigenvals = np.linalg.eigvals(Sigma_Y)
+    print("   Eigenvalues:")
+    for i, ev in enumerate(eigenvals):
+        print(f"   λ{i+1} = {ev:.4f}")
+    is_pos_def = np.all(eigenvals > 0)
+    print(f"   Is positive definite: {is_pos_def}")
+    
     print_step(4, "Calculate conditional distribution of X₁ given X₂ = [6, 24]")
     x2_values = np.array([6, 24])
     idx_X1 = [1, 3]  # Indices for X₂, X₄
@@ -688,15 +810,38 @@ def example4():
     # Calculate conditional distribution with detailed steps
     cond_dist = calculate_conditional_distribution_steps(mu, Sigma, idx_X1, idx_cond, x2_values)
     
-    print("\nStep-by-step calculations:")
-    print("\n1. Calculate Σ₂₂⁻¹:")
+    print("\nStep-by-step conditional distribution calculation:")
+    print("\n1. Partition the covariance matrix:")
+    print("   Σ₁₁ (covariance of X₂,X₄):")
+    print_matrix("   ", Sigma[np.ix_(idx_X1, idx_X1)])
+    print("   Σ₁₂ (covariance between (X₂,X₄) and (X₁,X₃)):")
+    print_matrix("   ", Sigma[np.ix_(idx_X1, idx_cond)])
+    print("   Σ₂₂ (covariance of X₁,X₃):")
+    print_matrix("   ", Sigma[np.ix_(idx_cond, idx_cond)])
+    
+    print("\n2. Calculate Σ₂₂⁻¹:")
     print(cond_dist['steps']['inverse'])
-    print("\n2. Calculate Σ₁₂Σ₂₂⁻¹:")
+    
+    print("\n3. Calculate Σ₁₂Σ₂₂⁻¹:")
     print(cond_dist['steps']['S12_S22inv'])
-    print("\n3. Calculate conditional mean:")
+    
+    print("\n4. Calculate conditional mean:")
     print(cond_dist['steps']['mu_cond'])
-    print("\n4. Calculate conditional covariance:")
+    
+    print("\n5. Calculate conditional covariance:")
     print(cond_dist['steps']['Sigma_cond'])
+    
+    # Calculate correlation in conditional distribution
+    cond_cov = cond_dist['Sigma_cond'][0,1]
+    cond_var1 = cond_dist['Sigma_cond'][0,0]
+    cond_var2 = cond_dist['Sigma_cond'][1,1]
+    cond_corr = cond_cov / np.sqrt(cond_var1 * cond_var2)
+    
+    print("\n6. Calculate conditional correlation:")
+    print(f"   Conditional covariance = {cond_cov:.4f}")
+    print(f"   Conditional variance of X₂|X₁,X₃ = {cond_var1:.4f}")
+    print(f"   Conditional variance of X₄|X₁,X₃ = {cond_var2:.4f}")
+    print(f"   Conditional correlation = {cond_cov}/√({cond_var1}×{cond_var2}) = {cond_corr:.4f}")
     
     # Plot distributions
     plot_2d_gaussian(mu[[1,3]], Sigma[np.ix_([1,3], [1,3])],
@@ -709,6 +854,16 @@ def example4():
                     'Conditional Distribution of X₂ and X₄\ngiven X₁ = 6, X₃ = 24',
                     'example4_conditional',
                     x_label='X₂', y_label='X₄')
+    
+    print("\nGeometric interpretation:")
+    print("1. The original joint distribution shows the unconstrained relationship")
+    print("   between X₂ and X₄.")
+    print("2. Conditioning on X₁ = 6 and X₃ = 24 creates a slice through the")
+    print("   5-dimensional distribution, resulting in a new bivariate normal")
+    print("   distribution with adjusted mean and covariance.")
+    print("3. The conditional correlation coefficient of {:.4f} indicates".format(cond_corr))
+    print("   a moderate positive relationship between X₂ and X₄ even after")
+    print("   conditioning on X₁ and X₃.")
 
 def example5():
     """Example 5: Independent Variables with Inverse of Covariance Matrix"""
