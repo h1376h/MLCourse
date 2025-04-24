@@ -179,9 +179,9 @@ For multivariate normal distributions, zero covariance implies independence. Loo
 - $\text{Cov}(X_2, X_3) = \boldsymbol{\Sigma}_{23} = 0$, so $X_2$ and $X_3$ are independent.
 - $\text{Cov}(X_1, X_3) = \boldsymbol{\Sigma}_{13} = 2 \neq 0$, so $X_1$ and $X_3$ are not independent.
 
-Therefore, only the pair $(X_2, X_3)$ is independent.
+Therefore, only $X_2$ and $X_3$ are independent.
 
-#### Part b: Determining if $Z$ is independent of $X_2$
+#### Part b: Independence of $Z$ and $X_2$
 
 We need to find the covariance between $Z = 3X_1 - 6X_3$ and $X_2$.
 
@@ -192,7 +192,7 @@ From the covariance matrix:
 - $\text{Cov}(X_3, X_2) = 0$
 
 Therefore:
-$$\text{Cov}(Z, X_2) = 3 \cdot 1 - 6 \cdot 0 = 3 \neq 0$$
+$$\text{Cov}(Z, X_2) = 3 \cdot 1 - 6 \cdot 0 = 3$$
 
 Since the covariance is not zero, $Z$ and $X_2$ are not independent.
 
@@ -214,6 +214,8 @@ $$\boldsymbol{\Sigma}_{a|b} = \begin{bmatrix} 3 & 2 \\ 2 & 5 \end{bmatrix} - \be
 $$\boldsymbol{\Sigma}_{a|b} = \begin{bmatrix} 3 & 2 \\ 2 & 5 \end{bmatrix} - \begin{bmatrix} 0.25 & 0 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 2.75 & 2 \\ 2 & 5 \end{bmatrix}$$
 
 Since the off-diagonal element in the conditional covariance matrix is 2 (not 0), $X_1$ and $X_3$ are not conditionally independent given $X_2$.
+
+This means that even after knowing the value of $X_2$, there is still a statistical dependence between $X_1$ and $X_3$. The conditional covariance of 2 indicates a positive relationship between $X_1$ and $X_3$ that persists even after conditioning on $X_2$.
 
 ## Example 4: Multivariate Normal with Partitioned Vectors
 

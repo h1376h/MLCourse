@@ -273,35 +273,41 @@ def example3():
         print(f"→ Variables are {'independent' if cov == 0 else 'not independent'}")
     
     print_step(3, "Calculate covariance between Z = 3X₁ - 6X₃ and X₂")
-    # Z = 3X₁ - 6X₃
+    # Define coefficients for Z = 3X₁ - 6X₃
     z_coef = np.array([3, 0, -6])
     x2_coef = np.array([0, 1, 0])
     
+    # Calculate covariance using matrix operations
     cov_z_x2 = calculate_covariance(z_coef, x2_coef, Sigma)
+    
+    # Show detailed calculation steps
     print("\nCov(Z,X₂) = Cov(3X₁ - 6X₃, X₂)")
     print(f"         = 3·Cov(X₁,X₂) - 6·Cov(X₃,X₂)")
     print(f"         = 3·({Sigma[0,1]}) - 6·({Sigma[2,1]})")
+    print(f"         = {3 * Sigma[0,1]} - {6 * Sigma[2,1]}")
     print(f"         = {cov_z_x2[0,0]}")
     
     print_step(4, "Calculate conditional independence of X₁ and X₃ given X₂")
-    # Calculate conditional distribution parameters
-    mu_cond, Sigma_cond = calculate_conditional_distribution(
-        mu, Sigma, [1], np.array([2]))
-    
     print("\nCalculating conditional covariance matrix:")
     print("Σ₁₁ = covariance matrix of (X₁,X₃)")
+    
+    # Extract relevant submatrices
     Sigma_11 = np.array([[Sigma[0,0], Sigma[0,2]],
-                        [Sigma[2,0], Sigma[2,2]]])
+                        [Sigma[2,0], Sigma[2,2]]])  # Covariance of (X₁,X₃)
     print_matrix("Σ₁₁", Sigma_11)
     
     print("\nΣ₁₂ = covariance vector between (X₁,X₃) and X₂")
     Sigma_12 = np.array([[Sigma[0,1]],
-                        [Sigma[2,1]]])
+                        [Sigma[2,1]]])  # Covariance between (X₁,X₃) and X₂
     print_matrix("Σ₁₂", Sigma_12)
     
     print("\nΣ₂₂ = variance of X₂")
-    Sigma_22 = np.array([[Sigma[1,1]]])
+    Sigma_22 = np.array([[Sigma[1,1]]])  # Variance of X₂
     print_matrix("Σ₂₂", Sigma_22)
+    
+    # Calculate conditional covariance matrix
+    Sigma_22_inv = np.linalg.inv(Sigma_22)
+    Sigma_cond = Sigma_11 - Sigma_12 @ Sigma_22_inv @ Sigma_12.T
     
     print("\nConditional covariance matrix:")
     print_matrix("Σ₁₁|₂ = Σ₁₁ - Σ₁₂Σ₂₂⁻¹Σ₂₁", Sigma_cond)
@@ -310,16 +316,19 @@ def example3():
     
     # Plot distributions
     plot_2d_gaussian(mu[[0,1]], Sigma[:2,:2],
-                    'Original Joint Distribution of X₁ and X₂',
+                    'Original Joint Distribution of X₁ and X₂\nCorrelated Variables',
                     'example3_original')
     
     # Plot conditional distribution
     x2_value = 2  # Conditioning on X₂ = 2
-    plot_2d_gaussian(np.array([mu[0], mu[2]]), Sigma_cond,
-                    f'Conditional Distribution of X₁ and X₃ given X₂ = {x2_value}',
+    # Calculate conditional mean
+    mu_cond = mu[[0,2]] + Sigma_12 @ Sigma_22_inv @ np.array([[x2_value - mu[1]]])
+    mu_cond = mu_cond.flatten()  # Convert to 1D array
+    
+    # Plot conditional distribution
+    plot_2d_gaussian(mu_cond[[0,1]], Sigma_cond,
+                    f'Conditional Distribution of X₁ and X₃ given X₂ = {x2_value}\nStill Dependent',
                     'example3_conditional',
-                    show_conditional=True,
-                    conditional_x=x2_value,
                     x_label='X₁', y_label='X₃')
 
 def example4():
