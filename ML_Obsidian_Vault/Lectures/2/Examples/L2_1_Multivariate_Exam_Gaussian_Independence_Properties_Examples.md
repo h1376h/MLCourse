@@ -81,13 +81,13 @@ $$\begin{bmatrix} 0 \\ 0 \end{bmatrix} \cdot \frac{1}{3} \cdot \begin{bmatrix} 0
 4. Calculate the conditional covariance matrix:
 $$\boldsymbol{\Sigma}_{a|b} = \boldsymbol{\Sigma}_{aa} - \boldsymbol{\Sigma}_{ab}\boldsymbol{\Sigma}_{bb}^{-1}\boldsymbol{\Sigma}_{ba} = \begin{bmatrix} 4 & 2 \\ 2 & 6 \end{bmatrix} - \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} = \begin{bmatrix} 4 & 2 \\ 2 & 6 \end{bmatrix}$$
 
-Since the off-diagonal element in the conditional covariance matrix is 2 (not 0), $X_1$ and $X_3$ are not conditionally independent given $X_2$.
-
-This makes intuitive sense as conditioning on $X_2$ doesn't add any new information about the relationship between $X_1$ and $X_3$ since $X_2$ is already independent of both $X_1$ and $X_3$.
+Since the off-diagonal element in the conditional covariance matrix is 2 (not 0), $X_1$ and $X_3$ are not conditionally independent given $X_2$. This means that even after knowing the value of $X_2$, there is still a significant relationship between $X_1$ and $X_3$.
 
 The geometric interpretation is that conditioning on $X_2$ changes the shape of the joint distribution of $(X_1,X_3)$, but does not make them independent. This can be visualized in the plots showing both the original and conditional distributions.
 
-![Example 1: Independent Pairs Visualization](../Images/Multivariate_Gaussian/example1_independent_pair.png)
+![Example 1: Independent Pair (X₂,X₃)](../Images/Multivariate_Gaussian/example1_independent_pair.png)
+![Example 1: Dependent Pair (X₁,X₃)](../Images/Multivariate_Gaussian/example1_dependent_pair.png)
+![Example 1: Conditional Distribution of (X₁,X₃) given X₂=2](../Images/Multivariate_Gaussian/example1_conditional.png)
 
 ## Example 2: Creating Independent Variables Through Linear Transformations
 

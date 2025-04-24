@@ -580,11 +580,25 @@ def example1():
     print("\nSince the off-diagonal element in the conditional covariance matrix " +
           f"is {Sigma_cond[0,1]:.2f} (not 0), X₁ and X₃ are not conditionally independent given X₂")
     
-    # Plot marginal distributions
+    # Plot independent pair (X₂,X₃)
     plot_2d_gaussian(mu[[1,2]], Sigma[1:3,1:3][[0,1]][:,[0,1]], 
                     'Joint Distribution of X₂ and X₃\n(Independent Variables)',
                     'example1_independent_pair',
                     x_label='X₂', y_label='X₃')
+    
+    # Plot dependent pair (X₁,X₃) before conditioning
+    plot_2d_gaussian(mu[[0,2]], np.array([[Sigma[0,0], Sigma[0,2]], [Sigma[2,0], Sigma[2,2]]]),
+                    'Joint Distribution of X₁ and X₃\n(Dependent Variables)',
+                    'example1_dependent_pair',
+                    x_label='X₁', y_label='X₃')
+    
+    # Plot conditional distribution of (X₁,X₃) given X₂=2
+    plot_2d_gaussian(mu[[0,2]], Sigma_cond,
+                    'Conditional Distribution of X₁ and X₃ given X₂=2\n(Still Dependent)',
+                    'example1_conditional',
+                    x_label='X₁', y_label='X₃',
+                    show_conditional=True,
+                    conditional_x=2)
 
 def example2():
     """Example 2: Creating Independent Variables Through Linear Transformations"""
