@@ -343,25 +343,6 @@ The step-by-step visualization shows:
 
 The relationship between these visualizations is analogous to topographic maps versus 3D terrain models. Contour plots provide precision and clarity for analysis, while 3D plots give intuition and overall shape understanding. Together, they provide a complete picture of multivariate probability distributions.
 
-## Key Insights
-
-### Theoretical Insights
-- Contour plots of bivariate normal distributions form ellipses whose orientation and shape are determined by correlation and variances
-- Conditional distributions in bivariate normals follow the regression line with constant variance
-- Probability regions in multivariate space generalize univariate confidence intervals
-- Mahalanobis distance provides a correlation-adjusted measure of distance in multivariate space
-
-### Practical Applications
-- Contour plots reveal correlation structures that might be missed in univariate or marginal analyses
-- They allow visualization of complex, non-Gaussian distributions with multiple modes
-- Understanding conditional distributions is fundamental for regression and prediction
-- Probability regions provide a framework for multivariate hypothesis testing and outlier detection
-
-### Common Pitfalls
-- Examining only marginal distributions can hide important correlation structure
-- Misinterpreting contour spacing (steep vs. gradual changes in probability density)
-- Forgetting that probability content of contours depends on dimensionality
-- Overlooking Simpson's paradox effects when analyzing grouped vs. ungrouped data
 
 ### Example 7: Distribution Identification Challenge
 
@@ -420,6 +401,26 @@ This example illustrates an important principle: contour plots alone cannot tell
 - 3D visualization can provide additional insight into the true nature of the function
 
 This example serves as a caution against assuming that any function with contours resembling a distribution is automatically a valid probability density function. It highlights the importance of mathematical rigor in probability theory and statistics.
+
+## Key Insights
+
+### Theoretical Insights
+- Contour plots of bivariate normal distributions form ellipses whose orientation and shape are determined by correlation and variances
+- Conditional distributions in bivariate normals follow the regression line with constant variance
+- Probability regions in multivariate space generalize univariate confidence intervals
+- Mahalanobis distance provides a correlation-adjusted measure of distance in multivariate space
+
+### Practical Applications
+- Contour plots reveal correlation structures that might be missed in univariate or marginal analyses
+- They allow visualization of complex, non-Gaussian distributions with multiple modes
+- Understanding conditional distributions is fundamental for regression and prediction
+- Probability regions provide a framework for multivariate hypothesis testing and outlier detection
+
+### Common Pitfalls
+- Examining only marginal distributions can hide important correlation structure
+- Misinterpreting contour spacing (steep vs. gradual changes in probability density)
+- Forgetting that probability content of contours depends on dimensionality
+- Overlooking Simpson's paradox effects when analyzing grouped vs. ungrouped data
 
 ## Running the Examples
 
