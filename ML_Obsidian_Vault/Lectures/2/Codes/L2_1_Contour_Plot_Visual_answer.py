@@ -1026,14 +1026,14 @@ def distribution_identification_answer(save_dir):
     
     # Plot 3D surfaces
     surf1 = ax3.plot_surface(x_3d, y_3d, mystery_3d, cmap='viridis', alpha=0.8,
-                          linewidth=0, antialiased=True)
+                           linewidth=0, antialiased=True)
     ax3.set_title('3D Surface of Mystery Function', fontsize=14)
     ax3.set_xlabel('X', fontsize=12)
     ax3.set_ylabel('Y', fontsize=12)
     ax3.set_zlabel('Value', fontsize=12)
     
     surf2 = ax4.plot_surface(x_3d, y_3d, alternate_3d, cmap='plasma', alpha=0.8,
-                          linewidth=0, antialiased=True)
+                           linewidth=0, antialiased=True)
     ax4.set_title('3D Surface of Alternative Function', fontsize=14)
     ax4.set_xlabel('X', fontsize=12)
     ax4.set_ylabel('Y', fontsize=12)
@@ -1043,34 +1043,24 @@ def distribution_identification_answer(save_dir):
     ax3.view_init(elev=30, azim=45)
     ax4.view_init(elev=30, azim=45)
     
-    # Show mathematical formulation of both functions
-    plt.figure(figsize=(12, 6))
-    ax5 = plt.subplot(111)
-    ax5.axis('off')
-    
-    formula_text = (
-        "MYSTERY FUNCTION VS ALTERNATIVE FUNCTION\n\n"
-        "Mystery Function (left):\n"
-        "f(x,y) = sin(x² + y²) · e^(-(x² + y²)/8)\n\n"
-        "Alternative Function (right):\n"
-        "g(x,y) = cos((x² + y²)/2) · e^(-(x² + y²)/8)\n\n"
-        "Key Insights:\n"
-        "• Both functions have circular, oscillating contours\n"
-        "• Both have values that go negative and need normalization\n"
-        "• Neither integrates to 1 across the plane\n"
-        "• They are not valid probability density functions\n"
-        "• The contours alone cannot determine if a function is a valid PDF\n"
-        "• This demonstrates how similar contour patterns can arise from\n"
-        "  different functions, not all of which are probability distributions"
-    )
-    
-    ax5.text(0.1, 0.5, formula_text, fontsize=14, verticalalignment='center')
+    print("\n  • MYSTERY FUNCTION VS ALTERNATIVE FUNCTION\n")
+    print("    Mystery Function:")
+    print("    f(x,y) = sin(x² + y²) · e^(-(x² + y²)/8)")
+    print("\n    Alternative Function:")
+    print("    g(x,y) = cos((x² + y²)/2) · e^(-(x² + y²)/8)")
+    print("\n    Key Insights:")
+    print("    • Both functions have circular, oscillating contours")
+    print("    • Both have values that go negative and need normalization")
+    print("    • Neither integrates to 1 across the plane")
+    print("    • They are not valid probability density functions")
+    print("    • The contours alone cannot determine if a function is a valid PDF")
+    print("    • This demonstrates how similar contour patterns can arise from")
+    print("      different functions, not all of which are probability distributions\n")
     
     plt.tight_layout()
     print("  • Saving distribution identification answer visualizations...")
     fig.savefig(os.path.join(save_dir, 'distribution_identification_answer_contours.png'), dpi=300)
     fig2.savefig(os.path.join(save_dir, 'distribution_identification_answer_3d.png'), dpi=300)
-    plt.savefig(os.path.join(save_dir, 'distribution_identification_answer_formulas.png'), dpi=300)
     plt.close('all')
     print("  • Distribution identification answer visualizations complete")
 
@@ -1143,7 +1133,7 @@ def generate_answer_images():
     print("-"*50)
     print("Step 1: Creating answer visualizations for the distribution identification challenge")
     distribution_identification_answer(save_dir)
-    print("✓ Generated distribution identification answer visualizations: distribution_identification_answer_contours.png, distribution_identification_answer_3d.png, and distribution_identification_answer_formulas.png")
+    print("✓ Generated distribution identification answer visualizations: distribution_identification_answer_contours.png, distribution_identification_answer_3d.png")
     
     print("\n" + "="*80)
     print(f"All visualizations have been generated and saved to:")
@@ -1156,7 +1146,7 @@ def generate_answer_images():
     print("3. Conditional distributions: conditional_step1.png through conditional_step4.png")
     print("4. Conditional distribution animation: conditional_demo_frame_1-9.png")
     print("5. Geometric interpretation: geometric_step1-5.png, geometric_interpretation.png")
-    print("6. Distribution identification: distribution_identification_answer_contours.png, distribution_identification_answer_3d.png, distribution_identification_answer_formulas.png")
+    print("6. Distribution identification: distribution_identification_answer_contours.png, distribution_identification_answer_3d.png")
     
     return save_dir
 
