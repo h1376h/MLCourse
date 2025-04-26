@@ -408,6 +408,86 @@ def contour_3d_comparison(save_dir):
     
     print("QUESTION 6: What is the geometric relationship between 3D probability density surfaces and their 2D contour plot representations, and what are the advantages of each visualization?")
 
+def distribution_identification_challenge(save_dir):
+    """Generate contour plots for various probability distributions and a mystery contour
+    
+    QUESTION: Identify which probability distribution the mystery contour (bottom right) most 
+    closely resembles, and explain your reasoning based on the shape and characteristics of the contour.
+    """
+    # Create a grid of points
+    x, y = np.mgrid[-3:3:.01, -3:3:.01]
+    pos = np.dstack((x, y))
+    
+    # 1. Standard bivariate normal
+    rv1 = multivariate_normal(mean=[0, 0], cov=[[1, 0], [0, 1]])
+    pdf1 = rv1.pdf(pos)
+    
+    # 2. Chi-squared-like distribution (using transformation)
+    # Creating a right-skewed distribution that resembles chi-squared
+    x_grid, y_grid = np.mgrid[0.1:6:.01, 0.1:6:.01]
+    pos_chi = np.dstack((x_grid, y_grid))
+    rv_chi = multivariate_normal(mean=[1, 1], cov=[[0.5, 0.3], [0.3, 0.5]])
+    pdf2 = rv_chi.pdf(pos_chi) * x_grid * y_grid
+    
+    # 3. Uniform distribution-like contours
+    x_unif, y_unif = np.mgrid[-2:2:.01, -2:2:.01]
+    pos_unif = np.dstack((x_unif, y_unif))
+    # Create a function that is nearly constant in the center and drops off at the edges
+    pdf3 = np.ones_like(x_unif) * 0.25
+    mask = (np.abs(x_unif) > 1) | (np.abs(y_unif) > 1)
+    edge_distance = np.maximum(0, np.minimum(np.abs(x_unif) - 1, np.abs(y_unif) - 1))
+    pdf3[mask] = 0.25 * np.exp(-5 * edge_distance[mask])
+    
+    # 4. Mystery contour - a function that looks like a distribution but isn't
+    # This will create a pattern that appears to be a valid distribution but is actually
+    # a superposition of two different functions
+    a, b = np.mgrid[-3:3:.01, -3:3:.01]
+    mystery = np.sin(a**2 + b**2) * np.exp(-(a**2 + b**2)/8)
+    # Normalize to ensure it's positive
+    mystery = mystery - np.min(mystery)
+    mystery = mystery / np.max(mystery)
+    
+    # Create figure with multiple plots
+    plt.figure(figsize=(15, 12))
+    
+    # Plot 1: Standard bivariate normal
+    plt.subplot(221)
+    plt.contour(x, y, pdf1, levels=10, cmap='viridis')
+    plt.title('Bivariate Normal Distribution', fontsize=14)
+    plt.xlabel('X', fontsize=12)
+    plt.ylabel('Y', fontsize=12)
+    plt.grid(alpha=0.3)
+    
+    # Plot 2: Chi-squared-like distribution
+    plt.subplot(222)
+    plt.contour(x_grid, y_grid, pdf2, levels=10, cmap='viridis')
+    plt.title('Chi-squared-like Distribution', fontsize=14)
+    plt.xlabel('X', fontsize=12)
+    plt.ylabel('Y', fontsize=12)
+    plt.grid(alpha=0.3)
+    
+    # Plot 3: Uniform-like distribution
+    plt.subplot(223)
+    plt.contour(x_unif, y_unif, pdf3, levels=10, cmap='viridis')
+    plt.title('Uniform-like Distribution', fontsize=14)
+    plt.xlabel('X', fontsize=12)
+    plt.ylabel('Y', fontsize=12)
+    plt.grid(alpha=0.3)
+    
+    # Plot 4: Mystery contour
+    plt.subplot(224)
+    plt.contour(a, b, mystery, levels=10, cmap='viridis')
+    plt.title('Mystery Contour: What Distribution?', fontsize=14)
+    plt.xlabel('X', fontsize=12)
+    plt.ylabel('Y', fontsize=12)
+    plt.grid(alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'distribution_identification_challenge.png'), dpi=300)
+    plt.close()
+    
+    print("QUESTION 7: Identify which probability distribution the mystery contour (bottom right) most closely resembles, and explain your reasoning based on the shape and characteristics of the contour.")
+
 def generate_question_images():
     """Generate all images for the contour plot visual examples"""
     # Create directories
@@ -420,6 +500,7 @@ def generate_question_images():
     conditional_distributions_visual(save_dir)
     marginal_distributions_visual(save_dir)
     contour_3d_comparison(save_dir)
+    distribution_identification_challenge(save_dir)
     
     print(f"Generated all question images in {save_dir}")
     print("\nThe following questions need to be solved in the answer file:")
@@ -429,6 +510,7 @@ def generate_question_images():
     print("4. How do conditional distributions change as we vary the value of one variable in a bivariate normal distribution, and what does this tell us about the relationship between variables?")
     print("5. What is the relationship between joint and marginal distributions, and what information is preserved or lost when examining only marginal distributions?")
     print("6. What is the geometric relationship between 3D probability density surfaces and their 2D contour plot representations, and what are the advantages of each visualization?")
+    print("7. Identify which probability distribution the mystery contour (bottom right) most closely resembles, and explain your reasoning based on the shape and characteristics of the contour.")
     
     return save_dir
 
