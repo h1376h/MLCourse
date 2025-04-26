@@ -392,7 +392,7 @@ This example illustrates an important principle: contour plots alone cannot tell
 2. The integral over the entire domain must equal 1
 3. The function must represent a possible random process
 
-#### Key Insights from This Example
+#### Key Insights
 
 - Contour plots reveal the shape of a function but not whether it's a valid probability distribution
 - Circular, radially symmetric patterns indicate functions that depend only on the distance from the origin
