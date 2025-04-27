@@ -1,7 +1,7 @@
 # Lecture 2.4: Maximum Likelihood Estimation Quiz
 
 ## Overview
-This quiz contains 26 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
+This quiz contains 29 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
 
 ## Question 1
 
@@ -415,3 +415,99 @@ For each proof, you should:
 - Interpret the result in the context of the distribution
 
 For a detailed explanation, see [Question 26: Proving Common Maximum Likelihood Estimators](L2_4_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+A natural language processing engineer is building a text classification model for customer support tickets. The engineer has a dataset with 500 support tickets that have been manually labeled with one of five categories:
+
+1. Billing Issues
+2. Technical Problems
+3. Account Access
+4. Feature Requests
+5. General Inquiries
+
+To prepare the data for a logistic regression model, the engineer one-hot encodes the category labels. After training, the model predicts probabilities for each category. For a new unlabeled ticket, the model outputs the following probabilities:
+
+- $P(\text{Billing Issues}) = 0.15$
+- $P(\text{Technical Problems}) = 0.35$
+- $P(\text{Account Access}) = 0.20$
+- $P(\text{Feature Requests}) = 0.10$
+- $P(\text{General Inquiries}) = 0.20$
+
+The original training data had the following distribution of categories:
+
+- Billing Issues: 100 tickets
+- Technical Problems: 150 tickets
+- Account Access: 80 tickets
+- Feature Requests: 70 tickets
+- General Inquiries: 100 tickets
+
+#### Task
+1. Explain the relationship between one-hot encoding and the multinomial distribution in this context
+2. Calculate the maximum likelihood estimates for the prior probabilities of each category based on the training data
+3. Using Bayes' theorem and assuming the model outputs are accurate likelihood estimates, calculate the posterior probability that the ticket belongs to the "Technical Problems" category if we know that 60% of all support tickets are about technical issues (regardless of what the model predicts)
+4. The engineer decides to use a classification threshold of 0.30, meaning a ticket is assigned to a category if its probability exceeds this threshold. Based on the model outputs for the new ticket:
+   a. Which category would be assigned to the ticket?
+   b. What are the potential issues with using a fixed threshold for multinomial classification?
+5. Calculate the cross-entropy loss between the true one-hot encoded label $[0,1,0,0,0]$ (Technical Problems) and the model's predicted probabilities using:
+   $$H(y, \hat{y}) = -\sum_{i=1}^{5} y_i \log(\hat{y}_i)$$
+
+For a detailed explanation, see [Question 27: One-Hot Encoding and Multinomial Classification](L2_4_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+A machine learning engineer is training a multinomial classifier that predicts three categories: {Cat, Dog, Bird}. The engineer represents each label using one-hot encoding: Cat = $[1,0,0]$, Dog = $[0,1,0]$, and Bird = $[0,0,1]$. 
+
+After training, the model outputs the following probability vectors for 5 test samples:
+- Sample 1: $[0.7, 0.2, 0.1]$
+- Sample 2: $[0.3, 0.5, 0.2]$
+- Sample 3: $[0.1, 0.3, 0.6]$
+- Sample 4: $[0.4, 0.4, 0.2]$
+- Sample 5: $[0.2, 0.1, 0.7]$
+
+The true labels are: Sample 1: Cat, Sample 2: Dog, Sample 3: Bird, Sample 4: Cat, Sample 5: Bird.
+
+#### Task
+1. Write down the log-likelihood of the observed data given the model's predictions. If $y_i$ represents the true label and $\hat{y}_i$ represents the predicted probabilities, the log-likelihood can be written as:
+   $$\log L = \sum_{i=1}^{n} \log(\hat{y}_{i,c_i})$$
+   where $c_i$ is the correct class index for sample $i$
+
+2. Using MLE principles, what threshold would you set for classification to maximize the likelihood of the observed data?
+
+3. If you had to pick one fixed probability threshold ($p > \text{threshold} \rightarrow$ classify as that class), what value would maximize accuracy on this dataset?
+
+For a detailed explanation, see [Question 28: One-Hot Encoding and Maximum Likelihood Estimation](L2_4_28_explanation.md).
+
+## Question 29
+
+### Problem Statement
+Consider a dataset of 100 examples with three possible categories: A, B, and C. Two encoding schemes are proposed:
+
+**Scheme 1 (One-hot):** 
+- A = $[1,0,0]$
+- B = $[0,1,0]$
+- C = $[0,0,1]$
+
+**Scheme 2 (Binary):**
+- A = $[0,0]$
+- B = $[0,1]$
+- C = $[1,0]$
+
+The dataset contains: 50 instances of A, 30 instances of B, and 20 instances of C.
+
+#### Task
+1. Calculate the entropy of the class distribution in bits using:
+   $$H(X) = -\sum_{i} P(x_i) \log_2 P(x_i)$$
+
+2. How many bits are required to store the entire dataset using Scheme 1?
+
+3. How many bits are required to store the entire dataset using Scheme 2?
+
+4. Which encoding is more efficient, and by how much? Calculate the percentage reduction in bits:
+   $$\text{Reduction} = \frac{\text{Bits}_{\text{Scheme 1}} - \text{Bits}_{\text{Scheme 2}}}{\text{Bits}_{\text{Scheme 1}}} \times 100\%$$
+
+5. Is the binary encoding scheme lossless? Explain why or why not.
+
+For a detailed explanation, see [Question 29: One-Hot Encoding and Information Theory](L2_4_29_explanation.md).

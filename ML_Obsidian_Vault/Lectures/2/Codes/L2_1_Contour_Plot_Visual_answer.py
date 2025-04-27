@@ -956,6 +956,114 @@ def geometric_interpretation(save_dir):
     plt.close()
     print("  • Geometric interpretation visualization complete")
 
+def distribution_identification_answer(save_dir):
+    """Generate the answer to the distribution identification challenge"""
+    print("  • Creating visualization for the distribution identification challenge answer...")
+    
+    # Create a grid of points
+    a, b = np.mgrid[-3:3:.01, -3:3:.01]
+    
+    # Create the mystery function (from question)
+    mystery = np.sin(a**2 + b**2) * np.exp(-(a**2 + b**2)/8)
+    # Normalize to ensure it's positive
+    mystery = mystery - np.min(mystery)
+    mystery = mystery / np.max(mystery)
+    
+    # Create another function with very similar contours
+    # This is a mathematical function that is not a probability distribution
+    alternate = np.cos((a**2 + b**2)/2) * np.exp(-(a**2 + b**2)/8)
+    alternate = alternate - np.min(alternate)
+    alternate = alternate / np.max(alternate)
+    
+    # Create a figure with two subplots
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 7))
+    
+    # Plot the mystery contours
+    contour1 = ax1.contour(a, b, mystery, levels=10, cmap='viridis')
+    ax1.contourf(a, b, mystery, levels=20, cmap='viridis', alpha=0.3)
+    ax1.set_title('Mystery Contour Pattern', fontsize=14)
+    ax1.set_xlabel('X', fontsize=12)
+    ax1.set_ylabel('Y', fontsize=12)
+    ax1.grid(alpha=0.3)
+    
+    # Plot the alternative function contours
+    contour2 = ax2.contour(a, b, alternate, levels=10, cmap='plasma')
+    ax2.contourf(a, b, alternate, levels=20, cmap='plasma', alpha=0.3)
+    ax2.set_title('Similar Pattern: Not a Distribution', fontsize=14)
+    ax2.set_xlabel('X', fontsize=12)
+    ax2.set_ylabel('Y', fontsize=12)
+    ax2.grid(alpha=0.3)
+    
+    # Add annotations explaining the key insights
+    ax1.annotate(
+        "Initially resembles a radial distribution\nwith oscillating probability",
+        xy=(0, 0), xytext=(1, 2),
+        arrowprops=dict(facecolor='black', shrink=0.05),
+        bbox=dict(boxstyle='round', facecolor='white', alpha=0.7)
+    )
+    
+    ax2.annotate(
+        "Function: cos((x²+y²)/2)·e^(-(x²+y²)/8)\nSimilar contours, but not integrable to 1",
+        xy=(0, 0), xytext=(1, 2),
+        arrowprops=dict(facecolor='black', shrink=0.05),
+        bbox=dict(boxstyle='round', facecolor='white', alpha=0.7)
+    )
+    
+    # Show 3D visualizations of both functions
+    fig2, (ax3, ax4) = plt.subplots(1, 2, figsize=(15, 7), subplot_kw={'projection': '3d'})
+    
+    # Create a coarser grid for 3D visualization
+    x_3d, y_3d = np.mgrid[-3:3:.1, -3:3:.1]
+    
+    # Calculate the functions on this grid
+    mystery_3d = np.sin(x_3d**2 + y_3d**2) * np.exp(-(x_3d**2 + y_3d**2)/8)
+    mystery_3d = mystery_3d - np.min(mystery_3d)
+    mystery_3d = mystery_3d / np.max(mystery_3d)
+    
+    alternate_3d = np.cos((x_3d**2 + y_3d**2)/2) * np.exp(-(x_3d**2 + y_3d**2)/8)
+    alternate_3d = alternate_3d - np.min(alternate_3d)
+    alternate_3d = alternate_3d / np.max(alternate_3d)
+    
+    # Plot 3D surfaces
+    surf1 = ax3.plot_surface(x_3d, y_3d, mystery_3d, cmap='viridis', alpha=0.8,
+                           linewidth=0, antialiased=True)
+    ax3.set_title('3D Surface of Mystery Function', fontsize=14)
+    ax3.set_xlabel('X', fontsize=12)
+    ax3.set_ylabel('Y', fontsize=12)
+    ax3.set_zlabel('Value', fontsize=12)
+    
+    surf2 = ax4.plot_surface(x_3d, y_3d, alternate_3d, cmap='plasma', alpha=0.8,
+                           linewidth=0, antialiased=True)
+    ax4.set_title('3D Surface of Alternative Function', fontsize=14)
+    ax4.set_xlabel('X', fontsize=12)
+    ax4.set_ylabel('Y', fontsize=12)
+    ax4.set_zlabel('Value', fontsize=12)
+    
+    # Adjust viewing angles
+    ax3.view_init(elev=30, azim=45)
+    ax4.view_init(elev=30, azim=45)
+    
+    print("\n  • MYSTERY FUNCTION VS ALTERNATIVE FUNCTION\n")
+    print("    Mystery Function:")
+    print("    f(x,y) = sin(x² + y²) · e^(-(x² + y²)/8)")
+    print("\n    Alternative Function:")
+    print("    g(x,y) = cos((x² + y²)/2) · e^(-(x² + y²)/8)")
+    print("\n    Key Insights:")
+    print("    • Both functions have circular, oscillating contours")
+    print("    • Both have values that go negative and need normalization")
+    print("    • Neither integrates to 1 across the plane")
+    print("    • They are not valid probability density functions")
+    print("    • The contours alone cannot determine if a function is a valid PDF")
+    print("    • This demonstrates how similar contour patterns can arise from")
+    print("      different functions, not all of which are probability distributions\n")
+    
+    plt.tight_layout()
+    print("  • Saving distribution identification answer visualizations...")
+    fig.savefig(os.path.join(save_dir, 'distribution_identification_answer_contours.png'), dpi=300)
+    fig2.savefig(os.path.join(save_dir, 'distribution_identification_answer_3d.png'), dpi=300)
+    plt.close('all')
+    print("  • Distribution identification answer visualizations complete")
+
 def generate_answer_images():
     """Generate all images for the contour plot visual answers"""
     # Create directories
@@ -1019,6 +1127,14 @@ def generate_answer_images():
     geometric_interpretation(save_dir)
     print("✓ Generated geometric interpretation visualizations: geometric_step1-5.png and geometric_interpretation.png")
     
+    # Question 7
+    print("\n" + "-"*50)
+    print("QUESTION 7: Identify which probability distribution the mystery contour most closely resembles, and explain your reasoning based on the shape and characteristics of the contour.")
+    print("-"*50)
+    print("Step 1: Creating answer visualizations for the distribution identification challenge")
+    distribution_identification_answer(save_dir)
+    print("✓ Generated distribution identification answer visualizations: distribution_identification_answer_contours.png, distribution_identification_answer_3d.png")
+    
     print("\n" + "="*80)
     print(f"All visualizations have been generated and saved to:")
     print(f"{save_dir}")
@@ -1030,6 +1146,7 @@ def generate_answer_images():
     print("3. Conditional distributions: conditional_step1.png through conditional_step4.png")
     print("4. Conditional distribution animation: conditional_demo_frame_1-9.png")
     print("5. Geometric interpretation: geometric_step1-5.png, geometric_interpretation.png")
+    print("6. Distribution identification: distribution_identification_answer_contours.png, distribution_identification_answer_3d.png")
     
     return save_dir
 
