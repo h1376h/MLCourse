@@ -79,29 +79,34 @@ print("   - These probabilities sum to 1 across all categories")
 print("   - The model's output directly represents the parameters of the multinomial distribution")
 print("   - Cross-entropy loss (-∑y_i log(p_i)) is derived from the negative log-likelihood of the multinomial distribution")
 
-# Simplified visualization for one-hot encoding
-fig1, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+# Simplified visualization for one-hot encoding - Improved figure
+fig1, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
-# One-hot encoding visualization
+# One-hot encoding visualization (simplified)
 one_hot_matrix = np.eye(len(categories))
 sns.heatmap(one_hot_matrix, annot=True, cmap="Blues", cbar=False, 
-            xticklabels=[f'Position {i+1}' for i in range(len(categories))], 
+            xticklabels=[f'Pos {i+1}' for i in range(len(categories))], 
             yticklabels=categories,
             ax=ax1)
-ax1.set_title('One-Hot Encoding Matrix')
+ax1.set_title('One-Hot Encoding Matrix', fontsize=14)
 
-# Category distribution visualization
+# Category distribution visualization (simplified)
 proportions = np.array(training_counts) / sum(training_counts)
 bars = ax2.bar(short_categories, proportions, color=sns.color_palette("pastel", len(categories)))
-ax2.set_title('Category Distribution')
-ax2.set_ylabel('Proportion')
+ax2.set_title('Category Distribution', fontsize=14)
+ax2.set_ylabel('Proportion', fontsize=12)
 for bar, prop in zip(bars, proportions):
     height = bar.get_height()
     ax2.text(bar.get_x() + bar.get_width()/2., height + 0.01, f'{prop:.2f}', 
             ha='center', va='bottom')
 
 plt.tight_layout()
-save_figure(fig1, "step1_one_hot_encoding.png")
+save_figure(fig1, "step1_one_hot_multinomial.png")
+
+print("\nKey points about the figure:")
+print("- Left panel: One-hot encoding matrix showing how each category is represented as a binary vector")
+print("- Right panel: Distribution of categories in the training data, representing the multinomial parameters")
+print("- These proportions will be used as the MLE estimates for prior probabilities in the next step")
 
 print("\nMultinomial PMF Formula:")
 print("P(X₁=n₁,...,X₅=n₅) = (n! / (n₁!...n₅!)) × p₁^n₁ × ... × p₅^n₅")
@@ -171,28 +176,39 @@ for i, category in enumerate(categories):
 print(f"\nVerification: Sum of all probabilities = {sum(prior_probabilities):.4f} (should equal 1)")
 
 # Simplified visualization of prior probabilities
-fig2, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+fig2, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
-# Pie chart
+# Pie chart (simplified)
 wedges, texts, autotexts = ax1.pie(training_counts, labels=short_categories, autopct='%1.1f%%', 
         startangle=90, colors=sns.color_palette("pastel", len(categories)))
-ax1.set_title('Training Data Distribution')
+ax1.set_title('Training Data Distribution', fontsize=14)
+        
+# Add center circle to make a donut chart for better visualization
+centre_circle = plt.Circle((0, 0), 0.5, fc='white')
+ax1.add_patch(centre_circle)
 
-# Bar chart of probabilities
+# Add total sample size in center
+ax1.text(0, 0, f"n = {total_training}", ha='center', va='center', fontweight='bold', fontsize=12)
+
+# Bar chart of probabilities (simplified)
 bars = ax2.bar(short_categories, prior_probabilities, 
               color=sns.color_palette("pastel", len(categories)))
-ax2.set_title('MLE Prior Probabilities')
-ax2.set_ylabel('Probability')
-for bar, prob in zip(bars, prior_probabilities):
+ax2.set_title('MLE Prior Probabilities', fontsize=14)
+ax2.set_ylabel('Probability', fontsize=12)
+for bar, prob, count in zip(bars, prior_probabilities, training_counts):
     height = bar.get_height()
-    ax2.text(bar.get_x() + bar.get_width()/2., height + 0.01, f'{prob:.2f}', 
+    ax2.text(bar.get_x() + bar.get_width()/2., height + 0.01, 
+            f'{prob:.2f}', 
             ha='center', va='bottom')
 
 plt.tight_layout()
 save_figure(fig2, "step2_prior_probabilities.png")
 
-print("\nMLE formula: p̂_i = n_i/n")
-print("Example calculation for Technical Problems:")
+print("\nKey points about the figure:")
+print("- Left panel: Pie chart showing the distribution of training data across categories")
+print("- Right panel: Bar chart showing the MLE prior probabilities")
+print("- The MLE formula is: p̂_i = n_i/n (count in category / total count)")
+print("\nExample calculation for Technical Problems:")
 i = 1  # Index for Technical Problems
 print(f"p̂_{i+1} = n_{i+1}/n = {training_counts[i]}/{total_training} = {prior_probabilities[i]:.4f}")
 
@@ -263,40 +279,42 @@ print(f"   • Or a {((posterior_technical/model_prob_technical)-1)*100:.1f}% re
 print("   • This demonstrates the significant impact of incorporating prior knowledge via Bayes' theorem")
 
 # Simplified visualization of Bayes' theorem application
-fig3, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+fig3, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
-# Prior vs Posterior comparison
+# Prior vs Posterior comparison (simplified)
 labels = ['Model Output', 'After Bayes']
 values = [model_prob_technical, posterior_technical]
-bars = ax1.bar(labels, values, color=['lightgray', 'lightgreen'])
-ax1.set_title('Technical Problems Probability')
-ax1.set_ylabel('Probability')
+bars = ax1.bar(labels, values, color=['lightblue', 'lightgreen'])
+ax1.set_title("Bayes' Theorem Effect", fontsize=14)
+ax1.set_ylabel('Probability', fontsize=12)
 for bar, val in zip(bars, values):
     height = bar.get_height()
     ax1.text(bar.get_x() + bar.get_width()/2., height + 0.02, f'{val:.2f}', 
-            ha='center', va='bottom')
+            ha='center', va='bottom', fontsize=12, fontweight='bold')
 ax1.set_ylim(0, 1.0)
 
-# Components of Bayes calculation
-components = ['P(Model|Tech)×P(Tech)', 'P(Model|Non-Tech)×P(Non-Tech)', 'P(Model)']
+# Components of Bayes calculation (simplified)
+terms = ['Term 1', 'Term 2', 'Total']
 component_values = [p_model_tech_term, p_model_nontech_term, p_model]
-bars = ax2.bar(components, component_values, color=['lightblue', 'salmon', 'purple'])
-ax2.set_title('Components of Bayes Calculation')
-ax2.set_ylabel('Probability')
-ax2.set_xticklabels(components, rotation=45, ha='right')
+colors = ['lightblue', 'lightcoral', 'lightgreen']
+bars = ax2.bar(terms, component_values, color=colors)
+ax2.set_title('Components of Bayes Calculation', fontsize=14)
+ax2.set_ylabel('Probability', fontsize=12)
+
+# Add value labels to each bar
 for bar, val in zip(bars, component_values):
     height = bar.get_height()
-    ax2.text(bar.get_x() + bar.get_width()/2., height + 0.02, f'{val:.2f}', 
+    ax2.text(bar.get_x() + bar.get_width()/2., height + 0.01, f'{val:.4f}', 
             ha='center', va='bottom')
 
 plt.tight_layout()
 save_figure(fig3, "step3_bayes_theorem.png")
 
-print("\nBayes' theorem formula:")
-print("P(Technical|Model) = [P(Model|Technical) × P(Technical)] / P(Model)")
-print(f"P(Technical|Model) = [{model_prob_technical:.2f} × {prior_technical:.2f}] / {p_model:.4f}")
-print(f"P(Technical|Model) = {p_model_tech_term:.4f} / {p_model:.4f}")
-print(f"P(Technical|Model) = {posterior_technical:.4f}")
+print("\nKey points about the figure:")
+print("- Left panel: Comparing the original model probability with the updated posterior probability after Bayes' theorem")
+print("- Right panel: Components of the calculation - Term 1 = P(Model|Tech)×P(Tech), Term 2 = P(Model|Non-Tech)×P(Non-Tech), Total = P(Model)")
+print("- Bayes' theorem formula: P(Technical|Model) = P(Model|Technical) × P(Technical) / P(Model)")
+print(f"- Calculation: P(Technical|Model) = ({model_prob_technical:.2f} × {prior_technical:.2f}) / {p_model:.4f} = {posterior_technical:.4f}")
 
 # ==============================
 # STEP 4: Classification with Threshold
@@ -365,35 +383,41 @@ print("   4. Using a reject option for low-confidence predictions")
 print("   5. Applying calibration techniques to improve probability estimates")
 
 # Simplified visualization of threshold-based classification
-fig4, ax = plt.subplots(figsize=(10, 5))
+fig4, ax = plt.subplots(figsize=(10, 6))
 
-# Bar chart with threshold line
+# Bar chart with threshold line (simplified)
 bars = ax.bar(short_categories, model_probabilities, color='lightgray')
-ax.axhline(y=threshold, color='r', linestyle='--', label=f'Threshold = {threshold:.2f}')
-ax.set_title('Category Probabilities vs. Classification Threshold')
-ax.set_xlabel('Category')
-ax.set_ylabel('Probability')
+ax.axhline(y=threshold, color='r', linestyle='--', linewidth=2, label=f'Threshold = {threshold:.2f}')
+ax.set_title('Probabilities vs. Classification Threshold', fontsize=14)
+ax.set_xlabel('Category', fontsize=12)
+ax.set_ylabel('Probability', fontsize=12)
 ax.set_ylim(0, max(model_probabilities) * 1.3)
-ax.legend()
+ax.legend(fontsize=12)
 
 # Color the bars based on threshold
 for i, bar in enumerate(bars):
     if model_probabilities[i] > threshold:
         bar.set_color('green')
+    else:
+        bar.set_color('lightgray')
         
-# Add labels
+# Add clear decision labels
 for i, (bar, prob) in enumerate(zip(bars, model_probabilities)):
     height = bar.get_height()
-    status = "✓" if prob > threshold else "✗"
-    ax.text(bar.get_x() + bar.get_width()/2., height + 0.02, 
-            f'{prob:.2f}\n{status}', 
-            ha='center', va='bottom')
+    decision = "SELECTED" if prob > threshold else ""
+    color = "green" if prob > threshold else "black"
+    ax.text(bar.get_x() + bar.get_width()/2., height + 0.01, 
+            f'{prob:.2f}', 
+            ha='center', va='bottom', color=color, fontweight='bold')
 
 plt.tight_layout()
 save_figure(fig4, "step4_classification_threshold.png")
 
-print("\nClassification with threshold formula:")
-print(f"If P(category) > {threshold:.2f}, then assign to that category")
+print("\nKey points about the figure:")
+print(f"- Bar chart showing model probabilities for each category with a threshold line at {threshold:.2f}")
+print("- Green bars exceed the threshold and are selected; gray bars are below the threshold")
+print("- In this example, only 'Technical Problems' exceeds the threshold with probability 0.35")
+print("- Classification with threshold formula: If P(category) > threshold, then assign to that category")
 print("\nIn this example, we have:")
 for i, category in enumerate(categories):
     comparison = ">" if model_probabilities[i] > threshold else "≤"
@@ -463,41 +487,60 @@ print("   • Cross-entropy loss thus encourages high confidence in correct pred
 print("   • It heavily penalizes being confidently wrong (if true class gets very low probability)")
 
 # Simplified visualization of cross-entropy loss
-fig5, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
+fig5, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
-# True label vs predicted probabilities
+# True label vs predicted probabilities (simplified)
 x = np.arange(len(categories))
 width = 0.35
 ax1.bar(x - width/2, true_label, width, label='True Label', color='lightgreen')
 ax1.bar(x + width/2, model_probabilities, width, label='Predicted', color='lightblue')
-ax1.set_title('True Label vs. Predicted Probabilities')
+ax1.set_title('True Label vs. Predicted Probabilities', fontsize=14)
 ax1.set_xticks(x)
 ax1.set_xticklabels(short_categories, rotation=45)
-ax1.set_ylabel('Value')
-ax1.legend()
+ax1.set_ylabel('Value', fontsize=12)
+ax1.legend(fontsize=10)
 
-# Cross-entropy function curve
+# Highlight the critical value with rectangular outline
+tech_index = 1  # Index for Technical Problems
+rect = plt.Rectangle((tech_index + width/2 - width*0.6, 0), width*1.2, model_probabilities[tech_index], 
+                    facecolor='none', edgecolor='red', linestyle='--', linewidth=2)
+ax1.add_patch(rect)
+
+# Cross-entropy function curve (simplified)
 p_range = np.linspace(0.01, 1, 100)
 ce_values = [-math.log(p) for p in p_range]
-ax2.plot(p_range, ce_values, 'b-', label='Cross-entropy: -log(p)')
-ax2.set_title('Cross-Entropy Loss Function')
-ax2.set_xlabel('Probability for True Class')
-ax2.set_ylabel('Loss')
+ax2.plot(p_range, ce_values, 'b-', linewidth=2, label='Cross-entropy: -log(p)')
+ax2.set_title('Cross-Entropy Loss Function', fontsize=14)
+ax2.set_xlabel('Probability for True Class', fontsize=12)
+ax2.set_ylabel('Loss Value', fontsize=12)
 ax2.set_xlim(0, 1)
 ax2.set_ylim(0, 5)
 ax2.grid(True, alpha=0.3)
-ax2.legend()
+ax2.legend(fontsize=10)
 
 # Mark our model's position
 ax2.scatter([model_probabilities[1]], [-math.log(model_probabilities[1])], 
            color='red', s=100, zorder=3)
-ax2.annotate(f'Our model\nLoss={cross_entropy:.2f}',
-            xy=(model_probabilities[1], -math.log(model_probabilities[1])),
-            xytext=(model_probabilities[1]+0.1, -math.log(model_probabilities[1])-0.5),
-            arrowprops=dict(arrowstyle='->'))
+
+# Add reference points
+reference_points = [
+    (0.2, 'Random'),
+    (0.5, 'Better'),
+    (1.0, 'Perfect')
+]
+for p, label in reference_points:
+    if p > 0:  # Avoid log(0)
+        loss_val = -math.log(p)
+        ax2.scatter([p], [loss_val], color='green', s=60, zorder=3)
 
 plt.tight_layout()
 save_figure(fig5, "step5_cross_entropy_loss.png")
+
+print("\nKey points about the figure:")
+print("- Left panel: Comparison between the true one-hot encoded label and model's predicted probabilities")
+print("- Right panel: Cross-entropy loss curve showing how the loss decreases as the probability for the true class increases")
+print("- The red dot represents our model's position (p=0.35, loss≈1.05)")
+print("- Green reference points show random guessing (0.2), better performance (0.5), and perfect prediction (1.0)")
 
 print("\nCross-entropy loss formula:")
 print("H(y, ŷ) = -∑(i=1 to 5) y_i log(ŷ_i)")
@@ -507,14 +550,15 @@ print(f"H(y, ŷ) = -1 × log({model_probabilities[1]:.2f})")
 print(f"H(y, ŷ) = -1 × ({math.log(model_probabilities[1]):.6f})")
 print(f"H(y, ŷ) = {cross_entropy:.6f}")
 
-print("\nSome example cross-entropy values:")
+print("\nExample cross-entropy values for different probabilities:")
 examples = [0.1, 0.2, 0.35, 0.5, 0.8, 0.9, 1.0]
-print("Probability | Loss")
-print("----------------------")
+print("| Probability | Loss     | Notes           |")
+print("|------------|----------|-----------------|")
 for p in examples:
     loss = -math.log(p)
     highlight = " (our model)" if abs(p - model_probabilities[1]) < 0.01 else ""
-    print(f"{p:.2f}        | {loss:.4f}{highlight}")
+    note = highlight.strip() if highlight else "Random guessing" if abs(p - 0.2) < 0.01 else "Perfect" if p == 1.0 else ""
+    print(f"| {p:.2f}        | {loss:.4f}   | {note:<15} |")
 
 # ==============================
 # SUMMARY
