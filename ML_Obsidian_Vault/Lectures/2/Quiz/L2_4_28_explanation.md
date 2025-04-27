@@ -77,6 +77,21 @@ This log-likelihood value of -2.8336 quantifies how well the model's predictions
 
 ![Log-Likelihood Calculation](../Images/L2_4_Quiz_28/step1_log_likelihood.png)
 
+**Log-Likelihood Explanation:**  
+The log-likelihood measures how well the model assigns probability to the true classes. For a multinomial classifier with one-hot encoded targets, we calculate:
+$\log L = \sum_{i=1}^{n} \log(P(y_i|x_i))$
+
+Each sample contributes the log of the probability assigned to its true class:
+- Sample 1 (Cat): $\log(0.70) = -0.3567$
+- Sample 2 (Dog): $\log(0.50) = -0.6931$
+- Sample 3 (Bird): $\log(0.60) = -0.5108$
+- Sample 4 (Cat): $\log(0.40) = -0.9163$
+- Sample 5 (Bird): $\log(0.70) = -0.3567$
+
+Adding these values: $\log L = -0.3567 + (-0.6931) + (-0.5108) + (-0.9163) + (-0.3567) = -2.8336$
+
+Values closer to 0 (less negative) indicate better performance. Maximizing log-likelihood is equivalent to minimizing cross-entropy loss.
+
 ### Step 2: MLE Threshold for Classification
 
 From a Maximum Likelihood Estimation (MLE) perspective, the optimal classification strategy is to assign each sample to the class with the highest probability. This approach maximizes the likelihood of the observed data.
@@ -127,9 +142,22 @@ Let's apply this rule to each sample:
 
 Using the MLE approach (selecting the class with highest probability), we achieve 5/5 correct classifications, giving an accuracy of 100%.
 
-This approach doesn't require setting a fixed threshold value - it only relies on the relative ordering of probabilities for each sample.
-
 ![MLE Classification](../Images/L2_4_Quiz_28/step2_mle_threshold.png)
+
+**MLE Classification Explanation:**  
+Maximum Likelihood Estimation (MLE) for Classification:
+- Choose the class with the highest probability: $j = \arg\max_i(p_i)$
+- For probabilities $[p₁, p₂, ..., p_k]$, predict class with highest probability
+- No fixed threshold needed - only relative ordering of probabilities matters
+
+Step-by-Step Application:
+- Sample 1: $\arg\max([0.7, 0.2, 0.1]) = \text{Cat}$ (True: Cat) ✓
+- Sample 2: $\arg\max([0.3, 0.5, 0.2]) = \text{Dog}$ (True: Dog) ✓
+- Sample 3: $\arg\max([0.1, 0.3, 0.6]) = \text{Bird}$ (True: Bird) ✓
+- Sample 4: $\arg\max([0.4, 0.4, 0.2]) = \text{Cat}$ (True: Cat) ✓
+- Sample 5: $\arg\max([0.2, 0.1, 0.7]) = \text{Bird}$ (True: Bird) ✓
+
+Classification Results: Accuracy = 5/5 = 100%
 
 ### Step 3: Determine a Fixed Probability Threshold for Maximum Accuracy
 
@@ -159,24 +187,26 @@ We tested threshold values from 0.05 to 0.95 in increments of 0.05. The results 
 | 0.65 | 40% | 40% | 2/5 |
 | 0.70+ | 0% | 0% | 0/5 |
 
-Let's look at a few examples to understand the fixed threshold approach:
+![Fixed Threshold Analysis](../Images/L2_4_Quiz_28/step3_fixed_threshold.png)
 
-- With threshold = 0.05:
-  - Sample 1: $[0.7, 0.2, 0.1]$ → All values > 0.05 → Choose maximum (Cat)
-  - Sample 3: $[0.1, 0.3, 0.6]$ → All values > 0.05 → Choose maximum (Bird)
-  - All samples get classified, resulting in 100% accuracy
+**Fixed Threshold Explanation:**  
+Classification Rules with Fixed Threshold:  
+For each sample with probabilities $[p₁, p₂, ..., p_k]$ and threshold $t$:
+1. If no $p_i > t$: Sample remains unclassified
+2. If exactly one $p_i > t$: Classify as class $i$
+3. If multiple $p_i > t$: Classify as class with highest $p_i$
 
-- With threshold = 0.40:
-  - Sample 1: $[0.7, 0.2, 0.1]$ → Only one value > 0.40 → Classify as Cat (Correct)
-  - Sample 4: $[0.4, 0.4, 0.2]$ → No value strictly > 0.40 → Unclassified
-  - Only 4/5 samples get classified, resulting in 80% accuracy
+Example with Optimal Threshold $t = 0.05$:
+- Sample 1: $[0.70, 0.20, 0.10]$ → All values > 0.05 → Choose maximum (Cat)
+- Sample 3: $[0.10, 0.30, 0.60]$ → All values > 0.05 → Choose maximum (Bird)
+- For all samples with $t = 0.05$: All get classified, resulting in 100% accuracy
+
+Results for Optimal Threshold: $t = 0.05$, Accuracy = 100%, Classification rate = 100%
 
 Our analysis reveals:
 - The best accuracy of 100% is achieved with threshold values from 0.05 to 0.35
 - The optimal threshold is 0.05, which is the lowest threshold that achieves maximum accuracy
 - Lower thresholds are preferable when multiple thresholds give the same accuracy because they classify more samples
-
-![Fixed Threshold Analysis](../Images/L2_4_Quiz_28/step3_fixed_threshold.png)
 
 ## Visual Explanations
 
@@ -195,6 +225,13 @@ The third visualization shows how accuracy and classification rate vary with dif
 The final visualization summarizes our key findings across all three tasks:
 
 ![Summary of Findings](../Images/L2_4_Quiz_28/step4_summary.png)
+
+**Summary Explanation:**  
+Key Insights:
+- Log-likelihood: -2.8336 - Measures how well model assigns probability to true classes
+- MLE classification: Choose class with highest probability - Achieved 100% accuracy
+- Fixed threshold: Optimal value 0.05 - Achieved 100% accuracy
+- Trade-off: Lower thresholds classify more samples, higher thresholds ensure higher confidence
 
 ## Key Insights
 
