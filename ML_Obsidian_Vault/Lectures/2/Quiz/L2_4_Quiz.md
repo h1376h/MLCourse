@@ -415,3 +415,41 @@ For each proof, you should:
 - Interpret the result in the context of the distribution
 
 For a detailed explanation, see [Question 26: Proving Common Maximum Likelihood Estimators](L2_4_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+A natural language processing engineer is building a text classification model for customer support tickets. The engineer has a dataset with 500 support tickets that have been manually labeled with one of five categories:
+
+1. Billing Issues
+2. Technical Problems
+3. Account Access
+4. Feature Requests
+5. General Inquiries
+
+To prepare the data for a logistic regression model, the engineer one-hot encodes the category labels. After training, the model predicts probabilities for each category. For a new unlabeled ticket, the model outputs the following probabilities:
+
+- P(Billing Issues) = 0.15
+- P(Technical Problems) = 0.35
+- P(Account Access) = 0.20
+- P(Feature Requests) = 0.10
+- P(General Inquiries) = 0.20
+
+The original training data had the following distribution of categories:
+
+- Billing Issues: 100 tickets
+- Technical Problems: 150 tickets
+- Account Access: 80 tickets
+- Feature Requests: 70 tickets
+- General Inquiries: 100 tickets
+
+#### Task
+1. Explain the relationship between one-hot encoding and the multinomial distribution in this context
+2. Calculate the maximum likelihood estimates for the prior probabilities of each category based on the training data
+3. Using Bayes' theorem and assuming the model outputs are accurate likelihood estimates, calculate the posterior probability that the ticket belongs to the "Technical Problems" category if we know that 60% of all support tickets are about technical issues (regardless of what the model predicts)
+4. The engineer decides to use a classification threshold of 0.30, meaning a ticket is assigned to a category if its probability exceeds this threshold. Based on the model outputs for the new ticket:
+   a. Which category would be assigned to the ticket?
+   b. What are the potential issues with using a fixed threshold for multinomial classification?
+5. Calculate the cross-entropy loss between the true one-hot encoded label [0,1,0,0,0] (Technical Problems) and the model's predicted probabilities
+
+For a detailed explanation, see [Question 27: One-Hot Encoding and Multinomial Classification](L2_4_27_explanation.md).
