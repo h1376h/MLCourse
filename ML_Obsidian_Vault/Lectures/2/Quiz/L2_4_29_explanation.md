@@ -42,43 +42,73 @@ Information theory, pioneered by Claude Shannon, provides a mathematical framewo
 
 ### Step 1: Calculate the Entropy of the Class Distribution
 
-First, we need to determine the probability of each category in our dataset:
+Let's approach this step-by-step, showing all our work in detail:
 
-**Step 1: Calculate the probability of each category**
-| Category | Count | Probability |
-|----------|-------|-------------|
-| A | 50 | $P(A) = \frac{50}{100} = 0.5000$ |
-| B | 30 | $P(B) = \frac{30}{100} = 0.3000$ |
-| C | 20 | $P(C) = \frac{20}{100} = 0.2000$ |
+**Step 1.1: Identify the probability distribution**
 
-**Step 2: Calculate the log₂ of each probability**
-- $\log_2(P(A)) = \log_2(0.5000) = -1.0000$
-- $\log_2(P(B)) = \log_2(0.3000) = -1.7370$
-- $\log_2(P(C)) = \log_2(0.2000) = -2.3219$
+We first need to calculate the probability of each category based on the frequency counts:
 
-**Step 3: Calculate each entropy term: $-P(x_i) \times \log_2(P(x_i))$**
+| Category | Count | Probability Calculation | Probability Value |
+|----------|-------|-------------------------|-------------------|
+| A | 50 | $P(A) = \frac{50}{100}$ | $P(A) = 0.5$ |
+| B | 30 | $P(B) = \frac{30}{100}$ | $P(B) = 0.3$ |
+| C | 20 | $P(C) = \frac{20}{100}$ | $P(C) = 0.2$ |
+
+**Step 1.2: Verify that probabilities sum to 1**
+
+$$P(A) + P(B) + P(C) = 0.5 + 0.3 + 0.2 = 1.0$$
+
+This confirms our probability distribution is valid.
+
+**Step 1.3: Calculate the logarithm (base 2) of each probability**
 
 For category A:
-$-P(A) \times \log_2(P(A)) = -(0.5000) \times (-1.0000) = 0.5000$ bits
+$$\log_2(P(A)) = \log_2(0.5)$$
+
+Using the logarithm identity: $\log_2(0.5) = \log_2(1/2) = -\log_2(2) = -1$
+
+Therefore:
+$$\log_2(P(A)) = -1$$
 
 For category B:
-$-P(B) \times \log_2(P(B)) = -(0.3000) \times (-1.7370) = 0.5211$ bits
+$$\log_2(P(B)) = \log_2(0.3)$$
+$$\log_2(0.3) \approx -1.737$$
 
 For category C:
-$-P(C) \times \log_2(P(C)) = -(0.2000) \times (-2.3219) = 0.4644$ bits
+$$\log_2(P(C)) = \log_2(0.2)$$
+$$\log_2(0.2) = \log_2(1/5) = -\log_2(5) \approx -2.322$$
 
-**Step 4: Sum all entropy terms to get total entropy**
-$H(X) = 0.5000 + 0.5211 + 0.4644 = 1.4855$ bits
+**Step 1.4: Calculate each entropy term**
 
-This means the theoretical minimum number of bits needed per example is 1.4855 bits.
+The entropy formula requires computing $-P(x_i) \times \log_2(P(x_i))$ for each category:
 
-**Calculating minimum bits for fixed-length encoding:**
-- Number of categories = 3
-- $\log_2(3) = 1.5850$
-- $\text{ceil}(\log_2(3)) = 2$
-- Therefore, we need at least 2 bits per example for fixed-length encoding
+For category A:
+$$-P(A) \times \log_2(P(A)) = -(0.5) \times (-1) = 0.5 \text{ bits}$$
 
-Any encoding using fewer bits than the entropy would result in information loss.
+For category B:
+$$-P(B) \times \log_2(P(B)) = -(0.3) \times (-1.737) \approx 0.521 \text{ bits}$$
+
+For category C:
+$$-P(C) \times \log_2(P(C)) = -(0.2) \times (-2.322) \approx 0.464 \text{ bits}$$
+
+**Step 1.5: Sum all entropy terms to get the total entropy**
+
+$$H(X) = \sum_{i} -P(x_i) \times \log_2(P(x_i))$$
+$$H(X) = 0.5 + 0.521 + 0.464 = 1.485 \text{ bits}$$
+
+Therefore, the entropy of the class distribution is approximately 1.485 bits per example.
+
+**Step 1.6: Determine the minimum number of bits needed for fixed-length encoding**
+
+For fixed-length encoding of 3 distinct categories, we need enough bits to represent all possible values:
+
+$$\text{Number of bits needed} = \lceil \log_2(\text{number of categories}) \rceil$$
+$$\text{Number of bits needed} = \lceil \log_2(3) \rceil$$
+$$\text{Number of bits needed} = \lceil 1.585 \rceil = 2 \text{ bits}$$
+
+Since we need a whole number of bits, the minimum for fixed-length encoding is 2 bits per example.
+
+Therefore, the theoretical minimum (entropy) is 1.485 bits per example, but any practical fixed-length encoding requires at least 2 bits per example.
 
 ![Entropy Calculation](../Images/L2_4_Quiz_29/step1_entropy_calculation.png)
 
@@ -86,135 +116,241 @@ The visualization shows the class distribution with probability on the y-axis an
 
 ### Step 2: Calculate Bits Required for Scheme 1 (One-hot Encoding)
 
-One-hot encoding represents each category with a binary vector where only one position contains 1 and the rest are 0s:
+Let's analyze one-hot encoding in detail:
 
-- Category A: [1, 0, 0]
-- Category B: [0, 1, 0]
-- Category C: [0, 0, 1]
+**Step 2.1: Understand the one-hot encoding representation**
 
-**Step 1: Determine bits needed per example**
-- One-hot encoding uses one bit per possible category
-- Number of categories = 3
-- Therefore, bits per example = 3
+One-hot encoding represents each category with a binary vector where exactly one position contains 1 and all other positions contain 0:
 
-**Step 2: Calculate total bits for all examples**
-- Total bits = bits per example × number of examples
-- Total bits = 3 × 100 = 300 bits
+| Category | One-hot Encoding | Vector Representation |
+|----------|------------------|------------------------|
+| A | $[1, 0, 0]$ | Position 1 is "hot" (set to 1) |
+| B | $[0, 1, 0]$ | Position 2 is "hot" (set to 1) |
+| C | $[0, 0, 1]$ | Position 3 is "hot" (set to 1) |
 
-**Step 3: Calculate storage for each category**
-- Category A: 50 examples × 3 bits = 150 bits
-- Category B: 30 examples × 3 bits = 90 bits
-- Category C: 20 examples × 3 bits = 60 bits
+**Step 2.2: Calculate bits per example**
 
-Verification: 150 + 90 + 60 = 300 bits
+For one-hot encoding with $k$ categories:
+$$\text{Bits per example} = k$$
 
-**Step 4: Compare with entropy (theoretical minimum)**
-- Entropy: 1.4855 bits per example
-- One-hot: 3 bits per example
-- Overhead: 3 - 1.4855 = 1.5145 bits per example
-- Relative overhead: (1.5145 / 1.4855) × 100% = 102.0%
+In our case, with 3 categories:
+$$\text{Bits per example} = 3$$
+
+**Step 2.3: Calculate total bits for the entire dataset**
+
+With $n$ examples and $k$ categories:
+$$\text{Total bits} = n \times k$$
+
+Substituting our values ($n = 100$, $k = 3$):
+$$\text{Total bits} = 100 \times 3 = 300 \text{ bits}$$
+
+**Step 2.4: Calculate storage for each category**
+
+Category A (50 examples):
+$$\text{Bits for category A} = \text{Count}_A \times \text{Bits per example}$$
+$$\text{Bits for category A} = 50 \times 3 = 150 \text{ bits}$$
+
+Category B (30 examples):
+$$\text{Bits for category B} = \text{Count}_B \times \text{Bits per example}$$
+$$\text{Bits for category B} = 30 \times 3 = 90 \text{ bits}$$
+
+Category C (20 examples):
+$$\text{Bits for category C} = \text{Count}_C \times \text{Bits per example}$$
+$$\text{Bits for category C} = 20 \times 3 = 60 \text{ bits}$$
+
+Verification:
+$$\text{Total bits} = 150 + 90 + 60 = 300 \text{ bits}$$
+
+**Step 2.5: Calculate storage efficiency compared to entropy**
+
+Storage overhead per example:
+$$\text{Overhead per example} = \text{Bits per example} - \text{Entropy}$$
+$$\text{Overhead per example} = 3 - 1.485 = 1.515 \text{ bits}$$
+
+Relative overhead (percentage above theoretical minimum):
+$$\text{Relative overhead} = \frac{\text{Overhead per example}}{\text{Entropy}} \times 100\%$$
+$$\text{Relative overhead} = \frac{1.515}{1.485} \times 100\% \approx 102.0\%$$
+
+This means one-hot encoding uses approximately 102% more bits than theoretically necessary.
 
 ![One-hot Encoding](../Images/L2_4_Quiz_29/step2_onehot_encoding.png)
 
-The visualization shows the one-hot encoding matrix (left) and the storage breakdown by category (right). Each category requires the same number of bits per example, but the total bits vary based on the number of examples in each category. The bit values are clearly visible in the pie chart: 150 bits for category A, 90 bits for category B, and 60 bits for category C.
-
 ### Step 3: Calculate Bits Required for Scheme 2 (Binary Encoding)
+
+Now, let's analyze binary encoding in detail:
+
+**Step 3.1: Understand the binary encoding representation**
 
 Binary encoding uses a more compact representation with fewer bits:
 
-- Category A: [0, 0]
-- Category B: [0, 1]
-- Category C: [1, 0]
+| Category | Binary Encoding | Decimal Equivalent |
+|----------|-----------------|-------------------|
+| A | $[0, 0]$ | 0 |
+| B | $[0, 1]$ | 1 |
+| C | $[1, 0]$ | 2 |
 
-**Step 1: Determine bits needed per example**
-- For 3 distinct categories, we need $\log_2(3)$ bits
-- $\log_2(3) = 1.5850$
-- Since we need a whole number of bits, we use $\text{ceil}(\log_2(3)) = 2$
-- Therefore, bits per example = 2
+**Step 3.2: Calculate minimum bits required**
 
-**Step 2: Calculate total bits for all examples**
-- Total bits = bits per example × number of examples
-- Total bits = 2 × 100 = 200 bits
+For binary encoding with $k$ categories, the minimum number of bits required is:
+$$\text{Bits per example} = \lceil \log_2(k) \rceil$$
 
-**Step 3: Calculate storage for each category**
-- Category A: 50 examples × 2 bits = 100 bits
-- Category B: 30 examples × 2 bits = 60 bits
-- Category C: 20 examples × 2 bits = 40 bits
+With $k = 3$ categories:
+$$\text{Bits per example} = \lceil \log_2(3) \rceil = \lceil 1.585 \rceil = 2 \text{ bits}$$
 
-Verification: 100 + 60 + 40 = 200 bits
+This is the minimum number of bits needed to represent 3 distinct values ($2^1 < 3 < 2^2$).
 
-**Step 4: Compare with entropy (theoretical minimum)**
-- Entropy: 1.4855 bits per example
-- Binary: 2 bits per example
-- Overhead: 2 - 1.4855 = 0.5145 bits per example
-- Relative overhead: (0.5145 / 1.4855) × 100% = 34.6%
+**Step 3.3: Calculate total bits for the entire dataset**
+
+With $n$ examples:
+$$\text{Total bits} = n \times \text{Bits per example}$$
+$$\text{Total bits} = 100 \times 2 = 200 \text{ bits}$$
+
+**Step 3.4: Calculate storage for each category**
+
+Category A (50 examples):
+$$\text{Bits for category A} = \text{Count}_A \times \text{Bits per example}$$
+$$\text{Bits for category A} = 50 \times 2 = 100 \text{ bits}$$
+
+Category B (30 examples):
+$$\text{Bits for category B} = \text{Count}_B \times \text{Bits per example}$$
+$$\text{Bits for category B} = 30 \times 2 = 60 \text{ bits}$$
+
+Category C (20 examples):
+$$\text{Bits for category C} = \text{Count}_C \times \text{Bits per example}$$
+$$\text{Bits for category C} = 20 \times 2 = 40 \text{ bits}$$
+
+Verification:
+$$\text{Total bits} = 100 + 60 + 40 = 200 \text{ bits}$$
+
+**Step 3.5: Calculate storage efficiency compared to entropy**
+
+Storage overhead per example:
+$$\text{Overhead per example} = \text{Bits per example} - \text{Entropy}$$
+$$\text{Overhead per example} = 2 - 1.485 = 0.515 \text{ bits}$$
+
+Relative overhead (percentage above theoretical minimum):
+$$\text{Relative overhead} = \frac{\text{Overhead per example}}{\text{Entropy}} \times 100\%$$
+$$\text{Relative overhead} = \frac{0.515}{1.485} \times 100\% \approx 34.7\%$$
+
+Binary encoding is more efficient than one-hot encoding, but still uses about 34.7% more bits than the theoretical minimum (entropy).
 
 ![Binary Encoding](../Images/L2_4_Quiz_29/step3_binary_encoding.png)
 
-The visualization shows the binary encoding matrix (left) and the storage breakdown by category (right). Binary encoding uses only 2 bits per example compared to 3 bits in one-hot encoding. The bit values are clearly visible in the pie chart: 100 bits for category A, 60 bits for category B, and 40 bits for category C.
-
 ### Step 4: Compare the Efficiency of Both Encoding Schemes
 
-Now we can compare the two encoding schemes and calculate the percentage reduction:
+Let's perform a detailed comparison between the two encoding schemes:
 
-**Step 1: Compare storage requirements**
-- One-hot encoding: 300 bits total (3 bits per example)
-- Binary encoding: 200 bits total (2 bits per example)
+**Step 4.1: Summarize storage requirements**
 
-**Step 2: Calculate absolute savings**
-- Absolute savings = One-hot bits - Binary bits
-- Absolute savings = 300 - 200 = 100 bits
+| Encoding Scheme | Bits per Example | Total Bits | Formula |
+|-----------------|------------------|------------|---------|
+| One-hot Encoding | 3 | 300 | $n \times k$ = $100 \times 3$ |
+| Binary Encoding | 2 | 200 | $n \times \lceil\log_2(k)\rceil$ = $100 \times 2$ |
+| Theoretical Minimum | 1.485 | 148.5 | $n \times H(X)$ = $100 \times 1.485$ |
 
-**Step 3: Calculate percentage reduction**
-- Percentage reduction = (Absolute savings / One-hot bits) × 100%
-- Percentage reduction = (100 / 300) × 100% = 33.33%
+**Step 4.2: Calculate absolute bit savings**
 
-**Step 4: Compare both schemes with theoretical minimum**
-- Theoretical minimum (based on entropy): 1.4855 bits/example × 100 examples = 148.55 bits
-- One-hot overhead: 300 - 148.55 = 151.45 bits
-- One-hot overhead percentage: (151.45 / 148.55) × 100% = 101.96%
-- Binary overhead: 200 - 148.55 = 51.45 bits
-- Binary overhead percentage: (51.45 / 148.55) × 100% = 34.64%
+$$\text{Absolute bit savings} = \text{Bits}_{\text{One-hot}} - \text{Bits}_{\text{Binary}}$$
+$$\text{Absolute bit savings} = 300 - 200 = 100 \text{ bits}$$
 
-Key insights:
-- Binary encoding is 33.3% more efficient than one-hot encoding
-- However, it still uses 34.6% more bits than the theoretical minimum
-- This is because fixed-length codes must use whole numbers of bits per example
-- To approach the entropy limit of 1.4855 bits, variable-length codes would be needed
+**Step 4.3: Calculate percentage reduction**
+
+Using the formula:
+$$\text{Percentage reduction} = \frac{\text{Bits}_{\text{One-hot}} - \text{Bits}_{\text{Binary}}}{\text{Bits}_{\text{One-hot}}} \times 100\%$$
+
+Substituting our values:
+$$\text{Percentage reduction} = \frac{300 - 200}{300} \times 100\% = \frac{100}{300} \times 100\% = 33.33\%$$
+
+This means binary encoding reduces storage requirements by exactly one-third compared to one-hot encoding.
+
+**Step 4.4: Calculate overhead relative to theoretical minimum (entropy)**
+
+For one-hot encoding:
+$$\text{One-hot overhead} = \text{Bits}_{\text{One-hot}} - \text{Bits}_{\text{Entropy}}$$
+$$\text{One-hot overhead} = 300 - 148.5 = 151.5 \text{ bits}$$
+
+$$\text{One-hot overhead percentage} = \frac{\text{One-hot overhead}}{\text{Bits}_{\text{Entropy}}} \times 100\%$$
+$$\text{One-hot overhead percentage} = \frac{151.5}{148.5} \times 100\% \approx 102.0\%$$
+
+For binary encoding:
+$$\text{Binary overhead} = \text{Bits}_{\text{Binary}} - \text{Bits}_{\text{Entropy}}$$
+$$\text{Binary overhead} = 200 - 148.5 = 51.5 \text{ bits}$$
+
+$$\text{Binary overhead percentage} = \frac{\text{Binary overhead}}{\text{Bits}_{\text{Entropy}}} \times 100\%$$
+$$\text{Binary overhead percentage} = \frac{51.5}{148.5} \times 100\% \approx 34.7\%$$
+
+**Step 4.5: Analyze the key insights**
+
+1. **Efficiency comparison**: Binary encoding uses 33.33% fewer bits than one-hot encoding.
+
+2. **Theoretical efficiency**: 
+   - One-hot encoding uses about 102% more bits than theoretically necessary
+   - Binary encoding uses about 34.7% more bits than theoretically necessary
+
+3. **Fixed-length constraint**: 
+   - Both encodings use fixed-length codes
+   - Binary encoding achieves the minimum possible bits for fixed-length encoding (2 bits)
+   - To approach the entropy limit (1.485 bits), we would need variable-length encoding
 
 ![Efficiency Comparison](../Images/L2_4_Quiz_29/step4_efficiency_comparison.png)
 
-The bar chart compares the total storage requirements of one-hot encoding, binary encoding, and the theoretical minimum based on entropy. The arrow shows the 33.33% reduction (100 bits saved) from one-hot to binary encoding. Each bar shows both the total bits and bits per example clearly.
-
 ### Step 5: Analyze Whether Binary Encoding is Lossless
 
-**Step 1: Define what makes an encoding lossless**
-A lossless encoding must maintain a perfect one-to-one mapping between categories and codes.
-Each category must have a unique code that can be unambiguously decoded.
+A critical question is whether binary encoding preserves all information. Let's analyze this systematically:
 
-**Step 2: Examine binary encoding scheme**
-- Category A: [0, 0]
-- Category B: [0, 1]
-- Category C: [1, 0]
+**Step 5.1: Define lossless encoding**
 
-**Step 3: Analyze uniqueness of codes**
-- Number of unique binary codes: 3
-- Number of categories: 3
-- Are all codes unique? Yes
+A lossless encoding satisfies these criteria:
+1. Every unique input value maps to a unique output code
+2. There is a one-to-one correspondence between input values and output codes
+3. The original input can be perfectly reconstructed from the encoded output
+4. No information is lost during the encoding process
 
-**Step 4: Verify decodability**
-- Can we recover the original category from each code?
-  - Code [0, 0] → Category A
-  - Code [0, 1] → Category B
-  - Code [1, 0] → Category C
+**Step 5.2: Analyze the encoding mapping**
 
-**Conclusion**: The binary encoding is lossless.
+Let's create a bidirectional mapping table to check if binary encoding is lossless:
 
-**Explanation**:
-- Each category has a unique binary code (no ambiguity)
-- There is a one-to-one mapping between categories and codes
-- We can perfectly reconstruct the original category from its binary code
-- No information is lost in the encoding process
+| Category (Input) | Binary Code (Output) | Can Decode Uniquely? |
+|------------------|----------------------|----------------------|
+| A | $[0, 0]$ | Yes |
+| B | $[0, 1]$ | Yes |
+| C | $[1, 0]$ | Yes |
+
+**Step 5.3: Check uniqueness and completeness**
+
+Uniqueness: Each category has a distinct binary code:
+- Category A: $[0, 0]$
+- Category B: $[0, 1]$
+- Category C: $[1, 0]$
+
+These are all different from each other, so the encoding is unique.
+
+Completeness: With 2 bits, we can represent $2^2 = 4$ different patterns:
+- $[0, 0]$ (used for A)
+- $[0, 1]$ (used for B)
+- $[1, 0]$ (used for C)
+- $[1, 1]$ (unused)
+
+We have more encoding patterns (4) than categories (3), so the encoding is complete.
+
+**Step 5.4: Verify decodability**
+
+Testing the decoding process:
+- If we see code $[0, 0]$, we can unambiguously decode it as category A
+- If we see code $[0, 1]$, we can unambiguously decode it as category B
+- If we see code $[1, 0]$, we can unambiguously decode it as category C
+
+**Step 5.5: Conclude losslessness**
+
+Based on our analysis:
+1. Each category maps to a unique binary code ✓
+2. The mapping is one-to-one ✓
+3. Decoding is unambiguous ✓
+4. No information is lost in the process ✓
+
+Therefore, the binary encoding scheme is lossless.
+
+Note that this binary encoding actually has one unused pattern ($[1, 1]$), which means it has spare capacity and could encode one more category if needed.
 
 ![Lossless Analysis](../Images/L2_4_Quiz_29/step5_lossless_analysis.png)
 
