@@ -70,15 +70,17 @@ for i, sample in enumerate(samples):
         'log_prob': log_prob
     })
     
-    # Print detailed calculations
+    # Print detailed calculations in pen-and-paper style
     print(f"Sample {i+1}:")
     print(f"  True class: {categories[true_label_index]}")
     print(f"  Predicted probabilities: {[round(p, 2) for p in sample['probabilities']]}")
     print(f"  Probability assigned to true class: {prob_of_true_class:.2f}")
     print(f"  log({prob_of_true_class:.2f}) = {log_prob:.4f}")
 
-print(f"\nTotal log-likelihood = sum of all log probabilities = {log_likelihood:.4f}")
-print("This value quantifies how well the model's predictions match the true labels.")
+print(f"\nTotal log-likelihood = {' + '.join([f'log({d['prob']:.2f})' for d in likelihood_details])}")
+print(f"                      = {' + '.join([f'{d['log_prob']:.4f}' for d in likelihood_details])}")
+print(f"                      = {log_likelihood:.4f}")
+print("\nThis value quantifies how well the model's predictions match the true labels.")
 print("Higher (less negative) values indicate better predictive performance.")
 
 # Visualization of log-likelihood - ENHANCED
@@ -120,36 +122,28 @@ ax2.text(0.5, 0.85, formula, ha='center', va='center', fontsize=14)
 step_y_position = 0.7
 ax2.text(0.05, step_y_position, "Calculation:", ha='left', va='center', fontsize=12, fontweight='bold')
 
-calculation = "log L = "
+# Add each sample's calculation
 for i, detail in enumerate(likelihood_details):
-    if i > 0:
-        calculation += " + "
-    calculation += f"log({detail['prob']:.2f})"
-step_y_position -= 0.07
-ax2.text(0.1, step_y_position, calculation, ha='left', va='center', fontsize=12)
+    step_y_position -= 0.07
+    sample_calc = f"Sample {i+1} ({detail['true_class']}): log({detail['prob']:.2f}) = {detail['log_prob']:.4f}"
+    ax2.text(0.1, step_y_position, sample_calc, ha='left', va='center', fontsize=12)
 
-calculation = "log L = "
-for i, detail in enumerate(likelihood_details):
-    if i > 0:
-        calculation += " + "
-    calculation += f"{detail['log_prob']:.4f}"
-step_y_position -= 0.07
-ax2.text(0.1, step_y_position, calculation, ha='left', va='center', fontsize=12)
+step_y_position -= 0.1
+ax2.text(0.1, step_y_position, f"log L = {' + '.join([f'{d['log_prob']:.4f}' for d in likelihood_details])}", ha='left', va='center', fontsize=12)
 
 step_y_position -= 0.07
 ax2.text(0.1, step_y_position, f"log L = {log_likelihood:.4f}", ha='left', va='center', fontsize=12, fontweight='bold', 
          bbox=dict(facecolor='lightgreen', alpha=0.3, boxstyle='round'))
 
 # Interpretation
-ax2.text(0.05, 0.35, "Interpretation:", ha='left', va='center', fontsize=12, fontweight='bold')
+ax2.text(0.05, 0.25, "Interpretation:", ha='left', va='center', fontsize=12, fontweight='bold')
 interpretations = [
     "• The log-likelihood measures how well the model assigns probability to the true classes",
     "• Values closer to 0 (less negative) indicate better performance",
-    "• This value can be used to compare different models on the same dataset",
     "• Maximizing log-likelihood is equivalent to minimizing cross-entropy loss"
 ]
 for i, interp in enumerate(interpretations):
-    ax2.text(0.1, 0.28 - i*0.07, interp, ha='left', va='center', fontsize=11)
+    ax2.text(0.1, 0.18 - i*0.07, interp, ha='left', va='center', fontsize=11)
 
 plt.tight_layout()
 save_figure(fig1, "step1_log_likelihood.png")
@@ -162,6 +156,7 @@ print_section_header("STEP 2: MLE Threshold for Classification")
 print("Using Maximum Likelihood Estimation (MLE) principles, we determine the optimal")
 print("classification strategy that maximizes the likelihood of the observed data.")
 print("\nIn MLE framework, we classify each sample according to the class with the highest probability.")
+print("Decision rule: Predict class j where j = argmax_i(p_i)")
 print("This corresponds to a relative threshold rather than an absolute fixed threshold value.")
 
 print("\nAnalyzing each sample's classification using the maximum probability rule:")
@@ -177,12 +172,13 @@ for i, sample in enumerate(samples):
     if is_correct:
         correct_count += 1
     
-    result = "Correct" if is_correct else "Incorrect"
+    result = "✓" if is_correct else "✗"
     
     print(f"\nSample {i+1}:")
     print(f"  Probabilities: {[round(p, 2) for p in probs]}")
     print(f"  Maximum probability: {max_prob:.2f} for class '{categories[max_prob_index]}'")
     print(f"  True class: '{categories[true_label_index]}'")
+    print(f"  Decision: argmax({[round(p, 2) for p in probs]}) = {max_prob_index} → '{categories[max_prob_index]}'")
     print(f"  Classification result: {result}")
 
 accuracy = correct_count / len(samples)
@@ -208,7 +204,7 @@ for i, category in enumerate(categories):
     # Calculate offset for grouped bars
     offset = (i - 1) * width
     
-    # Plot bars with custom properties based on correctness
+    # Plot bars with custom properties
     bars = ax1.bar(x + offset, probs, width, label=category, alpha=0.7)
     
     # Mark the true labels with a star
@@ -240,20 +236,29 @@ ax2.text(0.5, 0.95, "Maximum Likelihood Estimation (MLE) for Classification",
 
 # MLE principle explanation
 ax2.text(0.05, 0.85, "MLE Classification Principle:", ha='left', va='center', fontsize=12, fontweight='bold')
-ax2.text(0.1, 0.78, "• Choose the class with the highest probability (argmax rule)", ha='left', va='center', fontsize=11)
-ax2.text(0.1, 0.72, "• For a sample with probabilities [p₁, p₂, ..., pₖ], predict class j where j = argmax(pᵢ)", ha='left', va='center', fontsize=11)
-ax2.text(0.1, 0.66, "• No fixed threshold is needed - only the relative ordering of probabilities matters", ha='left', va='center', fontsize=11)
+ax2.text(0.1, 0.78, "• Choose the class with the highest probability: j = argmax_i(p_i)", ha='left', va='center', fontsize=11)
+ax2.text(0.1, 0.72, "• For probabilities [p₁, p₂, ..., pₖ], predict class with highest probability", ha='left', va='center', fontsize=11)
+ax2.text(0.1, 0.66, "• No fixed threshold needed - only relative ordering of probabilities matters", ha='left', va='center', fontsize=11)
 
-# Mathematical justification
-ax2.text(0.05, 0.55, "Mathematical Justification:", ha='left', va='center', fontsize=12, fontweight='bold')
-ax2.text(0.1, 0.48, "• For one-hot encoded labels y = [0,0,...,1,0,...], only one position has y_j = 1", ha='left', va='center', fontsize=11)
-ax2.text(0.1, 0.42, "• Log-likelihood for a sample is log(p_j) where j is the true class", ha='left', va='center', fontsize=11)
-ax2.text(0.1, 0.36, "• To maximize likelihood across all samples, we choose class with highest probability", ha='left', va='center', fontsize=11)
+# Mathematical explanation
+ax2.text(0.05, 0.55, "Step-by-Step Application:", ha='left', va='center', fontsize=12, fontweight='bold')
 
-# Sample classification results
-ax2.text(0.05, 0.25, "Classification Results:", ha='left', va='center', fontsize=12, fontweight='bold')
-ax2.text(0.1, 0.18, f"• Correct classifications: {correct_count}/{len(samples)}", ha='left', va='center', fontsize=11)
-ax2.text(0.1, 0.12, f"• Accuracy: {accuracy:.2f} or {accuracy*100:.0f}%", ha='left', va='center', fontsize=11,
+# Show sample calculations in pen-and-paper style
+for i, sample in enumerate(samples):
+    y_pos = 0.48 - i*0.07
+    probs = sample['probabilities']
+    max_idx = np.argmax(probs)
+    true_idx = sample['true_one_hot'].index(1)
+    result = "✓" if max_idx == true_idx else "✗"
+    
+    ax2.text(0.1, y_pos, 
+             f"Sample {i+1}: argmax({[round(p, 2) for p in probs]}) = {categories[max_idx]} (True: {categories[true_idx]}) {result}", 
+             ha='left', va='center', fontsize=10)
+
+# Classification results
+ax2.text(0.05, 0.15, "Classification Results:", ha='left', va='center', fontsize=12, fontweight='bold')
+ax2.text(0.1, 0.08, f"Accuracy: {correct_count}/{len(samples)} = {accuracy:.2f} or {accuracy*100:.0f}%", 
+         ha='left', va='center', fontsize=11,
          bbox=dict(facecolor='lightgreen', alpha=0.3, boxstyle='round'))
 
 plt.tight_layout()
@@ -274,6 +279,7 @@ print(f"Testing threshold values from {threshold_values[0]:.2f} to {threshold_va
 
 # Test each threshold with detailed results
 threshold_results = []
+threshold_table_rows = []
 
 for threshold in threshold_values:
     print(f"\nThreshold {threshold:.2f}:")
@@ -325,10 +331,21 @@ for threshold in threshold_values:
         'classifications': classifications
     })
     
+    # Add row for markdown table
+    classified_percent = (total_classifications / len(samples)) * 100 if len(samples) > 0 else 0
+    threshold_table_rows.append(f"| {threshold:.2f} | {accuracy*100:.0f}% | {classified_percent:.0f}% | {correct_classifications}/{len(samples)} |")
+    
     # Print threshold-specific results
     classified_percent = (total_classifications / len(samples)) * 100 if len(samples) > 0 else 0
     print(f"  Correct: {correct_classifications}/{len(samples)}, Classified: {total_classifications}/{len(samples)} ({classified_percent:.0f}%)")
     print(f"  Accuracy: {accuracy:.4f} or {accuracy*100:.0f}%")
+
+# Print markdown-friendly table
+print("\nTable for inclusion in markdown document:")
+print("| Threshold | Accuracy | % Classified | Correctly Classified |")
+print("|-----------|----------|--------------|----------------------|")
+for row in threshold_table_rows:
+    print(row)
 
 # Find the threshold that gives the highest accuracy
 best_results = [r for r in threshold_results if r['accuracy'] == max([r['accuracy'] for r in threshold_results])]
@@ -371,35 +388,43 @@ ax1.set_ylim(0, 1.1)
 ax1.grid(True, alpha=0.3)
 ax1.legend()
 
-# Bottom: Explanation of fixed threshold approach
+# Bottom: Fixed threshold decision rules
 ax2 = plt.subplot(gs[1])
 ax2.axis('off')
 
 # Title
-ax2.text(0.5, 0.95, "Fixed Probability Threshold Analysis", 
+ax2.text(0.5, 0.95, "Fixed Probability Threshold Decision Rules", 
          ha='center', va='center', fontsize=14, fontweight='bold')
 
 # Fixed threshold explanation
-ax2.text(0.05, 0.85, "Classification Strategy with Fixed Threshold:", ha='left', va='center', fontsize=12, fontweight='bold')
-ax2.text(0.1, 0.78, "• Only classify a sample to class i if probability p_i > threshold", ha='left', va='center', fontsize=11)
-ax2.text(0.1, 0.72, "• If multiple classes exceed threshold, choose the one with highest probability", ha='left', va='center', fontsize=11)
-ax2.text(0.1, 0.66, "• If no class exceeds threshold, the sample remains unclassified", ha='left', va='center', fontsize=11)
+ax2.text(0.05, 0.85, "Classification Rules with Fixed Threshold:", ha='left', va='center', fontsize=12, fontweight='bold')
+rule_box = dict(facecolor='lightyellow', alpha=0.5, boxstyle='round,pad=0.5')
+ax2.text(0.1, 0.75, "For each sample with probabilities [p₁, p₂, ..., pₖ] and threshold t:", 
+         ha='left', va='center', fontsize=11, bbox=rule_box)
+ax2.text(0.1, 0.65, "1. If no p_i > t: Sample remains unclassified", ha='left', va='center', fontsize=11)
+ax2.text(0.1, 0.58, "2. If exactly one p_i > t: Classify as class i", ha='left', va='center', fontsize=11)
+ax2.text(0.1, 0.51, "3. If multiple p_i > t: Classify as class with highest p_i", ha='left', va='center', fontsize=11)
 
-# Trade-offs explanation
-ax2.text(0.05, 0.55, "Trade-offs in Threshold Selection:", ha='left', va='center', fontsize=12, fontweight='bold')
-ax2.text(0.1, 0.48, "• Lower threshold → More samples classified → Potentially more errors", ha='left', va='center', fontsize=11)
-ax2.text(0.1, 0.42, "• Higher threshold → Fewer samples classified → Higher confidence in classifications", ha='left', va='center', fontsize=11)
-ax2.text(0.1, 0.36, "• Optimal threshold balances accuracy and classification coverage", ha='left', va='center', fontsize=11)
+# Example with optimal threshold
+ax2.text(0.05, 0.40, f"Example with Optimal Threshold t = {best_threshold:.2f}:", ha='left', va='center', fontsize=12, fontweight='bold')
+
+# Show a few examples
+best_result = next(r for r in threshold_results if r['threshold'] == best_threshold)
+examples = [
+    f"• Sample 1: [{', '.join([f'{p:.2f}' for p in samples[0]['probabilities']])}] → All values > {best_threshold:.2f} → Choose maximum (Cat)",
+    f"• Sample 3: [{', '.join([f'{p:.2f}' for p in samples[2]['probabilities']])}] → Two values > {best_threshold:.2f} → Choose maximum (Bird)",
+    f"• For all samples with t = {best_threshold:.2f}: All get classified, resulting in {best_result['accuracy']*100:.0f}% accuracy"
+]
+
+for i, example in enumerate(examples):
+    ax2.text(0.1, 0.33 - i*0.07, example, ha='left', va='center', fontsize=11)
 
 # Optimal threshold results
-ax2.text(0.05, 0.25, "Results for Optimal Threshold:", ha='left', va='center', fontsize=12, fontweight='bold')
+ax2.text(0.05, 0.12, "Results for Optimal Threshold:", ha='left', va='center', fontsize=12, fontweight='bold')
 opt_result = next(r for r in threshold_results if r['threshold'] == best_threshold)
-ax2.text(0.1, 0.18, f"• Optimal threshold: {best_threshold:.2f}", ha='left', va='center', fontsize=11, 
+ax2.text(0.1, 0.05, f"Optimal t = {best_threshold:.2f}, Accuracy = {opt_result['accuracy']*100:.0f}%, Classification rate = {opt_result['total_classified']/len(samples)*100:.0f}%", 
+         ha='left', va='center', fontsize=11, 
          bbox=dict(facecolor='lightgreen', alpha=0.3, boxstyle='round'))
-ax2.text(0.1, 0.12, f"• Accuracy: {opt_result['accuracy']*100:.0f}%, Classification rate: {opt_result['total_classified']/len(samples)*100:.0f}%", 
-         ha='left', va='center', fontsize=11)
-ax2.text(0.1, 0.06, f"• Correctly classified: {opt_result['correct']}/{len(samples)}, Total classified: {opt_result['total_classified']}/{len(samples)}", 
-         ha='left', va='center', fontsize=11)
 
 plt.tight_layout()
 save_figure(fig3, "step3_fixed_threshold.png")
@@ -418,15 +443,14 @@ print(f"   - Higher (less negative) values indicate better model performance")
 
 print("\n2. MLE Threshold for Classification:")
 print(f"   - From a maximum likelihood perspective, we should classify each sample")
-print(f"     to the class with the highest probability")
+print(f"     to the class with the highest probability (argmax rule)")
 print(f"   - This strategy achieved {correct_count}/{len(samples)} correct classifications ({correct_count/len(samples)*100:.0f}% accuracy)")
 
 print("\n3. Fixed Probability Threshold:")
 print(f"   - The optimal fixed threshold is {best_threshold:.2f}")
 print(f"   - This threshold achieves {best_results[0]['accuracy']*100:.0f}% accuracy")
 print(f"   - Lower thresholds (≤ {best_threshold:.2f}) classify more samples while maintaining accuracy")
-print(f"   - Higher thresholds result in fewer classifications and lower accuracy")
-print(f"   - Fixed thresholds introduce trade-offs between classification confidence and coverage")
+print(f"   - Higher thresholds result in fewer classifications and lower overall accuracy")
 
 # Create summary visualization
 fig4 = plt.figure(figsize=(12, 8))
@@ -483,10 +507,10 @@ ax5.axis('off')
 ax5.text(0.5, 0.9, "Key Insights", ha='center', va='center', fontsize=14, fontweight='bold')
 
 insights = [
-    "• Log-likelihood evaluates how well a model assigns probability to true classes",
-    "• MLE classification simply chooses the class with highest probability",
-    f"• The optimal fixed threshold for this dataset is {best_threshold:.2f}",
-    "• Fixed thresholds allow controlling the trade-off between confidence and coverage"
+    f"• Log-likelihood: {log_likelihood:.4f} - Measures how well model assigns probability to true classes",
+    f"• MLE classification: Choose class with highest probability - Achieved {correct_count/len(samples)*100:.0f}% accuracy",
+    f"• Fixed threshold: Optimal value {best_threshold:.2f} - Achieved {best_results[0]['accuracy']*100:.0f}% accuracy",
+    "• Trade-off: Lower thresholds classify more samples, higher thresholds ensure higher confidence"
 ]
 
 for i, insight in enumerate(insights):
@@ -495,4 +519,11 @@ for i, insight in enumerate(insights):
 plt.tight_layout()
 save_figure(fig4, "step4_summary.png")
 
-print("\nAll visualizations have been saved to the Images/L2_4_Quiz_28 directory.") 
+print("\nAll visualizations have been saved to the Images/L2_4_Quiz_28 directory.")
+print("\nCopy the following into your markdown document:")
+print("\n```markdown")
+print(f"![Log-Likelihood Calculation](../Images/L2_4_Quiz_28/step1_log_likelihood.png)")
+print(f"![MLE Classification](../Images/L2_4_Quiz_28/step2_mle_threshold.png)")
+print(f"![Fixed Threshold Analysis](../Images/L2_4_Quiz_28/step3_fixed_threshold.png)")
+print(f"![Summary of Findings](../Images/L2_4_Quiz_28/step4_summary.png)")
+print("```") 
