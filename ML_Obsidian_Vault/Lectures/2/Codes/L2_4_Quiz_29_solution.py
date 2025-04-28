@@ -61,11 +61,11 @@ print_section_header("STEP 1: Derive the Maximum Likelihood Estimator")
 
 print("Step 1.1: Define the probability distribution model")
 print("We're modeling a categorical distribution with three categories (A, B, C)")
-print("with respective probabilities θₐ, θᵦ, θ𝒸, where θₐ + θᵦ + θ𝒸 = 1")
+print("with respective probabilities θₐ, θᵦ, θc, where θₐ + θᵦ + θc = 1")
 
 print("\nStep 1.2: Set up the likelihood function")
 print("The likelihood function for a categorical distribution with multinomial counts is:")
-print("L(θₐ, θᵦ, θ𝒸 | data) = (n choose nₐ,nᵦ,n𝒸) × θₐ^nₐ × θᵦ^nᵦ × θ𝒸^n𝒸")
+print("L(θₐ, θᵦ, θc | data) = (n choose nₐ,nᵦ,n𝒸) × θₐ^nₐ × θᵦ^nᵦ × θc^n𝒸")
 
 # Calculate multinomial coefficient
 from math import factorial
@@ -96,10 +96,10 @@ mle_probs = probabilities
 expected_likelihood = likelihood(mle_probs[0], mle_probs[1], mle_probs[2])
 
 print(f"\nSubstituting our values:")
-print(f"L(θₐ, θᵦ, θ𝒸 | data) = {multi_coef:.3e} × θₐ^{counts[0]} × θᵦ^{counts[1]} × θ𝒸^{counts[2]}")
+print(f"L(θₐ, θᵦ, θc | data) = {multi_coef:.3e} × θₐ^{counts[0]} × θᵦ^{counts[1]} × θc^{counts[2]}")
 
 print("\nStep 1.3: Convert to log-likelihood for easier calculation")
-print("log L(θₐ, θᵦ, θ𝒸 | data) = log(multinomial coef) + nₐlog(θₐ) + nᵦlog(θᵦ) + n𝒸log(θ𝒸)")
+print("log L(θₐ, θᵦ, θc | data) = log(multinomial coef) + nₐlog(θₐ) + nᵦlog(θᵦ) + n𝒸log(θc)")
 
 # Log-likelihood function
 def log_likelihood(theta_a, theta_b, theta_c):
@@ -110,32 +110,32 @@ def log_likelihood(theta_a, theta_b, theta_c):
 expected_log_likelihood = log_likelihood(mle_probs[0], mle_probs[1], mle_probs[2])
 
 print(f"\nSubstituting our values:")
-print(f"log L(θₐ, θᵦ, θ𝒸 | data) = log({multi_coef:.3e}) + {counts[0]}×log(θₐ) + {counts[1]}×log(θᵦ) + {counts[2]}×log(θ𝒸)")
-print(f"                         = {np.log(multi_coef):.4f} + {counts[0]}×log(θₐ) + {counts[1]}×log(θᵦ) + {counts[2]}×log(θ𝒸)")
+print(f"log L(θₐ, θᵦ, θc | data) = log({multi_coef:.3e}) + {counts[0]}×log(θₐ) + {counts[1]}×log(θᵦ) + {counts[2]}×log(θc)")
+print(f"                         = {np.log(multi_coef):.4f} + {counts[0]}×log(θₐ) + {counts[1]}×log(θᵦ) + {counts[2]}×log(θc)")
 
 print("\nStep 1.4: Maximize the log-likelihood using Lagrange multipliers")
-print("We need to maximize log-likelihood subject to the constraint θₐ + θᵦ + θ𝒸 = 1")
-print("Using Lagrange multipliers with L(θₐ, θᵦ, θ𝒸, λ) = log-likelihood - λ(θₐ + θᵦ + θ𝒸 - 1)")
+print("We need to maximize log-likelihood subject to the constraint θₐ + θᵦ + θc = 1")
+print("Using Lagrange multipliers with L(θₐ, θᵦ, θc, λ) = log-likelihood - λ(θₐ + θᵦ + θc - 1)")
 
 print("\nTaking derivatives and setting them equal to zero:")
 print("∂L/∂θₐ = nₐ/θₐ - λ = 0")
 print("∂L/∂θᵦ = nᵦ/θᵦ - λ = 0")
-print("∂L/∂θ𝒸 = n𝒸/θ𝒸 - λ = 0")
-print("∂L/∂λ = θₐ + θᵦ + θ𝒸 - 1 = 0")
+print("∂L/∂θc = nc/θc - λ = 0")
+print("∂L/∂λ = θₐ + θᵦ + θc - 1 = 0")
 
 print("\nFrom the first three equations:")
 print(f"θₐ = nₐ/λ = {counts[0]}/λ")
 print(f"θᵦ = nᵦ/λ = {counts[1]}/λ")
-print(f"θ𝒸 = n𝒸/λ = {counts[2]}/λ")
+print(f"θc = nc/λ = {counts[2]}/λ")
 
 print("\nSubstituting into the constraint:")
-print(f"θₐ + θᵦ + θ𝒸 = {counts[0]}/λ + {counts[1]}/λ + {counts[2]}/λ = {sum(counts)}/λ = 1")
+print(f"θₐ + θᵦ + θc = {counts[0]}/λ + {counts[1]}/λ + {counts[2]}/λ = {sum(counts)}/λ = 1")
 print(f"Solving for λ: λ = {sum(counts)}")
 
 print(f"\nTherefore:")
 print(f"θₐ = {counts[0]}/{sum(counts)} = {counts[0]/sum(counts):.2f}")
 print(f"θᵦ = {counts[1]}/{sum(counts)} = {counts[1]/sum(counts):.2f}")
-print(f"θ𝒸 = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts):.2f}")
+print(f"θc = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts):.2f}")
 
 print("\nStep 1.5: Verify our MLE solution")
 print("For a categorical distribution, the MLE for each category probability is")
@@ -144,12 +144,87 @@ print("simply the proportion of observations in that category: θ̂ᵢ = nᵢ/n"
 print(f"\nUsing this formula directly:")
 print(f"θ̂ₐ = {counts[0]}/{sum(counts)} = {counts[0]/sum(counts):.2f}")
 print(f"θ̂ᵦ = {counts[1]}/{sum(counts)} = {counts[1]/sum(counts):.2f}")
-print(f"θ̂𝒸 = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts):.2f}")
+print(f"θ̂c = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts):.2f}")
 
 print(f"\nTherefore, the maximum likelihood estimate of the category distribution is:")
 print(f"- P(A) = {mle_probs[0]}")
 print(f"- P(B) = {mle_probs[1]}")
 print(f"- P(C) = {mle_probs[2]}")
+
+# Add detailed MLE derivation
+print("\n=====================================================================")
+print("DETAILED MLE DERIVATION (PEN AND PAPER STYLE)")
+print("=====================================================================")
+print("Given:")
+print(f"- Data categories: {categories}")
+# After the likelihood function definition, add detailed pen-and-paper style calculations
+
+# After defining the multinomial coefficient
+print("\nDetailed step-by-step MLE derivation (pen-and-paper style):")
+print("\nStep 1: Understand the likelihood function structure")
+print("The likelihood function represents the probability of observing our data given the parameters:")
+print(f"L(θₐ, θᵦ, θc | data) = P(data | θₐ, θᵦ, θc)")
+print(f"For a multinomial distribution with {counts[0]} A's, {counts[1]} B's, and {counts[2]} C's:")
+print(f"L(θₐ, θᵦ, θc | data) = (multinomial coefficient) × P(A)^{counts[0]} × P(B)^{counts[1]} × P(C)^{counts[2]}")
+print(f"L(θₐ, θᵦ, θc | data) = {multi_coef:.3e} × θₐ^{counts[0]} × θᵦ^{counts[1]} × θc^{counts[2]}")
+
+print("\nStep 2: Convert to log-likelihood for easier maximization")
+print("Taking the natural logarithm of both sides (which is monotonic, so maximizing log-likelihood is equivalent to maximizing likelihood):")
+print(f"log L(θₐ, θᵦ, θc | data) = log({multi_coef:.3e}) + {counts[0]}log(θₐ) + {counts[1]}log(θᵦ) + {counts[2]}log(θc)")
+print(f"log L(θₐ, θᵦ, θc | data) = {np.log(multi_coef):.4f} + {counts[0]}log(θₐ) + {counts[1]}log(θᵦ) + {counts[2]}log(θc)")
+print("Note: The first term is a constant with respect to the parameters, so it doesn't affect the location of the maximum.")
+
+print("\nStep 3: Incorporate the constraint using Lagrange multipliers")
+print("We need to maximize log-likelihood subject to the constraint θₐ + θᵦ + θc = 1")
+print("Set up the Lagrangian function:")
+print(f"ℒ(θₐ, θᵦ, θc, λ) = {counts[0]}log(θₐ) + {counts[1]}log(θᵦ) + {counts[2]}log(θc) - λ(θₐ + θᵦ + θc - 1)")
+print("where λ is the Lagrange multiplier.")
+
+print("\nStep 4: Calculate partial derivatives and set them to zero")
+print("For θₐ:")
+print(f"∂ℒ/∂θₐ = {counts[0]}/θₐ - λ = 0")
+print(f"Solving for θₐ: {counts[0]}/θₐ = λ")
+print(f"θₐ = {counts[0]}/λ")
+
+print("For θᵦ:")
+print(f"∂ℒ/∂θᵦ = {counts[1]}/θᵦ - λ = 0")
+print(f"Solving for θᵦ: {counts[1]}/θᵦ = λ")
+print(f"θᵦ = {counts[1]}/λ")
+
+print("For θc:")
+print(f"∂ℒ/∂θc = {counts[2]}/θc - λ = 0")
+print(f"Solving for θc: {counts[2]}/θc = λ")
+print(f"θc = {counts[2]}/λ")
+
+print("For λ (the constraint):")
+print(f"∂ℒ/∂λ = -(θₐ + θᵦ + θc - 1) = 0")
+print(f"θₐ + θᵦ + θc = 1")
+
+print("\nStep 5: Solve the system of equations")
+print("Substitute the expressions for θₐ, θᵦ, and θc into the constraint:")
+print(f"θₐ + θᵦ + θc = {counts[0]}/λ + {counts[1]}/λ + {counts[2]}/λ = 1")
+print(f"({counts[0]} + {counts[1]} + {counts[2]})/λ = 1")
+print(f"{sum(counts)}/λ = 1")
+print(f"λ = {sum(counts)}")
+
+print("\nStep 6: Calculate the MLE values")
+print(f"θₐ = {counts[0]}/λ = {counts[0]}/{sum(counts)} = {counts[0]/sum(counts)}")
+print(f"θᵦ = {counts[1]}/λ = {counts[1]}/{sum(counts)} = {counts[1]/sum(counts)}")
+print(f"θc = {counts[2]}/λ = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts)}")
+
+print("\nStep 7: Verify that the solution is indeed a maximum")
+print("For a multinomial likelihood, the negative second derivatives of the log-likelihood are:")
+print(f"∂²(log L)/∂θₐ² = -{counts[0]}/θₐ² < 0 (since both counts and probabilities are positive)")
+print(f"∂²(log L)/∂θᵦ² = -{counts[1]}/θᵦ² < 0")
+print(f"∂²(log L)/∂θc² = -{counts[2]}/θc² < 0")
+print("Since these second derivatives are negative, the critical point is indeed a maximum.")
+
+print("\nStep 8: Intuitive explanation of the MLE result")
+print("The MLE for a categorical distribution turns out to be simply the proportion of each category in the sample.")
+print(f"For category A: {counts[0]}/{total_examples} = {counts[0]/total_examples}")
+print(f"For category B: {counts[1]}/{total_examples} = {counts[1]/total_examples}")
+print(f"For category C: {counts[2]}/{total_examples} = {counts[2]/total_examples}")
+print("This makes intuitive sense: the best estimate of the probability of a category is the frequency with which it occurred in the data.")
 
 # Visualization for MLE derivation
 fig_mle = plt.figure(figsize=(12, 8))
@@ -206,25 +281,25 @@ ax2.annotate(f'MLE: ({mle_probs[0]}, {mle_probs[1]})',
            textcoords='offset points', color='red',
            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="red", alpha=0.8))
 
-# Add constraint line θₐ + θᵦ + θ𝒸 = 1 which in 2D is θₐ + θᵦ = 1 - θ𝒸 which simplifies to θₐ + θᵦ = 1
+# Add constraint line θₐ + θᵦ + θc = 1 which in 2D is θₐ + θᵦ = 1 - θc which simplifies to θₐ + θᵦ = 1
 constraint_x = np.linspace(0, 1, 100)
 constraint_y = 1 - constraint_x
-ax2.plot(constraint_x, constraint_y, 'r--', linewidth=2, label='Constraint: θₐ + θᵦ + θ𝒸 = 1')
+ax2.plot(constraint_x, constraint_y, 'r--', linewidth=2, label='Constraint: θₐ + θᵦ + θc = 1')
 ax2.legend(loc='upper right')
 
 # Print the explanation for the Lagrangian rather than adding it to the plot
 print("\nLagrangian method for MLE of categorical distribution:")
-print("1. Lagrangian: L = 50log(θₐ) + 30log(θᵦ) + 20log(θ𝒸) - λ(θₐ + θᵦ + θ𝒸 - 1)")
+print("1. Lagrangian: L = 50log(θₐ) + 30log(θᵦ) + 20log(θc) - λ(θₐ + θᵦ + θc - 1)")
 print("\n2. Partial derivatives:")
 print("   ∂L/∂θₐ = 50/θₐ - λ = 0")
 print("   ∂L/∂θᵦ = 30/θᵦ - λ = 0")
-print("   ∂L/∂θ𝒸 = 20/θ𝒸 - λ = 0") 
-print("   ∂L/∂λ = θₐ + θᵦ + θ𝒸 - 1 = 0")
+print("   ∂L/∂θc = 20/θc - λ = 0") 
+print("   ∂L/∂λ = θₐ + θᵦ + θc - 1 = 0")
 print("\n3. From first three equations:")
-print("   θₐ = 50/λ, θᵦ = 30/λ, θ𝒸 = 20/λ")
+print("   θₐ = 50/λ, θᵦ = 30/λ, θc = 20/λ")
 print("   Substituting into constraint: 50/λ + 30/λ + 20/λ = 1")
 print("   100/λ = 1, therefore λ = 100")
-print("   θₐ = 50/100 = 0.5, θᵦ = 30/100 = 0.3, θ𝒸 = 20/100 = 0.2")
+print("   θₐ = 50/100 = 0.5, θᵦ = 30/100 = 0.3, θc = 20/100 = 0.2")
 
 # Add title to the visualization
 fig_mle.suptitle('Maximum Likelihood Estimation for Categorical Distribution', fontsize=16)
@@ -244,27 +319,65 @@ print("\nFor our MLE distribution:")
 print(f"H(X) = -[P(A)log₂(P(A)) + P(B)log₂(P(B)) + P(C)log₂(P(C))]")
 print(f"H(X) = -[{mle_probs[0]}log₂({mle_probs[0]}) + {mle_probs[1]}log₂({mle_probs[1]}) + {mle_probs[2]}log₂({mle_probs[2]})]")
 
-print("\nStep 2.2: Calculate each entropy term")
+print("\nDetailed step-by-step entropy calculation (pen-and-paper style):")
+print("Entropy quantifies the average 'surprise' or uncertainty in a probability distribution.")
+print("For a discrete distribution, entropy is calculated as: H(X) = -∑ P(x)log₂(P(x))")
 
-# Calculate entropy terms for each category
-entropy_terms = []
+print("\nStep 1: Identify the probability distribution")
+print("Our MLE distribution (derived in previous step):")
+for i, (cat, prob) in enumerate(zip(categories, mle_probs)):
+    print(f"P({cat}) = {prob}")
 
+print("\nStep 2: Calculate logarithm (base 2) for each probability")
+log_values = []
 for i, (cat, prob) in enumerate(zip(categories, mle_probs)):
     log_val = np.log2(prob)
-    entropy_term = -prob * log_val
-    entropy_terms.append(entropy_term)
+    log_values.append(log_val)
+    print(f"log₂(P({cat})) = log₂({prob})")
     
-    print(f"\nFor category {cat}:")
-    print(f"-P({cat}) × log₂(P({cat})) = -({prob}) × log₂({prob})")
-    print(f"log₂({prob}) = {log_val:.4f}")
-    print(f"-P({cat}) × log₂(P({cat})) = -({prob}) × ({log_val:.4f}) = {entropy_term:.4f} bits")
+    # Show calculation for log base 2
+    if cat == 'A':
+        print(f"log₂(0.5) = log₂(1/2) = -log₂(2) = -1")
+    elif cat == 'B':
+        print(f"log₂(0.3) ≈ log₂(3/10)")
+        print(f"Using log properties: log₂(3/10) = log₂(3) - log₂(10)")
+        print(f"log₂(3) ≈ 1.585 and log₂(10) ≈ 3.322")
+        print(f"So log₂(0.3) ≈ 1.585 - 3.322 ≈ -1.737")
+    elif cat == 'C':
+        print(f"log₂(0.2) = log₂(1/5) = -log₂(5)")
+        print(f"log₂(5) ≈ 2.322")
+        print(f"So log₂(0.2) ≈ -2.322")
+    
+    print(f"log₂(P({cat})) = {log_val:.4f}")
 
-print("\nStep 2.3: Sum all entropy terms to get the total entropy")
-total_entropy = sum(entropy_terms)
-print(f"H(X) = {' + '.join([f'{term:.4f}' for term in entropy_terms])}")
-print(f"H(X) = {total_entropy:.4f} bits")
+print("\nStep 3: Multiply each probability by its log value and negate")
+for i, (cat, prob, log_val) in enumerate(zip(categories, mle_probs, log_values)):
+    ent_term = -prob * log_val
+    print(f"For category {cat}:")
+    print(f"-P({cat})log₂(P({cat})) = -({prob}) × ({log_val:.4f})")
+    print(f"                        = {ent_term:.4f} bits")
 
-print(f"\nTherefore, the entropy of the MLE distribution is approximately {total_entropy:.4f} bits per example.")
+print("\nStep 4: Sum all terms to get total entropy")
+total_entropy_manual = 0
+entropy_terms = []
+entropy_terms_str = []
+for i, (cat, prob, log_val) in enumerate(zip(categories, mle_probs, log_values)):
+    ent_term = -prob * log_val
+    total_entropy_manual += ent_term
+    entropy_terms.append(ent_term)
+    entropy_terms_str.append(f"{ent_term:.4f}")
+
+print(f"H(X) = {' + '.join(entropy_terms_str)}")
+print(f"H(X) = {total_entropy_manual:.4f} bits")
+
+print("\nStep 5: Interpret the result")
+print(f"An entropy of {total_entropy_manual:.4f} bits means:")
+print(f"1. This is the theoretical minimum number of bits needed to encode a symbol from this distribution")
+print(f"2. The distribution has some uncertainty but isn't maximally uncertain (which would be log₂(3) ≈ 1.585 bits)")
+print(f"3. Any lossless encoding of this distribution will require at least {total_entropy_manual:.4f} bits per symbol on average")
+print(f"4. For fixed-length encoding, we would need at least ceil(log₂(3)) = 2 bits per symbol")
+
+# Continue with the original entropy calculation code
 
 # Visualization for entropy calculation
 fig_entropy = plt.figure(figsize=(10, 6))
@@ -279,9 +392,9 @@ plt.ylabel('Probability (MLE Estimate)')
 plt.ylim(0, max(mle_probs) * 1.3)
 
 # Add labels on each bar
-for i, (bar, p, ent_term) in enumerate(zip(bars, mle_probs, entropy_terms)):
+for i, (bar, p, ent_term) in enumerate(zip(bars, mle_probs, entropy_terms_str)):
     height = bar.get_height()
-    plt.text(i, height + 0.02, f'P={p:.2f}\n{ent_term:.4f} bits', 
+    plt.text(i, height + 0.02, f'P={p:.2f}\n{ent_term} bits', 
             ha='center', va='bottom', fontweight='bold')
 
 # Print formula steps rather than putting them in the figure
@@ -289,11 +402,11 @@ print("\nDetailed entropy calculation formula:")
 print(f"H(X) = -[{mle_probs[0]}log₂({mle_probs[0]}) + {mle_probs[1]}log₂({mle_probs[1]}) + {mle_probs[2]}log₂({mle_probs[2]})]")
 print(f"     = -{mle_probs[0]}×({np.log2(mle_probs[0]):.4f}) - {mle_probs[1]}×({np.log2(mle_probs[1]):.4f}) - {mle_probs[2]}×({np.log2(mle_probs[2]):.4f})")
 print(f"     = {entropy_terms[0]:.4f} + {entropy_terms[1]:.4f} + {entropy_terms[2]:.4f}")
-print(f"     = {total_entropy:.4f} bits")
+print(f"     = {total_entropy_manual:.4f} bits")
 
 # Add total entropy annotation with a horizontal line
 plt.axhline(y=0.1, color='red', linestyle='--', linewidth=2)
-plt.text(len(categories)/2 - 0.5, 0.05, f'Total Entropy: {total_entropy:.4f} bits', 
+plt.text(len(categories)/2 - 0.5, 0.05, f'Total Entropy: {total_entropy_manual:.4f} bits', 
         ha='center', color='red', fontweight='bold', 
         bbox=dict(facecolor='white', alpha=0.8, pad=3))
 
@@ -329,65 +442,101 @@ print(f"\nFor binary encoding with {len(categories)} categories:")
 print(f"- Bits per example = {bits_per_example_binary}")
 print(f"- For {total_examples} examples: Total bits = {bits_per_example_binary} × {total_examples} = {total_bits_binary} bits")
 
-# Breakdown by category for expected counts if we sample from MLE distribution
-expected_counts = [p * total_examples for p in mle_probs]
+# Add after the binary encoding requirements, before the visualization
+print("\nDetailed analysis of encoding schemes (pen-and-paper style):")
 
-# Visualization of encoding schemes
-fig_encoding = plt.figure(figsize=(12, 8))
-gs = GridSpec(2, 2, figure=fig_encoding, height_ratios=[1, 1])
+print("\nStep 1: Analyze one-hot encoding")
+print("One-hot encoding represents each category with a vector where exactly one position is 1 and all others are 0")
+for cat, encoding in scheme1_onehot.items():
+    print(f"Category {cat}: {encoding}")
 
-# Top left: One-hot encoding matrix
-ax1 = fig_encoding.add_subplot(gs[0, 0])
-onehot_matrix = np.array(list(scheme1_onehot.values()))
-sns.heatmap(onehot_matrix, annot=True, cmap="Blues", cbar=False, 
-           xticklabels=['Bit 1', 'Bit 2', 'Bit 3'], 
-           yticklabels=categories, ax=ax1)
-ax1.set_title('One-Hot Encoding Matrix')
+print("\nTheoretical justification:")
+print("For k distinct categories, we need k bits per example, one for each possible category")
+print(f"With {len(categories)} categories, we need {bits_per_example_onehot} bits per example")
 
-# Top right: Binary encoding matrix
-ax2 = fig_encoding.add_subplot(gs[0, 1])
-binary_matrix = np.array(list(scheme2_binary.values()))
-sns.heatmap(binary_matrix, annot=True, cmap="Blues", cbar=False, 
-           xticklabels=['Bit 1', 'Bit 2'], 
-           yticklabels=categories, ax=ax2)
-ax2.set_title('Binary Encoding Matrix')
+print("\nStep 2: Analyze binary encoding")
+print("Binary encoding uses a more compact representation with a minimal number of bits")
+for cat, encoding in scheme2_binary.items():
+    print(f"Category {cat}: {encoding}")
 
-# Bottom: Comparison chart
-ax3 = fig_encoding.add_subplot(gs[1, :])
-schemes = ['One-Hot Encoding', 'Binary Encoding', 'Entropy Limit']
-total_bits = [total_bits_onehot, total_bits_binary, total_entropy * total_examples]
-bits_per_ex = [bits_per_example_onehot, bits_per_example_binary, total_entropy]
-colors = ['#ff9999', '#66b3ff', '#99ff99']
+print("\nTheoretical justification:")
+print(f"For k distinct categories, we need ceil(log₂(k)) bits")
+print(f"log₂({len(categories)}) = {np.log2(len(categories)):.4f}")
+print(f"ceil(log₂({len(categories)})) = {np.ceil(np.log2(len(categories)))}")
+print(f"Therefore, we need {bits_per_example_binary} bits per example")
 
-bars = ax3.bar(schemes, total_bits, color=colors)
-ax3.set_title('Encoding Efficiency Comparison')
-ax3.set_ylabel('Total Bits')
-ax3.set_ylim(0, max(total_bits) * 1.2)
+print("\nStep 3: Calculate storage requirements for each encoding")
+print("For one-hot encoding:")
+category_bits_onehot = []
+for cat, count in zip(categories, counts):
+    bits = bits_per_example_onehot * count
+    category_bits_onehot.append(bits)
+    print(f"Category {cat}: {count} examples × {bits_per_example_onehot} bits = {bits} bits")
+print(f"Total one-hot: {sum(category_bits_onehot)} bits")
 
-# Add detailed text on each bar
-for i, (bar, bits, bits_per) in enumerate(zip(bars, total_bits, bits_per_ex)):
-    height = bar.get_height()
-    ax3.text(bar.get_x() + bar.get_width()/2., height/2,
-            f"{bits:.1f} bits total\n{bits_per:.4f} bits/example", 
-            ha='center', va='center', fontweight='bold',
-            bbox=dict(boxstyle="round,pad=0.3", facecolor='white', alpha=0.7))
+print("\nFor binary encoding:")
+category_bits_binary = []
+for cat, count in zip(categories, counts):
+    bits = bits_per_example_binary * count
+    category_bits_binary.append(bits)
+    print(f"Category {cat}: {count} examples × {bits_per_example_binary} bits = {bits} bits")
+print(f"Total binary: {sum(category_bits_binary)} bits")
 
-# Add arrow showing the reduction
-reduction_bits = total_bits_onehot - total_bits_binary
-reduction_percentage = (reduction_bits / total_bits_onehot) * 100
+print("\nStep 4: Compare with theoretical limits")
+entropy_bits = total_entropy_manual * total_examples
+print(f"Theoretical minimum (entropy): {total_entropy_manual:.4f} bits/example × {total_examples} examples = {entropy_bits:.2f} bits")
 
-y_pos = (total_bits_onehot + total_bits_binary) / 2
-ax3.annotate(
-    f"{reduction_percentage:.1f}% reduction\n({reduction_bits} bits)", 
-    xy=(0, y_pos),
-    xytext=(1, y_pos),
-    ha='center', va='center',
-    arrowprops=dict(arrowstyle='<->', color='green', lw=2),
-    bbox=dict(boxstyle="round,pad=0.3", fc='white', alpha=0.8)
-)
+print("\nOverhead analysis:")
+onehot_overhead = bits_per_example_onehot - total_entropy_manual
+onehot_overhead_percent = (onehot_overhead / total_entropy_manual) * 100
+binary_overhead = bits_per_example_binary - total_entropy_manual
+binary_overhead_percent = (binary_overhead / total_entropy_manual) * 100
 
-plt.tight_layout()
-save_figure(fig_encoding, "step3_encoding_comparison.png")
+print(f"One-hot overhead: {bits_per_example_onehot} - {total_entropy_manual:.4f} = {onehot_overhead:.4f} bits/example ({onehot_overhead_percent:.2f}%)")
+print(f"Binary overhead: {bits_per_example_binary} - {total_entropy_manual:.4f} = {binary_overhead:.4f} bits/example ({binary_overhead_percent:.2f}%)")
+
+print("\nStep 5: Analyze losslessness")
+print("For an encoding to be lossless, each category must map to a unique code")
+
+for cat, encoding in scheme1_onehot.items():
+    print(f"One-hot: Category {cat} → {encoding}")
+print("One-hot is lossless: each category has a unique representation")
+
+for cat, encoding in scheme2_binary.items():
+    print(f"Binary: Category {cat} → {encoding}")
+print("Binary is lossless: each category has a unique representation")
+
+print("\nStep 6: Calculate theoretical limits for variable-length codes")
+print("Optimal variable-length codes (like Huffman coding) can approach the entropy limit")
+print("For our distribution:")
+
+expected_lengths = {}
+for cat, prob in zip(categories, mle_probs):
+    # Rough estimate of optimal code length based on information theory: -log₂(p)
+    optimal_length = -np.log2(prob)
+    expected_lengths[cat] = optimal_length
+    print(f"Category {cat} (P = {prob}): Optimal length ≈ {optimal_length:.4f} bits")
+
+avg_length = sum(p * expected_lengths[cat] for cat, p in zip(categories, mle_probs))
+print(f"Expected average length: {avg_length:.4f} bits/example (equals entropy: {total_entropy_manual:.4f})")
+
+print("\nIn practice, Huffman coding would give:")
+# Simple Huffman-like code (not optimal but illustrative)
+if mle_probs[0] >= 0.5:  # Most frequent gets shortest code
+    huffman_codes = {'A': '0', 'B': '10', 'C': '11'}
+else:
+    huffman_codes = {'A': '00', 'B': '01', 'C': '1'}
+
+huffman_lengths = {cat: len(code) for cat, code in huffman_codes.items()}
+avg_huffman = sum(p * huffman_lengths[cat] for cat, p in zip(categories, mle_probs))
+
+for cat, code in huffman_codes.items():
+    prob = mle_probs[categories.index(cat)]
+    print(f"Category {cat} (P = {prob}): Code '{code}', Length = {len(code)} bits")
+print(f"Expected average length with Huffman: {avg_huffman:.4f} bits/example")
+print(f"Overhead vs. entropy: {avg_huffman - total_entropy_manual:.4f} bits/example ({(avg_huffman - total_entropy_manual) / total_entropy_manual * 100:.2f}%)")
+
+# Continue with the visualization code
 
 # ==============================
 # STEP 4: Compare the Efficiency of Both Encoding Schemes
@@ -415,7 +564,7 @@ print_section_header("STEP 5: Relate MLE to Cross-Entropy Minimization")
 print("Step 5.1: Express the likelihood in terms of cross-entropy")
 print("\nThe log-likelihood for a categorical distribution can be written as:")
 print("log L(θ | data) = ∑ nᵢ log θᵢ")
-print(f"For our dataset: log L(θ | data) = {counts[0]} log θₐ + {counts[1]} log θᵦ + {counts[2]} log θ𝒸")
+print(f"For our dataset: log L(θ | data) = {counts[0]} log θₐ + {counts[1]} log θᵦ + {counts[2]} log θc")
 
 # Define the empirical distribution q based on observed data
 empirical_dist = {cat: count/total_examples for cat, count in zip(categories, counts)}
@@ -425,7 +574,7 @@ for cat, prob in empirical_dist.items():
 
 print("\nWe can rewrite the log-likelihood as:")
 print("log L(θ | data) = n × ∑ q(i) log θᵢ")
-print(f"log L(θ | data) = {total_examples} × [{empirical_dist['A']} log θₐ + {empirical_dist['B']} log θᵦ + {empirical_dist['C']} log θ𝒸]")
+print(f"log L(θ | data) = {total_examples} × [{empirical_dist['A']} log θₐ + {empirical_dist['B']} log θᵦ + {empirical_dist['C']} log θc]")
 
 print("\nThe cross-entropy between distributions q and θ is defined as:")
 print("H(q, θ) = -∑ q(i) log θᵢ")
@@ -491,24 +640,80 @@ ax1.annotate(f'MLE: ({mle_probs[0]}, {mle_probs[1]})',
 # Add constraint line
 constraint_x = np.linspace(0, 1, 100)
 constraint_y = 1 - constraint_x
-ax1.plot(constraint_x, constraint_y, 'w--', linewidth=2, label='Constraint: θₐ + θᵦ + θ𝒸 = 1')
+ax1.plot(constraint_x, constraint_y, 'w--', linewidth=2, label='Constraint: θₐ + θᵦ + θc = 1')
 ax1.legend(loc='upper right')
 
 # Print the explanation of relationship instead of putting it in the figure
-print("\nRelationship between MLE and Cross-Entropy:")
-print("1. Log-Likelihood Formula: log L(θ | data) = ∑ nᵢ log θᵢ")
-print("2. Cross-Entropy Formula: H(q, θ) = -∑ q(i) log θᵢ")
-print("3. Relationship: log L(θ | data) = -n × H(q, θ)")
-print("   where q is the empirical distribution and n is the sample size")
-print("\nTherefore, maximizing log-likelihood is equivalent to minimizing cross-entropy between the empirical and model distributions")
+print("\nDetailed derivation of MLE and cross-entropy relationship (pen-and-paper style):")
 
-# Bottom: Simple title
-ax2 = fig_cross_entropy.add_subplot(gs[1])
-ax2.axis('off')  # Hide axes
-ax2.text(0.5, 0.5, 'Cross-Entropy Minimization', ha='center', fontsize=14, fontweight='bold')
+print("\nStep 1: Start with the log-likelihood function")
+print(f"log L(θ | data) = {counts[0]}log(θₐ) + {counts[1]}log(θᵦ) + {counts[2]}log(θc)")
 
-plt.tight_layout()
-save_figure(fig_cross_entropy, "step5_cross_entropy_relation.png")
+print("\nStep 2: Express counts in terms of empirical probabilities")
+print(f"Let q(i) be the empirical probability of category i:")
+for cat, prob in empirical_dist.items():
+    print(f"q({cat}) = {counts[categories.index(cat)]}/{total_examples} = {prob}")
+
+print("\nStep 3: Rewrite log-likelihood using empirical probabilities")
+print(f"For each count nᵢ, we can write: nᵢ = n × q(i)")
+print(f"Where n = {total_examples} is the total number of examples")
+print(f"So n₁ = {total_examples} × q(A) = {total_examples} × {empirical_dist['A']} = {counts[0]}")
+print(f"Similarly for n₂ and n₃")
+
+print("\nStep 4: Substitute into log-likelihood")
+print(f"log L(θ | data) = {total_examples} × q(A) × log(θₐ) + {total_examples} × q(B) × log(θᵦ) + {total_examples} × q(C) × log(θc)")
+print(f"log L(θ | data) = {total_examples} × [q(A)log(θₐ) + q(B)log(θᵦ) + q(C)log(θc)]")
+print(f"log L(θ | data) = {total_examples} × [Σᵢ q(i)log(θᵢ)]")
+
+print("\nStep 5: Identify the cross-entropy term")
+print("The cross-entropy between distributions q and θ is defined as:")
+print("H(q, θ) = -Σᵢ q(i)log(θᵢ)")
+
+print("\nStep 6: Express log-likelihood in terms of cross-entropy")
+print("From steps 4 and 5:")
+print("log L(θ | data) = n × [Σᵢ q(i)log(θᵢ)]")
+print("                = n × [-(-Σᵢ q(i)log(θᵢ))]")
+print("                = n × [-H(q, θ)]")
+print("                = -n × H(q, θ)")
+
+print("\nStep 7: Determine what maximizing log-likelihood means")
+print("To maximize log-likelihood: maximize -n × H(q, θ)")
+print("Since n is positive, this is equivalent to minimizing H(q, θ)")
+print("Therefore, maximizing log-likelihood is equivalent to minimizing cross-entropy between")
+print("the empirical distribution q and the model distribution θ")
+
+print("\nStep 8: Verify with our specific distributions")
+print("Our empirical distribution q:")
+q_dist = [empirical_dist[cat] for cat in categories]
+print(f"q = [{q_dist[0]}, {q_dist[1]}, {q_dist[2]}]")
+
+print("\nCross-entropy if model θ exactly matches empirical distribution:")
+theta_match = q_dist
+ce_match = cross_entropy(q_dist, theta_match)
+ll_match = -total_examples * ce_match
+print(f"If θ = q = [{theta_match[0]}, {theta_match[1]}, {theta_match[2]}]:")
+print(f"H(q, θ) = {ce_match:.4f} bits")
+print(f"log L(θ | data) = -{total_examples} × {ce_match:.4f} = {ll_match:.4f}")
+
+print("\nCross-entropy with some other distribution:")
+theta_diff = [0.4, 0.4, 0.2]
+ce_diff = cross_entropy(q_dist, theta_diff)
+ll_diff = -total_examples * ce_diff
+print(f"If θ = [{theta_diff[0]}, {theta_diff[1]}, {theta_diff[2]}]:")
+print(f"H(q, θ) = {ce_diff:.4f} bits")
+print(f"log L(θ | data) = -{total_examples} × {ce_diff:.4f} = {ll_diff:.4f}")
+
+print(f"\nComparing log-likelihoods: {ll_match:.4f} vs {ll_diff:.4f}")
+print(f"As expected, log-likelihood is higher (less negative) when θ matches q")
+
+print("\nStep 9: Connect to information theory")
+print("Cross-entropy H(q, θ) represents the average number of bits needed to encode")
+print("data from distribution q using a code optimized for distribution θ")
+print("The minimum cross-entropy occurs when θ = q, in which case H(q, θ) = H(q)")
+print("Therefore, MLE finds the distribution θ that would be most efficient for encoding")
+print("the observed data, in an information-theoretic sense")
+
+# Continue with the original code for cross-entropy visualization
 
 # ==============================
 # STEP 6: Properties of MLE in the Context of Categorical Data
@@ -546,127 +751,103 @@ for n in sample_sizes:
     
     print(f"n = {n}: MLE = [{mle[0]:.4f}, {mle[1]:.4f}, {mle[2]:.4f}]")
 
-print("\nStep 6.2: Asymptotic Normality")
-print("\nAsymptotic normality states that as sample size increases, the distribution of the MLE")
-print("approaches a normal distribution centered at the true parameter value.")
+print("\nDetailed mathematical analysis of MLE properties (pen-and-paper style):")
 
-print("\nFor a categorical distribution, the asymptotic distribution of the MLE is:")
-print("√n(θ̂ - θ) → N(0, Σ) as n → ∞")
-print("where Σ is the covariance matrix with elements:")
-print("Σᵢᵢ = θᵢ(1-θᵢ) and Σᵢⱼ = -θᵢθⱼ for i≠j")
+print("\nProperty 1: Consistency - Mathematical Formulation")
+print("A sequence of estimators θ̂ₙ is consistent if it converges in probability to the true parameter θ as n→∞:")
+print("P(|θ̂ₙ - θ| > ε) → 0 as n → ∞, for any ε > 0")
+print("For a categorical distribution with k categories, the MLE is:")
+print("θ̂ᵢ = xᵢ/n, where xᵢ is the count of category i in a sample of size n")
 
-# Calculate standard error for the largest sample
-n_large = sample_sizes[-1]
-mle_large = estimates[-1]
-se_theta_a = np.sqrt(true_probs[0] * (1 - true_probs[0]) / n_large)
-print(f"\nFor n = {n_large}, the standard error of θ̂ₐ is approximately:")
-print(f"SE(θ̂ₐ) = √(θₐ(1-θₐ)/n) = √({true_probs[0]}×{1-true_probs[0]}/{n_large}) = {se_theta_a:.6f}")
+print("\nProof sketch of consistency for categorical MLE:")
+print("1. By the Law of Large Numbers, the sample proportion xᵢ/n converges in probability to the true probability θᵢ")
+print("2. Since θ̂ᵢ = xᵢ/n, the MLE θ̂ᵢ also converges in probability to θᵢ")
+print("3. This holds for all categories i = 1, 2, ..., k, so the entire parameter vector is consistent")
 
-# Create visualization for MLE properties
-fig_properties = plt.figure(figsize=(12, 9))
-gs = GridSpec(2, 2, figure=fig_properties)
+print("\nNumerical demonstration of consistency:")
+print("True distribution:", [f"{p:.4f}" for p in true_probs])
+for i, n in enumerate(sample_sizes):
+    print(f"MLE with n = {n}: [{estimates[i][0]:.4f}, {estimates[i][1]:.4f}, {estimates[i][2]:.4f}]")
+    errors = [abs(est - true) for est, true in zip(estimates[i], true_probs)]
+    avg_error = sum(errors) / len(errors)
+    print(f"Average absolute error: {avg_error:.4f}")
 
-# Top left: Consistency plot
-ax1 = fig_properties.add_subplot(gs[0, 0])
-for i, cat in enumerate(categories):
-    ax1.plot(sample_sizes, [est[i] for est in estimates], 'o-', label=f'MLE for {cat}')
-    ax1.axhline(y=true_probs[i], linestyle='--', color=f'C{i}', alpha=0.5, 
-                label=f'True P({cat})={true_probs[i]}')
+print("\nProperty 2: Asymptotic Normality - Mathematical Formulation")
+print("For large sample sizes, the distribution of the MLE can be approximated by:")
+print("√n(θ̂ - θ) → N(0, I(θ)⁻¹) as n → ∞")
+print("where I(θ) is the Fisher Information Matrix")
 
-ax1.set_title('MLE Consistency: Convergence to True Values')
-ax1.set_xlabel('Sample Size (n)')
-ax1.set_ylabel('Probability Estimate')
-ax1.set_xscale('log')
-ax1.legend()
-ax1.grid(True, alpha=0.3)
+print("\nFor a categorical distribution, the Fisher Information Matrix is diagonal with elements:")
+print("I(θ)ᵢᵢ = n/θᵢ for i=1,2,...,k-1 (considering k-1 parameters due to the constraint Σᵢθᵢ = 1)")
+print("The asymptotic variance of θ̂ᵢ is θᵢ(1-θᵢ)/n")
 
-# Top right: Asymptotic normality - error distribution
-ax2 = fig_properties.add_subplot(gs[0, 1])
+print("\nDerivation of asymptotic variance for categorical MLE:")
+print("1. The log-likelihood for a multinomial/categorical distribution is:")
+print("   l(θ) = constant + Σᵢ xᵢlog(θᵢ)")
+print("2. The score function (first derivative) for each θᵢ is:")
+print("   ∂l/∂θᵢ = xᵢ/θᵢ")
+print("3. The Fisher information (negative expected second derivative) is:")
+print("   I(θ)ᵢᵢ = E[-∂²l/∂θᵢ²] = E[xᵢ/θᵢ²] = n×θᵢ/θᵢ² = n/θᵢ")
+print("4. Accounting for the constraint Σᵢθᵢ = 1, the asymptotic variance becomes:")
+print("   Var(θ̂ᵢ) = θᵢ(1-θᵢ)/n")
 
-# For several large sample sizes, plot the distribution of errors
-large_sample_sizes = [100, 1000, 10000]
-n_simulations = 1000
-results = []
-
-for n in large_sample_sizes:
-    errors_a = []
-    for _ in range(n_simulations):
-        sample = np.random.choice(3, size=n, p=true_probs)
-        counts = [np.sum(sample == i) for i in range(3)]
-        mle = [count/n for count in counts]
-        # Calculate scaled error for category A
-        scaled_error = np.sqrt(n) * (mle[0] - true_probs[0])
-        errors_a.append(scaled_error)
-    results.append(errors_a)
-
-# Plot distributions
-for i, n in enumerate(large_sample_sizes):
-    sns.kdeplot(results[i], label=f'n = {n}', ax=ax2)
-
-# Plot theoretical normal distribution
-x = np.linspace(-4, 4, 1000)
-sigma = np.sqrt(true_probs[0] * (1 - true_probs[0]))
-y = stats.norm.pdf(x, 0, sigma)
-ax2.plot(x, y, 'k--', label='Asymptotic Normal')
-
-ax2.set_title('Asymptotic Normality: Distribution of √n(θ̂ₐ - θₐ)')
-ax2.set_xlabel('Scaled Error: √n(θ̂ₐ - θₐ)')
-ax2.set_ylabel('Density')
-ax2.legend()
-ax2.grid(True, alpha=0.3)
-
-# Bottom left: Variance reduction with sample size
-ax3 = fig_properties.add_subplot(gs[1, 0])
-
-# Calculate theoretical standard errors for different sample sizes
-sizes = np.logspace(1, 5, 100)
-se_values = [np.sqrt(true_probs[0] * (1 - true_probs[0]) / n) for n in sizes]
-
-ax3.loglog(sizes, se_values, 'b-', linewidth=2)
-ax3.set_title('Standard Error Reduction with Sample Size')
-ax3.set_xlabel('Sample Size (n)')
-ax3.set_ylabel('Standard Error of θ̂ₐ')
-ax3.grid(True, which="both", alpha=0.3)
-
-# Add annotations
+print("\nNumerical demonstration of asymptotic normality:")
+print("For category A with true probability", true_probs[0])
 for n in [100, 1000, 10000]:
     se = np.sqrt(true_probs[0] * (1 - true_probs[0]) / n)
-    ax3.plot(n, se, 'ro')
-    ax3.annotate(f'n = {n}\nSE = {se:.4f}',
-               (n, se), xytext=(10, 0),
-               textcoords='offset points',
-               bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
+    print(f"n = {n}: Standard error = {se:.6f}")
+    print(f"95% confidence interval: {true_probs[0] - 1.96*se:.6f} to {true_probs[0] + 1.96*se:.6f}")
 
-# Add line showing 1/√n relationship
-ax3.annotate('SE ∝ 1/√n',
-           (sizes[len(sizes)//2], se_values[len(sizes)//4]),
-           xytext=(20, -20), textcoords='offset points',
-           arrowprops=dict(arrowstyle='->'),
-           bbox=dict(boxstyle="round,pad=0.3", fc="yellow", alpha=0.8))
+# Calculate asymptotic covariance matrix for all parameters
+n_large = 10000
+cov_matrix = np.zeros((3, 3))
+for i in range(3):
+    for j in range(3):
+        if i == j:
+            cov_matrix[i, j] = true_probs[i] * (1 - true_probs[i]) / n_large
+        else:
+            cov_matrix[i, j] = -true_probs[i] * true_probs[j] / n_large
 
-# Print MLE properties explanation
-print("\nMLE Properties for Categorical Distribution:")
-print("\n1. Consistency:")
-print("   • MLE converges to the true parameter values as sample size increases")
-print("   • θ̂ → θ in probability as n → ∞")
-print("   • Ensures reliable estimation with sufficient data")
-print("\n2. Asymptotic Normality:")
-print("   • For large n, the distribution of MLE is approximately normal")
-print("   • √n(θ̂ - θ) → N(0, Σ) as n → ∞")
-print("   • Allows construction of confidence intervals")
-print("   • Standard error of θ̂ᵢ: SE(θ̂ᵢ) = √(θᵢ(1-θᵢ)/n)")
-print("\n3. Efficiency:")
-print("   • MLE achieves the Cramér-Rao lower bound asymptotically")
-print("   • No consistent estimator has smaller asymptotic variance")
-print("   • MLE is the most efficient estimator for large samples")
+print("\nFull asymptotic covariance matrix at n =", n_large)
+for i in range(3):
+    print(f"[{cov_matrix[i][0]:.8f}, {cov_matrix[i][1]:.8f}, {cov_matrix[i][2]:.8f}]")
 
-# Bottom right: Simple title
-ax4 = fig_properties.add_subplot(gs[1, 1])
-ax4.axis('off')
-ax4.text(0.5, 0.5, 'Properties of Maximum Likelihood Estimation', ha='center', fontsize=14, fontweight='bold')
+print("\nProperty 3: Efficiency - Mathematical Formulation")
+print("An estimator is efficient if it achieves the Cramér-Rao lower bound:")
+print("Var(θ̂) ≥ 1/I(θ)")
+print("where I(θ) is the Fisher Information")
 
-plt.tight_layout()
-save_figure(fig_properties, "step6_MLE_properties.png")
+print("\nFor a categorical distribution:")
+print("1. The Cramér-Rao lower bound for Var(θ̂ᵢ) is θᵢ(1-θᵢ)/n")
+print("2. The MLE θ̂ᵢ = xᵢ/n has Var(θ̂ᵢ) = θᵢ(1-θᵢ)/n")
+print("3. Since the variance equals the lower bound, the MLE is efficient")
+
+print("\nEfficiency comparison:")
+print("Consider two estimators for the probability of category A:")
+print("1. MLE: θ̂ₐ = xₐ/n")
+print("2. Alternative estimator: θ̃ₐ = (xₐ+1)/(n+3) (a shrinkage estimator)")
+
+n_test = 1000
+var_mle = true_probs[0] * (1 - true_probs[0]) / n_test
+bias_mle = 0  # MLE is unbiased
+mse_mle = var_mle + bias_mle**2
+
+# Calculate MSE for alternative estimator
+bias_alt = (true_probs[0]*n_test + 1)/(n_test + 3) - true_probs[0]
+var_alt = (true_probs[0]*(1-true_probs[0])*n_test)/(n_test+3)**2
+mse_alt = var_alt + bias_alt**2
+
+print(f"\nFor n = {n_test}:")
+print(f"MLE estimator: Variance = {var_mle:.8f}, Bias = {bias_mle:.8f}, MSE = {mse_mle:.8f}")
+print(f"Alternative estimator: Variance = {var_alt:.8f}, Bias = {bias_alt:.8f}, MSE = {mse_alt:.8f}")
+print(f"Efficiency ratio: {mse_mle/mse_alt:.8f}")
+if mse_mle < mse_alt:
+    print("MLE is more efficient than the alternative estimator")
+else:
+    print("Alternative estimator is more efficient for this sample size due to bias-variance tradeoff")
+    print("However, MLE becomes asymptotically efficient as n → ∞")
+
+# Continue with the original MLE properties visualization
 
 # ==============================
 # SUMMARY
@@ -675,7 +856,7 @@ print_section_header("SUMMARY")
 
 print("Summary of question 29 on Maximum Likelihood Estimation for categorical data with information theory analysis:")
 print(f"1. MLE for categorical distribution: P(A)={mle_probs[0]}, P(B)={mle_probs[1]}, P(C)={mle_probs[2]}")
-print(f"2. Entropy of MLE distribution: {total_entropy:.4f} bits per example")
+print(f"2. Entropy of MLE distribution: {total_entropy_manual:.4f} bits per example")
 print(f"3. Encoding efficiency: One-hot ({total_bits_onehot} bits) vs Binary ({total_bits_binary} bits)")
 print(f"4. Binary encoding is {reduction_percentage:.2f}% more efficient than one-hot")
 print("5. MLE is equivalent to minimizing cross-entropy between empirical and model distributions")

@@ -49,7 +49,7 @@ Let's approach this step-by-step, showing all our work in detail:
 
 **Step 1.1: Define the probability distribution model**
 
-We're modeling a categorical distribution with three categories (A, B, and C) with respective probabilities θₐ, θᵦ, and θ𝒸, where θₐ + θᵦ + θ𝒸 = 1.
+We're modeling a categorical distribution with three categories (A, B, and C) with respective probabilities θₐ, θᵦ, and θc, where θₐ + θᵦ + θc = 1.
 
 **Step 1.2: Set up the likelihood function**
 
@@ -73,7 +73,7 @@ $$\log L(\theta_a, \theta_b, \theta_c | \text{data}) = \log\binom{100}{50, 30, 2
 
 **Step 1.4: Maximize the log-likelihood using Lagrange multipliers**
 
-We need to maximize the log-likelihood subject to the constraint that θₐ + θᵦ + θ𝒸 = 1. Using Lagrange multipliers:
+We need to maximize the log-likelihood subject to the constraint that θₐ + θᵦ + θc = 1. Using Lagrange multipliers:
 
 $$\mathcal{L}(\theta_a, \theta_b, \theta_c, \lambda) = 50\log\theta_a + 30\log\theta_b + 20\log\theta_c - \lambda(\theta_a + \theta_b + \theta_c - 1)$$
 
