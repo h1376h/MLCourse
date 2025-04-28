@@ -282,11 +282,13 @@ $$\frac{1}{3} \cdot (p \cdot 0.7 + (1-p) \cdot 0.3) = p \cdot 0.7$$
 $$\frac{0.7p + 0.3(1-p)}{3} = 0.7p$$
 $$\frac{0.7p + 0.3 - 0.3p}{3} = 0.7p$$
 $$\frac{0.4p + 0.3}{3} = 0.7p$$
-$$0.4p + 0.3 = 2.1p$$
-$$0.3 = 1.7p$$
-$$p \approx 0.176$$
+$$0.4p/3 + 0.3/3 = 0.7p$$
+$$0.1333p + 0.1000 = 0.7p$$
+$$0.7p - 0.1333p = 0.1000$$
+$$0.5667p = 0.1000$$
+$$p = 0.1765$$
 
-Therefore, with our prior belief that 70% of students pass, we only need a model probability of $p > 0.176$ to predict pass using the asymmetric loss function, much lower than the original threshold of $\frac{1}{3}$.
+Therefore, with our prior belief that 70% of students pass, we only need a model probability of $p > 0.1765$ to predict pass using the asymmetric loss function, much lower than the original threshold of $\frac{1}{3}$.
 
 This demonstrates how incorporating a prior belief shifts our decision thresholds. In this case, since our prior belief favors passing (70%), we require less evidence from the model (lower model probability) to predict that a student will pass.
 
@@ -301,9 +303,17 @@ This visualization shows how different prior beliefs about the pass rate affect 
 - As the prior belief that students pass increases, the threshold required from the model decreases
 - When the prior is 0.5 (no preference), the thresholds match our original calculations (0.5 for 0-1 loss, 1/3 for asymmetric loss)
 
-For our specific example with a prior of 0.7 and model probability $p = 0.4$:
-- Under 0-1 loss: $p = 0.4 > 0.3$, so we predict pass (unlike the original decision without the prior)
-- Under asymmetric loss: $p = 0.4 > 0.176$, so we predict pass (same as the original decision)
+For our specific example with a prior of 0.7 and model probability $p = 0.4$, we calculate the posterior probability:
+
+$$p_{MAP} = \frac{0.4 \times 0.7}{0.4 \times 0.7 + (1-0.4) \times 0.3} = \frac{0.28}{0.28 + 0.18} = \frac{0.28}{0.46} = 0.6087$$
+
+With this posterior probability:
+- Under 0-1 loss: $p_{MAP} = 0.6087 > 0.5$, so we predict pass (unlike the original decision without the prior)
+- Under asymmetric loss: $p_{MAP} = 0.6087 > \frac{1}{3}$, so we predict pass (same as the original decision)
+
+In terms of the original model probability:
+- Under 0-1 loss with MAP: $p = 0.4 > 0.3$, so we predict pass
+- Under asymmetric loss with MAP: $p = 0.4 > 0.1765$, so we predict pass
 
 The MAP approach effectively shifts our decision boundary by incorporating our prior beliefs, which in this case leads to more predictions of passing when we believe most students pass on average.
 
@@ -348,8 +358,8 @@ This visualization clearly shows how incorporating the prior belief shifts the d
 - The 0-1 loss function leads to a decision threshold of $p = 0.5$, meaning we predict the most likely class.
 - The asymmetric loss function, which penalizes missed opportunities more than wasted effort, leads to a lower threshold of $p = \frac{1}{3}$, making us more inclined to predict that students will pass.
 - For a probability of $p = 0.4$, the 0-1 loss function would lead us to predict fail, while the asymmetric loss function would lead us to predict pass.
-- Incorporating a prior belief that 70% of students pass (using MAP estimation) shifts the decision thresholds to $p = 0.3$ for 0-1 loss and $p = 0.176$ for asymmetric loss, making us more likely to predict pass in both cases.
-- With MAP estimation and $p = 0.4$, we would predict pass for both loss functions, demonstrating how prior beliefs can change our decisions.
+- Incorporating a prior belief that 70% of students pass (using MAP estimation) shifts the decision thresholds to $p = 0.3$ for 0-1 loss and $p = 0.1765$ for asymmetric loss, making us more likely to predict pass in both cases.
+- With MAP estimation and $p = 0.4$, the posterior probability becomes $p_{MAP} = 0.6087$, which exceeds both decision thresholds and leads us to predict pass for both loss functions, demonstrating how prior beliefs can change our decisions.
 - This demonstrates how incorporating domain-specific costs into our loss functions and prior knowledge into our decision process can lead to different, and potentially more appropriate, decisions.
 
 By understanding how to derive and apply optimal decision rules for different loss functions and how to incorporate prior beliefs through MAP estimation, we can make better predictions that align with the specific priorities, cost structures, and domain knowledge of our application context. 
