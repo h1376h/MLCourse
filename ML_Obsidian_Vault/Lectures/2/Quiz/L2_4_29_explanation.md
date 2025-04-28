@@ -49,7 +49,7 @@ Let's approach this step-by-step, showing all our work in detail:
 
 **Step 1.1: Define the probability distribution model**
 
-We're modeling a categorical distribution with three categories (A, B, and C) with respective probabilities θₐ, θᵦ, and θc, where θₐ + θᵦ + θc = 1.
+We're modeling a categorical distribution with three categories (A, B, and C) with respective probabilities $\theta_a$, $\theta_b$, and $\theta_c$, where $\theta_a + \theta_b + \theta_c = 1$.
 
 **Step 1.2: Set up the likelihood function**
 
@@ -58,26 +58,32 @@ The likelihood function for a categorical distribution is multinomial:
 $$L(\theta_a, \theta_b, \theta_c | \text{data}) = \binom{n}{n_a, n_b, n_c} \theta_a^{n_a} \theta_b^{n_b} \theta_c^{n_c}$$
 
 Where:
-- n = 100 (total examples)
-- n_a = 50 (count of category A)
-- n_b = 30 (count of category B)
-- n_c = 20 (count of category C)
+- $n = 100$ (total examples)
+- $n_a = 50$ (count of category A)
+- $n_b = 30$ (count of category B)
+- $n_c = 20$ (count of category C)
 
 Substituting our values:
 
 $$L(\theta_a, \theta_b, \theta_c | \text{data}) = \binom{100}{50, 30, 20} \theta_a^{50} \theta_b^{30} \theta_c^{20}$$
 
+The multinomial coefficient $\binom{100}{50, 30, 20} \approx 4.755 \times 10^{42}$ represents the number of ways to arrange the categories in our dataset.
+
 **Step 1.3: Convert to log-likelihood for easier calculation**
 
 $$\log L(\theta_a, \theta_b, \theta_c | \text{data}) = \log\binom{100}{50, 30, 20} + 50\log\theta_a + 30\log\theta_b + 20\log\theta_c$$
 
+Substituting the numerical value for the multinomial coefficient:
+
+$$\log L(\theta_a, \theta_b, \theta_c | \text{data}) = 98.2678 + 50\log\theta_a + 30\log\theta_b + 20\log\theta_c$$
+
 **Step 1.4: Maximize the log-likelihood using Lagrange multipliers**
 
-We need to maximize the log-likelihood subject to the constraint that θₐ + θᵦ + θc = 1. Using Lagrange multipliers:
+We need to maximize the log-likelihood subject to the constraint that $\theta_a + \theta_b + \theta_c = 1$. Using Lagrange multipliers:
 
 $$\mathcal{L}(\theta_a, \theta_b, \theta_c, \lambda) = 50\log\theta_a + 30\log\theta_b + 20\log\theta_c - \lambda(\theta_a + \theta_b + \theta_c - 1)$$
 
-Taking derivatives and setting them to zero:
+Taking derivatives and setting them equal to zero:
 
 $$\frac{\partial \mathcal{L}}{\partial \theta_a} = \frac{50}{\theta_a} - \lambda = 0$$
 $$\frac{\partial \mathcal{L}}{\partial \theta_b} = \frac{30}{\theta_b} - \lambda = 0$$
@@ -85,7 +91,7 @@ $$\frac{\partial \mathcal{L}}{\partial \theta_c} = \frac{20}{\theta_c} - \lambda
 $$\frac{\partial \mathcal{L}}{\partial \lambda} = \theta_a + \theta_b + \theta_c - 1 = 0$$
 
 From the first three equations:
-$$\theta_a = \frac{50}{\lambda}, \theta_b = \frac{30}{\lambda}, \theta_c = \frac{20}{\lambda}$$
+$$\theta_a = \frac{50}{\lambda}, \quad \theta_b = \frac{30}{\lambda}, \quad \theta_c = \frac{20}{\lambda}$$
 
 Substituting into the constraint:
 $$\frac{50}{\lambda} + \frac{30}{\lambda} + \frac{20}{\lambda} = 1$$
@@ -115,20 +121,13 @@ Therefore, the maximum likelihood estimate of the category distribution is:
 - P(B) = 0.3
 - P(C) = 0.2
 
-**Lagrangian method for MLE of categorical distribution:**
-1. Lagrangian: $L = 50\log(\theta_a) + 30\log(\theta_b) + 20\log(\theta_c) - \lambda(\theta_a + \theta_b + \theta_c - 1)$
+To verify this is indeed a maximum (rather than a minimum or saddle point), we can check the second derivatives of the log-likelihood function:
 
-2. Partial derivatives:
-   - $\frac{\partial L}{\partial \theta_a} = \frac{50}{\theta_a} - \lambda = 0$
-   - $\frac{\partial L}{\partial \theta_b} = \frac{30}{\theta_b} - \lambda = 0$
-   - $\frac{\partial L}{\partial \theta_c} = \frac{20}{\theta_c} - \lambda = 0$
-   - $\frac{\partial L}{\partial \lambda} = \theta_a + \theta_b + \theta_c - 1 = 0$
+$$\frac{\partial^2 \log L}{\partial \theta_a^2} = -\frac{50}{\theta_a^2} = -\frac{50}{(0.5)^2} = -200 < 0$$
+$$\frac{\partial^2 \log L}{\partial \theta_b^2} = -\frac{30}{\theta_b^2} = -\frac{30}{(0.3)^2} = -333.33 < 0$$
+$$\frac{\partial^2 \log L}{\partial \theta_c^2} = -\frac{20}{\theta_c^2} = -\frac{20}{(0.2)^2} = -500 < 0$$
 
-3. From first three equations:
-   - $\theta_a = \frac{50}{\lambda}$, $\theta_b = \frac{30}{\lambda}$, $\theta_c = \frac{20}{\lambda}$
-   - Substituting into constraint: $\frac{50}{\lambda} + \frac{30}{\lambda} + \frac{20}{\lambda} = 1$
-   - $\frac{100}{\lambda} = 1$, therefore $\lambda = 100$
-   - $\theta_a = \frac{50}{100} = 0.5$, $\theta_b = \frac{30}{100} = 0.3$, $\theta_c = \frac{20}{100} = 0.2$
+Since all second derivatives are negative, the critical point is indeed a maximum.
 
 ![MLE Derivation](../Images/L2_4_Quiz_29/step1_MLE_derivation.png)
 
@@ -154,24 +153,20 @@ $$-P(A) \times \log_2(P(A)) = -(0.5) \times (-1) = 0.5 \text{ bits}$$
 For category B:
 $$-P(B) \times \log_2(P(B)) = -(0.3) \times \log_2(0.3)$$
 $$\log_2(0.3) \approx -1.737$$
-$$-P(B) \times \log_2(P(B)) = -(0.3) \times (-1.737) \approx 0.521 \text{ bits}$$
+$$-P(B) \times \log_2(P(B)) = -(0.3) \times (-1.737) \approx 0.5211 \text{ bits}$$
 
 For category C:
 $$-P(C) \times \log_2(P(C)) = -(0.2) \times \log_2(0.2)$$
 $$\log_2(0.2) = \log_2(1/5) = -\log_2(5) \approx -2.322$$
-$$-P(C) \times \log_2(P(C)) = -(0.2) \times (-2.322) \approx 0.464 \text{ bits}$$
+$$-P(C) \times \log_2(P(C)) = -(0.2) \times (-2.322) \approx 0.4644 \text{ bits}$$
 
 **Step 2.3: Sum all entropy terms to get the total entropy**
 
-$$H(X) = 0.5 + 0.521 + 0.464 = 1.485 \text{ bits}$$
+$$H(X) = 0.5 + 0.5211 + 0.4644 = 1.4855 \text{ bits}$$
 
-Therefore, the entropy of the MLE distribution is approximately 1.485 bits per example.
+Therefore, the entropy of the MLE distribution is approximately 1.4855 bits per example.
 
-**Detailed entropy calculation formula:**
-$$H(X) = -[0.5\log_2(0.5) + 0.3\log_2(0.3) + 0.2\log_2(0.2)]$$
-$$= -0.5 \times (-1.0000) - 0.3 \times (-1.7370) - 0.2 \times (-2.3219)$$
-$$= 0.5000 + 0.5211 + 0.4644$$
-$$= 1.4855 \text{ bits}$$
+The entropy represents the theoretical minimum number of bits needed per symbol for an optimal encoding of this distribution. It's important to note that any fixed-length encoding must use at least $\lceil \log_2(3) \rceil = 2$ bits per symbol, exceeding the entropy. Variable-length encodings like Huffman coding can approach this theoretical limit.
 
 ![Entropy Calculation](../Images/L2_4_Quiz_29/step2_entropy_calculation.png)
 
@@ -187,6 +182,11 @@ $$\text{Bits per example} = 3$$
 For 100 examples:
 $$\text{Total bits} = 100 \times 3 = 300 \text{ bits}$$
 
+The breakdown by category would be:
+- Category A: 50 examples × 3 bits = 150 bits
+- Category B: 30 examples × 3 bits = 90 bits
+- Category C: 20 examples × 3 bits = 60 bits
+
 **Step 3.2: Storage requirements for Scheme 2 (Binary Encoding)**
 
 For binary encoding with 3 categories:
@@ -194,6 +194,30 @@ $$\text{Bits per example} = 2$$
 
 For a dataset of 100 examples:
 $$\text{Total bits} = 100 \times 2 = 200 \text{ bits}$$
+
+The breakdown by category would be:
+- Category A: 50 examples × 2 bits = 100 bits
+- Category B: 30 examples × 2 bits = 60 bits
+- Category C: 20 examples × 2 bits = 40 bits
+
+**Step 3.3: Compare with theoretical minimum (entropy-based coding)**
+
+The theoretical minimum bits required based on the entropy:
+$$\text{Total minimum bits} = 100 \times 1.4855 = 148.55 \text{ bits}$$
+
+This means the overhead for each encoding scheme is:
+- One-hot overhead: 3 - 1.4855 = 1.5145 bits/example (101.96%)
+- Binary overhead: 2 - 1.4855 = 0.5145 bits/example (34.64%)
+
+A variable-length encoding like Huffman coding would give:
+- Category A (P = 0.5): Code '0', Length = 1 bit
+- Category B (P = 0.3): Code '10', Length = 2 bits
+- Category C (P = 0.2): Code '11', Length = 2 bits
+
+The expected average length with this Huffman coding would be:
+$$0.5 \times 1 + 0.3 \times 2 + 0.2 \times 2 = 1.5 \text{ bits/example}$$
+
+This is very close to the entropy (1.4855), with only 0.98% overhead.
 
 ![Encoding Comparison](../Images/L2_4_Quiz_29/step3_encoding_comparison.png)
 
@@ -210,7 +234,11 @@ $$\text{Percentage reduction} = \frac{\text{Bits}_{\text{One-hot}} - \text{Bits}
 
 $$\text{Percentage reduction} = \frac{300 - 200}{300} \times 100\% = \frac{100}{300} \times 100\% = 33.33\%$$
 
-This means binary encoding reduces storage requirements by exactly one-third compared to one-hot encoding.
+This means binary encoding reduces storage requirements by exactly one-third compared to one-hot encoding. This is a significant reduction that would scale with larger datasets.
+
+It's worth noting that both encodings are lossless (each category has a unique representation), but they differ in efficiency:
+- One-hot: Each category is represented by a vector with exactly one '1' and the rest '0's
+- Binary: Each category is represented by a compact binary code using the minimum number of bits required
 
 ### Step 5: Relate MLE to Cross-Entropy Minimization
 
@@ -220,43 +248,45 @@ The log-likelihood for a categorical distribution can be written as:
 
 $$\log L(\theta | \text{data}) = \sum_{i} n_i \log \theta_i$$
 
-Where n_i is the count of category i and θ_i is the probability of category i.
+Where $n_i$ is the count of category $i$ and $\theta_i$ is the probability of category $i$.
 
 For our dataset:
 $$\log L(\theta | \text{data}) = 50 \log \theta_a + 30 \log \theta_b + 20 \log \theta_c$$
 
-Let's define the empirical distribution q based on our observed data:
-$$q(A) = \frac{50}{100} = 0.5, q(B) = \frac{30}{100} = 0.3, q(C) = \frac{20}{100} = 0.2$$
+Let's define the empirical distribution $q$ based on our observed data:
+$$q(A) = \frac{50}{100} = 0.5, \quad q(B) = \frac{30}{100} = 0.3, \quad q(C) = \frac{20}{100} = 0.2$$
 
 We can rewrite the log-likelihood as:
 $$\log L(\theta | \text{data}) = n \sum_{i} q(i) \log \theta_i$$
 $$\log L(\theta | \text{data}) = 100 \times [0.5 \log \theta_a + 0.3 \log \theta_b + 0.2 \log \theta_c]$$
 
-The cross-entropy between distributions q and θ is defined as:
+The cross-entropy between distributions $q$ and $\theta$ is defined as:
 $$H(q, \theta) = -\sum_{i} q(i) \log \theta_i$$
 
 Therefore:
+$$\log L(\theta | \text{data}) = -n \times H(q, \theta)$$
 $$\log L(\theta | \text{data}) = -100 \times H(q, \theta)$$
-
-Maximizing the log-likelihood is equivalent to minimizing the cross-entropy between the empirical distribution q and our model distribution θ.
 
 **Step 5.2: Explain the relationship**
 
-When we perform MLE for a categorical distribution, we are finding the parameter values θ that minimize the cross-entropy between the empirical distribution of the observed data and our model distribution. This makes intuitive sense because:
+The crucial insight here is that maximizing the log-likelihood is equivalent to minimizing the cross-entropy between the empirical distribution $q$ and our model distribution $\theta$.
 
-1. Cross-entropy measures the average number of bits needed to encode data from a true distribution q using an estimated distribution θ
+To demonstrate this numerically:
+- When $\theta = q = [0.5, 0.3, 0.2]$:
+  - $H(q, \theta) = 1.4855$ bits
+  - $\log L(\theta | \text{data}) = -100 \times 1.4855 = -148.55$
+- When $\theta = [0.4, 0.4, 0.2]$ (a different distribution):
+  - $H(q, \theta) = 1.5219$ bits
+  - $\log L(\theta | \text{data}) = -100 \times 1.5219 = -152.19$
+
+The log-likelihood is higher (less negative) when $\theta$ matches $q$, confirming that MLE minimizes cross-entropy.
+
+This has a powerful information-theoretic interpretation:
+1. Cross-entropy measures the average number of bits needed to encode data from a true distribution $q$ using a code optimized for distribution $\theta$
 2. Minimizing cross-entropy means finding the model that most efficiently encodes the observed data
-3. The most efficient encoding comes from the model that best matches the true data-generating process
+3. MLE finds the distribution $\theta$ that would be most efficient for encoding the observed data
 
-This connection reveals that MLE has an information-theoretic interpretation: it finds the model that minimizes the coding inefficiency when using the model to encode data from the empirical distribution.
-
-**Relationship between MLE and Cross-Entropy:**
-1. Log-Likelihood Formula: $\log L(\theta | \text{data}) = \sum_i n_i \log \theta_i$
-2. Cross-Entropy Formula: $H(q, \theta) = -\sum_i q(i) \log \theta_i$
-3. Relationship: $\log L(\theta | \text{data}) = -n \times H(q, \theta)$
-   where $q$ is the empirical distribution and $n$ is the sample size
-
-Therefore, maximizing log-likelihood is equivalent to minimizing cross-entropy between the empirical and model distributions.
+This connection reveals that MLE is not just a statistical estimation method, but also an information-theoretically optimal encoding solution.
 
 ![Cross-Entropy Relationship](../Images/L2_4_Quiz_29/step5_cross_entropy_relation.png)
 
@@ -266,50 +296,55 @@ Therefore, maximizing log-likelihood is equivalent to minimizing cross-entropy b
 
 Consistency means that as the sample size increases, the MLE converges in probability to the true parameter value.
 
-For our categorical distribution:
-- With a small sample, the proportions might not reflect the true probabilities
-- As we increase the sample size, the MLE will get closer to the true distribution
-- In the limit as n→∞, the MLE will equal the true probabilities with probability 1
+For our categorical distribution, if the true distribution were P(A)=0.45, P(B)=0.35, P(C)=0.2:
 
-For example, if the true distribution is P(A)=0.45, P(B)=0.35, P(C)=0.2:
-- With our sample of 100, we estimated P(A)=0.5, P(B)=0.3, P(C)=0.2
-- With 1000 samples, we might get closer: P(A)=0.46, P(B)=0.34, P(C)=0.2
-- With 10000 samples, even closer: P(A)=0.451, P(B)=0.349, P(C)=0.2
+| Sample Size | MLE Estimate | Average Error |
+|-------------|--------------|--------------|
+| n = 10      | [0.400, 0.400, 0.200] | 0.0333 |
+| n = 50      | [0.520, 0.280, 0.200] | 0.0467 |
+| n = 100     | [0.490, 0.300, 0.210] | 0.0333 |
+| n = 500     | [0.434, 0.358, 0.208] | 0.0107 |
+| n = 1000    | [0.447, 0.351, 0.202] | 0.0020 |
+| n = 5000    | [0.458, 0.344, 0.198] | 0.0051 |
+| n = 10000   | [0.456, 0.345, 0.199] | 0.0039 |
+
+The estimates clearly converge toward the true distribution as sample size increases. This consistency property can be mathematically proven using the Law of Large Numbers: the sample proportion $\hat{\theta}_i = x_i/n$ converges in probability to the true probability $\theta_i$ as $n \to \infty$.
 
 **Step 6.2: Asymptotic Normality**
 
-Asymptotic normality states that as sample size increases, the distribution of the MLE approaches a normal distribution centered at the true parameter value.
+For large sample sizes, the distribution of the MLE approaches a normal distribution:
 
-For categorical data:
-- For large n, the distribution of MLE $\hat{\theta}$ is approximately:
-  $$\hat{\theta} \sim N(\theta, \frac{1}{n}I^{-1}(\theta))$$
-  
-- For a multinomial distribution, the Fisher Information matrix I(θ) has components:
-  $$I_{ij}(\theta) = \frac{n}{\theta_i} \text{ for } i=j \text{ and } \frac{0}{\theta_i\theta_j} \text{ for } i≠j$$
+$$\sqrt{n}(\hat{\theta} - \theta) \xrightarrow{d} N(0, I(\theta)^{-1})$$
 
-- This means as n increases, the variance of our estimators decreases proportionally to 1/n
-- In our example, with n=100, the standard error of $\hat{\theta}_a$ is approximately:
-  $$SE(\hat{\theta}_a) = \sqrt{\frac{\theta_a(1-\theta_a)}{n}} = \sqrt{\frac{0.5 \times 0.5}{100}} = 0.05$$
+Where $I(\theta)$ is the Fisher Information Matrix.
 
-This property is important for constructing confidence intervals and hypothesis tests for categorical data.
+For a categorical distribution, after accounting for the constraint $\sum_i \theta_i = 1$, the asymptotic variance of $\hat{\theta}_i$ is:
 
-**MLE Properties for Categorical Distribution:**
+$$\text{Var}(\hat{\theta}_i) = \frac{\theta_i(1-\theta_i)}{n}$$
 
-1. **Consistency:**
-   - MLE converges to the true parameter values as sample size increases
-   - $\hat{\theta} \to \theta$ in probability as $n \to \infty$
-   - Ensures reliable estimation with sufficient data
+For example, for category A with true probability 0.45 and various sample sizes:
 
-2. **Asymptotic Normality:**
-   - For large $n$, the distribution of MLE is approximately normal
-   - $\sqrt{n}(\hat{\theta} - \theta) \to N(0, \Sigma)$ as $n \to \infty$
-   - Allows construction of confidence intervals
-   - Standard error of $\hat{\theta}_i$: $SE(\hat{\theta}_i) = \sqrt{\frac{\theta_i(1-\theta_i)}{n}}$
+| Sample Size | Standard Error | 95% Confidence Interval |
+|-------------|----------------|-------------------------|
+| n = 100     | 0.049749       | [0.3525, 0.5475]       |
+| n = 1000    | 0.015732       | [0.4192, 0.4808]       |
+| n = 10000   | 0.004975       | [0.4402, 0.4598]       |
 
-3. **Efficiency:**
-   - MLE achieves the Cramér-Rao lower bound asymptotically
-   - No consistent estimator has smaller asymptotic variance
-   - MLE is the most efficient estimator for large samples
+As sample size increases, the confidence interval narrows, illustrating the increasing precision of our estimates.
+
+**Step 6.3: Efficiency**
+
+The MLE for a categorical distribution is efficient, meaning it achieves the Cramér-Rao lower bound. No consistent estimator can have a smaller asymptotic variance.
+
+The asymptotic covariance matrix for our three-category distribution (at n=10000) is:
+
+$$\begin{pmatrix} 
+0.00002475 & -0.00001575 & -0.00000900 \\
+-0.00001575 & 0.00002275 & -0.00000700 \\
+-0.00000900 & -0.00000700 & 0.00001600
+\end{pmatrix}$$
+
+This matrix describes both the variances of each individual parameter estimate and the covariances between them. The negative covariances indicate that if one parameter is overestimated, others tend to be underestimated (which makes sense given the constraint that probabilities must sum to 1).
 
 ![MLE Properties](../Images/L2_4_Quiz_29/step6_MLE_properties.png)
 
@@ -317,38 +352,19 @@ This property is important for constructing confidence intervals and hypothesis 
 
 ### The Connection Between MLE and Information Theory
 - MLE finds the distribution that minimizes the cross-entropy between the empirical distribution and the model
-- The entropy of the MLE distribution (1.485 bits) represents the theoretical minimum bits needed per example
-- The minimum bits required for fixed-length encoding (2 bits) exceeds this theoretical minimum
+- The entropy of the MLE distribution (1.4855 bits) represents the theoretical minimum bits needed per example
+- The minimum bits required for fixed-length encoding (2 bits) exceeds this theoretical minimum, but is still more efficient than one-hot encoding
 
 ### Efficiency in Categorical Data Representation
 - Binary encoding (2 bits/example) is 33.33% more efficient than one-hot encoding (3 bits/example)
-- Both encodings exceed the theoretical minimum (entropy) by different amounts
+- Huffman coding (1.5 bits/example) approaches the theoretical entropy limit (1.4855 bits/example)
 - The choice of encoding scheme directly impacts model storage and computational efficiency
 
 ### Properties of MLE for Categorical Data
 - MLE for categorical data has a simple closed-form solution (the sample proportions)
-- As sample size increases, our MLE becomes more accurate (consistency)
+- As sample size increases, estimation accuracy improves (consistency)
 - The distribution of the MLE becomes more concentrated around the true value (asymptotic normality)
-- These properties ensure that with sufficient data, our estimation will be reliable
-
-## Practical Applications
-
-This problem demonstrates concepts with wide-ranging applications in machine learning:
-
-1. **Classification Models:**
-   - Many classification algorithms use MLE to estimate class probabilities
-   - Cross-entropy loss in neural networks is directly related to the likelihood function
-   - Efficient encoding of categorical variables impacts model size and training efficiency
-
-2. **Natural Language Processing:**
-   - Language models estimate categorical distributions over vocabulary
-   - Entropy measures the predictability of text
-   - Efficient encoding is crucial for large vocabulary models
-
-3. **Bayesian Statistics:**
-   - MLE provides a foundation for more advanced Bayesian methods
-   - The asymptotic properties of MLE inform prior selection
-   - Entropy helps quantify the information gain from data
+- MLE achieves optimal asymptotic efficiency (no consistent estimator has lower variance)
 
 ## Conclusion
 
