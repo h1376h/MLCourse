@@ -338,11 +338,11 @@ The MLE for a categorical distribution is efficient, meaning it achieves the Cra
 
 The asymptotic covariance matrix for our three-category distribution (at n=10000) is:
 
-$$\begin{pmatrix} 
+$$\begin{bmatrix} 
 0.00002475 & -0.00001575 & -0.00000900 \\
 -0.00001575 & 0.00002275 & -0.00000700 \\
 -0.00000900 & -0.00000700 & 0.00001600
-\end{pmatrix}$$
+\end{bmatrix}$$
 
 This matrix describes both the variances of each individual parameter estimate and the covariances between them. The negative covariances indicate that if one parameter is overestimated, others tend to be underestimated (which makes sense given the constraint that probabilities must sum to 1).
 
