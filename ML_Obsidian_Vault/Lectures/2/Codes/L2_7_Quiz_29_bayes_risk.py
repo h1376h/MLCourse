@@ -629,4 +629,79 @@ print("The MAP approach with a prior belief of 70% passing shifts our decision b
 print("making us more likely to predict that students will pass. This is because our prior belief")
 print("incorporates domain knowledge (that most students pass this exam) into the decision-making process.")
 print("When p = 0.4, the original approach with 0-1 loss would predict fail, but the MAP approach")
-print("with our prior would predict pass, demonstrating the impact of incorporating prior beliefs.") 
+print("with our prior would predict pass, demonstrating the impact of incorporating prior beliefs.")
+
+print_substep("Detailed MAP Calculations")
+
+# Print initial values and setup
+prior_pass = prior_pass_rate
+prior_fail = prior_fail_rate
+print(f"Prior belief about passing: P(y=1) = {prior_pass:.4f}")
+print(f"Prior belief about failing: P(y=0) = {prior_fail:.4f}")
+print(f"Model probability of passing for our example: p = {p_example:.4f}")
+
+# Step by step calculation of posterior for p=0.4
+print("\nDetailed calculation of posterior probability for p = 0.4:")
+print(f"Posterior P(y=1|x) = (p × prior_pass) / (p × prior_pass + (1-p) × prior_fail)")
+print(f"                    = ({p_example:.4f} × {prior_pass:.4f}) / ({p_example:.4f} × {prior_pass:.4f} + (1-{p_example:.4f}) × {prior_fail:.4f})")
+numerator = p_example * prior_pass
+denominator = p_example * prior_pass + (1-p_example) * prior_fail
+print(f"                    = {numerator:.4f} / ({numerator:.4f} + {(1-p_example) * prior_fail:.4f})")
+print(f"                    = {numerator:.4f} / {denominator:.4f}")
+posterior = numerator / denominator
+print(f"                    = {posterior:.4f}")
+
+# Calculate and display the posterior for a range of model probabilities
+print("\nMAP transformation for key probability values:")
+key_probs = [0.0, 0.1, 0.2, 0.3, 0.33333, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+for p in key_probs:
+    map_p = model_to_posterior(p, prior_pass_rate)
+    print(f"Model p = {p:.5f} → Posterior p_MAP = {map_p:.5f}")
+
+# Detailed calculation for 0-1 loss threshold (p = 0.3)
+print("\nStep-by-step derivation of 0-1 loss threshold with MAP:")
+print("For 0-1 loss, we use threshold 0.5 on the posterior probability.")
+print("We want to find the model probability p where the posterior equals 0.5:")
+print("0.5 = (p × 0.7) / (p × 0.7 + (1-p) × 0.3)")
+print("0.5 × (p × 0.7 + (1-p) × 0.3) = p × 0.7")
+print("0.5 × (0.7p + 0.3 - 0.3p) = 0.7p")
+print("0.5 × (0.4p + 0.3) = 0.7p")
+print("0.2p + 0.15 = 0.7p")
+print("0.15 = 0.5p")
+print("p = 0.3")
+
+# Check if this value is correct by calculating the posterior
+test_p = 0.3
+test_posterior = model_to_posterior(test_p, prior_pass_rate)
+print(f"Verification: With model probability p = {test_p}, posterior = {test_posterior:.5f}")
+
+# Detailed calculation for asymmetric loss threshold
+print("\nStep-by-step derivation of asymmetric loss threshold with MAP:")
+print("For asymmetric loss, we use threshold 1/3 on the posterior probability.")
+print("We want to find the model probability p where the posterior equals 1/3:")
+print("1/3 = (p × 0.7) / (p × 0.7 + (1-p) × 0.3)")
+print("(1/3) × (p × 0.7 + (1-p) × 0.3) = p × 0.7")
+print("(1/3) × (0.7p + 0.3 - 0.3p) = 0.7p")
+print("(1/3) × (0.4p + 0.3) = 0.7p")
+print("(0.4p + 0.3)/3 = 0.7p")
+print("0.4p/3 + 0.3/3 = 0.7p")
+print(f"{0.4/3:.4f}p + {0.3/3:.4f} = 0.7p")
+print(f"0.7p - {0.4/3:.4f}p = {0.3/3:.4f}")
+print(f"{0.7 - 0.4/3:.4f}p = {0.3/3:.4f}")
+print(f"{0.7 - 0.4/3:.4f}p = {0.3/3:.4f}")
+print(f"p = {0.3/3:.4f} / {0.7 - 0.4/3:.4f}")
+asymm_threshold = (0.3/3) / (0.7 - 0.4/3)
+print(f"p = {asymm_threshold:.4f}")
+
+# Check if this value is correct by calculating the posterior
+test_p = asymm_threshold
+test_posterior = model_to_posterior(test_p, prior_pass_rate)
+print(f"Verification: With model probability p = {test_p:.4f}, posterior = {test_posterior:.5f} (should be close to 1/3 = {1/3:.5f})")
+
+# Add more detailed descriptions about our example with p=0.4
+print("\nFor our example with p = 0.4 and prior = 0.7:")
+print(f"1. Original 0-1 loss decision: {p_example:.4f} < 0.5, so predict fail")
+print(f"2. Original asymmetric loss decision: {p_example:.4f} > 1/3, so predict pass")
+print(f"3. MAP 0-1 loss decision: {p_example:.4f} > {zero_one_map_threshold:.4f}, so predict pass")
+print(f"4. MAP asymmetric loss decision: {p_example:.4f} > {asymmetric_map_threshold:.4f}, so predict pass")
+print("\nThis demonstrates how incorporating the prior belief changes our decision for the 0-1 loss function.") 

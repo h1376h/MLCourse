@@ -535,6 +535,7 @@ We can make decisions using different loss functions:
 2. For the asymmetric loss function, derive the decision rule that minimizes the expected loss. At what probability threshold should we predict class 1?
 3. Explain why these thresholds differ and what this means in practical terms for the student.
 4. If our model gives a probability $p = 0.4$ that a student will pass, what decision would minimize expected loss under each loss function?
+5. Assuming we have a prior belief that 70% of students pass this exam on average, use the Maximum A Posteriori (MAP) approach to derive a new decision threshold that incorporates this prior with the model's output probability. Explain how this threshold compares with the ones from Tasks 1 and 2 and provide a visualization showing how different priors would affect the decision boundaries.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 29: Minimizing Expected Loss in Classification](L2_7_29_explanation.md).
 
