@@ -1,7 +1,7 @@
 # Lecture 2.5: Bayesian Approach to ML Quiz
 
 ## Overview
-This quiz contains 17 questions from different topics covered in section 2.5 of the lectures on Bayesian Framework.
+This quiz contains 18 questions from different topics covered in section 2.5 of the lectures on Bayesian Framework.
 
 ## Question 1
 
@@ -257,3 +257,18 @@ Denote by $w_1$ the probability of class 1 (that is $w_1 = P(Y = 1)$). If we kno
 
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Naive Bayes Parameter Estimation](L2_5_17_explanation.md).
+
+## Question 18
+
+## Problem Statement
+A meteorologist is applying Bayesian inference to forecast the probability of rain for tomorrow. Based on historical weather data for this time of year, she has chosen a $\text{Beta}(2, 8)$ prior distribution for the probability of rain. This prior distribution has a mean of $\frac{2}{2+8} = 0.2$, indicating that based on historical patterns alone, there is a 20% chance of rain tomorrow.
+
+However, the meteorologist receives new information: a special weather report indicating that a storm system is approaching the area. This new information suggests a higher probability of rain than the historical average would indicate, but it hasn't been quantified precisely.
+
+### Task
+1. Explain why the meteorologist should consider changing her prior distribution (currently $\text{Beta}(2, 8)$) in light of this new information about the approaching storm system.
+2. If the meteorologist wants to adjust her prior to reflect a 40% probability of rain (instead of the original 20% from the $\text{Beta}(2, 8)$ prior), while maintaining the same level of certainty, what new Beta parameters $(\alpha, \beta)$ should she use?
+3. What would be a reasonable approach if she became more uncertain about the rain probability after hearing conflicting reports from different weather services? Provide specific Beta parameters that would represent this increased uncertainty while maintaining the expected 40% probability of rain.
+4. If she observes rainy conditions on 3 out of the next 5 days, calculate the posterior distribution for both the original and adjusted priors. Compare how the different priors affect the final forecast and explain which prior leads to the most accurate posterior prediction.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Updating Prior Distributions in Weather Forecasting](L2_5_18_explanation.md).
