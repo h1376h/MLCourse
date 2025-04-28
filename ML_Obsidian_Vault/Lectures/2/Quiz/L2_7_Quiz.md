@@ -558,5 +558,6 @@ The loss function for each combination of true state and action is given by the 
 2. Determine which action minimizes the Bayes risk.
 3. How would your decision change if the probability distribution changes to $P(\theta = 0) = 0.5$, $P(\theta = 1) = 0.3$, and $P(\theta = 2) = 0.2$?
 4. For what range of values of $P(\theta = 0)$ would "ship the component" be the optimal decision, assuming that $P(\theta = 1) = P(\theta = 2) = \frac{1-P(\theta = 0)}{2}$?
+5. Formulate a MAP (Maximum A Posteriori) estimation approach to determine the most likely state of a component. Assuming a uniform prior over the states, calculate the MAP estimate for both probability distributions. How does the MAP estimate relate to the optimal decision under 0-1 loss?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 30: Bayes Risk in Manufacturing Decisions](L2_7_30_explanation.md).
