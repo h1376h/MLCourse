@@ -61,11 +61,11 @@ print_section_header("STEP 1: Derive the Maximum Likelihood Estimator")
 
 print("Step 1.1: Define the probability distribution model")
 print("We're modeling a categorical distribution with three categories (A, B, C)")
-print("with respective probabilities θₐ, θᵦ, θc, where θₐ + θᵦ + θc = 1")
+print("with respective probabilities θ_a, θ_b, θ_c, where θ_a + θ_b + θ_c = 1")
 
 print("\nStep 1.2: Set up the likelihood function")
 print("The likelihood function for a categorical distribution with multinomial counts is:")
-print("L(θₐ, θᵦ, θc | data) = (n choose nₐ,nᵦ,n𝒸) × θₐ^nₐ × θᵦ^nᵦ × θc^n𝒸")
+print("L(θ_a, θ_b, θ_c | data) = (n choose n_a,n_b,n_c) × θ_a^n_a × θ_b^n_b × θ_c^n_c")
 
 # Calculate multinomial coefficient
 from math import factorial
@@ -79,12 +79,12 @@ def multinomial_coef(n, ks):
 
 multi_coef = multinomial_coef(total_examples, counts)
 
-print(f"\nWhere:")
+print("\nWhere:")
 print(f"- n = {total_examples} (total examples)")
-print(f"- nₐ = {counts[0]} (count of category A)")
-print(f"- nᵦ = {counts[1]} (count of category B)")
-print(f"- n𝒸 = {counts[2]} (count of category C)")
-print(f"- (n choose nₐ,nᵦ,n𝒸) = {multi_coef:.3e}")
+print(f"- n_a = {counts[0]} (count of category A)")
+print(f"- n_b = {counts[1]} (count of category B)")
+print(f"- n_c = {counts[2]} (count of category C)")
+print(f"- (n choose n_a,n_b,n_c) = {multi_coef:.3e}")
 
 # Likelihood function
 def likelihood(theta_a, theta_b, theta_c):
@@ -96,10 +96,10 @@ mle_probs = probabilities
 expected_likelihood = likelihood(mle_probs[0], mle_probs[1], mle_probs[2])
 
 print(f"\nSubstituting our values:")
-print(f"L(θₐ, θᵦ, θc | data) = {multi_coef:.3e} × θₐ^{counts[0]} × θᵦ^{counts[1]} × θc^{counts[2]}")
+print(f"L(θ_a, θ_b, θ_c | data) = {multi_coef:.3e} × θ_a^{counts[0]} × θ_b^{counts[1]} × θ_c^{counts[2]}")
 
 print("\nStep 1.3: Convert to log-likelihood for easier calculation")
-print("log L(θₐ, θᵦ, θc | data) = log(multinomial coef) + nₐlog(θₐ) + nᵦlog(θᵦ) + n𝒸log(θc)")
+print("log L(θ_a, θ_b, θ_c | data) = log(multinomial coef) + n_a log(θ_a) + n_b log(θ_b) + n_c log(θ_c)")
 
 # Log-likelihood function
 def log_likelihood(theta_a, theta_b, theta_c):
@@ -110,41 +110,41 @@ def log_likelihood(theta_a, theta_b, theta_c):
 expected_log_likelihood = log_likelihood(mle_probs[0], mle_probs[1], mle_probs[2])
 
 print(f"\nSubstituting our values:")
-print(f"log L(θₐ, θᵦ, θc | data) = log({multi_coef:.3e}) + {counts[0]}×log(θₐ) + {counts[1]}×log(θᵦ) + {counts[2]}×log(θc)")
-print(f"                         = {np.log(multi_coef):.4f} + {counts[0]}×log(θₐ) + {counts[1]}×log(θᵦ) + {counts[2]}×log(θc)")
+print(f"log L(θ_a, θ_b, θ_c | data) = log({multi_coef:.3e}) + {counts[0]}×log(θ_a) + {counts[1]}×log(θ_b) + {counts[2]}×log(θ_c)")
+print(f"                         = {np.log(multi_coef):.4f} + {counts[0]}×log(θ_a) + {counts[1]}×log(θ_b) + {counts[2]}×log(θ_c)")
 
 print("\nStep 1.4: Maximize the log-likelihood using Lagrange multipliers")
-print("We need to maximize log-likelihood subject to the constraint θₐ + θᵦ + θc = 1")
-print("Using Lagrange multipliers with L(θₐ, θᵦ, θc, λ) = log-likelihood - λ(θₐ + θᵦ + θc - 1)")
+print("We need to maximize log-likelihood subject to the constraint θ_a + θ_b + θ_c = 1")
+print("Using Lagrange multipliers with L(θ_a, θ_b, θ_c, λ) = log-likelihood - λ(θ_a + θ_b + θ_c - 1)")
 
 print("\nTaking derivatives and setting them equal to zero:")
-print("∂L/∂θₐ = nₐ/θₐ - λ = 0")
-print("∂L/∂θᵦ = nᵦ/θᵦ - λ = 0")
-print("∂L/∂θc = nc/θc - λ = 0")
-print("∂L/∂λ = θₐ + θᵦ + θc - 1 = 0")
+print("∂L/∂θ_a = n_a/θ_a - λ = 0")
+print("∂L/∂θ_b = n_b/θ_b - λ = 0")
+print("∂L/∂θ_c = n_c/θ_c - λ = 0")
+print("∂L/∂λ = θ_a + θ_b + θ_c - 1 = 0")
 
 print("\nFrom the first three equations:")
-print(f"θₐ = nₐ/λ = {counts[0]}/λ")
-print(f"θᵦ = nᵦ/λ = {counts[1]}/λ")
-print(f"θc = nc/λ = {counts[2]}/λ")
+print(f"θ_a = n_a/λ = {counts[0]}/λ")
+print(f"θ_b = n_b/λ = {counts[1]}/λ")
+print(f"θ_c = n_c/λ = {counts[2]}/λ")
 
 print("\nSubstituting into the constraint:")
-print(f"θₐ + θᵦ + θc = {counts[0]}/λ + {counts[1]}/λ + {counts[2]}/λ = {sum(counts)}/λ = 1")
+print(f"θ_a + θ_b + θ_c = {counts[0]}/λ + {counts[1]}/λ + {counts[2]}/λ = {sum(counts)}/λ = 1")
 print(f"Solving for λ: λ = {sum(counts)}")
 
 print(f"\nTherefore:")
-print(f"θₐ = {counts[0]}/{sum(counts)} = {counts[0]/sum(counts):.2f}")
-print(f"θᵦ = {counts[1]}/{sum(counts)} = {counts[1]/sum(counts):.2f}")
-print(f"θc = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts):.2f}")
+print(f"θ_a = {counts[0]}/{sum(counts)} = {counts[0]/sum(counts):.2f}")
+print(f"θ_b = {counts[1]}/{sum(counts)} = {counts[1]/sum(counts):.2f}")
+print(f"θ_c = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts):.2f}")
 
 print("\nStep 1.5: Verify our MLE solution")
 print("For a categorical distribution, the MLE for each category probability is")
-print("simply the proportion of observations in that category: θ̂ᵢ = nᵢ/n")
+print("simply the proportion of observations in that category: θ̂_i = n_i/n")
 
 print(f"\nUsing this formula directly:")
-print(f"θ̂ₐ = {counts[0]}/{sum(counts)} = {counts[0]/sum(counts):.2f}")
-print(f"θ̂ᵦ = {counts[1]}/{sum(counts)} = {counts[1]/sum(counts):.2f}")
-print(f"θ̂c = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts):.2f}")
+print(f"θ̂_a = {counts[0]}/{sum(counts)} = {counts[0]/sum(counts):.2f}")
+print(f"θ̂_b = {counts[1]}/{sum(counts)} = {counts[1]/sum(counts):.2f}")
+print(f"θ̂_c = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts):.2f}")
 
 print(f"\nTherefore, the maximum likelihood estimate of the category distribution is:")
 print(f"- P(A) = {mle_probs[0]}")
@@ -163,60 +163,60 @@ print(f"- Data categories: {categories}")
 print("\nDetailed step-by-step MLE derivation (pen-and-paper style):")
 print("\nStep 1: Understand the likelihood function structure")
 print("The likelihood function represents the probability of observing our data given the parameters:")
-print(f"L(θₐ, θᵦ, θc | data) = P(data | θₐ, θᵦ, θc)")
+print(f"L(θ_a, θ_b, θ_c | data) = P(data | θ_a, θ_b, θ_c)")
 print(f"For a multinomial distribution with {counts[0]} A's, {counts[1]} B's, and {counts[2]} C's:")
-print(f"L(θₐ, θᵦ, θc | data) = (multinomial coefficient) × P(A)^{counts[0]} × P(B)^{counts[1]} × P(C)^{counts[2]}")
-print(f"L(θₐ, θᵦ, θc | data) = {multi_coef:.3e} × θₐ^{counts[0]} × θᵦ^{counts[1]} × θc^{counts[2]}")
+print(f"L(θ_a, θ_b, θ_c | data) = (multinomial coefficient) × P(A)^{counts[0]} × P(B)^{counts[1]} × P(C)^{counts[2]}")
+print(f"L(θ_a, θ_b, θ_c | data) = {multi_coef:.3e} × θ_a^{counts[0]} × θ_b^{counts[1]} × θ_c^{counts[2]}")
 
 print("\nStep 2: Convert to log-likelihood for easier maximization")
 print("Taking the natural logarithm of both sides (which is monotonic, so maximizing log-likelihood is equivalent to maximizing likelihood):")
-print(f"log L(θₐ, θᵦ, θc | data) = log({multi_coef:.3e}) + {counts[0]}log(θₐ) + {counts[1]}log(θᵦ) + {counts[2]}log(θc)")
-print(f"log L(θₐ, θᵦ, θc | data) = {np.log(multi_coef):.4f} + {counts[0]}log(θₐ) + {counts[1]}log(θᵦ) + {counts[2]}log(θc)")
+print(f"log L(θ_a, θ_b, θ_c | data) = log({multi_coef:.3e}) + {counts[0]}log(θ_a) + {counts[1]}log(θ_b) + {counts[2]}log(θ_c)")
+print(f"log L(θ_a, θ_b, θ_c | data) = {np.log(multi_coef):.4f} + {counts[0]}log(θ_a) + {counts[1]}log(θ_b) + {counts[2]}log(θ_c)")
 print("Note: The first term is a constant with respect to the parameters, so it doesn't affect the location of the maximum.")
 
 print("\nStep 3: Incorporate the constraint using Lagrange multipliers")
-print("We need to maximize log-likelihood subject to the constraint θₐ + θᵦ + θc = 1")
+print("We need to maximize log-likelihood subject to the constraint θ_a + θ_b + θ_c = 1")
 print("Set up the Lagrangian function:")
-print(f"ℒ(θₐ, θᵦ, θc, λ) = {counts[0]}log(θₐ) + {counts[1]}log(θᵦ) + {counts[2]}log(θc) - λ(θₐ + θᵦ + θc - 1)")
+print(f"ℒ(θ_a, θ_b, θ_c, λ) = {counts[0]}log(θ_a) + {counts[1]}log(θ_b) + {counts[2]}log(θ_c) - λ(θ_a + θ_b + θ_c - 1)")
 print("where λ is the Lagrange multiplier.")
 
 print("\nStep 4: Calculate partial derivatives and set them to zero")
-print("For θₐ:")
-print(f"∂ℒ/∂θₐ = {counts[0]}/θₐ - λ = 0")
-print(f"Solving for θₐ: {counts[0]}/θₐ = λ")
-print(f"θₐ = {counts[0]}/λ")
+print("For θ_a:")
+print(f"∂ℒ/∂θ_a = {counts[0]}/θ_a - λ = 0")
+print(f"Solving for θ_a: {counts[0]}/θ_a = λ")
+print(f"θ_a = {counts[0]}/λ")
 
-print("For θᵦ:")
-print(f"∂ℒ/∂θᵦ = {counts[1]}/θᵦ - λ = 0")
-print(f"Solving for θᵦ: {counts[1]}/θᵦ = λ")
-print(f"θᵦ = {counts[1]}/λ")
+print("For θ_b:")
+print(f"∂ℒ/∂θ_b = {counts[1]}/θ_b - λ = 0")
+print(f"Solving for θ_b: {counts[1]}/θ_b = λ")
+print(f"θ_b = {counts[1]}/λ")
 
-print("For θc:")
-print(f"∂ℒ/∂θc = {counts[2]}/θc - λ = 0")
-print(f"Solving for θc: {counts[2]}/θc = λ")
-print(f"θc = {counts[2]}/λ")
+print("For θ_c:")
+print(f"∂ℒ/∂θ_c = {counts[2]}/θ_c - λ = 0")
+print(f"Solving for θ_c: {counts[2]}/θ_c = λ")
+print(f"θ_c = {counts[2]}/λ")
 
 print("For λ (the constraint):")
-print(f"∂ℒ/∂λ = -(θₐ + θᵦ + θc - 1) = 0")
-print(f"θₐ + θᵦ + θc = 1")
+print(f"∂ℒ/∂λ = -(θ_a + θ_b + θ_c - 1) = 0")
+print(f"θ_a + θ_b + θ_c = 1")
 
 print("\nStep 5: Solve the system of equations")
-print("Substitute the expressions for θₐ, θᵦ, and θc into the constraint:")
-print(f"θₐ + θᵦ + θc = {counts[0]}/λ + {counts[1]}/λ + {counts[2]}/λ = 1")
+print("Substitute the expressions for θ_a, θ_b, and θ_c into the constraint:")
+print(f"θ_a + θ_b + θ_c = {counts[0]}/λ + {counts[1]}/λ + {counts[2]}/λ = 1")
 print(f"({counts[0]} + {counts[1]} + {counts[2]})/λ = 1")
 print(f"{sum(counts)}/λ = 1")
 print(f"λ = {sum(counts)}")
 
 print("\nStep 6: Calculate the MLE values")
-print(f"θₐ = {counts[0]}/λ = {counts[0]}/{sum(counts)} = {counts[0]/sum(counts)}")
-print(f"θᵦ = {counts[1]}/λ = {counts[1]}/{sum(counts)} = {counts[1]/sum(counts)}")
-print(f"θc = {counts[2]}/λ = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts)}")
+print(f"θ_a = {counts[0]}/λ = {counts[0]}/{sum(counts)} = {counts[0]/sum(counts)}")
+print(f"θ_b = {counts[1]}/λ = {counts[1]}/{sum(counts)} = {counts[1]/sum(counts)}")
+print(f"θ_c = {counts[2]}/λ = {counts[2]}/{sum(counts)} = {counts[2]/sum(counts)}")
 
 print("\nStep 7: Verify that the solution is indeed a maximum")
 print("For a multinomial likelihood, the negative second derivatives of the log-likelihood are:")
-print(f"∂²(log L)/∂θₐ² = -{counts[0]}/θₐ² < 0 (since both counts and probabilities are positive)")
-print(f"∂²(log L)/∂θᵦ² = -{counts[1]}/θᵦ² < 0")
-print(f"∂²(log L)/∂θc² = -{counts[2]}/θc² < 0")
+print(f"∂²(log L)/∂θ_a² = -{counts[0]}/θ_a² < 0 (since both counts and probabilities are positive)")
+print(f"∂²(log L)/∂θ_b² = -{counts[1]}/θ_b² < 0")
+print(f"∂²(log L)/∂θ_c² = -{counts[2]}/θ_c² < 0")
 print("Since these second derivatives are negative, the critical point is indeed a maximum.")
 
 print("\nStep 8: Intuitive explanation of the MLE result")
@@ -248,12 +248,12 @@ for bar, count in zip(bars, counts):
 ax2 = fig_mle.add_subplot(gs[0, 1])
 
 # Create a contour plot of likelihood function
-# We'll fix theta_c = 1 - theta_a - theta_b and plot in 2D
+# We'll fix θ_c = 1 - θ_a - θ_b and plot in 2D
 theta_a_range = np.linspace(0.01, 0.99, 100)
 theta_b_range = np.linspace(0.01, 0.99, 100)
 theta_a_grid, theta_b_grid = np.meshgrid(theta_a_range, theta_b_range)
 
-# Calculate theta_c and mask invalid values
+# Calculate θ_c and mask invalid values
 theta_c_grid = 1 - theta_a_grid - theta_b_grid
 mask = (theta_c_grid > 0)  # Only keep points where all probabilities are positive
 
@@ -271,8 +271,8 @@ for i in range(len(theta_a_range)):
 contour = ax2.contourf(theta_a_grid, theta_b_grid, log_likelihood_grid, levels=20, cmap='viridis')
 plt.colorbar(contour, ax=ax2)
 ax2.set_title('Log-Likelihood Function')
-ax2.set_xlabel('θₐ (probability of A)')
-ax2.set_ylabel('θᵦ (probability of B)')
+ax2.set_xlabel(r'$\theta_{a}$ (probability of A)')
+ax2.set_ylabel(r'$\theta_{b}$ (probability of B)')
 
 # Mark the MLE point
 ax2.scatter(mle_probs[0], mle_probs[1], color='red', s=100, marker='*', label='MLE')
@@ -281,25 +281,25 @@ ax2.annotate(f'MLE: ({mle_probs[0]}, {mle_probs[1]})',
            textcoords='offset points', color='red',
            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="red", alpha=0.8))
 
-# Add constraint line θₐ + θᵦ + θc = 1 which in 2D is θₐ + θᵦ = 1 - θc which simplifies to θₐ + θᵦ = 1
+# Add constraint line θ_a + θ_b + θ_c = 1 which in 2D is θ_a + θ_b = 1 - θ_c which simplifies to θ_a + θ_b = 1
 constraint_x = np.linspace(0, 1, 100)
 constraint_y = 1 - constraint_x
-ax2.plot(constraint_x, constraint_y, 'r--', linewidth=2, label='Constraint: θₐ + θᵦ + θc = 1')
+ax2.plot(constraint_x, constraint_y, 'r--', linewidth=2, label=r'Constraint: $\theta_{a} + \theta_{b} + \theta_{c} = 1$')
 ax2.legend(loc='upper right')
 
 # Print the explanation for the Lagrangian rather than adding it to the plot
 print("\nLagrangian method for MLE of categorical distribution:")
-print("1. Lagrangian: L = 50log(θₐ) + 30log(θᵦ) + 20log(θc) - λ(θₐ + θᵦ + θc - 1)")
+print("1. Lagrangian: L = 50log(θ_a) + 30log(θ_b) + 20log(θ_c) - λ(θ_a + θ_b + θ_c - 1)")
 print("\n2. Partial derivatives:")
-print("   ∂L/∂θₐ = 50/θₐ - λ = 0")
-print("   ∂L/∂θᵦ = 30/θᵦ - λ = 0")
-print("   ∂L/∂θc = 20/θc - λ = 0") 
-print("   ∂L/∂λ = θₐ + θᵦ + θc - 1 = 0")
+print("   ∂L/∂θ_a = 50/θ_a - λ = 0")
+print("   ∂L/∂θ_b = 30/θ_b - λ = 0")
+print("   ∂L/∂θ_c = 20/θ_c - λ = 0") 
+print("   ∂L/∂λ = θ_a + θ_b + θ_c - 1 = 0")
 print("\n3. From first three equations:")
-print("   θₐ = 50/λ, θᵦ = 30/λ, θc = 20/λ")
+print("   θ_a = 50/λ, θ_b = 30/λ, θ_c = 20/λ")
 print("   Substituting into constraint: 50/λ + 30/λ + 20/λ = 1")
 print("   100/λ = 1, therefore λ = 100")
-print("   θₐ = 50/100 = 0.5, θᵦ = 30/100 = 0.3, θc = 20/100 = 0.2")
+print("   θ_a = 50/100 = 0.5, θ_b = 30/100 = 0.3, θ_c = 20/100 = 0.2")
 
 # Add title to the visualization
 fig_mle.suptitle('Maximum Likelihood Estimation for Categorical Distribution', fontsize=16)
@@ -313,7 +313,7 @@ save_figure(fig_mle, "step1_MLE_derivation.png")
 print_section_header("STEP 2: Calculate the Entropy of the MLE Distribution")
 
 print("Step 2.1: Apply the entropy formula")
-print("H(X) = -∑ P(xᵢ)log₂(P(xᵢ))")
+print("H(X) = -∑ P(x_i)log₂(P(x_i))")
 
 print("\nFor our MLE distribution:")
 print(f"H(X) = -[P(A)log₂(P(A)) + P(B)log₂(P(B)) + P(C)log₂(P(C))]")
@@ -563,8 +563,8 @@ print_section_header("STEP 5: Relate MLE to Cross-Entropy Minimization")
 
 print("Step 5.1: Express the likelihood in terms of cross-entropy")
 print("\nThe log-likelihood for a categorical distribution can be written as:")
-print("log L(θ | data) = ∑ nᵢ log θᵢ")
-print(f"For our dataset: log L(θ | data) = {counts[0]} log θₐ + {counts[1]} log θᵦ + {counts[2]} log θc")
+print("log L(θ | data) = ∑ n_i log θ_i")
+print(f"For our dataset: log L(θ | data) = {counts[0]} log θ_a + {counts[1]} log θ_b + {counts[2]} log θ_c")
 
 # Define the empirical distribution q based on observed data
 empirical_dist = {cat: count/total_examples for cat, count in zip(categories, counts)}
@@ -573,11 +573,11 @@ for cat, prob in empirical_dist.items():
     print(f"q({cat}) = {counts[categories.index(cat)]}/{total_examples} = {prob}")
 
 print("\nWe can rewrite the log-likelihood as:")
-print("log L(θ | data) = n × ∑ q(i) log θᵢ")
-print(f"log L(θ | data) = {total_examples} × [{empirical_dist['A']} log θₐ + {empirical_dist['B']} log θᵦ + {empirical_dist['C']} log θc]")
+print("log L(θ | data) = n × ∑ q(i) log θ_i")
+print(f"log L(θ | data) = {total_examples} × [{empirical_dist['A']} log θ_a + {empirical_dist['B']} log θ_b + {empirical_dist['C']} log θ_c]")
 
 print("\nThe cross-entropy between distributions q and θ is defined as:")
-print("H(q, θ) = -∑ q(i) log θᵢ")
+print("H(q, θ) = -∑ q(i) log θ_i")
 
 print("\nTherefore:")
 print("log L(θ | data) = -n × H(q, θ)")
@@ -604,12 +604,12 @@ gs = GridSpec(2, 1, figure=fig_cross_entropy, height_ratios=[2, 1])
 # Top plot: Cross-entropy landscape
 ax1 = fig_cross_entropy.add_subplot(gs[0])
 
-# We'll fix theta_c = 1 - theta_a - theta_b and plot in 2D as we did for likelihood
+# We'll fix θ_c = 1 - θ_a - θ_b and plot in 2D as we did for likelihood
 theta_a_range = np.linspace(0.01, 0.99, 100)
 theta_b_range = np.linspace(0.01, 0.99, 100)
 theta_a_grid, theta_b_grid = np.meshgrid(theta_a_range, theta_b_range)
 
-# Calculate theta_c and mask invalid values
+# Calculate θ_c and mask invalid values
 theta_c_grid = 1 - theta_a_grid - theta_b_grid
 mask = (theta_c_grid > 0)  # Only keep points where all probabilities are positive
 
@@ -627,8 +627,8 @@ for i in range(len(theta_a_range)):
 contour = ax1.contourf(theta_a_grid, theta_b_grid, cross_entropy_grid, levels=20, cmap='plasma')
 plt.colorbar(contour, ax=ax1, label='Cross-Entropy H(q, θ)')
 ax1.set_title('Cross-Entropy Landscape')
-ax1.set_xlabel('θₐ (probability of A)')
-ax1.set_ylabel('θᵦ (probability of B)')
+ax1.set_xlabel(r'$\theta_{a}$ (probability of A)')
+ax1.set_ylabel(r'$\theta_{b}$ (probability of B)')
 
 # Mark the MLE point (which minimizes cross-entropy)
 ax1.scatter(mle_probs[0], mle_probs[1], color='lime', s=100, marker='*')
@@ -640,14 +640,14 @@ ax1.annotate(f'MLE: ({mle_probs[0]}, {mle_probs[1]})',
 # Add constraint line
 constraint_x = np.linspace(0, 1, 100)
 constraint_y = 1 - constraint_x
-ax1.plot(constraint_x, constraint_y, 'w--', linewidth=2, label='Constraint: θₐ + θᵦ + θc = 1')
+ax1.plot(constraint_x, constraint_y, 'w--', linewidth=2, label=r'Constraint: $\theta_{a} + \theta_{b} + \theta_{c} = 1$')
 ax1.legend(loc='upper right')
 
 # Print the explanation of relationship instead of putting it in the figure
 print("\nDetailed derivation of MLE and cross-entropy relationship (pen-and-paper style):")
 
 print("\nStep 1: Start with the log-likelihood function")
-print(f"log L(θ | data) = {counts[0]}log(θₐ) + {counts[1]}log(θᵦ) + {counts[2]}log(θc)")
+print(f"log L(θ | data) = {counts[0]}log(θ_a) + {counts[1]}log(θ_b) + {counts[2]}log(θ_c)")
 
 print("\nStep 2: Express counts in terms of empirical probabilities")
 print(f"Let q(i) be the empirical probability of category i:")
@@ -655,24 +655,24 @@ for cat, prob in empirical_dist.items():
     print(f"q({cat}) = {counts[categories.index(cat)]}/{total_examples} = {prob}")
 
 print("\nStep 3: Rewrite log-likelihood using empirical probabilities")
-print(f"For each count nᵢ, we can write: nᵢ = n × q(i)")
+print(f"For each count n_i, we can write: n_i = n × q(i)")
 print(f"Where n = {total_examples} is the total number of examples")
-print(f"So n₁ = {total_examples} × q(A) = {total_examples} × {empirical_dist['A']} = {counts[0]}")
-print(f"Similarly for n₂ and n₃")
+print(f"So n_a = {total_examples} × q(A) = {total_examples} × {empirical_dist['A']} = {counts[0]}")
+print(f"Similarly for n_b and n_c")
 
 print("\nStep 4: Substitute into log-likelihood")
-print(f"log L(θ | data) = {total_examples} × q(A) × log(θₐ) + {total_examples} × q(B) × log(θᵦ) + {total_examples} × q(C) × log(θc)")
-print(f"log L(θ | data) = {total_examples} × [q(A)log(θₐ) + q(B)log(θᵦ) + q(C)log(θc)]")
-print(f"log L(θ | data) = {total_examples} × [Σᵢ q(i)log(θᵢ)]")
+print(f"log L(θ | data) = {total_examples} × q(A) × log(θ_a) + {total_examples} × q(B) × log(θ_b) + {total_examples} × q(C) × log(θ_c)")
+print(f"log L(θ | data) = {total_examples} × [q(A)log(θ_a) + q(B)log(θ_b) + q(C)log(θ_c)]")
+print(f"log L(θ | data) = {total_examples} × [Σ_i q(i)log(θ_i)]")
 
 print("\nStep 5: Identify the cross-entropy term")
 print("The cross-entropy between distributions q and θ is defined as:")
-print("H(q, θ) = -Σᵢ q(i)log(θᵢ)")
+print("H(q, θ) = -Σ_i q(i)log(θ_i)")
 
 print("\nStep 6: Express log-likelihood in terms of cross-entropy")
 print("From steps 4 and 5:")
-print("log L(θ | data) = n × [Σᵢ q(i)log(θᵢ)]")
-print("                = n × [-(-Σᵢ q(i)log(θᵢ))]")
+print("log L(θ | data) = n × [Σ_i q(i)log(θ_i)]")
+print("                = n × [-(-Σ_i q(i)log(θ_i))]")
 print("                = n × [-H(q, θ)]")
 print("                = -n × H(q, θ)")
 
@@ -754,14 +754,14 @@ for n in sample_sizes:
 print("\nDetailed mathematical analysis of MLE properties (pen-and-paper style):")
 
 print("\nProperty 1: Consistency - Mathematical Formulation")
-print("A sequence of estimators θ̂ₙ is consistent if it converges in probability to the true parameter θ as n→∞:")
-print("P(|θ̂ₙ - θ| > ε) → 0 as n → ∞, for any ε > 0")
+print("A sequence of estimators θ̂_n is consistent if it converges in probability to the true parameter θ as n→∞:")
+print("P(|θ̂_n - θ| > ε) → 0 as n → ∞, for any ε > 0")
 print("For a categorical distribution with k categories, the MLE is:")
-print("θ̂ᵢ = xᵢ/n, where xᵢ is the count of category i in a sample of size n")
+print("θ̂_i = x_i/n, where x_i is the count of category i in a sample of size n")
 
 print("\nProof sketch of consistency for categorical MLE:")
-print("1. By the Law of Large Numbers, the sample proportion xᵢ/n converges in probability to the true probability θᵢ")
-print("2. Since θ̂ᵢ = xᵢ/n, the MLE θ̂ᵢ also converges in probability to θᵢ")
+print("1. By the Law of Large Numbers, the sample proportion x_i/n converges in probability to the true probability θ_i")
+print("2. Since θ̂_i = x_i/n, the MLE θ̂_i also converges in probability to θ_i")
 print("3. This holds for all categories i = 1, 2, ..., k, so the entire parameter vector is consistent")
 
 print("\nNumerical demonstration of consistency:")
@@ -778,18 +778,18 @@ print("√n(θ̂ - θ) → N(0, I(θ)⁻¹) as n → ∞")
 print("where I(θ) is the Fisher Information Matrix")
 
 print("\nFor a categorical distribution, the Fisher Information Matrix is diagonal with elements:")
-print("I(θ)ᵢᵢ = n/θᵢ for i=1,2,...,k-1 (considering k-1 parameters due to the constraint Σᵢθᵢ = 1)")
-print("The asymptotic variance of θ̂ᵢ is θᵢ(1-θᵢ)/n")
+print("I(θ)__ = n/θ_i for i=1,2,...,k-1 (considering k-1 parameters due to the constraint Σ_iθ_i = 1)")
+print("The asymptotic variance of θ̂_i is θ_i(1-θ_i)/n")
 
 print("\nDerivation of asymptotic variance for categorical MLE:")
 print("1. The log-likelihood for a multinomial/categorical distribution is:")
-print("   l(θ) = constant + Σᵢ xᵢlog(θᵢ)")
-print("2. The score function (first derivative) for each θᵢ is:")
-print("   ∂l/∂θᵢ = xᵢ/θᵢ")
+print("   l(θ) = constant + Σ_i x_i log(θ_i)")
+print("2. The score function (first derivative) for each θ_i is:")
+print("   ∂l/∂θ_i = x_i/θ_i")
 print("3. The Fisher information (negative expected second derivative) is:")
-print("   I(θ)ᵢᵢ = E[-∂²l/∂θᵢ²] = E[xᵢ/θᵢ²] = n×θᵢ/θᵢ² = n/θᵢ")
-print("4. Accounting for the constraint Σᵢθᵢ = 1, the asymptotic variance becomes:")
-print("   Var(θ̂ᵢ) = θᵢ(1-θᵢ)/n")
+print("   I(θ)__ = E[-∂²l/∂θ_i²] = E[x_i/θ_i²] = n×θ_i/θ_i² = n/θ_i")
+print("4. Accounting for the constraint Σ_iθ_i = 1, the asymptotic variance becomes:")
+print("   Var(θ̂_i) = θ_i(1-θ_i)/n")
 
 print("\nNumerical demonstration of asymptotic normality:")
 print("For category A with true probability", true_probs[0])
@@ -818,14 +818,14 @@ print("Var(θ̂) ≥ 1/I(θ)")
 print("where I(θ) is the Fisher Information")
 
 print("\nFor a categorical distribution:")
-print("1. The Cramér-Rao lower bound for Var(θ̂ᵢ) is θᵢ(1-θᵢ)/n")
-print("2. The MLE θ̂ᵢ = xᵢ/n has Var(θ̂ᵢ) = θᵢ(1-θᵢ)/n")
+print("1. The Cramér-Rao lower bound for Var(θ̂_i) is θ_i(1-θ_i)/n")
+print("2. The MLE θ̂_i = x_i/n has Var(θ̂_i) = θ_i(1-θ_i)/n")
 print("3. Since the variance equals the lower bound, the MLE is efficient")
 
 print("\nEfficiency comparison:")
 print("Consider two estimators for the probability of category A:")
-print("1. MLE: θ̂ₐ = xₐ/n")
-print("2. Alternative estimator: θ̃ₐ = (xₐ+1)/(n+3) (a shrinkage estimator)")
+print("1. MLE: θ̂_a = x_a/n")
+print("2. Alternative estimator: θ̃_a = (x_a+1)/(n+3) (a shrinkage estimator)")
 
 n_test = 1000
 var_mle = true_probs[0] * (1 - true_probs[0]) / n_test
