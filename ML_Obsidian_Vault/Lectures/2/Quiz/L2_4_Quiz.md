@@ -483,7 +483,9 @@ For a detailed explanation, see [Question 28: One-Hot Encoding and Maximum Likel
 ## Question 29
 
 ### Problem Statement
-Consider a dataset of 100 examples with three possible categories: A, B, and C. Two encoding schemes are proposed:
+Consider a dataset of 100 examples with three possible categories: A, B, and C. The dataset contains: 50 instances of A, 30 instances of B, and 20 instances of C.
+
+Two encoding schemes are proposed for representing these categories:
 
 **Scheme 1 (One-hot):** 
 - A = $[1,0,0]$
@@ -495,19 +497,19 @@ Consider a dataset of 100 examples with three possible categories: A, B, and C. 
 - B = $[0,1]$
 - C = $[1,0]$
 
-The dataset contains: 50 instances of A, 30 instances of B, and 20 instances of C.
-
 #### Task
-1. Calculate the entropy of the class distribution in bits using:
+1. Derive the maximum likelihood estimator (MLE) for the probability distribution of the three categories based on the given data. Show your work.
+
+2. Calculate the entropy of the MLE distribution in bits using:
    $$H(X) = -\sum_{i} P(x_i) \log_2 P(x_i)$$
 
-2. How many bits are required to store the entire dataset using Scheme 1?
-
-3. How many bits are required to store the entire dataset using Scheme 2?
+3. If we were to sample a new set of 100 examples from this MLE distribution, how many bits would be required to store the entire dataset using Scheme 1 vs. Scheme 2?
 
 4. Which encoding is more efficient, and by how much? Calculate the percentage reduction in bits:
    $$\text{Reduction} = \frac{\text{Bits}_{\text{Scheme 1}} - \text{Bits}_{\text{Scheme 2}}}{\text{Bits}_{\text{Scheme 1}}} \times 100\%$$
 
-5. Is the binary encoding scheme lossless? Explain why or why not.
+5. Explain how MLE relates to the concept of cross-entropy minimization. How would you express the likelihood function for this categorical distribution in terms of cross-entropy?
 
-For a detailed explanation, see [Question 29: One-Hot Encoding and Information Theory](L2_4_29_explanation.md).
+6. Discuss how properties of MLE (consistency, asymptotic normality) relate to this example as we increase the sample size.
+
+For a detailed explanation, see [Question 29: Maximum Likelihood Estimation for Categorical Data](L2_4_29_explanation.md).
