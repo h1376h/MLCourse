@@ -441,4 +441,192 @@ print("For 0-1 Loss: The decision threshold is p = 0.5")
 print("For Asymmetric Loss: The decision threshold is p = 1/3")
 print("\nWith p = 0.4:")
 print("- Using 0-1 loss: Predict fail (ŷ=0)")
-print("- Using asymmetric loss: Predict pass (ŷ=1)") 
+print("- Using asymmetric loss: Predict pass (ŷ=1)")
+
+# Task 5: MAP Approach with Prior Belief
+print_step_header(7, "MAP Approach with Prior Belief")
+print("Assuming we have a prior belief that 70% of students pass on average, we can use MAP estimation.")
+print("This will incorporate our prior belief with the model's output probability.")
+
+print_substep("Deriving the MAP decision threshold")
+
+prior_pass_rate = 0.7  # Prior belief that 70% of students pass
+prior_fail_rate = 1 - prior_pass_rate  # Prior belief that 30% of students fail
+
+# Function to convert model probability to posterior using Bayes' theorem
+def model_to_posterior(p, prior_pass_rate=0.7):
+    """Convert model probability to posterior probability using Bayes' theorem
+    
+    Args:
+        p: Model probability (likelihood) of passing
+        prior_pass_rate: Prior belief of pass rate
+        
+    Returns:
+        Posterior probability of passing
+    """
+    prior_fail_rate = 1 - prior_pass_rate
+    numerator = p * prior_pass_rate
+    denominator = p * prior_pass_rate + (1-p) * prior_fail_rate
+    return numerator / denominator
+
+# Calculate the threshold for 0-1 loss with MAP
+map_derivation_steps = [
+    "Using Bayes' theorem to incorporate our prior belief:",
+    "P(y=1|x) = [P(x|y=1) × P(y=1)] / P(x)",
+    "P(y=1|x) = [p × 0.7] / [p × 0.7 + (1-p) × 0.3]",
+    "",
+    "For 0-1 loss, we predict pass if P(y=1|x) > 0.5:",
+    "0.5 = [p × 0.7] / [p × 0.7 + (1-p) × 0.3]",
+    "0.5 × [p × 0.7 + (1-p) × 0.3] = p × 0.7",
+    "0.35p + 0.15(1-p) = 0.7p",
+    "0.35p + 0.15 - 0.15p = 0.7p",
+    "0.2p + 0.15 = 0.7p",
+    "0.15 = 0.5p",
+    "p = 0.3",
+    "",
+    "Therefore, with a prior of 70% passing, we predict pass if p > 0.3 (instead of p > 0.5)",
+    "",
+    "For asymmetric loss, we predict pass if P(y=1|x) > 1/3:",
+    "1/3 = [p × 0.7] / [p × 0.7 + (1-p) × 0.3]",
+    "(1/3) × [p × 0.7 + (1-p) × 0.3] = p × 0.7",
+    "(0.7p + 0.3 - 0.3p)/3 = 0.7p",
+    "(0.4p + 0.3)/3 = 0.7p",
+    "0.4p + 0.3 = 2.1p",
+    "0.3 = 1.7p",
+    "p ≈ 0.176",
+    "",
+    "Therefore, with a prior of 70% passing, we predict pass if p > 0.176 (instead of p > 1/3)"
+]
+
+print_derivation("MAP Threshold Derivation with Prior = 0.7", map_derivation_steps)
+
+# Function to calculate the model probability threshold for a given posterior threshold and prior
+def posterior_to_model_threshold(posterior_threshold, prior_pass_rate):
+    """
+    Calculate the model probability threshold that gives the specified posterior threshold
+    
+    Args:
+        posterior_threshold: The threshold for the posterior probability (e.g., 0.5 for 0-1 loss)
+        prior_pass_rate: Prior belief of pass rate
+        
+    Returns:
+        Model probability threshold
+    """
+    prior_fail_rate = 1 - prior_pass_rate
+    numerator = posterior_threshold * prior_fail_rate
+    denominator = prior_pass_rate * (1 - posterior_threshold) + posterior_threshold * prior_fail_rate
+    return numerator / denominator
+
+# Calculate thresholds for our example
+zero_one_map_threshold = posterior_to_model_threshold(0.5, prior_pass_rate)
+asymmetric_map_threshold = posterior_to_model_threshold(1/3, prior_pass_rate)
+
+print("\nWith a prior belief of 70% pass rate:")
+print(f"  * 0-1 loss MAP threshold: p > {zero_one_map_threshold:.4f} (original was p > 0.5000)")
+print(f"  * Asymmetric loss MAP threshold: p > {asymmetric_map_threshold:.4f} (original was p > 0.3333)")
+
+# Visualize how different priors affect the decision threshold
+print_substep("Visualizing the impact of different priors on decision thresholds")
+
+prior_values = np.linspace(0.01, 0.99, 100)  # Range of possible priors
+
+# Calculate model threshold for each prior for both loss functions
+zero_one_thresholds = [posterior_to_model_threshold(0.5, prior) for prior in prior_values]
+asymmetric_thresholds = [posterior_to_model_threshold(1/3, prior) for prior in prior_values]
+
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(prior_values, zero_one_thresholds, 'b-', linewidth=2, label='0-1 Loss')
+ax.plot(prior_values, asymmetric_thresholds, 'r-', linewidth=2, label='Asymmetric Loss')
+
+# Add vertical line for our prior of 0.7
+ax.axvline(x=prior_pass_rate, color='g', linestyle='--', linewidth=2)
+ax.text(prior_pass_rate+0.01, 0.8, f'Prior = {prior_pass_rate}', rotation=90, fontsize=10, color='green')
+
+# Add horizontal lines for original thresholds
+ax.axhline(y=0.5, color='b', linestyle=':', linewidth=1)
+ax.axhline(y=1/3, color='r', linestyle=':', linewidth=1)
+
+# Add markers for our example
+ax.plot(prior_pass_rate, zero_one_map_threshold, 'bo', markersize=8)
+ax.plot(prior_pass_rate, asymmetric_map_threshold, 'ro', markersize=8)
+
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.set_xlabel('Prior Probability of Passing', fontsize=12)
+ax.set_ylabel('Model Probability Threshold', fontsize=12)
+ax.set_title('Impact of Prior Belief on Decision Thresholds', fontsize=14)
+ax.grid(True, linestyle='--', alpha=0.7)
+ax.legend(fontsize=12)
+
+# Add annotations
+ax.annotate('Equal prior (0.5)', xy=(0.5, 0.47), xytext=(0.4, 0.6),
+            arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=8), fontsize=10)
+
+plt.tight_layout()
+save_figure(fig, "map_thresholds.png")
+plt.close(fig)
+
+# Visualize how the prior transforms model probabilities into posteriors
+print_substep("Visualizing how the prior transforms model probabilities")
+
+model_probs = np.linspace(0, 1, 100)
+posterior_probs = [model_to_posterior(p, prior_pass_rate) for p in model_probs]
+
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Plot the transformation curve
+ax.plot(model_probs, posterior_probs, 'b-', linewidth=3, label=f'Prior = {prior_pass_rate}')
+
+# Add the identity line (no prior effect)
+ax.plot([0, 1], [0, 1], 'k--', alpha=0.5, label='No prior (Prior = 0.5)')
+
+# Add horizontal lines for decision thresholds
+ax.axhline(y=0.5, color='b', linestyle='--', linewidth=1, label='0-1 Loss Threshold')
+ax.axhline(y=1/3, color='r', linestyle='--', linewidth=1, label='Asymmetric Loss Threshold')
+
+# Add vertical lines for model thresholds
+ax.axvline(x=zero_one_map_threshold, color='b', linestyle=':', linewidth=1)
+ax.axvline(x=asymmetric_map_threshold, color='r', linestyle=':', linewidth=1)
+
+# Add point for example p=0.4
+example_posterior = model_to_posterior(p_example, prior_pass_rate)
+ax.plot(p_example, example_posterior, 'go', markersize=10, label=f'Example: p={p_example}')
+
+# Add grid lines and labels
+ax.grid(True, linestyle='--', alpha=0.7)
+ax.set_xlabel('Model Probability (Likelihood)', fontsize=12)
+ax.set_ylabel('Posterior Probability with Prior', fontsize=12)
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.legend(fontsize=10, loc='lower right')
+ax.set_title(f'Transformation of Model Probabilities with Prior={prior_pass_rate}', fontsize=14)
+
+# Add annotations
+ax.annotate(f'p_MAP = {example_posterior:.2f}', xy=(p_example, example_posterior), 
+            xytext=(p_example-0.3, example_posterior+0.1),
+            arrowprops=dict(facecolor='green', shrink=0.05, width=1.5, headwidth=8), fontsize=10)
+
+plt.tight_layout()
+save_figure(fig, "map_decision_example.png")
+plt.close(fig)
+
+print("\nGraph Interpretations:")
+print("1. Impact of Prior on Decision Thresholds:")
+print(f"  * With a prior of {prior_pass_rate}, the 0-1 loss threshold is reduced from 0.5 to {zero_one_map_threshold:.4f}")
+print(f"  * With a prior of {prior_pass_rate}, the asymmetric loss threshold is reduced from 0.333 to {asymmetric_map_threshold:.4f}")
+print("  * As the prior belief in passing increases, we need less evidence from the model to predict pass")
+print("  * When the prior is 0.5 (no preference), the thresholds match our original calculations")
+
+print("\n2. MAP Decision with p=0.4:")
+print(f"  * Model probability: p = {p_example}")
+print(f"  * Posterior with prior={prior_pass_rate}: p_MAP = {example_posterior:.4f}")
+print("  * This posterior exceeds both thresholds (0.5 for 0-1 loss and 1/3 for asymmetric loss)")
+print("  * Therefore, under MAP with our prior, we predict pass for both loss functions")
+print("  * This changes our decision for the 0-1 loss function compared to the original approach")
+
+print("\nConclusion:")
+print("The MAP approach with a prior belief of 70% passing shifts our decision boundaries,")
+print("making us more likely to predict that students will pass. This is because our prior belief")
+print("incorporates domain knowledge (that most students pass this exam) into the decision-making process.")
+print("When p = 0.4, the original approach with 0-1 loss would predict fail, but the MAP approach")
+print("with our prior would predict pass, demonstrating the impact of incorporating prior beliefs.") 

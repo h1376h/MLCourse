@@ -12,6 +12,7 @@ We can make decisions using different loss functions:
 2. For the asymmetric loss function, derive the decision rule that minimizes the expected loss. At what probability threshold should we predict class 1?
 3. Explain why these thresholds differ and what this means in practical terms for the student.
 4. If our model gives a probability $p = 0.4$ that a student will pass, what decision would minimize expected loss under each loss function?
+5. Assuming we have a prior belief that 70% of students pass this exam on average, use the Maximum A Posteriori (MAP) approach to derive a new decision threshold that incorporates this prior with the model's output probability. Explain how this threshold compares with the ones from Tasks 1 and 2 and provide a visualization showing how different priors would affect the decision boundaries.
 
 ## Understanding the Problem
 
@@ -236,6 +237,87 @@ This visualization shows the decision regions for both loss functions:
 - The red circle on the top bar indicates that with 0-1 loss and $p = 0.4$, we predict fail
 - The blue circle on the bottom bar indicates that with asymmetric loss and $p = 0.4$, we predict pass
 
+### Step 5: MAP Approach with Prior Belief
+
+In the previous steps, we derived decision rules based solely on the model's output probability $p$ (which is actually a likelihood in this context, not a posterior probability). Now, we'll incorporate a prior belief about the pass rate to obtain a Maximum A Posteriori (MAP) estimate.
+
+Assuming we have a prior belief that 70% of students pass this exam on average, we need to incorporate this with our model's output using Bayes' theorem:
+
+$$P(y=1|x) = \frac{P(x|y=1) \cdot P(y=1)}{P(x)}$$
+
+Where:
+- $P(y=1|x)$ is the posterior probability of passing given the features $x$
+- $P(x|y=1)$ is the likelihood of observing features $x$ given that the student passes
+- $P(y=1)$ is our prior belief that a student passes (0.7 in this case)
+- $P(x)$ is the evidence (normalizing constant)
+
+In our notation from previous steps, the model outputs $p$, which represents $P(x|y=1)$, the likelihood. We need to convert this to a posterior probability using our prior:
+
+$$P(y=1|x) = \frac{p \cdot 0.7}{p \cdot 0.7 + (1-p) \cdot 0.3}$$
+
+Let's denote this posterior probability as $p_{MAP}$. For our decision rules, we would replace $p$ with $p_{MAP}$ in the calculations.
+
+For the 0-1 loss function, the threshold becomes:
+- Predict pass ($\hat{y}=1$) if $p_{MAP} > 0.5$
+
+Solving for the original model probability $p$ that would give $p_{MAP} = 0.5$:
+
+$$0.5 = \frac{p \cdot 0.7}{p \cdot 0.7 + (1-p) \cdot 0.3}$$
+$$0.5 \cdot (p \cdot 0.7 + (1-p) \cdot 0.3) = p \cdot 0.7$$
+$$0.35p + 0.15(1-p) = 0.7p$$
+$$0.35p + 0.15 - 0.15p = 0.7p$$
+$$0.2p + 0.15 = 0.7p$$
+$$0.15 = 0.5p$$
+$$p = 0.3$$
+
+Therefore, with our prior belief that 70% of students pass, we only need a model probability of $p > 0.3$ to predict pass using the 0-1 loss function, lower than the original threshold of 0.5.
+
+For the asymmetric loss function, the threshold becomes:
+- Predict pass ($\hat{y}=1$) if $p_{MAP} > \frac{1}{3}$
+
+Solving for the original model probability $p$ that would give $p_{MAP} = \frac{1}{3}$:
+
+$$\frac{1}{3} = \frac{p \cdot 0.7}{p \cdot 0.7 + (1-p) \cdot 0.3}$$
+$$\frac{1}{3} \cdot (p \cdot 0.7 + (1-p) \cdot 0.3) = p \cdot 0.7$$
+$$\frac{0.7p + 0.3(1-p)}{3} = 0.7p$$
+$$\frac{0.7p + 0.3 - 0.3p}{3} = 0.7p$$
+$$\frac{0.4p + 0.3}{3} = 0.7p$$
+$$0.4p + 0.3 = 2.1p$$
+$$0.3 = 1.7p$$
+$$p \approx 0.176$$
+
+Therefore, with our prior belief that 70% of students pass, we only need a model probability of $p > 0.176$ to predict pass using the asymmetric loss function, much lower than the original threshold of $\frac{1}{3}$.
+
+This demonstrates how incorporating a prior belief shifts our decision thresholds. In this case, since our prior belief favors passing (70%), we require less evidence from the model (lower model probability) to predict that a student will pass.
+
+![Impact of Prior on Decision Thresholds](../Images/L2_7_Quiz_29/map_thresholds.png)
+
+This visualization shows how different prior beliefs about the pass rate affect the decision thresholds for both loss functions:
+- The x-axis represents different prior beliefs about the pass rate
+- The y-axis shows the required model probability threshold for predicting pass
+- The blue line shows the threshold for the 0-1 loss function
+- The red line shows the threshold for the asymmetric loss function
+- The vertical dashed green line marks our example prior of 0.7
+- As the prior belief that students pass increases, the threshold required from the model decreases
+- When the prior is 0.5 (no preference), the thresholds match our original calculations (0.5 for 0-1 loss, 1/3 for asymmetric loss)
+
+For our specific example with a prior of 0.7 and model probability $p = 0.4$:
+- Under 0-1 loss: $p = 0.4 > 0.3$, so we predict pass (unlike the original decision without the prior)
+- Under asymmetric loss: $p = 0.4 > 0.176$, so we predict pass (same as the original decision)
+
+The MAP approach effectively shifts our decision boundary by incorporating our prior beliefs, which in this case leads to more predictions of passing when we believe most students pass on average.
+
+![MAP Decision with p=0.4](../Images/L2_7_Quiz_29/map_decision_example.png)
+
+This graph shows:
+- The posterior probability $p_{MAP}$ (y-axis) for different model probabilities $p$ (x-axis)
+- The blue curve shows how the model probability is transformed by our prior belief of 0.7 pass rate
+- The horizontal dashed lines show the decision thresholds (0.5 for 0-1 loss, 1/3 for asymmetric loss)
+- The vertical dashed lines show the corresponding thresholds on the original model probability
+- The green dot marks our example with model probability p = 0.4, yielding a posterior probability higher than both thresholds
+
+This visualization clearly shows how incorporating the prior belief shifts the decision boundaries, effectively lowering the threshold required from the model probability.
+
 ## Key Insights
 
 ### Theoretical Foundations
@@ -243,23 +325,31 @@ This visualization shows the decision regions for both loss functions:
 - For symmetric loss functions like 0-1 loss, the decision threshold is 0.5 (predict the most likely class).
 - For asymmetric loss functions, the threshold shifts to reflect the relative costs of different types of errors.
 - The general formula for the optimal threshold in binary classification is $p^* = \frac{C_{FP}}{C_{FP} + C_{FN}}$, where $C_{FP}$ is the cost of false positives and $C_{FN}$ is the cost of false negatives.
+- When using the MAP approach, prior beliefs about class distribution shift the decision thresholds, potentially leading to different decisions than those based solely on the model probability.
+- The MAP framework provides a principled way to combine prior knowledge with model outputs, leading to more informed decisions.
 
 ### Practical Applications
 - In educational settings, asymmetric loss functions better reflect real-world priorities, where missing an opportunity for a student might be considered worse than wasted effort.
 - Medical diagnostics often use asymmetric loss functions, where failing to diagnose a serious condition (false negative) may be much costlier than a false alarm (false positive).
 - Business decisions frequently involve asymmetric costs, such as in fraud detection where missing a fraud case (false negative) may be much more expensive than investigating a legitimate transaction (false positive).
+- Prior beliefs based on historical data or domain knowledge can be incorporated via MAP estimation to improve decision-making, especially when the model's evidence is weak or uncertain.
+- MAP estimation is particularly valuable in high-stakes decisions where we have reliable prior information and want to avoid extreme decisions based on limited evidence.
 
 ### Common Pitfalls
 - Using the standard 0.5 threshold when the costs of different errors are actually asymmetric.
 - Failing to explicitly consider the cost structure of errors in a specific domain.
 - Not communicating the expected loss to stakeholders, which is necessary for informed decision-making.
 - Assuming that model accuracy is the only relevant metric, when in fact expected loss may be more directly relevant to the business or application context.
+- Using inappropriate or unjustified priors in MAP estimation, which can bias decisions in undesirable ways.
+- Failing to update priors as new evidence becomes available, leading to decision inertia.
 
 ## Conclusion
 
 - The 0-1 loss function leads to a decision threshold of $p = 0.5$, meaning we predict the most likely class.
 - The asymmetric loss function, which penalizes missed opportunities more than wasted effort, leads to a lower threshold of $p = \frac{1}{3}$, making us more inclined to predict that students will pass.
 - For a probability of $p = 0.4$, the 0-1 loss function would lead us to predict fail, while the asymmetric loss function would lead us to predict pass.
-- This demonstrates how incorporating domain-specific costs into our loss functions can lead to different, and potentially more appropriate, decisions.
+- Incorporating a prior belief that 70% of students pass (using MAP estimation) shifts the decision thresholds to $p = 0.3$ for 0-1 loss and $p = 0.176$ for asymmetric loss, making us more likely to predict pass in both cases.
+- With MAP estimation and $p = 0.4$, we would predict pass for both loss functions, demonstrating how prior beliefs can change our decisions.
+- This demonstrates how incorporating domain-specific costs into our loss functions and prior knowledge into our decision process can lead to different, and potentially more appropriate, decisions.
 
-By understanding how to derive and apply optimal decision rules for different loss functions, we can make better predictions that align with the specific priorities and cost structures of our application domain. 
+By understanding how to derive and apply optimal decision rules for different loss functions and how to incorporate prior beliefs through MAP estimation, we can make better predictions that align with the specific priorities, cost structures, and domain knowledge of our application context. 
