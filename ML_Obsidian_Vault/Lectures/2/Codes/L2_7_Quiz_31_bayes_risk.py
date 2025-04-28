@@ -260,12 +260,42 @@ def compare_zero_one_loss():
     validate_calculation(expected_losses_01[1], expected_losses_01_calculated[1], "Zero-one loss R(a₂)")
     validate_calculation(expected_losses_01[2], expected_losses_01_calculated[2], "Zero-one loss R(a₃)")
     
+    # Show detailed calculation for zero-one loss
+    print("\nDetailed calculation for zero-one loss R(a₁):")
+    print(f"R(a₁) = {zero_one_loss_matrix[0,0]} × {initial_posteriors[0]} + {zero_one_loss_matrix[0,1]} × {initial_posteriors[1]} + {zero_one_loss_matrix[0,2]} × {initial_posteriors[2]}")
+    print(f"R(a₁) = {zero_one_loss_matrix[0,0] * initial_posteriors[0]:.2f} + {zero_one_loss_matrix[0,1] * initial_posteriors[1]:.2f} + {zero_one_loss_matrix[0,2] * initial_posteriors[2]:.2f} = {expected_losses_01_calculated[0]:.2f}")
+    
+    print("\nDetailed calculation for zero-one loss R(a₂):")
+    print(f"R(a₂) = {zero_one_loss_matrix[1,0]} × {initial_posteriors[0]} + {zero_one_loss_matrix[1,1]} × {initial_posteriors[1]} + {zero_one_loss_matrix[1,2]} × {initial_posteriors[2]}")
+    print(f"R(a₂) = {zero_one_loss_matrix[1,0] * initial_posteriors[0]:.2f} + {zero_one_loss_matrix[1,1] * initial_posteriors[1]:.2f} + {zero_one_loss_matrix[1,2] * initial_posteriors[2]:.2f} = {expected_losses_01_calculated[1]:.2f}")
+    
+    print("\nDetailed calculation for zero-one loss R(a₃):")
+    print(f"R(a₃) = {zero_one_loss_matrix[2,0]} × {initial_posteriors[0]} + {zero_one_loss_matrix[2,1]} × {initial_posteriors[1]} + {zero_one_loss_matrix[2,2]} × {initial_posteriors[2]}")
+    print(f"R(a₃) = {zero_one_loss_matrix[2,0] * initial_posteriors[0]:.2f} + {zero_one_loss_matrix[2,1] * initial_posteriors[1]:.2f} + {zero_one_loss_matrix[2,2] * initial_posteriors[2]:.2f} = {expected_losses_01_calculated[2]:.2f}")
+    
     # Find MAP estimate
     map_estimate = np.argmax(initial_posteriors)
     min_risk_01 = np.argmin(expected_losses_01_calculated)
     
+    # Explain the MAP estimate in detail
+    print_substep("Explaining MAP estimate and relation to zero-one loss")
+    print(f"MAP estimate identifies the class with highest posterior probability:")
+    for i, state in enumerate(states):
+        print(f"P({state}|x) = {initial_posteriors[i]:.2f}")
+    print(f"The maximum posterior is at index {map_estimate}, which corresponds to {states[map_estimate]}.")
+    
+    # Explain the simplification of zero-one loss to MAP
+    print("\nWith zero-one loss, the Bayes decision rule:")
+    print("â(x) = argmin_i Σⱼ L(aᵢ,Cⱼ)P(Cⱼ|x)")
+    print("\nCan be expanded to:")
+    print("â(x) = argmin_i [ Σⱼ (1-δᵢⱼ)P(Cⱼ|x) ]")
+    print("     = argmin_i [ Σⱼ P(Cⱼ|x) - P(Cᵢ|x) ]")
+    print("     = argmin_i [ 1 - P(Cᵢ|x) ]")
+    print("     = argmax_i P(Cᵢ|x)")
+    print("\nSo the action that minimizes zero-one loss is the one corresponding to the most probable class.")
+    
     # Verify MAP estimate matches minimum zero-one loss
-    print(f"MAP estimate = {map_estimate}, Min zero-one risk = {min_risk_01}")
+    print(f"\nMAP estimate = {map_estimate}, Min zero-one risk action = {min_risk_01}")
     if map_estimate == min_risk_01:
         print("✓ VALIDATED: MAP estimate matches minimum zero-one risk action")
     else:

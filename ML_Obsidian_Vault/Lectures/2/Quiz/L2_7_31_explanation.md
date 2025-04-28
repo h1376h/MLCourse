@@ -160,11 +160,28 @@ $$p > \frac{62.5}{82.5} = 0.7576$$
 
 The stricter condition is $p > 0.84$, so "no treatment" is optimal when $P(C_1|x) > 0.84$, or approximately when $P(C_1|x) \in (0.84, 1]$.
 
+We can verify this by testing specific values:
+
+For $p = 0.83$:
+- $R(a_1) = 75(1-0.83) = 12.75$
+- $R(a_2) = 22.5 - 12.5 \times 0.83 = 12.12$
+- Since $R(a_1) > R(a_2)$, no treatment is not optimal
+
+For $p = 0.84$:
+- $R(a_1) = 75(1-0.84) = 12.00$
+- $R(a_2) = 22.5 - 12.5 \times 0.84 = 12.00$
+- The expected losses are equal, representing the boundary
+
+For $p = 0.85$:
+- $R(a_1) = 75(1-0.85) = 11.25$
+- $R(a_2) = 22.5 - 12.5 \times 0.85 = 11.88$
+- Since $R(a_1) < R(a_2)$, no treatment is optimal
+
 This makes intuitive sense - only when we're very confident that the tumor is benign (more than 84% probability) should we choose to do nothing.
 
 ![Decision Boundaries](../Images/L2_7_Quiz_31/decision_boundaries.png)
 
-The decision boundaries can be seen in the graph above. The vertical line at $P(C_1|x) = 0.8403$ marks the threshold above which "no treatment" becomes optimal.
+The decision boundaries can be seen in the graph above. The vertical line at $P(C_1|x) = 0.8403$ marks the threshold above which "no treatment" becomes optimal. The exact range from our calculations is $P(C_1|x) \in [0.8403, 1.0000]$.
 
 ### Step 5: Zero-One Loss Function and Comparison with MAP Estimation
 
@@ -186,13 +203,13 @@ We define "correct" decisions as:
 Under this zero-one loss, the expected loss for each action is:
 
 **For No Treatment ($a_1$):**
-$$R(a_1) = 0 \times 0.7 + 1 \times 0.2 + 1 \times 0.1 = 0.3$$
+$$R(a_1) = 0 \times 0.7 + 1 \times 0.2 + 1 \times 0.1 = 0 + 0.2 + 0.1 = 0.3$$
 
 **For Mild Treatment ($a_2$):**
-$$R(a_2) = 1 \times 0.7 + 0 \times 0.2 + 1 \times 0.1 = 0.8$$
+$$R(a_2) = 1 \times 0.7 + 0 \times 0.2 + 1 \times 0.1 = 0.7 + 0 + 0.1 = 0.8$$
 
 **For Aggressive Treatment ($a_3$):**
-$$R(a_3) = 1 \times 0.7 + 1 \times 0.2 + 0 \times 0.1 = 0.9$$
+$$R(a_3) = 1 \times 0.7 + 1 \times 0.2 + 0 \times 0.1 = 0.7 + 0.2 + 0 = 0.9$$
 
 The minimum expected loss is 0.3, which corresponds to no treatment ($a_1$).
 
@@ -202,15 +219,25 @@ $$\hat{a}(x) = \arg\min_{i=1,2,3} \sum_{j=1}^3 L(a_i, C_j)P(C_j|x)$$
 
 $$= \arg\min_{i=1,2,3} \sum_{j=1}^3 (1 - \delta_{ij})P(C_j|x)$$
 
-$$= \arg\min_{i=1,2,3} \sum_{j=1}^3 P(C_j|x) - \sum_{j=1}^3 \delta_{ij}P(C_j|x)$$
+where $\delta_{ij} = 1$ if $i = j$ and 0 otherwise.
 
-$$= \arg\min_{i=1,2,3} 1 - P(C_i|x)$$
+This can be further expanded to:
+
+$$= \arg\min_{i=1,2,3} \left[ \sum_{j=1}^3 P(C_j|x) - P(C_i|x) \right]$$
+
+$$= \arg\min_{i=1,2,3} \left[ 1 - P(C_i|x) \right]$$
 
 $$= \arg\max_{i=1,2,3} P(C_i|x)$$
 
 This is exactly the Maximum A Posteriori (MAP) estimate - choose the action that corresponds to the most probable class.
 
-In our case, $\arg\max_{i=1,2,3} P(C_i|x) = 1$ since $P(C_1|x) = 0.7$ is the highest posterior probability. This corresponds to no treatment ($a_1$).
+In our case, the posterior probabilities are:
+
+- $P(C_1|x) = 0.7$ (probability of benign)
+- $P(C_2|x) = 0.2$ (probability of early-stage)
+- $P(C_3|x) = 0.1$ (probability of advanced)
+
+The maximum posterior probability is $P(C_1|x) = 0.7$, which corresponds to benign ($C_1$) and no treatment ($a_1$).
 
 ![Expected Loss Comparison](../Images/L2_7_Quiz_31/expected_loss_comparison.png)
 
@@ -260,10 +287,29 @@ As shown in the decision boundaries plot, changing the loss values would shift t
 ## Conclusion
 
 - The Bayes risk framework provides a principled approach to medical decision-making under uncertainty, accounting for both the probability of different conditions and the consequences of different treatment choices.
-- For the initial posterior probabilities (70% benign, 20% early-stage, 10% advanced), mild treatment minimizes the expected loss with a Bayes risk of 12.
-- Even with updated posterior probabilities showing a higher risk of malignancy (50% benign, 30% early-stage, 20% advanced), mild treatment remains optimal, though with a higher expected loss of 14.5.
-- "No treatment" becomes optimal only when the probability of a benign tumor exceeds 84%, reflecting the high cost of failing to treat malignancy.
-- Using a zero-one loss function would lead to the MAP decision of "no treatment" based solely on the most likely state, but this ignores the asymmetric costs of different errors.
+
+- For the initial posterior probabilities (70% benign, 20% early-stage, 10% advanced), the expected losses are:
+  - No treatment: 20.00
+  - Mild treatment: 12.00
+  - Aggressive treatment: 18.00
+  Mild treatment minimizes the expected loss with a Bayes risk of 12.00.
+
+- With updated posterior probabilities showing a higher risk of malignancy (50% benign, 30% early-stage, 20% advanced), the expected losses change to:
+  - No treatment: 35.00
+  - Mild treatment: 14.50
+  - Aggressive treatment: 16.50
+  Mild treatment remains optimal, though with a higher expected loss of 14.50.
+
+- "No treatment" becomes optimal only when the probability of a benign tumor exceeds 84% (specifically, $P(C_1|x) > 0.8403$), reflecting the high cost of failing to treat malignancy.
+
+- Using a zero-one loss function would lead to these expected losses:
+  - No treatment: 0.30
+  - Mild treatment: 0.80
+  - Aggressive treatment: 0.90
+  This results in the MAP decision of "no treatment" based solely on the most likely state (benign at 70%), but this ignores the asymmetric costs of different errors.
+
+- We proved mathematically that under zero-one loss, the Bayes minimum risk decision simplifies to the MAP decision: $\hat{a}(x) = \arg\max_{i} P(C_i|x)$.
+
 - The loss values serve as a kind of "prior" in the decision-making process, encoding domain knowledge about the consequences of different actions and shifting the decision boundaries accordingly.
 
 This example illustrates the power of Bayesian decision theory in medical contexts, where both diagnostic uncertainty and asymmetric risks are common features of decision problems. By explicitly modeling both the probabilities and the consequences, we can make better decisions that minimize the expected harm to patients. 
