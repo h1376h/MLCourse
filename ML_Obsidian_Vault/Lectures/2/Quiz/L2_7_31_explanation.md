@@ -47,6 +47,8 @@ The fundamental challenge is that the true state of the patient's tumor is uncer
 
 The Bayes risk framework helps us make optimal decisions by minimizing the expected loss, considering both the posterior probabilities and the loss values.
 
+![Loss Matrix for Oncology Treatment Decisions](../Images/L2_7_Quiz_31/loss_matrix.png)
+
 ## Solution
 
 ### Step 1: Calculate Expected Loss (Bayes Risk) for Each Treatment Decision
