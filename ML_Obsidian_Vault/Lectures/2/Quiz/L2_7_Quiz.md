@@ -1,7 +1,7 @@
 # Lecture 2.7: Maximum A Posteriori and Full Bayesian Inference Quiz
 
 ## Overview
-This quiz contains 28 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
+This quiz contains 30 questions covering various topics from Lecture 2.7 on Maximum A Posteriori (MAP) Estimation and Full Bayesian Inference.
 
 ## Question 1
 
@@ -520,3 +520,43 @@ Assume that the feature vectors in each class follow a multivariate Gaussian dis
 5. How does having non-singular covariance matrices affect the classification?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 28: Multivariate Gaussian Classification with Non-Singular Covariance Matrices](L2_7_28_explanation.md).
+
+## Question 29
+
+### Problem Statement
+Consider a simple classification problem where we need to predict whether a student will pass (class 1) or fail (class 0) an exam based on their study hours. Our model produces a probability $p$ that the student will pass.
+
+We can make decisions using different loss functions:
+- 0-1 Loss: $L(y, \hat{y}) = \mathbf{1}(y \neq \hat{y})$ (equal penalty for all errors)
+- Asymmetric Loss: $L(y, \hat{y}) = \begin{cases} 2 & \text{if } y=1, \hat{y}=0 \text{ (missed opportunity)} \\ 1 & \text{if } y=0, \hat{y}=1 \text{ (wasted effort)} \\ 0 & \text{if } y=\hat{y} \text{ (correct decision)} \end{cases}$
+
+#### Task
+1. For the 0-1 loss function, derive the decision rule that minimizes the expected loss (Bayes risk). At what probability threshold should we predict class 1?
+2. For the asymmetric loss function, derive the decision rule that minimizes the expected loss. At what probability threshold should we predict class 1?
+3. Explain why these thresholds differ and what this means in practical terms for the student.
+4. If our model gives a probability $p = 0.4$ that a student will pass, what decision would minimize expected loss under each loss function?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 29: Minimizing Expected Loss in Classification](L2_7_29_explanation.md).
+
+## Question 30
+
+### Problem Statement
+A factory produces electronic components that can be in one of three states: functioning perfectly (state 0), minor defect (state 1), or major defect (state 2). Based on test measurements, our model outputs a probability distribution over these three states for each component: $P(\theta = 0) = 0.7$, $P(\theta = 1) = 0.2$, and $P(\theta = 2) = 0.1$.
+
+We must decide whether to: ship the component (action $a_0$), perform minor repairs (action $a_1$), or discard the component (action $a_2$).
+
+The loss function for each combination of true state and action is given by the following table:
+
+| Loss | Ship ($a_0$) | Repair ($a_1$) | Discard ($a_2$) |
+|:----:|:------------:|:--------------:|:---------------:|
+| Perfect ($\theta = 0$) | 0 | 10 | 50 |
+| Minor defect ($\theta = 1$) | 30 | 5 | 40 |
+| Major defect ($\theta = 2$) | 100 | 60 | 20 |
+
+#### Task
+1. Calculate the expected loss (Bayes risk) for each possible action.
+2. Determine which action minimizes the Bayes risk.
+3. How would your decision change if the probability distribution changes to $P(\theta = 0) = 0.5$, $P(\theta = 1) = 0.3$, and $P(\theta = 2) = 0.2$?
+4. For what range of values of $P(\theta = 0)$ would "ship the component" be the optimal decision, assuming that $P(\theta = 1) = P(\theta = 2) = \frac{1-P(\theta = 0)}{2}$?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 30: Bayes Risk in Manufacturing Decisions](L2_7_30_explanation.md).
