@@ -38,7 +38,12 @@ def zero_one_loss(true_class, predicted_class):
     Calculate zero-one loss
     L(y, ŷ) = 1 if y ≠ ŷ, 0 if y = ŷ
     """
-    return 0 if true_class == predicted_class else 1
+    if true_class == "C1" and predicted_class == "a1":
+        return 0  # Correct classification (benign)
+    elif true_class == "C2" and predicted_class == "a2":
+        return 0  # Correct classification (malignant)
+    else:
+        return 1  # Misclassification
 
 def asymmetric_loss(true_class, predicted_class):
     """
@@ -71,7 +76,10 @@ def calculate_expected_loss(loss_function, action, posteriors):
     """
     expected_loss = 0
     for class_label, probability in posteriors.items():
-        expected_loss += loss_function(class_label, action) * probability
+        loss = loss_function(class_label, action)
+        contribution = loss * probability
+        print(f"L({action}, {class_label}) × P({class_label}|x) = {loss} × {probability} = {contribution}")
+        expected_loss += contribution
     return expected_loss
 
 def find_optimal_action(loss_function, actions, posteriors):
@@ -81,7 +89,9 @@ def find_optimal_action(loss_function, actions, posteriors):
     """
     expected_losses = {}
     for action in actions:
+        print(f"\nFor action {action} ({'Classify as Benign' if action == 'a1' else 'Classify as Malignant'}):")
         expected_losses[action] = calculate_expected_loss(loss_function, action, posteriors)
+        print(f"R({action}) = {expected_losses[action]}")
     
     optimal_action = min(expected_losses, key=expected_losses.get)
     return optimal_action, expected_losses
@@ -98,11 +108,10 @@ def calculate_posterior_with_prior(likelihood_ratio, prior_malignant):
     """
     prior_benign = 1 - prior_malignant
     
-    # We need to solve for posteriors given likelihood ratio
-    # P(C2|x) / P(C1|x) = [P(x|C2)/P(x|C1)] × [P(C2)/P(C1)]
+    # Step 1: Calculate the ratio of posteriors using Bayes theorem
     posterior_ratio = likelihood_ratio * (prior_malignant / prior_benign)
     
-    # Since P(C1|x) + P(C2|x) = 1
+    # Step 2: Solve for posterior_malignant using the fact that posterior_benign + posterior_malignant = 1
     posterior_benign = 1 / (1 + posterior_ratio)
     posterior_malignant = posterior_ratio / (1 + posterior_ratio)
     
@@ -113,10 +122,6 @@ def plot_decision_boundaries(threshold_01, threshold_asymmetric):
     Plot decision boundaries for both loss functions
     """
     fig, ax = plt.subplots(figsize=(10, 6))
-    
-    # Plot probability range from 0 to 1
-    x = np.linspace(0, 1, 1000)
-    y = np.zeros_like(x)
     
     # Add rectangles showing decision regions for 0-1 loss
     ax.add_patch(patches.Rectangle((0, 0.05), threshold_01, 0.15, 
@@ -177,7 +182,7 @@ def plot_bayes_risk_curves():
     ax1.plot(p_malignant, risk_malignant_01, 'b-', label='Classify as Malignant')
     threshold_01 = 0.5
     ax1.axvline(x=threshold_01, color='k', linestyle='--', alpha=0.5)
-    ax1.axvline(x=0.3, color='g', linestyle='--', alpha=0.7)
+    ax1.axvline(x=0.7, color='g', linestyle='--', alpha=0.7)
     ax1.fill_between(p_malignant, 0, 1, where=(p_malignant < threshold_01), color='r', alpha=0.1)
     ax1.fill_between(p_malignant, 0, 1, where=(p_malignant >= threshold_01), color='b', alpha=0.1)
     ax1.set_title('Expected Loss with 0-1 Loss Function')
@@ -186,12 +191,18 @@ def plot_bayes_risk_curves():
     ax1.legend()
     ax1.grid(True, alpha=0.3)
     
+    # Plot example values
+    ax1.plot([0.7], [0.7], 'ro')  # 0-1 loss if classifying as benign
+    ax1.plot([0.7], [0.3], 'bo')  # 0-1 loss if classifying as malignant
+    ax1.annotate('R(a1) = 0.7', xy=(0.7, 0.7), xytext=(0.75, 0.7))
+    ax1.annotate('R(a2) = 0.3', xy=(0.7, 0.3), xytext=(0.75, 0.3))
+    
     # Plot asymmetric loss curves
     ax2.plot(p_malignant, risk_benign_asymm, 'r-', label='Classify as Benign')
     ax2.plot(p_malignant, risk_malignant_asymm, 'b-', label='Classify as Malignant')
     threshold_asymm = 2/12  # Analytical solution
     ax2.axvline(x=threshold_asymm, color='k', linestyle='--', alpha=0.5)
-    ax2.axvline(x=0.3, color='g', linestyle='--', alpha=0.7)
+    ax2.axvline(x=0.7, color='g', linestyle='--', alpha=0.7)
     ax2.fill_between(p_malignant, 0, 10, where=(p_malignant < threshold_asymm), color='r', alpha=0.1)
     ax2.fill_between(p_malignant, 0, 10, where=(p_malignant >= threshold_asymm), color='b', alpha=0.1)
     ax2.set_title('Expected Loss with Asymmetric Loss Function')
@@ -199,6 +210,12 @@ def plot_bayes_risk_curves():
     ax2.set_ylabel('Expected Loss')
     ax2.legend()
     ax2.grid(True, alpha=0.3)
+    
+    # Plot example values
+    ax2.plot([0.7], [7], 'ro')  # Asymmetric loss if classifying as benign
+    ax2.plot([0.7], [0.6], 'bo')  # Asymmetric loss if classifying as malignant
+    ax2.annotate('R(a1) = 7', xy=(0.7, 7), xytext=(0.75, 7))
+    ax2.annotate('R(a2) = 0.6', xy=(0.7, 0.6), xytext=(0.75, 0.6))
     
     plt.tight_layout()
     return fig
@@ -272,32 +289,14 @@ def main():
     
     print_substep("Expected Loss Calculation for Zero-One Loss")
     # Calculate expected loss for each action using zero-one loss
-    print("For action a1 (Classify as Benign):")
-    loss_a1_c1 = zero_one_loss("C1", "a1")
-    loss_a1_c2 = zero_one_loss("C2", "a1")
-    print(f"L(a1, C1) × P(C1|x) = {loss_a1_c1} × 0.3 = {loss_a1_c1 * posteriors['C1']}")
-    print(f"L(a1, C2) × P(C2|x) = {loss_a1_c2} × 0.7 = {loss_a1_c2 * posteriors['C2']}")
-    risk_a1_01 = loss_a1_c1 * posteriors['C1'] + loss_a1_c2 * posteriors['C2']
-    print(f"R(a1) = {loss_a1_c1 * posteriors['C1']} + {loss_a1_c2 * posteriors['C2']} = {risk_a1_01}")
-    
-    print("\nFor action a2 (Classify as Malignant):")
-    loss_a2_c1 = zero_one_loss("C1", "a2")
-    loss_a2_c2 = zero_one_loss("C2", "a2")
-    print(f"L(a2, C1) × P(C1|x) = {loss_a2_c1} × 0.3 = {loss_a2_c1 * posteriors['C1']}")
-    print(f"L(a2, C2) × P(C2|x) = {loss_a2_c2} × 0.7 = {loss_a2_c2 * posteriors['C2']}")
-    risk_a2_01 = loss_a2_c1 * posteriors['C1'] + loss_a2_c2 * posteriors['C2']
-    print(f"R(a2) = {loss_a2_c1 * posteriors['C1']} + {loss_a2_c2 * posteriors['C2']} = {risk_a2_01}")
-    
     optimal_action_01, expected_losses_01 = find_optimal_action(zero_one_loss, actions, posteriors)
+    
     print("\nExpected losses for each action:")
-    print(f"R(a1) = {expected_losses_01['a1']}")
-    print(f"R(a2) = {expected_losses_01['a2']}")
+    for action in actions:
+        print(f"R({action}) = {expected_losses_01[action]}")
     
     print(f"\nOptimal decision: {optimal_action_01} (Classify as {'Benign' if optimal_action_01 == 'a1' else 'Malignant'})")
-    if expected_losses_01['a1'] < expected_losses_01['a2']:
-        print(f"Since R(a1) = {expected_losses_01['a1']} < R(a2) = {expected_losses_01['a2']}")
-    else:
-        print(f"Since R(a2) = {expected_losses_01['a2']} < R(a1) = {expected_losses_01['a1']}")
+    print(f"Since R({optimal_action_01}) = {expected_losses_01[optimal_action_01]} < R({'a2' if optimal_action_01 == 'a1' else 'a1'}) = {expected_losses_01['a2' if optimal_action_01 == 'a1' else 'a1']}")
     
     # Step 2: Asymmetric Loss Calculation
     print_step_header(2, "ASYMMETRIC LOSS FUNCTION CALCULATION")
@@ -310,32 +309,14 @@ def main():
     
     print_substep("Expected Loss Calculation for Asymmetric Loss")
     # Calculate expected loss for each action using asymmetric loss
-    print("For action a1 (Classify as Benign):")
-    loss_a1_c1_asym = asymmetric_loss("C1", "a1")
-    loss_a1_c2_asym = asymmetric_loss("C2", "a1")
-    print(f"L(a1, C1) × P(C1|x) = {loss_a1_c1_asym} × 0.3 = {loss_a1_c1_asym * posteriors['C1']}")
-    print(f"L(a1, C2) × P(C2|x) = {loss_a1_c2_asym} × 0.7 = {loss_a1_c2_asym * posteriors['C2']}")
-    risk_a1_asym = loss_a1_c1_asym * posteriors['C1'] + loss_a1_c2_asym * posteriors['C2']
-    print(f"R(a1) = {loss_a1_c1_asym * posteriors['C1']} + {loss_a1_c2_asym * posteriors['C2']} = {risk_a1_asym}")
-    
-    print("\nFor action a2 (Classify as Malignant):")
-    loss_a2_c1_asym = asymmetric_loss("C1", "a2")
-    loss_a2_c2_asym = asymmetric_loss("C2", "a2")
-    print(f"L(a2, C1) × P(C1|x) = {loss_a2_c1_asym} × 0.3 = {loss_a2_c1_asym * posteriors['C1']}")
-    print(f"L(a2, C2) × P(C2|x) = {loss_a2_c2_asym} × 0.7 = {loss_a2_c2_asym * posteriors['C2']}")
-    risk_a2_asym = loss_a2_c1_asym * posteriors['C1'] + loss_a2_c2_asym * posteriors['C2']
-    print(f"R(a2) = {loss_a2_c1_asym * posteriors['C1']} + {loss_a2_c2_asym * posteriors['C2']} = {risk_a2_asym}")
-    
     optimal_action_asym, expected_losses_asym = find_optimal_action(asymmetric_loss, actions, posteriors)
+    
     print("\nExpected losses for each action:")
-    print(f"R(a1) = {expected_losses_asym['a1']}")
-    print(f"R(a2) = {expected_losses_asym['a2']}")
+    for action in actions:
+        print(f"R({action}) = {expected_losses_asym[action]}")
     
     print(f"\nOptimal decision: {optimal_action_asym} (Classify as {'Benign' if optimal_action_asym == 'a1' else 'Malignant'})")
-    if expected_losses_asym['a1'] < expected_losses_asym['a2']:
-        print(f"Since R(a1) = {expected_losses_asym['a1']} < R(a2) = {expected_losses_asym['a2']}")
-    else:
-        print(f"Since R(a2) = {expected_losses_asym['a2']} < R(a1) = {expected_losses_asym['a1']}")
+    print(f"Since R({optimal_action_asym}) = {expected_losses_asym[optimal_action_asym]} < R({'a2' if optimal_action_asym == 'a1' else 'a1'}) = {expected_losses_asym['a2' if optimal_action_asym == 'a1' else 'a1']}")
     
     # Step 3: Simplifying Bayes Decision Rule for Zero-One Loss
     print_step_header(3, "SIMPLIFYING BAYES DECISION RULE FOR ZERO-ONE LOSS")
@@ -367,7 +348,7 @@ def main():
         "Expanding: 2 - 2×P(C2|x) < 10×P(C2|x)",
         "Rearranging: 2 < 10×P(C2|x) + 2×P(C2|x) = 12×P(C2|x)",
         "Solving for P(C2|x): 2/12 < P(C2|x)",
-        "Therefore, the decision threshold is t = 2/12 = 1/6 = 0.1667"
+        "Therefore, the decision threshold is t = 2/12 = 1/6 ≈ 0.1667"
     ])
     
     threshold_asymmetric = 2/12
@@ -385,38 +366,58 @@ def main():
     
     # Calculate new posteriors using the prior
     prior_malignant = 0.05
+    prior_benign = 1 - prior_malignant
     likelihood_ratio = 14
+    
+    print("\nPen-and-paper calculation:")
+    print(f"Step 1: Calculate posterior ratio using Bayes' theorem")
+    print(f"P(C2|x)/P(C1|x) = [P(x|C2)/P(x|C1)] × [P(C2)/P(C1)]")
+    print(f"P(C2|x)/P(C1|x) = 14 × [0.05/(1-0.05)]")
+    print(f"P(C2|x)/P(C1|x) = 14 × [0.05/0.95]")
+    print(f"P(C2|x)/P(C1|x) = 14 × 0.0526")
+    posterior_ratio = 14 * (prior_malignant / prior_benign)
+    print(f"P(C2|x)/P(C1|x) = {posterior_ratio:.4f}")
+    
+    print(f"\nStep 2: Convert the ratio to actual probabilities")
+    print(f"Let P(C2|x) = p and P(C1|x) = 1-p")
+    print(f"We have: p/(1-p) = {posterior_ratio:.4f}")
+    print(f"Solving for p:")
+    print(f"p = {posterior_ratio:.4f} × (1-p)")
+    print(f"p = {posterior_ratio:.4f} - {posterior_ratio:.4f}p")
+    print(f"p + {posterior_ratio:.4f}p = {posterior_ratio:.4f}")
+    print(f"p(1 + {posterior_ratio:.4f}) = {posterior_ratio:.4f}")
+    print(f"p = {posterior_ratio:.4f} / (1 + {posterior_ratio:.4f})")
+    
     new_posteriors = calculate_posterior_with_prior(likelihood_ratio, prior_malignant)
+    print(f"p = {new_posteriors['C2']:.4f}")
     
-    print("\nCalculation:")
-    print(f"P(C2|x)/P(C1|x) = [P(x|C2)/P(x|C1)] × [P(C2)/P(C1)] = 14 × [0.05/(1-0.05)] = 14 × 0.0526 = {14 * 0.0526:.4f}")
-    print(f"Let's denote P(C2|x) as p. Then P(C1|x) = 1-p.")
-    print(f"We have: p/(1-p) = {14 * 0.0526:.4f}")
-    print(f"Solving for p: p = {14 * 0.0526:.4f} × (1-p)")
-    print(f"p = {14 * 0.0526:.4f} - {14 * 0.0526:.4f}p")
-    print(f"p + {14 * 0.0526:.4f}p = {14 * 0.0526:.4f}")
-    print(f"p × (1 + {14 * 0.0526:.4f}) = {14 * 0.0526:.4f}")
-    print(f"p = {14 * 0.0526:.4f} / (1 + {14 * 0.0526:.4f}) = {14 * 0.0526 / (1 + 14 * 0.0526):.4f}")
-    
-    print(f"\nUpdated posterior probabilities:")
-    print(f"P(C1|x) = {new_posteriors['C1']:.4f}")
+    print(f"\nSo the updated posterior probabilities are:")
+    print(f"P(C1|x) = 1 - {new_posteriors['C2']:.4f} = {new_posteriors['C1']:.4f}")
     print(f"P(C2|x) = {new_posteriors['C2']:.4f}")
     
     print_substep("Determining Optimal Decisions with Updated Posteriors")
     
     # Zero-One Loss with Updated Posteriors
-    optimal_action_01_new, expected_losses_01_new = find_optimal_action(zero_one_loss, actions, new_posteriors)
     print("Zero-One Loss with Updated Posteriors:")
-    print(f"R(a1) = {expected_losses_01_new['a1']:.4f}")
-    print(f"R(a2) = {expected_losses_01_new['a2']:.4f}")
-    print(f"Optimal decision: {optimal_action_01_new} (Classify as {'Benign' if optimal_action_01_new == 'a1' else 'Malignant'})")
+    optimal_action_01_new, expected_losses_01_new = find_optimal_action(zero_one_loss, actions, new_posteriors)
+    
+    print("\nExpected losses for each action:")
+    for action in actions:
+        print(f"R({action}) = {expected_losses_01_new[action]:.4f}")
+    
+    print(f"\nOptimal decision: {optimal_action_01_new} (Classify as {'Benign' if optimal_action_01_new == 'a1' else 'Malignant'})")
+    print(f"Since R({optimal_action_01_new}) = {expected_losses_01_new[optimal_action_01_new]:.4f} < R({'a2' if optimal_action_01_new == 'a1' else 'a1'}) = {expected_losses_01_new['a2' if optimal_action_01_new == 'a1' else 'a1']:.4f}")
     
     # Asymmetric Loss with Updated Posteriors
-    optimal_action_asym_new, expected_losses_asym_new = find_optimal_action(asymmetric_loss, actions, new_posteriors)
     print("\nAsymmetric Loss with Updated Posteriors:")
-    print(f"R(a1) = {expected_losses_asym_new['a1']:.4f}")
-    print(f"R(a2) = {expected_losses_asym_new['a2']:.4f}")
-    print(f"Optimal decision: {optimal_action_asym_new} (Classify as {'Benign' if optimal_action_asym_new == 'a1' else 'Malignant'})")
+    optimal_action_asym_new, expected_losses_asym_new = find_optimal_action(asymmetric_loss, actions, new_posteriors)
+    
+    print("\nExpected losses for each action:")
+    for action in actions:
+        print(f"R({action}) = {expected_losses_asym_new[action]:.4f}")
+    
+    print(f"\nOptimal decision: {optimal_action_asym_new} (Classify as {'Benign' if optimal_action_asym_new == 'a1' else 'Malignant'})")
+    print(f"Since R({optimal_action_asym_new}) = {expected_losses_asym_new[optimal_action_asym_new]:.4f} < R({'a2' if optimal_action_asym_new == 'a1' else 'a1'}) = {expected_losses_asym_new['a2' if optimal_action_asym_new == 'a1' else 'a1']:.4f}")
     
     print_substep("Explaining the Relationship between Prior and Expected Loss")
     print("The prior probability influences the posterior probability, which in turn affects the expected loss calculation:")

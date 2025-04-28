@@ -67,6 +67,12 @@ The zero-one loss function is defined as follows:
 | Benign ($C_1$) | 0 | 1 |
 | Malignant ($C_2$) | 1 | 0 |
 
+For this type of loss function, we assign a penalty of 0 for correct classifications and 1 for misclassifications.
+
+We need to calculate the expected loss (Bayes risk) for each possible action using the formula:
+
+$$R(a_i) = \sum_{j=1}^K L_{ij}P(C_j|x)$$
+
 For action $a_1$ (Classify as Benign):
 - $L(a_1, C_1) \times P(C_1|x) = 0 \times 0.3 = 0$
 - $L(a_1, C_2) \times P(C_2|x) = 1 \times 0.7 = 0.7$
@@ -79,12 +85,17 @@ For action $a_2$ (Classify as Malignant):
 
 Since $R(a_2) = 0.3 < R(a_1) = 0.7$, the optimal decision under the zero-one loss function is $a_2$ (Classify as Malignant).
 
+In general, the decision rule that minimizes the Bayes risk is:
+
+$$\hat{\alpha}(x) = \arg\min_{i=1,...,K} \sum_{j=1}^K L_{ij}p(C_j|x)$$
+
 ![Bayes Risk Curves for 0-1 Loss](../Images/L2_7_Quiz_32/bayes_risk_curves.png)
 
 From the top graph in this visualization, we can see that with $P(C_2|x) = 0.7$:
 - The red line (risk for classifying as benign) = 0.7
 - The blue line (risk for classifying as malignant) = 0.3
 - The optimal decision is to classify as malignant (blue region)
+- The decision boundary (vertical dashed line) is at $P(C_2|x) = 0.5$
 
 ### Step 2: Calculating Expected Loss for Asymmetric Loss Function
 
@@ -94,6 +105,12 @@ The asymmetric loss function is defined as follows:
 | :---: | :------------------------: | :---------------------------: |
 | Benign ($C_1$) | 0 | 2 |
 | Malignant ($C_2$) | 10 | 0 |
+
+This loss function reflects the asymmetric costs in medical diagnosis:
+- Missing a malignant tumor (false negative) has a high cost of 10
+- Misclassifying a benign tumor as malignant (false positive) has a lower cost of 2
+
+Using the same formula as before, we calculate the expected loss for each action:
 
 For action $a_1$ (Classify as Benign):
 - $L(a_1, C_1) \times P(C_1|x) = 0 \times 0.3 = 0$
@@ -108,48 +125,80 @@ For action $a_2$ (Classify as Malignant):
 Since $R(a_2) = 0.6 < R(a_1) = 7$, the optimal decision under the asymmetric loss function is also $a_2$ (Classify as Malignant).
 
 From the bottom graph in the visualization:
-- The red line (risk for classifying as benign) = 10 × 0.7 = 7
-- The blue line (risk for classifying as malignant) = 2 × 0.3 = 0.6
+- The red line (risk for classifying as benign) = $10 \times P(C_2|x) = 10 \times 0.7 = 7$
+- The blue line (risk for classifying as malignant) = $2 \times P(C_1|x) = 2 \times 0.3 = 0.6$
 - The optimal decision is to classify as malignant (blue region)
+- The decision boundary is at a much lower threshold of approximately 0.167
 
 The asymmetric loss function strongly penalizes false negatives (missing a malignant tumor), which results in an even clearer decision to classify the sample as malignant in this case.
 
 ### Step 3: Simplifying the Bayes Decision Rule for Zero-One Loss
 
-For the zero-one loss function, we can simplify the Bayes decision rule as follows:
+For the zero-one loss function, we can simplify the Bayes decision rule by using the structure of the loss matrix.
 
-1. Start with the Bayes decision rule: $\hat{\alpha}(x) = \arg\min_{i} \sum_{j} L_{ij} P(C_j|x)$
-2. For zero-one loss, $L_{ij} = 1 - \delta_{ij}$, where $\delta_{ij} = 1$ if $i=j$ and 0 otherwise
-3. Substituting: $\hat{\alpha}(x) = \arg\min_{i} \sum_{j} (1 - \delta_{ij}) P(C_j|x)$
-4. Expanding: $\hat{\alpha}(x) = \arg\min_{i} [\sum_{j} P(C_j|x) - \sum_{j} \delta_{ij} P(C_j|x)]$
-5. Since $\sum_{j} P(C_j|x) = 1$ (sum of probabilities): $\hat{\alpha}(x) = \arg\min_{i} [1 - \sum_{j} \delta_{ij} P(C_j|x)]$
-6. The only term with $\delta_{ij} = 1$ is when $j = i$: $\hat{\alpha}(x) = \arg\min_{i} [1 - P(C_i|x)]$
-7. Since we want to minimize $[1 - P(C_i|x)]$, this is equivalent to maximizing $P(C_i|x)$
-8. Therefore: $\hat{\alpha}(x) = \arg\max_{i} P(C_i|x)$
+Start with the general Bayes decision rule:
+$$\hat{\alpha}(x) = \arg\min_{i} \sum_{j} L_{ij} P(C_j|x)$$
 
-This shows that the Bayes minimum risk decision with zero-one loss is equivalent to the MAP (Maximum A Posteriori) estimate: choose the class with the highest posterior probability.
+For zero-one loss, $L_{ij} = 1 - \delta_{ij}$, where $\delta_{ij} = 1$ if $i=j$ and 0 otherwise. This means:
+- $L_{ii} = 0$ (no penalty for correct classification)
+- $L_{ij} = 1$ for $i \neq j$ (penalty of 1 for misclassification)
 
-For our problem, $\arg\max_{i} P(C_i|x) = \arg\max(0.3, 0.7) = C_2$ (Malignant), so the optimal action is $a_2$ (Classify as Malignant), confirming our result from Step 1.
+Substituting this into the decision rule:
+$$\hat{\alpha}(x) = \arg\min_{i} \sum_{j} (1 - \delta_{ij}) P(C_j|x)$$
+
+Expanding the sum:
+$$\hat{\alpha}(x) = \arg\min_{i} \left[\sum_{j} P(C_j|x) - \sum_{j} \delta_{ij} P(C_j|x)\right]$$
+
+Since $\sum_{j} P(C_j|x) = 1$ (the sum of all posterior probabilities is 1):
+$$\hat{\alpha}(x) = \arg\min_{i} \left[1 - \sum_{j} \delta_{ij} P(C_j|x)\right]$$
+
+Because $\delta_{ij} = 1$ only when $j = i$, the second sum simplifies to just $P(C_i|x)$:
+$$\hat{\alpha}(x) = \arg\min_{i} [1 - P(C_i|x)]$$
+
+Since we're minimizing $[1 - P(C_i|x)]$, this is equivalent to maximizing $P(C_i|x)$:
+$$\hat{\alpha}(x) = \arg\max_{i} P(C_i|x)$$
+
+This result shows that the Bayes minimum risk decision with zero-one loss is equivalent to the MAP (Maximum A Posteriori) estimate: choose the class with the highest posterior probability.
+
+For our problem with posterior probabilities $P(C_1|x) = 0.3$ and $P(C_2|x) = 0.7$:
+$$\arg\max_{i} P(C_i|x) = \arg\max(0.3, 0.7) = C_2 \text{ (Malignant)}$$
+
+Therefore, the optimal action is $a_2$ (Classify as Malignant), confirming our result from Step 1.
 
 ### Step 4: Deriving the Decision Threshold for Asymmetric Loss
 
-We want to find the threshold $t$ such that we classify a sample as malignant when $P(C_2|x) > t$. We start by setting up the condition for when we should choose action $a_2$ (Classify as Malignant) over action $a_1$ (Classify as Benign):
+We want to find the threshold $t$ such that we classify a sample as malignant when $P(C_2|x) > t$.
 
-$R(a_2) < R(a_1)$
+We start by setting up the condition for when we should choose action $a_2$ (Classify as Malignant) over action $a_1$ (Classify as Benign):
 
-Expanding this:
-- $R(a_2) = L(a_2,C_1)P(C_1|x) + L(a_2,C_2)P(C_2|x) = 2 \times P(C_1|x) + 0 \times P(C_2|x) = 2 \times P(C_1|x)$
-- $R(a_1) = L(a_1,C_1)P(C_1|x) + L(a_1,C_2)P(C_2|x) = 0 \times P(C_1|x) + 10 \times P(C_2|x) = 10 \times P(C_2|x)$
+$$R(a_2) < R(a_1)$$
 
-For $a_2$ to be optimal: $2 \times P(C_1|x) < 10 \times P(C_2|x)$
+Expanding this using the expected loss formulas:
 
-Using $P(C_1|x) = 1 - P(C_2|x)$: $2 \times (1-P(C_2|x)) < 10 \times P(C_2|x)$
+$$L(a_2,C_1)P(C_1|x) + L(a_2,C_2)P(C_2|x) < L(a_1,C_1)P(C_1|x) + L(a_1,C_2)P(C_2|x)$$
 
-Expanding: $2 - 2 \times P(C_2|x) < 10 \times P(C_2|x)$
+Substituting the values from our asymmetric loss matrix:
 
-Rearranging: $2 < 10 \times P(C_2|x) + 2 \times P(C_2|x) = 12 \times P(C_2|x)$
+$$2 \times P(C_1|x) + 0 \times P(C_2|x) < 0 \times P(C_1|x) + 10 \times P(C_2|x)$$
 
-Solving for $P(C_2|x)$: $\frac{2}{12} < P(C_2|x)$
+Simplifying:
+
+$$2 \times P(C_1|x) < 10 \times P(C_2|x)$$
+
+Using the fact that $P(C_1|x) = 1 - P(C_2|x)$ in our binary classification problem:
+
+$$2 \times (1-P(C_2|x)) < 10 \times P(C_2|x)$$
+
+Expanding:
+
+$$2 - 2 \times P(C_2|x) < 10 \times P(C_2|x)$$
+
+Rearranging to isolate $P(C_2|x)$:
+
+$$2 < 10 \times P(C_2|x) + 2 \times P(C_2|x)$$
+$$2 < 12 \times P(C_2|x)$$
+$$\frac{2}{12} < P(C_2|x)$$
+$$\frac{1}{6} < P(C_2|x)$$
 
 Therefore, the decision threshold is $t = \frac{2}{12} = \frac{1}{6} \approx 0.1667$
 
@@ -170,40 +219,65 @@ The hospital wants to incorporate a prior distribution reflecting the cancer pre
 
 Given:
 - Prior probability of malignant: $P(C_2) = 0.05$
+- Prior probability of benign: $P(C_1) = 1 - 0.05 = 0.95$
 - Likelihood ratio: $\frac{P(x|C_2)}{P(x|C_1)} = 14$
 
-Using Bayes' theorem and the likelihood ratio:
-$\frac{P(C_2|x)}{P(C_1|x)} = \frac{P(x|C_2)}{P(x|C_1)} \times \frac{P(C_2)}{P(C_1)} = 14 \times \frac{0.05}{0.95} \approx 14 \times 0.0526 \approx 0.7364$
+#### Step 5a: Calculate the Posterior Probabilities
 
-Let's denote $P(C_2|x)$ as $p$. Then $P(C_1|x) = 1-p$, and we have:
-$\frac{p}{1-p} = 0.7364$
+We'll use a pen-and-paper calculation approach:
+
+Step 1: Calculate the posterior ratio using Bayes' theorem
+$$\frac{P(C_2|x)}{P(C_1|x)} = \frac{P(x|C_2)}{P(x|C_1)} \times \frac{P(C_2)}{P(C_1)}$$
+$$\frac{P(C_2|x)}{P(C_1|x)} = 14 \times \frac{0.05}{0.95}$$
+$$\frac{P(C_2|x)}{P(C_1|x)} = 14 \times 0.0526$$
+$$\frac{P(C_2|x)}{P(C_1|x)} = 0.7368$$
+
+Step 2: Convert the ratio to actual probabilities
+Let's denote $P(C_2|x)$ as $p$. Then $P(C_1|x) = 1-p$.
+$$\frac{p}{1-p} = 0.7368$$
 
 Solving for $p$:
-$p = 0.7364 \times (1-p)$
-$p = 0.7364 - 0.7364p$
-$p + 0.7364p = 0.7364$
-$p \times (1 + 0.7364) = 0.7364$
-$p = \frac{0.7364}{1 + 0.7364} \approx 0.4242$
+$$p = 0.7368 \times (1-p)$$
+$$p = 0.7368 - 0.7368p$$
+$$p + 0.7368p = 0.7368$$
+$$p(1 + 0.7368) = 0.7368$$
+$$p = \frac{0.7368}{1 + 0.7368} = \frac{0.7368}{1.7368} \approx 0.4242$$
 
 Therefore, the updated posterior probabilities are:
 - $P(C_1|x) = 1 - 0.4242 = 0.5758$
 - $P(C_2|x) = 0.4242$
 
-#### Optimal Decisions with Updated Posteriors
+#### Step 5b: Determining Optimal Decisions with Updated Posteriors
 
 For zero-one loss:
-- $R(a_1) = L(a_1, C_1) \times P(C_1|x) + L(a_1, C_2) \times P(C_2|x) = 0 \times 0.5758 + 1 \times 0.4242 = 0.4242$
-- $R(a_2) = L(a_2, C_1) \times P(C_1|x) + L(a_2, C_2) \times P(C_2|x) = 1 \times 0.5758 + 0 \times 0.4242 = 0.5758$
+
+For action $a_1$ (Classify as Benign):
+- $L(a_1, C_1) \times P(C_1|x) = 0 \times 0.5758 = 0$
+- $L(a_1, C_2) \times P(C_2|x) = 1 \times 0.4242 = 0.4242$
+- $R(a_1) = 0 + 0.4242 = 0.4242$
+
+For action $a_2$ (Classify as Malignant):
+- $L(a_2, C_1) \times P(C_1|x) = 1 \times 0.5758 = 0.5758$
+- $L(a_2, C_2) \times P(C_2|x) = 0 \times 0.4242 = 0$
+- $R(a_2) = 0.5758 + 0 = 0.5758$
 
 Since $R(a_1) = 0.4242 < R(a_2) = 0.5758$, the optimal decision under zero-one loss is now $a_1$ (Classify as Benign).
 
 For asymmetric loss:
-- $R(a_1) = L(a_1, C_1) \times P(C_1|x) + L(a_1, C_2) \times P(C_2|x) = 0 \times 0.5758 + 10 \times 0.4242 = 4.242$
-- $R(a_2) = L(a_2, C_1) \times P(C_1|x) + L(a_2, C_2) \times P(C_2|x) = 2 \times 0.5758 + 0 \times 0.4242 = 1.1516$
+
+For action $a_1$ (Classify as Benign):
+- $L(a_1, C_1) \times P(C_1|x) = 0 \times 0.5758 = 0$
+- $L(a_1, C_2) \times P(C_2|x) = 10 \times 0.4242 = 4.242$
+- $R(a_1) = 0 + 4.242 = 4.242$
+
+For action $a_2$ (Classify as Malignant):
+- $L(a_2, C_1) \times P(C_1|x) = 2 \times 0.5758 = 1.1516$
+- $L(a_2, C_2) \times P(C_2|x) = 0 \times 0.4242 = 0$
+- $R(a_2) = 1.1516 + 0 = 1.1516$
 
 Since $R(a_2) = 1.1516 < R(a_1) = 4.242$, the optimal decision under asymmetric loss is still $a_2$ (Classify as Malignant).
 
-#### Relationship Between Prior and Expected Loss
+#### Step 5c: Relationship Between Prior and Expected Loss
 
 ![Prior Impact](../Images/L2_7_Quiz_32/prior_impact.png)
 
@@ -214,9 +288,13 @@ This visualization shows how the prior probability impacts the posterior probabi
 - The red dot marks the specific case with prior=0.05, where the posterior is around 0.42
 
 The introduction of the prior has a significant impact on our decisions:
+
 1. Even with a high likelihood ratio of 14 (strong evidence for malignancy), the low prior of 0.05 results in a lower posterior probability of malignancy (0.4242 instead of 0.7).
+
 2. This changes our decision for the zero-one loss function from 'Malignant' to 'Benign', because $P(C_2|x) = 0.4242 < 0.5$.
+
 3. For the asymmetric loss, our decision is still 'Malignant' because $P(C_2|x) = 0.4242 > 0.1667$, the asymmetric threshold.
+
 4. This demonstrates how the prior encodes our belief about class distribution, while the loss function encodes the costs of different decision errors.
 
 In MAP estimation with zero-one loss, the prior directly influences the posterior probabilities, which determine the classification. With a custom loss function, the prior still affects the posterior probabilities, but the decision threshold is adjusted based on the relative costs of different errors, potentially leading to different decisions even with the same posterior probabilities.
@@ -226,8 +304,9 @@ In MAP estimation with zero-one loss, the prior directly influences the posterio
 The Bayes risk minimization framework can be extended to more complex problems in several ways:
 
 1. **Multi-class extension:**
-   - For K classes, use a K×K loss matrix L where L_ij is the cost of predicting class i when the true class is j
-   - The Bayes decision rule remains: $\hat{\alpha}(x) = \arg\min_{i} \sum_{j} L_{ij} P(C_j|x)$
+   - For $K$ classes, use a $K \times K$ loss matrix $L$ where $L_{ij}$ is the cost of predicting class $i$ when the true class is $j$
+   - The Bayes decision rule remains: 
+   $$\hat{\alpha}(x) = \arg\min_{i} \sum_{j} L_{ij} P(C_j|x)$$
    - For each possible action (predicted class), calculate the expected loss by summing over all possible true classes
 
 2. **Custom loss functions:**
@@ -242,8 +321,9 @@ The Bayes risk minimization framework can be extended to more complex problems i
 
 4. **Regression extension:**
    - For continuous outputs, the sum becomes an integral over the conditional density
-   - The optimal decision minimizes: $\hat{\alpha}(x) = \arg\min_{a} \int L(a,y) p(y|x) dy$
-   - For squared error loss, this gives the conditional mean E[Y|X=x]
+   - The optimal decision minimizes: 
+   $$\hat{\alpha}(x) = \arg\min_{a} \int L(a,y) p(y|x) dy$$
+   - For squared error loss, this gives the conditional mean $E[Y|X=x]$
    - For absolute error loss, this gives the conditional median
 
 5. **Cost-sensitive learning:**
