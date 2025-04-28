@@ -25,6 +25,13 @@ def print_substep(substep_title):
     print(f"{substep_title}")
     print(f"{'-'*50}\n")
 
+def validate_calculation(expected, actual, label, tolerance=1e-6):
+    """Validate that a calculation matches the expected value"""
+    if abs(expected - actual) <= tolerance:
+        print(f"✓ VALIDATED: {label} = {actual:.2f} (matches expected value)")
+    else:
+        print(f"✗ ERROR: {label} = {actual:.2f} (expected {expected:.2f}, diff = {abs(expected - actual):.6f})")
+
 # Define the problem parameters
 states = ["Benign (C₁)", "Early-stage (C₂)", "Advanced (C₃)"]
 actions = ["No treatment (a₁)", "Mild treatment (a₂)", "Aggressive treatment (a₃)"]
@@ -41,6 +48,12 @@ initial_posteriors = np.array([0.7, 0.2, 0.1])  # [P(C₁|x), P(C₂|x), P(C₃|
 
 # Updated posterior probabilities for Task 3
 updated_posteriors = np.array([0.5, 0.3, 0.2])  # [P(C₁|x), P(C₂|x), P(C₃|x)]
+
+# Expected values from markdown for validation
+expected_losses_initial = np.array([20.0, 12.0, 18.0])  # [a₁, a₂, a₃]
+expected_losses_updated = np.array([35.0, 14.5, 16.5])  # [a₁, a₂, a₃]
+expected_boundary_for_a1 = 0.84  # P(C₁|x) threshold for "no treatment" to be optimal
+expected_losses_01 = np.array([0.3, 0.8, 0.9])  # Expected zero-one losses [a₁, a₂, a₃]
 
 def calculate_expected_loss(loss_matrix, posteriors):
     """Calculate expected loss for each action"""
@@ -120,6 +133,32 @@ def visualize_decision_boundaries(loss_matrix, states, actions, filename="decisi
     expected_loss_a2 = loss_matrix[1, 0] * p_c1 + loss_matrix[1, 1] * p_c2 + loss_matrix[1, 2] * p_c3
     expected_loss_a3 = loss_matrix[2, 0] * p_c1 + loss_matrix[2, 1] * p_c2 + loss_matrix[2, 2] * p_c3
     
+    # Verify formulas with algebraic expressions from markdown
+    print_substep("Verifying expected loss expressions as functions of p = P(C₁|x)")
+    
+    # Expected formula: R(a₁) = 75(1-p)
+    a1_formula = lambda p: 75 * (1 - p)
+    # Expected formula: R(a₂) = 22.5 - 12.5p
+    a2_formula = lambda p: 22.5 - 12.5 * p
+    # Expected formula: R(a₃) = 12.5 + 7.5p
+    a3_formula = lambda p: 12.5 + 7.5 * p
+    
+    # Test with a sample value
+    test_p = 0.6
+    test_idx = np.abs(p_c1 - test_p).argmin()
+    
+    formula_a1 = a1_formula(test_p)
+    numeric_a1 = expected_loss_a1[test_idx]
+    validate_calculation(formula_a1, numeric_a1, f"R(a₁) at p={test_p}")
+    
+    formula_a2 = a2_formula(test_p)
+    numeric_a2 = expected_loss_a2[test_idx]
+    validate_calculation(formula_a2, numeric_a2, f"R(a₂) at p={test_p}")
+    
+    formula_a3 = a3_formula(test_p)
+    numeric_a3 = expected_loss_a3[test_idx]
+    validate_calculation(formula_a3, numeric_a3, f"R(a₃) at p={test_p}")
+    
     # Create the plot
     fig, ax = plt.subplots(figsize=(12, 8))
     
@@ -158,32 +197,49 @@ def visualize_decision_boundaries(loss_matrix, states, actions, filename="decisi
             ax.text(mid_point, y_pos, f"Optimal: {actions[action_idx]}", 
                    ha='center', va='center', fontweight='bold')
     
+    # Get axis limits to position labels better
+    y_max = np.max(np.maximum.reduce([expected_loss_a1, expected_loss_a2, expected_loss_a3]))
+    ax.set_ylim(0, y_max * 1.1)  # Add some space at the top
+    
     # Mark the decision boundaries with vertical lines
-    for boundary in decision_boundaries:
+    label_positions = [0.85, 0.75]  # Different vertical positions for labels
+    for i, boundary in enumerate(decision_boundaries):
         ax.axvline(x=boundary, color='black', linestyle='--', alpha=0.7)
-        # Add text for the boundary value
-        ax.text(boundary, ax.get_ylim()[1]*0.95, f"{boundary:.3f}", ha='center', va='top',
-               bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.7))
+        # Add text for the boundary value - use different positions for different boundaries
+        position = label_positions[i % len(label_positions)]
+        ax.text(boundary, y_max * position, f"{boundary:.4f}", ha='center', va='center',
+               bbox=dict(boxstyle="round,pad=0.4", fc="white", ec="black", alpha=0.9))
     
     # Formatting
     ax.set_xlabel("P(C₁|x) - Probability of Benign")
     ax.set_ylabel("Expected Loss (Bayes Risk)")
     ax.set_title("Expected Loss vs. P(C₁|x) with Decision Boundaries")
     ax.grid(True, alpha=0.3)
-    ax.legend(loc='upper right')
+    
+    # Move legend to upper left to avoid boundary labels
+    ax.legend(loc='upper left')
     
     # For Task 1: Mark the initial posterior P(C₁|x) = 0.7
     ax.axvline(x=0.7, color='purple', linestyle='-', alpha=0.7)
-    ax.text(0.7, ax.get_ylim()[1]*0.9, "Initial\nP(C₁|x)=0.7", ha='center', va='top',
+    ax.text(0.7, y_max * 0.65, "Initial\nP(C₁|x)=0.7", ha='center', va='center',
            bbox=dict(boxstyle="round,pad=0.3", fc="lavender", ec="purple", alpha=0.7))
     
     # For Task 3: Mark the updated posterior P(C₁|x) = 0.5
     ax.axvline(x=0.5, color='darkblue', linestyle='-', alpha=0.7)
-    ax.text(0.5, ax.get_ylim()[1]*0.85, "Updated\nP(C₁|x)=0.5", ha='center', va='top',
+    ax.text(0.5, y_max * 0.55, "Updated\nP(C₁|x)=0.5", ha='center', va='center',
            bbox=dict(boxstyle="round,pad=0.3", fc="lightblue", ec="darkblue", alpha=0.7))
     
     fig.tight_layout()
     save_figure(fig, filename)
+    
+    # Verify decision boundary matches expected value
+    a1_boundary = next((b for b in decision_boundaries if b > 0.8), None)
+    print_substep("Verifying decision boundary for 'No treatment' to be optimal")
+    if a1_boundary:
+        validate_calculation(expected_boundary_for_a1, a1_boundary, "P(C₁|x) threshold for 'No treatment'", tolerance=0.01)
+    else:
+        print("✗ ERROR: Could not find decision boundary for 'No treatment'")
+    
     return fig, decision_boundaries
 
 def compare_zero_one_loss():
@@ -196,10 +252,24 @@ def compare_zero_one_loss():
     ])
     
     # Calculate expected loss for each action using initial posteriors
-    expected_losses_01 = calculate_expected_loss(zero_one_loss_matrix, initial_posteriors)
+    expected_losses_01_calculated = calculate_expected_loss(zero_one_loss_matrix, initial_posteriors)
+    
+    # Verify zero-one loss calculations
+    print_substep("Verifying zero-one loss expected values")
+    validate_calculation(expected_losses_01[0], expected_losses_01_calculated[0], "Zero-one loss R(a₁)")
+    validate_calculation(expected_losses_01[1], expected_losses_01_calculated[1], "Zero-one loss R(a₂)")
+    validate_calculation(expected_losses_01[2], expected_losses_01_calculated[2], "Zero-one loss R(a₃)")
     
     # Find MAP estimate
     map_estimate = np.argmax(initial_posteriors)
+    min_risk_01 = np.argmin(expected_losses_01_calculated)
+    
+    # Verify MAP estimate matches minimum zero-one loss
+    print(f"MAP estimate = {map_estimate}, Min zero-one risk = {min_risk_01}")
+    if map_estimate == min_risk_01:
+        print("✓ VALIDATED: MAP estimate matches minimum zero-one risk action")
+    else:
+        print("✗ ERROR: MAP estimate does not match minimum zero-one risk action")
     
     # Create a figure showing the comparison
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
@@ -238,8 +308,9 @@ def compare_zero_one_loss():
     x = np.arange(len(actions))
     width = 0.35
     
-    rects1 = ax.bar(x - width/2, calculate_expected_loss(loss_matrix, initial_posteriors), width, label='Original Loss')
-    rects2 = ax.bar(x + width/2, expected_losses_01, width, label='Zero-One Loss')
+    original_losses = calculate_expected_loss(loss_matrix, initial_posteriors)
+    rects1 = ax.bar(x - width/2, original_losses, width, label='Original Loss')
+    rects2 = ax.bar(x + width/2, expected_losses_01_calculated, width, label='Zero-One Loss')
     
     ax.set_ylabel('Expected Loss')
     ax.set_title('Comparison of Expected Losses: Original vs Zero-One Loss')
@@ -249,8 +320,8 @@ def compare_zero_one_loss():
     ax.legend()
     
     # Highlight the minimum expected loss for each loss function
-    min_idx1 = np.argmin(calculate_expected_loss(loss_matrix, initial_posteriors))
-    min_idx2 = np.argmin(expected_losses_01)
+    min_idx1 = np.argmin(original_losses)
+    min_idx2 = np.argmin(expected_losses_01_calculated)
     rects1[min_idx1].set_color('darkgreen')
     rects2[min_idx2].set_color('darkblue')
     
@@ -282,7 +353,49 @@ def compare_zero_one_loss():
     fig.tight_layout()
     save_figure(fig, "expected_loss_comparison.png")
     
-    return map_estimate, min_idx2, expected_losses_01
+    return map_estimate, min_idx2, expected_losses_01_calculated
+
+def verify_inequalities_for_a1_optimality():
+    """Verify the inequalities for when "no treatment" is optimal"""
+    print_substep("Verifying inequalities for 'No treatment' optimality")
+    
+    # From inequality 1: p > 52.5/62.5 = 0.84
+    p1 = 52.5/62.5
+    print(f"From inequality 1: p > {p1:.4f}")
+    
+    # From inequality 2: p > 62.5/82.5 = 0.7576
+    p2 = 62.5/82.5
+    print(f"From inequality 2: p > {p2:.4f}")
+    
+    # Verify these values with the formula expansions
+    # Inequality 1: R(a₁) < R(a₂), which gives 75(1-p) < 22.5 - 12.5p
+    p_test = np.array([0.83, 0.84, 0.85])  # Test values around boundary
+    
+    # Calculate R(a₁) and R(a₂) for these values
+    r_a1 = 75 * (1 - p_test)
+    r_a2 = 22.5 - 12.5 * p_test
+    
+    print("\nTesting inequality 1 (R(a₁) < R(a₂)) at values around boundary:")
+    for i, p in enumerate(p_test):
+        result = "True" if r_a1[i] < r_a2[i] else "False"
+        print(f"At p = {p:.2f}: R(a₁) = {r_a1[i]:.2f}, R(a₂) = {r_a2[i]:.2f}, R(a₁) < R(a₂): {result}")
+    
+    # Inequality 2: R(a₁) < R(a₃), which gives 75(1-p) < 12.5 + 7.5p
+    # Calculate R(a₁) and R(a₃) for these values
+    r_a3 = 12.5 + 7.5 * p_test
+    
+    print("\nTesting inequality 2 (R(a₁) < R(a₃)) at values around boundary:")
+    for i, p in enumerate(p_test):
+        result = "True" if r_a1[i] < r_a3[i] else "False"
+        print(f"At p = {p:.2f}: R(a₁) = {r_a1[i]:.2f}, R(a₃) = {r_a3[i]:.2f}, R(a₁) < R(a₃): {result}")
+    
+    # Overall conclusion
+    if p1 > p2:
+        print(f"\nThe stricter condition is p > {p1:.4f}")
+        print(f"'No treatment' is optimal when P(C₁|x) > {p1:.4f}")
+    else:
+        print(f"\nThe stricter condition is p > {p2:.4f}")
+        print(f"'No treatment' is optimal when P(C₁|x) > {p2:.4f}")
 
 def run_analysis():
     """Run the entire analysis for Question 31"""
@@ -300,7 +413,28 @@ def run_analysis():
     print_step_header(1, "Calculate Expected Loss (Bayes Risk) for Each Treatment Decision")
     expected_losses = calculate_expected_loss(loss_matrix, initial_posteriors)
     
-    print("Expected Loss (Bayes Risk) for each action:")
+    # Validate the calculations
+    print_substep("Validating expected loss calculations for initial posteriors")
+    validate_calculation(expected_losses_initial[0], expected_losses[0], "R(a₁) with initial posteriors")
+    validate_calculation(expected_losses_initial[1], expected_losses[1], "R(a₂) with initial posteriors")
+    validate_calculation(expected_losses_initial[2], expected_losses[2], "R(a₃) with initial posteriors")
+    
+    # Detailed breakdown of R(a₁)
+    print("\nDetailed calculation for R(a₁):")
+    print(f"R(a₁) = {loss_matrix[0,0]} × {initial_posteriors[0]} + {loss_matrix[0,1]} × {initial_posteriors[1]} + {loss_matrix[0,2]} × {initial_posteriors[2]}")
+    print(f"R(a₁) = {loss_matrix[0,0] * initial_posteriors[0]:.2f} + {loss_matrix[0,1] * initial_posteriors[1]:.2f} + {loss_matrix[0,2] * initial_posteriors[2]:.2f} = {expected_losses[0]:.2f}")
+    
+    # Detailed breakdown of R(a₂)
+    print("\nDetailed calculation for R(a₂):")
+    print(f"R(a₂) = {loss_matrix[1,0]} × {initial_posteriors[0]} + {loss_matrix[1,1]} × {initial_posteriors[1]} + {loss_matrix[1,2]} × {initial_posteriors[2]}")
+    print(f"R(a₂) = {loss_matrix[1,0] * initial_posteriors[0]:.2f} + {loss_matrix[1,1] * initial_posteriors[1]:.2f} + {loss_matrix[1,2] * initial_posteriors[2]:.2f} = {expected_losses[1]:.2f}")
+    
+    # Detailed breakdown of R(a₃)
+    print("\nDetailed calculation for R(a₃):")
+    print(f"R(a₃) = {loss_matrix[2,0]} × {initial_posteriors[0]} + {loss_matrix[2,1]} × {initial_posteriors[1]} + {loss_matrix[2,2]} × {initial_posteriors[2]}")
+    print(f"R(a₃) = {loss_matrix[2,0] * initial_posteriors[0]:.2f} + {loss_matrix[2,1] * initial_posteriors[1]:.2f} + {loss_matrix[2,2] * initial_posteriors[2]:.2f} = {expected_losses[2]:.2f}")
+    
+    print("\nExpected Loss (Bayes Risk) for each action:")
     for i, action in enumerate(actions):
         print(f"{action}: {expected_losses[i]:.2f}")
     
@@ -323,6 +457,27 @@ def run_analysis():
     
     updated_expected_losses = calculate_expected_loss(loss_matrix, updated_posteriors)
     
+    # Validate the calculations
+    print_substep("Validating expected loss calculations for updated posteriors")
+    validate_calculation(expected_losses_updated[0], updated_expected_losses[0], "R(a₁) with updated posteriors")
+    validate_calculation(expected_losses_updated[1], updated_expected_losses[1], "R(a₂) with updated posteriors")
+    validate_calculation(expected_losses_updated[2], updated_expected_losses[2], "R(a₃) with updated posteriors")
+    
+    # Detailed breakdown of R(a₁) with updated posteriors
+    print("\nDetailed calculation for R(a₁) with updated posteriors:")
+    print(f"R(a₁) = {loss_matrix[0,0]} × {updated_posteriors[0]} + {loss_matrix[0,1]} × {updated_posteriors[1]} + {loss_matrix[0,2]} × {updated_posteriors[2]}")
+    print(f"R(a₁) = {loss_matrix[0,0] * updated_posteriors[0]:.2f} + {loss_matrix[0,1] * updated_posteriors[1]:.2f} + {loss_matrix[0,2] * updated_posteriors[2]:.2f} = {updated_expected_losses[0]:.2f}")
+    
+    # Detailed breakdown of R(a₂) with updated posteriors
+    print("\nDetailed calculation for R(a₂) with updated posteriors:")
+    print(f"R(a₂) = {loss_matrix[1,0]} × {updated_posteriors[0]} + {loss_matrix[1,1]} × {updated_posteriors[1]} + {loss_matrix[1,2]} × {updated_posteriors[2]}")
+    print(f"R(a₂) = {loss_matrix[1,0] * updated_posteriors[0]:.2f} + {loss_matrix[1,1] * updated_posteriors[1]:.2f} + {loss_matrix[1,2] * updated_posteriors[2]:.2f} = {updated_expected_losses[1]:.2f}")
+    
+    # Detailed breakdown of R(a₃) with updated posteriors
+    print("\nDetailed calculation for R(a₃) with updated posteriors:")
+    print(f"R(a₃) = {loss_matrix[2,0]} × {updated_posteriors[0]} + {loss_matrix[2,1]} × {updated_posteriors[1]} + {loss_matrix[2,2]} × {updated_posteriors[2]}")
+    print(f"R(a₃) = {loss_matrix[2,0] * updated_posteriors[0]:.2f} + {loss_matrix[2,1] * updated_posteriors[1]:.2f} + {loss_matrix[2,2] * updated_posteriors[2]:.2f} = {updated_expected_losses[2]:.2f}")
+    
     print("\nUpdated Expected Loss (Bayes Risk) for each action:")
     for i, action in enumerate(actions):
         print(f"{action}: {updated_expected_losses[i]:.2f}")
@@ -338,6 +493,9 @@ def run_analysis():
     
     # Task 4: Find range of P(C₁|x) values that make "no treatment" optimal
     print_step_header(4, "Find Range of P(C₁|x) Values for Optimal 'No Treatment'")
+    
+    # Verify the algebraic derivation
+    verify_inequalities_for_a1_optimality()
     
     fig, decision_boundaries = visualize_decision_boundaries(loss_matrix, states, actions)
     
@@ -365,7 +523,7 @@ def run_analysis():
     # Task 5: Use zero-one loss function and compare with MAP
     print_step_header(5, "Compare with Zero-One Loss and MAP Estimation")
     
-    map_estimate, min_idx_01, expected_losses_01 = compare_zero_one_loss()
+    map_estimate, min_idx_01, expected_losses_01_calculated = compare_zero_one_loss()
     
     print(f"MAP estimate (class with highest posterior): {states[map_estimate]}")
     print(f"Decision under zero-one loss: {actions[min_idx_01]}")
