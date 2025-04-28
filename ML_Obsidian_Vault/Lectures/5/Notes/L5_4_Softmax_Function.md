@@ -60,57 +60,6 @@ $$\text{softmax}(z_i) = \frac{e^{z_i - \max_j z_j}}{\sum_{j=1}^{K} e^{z_j - \max
 
 This doesn't change the result but prevents numerical issues.
 
-## Implementation
-Here's a numerically stable implementation of the softmax function in Python:
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-
-def softmax(z):
-    # Subtract max for numerical stability
-    shifted_z = z - np.max(z)
-    # Calculate exponentials
-    exp_values = np.exp(shifted_z)
-    # Normalize to get probabilities
-    return exp_values / np.sum(exp_values)
-
-# Example with 3 classes
-scores = np.array([2.0, 1.0, 0.1])
-probabilities = softmax(scores)
-print(f"Input scores: {scores}")
-print(f"Softmax probabilities: {probabilities}")
-print(f"Sum of probabilities: {np.sum(probabilities)}")
-
-# Visualization for 3 classes
-def plot_softmax():
-    # Create a range of values for two classes (third will be fixed)
-    x = np.linspace(-5, 5, 100)
-    y = np.linspace(-5, 5, 100)
-    X, Y = np.meshgrid(x, y)
-    
-    # Fixed value for third class
-    z3 = 0
-    
-    # Calculate softmax for each point
-    Z = np.zeros((100, 100, 3))
-    for i in range(100):
-        for j in range(100):
-            Z[i, j] = softmax([X[i, j], Y[i, j], z3])
-    
-    # Plot probability of first class
-    plt.figure(figsize=(10, 8))
-    plt.contourf(X, Y, Z[:, :, 0], 20, cmap='viridis')
-    plt.colorbar(label='P(class 1)')
-    plt.title('Softmax Probability for Class 1 (with class 3 fixed at 0)')
-    plt.xlabel('Score for class 1')
-    plt.ylabel('Score for class 2')
-    plt.grid(True)
-    plt.show()
-
-plot_softmax()
-```
-
 ## Applications in Neural Networks
 - Output layer of neural networks for multi-class classification
 - Attention mechanisms in transformer architectures
@@ -126,8 +75,3 @@ plot_softmax()
 
 ## Historical Context
 The softmax function was introduced in the context of regression problems by statistician David Cox in 1958. It gained popularity in machine learning with the rise of artificial neural networks in the 1980s and has become a standard component in modern deep learning architectures.
-
-## References
-1. Bishop, C. M. (2006). Pattern Recognition and Machine Learning. Springer. Chapter 4.3.4.
-2. Goodfellow, I., Bengio, Y., & Courville, A. (2016). Deep Learning. MIT Press. Chapter 6.2.2.
-3. Cox, D. R. (1958). The regression analysis of binary sequences. Journal of the Royal Statistical Society: Series B, 20(2), 215-242. 

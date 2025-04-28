@@ -40,31 +40,6 @@ This creates a linear decision boundary in the feature space.
 - Not zero-centered, which can cause zig-zagging dynamics during gradient descent
 - In modern deep learning, other activation functions like ReLU often outperform sigmoid for hidden layers
 
-## Implementation
-Here's a simple implementation of the sigmoid function in Python:
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-
-def sigmoid(z):
-    return 1 / (1 + np.exp(-z))
-
-# Visualize the sigmoid function
-z = np.linspace(-10, 10, 100)
-sigmoid_values = sigmoid(z)
-
-plt.figure(figsize=(8, 6))
-plt.plot(z, sigmoid_values)
-plt.grid(True)
-plt.title('Sigmoid Function')
-plt.xlabel('z')
-plt.ylabel('σ(z)')
-plt.axhline(y=0.5, color='r', linestyle='-', alpha=0.3)
-plt.axvline(x=0, color='r', linestyle='-', alpha=0.3)
-plt.show()
-```
-
 ## Related Concepts
 - [[L5_1_Logistic_Regression_Model|Logistic Regression Model]]
 - [[L5_1_Binary_Classification|Binary Classification]]
@@ -74,7 +49,3 @@ plt.show()
 
 ## Historical Context
 The sigmoid function was first introduced in the context of logistic regression by statistician Joseph Berkson in 1944, though the logistic function itself was described much earlier by Pierre François Verhulst in 1838 as a model of population growth.
-
-## References
-1. Bishop, C. M. (2006). Pattern Recognition and Machine Learning. Springer. Chapter 4.3.2.
-2. Hastie, T., Tibshirani, R., & Friedman, J. (2009). The Elements of Statistical Learning. Springer. Chapter 4.4. 
