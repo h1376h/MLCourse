@@ -562,3 +562,89 @@ The loss function for each combination of true state and action is given by the 
 5. Formulate a MAP (Maximum A Posteriori) estimation approach to determine the most likely state of a component. Assuming a uniform prior over the states, calculate the MAP estimate for both probability distributions. How does the MAP estimate relate to the optimal decision under 0-1 loss?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 30: Bayes Risk in Manufacturing Decisions](L2_7_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+In oncology, physicians must make treatment decisions based on imperfect diagnostic information. Consider a cancer diagnosis problem where a patient's tumor must be classified into one of three categories based on test results, and an appropriate treatment must be selected.
+
+The three possible tumor states are:
+- $C_1$: Benign
+- $C_2$: Early-stage malignant
+- $C_3$: Advanced malignant
+
+After analyzing test results (represented as features $x$), a machine learning model produces the following posterior probabilities:
+- $P(C_1|x) = 0.7$ (probability of benign)
+- $P(C_2|x) = 0.2$ (probability of early-stage)
+- $P(C_3|x) = 0.1$ (probability of advanced)
+
+The physician must choose between three possible treatments:
+- $a_1$: No treatment
+- $a_2$: Mild treatment
+- $a_3$: Aggressive treatment
+
+The medical team has quantified the loss (negative utility) for each combination of true tumor state and treatment decision:
+
+| Loss | No treatment ($a_1$) | Mild treatment ($a_2$) | Aggressive treatment ($a_3$) |
+|:----:|:--------------------:|:----------------------:|:----------------------------:|
+| Benign ($C_1$) | 0 | 10 | 20 |
+| Early-stage ($C_2$) | 50 | 5 | 15 |
+| Advanced ($C_3$) | 100 | 40 | 10 |
+
+Where higher values represent worse outcomes (e.g., unnecessary treatment side effects or untreated cancer progression).
+
+#### Task
+1. Calculate the expected loss (Bayes risk) for each possible treatment decision using the formula:
+   $$R(a_i) = \sum_{j=1}^K L(a_i, C_j)P(C_j|x)$$
+2. Determine which treatment decision minimizes the Bayes risk according to the Bayes minimum risk decision rule:
+   $$\hat{\alpha}(x) = \arg\min_{i=1,...,K} \sum_{j=1}^K L_{ij}p(C_j|x)$$
+3. If a second opinion changed the posterior probabilities to $P(C_1|x) = 0.5$, $P(C_2|x) = 0.3$, and $P(C_3|x) = 0.2$, how would this affect the optimal treatment decision?
+4. For patients with these types of test results, what range of $P(C_1|x)$ values would make "no treatment" the optimal decision, assuming that $P(C_2|x) = P(C_3|x) = \frac{1-P(C_1|x)}{2}$? Derive the conditional risk equations and solve the inequalities.
+5. Compare the Bayes risk decision with the MAP (Maximum A Posteriori) decision for this case. If the MAP approach were used instead (choosing the treatment based on the most likely class), what treatment would be selected, and how would this affect the expected loss compared to the Bayes minimum risk approach?
+6. Using the expected loss minimization framework, explain how incorporating a prior (as in MAP estimation) into a diagnostic model would affect medical treatment decisions compared to using only the likelihood (as in MLE).
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 31: Bayes Risk in Medical Decision Making](L2_7_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
+A hospital is implementing an automated cancer screening system to classify patient biopsies as either benign or malignant. The system uses machine learning to produce posterior probabilities based on various features extracted from biopsy images.
+
+For a specific patient sample, the system has calculated:
+- $P(C_1|x) = 0.3$ (probability of benign)
+- $P(C_2|x) = 0.7$ (probability of malignant)
+
+The hospital administrators are considering two different loss function frameworks for making classification decisions:
+
+**Framework 1: Zero-One Loss (Minimizing misclassification rate)**
+
+| Loss | Classify as Benign ($a_1$) | Classify as Malignant ($a_2$) |
+| :---: | :------------------------: | :---------------------------: |
+| Benign ($C_1$) | 0 | 1 |
+| Malignant ($C_2$) | 1 | 0 |
+
+**Framework 2: Asymmetric Loss (Accounting for different error costs)**
+
+| Loss | Classify as Benign ($a_1$) | Classify as Malignant ($a_2$) |
+| :---: | :------------------------: | :---------------------------: |
+| Benign ($C_1$) | 0 | 2 |
+| Malignant ($C_2$) | 10 | 0 |
+
+Where the asymmetric loss reflects that missing a malignant tumor (false negative) is considered much more serious than misclassifying a benign tumor as malignant (false positive).
+
+#### Task
+1. For the zero-one loss function, calculate the expected loss (Bayes risk) for each possible action using the formula:
+   $$R(a_i) = \sum_{j=1}^K L(a_i, C_j)P(C_j|x)$$
+   Then determine the op
+2. For the asymmetric loss function, calculate the expected loss for each possible action and determine the optimal decision.
+3. Show how the Bayes decision rule with zero-one loss simplifies to:
+   $$\hat{\alpha}(x) = \arg\max_{i=1,...,K} p(C_i|x)$$
+   Explain why this means selecting the class with the highest posterior probability.
+4. Derive the general threshold for making decisions with asymmetric loss. Starting from:
+   $$R(a_1) = \sum_{j=1}^2 L(a_1, C_j)P(C_j|x)$$
+   $$R(a_2) = \sum_{j=1}^2 L(a_2, C_j)P(C_j|x)$$
+   Find the value $t$ such that we choose $a_2$ if $P(C_2|x) > t$. For what values of $P(C_2|x)$ would the system classify the sample as malignant?
+5. Explain how this threshold changes as the ratio of false negative cost to false positive cost increases or decreases. How does this relate to the sensitivity and specificity of the test?
+6. Compare this Bayes risk approach with a MAP (Maximum A Posteriori) approach. If you were given a prior distribution on the prevalence of malignant vs. benign tumors in the population, how would you incorporate this into your decision process? Explain how MAP estimation relates to the decision theory framework with 0-1 loss.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 32: Decision Theory for Medical Diagnosis](L2_7_32_explanation.md).
