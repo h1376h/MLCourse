@@ -538,6 +538,49 @@ print(f"Overhead vs. entropy: {avg_huffman - total_entropy_manual:.4f} bits/exam
 
 # Continue with the visualization code
 
+# Visualization for encoding schemes comparison
+fig_encoding = plt.figure(figsize=(10, 7))
+gs = GridSpec(2, 1, figure=fig_encoding, height_ratios=[2, 1])
+
+# Top plot: Encoding schemes comparison
+ax1 = fig_encoding.add_subplot(gs[0])
+
+# Set up data for grouped bar chart
+x = np.arange(len(categories))
+width = 0.35
+
+# Plot one-hot encoding bits
+onehot_bars = ax1.bar(x - width/2, [bits_per_example_onehot]*len(categories), width, label='One-hot', color='skyblue')
+# Plot binary encoding bits
+binary_bars = ax1.bar(x + width/2, [bits_per_example_binary]*len(categories), width, label='Binary', color='lightcoral')
+
+ax1.set_ylabel('Bits per Example')
+ax1.set_title('Encoding Scheme Bit Requirements')
+ax1.set_xticks(x)
+ax1.set_xticklabels(categories)
+ax1.legend()
+
+# Bottom plot: Total storage requirements
+ax2 = fig_encoding.add_subplot(gs[1])
+schemes = ['One-hot', 'Binary', 'Entropy Limit']
+total_bits = [total_bits_onehot, total_bits_binary, entropy_bits]
+bars = ax2.bar(schemes, total_bits, color=['skyblue', 'lightcoral', 'lightgreen'])
+
+# Add value labels on bars
+for bar in bars:
+    height = bar.get_height()
+    ax2.text(bar.get_x() + bar.get_width()/2., height + 5,
+             f'{height:.1f}', ha='center', va='bottom')
+
+ax2.set_ylabel('Total Bits for 100 Examples')
+ax2.set_title('Total Storage Requirements')
+
+# Add a horizontal line for entropy limit
+ax2.axhline(y=entropy_bits, color='green', linestyle='--', linewidth=1)
+
+plt.tight_layout()
+save_figure(fig_encoding, "step3_encoding_comparison.png")
+
 # ==============================
 # STEP 4: Compare the Efficiency of Both Encoding Schemes
 # ==============================
@@ -643,77 +686,56 @@ constraint_y = 1 - constraint_x
 ax1.plot(constraint_x, constraint_y, 'w--', linewidth=2, label=r'Constraint: $\theta_{a} + \theta_{b} + \theta_{c} = 1$')
 ax1.legend(loc='upper right')
 
-# Print the explanation of relationship instead of putting it in the figure
-print("\nDetailed derivation of MLE and cross-entropy relationship (pen-and-paper style):")
+# Add second plot for cross-entropy and log-likelihood relationship
+ax2 = fig_cross_entropy.add_subplot(gs[1])
 
-print("\nStep 1: Start with the log-likelihood function")
-print(f"log L(θ | data) = {counts[0]}log(θ_a) + {counts[1]}log(θ_b) + {counts[2]}log(θ_c)")
+# Create a range of theta_a values for comparison
+theta_a_vals = np.linspace(0.2, 0.8, 100)
+ce_vals = []
+ll_vals = []
 
-print("\nStep 2: Express counts in terms of empirical probabilities")
-print(f"Let q(i) be the empirical probability of category i:")
-for cat, prob in empirical_dist.items():
-    print(f"q({cat}) = {counts[categories.index(cat)]}/{total_examples} = {prob}")
+# Calculate cross-entropy and log-likelihood for different theta_a values
+# We'll keep sum of parameters = 1 by setting theta_b = theta_c = (1-theta_a)/2
+for theta_a in theta_a_vals:
+    theta_b = theta_c = (1 - theta_a) / 2
+    theta_dist = [theta_a, theta_b, theta_c]
+    
+    # Cross-entropy
+    ce = cross_entropy(q_dist, theta_dist)
+    ce_vals.append(ce)
+    
+    # Log-likelihood (scaled)
+    ll = -total_examples * ce
+    ll_vals.append(ll)
 
-print("\nStep 3: Rewrite log-likelihood using empirical probabilities")
-print(f"For each count n_i, we can write: n_i = n × q(i)")
-print(f"Where n = {total_examples} is the total number of examples")
-print(f"So n_a = {total_examples} × q(A) = {total_examples} × {empirical_dist['A']} = {counts[0]}")
-print(f"Similarly for n_b and n_c")
+# Plot cross-entropy
+ax2.plot(theta_a_vals, ce_vals, 'r-', label='Cross-entropy')
+ax2.set_xlabel(r'$\theta_a$ (fixing $\theta_b = \theta_c = (1-\theta_a)/2$)')
+ax2.set_ylabel('Cross-entropy (bits)', color='r')
+ax2.tick_params(axis='y', labelcolor='r')
+ax2.set_title('Cross-entropy vs. Log-likelihood')
 
-print("\nStep 4: Substitute into log-likelihood")
-print(f"log L(θ | data) = {total_examples} × q(A) × log(θ_a) + {total_examples} × q(B) × log(θ_b) + {total_examples} × q(C) × log(θ_c)")
-print(f"log L(θ | data) = {total_examples} × [q(A)log(θ_a) + q(B)log(θ_b) + q(C)log(θ_c)]")
-print(f"log L(θ | data) = {total_examples} × [Σ_i q(i)log(θ_i)]")
+# Create twin axis for log-likelihood
+ax2_twin = ax2.twinx()
+ax2_twin.plot(theta_a_vals, ll_vals, 'b-', label='Log-likelihood')
+ax2_twin.set_ylabel('Log-likelihood', color='b')
+ax2_twin.tick_params(axis='y', labelcolor='b')
 
-print("\nStep 5: Identify the cross-entropy term")
-print("The cross-entropy between distributions q and θ is defined as:")
-print("H(q, θ) = -Σ_i q(i)log(θ_i)")
+# Mark the MLE point (where cross-entropy is minimized and log-likelihood is maximized)
+min_ce_idx = np.argmin(ce_vals)
+min_ce_x = theta_a_vals[min_ce_idx]
+min_ce_y = ce_vals[min_ce_idx]
+max_ll_y = ll_vals[min_ce_idx]
 
-print("\nStep 6: Express log-likelihood in terms of cross-entropy")
-print("From steps 4 and 5:")
-print("log L(θ | data) = n × [Σ_i q(i)log(θ_i)]")
-print("                = n × [-(-Σ_i q(i)log(θ_i))]")
-print("                = n × [-H(q, θ)]")
-print("                = -n × H(q, θ)")
+ax2.scatter([min_ce_x], [min_ce_y], color='r', marker='*', s=100)
+ax2_twin.scatter([min_ce_x], [max_ll_y], color='b', marker='*', s=100)
 
-print("\nStep 7: Determine what maximizing log-likelihood means")
-print("To maximize log-likelihood: maximize -n × H(q, θ)")
-print("Since n is positive, this is equivalent to minimizing H(q, θ)")
-print("Therefore, maximizing log-likelihood is equivalent to minimizing cross-entropy between")
-print("the empirical distribution q and the model distribution θ")
+# Add vertical line showing optimum
+ax2.axvline(x=min_ce_x, color='green', linestyle='--', alpha=0.5)
+ax2.text(min_ce_x+0.01, min_ce_y+0.01, f'MLE: θ_a={min_ce_x:.2f}', color='green')
 
-print("\nStep 8: Verify with our specific distributions")
-print("Our empirical distribution q:")
-q_dist = [empirical_dist[cat] for cat in categories]
-print(f"q = [{q_dist[0]}, {q_dist[1]}, {q_dist[2]}]")
-
-print("\nCross-entropy if model θ exactly matches empirical distribution:")
-theta_match = q_dist
-ce_match = cross_entropy(q_dist, theta_match)
-ll_match = -total_examples * ce_match
-print(f"If θ = q = [{theta_match[0]}, {theta_match[1]}, {theta_match[2]}]:")
-print(f"H(q, θ) = {ce_match:.4f} bits")
-print(f"log L(θ | data) = -{total_examples} × {ce_match:.4f} = {ll_match:.4f}")
-
-print("\nCross-entropy with some other distribution:")
-theta_diff = [0.4, 0.4, 0.2]
-ce_diff = cross_entropy(q_dist, theta_diff)
-ll_diff = -total_examples * ce_diff
-print(f"If θ = [{theta_diff[0]}, {theta_diff[1]}, {theta_diff[2]}]:")
-print(f"H(q, θ) = {ce_diff:.4f} bits")
-print(f"log L(θ | data) = -{total_examples} × {ce_diff:.4f} = {ll_diff:.4f}")
-
-print(f"\nComparing log-likelihoods: {ll_match:.4f} vs {ll_diff:.4f}")
-print(f"As expected, log-likelihood is higher (less negative) when θ matches q")
-
-print("\nStep 9: Connect to information theory")
-print("Cross-entropy H(q, θ) represents the average number of bits needed to encode")
-print("data from distribution q using a code optimized for distribution θ")
-print("The minimum cross-entropy occurs when θ = q, in which case H(q, θ) = H(q)")
-print("Therefore, MLE finds the distribution θ that would be most efficient for encoding")
-print("the observed data, in an information-theoretic sense")
-
-# Continue with the original code for cross-entropy visualization
+plt.tight_layout()
+save_figure(fig_cross_entropy, "step5_cross_entropy_relation.png")
 
 # ==============================
 # STEP 6: Properties of MLE in the Context of Categorical Data
@@ -848,6 +870,101 @@ else:
     print("However, MLE becomes asymptotically efficient as n → ∞")
 
 # Continue with the original MLE properties visualization
+
+# Visualization for MLE properties
+fig_properties = plt.figure(figsize=(12, 8))
+gs = GridSpec(2, 2, figure=fig_properties)
+
+# Top left: Consistency visualization (convergence)
+ax1 = fig_properties.add_subplot(gs[0, 0])
+
+# Error vs. sample size
+avg_errors = []
+for i, n in enumerate(sample_sizes):
+    errors = [abs(est - true) for est, true in zip(estimates[i], true_probs)]
+    avg_error = sum(errors) / len(errors)
+    avg_errors.append(avg_error)
+
+ax1.semilogx(sample_sizes, avg_errors, 'bo-')
+ax1.set_title('Consistency: Error vs. Sample Size')
+ax1.set_xlabel('Sample Size (log scale)')
+ax1.set_ylabel('Average Absolute Error')
+ax1.grid(True, which="both", ls="-")
+
+# Top right: Consistency visualization (parameter values)
+ax2 = fig_properties.add_subplot(gs[0, 1])
+
+# Plot the estimates for each category as sample size increases
+for cat_idx in range(3):
+    cat_estimates = [est[cat_idx] for est in estimates]
+    ax2.semilogx(sample_sizes, cat_estimates, 'o-', 
+                label=f'Category {categories[cat_idx]}')
+    # Add horizontal line for true value
+    ax2.axhline(y=true_probs[cat_idx], linestyle='--', 
+                color=f'C{cat_idx}', alpha=0.5)
+
+ax2.set_title('Consistency: Parameter Estimates vs. Sample Size')
+ax2.set_xlabel('Sample Size (log scale)')
+ax2.set_ylabel('Probability Estimate')
+ax2.grid(True, which="both", ls="-")
+ax2.legend()
+
+# Bottom left: Asymptotic normality visualization
+ax3 = fig_properties.add_subplot(gs[1, 0])
+
+# Create visualization of confidence intervals
+n_values = [100, 1000, 10000]
+y_positions = range(len(n_values))
+
+for i, n in enumerate(n_values):
+    se = np.sqrt(true_probs[0] * (1 - true_probs[0]) / n)
+    lower = true_probs[0] - 1.96 * se
+    upper = true_probs[0] + 1.96 * se
+    
+    # Plot confidence interval
+    ax3.plot([lower, upper], [i, i], 'b-', linewidth=2)
+    # Plot mean
+    ax3.plot([true_probs[0]], [i], 'ro')
+    # Add sample size label
+    ax3.text(lower - 0.01, i, f'n={n}', ha='right', va='center')
+
+ax3.set_title('Asymptotic Normality: 95% Confidence Intervals')
+ax3.set_xlabel('Probability Estimate for Category A')
+ax3.set_yticks([])
+ax3.axvline(x=true_probs[0], color='r', linestyle='--', alpha=0.5)
+ax3.text(true_probs[0], len(n_values)-0.5, f'True Value: {true_probs[0]}', 
+         rotation=90, va='center', ha='center', backgroundcolor='white')
+
+# Bottom right: Efficiency visualization
+ax4 = fig_properties.add_subplot(gs[1, 1])
+
+# Compare MSE of MLE vs alternative estimator as function of sample size
+sample_sizes_mse = [10, 100, 1000, 10000]
+mse_mle = []
+mse_alt = []
+
+for n in sample_sizes_mse:
+    # MSE for MLE
+    var_mle = true_probs[0] * (1 - true_probs[0]) / n
+    mse_mle.append(var_mle)  # No bias for MLE
+    
+    # MSE for alternative
+    bias_alt = (true_probs[0]*n + 1)/(n + 3) - true_probs[0]
+    var_alt = (true_probs[0]*(1-true_probs[0])*n)/(n+3)**2
+    mse_alt.append(var_alt + bias_alt**2)
+
+ax4.loglog(sample_sizes_mse, mse_mle, 'bo-', label='MLE')
+ax4.loglog(sample_sizes_mse, mse_alt, 'go-', label='Alternative Estimator')
+ax4.set_title('Efficiency: MSE vs. Sample Size')
+ax4.set_xlabel('Sample Size (log scale)')
+ax4.set_ylabel('Mean Squared Error (log scale)')
+ax4.grid(True, which="both", ls="-")
+ax4.legend()
+
+fig_properties.suptitle('Properties of Maximum Likelihood Estimation', fontsize=16)
+plt.tight_layout()
+plt.subplots_adjust(top=0.92)
+save_figure(fig_properties, "step6_MLE_properties.png")
 
 # ==============================
 # SUMMARY
