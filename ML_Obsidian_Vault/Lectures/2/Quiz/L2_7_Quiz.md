@@ -470,7 +470,7 @@ Using only the information provided in these figures:
 
 For a detailed explanation of this problem, including analysis of how different priors affect MAP estimation and the relationships between various Bayesian estimators, see [Question 25: Effect of Priors on MAP Estimation for Coin Flips](L2_7_25_explanation.md).
 
-## Question 26
+## [⭐] Question 26
 
 ### Problem Statement
 Suppose we have samples $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ from a Bernoulli distribution with unknown parameter $\theta$, where $\theta \in (0, 1)$.
