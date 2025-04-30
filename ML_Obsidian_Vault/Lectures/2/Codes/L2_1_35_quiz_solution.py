@@ -23,6 +23,12 @@ def print_step_header(step_number, step_title):
     print(f"STEP {step_number}: {step_title}")
     print(f"{'=' * 80}\n")
 
+def print_statement_result(statement_number, is_true, explanation):
+    """Print a formatted statement result with explanation."""
+    verdict = "TRUE" if is_true else "FALSE"
+    print(f"\nStatement {statement_number} is {verdict}.")
+    print(explanation)
+
 # Step 1: Set up the problem
 print_step_header(1, "Understanding the Problem")
 
@@ -45,8 +51,7 @@ print("13. In a multivariate normal distribution, the angle of rotation of proba
 # Step 2: Visualize diagonal covariance matrices and axis-aligned contours
 print_step_header(2, "Visualizing Diagonal Covariance Matrices and Axis-Aligned Contours")
 
-# Create a figure with three covariance matrices: diagonal with equal variances, 
-# diagonal with unequal variances, and non-diagonal
+# Create a figure with three covariance matrices
 fig, axs = plt.subplots(1, 3, figsize=(18, 5))
 
 # Create a meshgrid for plotting
@@ -62,7 +67,7 @@ rv1 = multivariate_normal(mean, cov1)
 Z1 = rv1.pdf(pos)
 
 axs[0].contour(X, Y, Z1, levels=10, colors='blue')
-axs[0].set_title("Diagonal Covariance with Equal Variances\n(Circle)")
+axs[0].set_title("Diagonal Covariance\nEqual Variances")
 axs[0].set_xlabel("X")
 axs[0].set_ylabel("Y")
 axs[0].axhline(y=0, color='k', linestyle='--', alpha=0.3)
@@ -77,7 +82,7 @@ rv2 = multivariate_normal(mean, cov2)
 Z2 = rv2.pdf(pos)
 
 axs[1].contour(X, Y, Z2, levels=10, colors='green')
-axs[1].set_title("Diagonal Covariance with Unequal Variances\n(Axis-Aligned Ellipse)")
+axs[1].set_title("Diagonal Covariance\nUnequal Variances")
 axs[1].set_xlabel("X")
 axs[1].set_ylabel("Y")
 axs[1].axhline(y=0, color='k', linestyle='--', alpha=0.3)
@@ -92,7 +97,7 @@ rv3 = multivariate_normal(mean, cov3)
 Z3 = rv3.pdf(pos)
 
 axs[2].contour(X, Y, Z3, levels=10, colors='red')
-axs[2].set_title("Non-Diagonal Covariance\n(Tilted Ellipse)")
+axs[2].set_title("Non-Diagonal Covariance")
 axs[2].set_xlabel("X")
 axs[2].set_ylabel("Y")
 axs[2].axhline(y=0, color='k', linestyle='--', alpha=0.3)
@@ -107,13 +112,17 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nKey Insights for Statement 1:")
-print("- When a covariance matrix is diagonal (all off-diagonal elements are zero), the variables are uncorrelated")
-print("- This results in axis-aligned contours in the probability density function")
-print("- If the diagonal elements are equal, the contours form circles")
-print("- If the diagonal elements are unequal, the contours form axis-aligned ellipses")
-print("- Non-diagonal covariance matrices result in tilted ellipses")
-print("\nStatement 1 is TRUE. A diagonal covariance matrix means variables are uncorrelated, and contours are axis-aligned.")
+# Detailed explanation in text rather than in the image
+print("\nStatement 1 Analysis:")
+print("When a covariance matrix is diagonal (all off-diagonal elements are zero):")
+print("- The variables are uncorrelated")
+print("- The probability density contours are aligned with the coordinate axes")
+print("- If diagonal elements are equal, contours form circles (as in plot 1)")
+print("- If diagonal elements are unequal, contours form axis-aligned ellipses (as in plot 2)")
+print("- When off-diagonal elements are non-zero, contours form tilted ellipses (as in plot 3)")
+print("- The contour lines connect points with equal probability density")
+
+print_statement_result(1, True, "A diagonal covariance matrix implies uncorrelated variables and results in axis-aligned elliptical contours (or circular contours if the diagonal elements are equal).")
 
 # Step 3: Visualize positive and negative covariance
 print_step_header(3, "Visualizing Positive and Negative Covariance")
@@ -140,7 +149,7 @@ fig, axs = plt.subplots(1, 3, figsize=(18, 5))
 
 # Plot positive covariance
 axs[0].scatter(samples_pos[:, 0], samples_pos[:, 1], alpha=0.5)
-axs[0].set_title(f"Positive Covariance (Cov = {cov_pos[0][1]:.1f})")
+axs[0].set_title(f"Positive Covariance\n(Cov = {cov_pos[0][1]:.1f})")
 axs[0].set_xlabel("X")
 axs[0].set_ylabel("Y")
 axs[0].axhline(y=0, color='k', linestyle='--', alpha=0.3)
@@ -151,11 +160,10 @@ axs[0].grid(True)
 z = np.polyfit(samples_pos[:, 0], samples_pos[:, 1], 1)
 p = np.poly1d(z)
 axs[0].plot([-4, 4], [p(-4), p(4)], "r--", alpha=0.8)
-axs[0].text(-3.5, 3, "Variables increase\nand decrease together", bbox=dict(facecolor='white', alpha=0.8))
 
 # Plot negative covariance
 axs[1].scatter(samples_neg[:, 0], samples_neg[:, 1], alpha=0.5)
-axs[1].set_title(f"Negative Covariance (Cov = {cov_neg[0][1]:.1f})")
+axs[1].set_title(f"Negative Covariance\n(Cov = {cov_neg[0][1]:.1f})")
 axs[1].set_xlabel("X")
 axs[1].set_ylabel("Y")
 axs[1].axhline(y=0, color='k', linestyle='--', alpha=0.3)
@@ -166,11 +174,10 @@ axs[1].grid(True)
 z = np.polyfit(samples_neg[:, 0], samples_neg[:, 1], 1)
 p = np.poly1d(z)
 axs[1].plot([-4, 4], [p(-4), p(4)], "r--", alpha=0.8)
-axs[1].text(-3.5, 3, "One variable increases\nas the other decreases", bbox=dict(facecolor='white', alpha=0.8))
 
 # Plot zero covariance
 axs[2].scatter(samples_zero[:, 0], samples_zero[:, 1], alpha=0.5)
-axs[2].set_title(f"Zero Covariance (Cov = {cov_zero[0][1]:.1f})")
+axs[2].set_title(f"Zero Covariance\n(Cov = {cov_zero[0][1]:.1f})")
 axs[2].set_xlabel("X")
 axs[2].set_ylabel("Y")
 axs[2].axhline(y=0, color='k', linestyle='--', alpha=0.3)
@@ -178,7 +185,6 @@ axs[2].axvline(x=0, color='k', linestyle='--', alpha=0.3)
 axs[2].set_xlim(-4, 4)
 axs[2].set_ylim(-4, 4)
 axs[2].grid(True)
-axs[2].text(-3.5, 3, "No linear relationship\nbetween variables", bbox=dict(facecolor='white', alpha=0.8))
 
 plt.tight_layout()
 file_path = os.path.join(save_dir, "2_positive_negative_covariance.png")
@@ -186,12 +192,23 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nKey Insights for Statement 2:")
-print("- Positive covariance means variables tend to increase or decrease together")
-print("- Negative covariance means one variable tends to increase while the other decreases")
-print("- Zero covariance indicates no linear relationship between variables")
-print("- The magnitude of covariance indicates the strength of this linear relationship")
-print("\nStatement 2 is TRUE. Covariance measures how variables vary together, with positive/negative values indicating their directional relationship.")
+# Detailed explanation in text
+print("\nStatement 2 Analysis:")
+print("Covariance measures how two random variables change together:")
+print("- Positive covariance (left plot): Variables tend to increase or decrease together")
+print("  • When X increases, Y tends to increase")
+print("  • When X decreases, Y tends to decrease")
+print("  • The trend follows a line with positive slope")
+print("- Negative covariance (middle plot): Variables tend to change in opposite directions")
+print("  • When X increases, Y tends to decrease")
+print("  • When X decreases, Y tends to increase") 
+print("  • The trend follows a line with negative slope")
+print("- Zero covariance (right plot): No linear relationship between variables")
+print("  • Changes in X are not linearly associated with changes in Y")
+print("  • The variables appear to be scattered randomly")
+print("- The magnitude of covariance indicates the strength of the linear relationship")
+
+print_statement_result(2, True, "Covariance measures how variables vary together, with positive/negative values indicating their directional relationship.")
 
 # Step 4: Positive semi-definite covariance matrices
 print_step_header(4, "Demonstrating Positive Semi-Definite Covariance Matrices")
@@ -259,33 +276,30 @@ cmap = plt.cm.viridis
 
 # Plot the positive definite case
 contour1 = axs[0].contourf(A1, A2, Z1, 20, cmap=cmap)
-axs[0].set_title("Positive Definite Matrix\nQuadratic Form a^T Σ a")
+axs[0].set_title("Positive Definite")
 axs[0].set_xlabel("a1")
 axs[0].set_ylabel("a2")
 axs[0].grid(True)
 plt.colorbar(contour1, ax=axs[0])
 axs[0].contour(A1, A2, Z1, levels=[0], colors='red', linewidths=2)
-axs[0].text(-1.8, 1.8, "All values > 0", bbox=dict(facecolor='white', alpha=0.8))
 
 # Plot the positive semi-definite case
 contour2 = axs[1].contourf(A1, A2, Z2, 20, cmap=cmap)
-axs[1].set_title("Positive Semi-Definite Matrix\nQuadratic Form a^T Σ a")
+axs[1].set_title("Positive Semi-Definite")
 axs[1].set_xlabel("a1")
 axs[1].set_ylabel("a2")
 axs[1].grid(True)
 plt.colorbar(contour2, ax=axs[1])
 axs[1].contour(A1, A2, Z2, levels=[0], colors='red', linewidths=2)
-axs[1].text(-1.8, 1.8, "All values ≥ 0", bbox=dict(facecolor='white', alpha=0.8))
 
 # Plot the indefinite case
 contour3 = axs[2].contourf(A1, A2, Z3, 20, cmap=cmap)
-axs[2].set_title("Indefinite Matrix\nQuadratic Form a^T Σ a")
+axs[2].set_title("Indefinite")
 axs[2].set_xlabel("a1")
 axs[2].set_ylabel("a2")
 axs[2].grid(True)
 plt.colorbar(contour3, ax=axs[2])
 axs[2].contour(A1, A2, Z3, levels=[0], colors='red', linewidths=2)
-axs[2].text(-1.8, 1.8, "Some values < 0\n(Not a valid covariance)", bbox=dict(facecolor='white', alpha=0.8))
 
 plt.tight_layout()
 file_path = os.path.join(save_dir, "3_positive_semi_definite.png")
@@ -293,13 +307,25 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nKey Insights for Statement 3:")
-print("- Valid covariance matrices must be positive semi-definite, meaning a^T Σ a ≥ 0 for any vector a")
-print("- Positive semi-definite matrices have non-negative eigenvalues")
-print("- This property ensures variances are always non-negative (since a^T Σ a = Var(a^T X))")
-print("- A positive semi-definite matrix can have some eigenvalues equal to zero")
-print("- Indefinite matrices, with some negative eigenvalues, cannot be valid covariance matrices")
-print("\nStatement 3 is TRUE. All valid covariance matrices must be positive semi-definite to ensure variances are non-negative.")
+# Detailed explanation in text
+print("\nStatement 3 Analysis:")
+print("For a matrix to be a valid covariance matrix, it must be positive semi-definite:")
+print("- Positive definite matrix (left plot):")
+print("  • All eigenvalues are positive")
+print("  • For any non-zero vector a, a^T Σ a > 0")
+print("  • The quadratic form creates a paraboloid that never crosses below zero")
+print("- Positive semi-definite matrix (middle plot):")
+print("  • All eigenvalues are non-negative (some can be zero)")
+print("  • For any vector a, a^T Σ a ≥ 0")
+print("  • The quadratic form creates a paraboloid that touches but never goes below zero")
+print("- Indefinite matrix (right plot):")
+print("  • Some eigenvalues are negative")
+print("  • For some vectors a, a^T Σ a < 0")
+print("  • The quadratic form crosses below zero (red contour shows where it equals zero)")
+print("  • Cannot be a valid covariance matrix since variance cannot be negative")
+print("- This property ensures that Var(a^T X) = a^T Σ a ≥ 0 for any linear combination of random variables")
+
+print_statement_result(3, True, "All valid covariance matrices must be positive semi-definite to ensure variances are non-negative.")
 
 # Step 5: Eigenvalues and positive definiteness
 print_step_header(5, "Eigenvalues and Positive Definiteness of Covariance Matrices")
@@ -352,7 +378,7 @@ Z1 = rv1.pdf(pos)
 # Plot contours
 ax1 = axs[0]
 ax1.contour(X, Y, Z1, levels=10, colors='blue')
-ax1.set_title("Positive Definite\n(All eigenvalues > 0)")
+ax1.set_title("Positive Definite\n(All λ > 0)")
 ax1.set_xlabel("X")
 ax1.set_ylabel("Y")
 ax1.set_xlim(-3, 3)
@@ -367,8 +393,7 @@ ax1.arrow(0, 0, eigvecs[0, 0] * np.sqrt(eigvals[0]), eigvecs[1, 0] * np.sqrt(eig
 ax1.arrow(0, 0, eigvecs[0, 1] * np.sqrt(eigvals[1]), eigvecs[1, 1] * np.sqrt(eigvals[1]), 
           head_width=0.1, head_length=0.1, fc='green', ec='green', label=f"λ₂ = {eigvals[1]:.2f}")
 
-ax1.text(-2.5, 2.5, f"Det(Σ) = {np.linalg.det(matrix_1):.2f}\nInvertible: Yes", 
-         bbox=dict(facecolor='white', alpha=0.8))
+ax1.text(-2.5, 2.5, f"Invertible: Yes", bbox=dict(facecolor='white', alpha=0.8))
 ax1.legend()
 ax1.grid(True)
 ax1.set_aspect('equal')
@@ -380,7 +405,7 @@ Z2 = rv2.pdf(pos)
 # Plot contours
 ax2 = axs[1]
 ax2.contour(X, Y, Z2, levels=10, colors='blue')
-ax2.set_title("Positive Semi-Definite\n(Some eigenvalues = 0)")
+ax2.set_title("Positive Semi-Definite\n(Some λ = 0)")
 ax2.set_xlabel("X")
 ax2.set_ylabel("Y")
 ax2.set_xlim(-3, 3)
@@ -395,8 +420,7 @@ ax2.arrow(0, 0, eigvecs[0, 1] * np.sqrt(eigvals[1]), eigvecs[1, 1] * np.sqrt(eig
 ax2.arrow(0, 0, eigvecs[0, 0] * 0.2, eigvecs[1, 0] * 0.2, 
           head_width=0.1, head_length=0.1, fc='green', ec='green', label=f"λ₂ = {eigvals[0]:.2f}")
 
-ax2.text(-2.5, 2.5, f"Det(Σ) = {np.linalg.det(matrix_2):.2f}\nInvertible: No", 
-         bbox=dict(facecolor='white', alpha=0.8))
+ax2.text(-2.5, 2.5, f"Invertible: No", bbox=dict(facecolor='white', alpha=0.8))
 ax2.legend()
 ax2.grid(True)
 ax2.set_aspect('equal')
@@ -407,7 +431,7 @@ custom_matrix = np.array([[1.0, 0.5], [0.5, 0.3]])  # Low condition number, poor
 eigvals, eigvecs = np.linalg.eigh(custom_matrix)
 
 ax3 = axs[2]
-ax3.set_title("Eigenvalue Magnitudes and Invertibility")
+ax3.set_title("Eigenvalue Magnitudes")
 ax3.set_xlabel("Eigenvalue Index")
 ax3.set_ylabel("Eigenvalue Magnitude")
 ax3.bar([1, 2], eigvals, color=['red', 'green'])
@@ -416,12 +440,9 @@ ax3.set_xticks([1, 2])
 ax3.set_xticklabels(['λ₁', 'λ₂'])
 ax3.grid(True)
 
-# Add condition number and other information
+# Add condition number
 cond_num = np.linalg.cond(custom_matrix)
-ax3.text(1.5, eigvals.max()/2, f"Condition Number: {cond_num:.2f}\n" + 
-         f"Det(Σ) = {np.linalg.det(custom_matrix):.2f}\n" +
-         f"All λ > 0: {np.all(eigvals > 0)}\n" +
-         f"Invertible: {np.linalg.det(custom_matrix) != 0}", 
+ax3.text(1.5, eigvals.max()/2, f"Condition Number: {cond_num:.2f}", 
          bbox=dict(facecolor='white', alpha=0.8), ha='center')
 
 plt.tight_layout()
@@ -430,13 +451,26 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nKey Insights for Statement 4:")
-print("- A covariance matrix is strictly positive definite if and only if all eigenvalues are strictly positive")
-print("- Positive definiteness guarantees the matrix is invertible")
-print("- If any eigenvalue is zero, the matrix is only positive semi-definite and not invertible")
-print("- The determinant of a matrix is the product of its eigenvalues, so positive eigenvalues ensure non-zero determinant")
-print("- In a multivariate normal distribution, positive definiteness is required for calculating the density function")
-print("\nStatement 4 is TRUE. A covariance matrix is strictly positive definite iff all eigenvalues are positive, making it invertible.")
+# Detailed explanation in text
+print("\nStatement 4 Analysis:")
+print("A covariance matrix is strictly positive definite if and only if all its eigenvalues are strictly positive:")
+print("- Left plot: Positive definite matrix")
+print("  • All eigenvalues are strictly positive")
+print("  • The determinant is non-zero (product of eigenvalues)")
+print("  • The matrix is invertible")
+print("  • The probability density contours form a non-degenerate ellipse")
+print("  • The eigenvectors (arrows) show the principal axes of the ellipse")
+print("- Middle plot: Positive semi-definite matrix (not positive definite)")
+print("  • At least one eigenvalue equals zero")
+print("  • The determinant is zero")
+print("  • The matrix is not invertible")
+print("  • The probability density contours are degenerate (flattened in one direction)")
+print("- Right plot: Relationship between eigenvalues and invertibility")
+print("  • A matrix is invertible if and only if all eigenvalues are non-zero")
+print("  • The determinant equals the product of all eigenvalues")
+print("  • The condition number (ratio of largest to smallest eigenvalue) affects numerical stability")
+
+print_statement_result(4, True, "A covariance matrix is strictly positive definite if and only if all eigenvalues are positive, making it invertible.")
 
 # Step 6: Linear relationship in covariance
 print_step_header(6, "Demonstrating that Covariance Captures Linear Relationships")
@@ -462,10 +496,6 @@ corr_linear = np.corrcoef(x_lin, y_lin)[0, 1]
 cov_nonlinear = np.cov(x_nonlin, y_nonlin)[0, 1]
 corr_nonlinear = np.corrcoef(x_nonlin, y_nonlin)[0, 1]
 
-# Center the data 
-x_nonlin_centered = x_nonlin - np.mean(x_nonlin)
-y_nonlin_centered = y_nonlin - np.mean(y_nonlin)
-
 # Compute covariance manually to show E[XY] - E[X]E[Y]
 E_x_lin = np.mean(x_lin)
 E_y_lin = np.mean(y_lin)
@@ -482,7 +512,7 @@ fig, axs = plt.subplots(2, 2, figsize=(14, 10))
 
 # Plot linear relationship
 axs[0, 0].scatter(x_lin, y_lin, alpha=0.5)
-axs[0, 0].set_title(f"Linear Relationship\nCovariance = {cov_linear:.3f}, Correlation = {corr_linear:.3f}")
+axs[0, 0].set_title(f"Linear Relationship\nCov = {cov_linear:.3f}, Corr = {corr_linear:.3f}")
 axs[0, 0].set_xlabel("X")
 axs[0, 0].set_ylabel("Y")
 axs[0, 0].grid(True)
@@ -495,7 +525,7 @@ axs[0, 0].plot(x_range, p(x_range), "r--", alpha=0.8)
 
 # Plot non-linear relationship
 axs[0, 1].scatter(x_nonlin, y_nonlin, alpha=0.5)
-axs[0, 1].set_title(f"Non-linear Relationship\nCovariance = {cov_nonlinear:.3f}, Correlation = {corr_nonlinear:.3f}")
+axs[0, 1].set_title(f"Non-linear Relationship\nCov = {cov_nonlinear:.3f}, Corr = {corr_nonlinear:.3f}")
 axs[0, 1].set_xlabel("X")
 axs[0, 1].set_ylabel("Y")
 axs[0, 1].grid(True)
@@ -513,7 +543,7 @@ axs[0, 1].legend()
 
 # Visualize the covariance computation for linear relationship
 axs[1, 0].scatter(x_lin - E_x_lin, y_lin - E_y_lin, alpha=0.5)
-axs[1, 0].set_title("Centered Linear Data\nE[(X-E[X])(Y-E[Y])]")
+axs[1, 0].set_title("Centered Linear Data")
 axs[1, 0].set_xlabel("X - E[X]")
 axs[1, 0].set_ylabel("Y - E[Y]")
 axs[1, 0].axhline(y=0, color='k', linestyle='--', alpha=0.3)
@@ -526,24 +556,14 @@ q3 = ((x_lin - E_x_lin) < 0) & ((y_lin - E_y_lin) < 0)  # Quadrant 3: positive c
 q2 = ((x_lin - E_x_lin) > 0) & ((y_lin - E_y_lin) < 0)  # Quadrant 2: negative contribution
 q4 = ((x_lin - E_x_lin) < 0) & ((y_lin - E_y_lin) > 0)  # Quadrant 4: negative contribution
 
-axs[1, 0].scatter((x_lin - E_x_lin)[q1], (y_lin - E_y_lin)[q1], color='green', alpha=0.5, label='+ contribution')
+axs[1, 0].scatter((x_lin - E_x_lin)[q1], (y_lin - E_y_lin)[q1], color='green', alpha=0.5)
 axs[1, 0].scatter((x_lin - E_x_lin)[q3], (y_lin - E_y_lin)[q3], color='green', alpha=0.5)
-axs[1, 0].scatter((x_lin - E_x_lin)[q2], (y_lin - E_y_lin)[q2], color='red', alpha=0.5, label='- contribution')
+axs[1, 0].scatter((x_lin - E_x_lin)[q2], (y_lin - E_y_lin)[q2], color='red', alpha=0.5)
 axs[1, 0].scatter((x_lin - E_x_lin)[q4], (y_lin - E_y_lin)[q4], color='red', alpha=0.5)
-
-# Calculate the contribution of each quadrant to covariance
-cov_q1 = np.mean((x_lin[q1] - E_x_lin) * (y_lin[q1] - E_y_lin)) * np.sum(q1) / n_samples
-cov_q2 = np.mean((x_lin[q2] - E_x_lin) * (y_lin[q2] - E_y_lin)) * np.sum(q2) / n_samples
-cov_q3 = np.mean((x_lin[q3] - E_x_lin) * (y_lin[q3] - E_y_lin)) * np.sum(q3) / n_samples
-cov_q4 = np.mean((x_lin[q4] - E_x_lin) * (y_lin[q4] - E_y_lin)) * np.sum(q4) / n_samples
-
-axs[1, 0].legend()
-axs[1, 0].text(-2, 2, f"Quadrant contributions to covariance:\nQ1 (green): {cov_q1:.3f}\nQ3 (green): {cov_q3:.3f}\nQ2 (red): {cov_q2:.3f}\nQ4 (red): {cov_q4:.3f}\nTotal: {cov_q1+cov_q2+cov_q3+cov_q4:.3f}", 
-               bbox=dict(facecolor='white', alpha=0.8))
 
 # Visualize the covariance computation for non-linear relationship
 axs[1, 1].scatter(x_nonlin - E_x_nonlin, y_nonlin - E_y_nonlin, alpha=0.5)
-axs[1, 1].set_title("Centered Non-linear Data\nE[(X-E[X])(Y-E[Y])]")
+axs[1, 1].set_title("Centered Non-linear Data")
 axs[1, 1].set_xlabel("X - E[X]")
 axs[1, 1].set_ylabel("Y - E[Y]")
 axs[1, 1].axhline(y=0, color='k', linestyle='--', alpha=0.3)
@@ -556,20 +576,10 @@ q3_nonlin = ((x_nonlin - E_x_nonlin) < 0) & ((y_nonlin - E_y_nonlin) < 0)
 q2_nonlin = ((x_nonlin - E_x_nonlin) > 0) & ((y_nonlin - E_y_nonlin) < 0)
 q4_nonlin = ((x_nonlin - E_x_nonlin) < 0) & ((y_nonlin - E_y_nonlin) > 0)
 
-axs[1, 1].scatter((x_nonlin - E_x_nonlin)[q1_nonlin], (y_nonlin - E_y_nonlin)[q1_nonlin], color='green', alpha=0.5, label='+ contribution')
+axs[1, 1].scatter((x_nonlin - E_x_nonlin)[q1_nonlin], (y_nonlin - E_y_nonlin)[q1_nonlin], color='green', alpha=0.5)
 axs[1, 1].scatter((x_nonlin - E_x_nonlin)[q3_nonlin], (y_nonlin - E_y_nonlin)[q3_nonlin], color='green', alpha=0.5)
-axs[1, 1].scatter((x_nonlin - E_x_nonlin)[q2_nonlin], (y_nonlin - E_y_nonlin)[q2_nonlin], color='red', alpha=0.5, label='- contribution')
+axs[1, 1].scatter((x_nonlin - E_x_nonlin)[q2_nonlin], (y_nonlin - E_y_nonlin)[q2_nonlin], color='red', alpha=0.5)
 axs[1, 1].scatter((x_nonlin - E_x_nonlin)[q4_nonlin], (y_nonlin - E_y_nonlin)[q4_nonlin], color='red', alpha=0.5)
-
-# Calculate the contribution of each quadrant to covariance for non-linear data
-cov_q1_nonlin = np.mean((x_nonlin[q1_nonlin] - E_x_nonlin) * (y_nonlin[q1_nonlin] - E_y_nonlin)) * np.sum(q1_nonlin) / n_samples if np.sum(q1_nonlin) > 0 else 0
-cov_q2_nonlin = np.mean((x_nonlin[q2_nonlin] - E_x_nonlin) * (y_nonlin[q2_nonlin] - E_y_nonlin)) * np.sum(q2_nonlin) / n_samples if np.sum(q2_nonlin) > 0 else 0
-cov_q3_nonlin = np.mean((x_nonlin[q3_nonlin] - E_x_nonlin) * (y_nonlin[q3_nonlin] - E_y_nonlin)) * np.sum(q3_nonlin) / n_samples if np.sum(q3_nonlin) > 0 else 0
-cov_q4_nonlin = np.mean((x_nonlin[q4_nonlin] - E_x_nonlin) * (y_nonlin[q4_nonlin] - E_y_nonlin)) * np.sum(q4_nonlin) / n_samples if np.sum(q4_nonlin) > 0 else 0
-
-axs[1, 1].legend()
-axs[1, 1].text(-2, 5, f"Quadrant contributions to covariance:\nQ1 (green): {cov_q1_nonlin:.3f}\nQ3 (green): {cov_q3_nonlin:.3f}\nQ2 (red): {cov_q2_nonlin:.3f}\nQ4 (red): {cov_q4_nonlin:.3f}\nTotal: {cov_q1_nonlin+cov_q2_nonlin+cov_q3_nonlin+cov_q4_nonlin:.3f}", 
-               bbox=dict(facecolor='white', alpha=0.8))
 
 plt.tight_layout()
 file_path = os.path.join(save_dir, "5_linear_relationship_covariance.png")
@@ -577,14 +587,46 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nKey Insights for Statement 5:")
-print("- Covariance quantifies only the linear relationship between variables")
-print("- When a relationship is perfectly linear, covariance/correlation accurately capture the relationship's strength")
-print("- For non-linear relationships (like quadratic), covariance may be low or even zero despite strong dependence")
-print("- Covariance measures the average product of centered variables: E[(X-E[X])(Y-E[Y])]")
-print("- Positive contributions come from quadrants where both variables are above or below their means")
-print("- Negative contributions come from quadrants where one variable is above while the other is below its mean")
-print("\nStatement 5 is TRUE. Covariance only quantifies the strength and direction of linear relationships between variables.")
+# Calculate the contribution of each quadrant to covariance for linear relationship
+cov_q1 = np.mean((x_lin[q1] - E_x_lin) * (y_lin[q1] - E_y_lin)) * np.sum(q1) / n_samples if np.sum(q1) > 0 else 0
+cov_q2 = np.mean((x_lin[q2] - E_x_lin) * (y_lin[q2] - E_y_lin)) * np.sum(q2) / n_samples if np.sum(q2) > 0 else 0
+cov_q3 = np.mean((x_lin[q3] - E_x_lin) * (y_lin[q3] - E_y_lin)) * np.sum(q3) / n_samples if np.sum(q3) > 0 else 0
+cov_q4 = np.mean((x_lin[q4] - E_x_lin) * (y_lin[q4] - E_y_lin)) * np.sum(q4) / n_samples if np.sum(q4) > 0 else 0
+
+# Calculate the contribution of each quadrant to covariance for non-linear data
+cov_q1_nonlin = np.mean((x_nonlin[q1_nonlin] - E_x_nonlin) * (y_nonlin[q1_nonlin] - E_y_nonlin)) * np.sum(q1_nonlin) / n_samples if np.sum(q1_nonlin) > 0 else 0
+cov_q2_nonlin = np.mean((x_nonlin[q2_nonlin] - E_x_nonlin) * (y_nonlin[q2_nonlin] - E_y_nonlin)) * np.sum(q2_nonlin) / n_samples if np.sum(q2_nonlin) > 0 else 0
+cov_q3_nonlin = np.mean((x_nonlin[q3_nonlin] - E_x_nonlin) * (y_nonlin[q3_nonlin] - E_y_nonlin)) * np.sum(q3_nonlin) / n_samples if np.sum(q3_nonlin) > 0 else 0
+cov_q4_nonlin = np.mean((x_nonlin[q4_nonlin] - E_x_nonlin) * (y_nonlin[q4_nonlin] - E_y_nonlin)) * np.sum(q4_nonlin) / n_samples if np.sum(q4_nonlin) > 0 else 0
+
+# Detailed explanation in text
+print("\nStatement 5 Analysis:")
+print("Covariance only quantifies the strength and direction of linear relationships between variables:")
+print("- Linear relationship (top-left plot):")
+print(f"  • Strong linear trend with covariance = {cov_linear:.3f} and correlation = {corr_linear:.3f}")
+print("  • Covariance/correlation effectively captures the relationship")
+print("- Non-linear relationship (top-right plot):")
+print(f"  • Strong quadratic trend but covariance is only {cov_nonlinear:.3f} and correlation is {corr_nonlinear:.3f}")
+print("  • The red dashed line shows the true quadratic relationship")
+print("  • The green dashed line shows what covariance 'sees' (linear approximation)")
+print("  • Covariance misses the non-linear structure completely")
+print("\nHow covariance is calculated (centered data plots):")
+print("- Green points contribute positively to covariance (points in Q1 and Q3)")
+print("- Red points contribute negatively to covariance (points in Q2 and Q4)")
+print("- For the linear case, positive contributions (green) dominate:")
+print(f"  • Q1 contribution: {cov_q1:.3f}")
+print(f"  • Q3 contribution: {cov_q3:.3f}")
+print(f"  • Q2 contribution: {cov_q2:.3f}")
+print(f"  • Q4 contribution: {cov_q4:.3f}")
+print(f"  • Total: {cov_q1+cov_q2+cov_q3+cov_q4:.3f}")
+print("- For the non-linear case, positive and negative contributions nearly cancel out:")
+print(f"  • Q1 contribution: {cov_q1_nonlin:.3f}")
+print(f"  • Q3 contribution: {cov_q3_nonlin:.3f}")
+print(f"  • Q2 contribution: {cov_q2_nonlin:.3f}")
+print(f"  • Q4 contribution: {cov_q4_nonlin:.3f}")
+print(f"  • Total: {cov_q1_nonlin+cov_q2_nonlin+cov_q3_nonlin+cov_q4_nonlin:.3f}")
+
+print_statement_result(5, True, "Covariance only quantifies the strength and direction of linear relationships between variables, missing non-linear dependencies.")
 
 # Step 7: Zero covariance vs. independence
 print_step_header(7, "Zero Covariance vs. Independence")
@@ -616,17 +658,16 @@ fig, axs = plt.subplots(1, 3, figsize=(18, 5))
 
 # Plot independent variables
 axs[0].scatter(x_indep, y_indep, alpha=0.3)
-axs[0].set_title(f"Independent Variables\nCov(X,Y) = {cov_indep:.4f}, Corr = {corr_indep:.4f}")
+axs[0].set_title(f"Independent Variables\nCov = {cov_indep:.4f}")
 axs[0].set_xlabel("X")
 axs[0].set_ylabel("Y")
 axs[0].set_xlim(-4, 4)
 axs[0].set_ylim(-4, 4)
 axs[0].grid(True)
-axs[0].text(-3.5, 3.5, "X and Y are independent\nand have zero covariance", bbox=dict(facecolor='white', alpha=0.8))
 
 # Plot dependent variables with zero covariance
 axs[1].scatter(x_dep, y_dep, alpha=0.3)
-axs[1].set_title(f"Dependent Variables with Zero Covariance\nCov(X,Y) = {cov_dep:.4f}, Corr = {corr_dep:.4f}")
+axs[1].set_title(f"Dependent with Zero Covariance\nCov = {cov_dep:.4f}")
 axs[1].set_xlabel("X")
 axs[1].set_ylabel("Y")
 axs[1].set_xlim(-4, 4)
@@ -638,7 +679,6 @@ z_quad = np.polyfit(x_dep, y_dep, 2)
 p_quad = np.poly1d(z_quad)
 x_range = np.linspace(-4, 4, 100)
 axs[1].plot(x_range, p_quad(x_range), "r--", alpha=0.8)
-axs[1].text(-3.5, 3.5, "X and Y are dependent\nbut have zero covariance", bbox=dict(facecolor='white', alpha=0.8))
 
 # Create a joint distribution visualization for the dependent case
 bins = 20
@@ -660,7 +700,7 @@ diff = joint_hist - product_marginals
 
 # Plot the difference (should be zero for independence)
 c = axs[2].pcolormesh(X_grid, Y_grid, diff.T, cmap='coolwarm', vmin=-0.01, vmax=0.01)
-axs[2].set_title("Difference: Joint Distribution - Product of Marginals\nShould be zero everywhere for independence")
+axs[2].set_title("Joint - Product of Marginals")
 axs[2].set_xlabel("X")
 axs[2].set_ylabel("Y")
 axs[2].grid(True)
@@ -672,14 +712,27 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nKey Insights for Statement 6:")
-print("- Zero covariance between X and Y means they have no linear relationship")
-print("- Independence of X and Y implies zero covariance, but zero covariance does not imply independence")
-print("- Variables can be dependent yet have zero covariance (e.g., quadratic relationship y = x²)")
-print("- For independent variables, the joint distribution equals the product of marginal distributions")
-print("- For dependent variables with zero covariance, the joint distribution differs from the product of marginals")
-print("- Only for certain distributions (like multivariate normal) does zero covariance imply independence")
-print("\nStatement 6 is FALSE. Zero covariance does not guarantee statistical independence, only the absence of linear relationship.")
+# Detailed explanation in text
+print("\nStatement 6 Analysis:")
+print("Zero covariance between X and Y does not guarantee they are statistically independent:")
+print("- Left plot: Truly independent variables")
+print(f"  • X and Y are independent Gaussian random variables")
+print(f"  • Their covariance is close to zero: {cov_indep:.4f}")
+print(f"  • Their correlation is close to zero: {corr_indep:.4f}")
+print("  • No pattern is visible in the scatter plot")
+print("- Middle plot: Dependent variables with zero covariance")
+print(f"  • Y depends on X through a quadratic relationship (Y ≈ X²)")
+print(f"  • Their covariance is close to zero: {cov_dep:.4f}")
+print(f"  • Their correlation is close to zero: {corr_dep:.4f}")
+print("  • A clear quadratic pattern is visible (red dashed curve)")
+print("  • These variables are strongly dependent despite zero covariance")
+print("- Right plot: Difference between joint distribution and product of marginals")
+print("  • For independent variables, this difference would be zero everywhere")
+print("  • For the quadratic relationship, we see significant deviations (non-zero values)")
+print("  • This confirms that X and Y are not independent")
+print("\nOnly for multivariate normal distributions does zero covariance imply independence.")
+
+print_statement_result(6, False, "Zero covariance does not guarantee statistical independence. Variables can have zero covariance yet be dependent through non-linear relationships.")
 
 # Step 8: Covariance formula and self-covariance
 print_step_header(8, "Covariance Formula and Self-Covariance")
@@ -714,20 +767,9 @@ axs[0].set_xlabel("X")
 axs[0].set_ylabel("Y")
 axs[0].grid(True)
 
-# Highlight the different formulas
-formula_text = (
-    f"Covariance Calculation Methods:\n\n"
-    f"1. E[(X-E[X])(Y-E[Y])] = {cov_method1:.4f}\n"
-    f"2. E[XY] - E[X]E[Y] = {cov_method2:.4f}\n\n"
-    f"Self-Covariance equals Variance:\n"
-    f"Cov(X,X) = {var_x_cov:.4f}\n"
-    f"Var(X) = {var_x_direct:.4f}"
-)
-axs[0].text(2, -2, formula_text, bbox=dict(facecolor='white', alpha=0.8))
-
 # Visualize the computational equivalence with a scatter plot
 axs[1].scatter((x - mean_x) * (y - mean_y), x * y - mean_x * mean_y, alpha=0.3)
-axs[1].set_title("Equivalence of Covariance Formulas")
+axs[1].set_title("Covariance Formula Equivalence")
 axs[1].set_xlabel("(X-E[X])(Y-E[Y])")
 axs[1].set_ylabel("XY - E[X]E[Y]")
 axs[1].grid(True)
@@ -736,10 +778,6 @@ axs[1].grid(True)
 min_val = min(np.min((x - mean_x) * (y - mean_y)), np.min(x * y - mean_x * mean_y))
 max_val = max(np.max((x - mean_x) * (y - mean_y)), np.max(x * y - mean_x * mean_y))
 axs[1].plot([min_val, max_val], [min_val, max_val], 'r--', alpha=0.8)
-axs[1].text(min_val + 0.1 * (max_val - min_val), 
-           max_val - 0.1 * (max_val - min_val), 
-           "y = x (perfect equivalence)", 
-           bbox=dict(facecolor='white', alpha=0.8))
 
 plt.tight_layout()
 file_path = os.path.join(save_dir, "7_covariance_formula.png")
@@ -747,90 +785,89 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nKey Insights for Statements 7 and 8:")
-print("- The covariance formula can be expressed as either E[(X-E[X])(Y-E[Y])] or E[XY] - E[X]E[Y]")
-print("- These formulations are mathematically equivalent")
-print("- When X = Y, covariance becomes variance: Cov(X,X) = Var(X)")
-print("- Cov(X,X) = E[(X-E[X])(X-E[X])] = E[(X-E[X])²] = Var(X)")
-print("\nStatement 7 is TRUE. The covariance can be calculated using either formula.")
-print("\nStatement 8 is TRUE. The covariance of a random variable with itself equals its variance.")
+# Detailed explanation in text
+print("\nStatement 7 and 8 Analysis:")
+print("Covariance calculation methods:")
+print(f"1. Using definition E[(X-E[X])(Y-E[Y])] = {cov_method1:.4f}")
+print(f"2. Using algebraic form E[XY] - E[X]E[Y] = {cov_method2:.4f}")
+print("The right plot shows each point's contribution calculated both ways - they're identical (points fall on y=x line).")
+print("\nSelf-covariance equals variance:")
+print(f"- Cov(X,X) = {var_x_cov:.4f}")
+print(f"- Var(X) = {var_x_direct:.4f}")
+print("\nMathematical proof:")
+print("Cov(X,X) = E[(X-E[X])(X-E[X])] = E[(X-E[X])²] = Var(X)")
+print("Alternative form: Cov(X,X) = E[XX] - E[X]E[X] = E[X²] - (E[X])² = Var(X)")
 
-# Step 9: Negative correlation and principal axes
-print_step_header(9, "Negative Correlation and Principal Axes")
+print_statement_result(7, True, "The covariance between X and Y can be calculated using either formula: Cov(X,Y) = E[(X-E[X])(Y-E[Y])] = E[XY] - E[X]E[Y].")
+print_statement_result(8, True, "The covariance of a random variable with itself equals its variance: Cov(X,X) = Var(X).")
 
-# Create a range of correlation values to visualize
-correlations = [-0.9, 0, 0.9]  # Negative, zero, and positive correlation
+# Step 9: Negative correlation and contour orientation
+print_step_header(9, "Negative Correlation and Contour Orientation")
+
+# Create a range of correlation values from negative to positive
+correlations = [-0.8, 0.0, 0.8]  # Negative, Zero, Positive
 titles = ["Negative Correlation", "Zero Correlation", "Positive Correlation"]
-colors = ["red", "blue", "green"]
+colors = ['red', 'green', 'blue']
 
-# Create figure
-fig, axs = plt.subplots(2, 3, figsize=(18, 12))
+# Create a figure with multiple subplots
+fig, axs = plt.subplots(2, 3, figsize=(18, 10))
 
-# Plot bivariate distributions with different correlations
-for i, (corr, title, color) in enumerate(zip(correlations, titles, colors)):
-    # Create covariance matrix
-    cov = np.array([[1, corr], [corr, 1]])
+# Define the mean and standard deviations
+mean = [0, 0]
+std_devs = [1, 1]  # Equal standard deviations
+
+# Create a meshgrid for plotting contours
+x = np.linspace(-3, 3, 100)
+y = np.linspace(-3, 3, 100)
+X, Y = np.meshgrid(x, y)
+pos = np.dstack((X, Y))
+
+# Generate contour plots and scatter plots
+for i, (correlation, title, color) in enumerate(zip(correlations, titles, colors)):
+    # Create the covariance matrix
+    cov = [[std_devs[0]**2, correlation*std_devs[0]*std_devs[1]], 
+           [correlation*std_devs[0]*std_devs[1], std_devs[1]**2]]
     
-    # Generate data
-    np.random.seed(42)
-    data = np.random.multivariate_normal([0, 0], cov, 500)
-    
-    # Plot scatter
-    axs[0, i].scatter(data[:, 0], data[:, 1], alpha=0.5, color=color)
-    axs[0, i].set_title(f"{title}\nCorrelation = {corr}")
-    axs[0, i].set_xlabel("X")
-    axs[0, i].set_ylabel("Y")
-    axs[0, i].set_xlim(-3, 3)
-    axs[0, i].set_ylim(-3, 3)
-    axs[0, i].axhline(y=0, color='k', linestyle='--', alpha=0.3)
-    axs[0, i].axvline(x=0, color='k', linestyle='--', alpha=0.3)
-    axs[0, i].grid(True)
-    axs[0, i].set_aspect('equal')
-    
-    # Add y = x and y = -x lines to show alignment
-    if corr == -0.9:
-        axs[0, i].plot([-3, 3], [3, -3], 'r--', alpha=0.8, label="y = -x")
-    elif corr == 0.9:
-        axs[0, i].plot([-3, 3], [-3, 3], 'g--', alpha=0.8, label="y = x")
-    axs[0, i].legend()
-    
-    # Generate contour plot for PDF
-    x_range = np.linspace(-3, 3, 100)
-    y_range = np.linspace(-3, 3, 100)
-    X, Y = np.meshgrid(x_range, y_range)
-    pos = np.dstack((X, Y))
-    rv = multivariate_normal([0, 0], cov)
+    # Generate multivariate normal distribution
+    rv = multivariate_normal(mean, cov)
     Z = rv.pdf(pos)
     
-    # Plot contours
-    axs[1, i].contour(X, Y, Z, levels=10, colors=color)
-    axs[1, i].set_title(f"Contours for {title}")
-    axs[1, i].set_xlabel("X")
-    axs[1, i].set_ylabel("Y")
-    axs[1, i].set_xlim(-3, 3)
-    axs[1, i].set_ylim(-3, 3)
-    axs[1, i].axhline(y=0, color='k', linestyle='--', alpha=0.3)
-    axs[1, i].axvline(x=0, color='k', linestyle='--', alpha=0.3)
-    axs[1, i].grid(True)
-    axs[1, i].set_aspect('equal')
+    # Generate samples
+    samples = np.random.multivariate_normal(mean, cov, 500)
     
-    # Find eigenvalues and eigenvectors
+    # Plot density contours
+    ax_top = axs[0, i]
+    ax_top.contour(X, Y, Z, levels=10, colors=color)
+    ax_top.set_title(f"{title}\nρ = {correlation}")
+    ax_top.set_xlabel("X")
+    ax_top.set_ylabel("Y")
+    ax_top.grid(True)
+    ax_top.axhline(y=0, color='k', linestyle='--', alpha=0.3)
+    ax_top.axvline(x=0, color='k', linestyle='--', alpha=0.3)
+    ax_top.set_aspect('equal')
+    
+    # Plot sample points
+    ax_bottom = axs[1, i]
+    ax_bottom.scatter(samples[:, 0], samples[:, 1], alpha=0.3, color=color)
+    ax_bottom.set_title(f"Samples with {title}")
+    ax_bottom.set_xlabel("X")
+    ax_bottom.set_ylabel("Y")
+    ax_bottom.grid(True)
+    ax_bottom.axhline(y=0, color='k', linestyle='--', alpha=0.3)
+    ax_bottom.axvline(x=0, color='k', linestyle='--', alpha=0.3)
+    ax_bottom.set_aspect('equal')
+    
+    # Draw the principal axes (eigenvectors) of the covariance matrix
     eigvals, eigvecs = np.linalg.eigh(cov)
     
-    # Plot principal axes (eigenvectors scaled by sqrt(eigenvalues))
-    for j in range(2):
-        axs[1, i].arrow(0, 0, 
-                       eigvecs[0, j] * np.sqrt(eigvals[j]), 
-                       eigvecs[1, j] * np.sqrt(eigvals[j]),
-                       head_width=0.2, head_length=0.2, fc=color, ec=color, 
-                       alpha=0.8, label=f"Eigenvector {j+1}")
+    # Scale eigenvectors by eigenvalues for visualization
+    for j, eigvec in enumerate(eigvecs.T):
+        ax_bottom.arrow(0, 0, eigvec[0] * np.sqrt(eigvals[j]), eigvec[1] * np.sqrt(eigvals[j]), 
+                     head_width=0.1, head_length=0.1, fc='black', ec='black')
     
-    # Add y = x and y = -x lines to show alignment
-    if corr == -0.9:
-        axs[1, i].plot([-3, 3], [3, -3], 'r--', alpha=0.5, label="y = -x")
-    elif corr == 0.9:
-        axs[1, i].plot([-3, 3], [-3, 3], 'g--', alpha=0.5, label="y = x")
-    axs[1, i].legend()
+    # Add reference lines for y = x and y = -x
+    ax_bottom.plot([-3, 3], [3, -3], 'k:', alpha=0.3, label='y = -x')
+    ax_bottom.plot([-3, 3], [-3, 3], 'k:', alpha=0.3, label='y = x')
 
 plt.tight_layout()
 file_path = os.path.join(save_dir, "8_negative_correlation_principal_axes.png")
@@ -838,83 +875,66 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nKey Insights for Statements 9 and 10:")
-print("- In a bivariate normal distribution, negative correlation results in contours tilted along y = -x")
-print("- Positive correlation results in contours tilted along y = x")
-print("- Zero correlation results in axis-aligned contours (no tilt)")
-print("- The principal axes of probability density contours align with the eigenvectors of the covariance matrix")
-print("- Eigenvectors point in the directions of maximum and minimum variance")
-print("- Eigenvalues represent the amount of variance in the direction of the corresponding eigenvector")
-print("\nStatement 9 is TRUE. Negative correlation corresponds to contours tilted along the line y = -x.")
-print("\nStatement 10 is TRUE. The principal axes of density contours align with the eigenvectors of the covariance matrix.")
+# Detailed explanation in text
+print("\nStatement 9 and 10 Analysis:")
+print("Correlation and contour orientation:")
+print("- Left column: Negative correlation (ρ = -0.8)")
+print("  • Contours are tilted along the line y = -x")
+print("  • When X increases, Y tends to decrease (negative relationship)")
+print("  • Principal axes (eigenvectors shown as black arrows) align with the contour ellipse axes")
+print("- Middle column: Zero correlation (ρ = 0.0)")
+print("  • Contours are axis-aligned (no tilt)")
+print("  • X and Y vary independently")
+print("  • Principal axes align with the coordinate axes")
+print("- Right column: Positive correlation (ρ = 0.8)")
+print("  • Contours are tilted along the line y = x")
+print("  • When X increases, Y tends to increase (positive relationship)")
+print("  • Principal axes align with the contour ellipse axes")
+print("\nThe principal axes of the probability contours align with the eigenvectors of the covariance matrix.")
+print("The length of each arrow is proportional to the square root of the corresponding eigenvalue.")
 
-# Step 10: Contour lines on probability density plots
-print_step_header(10, "Contour Lines on Probability Density Plots")
+print_statement_result(9, True, "In a bivariate normal distribution, negative correlation corresponds to probability density contours being tilted primarily along the line y = -x.")
+print_statement_result(10, True, "The principal axes of the probability density contours for a multivariate normal distribution align with the eigenvectors of its covariance matrix.")
 
-# Create a bivariate normal distribution
+# Step 10: Contour lines
+print_step_header(10, "Contour Lines and Probability Density")
+
+# Create a 3D plot with contour lines
+fig = plt.figure(figsize=(15, 6))
+gs = GridSpec(1, 2, width_ratios=[1.5, 1])
+
+# Create 3D surface plot in the first subplot
+ax1 = fig.add_subplot(gs[0], projection='3d')
+
+# Define the bivariate normal parameters
 mean = [0, 0]
-cov = [[2, 0.5], [0.5, 1]]  # Non-diagonal covariance matrix
-rv = multivariate_normal(mean, cov)
+cov = [[1, 0.7], [0.7, 1]]
 
 # Create a meshgrid for plotting
-x = np.linspace(-3, 3, 100)
-y = np.linspace(-3, 3, 100)
+x = np.linspace(-3, 3, 50)
+y = np.linspace(-3, 3, 50)
 X, Y = np.meshgrid(x, y)
 pos = np.dstack((X, Y))
 
 # Calculate PDF values
+rv = multivariate_normal(mean, cov)
 Z = rv.pdf(pos)
 
-# Create 3D surface and contour plots
-fig = plt.figure(figsize=(15, 10))
-
-# 3D surface
-ax1 = fig.add_subplot(1, 2, 1, projection='3d')
+# Plot the 3D surface
 surf = ax1.plot_surface(X, Y, Z, cmap=cm.viridis, linewidth=0, antialiased=True, alpha=0.8)
-ax1.set_title("3D PDF Surface")
+ax1.set_title("3D Probability Density Surface")
 ax1.set_xlabel("X")
 ax1.set_ylabel("Y")
-ax1.set_zlabel("PDF Value")
+ax1.set_zlabel("Probability Density")
 
-# Calculate some points with the same PDF value for demonstration
-pdf_value = 0.05
-points = []
-for i in range(0, 100, 10):
-    for j in range(0, 100, 10):
-        if abs(Z[i, j] - pdf_value) < 0.01:
-            points.append([X[i, j], Y[i, j], Z[i, j]])
-
-# Add points with the same PDF value
-if points:
-    points = np.array(points)
-    ax1.scatter(points[:, 0], points[:, 1], points[:, 2], c='red', s=50, label=f"PDF = {pdf_value:.3f}")
-
-# Add a horizontal plane at the specific PDF value
-x_grid, y_grid = np.meshgrid([-3, 3], [-3, 3])
-z_grid = np.ones_like(x_grid) * pdf_value
-ax1.plot_surface(x_grid, y_grid, z_grid, color='red', alpha=0.3)
-
-# 2D contour
-ax2 = fig.add_subplot(1, 2, 2)
+# Create contour plot in the second subplot
+ax2 = fig.add_subplot(gs[1])
 contour = ax2.contour(X, Y, Z, levels=10, colors='blue')
-ax2.set_title("Contour Plot (Horizontal Slices of PDF)")
+ax2.set_title("Contour Plot of the PDF")
 ax2.set_xlabel("X")
 ax2.set_ylabel("Y")
 ax2.grid(True)
-
-# Highlight the contour line with PDF = pdf_value
-specific_contour = ax2.contour(X, Y, Z, levels=[pdf_value], colors='red', linewidths=3)
-ax2.clabel(specific_contour, inline=True, fontsize=10, fmt=f'PDF = %1.3f')
-
-# Plot points with the same PDF value
-if points.size > 0:
-    ax2.scatter(points[:, 0], points[:, 1], c='red', s=50, label=f"PDF = {pdf_value:.3f}")
-
-ax2.legend()
-
-# Add text explanation
-ax2.text(2, 2, "Contour lines connect points\nwith the same PDF value", 
-         bbox=dict(facecolor='white', alpha=0.8))
+plt.colorbar(contour, ax=ax2, label="Probability Density")
 
 plt.tight_layout()
 file_path = os.path.join(save_dir, "9_contour_lines.png")
@@ -922,77 +942,69 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nKey Insights for Statement 11:")
-print("- Contour lines on a probability density plot connect points with the same PDF value")
-print("- They represent 'slices' through the 3D probability density surface at constant height")
-print("- In a multivariate normal distribution, these contours form ellipses")
-print("- Each contour represents a region with equal probability density")
-print("\nStatement 11 is TRUE. Contour lines connect points with the same probability density value.")
+# Detailed explanation in text
+print("\nStatement 11 Analysis:")
+print("Contour lines on a probability density plot:")
+print("- Left plot: 3D surface of a bivariate normal probability density function")
+print("  • The height of the surface represents the probability density at each point (X,Y)")
+print("  • The peak occurs at the mean of the distribution")
+print("- Right plot: Contour plot of the same probability density function")
+print("  • Each contour line connects points having the same probability density value")
+print("  • These can be thought of as horizontal 'slices' through the 3D surface")
+print("  • Closely spaced contours indicate steep changes in probability density")
+print("  • For multivariate normal distributions, these contours form ellipses")
 
-# Step 11: Ellipsoid Volume and Eigenvalues
-print_step_header(11, "Ellipsoid Volume and Eigenvalues")
+print_statement_result(11, True, "Contour lines on a probability density plot connect points having the same probability density value.")
 
-print("Now we'll demonstrate statement 12 about the volume of the standard deviation ellipsoid...")
+# Step 11: Volume of ellipsoid and eigenvalues
+print_step_header(11, "Volume of Ellipsoid and Eigenvalues")
 
-# Create several 2D covariance matrices with different eigenvalues but same sum
-eigenvalues_1 = np.array([2.0, 2.0])  # Sum = 4, Product = 4
-eigenvalues_2 = np.array([3.0, 1.0])  # Sum = 4, Product = 3
-eigenvalues_3 = np.array([3.9, 0.1])  # Sum = 4, Product = 0.39
+# Create ellipsoids with different eigenvalue combinations
+# Two pairs with same sum but different products
+eig_pair1 = [4, 1]  # Sum = 5, Product = 4
+eig_pair2 = [2.5, 2.5]  # Sum = 5, Product = 6.25
 
-# Create matrices with these eigenvalues (using identity eigenvectors for simplicity)
-matrix_1 = np.diag(eigenvalues_1)
-matrix_2 = np.diag(eigenvalues_2)
-matrix_3 = np.diag(eigenvalues_3)
+# Create corresponding covariance matrices
+cov1, _, _ = create_matrix_with_eigenvalues(eig_pair1, rotation=30)
+cov2, _, _ = create_matrix_with_eigenvalues(eig_pair2, rotation=30)
 
-# Calculate actual volumes (proportional to sqrt(determinant))
-volume_1 = np.sqrt(np.linalg.det(matrix_1))
-volume_2 = np.sqrt(np.linalg.det(matrix_2))
-volume_3 = np.sqrt(np.linalg.det(matrix_3))
+# Calculate volumes (proportional to sqrt of determinant)
+vol1 = np.sqrt(np.linalg.det(cov1))
+vol2 = np.sqrt(np.linalg.det(cov2))
 
-# Create figure
-fig, axs = plt.subplots(1, 2, figsize=(15, 6))
-
-# Plot ellipses corresponding to each covariance matrix
+# Create meshgrid for plotting
 x = np.linspace(-4, 4, 100)
 y = np.linspace(-4, 4, 100)
 X, Y = np.meshgrid(x, y)
 pos = np.dstack((X, Y))
 
-# Calculate PDFs for each matrix
-rv1 = multivariate_normal([0, 0], matrix_1)
+# Create figure for visualization
+fig, axs = plt.subplots(1, 2, figsize=(14, 6))
+
+# Plot first ellipse
+mean = [0, 0]
+rv1 = multivariate_normal(mean, cov1)
 Z1 = rv1.pdf(pos)
-rv2 = multivariate_normal([0, 0], matrix_2)
-Z2 = rv2.pdf(pos)
-rv3 = multivariate_normal([0, 0], matrix_3)
-Z3 = rv3.pdf(pos)
 
-# Plot standard deviation contours
-axs[0].contour(X, Y, Z1, levels=[np.exp(-0.5/1)/(2*np.pi*np.sqrt(np.linalg.det(matrix_1)))], colors='blue', linewidths=2, label=f"Sum={np.sum(eigenvalues_1)}, Vol={volume_1:.2f}")
-axs[0].contour(X, Y, Z2, levels=[np.exp(-0.5/1)/(2*np.pi*np.sqrt(np.linalg.det(matrix_2)))], colors='green', linewidths=2, label=f"Sum={np.sum(eigenvalues_2)}, Vol={volume_2:.2f}")
-axs[0].contour(X, Y, Z3, levels=[np.exp(-0.5/1)/(2*np.pi*np.sqrt(np.linalg.det(matrix_3)))], colors='red', linewidths=2, label=f"Sum={np.sum(eigenvalues_3)}, Vol={volume_3:.2f}")
-
-axs[0].set_title("Ellipsoids with Same Sum of Eigenvalues\nBut Different Volumes")
+axs[0].contour(X, Y, Z1, levels=10, colors='blue')
+axs[0].contour(X, Y, Z1, levels=[rv1.pdf(np.array([0, 0])) / np.e], colors='red', linewidths=2)
+axs[0].set_title(f"λ₁ = {eig_pair1[0]}, λ₂ = {eig_pair1[1]}\nSum = {sum(eig_pair1)}, Product = {eig_pair1[0]*eig_pair1[1]}\nVolume ∝ √det = {vol1:.2f}")
 axs[0].set_xlabel("X")
 axs[0].set_ylabel("Y")
-axs[0].legend()
-axs[0].set_aspect('equal')
 axs[0].grid(True)
+axs[0].set_aspect('equal')
 
-# Create bar plot comparing sum vs volume
-matrices = ["Matrix 1", "Matrix 2", "Matrix 3"]
-eigenvalue_sums = [np.sum(eigenvalues_1), np.sum(eigenvalues_2), np.sum(eigenvalues_3)]
-volumes = [volume_1, volume_2, volume_3]
+# Plot second ellipse
+rv2 = multivariate_normal(mean, cov2)
+Z2 = rv2.pdf(pos)
 
-x = np.arange(len(matrices))
-width = 0.35
-
-axs[1].bar(x - width/2, eigenvalue_sums, width, label='Sum of Eigenvalues')
-axs[1].bar(x + width/2, volumes, width, label='Ellipsoid Volume')
-axs[1].set_ylabel("Value")
-axs[1].set_title("Comparison of Sum and Volume")
-axs[1].set_xticks(x)
-axs[1].set_xticklabels(matrices)
-axs[1].legend()
+axs[1].contour(X, Y, Z2, levels=10, colors='green')
+axs[1].contour(X, Y, Z2, levels=[rv2.pdf(np.array([0, 0])) / np.e], colors='red', linewidths=2)
+axs[1].set_title(f"λ₁ = {eig_pair2[0]}, λ₂ = {eig_pair2[1]}\nSum = {sum(eig_pair2)}, Product = {eig_pair2[0]*eig_pair2[1]}\nVolume ∝ √det = {vol2:.2f}")
+axs[1].set_xlabel("X")
+axs[1].set_ylabel("Y")
+axs[1].grid(True)
+axs[1].set_aspect('equal')
 
 plt.tight_layout()
 file_path = os.path.join(save_dir, "10_ellipsoid_volume.png")
@@ -1000,111 +1012,119 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nStep-by-step calculation of ellipsoid volumes:")
-for i, (evals, matrix, vol) in enumerate(zip([eigenvalues_1, eigenvalues_2, eigenvalues_3], 
-                                           [matrix_1, matrix_2, matrix_3],
-                                           [volume_1, volume_2, volume_3])):
-    print(f"\nMatrix {i+1}:")
-    print(f"  Eigenvalues: {evals}")
-    print(f"  Sum of eigenvalues: {np.sum(evals)}")
-    print(f"  Product of eigenvalues: {np.prod(evals)}")
-    print(f"  Determinant of matrix: {np.linalg.det(matrix)}")
-    print(f"  Volume of ellipsoid (∝ √det): {vol}")
-    
-print("\nKey Insights for Statement 12:")
-print("- The volume of an ellipsoid with semi-axes a₁, a₂, ..., aₙ is proportional to ∏ᵢ aᵢ")
-print("- For a covariance matrix, the semi-axes are proportional to √λᵢ where λᵢ are eigenvalues")
-print("- Therefore, ellipsoid volume ∝ ∏ᵢ √λᵢ = √(∏ᵢ λᵢ) = √det(Σ)")
-print("- The sum of eigenvalues (trace of the matrix) does not determine the volume")
-print("- Matrices with the same trace can have very different volumes")
-print("\nStatement 12 is FALSE. Ellipsoid volume is proportional to the square root of the product (not sum) of eigenvalues.")
+# Detailed explanation in text
+print("\nStatement 12 Analysis:")
+print("Volume of the standard deviation ellipsoid and eigenvalues:")
+print("- The volume of an n-dimensional ellipsoid is proportional to the product of its semi-axes lengths")
+print("- For a covariance matrix, the semi-axes lengths are proportional to the square roots of eigenvalues")
+print("- Therefore, the volume is proportional to the square root of the determinant, which equals the square root of the product of eigenvalues")
+print(f"- Left ellipse: eigenvalues λ₁ = {eig_pair1[0]}, λ₂ = {eig_pair1[1]}")
+print(f"  • Sum of eigenvalues = {sum(eig_pair1)}")
+print(f"  • Product of eigenvalues = {eig_pair1[0]*eig_pair1[1]}")
+print(f"  • Volume proportional to √(λ₁·λ₂) = {vol1:.2f}")
+print(f"- Right ellipse: eigenvalues λ₁ = {eig_pair2[0]}, λ₂ = {eig_pair2[1]}")
+print(f"  • Sum of eigenvalues = {sum(eig_pair2)}")
+print(f"  • Product of eigenvalues = {eig_pair2[0]*eig_pair2[1]}")
+print(f"  • Volume proportional to √(λ₁·λ₂) = {vol2:.2f}")
+print("- Both ellipses have the same sum of eigenvalues, but different products and therefore different volumes")
+print("- The red contour shows one standard deviation from the mean (corresponds to the standard deviation ellipsoid)")
 
-# Step 12: Angle of Rotation of Probability Contours
-print_step_header(12, "Angle of Rotation of Probability Contours")
+print_statement_result(12, False, "The volume of the ellipsoid representing the region within one standard deviation is proportional to the square root of the product of eigenvalues (determinant), not the sum of eigenvalues (trace).")
 
-print("Now we'll examine statement 13 about the angle of rotation formula...")
+# Step 13: Angle of rotation of probability density contours
+print_step_header(13, "Angle of Rotation of Probability Density Contours")
 
-# Create several 2D covariance matrices with different properties
-# Case 1: Unequal variances (formula works)
-sigma_x1, sigma_y1 = 3.0, 1.0
-sigma_xy1 = 0.5
-cov1 = np.array([[sigma_x1, sigma_xy1], [sigma_xy1, sigma_y1]])
-
-# Case 2: Equal variances, positive covariance (45° rotation)
-sigma_x2, sigma_y2 = 2.0, 2.0  
-sigma_xy2 = 1.0
-cov2 = np.array([[sigma_x2, sigma_xy2], [sigma_xy2, sigma_y2]])
-
-# Case 3: Equal variances, negative covariance (135° rotation)
-sigma_x3, sigma_y3 = 2.0, 2.0
-sigma_xy3 = -1.0
-cov3 = np.array([[sigma_x3, sigma_xy3], [sigma_xy3, sigma_y3]])
-
-# Calculate angles using the formula (with error handling for case 2 & 3)
+# Function to calculate angle of rotation given covariance parameters
 def calculate_angle(sigma_x, sigma_y, sigma_xy):
-    if abs(sigma_x - sigma_y) < 1e-10:  # Equal variances
+    if sigma_x**2 == sigma_y**2:
+        # For equal variances, the angle depends only on the sign of covariance
         if sigma_xy > 0:
-            return 45  # degrees
+            return 45  # pi/4 radians
         elif sigma_xy < 0:
-            return 135  # degrees
+            return 135  # 3*pi/4 radians
         else:
-            return None  # No preferred orientation (circle)
+            return "undefined (circular contours)"
     else:
-        # Apply the formula
-        return np.degrees(0.5 * np.arctan(2 * sigma_xy / (sigma_x - sigma_y)))
+        # Standard formula for unequal variances
+        return 0.5 * np.arctan2(2*sigma_xy, sigma_x**2 - sigma_y**2) * 180 / np.pi
 
+# Create a set of covariance matrices with different parameters
+# Case 1: Unequal variances
+sigma_x1, sigma_y1, sigma_xy1 = 2.0, 0.5, 0.5
+cov1 = np.array([[sigma_x1**2, sigma_xy1], [sigma_xy1, sigma_y1**2]])
 angle1 = calculate_angle(sigma_x1, sigma_y1, sigma_xy1)
+
+# Case 2: Equal variances, positive covariance
+sigma_x2, sigma_y2, sigma_xy2 = 1.0, 1.0, 0.5
+cov2 = np.array([[sigma_x2**2, sigma_xy2], [sigma_xy2, sigma_y2**2]])
 angle2 = calculate_angle(sigma_x2, sigma_y2, sigma_xy2)
+
+# Case 3: Equal variances, negative covariance
+sigma_x3, sigma_y3, sigma_xy3 = 1.0, 1.0, -0.5
+cov3 = np.array([[sigma_x3**2, sigma_xy3], [sigma_xy3, sigma_y3**2]])
 angle3 = calculate_angle(sigma_x3, sigma_y3, sigma_xy3)
 
-# Create figure
-fig, axs = plt.subplots(1, 3, figsize=(18, 6))
+# Create a figure for visualization
+fig, axs = plt.subplots(1, 3, figsize=(18, 5))
 
-# Plot contours for each case
-x = np.linspace(-4, 4, 100)
-y = np.linspace(-4, 4, 100)
+# Create meshgrid for plotting
+x = np.linspace(-3, 3, 100)
+y = np.linspace(-3, 3, 100)
 X, Y = np.meshgrid(x, y)
 pos = np.dstack((X, Y))
 
-# Calculate PDFs
-rv1 = multivariate_normal([0, 0], cov1)
+# Plot case 1: Unequal variances
+mean = [0, 0]
+rv1 = multivariate_normal(mean, cov1)
 Z1 = rv1.pdf(pos)
-rv2 = multivariate_normal([0, 0], cov2)
-Z2 = rv2.pdf(pos)
-rv3 = multivariate_normal([0, 0], cov3)
-Z3 = rv3.pdf(pos)
 
-# Plot contours
 axs[0].contour(X, Y, Z1, levels=10, colors='blue')
-axs[0].set_title(f"Unequal Variances\nσ²ₓ={sigma_x1}, σ²ᵧ={sigma_y1}, σₓᵧ={sigma_xy1}\nAngle = {angle1:.1f}°")
+axs[0].set_title(f"Unequal Variances\nσ²ₓ = {sigma_x1**2}, σ²ᵧ = {sigma_y1**2}, σₓᵧ = {sigma_xy1}")
 axs[0].set_xlabel("X")
 axs[0].set_ylabel("Y")
+axs[0].grid(True)
 axs[0].axhline(y=0, color='k', linestyle='--', alpha=0.3)
 axs[0].axvline(x=0, color='k', linestyle='--', alpha=0.3)
 axs[0].set_aspect('equal')
-axs[0].grid(True)
 
-# Plot contours for equal variances, positive covariance
+# Add the calculated angle line
+angle_rad = angle1 * np.pi / 180
+axs[0].plot([0, np.cos(angle_rad)*3], [0, np.sin(angle_rad)*3], 'r-', linewidth=2)
+axs[0].text(2.2, 1, f"θ = {angle1:.1f}°", color='red')
+
+# Plot case 2: Equal variances, positive covariance
+rv2 = multivariate_normal(mean, cov2)
+Z2 = rv2.pdf(pos)
+
 axs[1].contour(X, Y, Z2, levels=10, colors='green')
-axs[1].set_title(f"Equal Variances, Positive Covariance\nσ²ₓ={sigma_x2}, σ²ᵧ={sigma_y2}, σₓᵧ={sigma_xy2}\nAngle = {angle2}°")
+axs[1].set_title(f"Equal Variances, Positive Covariance\nσ²ₓ = {sigma_x2**2}, σ²ᵧ = {sigma_y2**2}, σₓᵧ = {sigma_xy2}")
 axs[1].set_xlabel("X")
 axs[1].set_ylabel("Y")
+axs[1].grid(True)
 axs[1].axhline(y=0, color='k', linestyle='--', alpha=0.3)
 axs[1].axvline(x=0, color='k', linestyle='--', alpha=0.3)
-axs[1].plot([-4, 4], [-4, 4], 'r--', alpha=0.8)  # y = x line
 axs[1].set_aspect('equal')
-axs[1].grid(True)
 
-# Plot contours for equal variances, negative covariance
+# Add y = x line (45 degrees)
+axs[1].plot([-3, 3], [-3, 3], 'r-', linewidth=2)
+axs[1].text(2, 2, "θ = 45°", color='red')
+
+# Plot case 3: Equal variances, negative covariance
+rv3 = multivariate_normal(mean, cov3)
+Z3 = rv3.pdf(pos)
+
 axs[2].contour(X, Y, Z3, levels=10, colors='red')
-axs[2].set_title(f"Equal Variances, Negative Covariance\nσ²ₓ={sigma_x3}, σ²ᵧ={sigma_y3}, σₓᵧ={sigma_xy3}\nAngle = {angle3}°")
+axs[2].set_title(f"Equal Variances, Negative Covariance\nσ²ₓ = {sigma_x3**2}, σ²ᵧ = {sigma_y3**2}, σₓᵧ = {sigma_xy3}")
 axs[2].set_xlabel("X")
 axs[2].set_ylabel("Y")
+axs[2].grid(True)
 axs[2].axhline(y=0, color='k', linestyle='--', alpha=0.3)
 axs[2].axvline(x=0, color='k', linestyle='--', alpha=0.3)
-axs[2].plot([-4, 4], [4, -4], 'r--', alpha=0.8)  # y = -x line
 axs[2].set_aspect('equal')
-axs[2].grid(True)
+
+# Add y = -x line (135 degrees)
+axs[2].plot([-3, 3], [3, -3], 'r-', linewidth=2)
+axs[2].text(2, -2, "θ = 135°", color='red')
 
 plt.tight_layout()
 file_path = os.path.join(save_dir, "11_rotation_angles.png")
@@ -1112,42 +1132,33 @@ plt.savefig(file_path, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path}")
 
-print("\nStep-by-step calculation of rotation angles:")
-print("\nCase 1: Unequal Variances")
-print(f"  σ²ₓ = {sigma_x1}, σ²ᵧ = {sigma_y1}, σₓᵧ = {sigma_xy1}")
-print(f"  Formula: θ = (1/2)tan⁻¹(2σₓᵧ/(σ²ₓ-σ²ᵧ))")
-print(f"  Calculation: θ = (1/2)tan⁻¹(2×{sigma_xy1}/({sigma_x1}-{sigma_y1}))")
-print(f"  = (1/2)tan⁻¹(2×{sigma_xy1}/{sigma_x1-sigma_y1})")
-print(f"  = (1/2)tan⁻¹({2*sigma_xy1}/{sigma_x1-sigma_y1})")
-print(f"  = (1/2)tan⁻¹({2*sigma_xy1/(sigma_x1-sigma_y1)})")
-print(f"  = (1/2) × {np.degrees(np.arctan(2*sigma_xy1/(sigma_x1-sigma_y1)))}°")
-print(f"  = {angle1}°")
+# Detailed explanation in text
+print("\nStatement 13 Analysis:")
+print("Angle of rotation of probability density contours:")
+print("- The formula θ = (1/2)tan⁻¹(2σₓᵧ/(σₓ²-σᵧ²)) only applies when variances are unequal (σₓ² ≠ σᵧ²)")
+print("- Left plot: Unequal variances")
+print(f"  • σₓ² = {sigma_x1**2}, σᵧ² = {sigma_y1**2}, σₓᵧ = {sigma_xy1}")
+print(f"  • Using the formula: θ = {angle1:.1f}°")
+print(f"  • The red line shows this calculated angle")
+print("- Middle plot: Equal variances, positive covariance")
+print(f"  • σₓ² = {sigma_x2**2}, σᵧ² = {sigma_y2**2}, σₓᵧ = {sigma_xy2}")
+print(f"  • The formula is undefined (division by zero)")
+print(f"  • With equal variances and positive covariance, θ is always 45°")
+print(f"  • The contours align with the line y = x (red line)")
+print("- Right plot: Equal variances, negative covariance")
+print(f"  • σₓ² = {sigma_x3**2}, σᵧ² = {sigma_y3**2}, σₓᵧ = {sigma_xy3}")
+print(f"  • The formula is undefined (division by zero)")
+print(f"  • With equal variances and negative covariance, θ is always 135°")
+print(f"  • The contours align with the line y = -x (red line)")
+print("\nIn the special case where variances are equal, the orientation depends only on the sign of the covariance:")
+print("- If σₓᵧ > 0, θ = 45° (along y = x)")
+print("- If σₓᵧ < 0, θ = 135° (along y = -x)")
+print("- If σₓᵧ = 0, contours are circular with no preferred orientation")
 
-print("\nCase 2: Equal Variances, Positive Covariance")
-print(f"  σ²ₓ = {sigma_x2}, σ²ᵧ = {sigma_y2}, σₓᵧ = {sigma_xy2}")
-print(f"  Formula: θ = (1/2)tan⁻¹(2σₓᵧ/(σ²ₓ-σ²ᵧ))")
-print(f"  Calculation: θ = (1/2)tan⁻¹(2×{sigma_xy2}/({sigma_x2}-{sigma_y2}))")
-print(f"  = (1/2)tan⁻¹(2×{sigma_xy2}/{sigma_x2-sigma_y2})")
-print(f"  = (1/2)tan⁻¹(2×{sigma_xy2}/0)")
-print("  Problem: Division by zero! Formula is undefined.")
-print("  For equal variances with positive covariance: θ = 45°")
+print_statement_result(13, False, "The given formula for the angle of rotation is not valid when σₓ² = σᵧ². In this special case, the orientation is determined only by the sign of σₓᵧ.")
 
-print("\nCase 3: Equal Variances, Negative Covariance")
-print(f"  σ²ₓ = {sigma_x3}, σ²ᵧ = {sigma_y3}, σₓᵧ = {sigma_xy3}")
-print(f"  Formula breaks similarly")
-print("  For equal variances with negative covariance: θ = 135°")
-
-print("\nKey Insights for Statement 13:")
-print("- The formula θ = (1/2)tan⁻¹(2σₓᵧ/(σ²ₓ-σ²ᵧ)) only works when σ²ₓ ≠ σ²ᵧ")
-print("- When variances are equal (σ²ₓ = σ²ᵧ), formula is undefined (division by zero)")
-print("- For equal variances:")
-print("  * If σₓᵧ > 0: ellipse is oriented at 45° (along y = x)")
-print("  * If σₓᵧ < 0: ellipse is oriented at 135° (along y = -x)")
-print("  * If σₓᵧ = 0: contours form a circle (no preferred orientation)")
-print("\nStatement 13 is FALSE. The formula is not valid for all cases, particularly when variances are equal.")
-
-# Step 13: Summarize all statements
-print_step_header(13, "Summary of All Statements")
+# Step 14: Summarize all statements
+print_step_header(14, "Summary of All Statements")
 
 statements = [
     "1. For a multivariate normal distribution, a diagonal covariance matrix implies that the variables are uncorrelated, resulting in probability density contours that are axis-aligned ellipses (or circles if variances are equal).",
@@ -1193,7 +1204,7 @@ explanations = [
     "Negative correlation results in contours aligned along the negative slope diagonal.",
     "Eigenvectors of the covariance matrix define the directions of maximum and minimum variance.",
     "Contour lines represent 'slices' of constant height through the probability density function.",
-    "Ellipsoid volume is proportional to the square root of the product (determinant), not sum (trace) of eigenvalues.",
+    "Ellipsoid volume is proportional to the square root of the product (determinant), not the sum (trace) of eigenvalues.",
     "The formula is undefined when variances are equal due to division by zero."
 ]
 

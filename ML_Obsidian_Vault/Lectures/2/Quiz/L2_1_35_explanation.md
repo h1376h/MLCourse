@@ -6,7 +6,7 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 ## Task
 1. For a multivariate normal distribution, a diagonal covariance matrix implies that the variables are uncorrelated, resulting in probability density contours that are axis-aligned ellipses (or circles if variances are equal).
 2. Covariance measures the tendency of two random variables to vary together; a positive value indicates they tend to increase or decrease together, while a negative value indicates one tends to increase as the other decreases.
-3. All valid covariance matrices must be positive semi-definite, meaning $\text{Var}(a^T X) = a^T \Sigma a \ge 0$ for any vector $a$.
+3. All valid covariance matrices must be positive semi-definite, meaning $\text{Var}(a^T X) = a^T \Sigma a \geq 0$ for any vector $a$.
 4. A covariance matrix is strictly positive definite if and only if all its eigenvalues are strictly positive; this condition guarantees the matrix is invertible.
 5. Covariance only quantifies the strength and direction of the *linear* relationship between two random variables.
 6. Zero covariance ($\text{Cov}(X,Y) = 0$) guarantees that the random variables X and Y are statistically independent.
@@ -23,9 +23,12 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 ### Statement 1: Diagonal Covariance Matrix and Axis-Aligned Contours
 
 #### Analysis
-For a multivariate normal distribution, the covariance matrix determines the shape, orientation, and size of the probability density contours. When the covariance matrix is diagonal (all off-diagonal elements are zero), this means the variables are uncorrelated.
-
-Let's visualize the contours for different types of covariance matrices:
+When a covariance matrix is diagonal (all off-diagonal elements are zero):
+- The variables are uncorrelated
+- The probability density contours are aligned with the coordinate axes
+- If diagonal elements are equal, contours form circles
+- If diagonal elements are unequal, contours form axis-aligned ellipses
+- When off-diagonal elements are non-zero, contours form tilted ellipses
 
 ![Diagonal Covariance](../Images/L2_1_35/1_diagonal_covariance.png)
 
@@ -42,14 +45,25 @@ Statement 1 is **TRUE**. A diagonal covariance matrix implies uncorrelated varia
 ### Statement 2: Covariance and Variable Relationships
 
 #### Analysis
-Covariance measures how two random variables change together. Let's examine what positive, negative, and zero covariance values tell us:
+Covariance measures how two random variables change together:
+- Positive covariance: Variables tend to increase or decrease together
+  * When X increases, Y tends to increase
+  * When X decreases, Y tends to decrease
+  * The trend follows a line with positive slope
+- Negative covariance: Variables tend to change in opposite directions
+  * When X increases, Y tends to decrease
+  * When X decreases, Y tends to increase
+  * The trend follows a line with negative slope
+- Zero covariance: No linear relationship between variables
+  * Changes in X are not linearly associated with changes in Y
+  * The variables appear to be scattered randomly
 
 ![Positive and Negative Covariance](../Images/L2_1_35/2_positive_negative_covariance.png)
 
 As shown in the figure:
-- Positive covariance (left plot): The variables tend to increase or decrease together
-- Negative covariance (middle plot): When one variable increases, the other tends to decrease
-- Zero covariance (right plot): No linear relationship between the variables
+- Left plot: Positive covariance - the variables tend to increase or decrease together
+- Middle plot: Negative covariance - when one variable increases, the other tends to decrease
+- Right plot: Zero covariance - no linear relationship between the variables
 
 The magnitude of the covariance indicates the strength of the linear relationship, but it is scale-dependent. For a standardized measure, correlation coefficient (which ranges from -1 to 1) is often preferred.
 
@@ -59,22 +73,29 @@ Statement 2 is **TRUE**. Covariance measures the tendency of variables to vary t
 ### Statement 3: Positive Semi-Definiteness of Covariance Matrices
 
 #### Analysis
-For a matrix to be a valid covariance matrix, it must be positive semi-definite. This means that for any vector $a$, the quadratic form $a^T \Sigma a$ must be non-negative.
+For a matrix to be a valid covariance matrix, it must be positive semi-definite:
+- Positive definite matrix:
+  * All eigenvalues are positive
+  * For any non-zero vector a, $a^T \Sigma a > 0$
+  * The quadratic form creates a paraboloid that never crosses below zero
+- Positive semi-definite matrix:
+  * All eigenvalues are non-negative (some can be zero)
+  * For any vector a, $a^T \Sigma a \geq 0$
+  * The quadratic form creates a paraboloid that touches but never goes below zero
+- Indefinite matrix:
+  * Some eigenvalues are negative
+  * For some vectors a, $a^T \Sigma a < 0$
+  * The quadratic form crosses below zero
+  * Cannot be a valid covariance matrix since variance cannot be negative
 
-This property ensures that variances are always non-negative. Consider that for any linear combination of random variables $Y = a^T X$, the variance of Y is:
-
-$$Var(Y) = Var(a^T X) = a^T \Sigma a$$
-
-If $a^T \Sigma a$ could be negative for some $a$, this would imply a negative variance, which is impossible.
-
-Let's examine different matrices to understand this property:
+This property ensures that $\text{Var}(a^T X) = a^T \Sigma a \geq 0$ for any linear combination of random variables.
 
 ![Positive Semi-Definite Matrices](../Images/L2_1_35/3_positive_semi_definite.png)
 
 The figure shows:
-- Left: A positive definite matrix where $a^T \Sigma a > 0$ for all non-zero $a$
-- Middle: A positive semi-definite matrix where $a^T \Sigma a \geq 0$ for all $a$
-- Right: An indefinite matrix that cannot be a valid covariance matrix because $a^T \Sigma a < 0$ for some $a$
+- Left: A positive definite matrix where $a^T \Sigma a > 0$ for all non-zero a
+- Middle: A positive semi-definite matrix where $a^T \Sigma a \geq 0$ for all a
+- Right: An indefinite matrix that cannot be a valid covariance matrix because $a^T \Sigma a < 0$ for some a
 
 A key characteristic of positive semi-definite matrices is that all their eigenvalues are non-negative. Indefinite matrices, with some negative eigenvalues, cannot be valid covariance matrices.
 
@@ -84,16 +105,27 @@ Statement 3 is **TRUE**. All valid covariance matrices must be positive semi-def
 ### Statement 4: Positive Definiteness and Invertibility
 
 #### Analysis
-A covariance matrix is strictly positive definite if and only if all its eigenvalues are strictly positive. This condition is equivalent to requiring that $a^T \Sigma a > 0$ for all non-zero vectors $a$.
+A covariance matrix is strictly positive definite if and only if all its eigenvalues are strictly positive:
+- Positive definite matrix:
+  * All eigenvalues are strictly positive
+  * The determinant is non-zero (product of eigenvalues)
+  * The matrix is invertible
+  * The probability density contours form a non-degenerate ellipse
+  * The eigenvectors show the principal axes of the ellipse
+- Positive semi-definite matrix (not positive definite):
+  * At least one eigenvalue equals zero
+  * The determinant is zero
+  * The matrix is not invertible
+  * The probability density contours are degenerate (flattened in one direction)
 
-Positive definiteness guarantees invertibility because a matrix is invertible if and only if its determinant is non-zero. Since the determinant of a matrix equals the product of its eigenvalues, having all positive eigenvalues ensures a non-zero determinant.
+A matrix is invertible if and only if all eigenvalues are non-zero. The determinant equals the product of all eigenvalues, so positive eigenvalues ensure a non-zero determinant.
 
 ![Eigenvalues and Positive Definiteness](../Images/L2_1_35/4_eigenvalues_definiteness.png)
 
 The figure illustrates:
 - Left: A positive definite matrix with all eigenvalues strictly positive, resulting in an invertible matrix
 - Middle: A positive semi-definite matrix with some zero eigenvalues, which is not invertible
-- Right: A visualization of eigenvalue magnitudes and their relationship to invertibility
+- Right: Visualization of eigenvalue magnitudes and their relationship to invertibility
 
 Invertibility is crucial in many statistical applications, such as calculating the probability density function of a multivariate normal distribution, which requires the inverse of the covariance matrix.
 
@@ -103,7 +135,19 @@ Statement 4 is **TRUE**. A covariance matrix is strictly positive definite if an
 ### Statement 5: Covariance and Linear Relationships
 
 #### Analysis
-Covariance only captures linear relationships between random variables. For non-linear relationships, covariance may be low or even zero despite strong dependence between variables.
+Covariance only quantifies the strength and direction of linear relationships between variables:
+- Linear relationship: 
+  * Strong linear trend with high covariance and correlation
+  * Covariance/correlation effectively captures the relationship
+- Non-linear relationship: 
+  * Strong non-linear dependence but low covariance and correlation
+  * Covariance misses the non-linear structure completely
+
+How covariance is calculated:
+- Green points (in quadrants 1 and 3) contribute positively to covariance
+- Red points (in quadrants 2 and 4) contribute negatively to covariance
+- For linear relationships, positive contributions (green) dominate
+- For non-linear cases, positive and negative contributions often cancel out
 
 ![Linear Relationship and Covariance](../Images/L2_1_35/5_linear_relationship_covariance.png)
 
@@ -112,7 +156,7 @@ This figure demonstrates:
 - Top right: A non-linear (quadratic) relationship with near-zero covariance
 - Bottom: Visualization of how covariance is computed as the average product of centered variables, with positive and negative contributions from different quadrants
 
-Covariance measures the average product of centered variables: $E[(X-E[X])(Y-E[Y])]$. Positive contributions come from quadrants where both variables are above or below their means, while negative contributions come from quadrants where one variable is above while the other is below its mean.
+Covariance measures the average product of centered variables: $\mathbb{E}[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])]$. Positive contributions come from quadrants where both variables are above or below their means, while negative contributions come from quadrants where one variable is above while the other is below its mean.
 
 For the quadratic relationship shown, despite a clear deterministic relationship between the variables, the covariance is close to zero because the positive and negative contributions cancel out.
 
@@ -122,7 +166,18 @@ Statement 5 is **TRUE**. Covariance only quantifies the strength and direction o
 ### Statement 6: Zero Covariance and Independence
 
 #### Analysis
-Zero covariance between variables X and Y indicates there is no linear relationship between them. However, this does not necessarily mean the variables are independent.
+Zero covariance between X and Y does not guarantee they are statistically independent:
+- Truly independent variables:
+  * X and Y are independent random variables
+  * Their covariance is close to zero
+  * No pattern is visible in the scatter plot
+- Dependent variables with zero covariance:
+  * Y depends on X through a non-linear relationship (e.g., $Y \approx X^2$)
+  * Their covariance is close to zero
+  * A clear non-linear pattern is visible
+  * These variables are strongly dependent despite zero covariance
+
+For independent variables, the joint probability distribution equals the product of the marginal distributions: $P(X,Y) = P(X)P(Y)$. For dependent variables with zero covariance, the joint distribution differs from the product of marginals.
 
 ![Zero Covariance vs. Independence](../Images/L2_1_35/6_zero_covariance_vs_independence.png)
 
@@ -131,11 +186,7 @@ The figure shows:
 - Middle: Dependent variables with zero covariance (quadratic relationship)
 - Right: Difference between joint distribution and product of marginals (should be zero everywhere for independence)
 
-Independence implies zero covariance, but the converse is not true in general. Variables can have zero covariance yet be strongly dependent through non-linear relationships.
-
-For independent variables, the joint probability distribution equals the product of the marginal distributions: $P(X,Y) = P(X)P(Y)$. For dependent variables with zero covariance, the joint distribution differs from the product of marginals.
-
-However, for the special case of multivariate normal distributions, zero covariance does imply independence.
+Only for multivariate normal distributions does zero covariance imply independence.
 
 #### Verdict
 Statement 6 is **FALSE**. Zero covariance does not generally guarantee that random variables are statistically independent. It only indicates the absence of a linear relationship.
@@ -145,36 +196,36 @@ Statement 6 is **FALSE**. Zero covariance does not generally guarantee that rand
 #### Analysis
 The covariance between random variables X and Y can be expressed in two equivalent forms:
 
-1. $Cov(X,Y) = E[(X - E[X])(Y - E[Y])]$
-2. $Cov(X,Y) = E[XY] - E[X]E[Y]$
+1. $\text{Cov}(X,Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])]$
+2. $\text{Cov}(X,Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$
+
+The mathematical proof of this equivalence is straightforward:
+
+$$\begin{align}
+\mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])] &= \mathbb{E}[XY - Y\cdot \mathbb{E}[X] - X \cdot \mathbb{E}[Y] + \mathbb{E}[X]\mathbb{E}[Y]]\\
+&= \mathbb{E}[XY] - \mathbb{E}[Y \cdot \mathbb{E}[X]] - \mathbb{E}[X \cdot \mathbb{E}[Y]] + \mathbb{E}[X]\mathbb{E}[Y]\\
+&= \mathbb{E}[XY] - \mathbb{E}[Y] \cdot \mathbb{E}[X] - \mathbb{E}[X] \cdot \mathbb{E}[Y] + \mathbb{E}[X]\mathbb{E}[Y]\\
+&= \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
+\end{align}$$
 
 ![Covariance Formula](../Images/L2_1_35/7_covariance_formula.png)
 
 The figure demonstrates the equivalence of these formulations:
-- Left: Visualization of bivariate data and computed covariance using both methods
-- Right: Scatter plot showing the perfect equivalence between the two formulations
-
-The mathematical proof of this equivalence is straightforward:
-$$\begin{align}
-E[(X - E[X])(Y - E[Y])] &= E[XY - Y\cdot E[X] - X \cdot E[Y] + E[X]E[Y]]\\
-&= E[XY] - E[Y \cdot E[X]] - E[X \cdot E[Y]] + E[X]E[Y]\\
-&= E[XY] - E[Y] \cdot E[X] - E[X] \cdot E[Y] + E[X]E[Y]\\
-&= E[XY] - E[X]E[Y]
-\end{align}$$
+- Left: Bivariate data scatter plot
+- Right: Scatter plot showing the perfect equivalence between the two formulations (points fall on the y=x line)
 
 #### Verdict
-Statement 7 is **TRUE**. The covariance between X and Y can be calculated using either formula: $Cov(X,Y) = E[(X - E[X])(Y - E[Y])] = E[XY] - E[X]E[Y]$.
+Statement 7 is **TRUE**. The covariance between X and Y can be calculated using either formula: $\text{Cov}(X,Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])] = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$.
 
 ### Statement 8: Self-Covariance and Variance
 
 #### Analysis
 When calculating the covariance of a random variable with itself, we get the variance:
 
-$$Cov(X,X) = E[(X-E[X])(X-E[X])] = E[(X-E[X])^2] = Var(X)$$
+$$\text{Cov}(X,X) = \mathbb{E}[(X-\mathbb{E}[X])(X-\mathbb{E}[X])] = \mathbb{E}[(X-\mathbb{E}[X])^2] = \text{Var}(X)$$
 
-This is clearly demonstrated in our numerical experiments, where:
-- $Cov(X,X) = 0.4915$
-- $Var(X) = 0.4915$
+Alternative form: 
+$$\text{Cov}(X,X) = \mathbb{E}[XX] - \mathbb{E}[X]\mathbb{E}[X] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = \text{Var}(X)$$
 
 The variance is simply a special case of covariance when the two variables are identical.
 
@@ -189,9 +240,18 @@ In a bivariate normal distribution, the correlation coefficient determines the o
 ![Negative Correlation and Principal Axes](../Images/L2_1_35/8_negative_correlation_principal_axes.png)
 
 As shown in the figure:
-- Left column: Negative correlation results in contours tilted along the line $y = -x$
-- Middle column: Zero correlation results in axis-aligned contours
-- Right column: Positive correlation results in contours tilted along the line $y = x$
+- Left column: Negative correlation ($\rho = -0.8$)
+  * Contours are tilted along the line $y = -x$
+  * When X increases, Y tends to decrease (negative relationship)
+  * Principal axes (eigenvectors) align with the contour ellipse axes
+- Middle column: Zero correlation ($\rho = 0.0$)
+  * Contours are axis-aligned (no tilt)
+  * X and Y vary independently
+  * Principal axes align with the coordinate axes
+- Right column: Positive correlation ($\rho = 0.8$)
+  * Contours are tilted along the line $y = x$
+  * When X increases, Y tends to increase (positive relationship)
+  * Principal axes align with the contour ellipse axes
 
 With negative correlation, when one variable increases, the other tends to decrease, leading to contours that are elongated in the direction from top-left to bottom-right (along $y = -x$).
 
@@ -203,7 +263,7 @@ Statement 9 is **TRUE**. In a bivariate normal distribution, negative correlatio
 #### Analysis
 The principal axes of the probability density contours for a multivariate normal distribution align with the eigenvectors of its covariance matrix.
 
-As shown in the previous figure, the arrows in the bottom row represent the eigenvectors of the covariance matrix, which align perfectly with the major and minor axes of the elliptical contours.
+As shown in the previous figure, the black arrows in the bottom row represent the eigenvectors of the covariance matrix, which align perfectly with the major and minor axes of the elliptical contours.
 
 Eigenvectors point in the directions of maximum and minimum variance, and eigenvalues represent the amount of variance in those directions. The eigenvector corresponding to the largest eigenvalue points in the direction of maximum variance, which is the major axis of the elliptical contours.
 
@@ -241,7 +301,15 @@ The statement incorrectly suggests that the volume is proportional to the sum of
 
 ![Ellipsoid Volume](../Images/L2_1_35/10_ellipsoid_volume.png)
 
-The figure illustrates how the volume of the ellipsoid is affected by the product, not the sum, of eigenvalues. Two ellipsoids with the same sum of eigenvalues but different products have different volumes.
+The figure illustrates how the volume of the ellipsoid is affected by the product, not the sum, of eigenvalues. Two ellipsoids with the same sum of eigenvalues but different products have different volumes:
+- Left ellipse: eigenvalues $\lambda_1 = 4$, $\lambda_2 = 1$
+  * Sum of eigenvalues = 5
+  * Product of eigenvalues = 4
+  * Volume proportional to $\sqrt{\lambda_1 \cdot \lambda_2} = 2.00$
+- Right ellipse: eigenvalues $\lambda_1 = 2.5$, $\lambda_2 = 2.5$
+  * Sum of eigenvalues = 5.0
+  * Product of eigenvalues = 6.25
+  * Volume proportional to $\sqrt{\lambda_1 \cdot \lambda_2} = 2.50$
 
 #### Verdict
 Statement 12 is **FALSE**. The volume of the ellipsoid representing the region within one standard deviation is proportional to the square root of the product of eigenvalues (determinant), not the sum of eigenvalues (trace).
@@ -256,15 +324,19 @@ the angle of rotation of the probability density contours is given by:
 
 $$\theta = \frac{1}{2}\tan^{-1}\left(\frac{2\sigma_{xy}}{\sigma_x^2-\sigma_y^2}\right)$$
 
-However, this formula is only valid when $\sigma_x^2 \neq \sigma_y^2$. When $\sigma_x^2 = \sigma_y^2$ (i.e., the variances are equal), the formula becomes undefined due to division by zero, and the orientation of the ellipse depends solely on the sign of $\sigma_{xy}$:
+However, this formula is only valid when $\sigma_x^2 \neq \sigma_y^2$. When $\sigma_x^2 = \sigma_y^2$ (i.e., the variances are equal), the formula becomes undefined due to division by zero.
 
-- If $\sigma_{xy} > 0$, the ellipse is oriented at 45° (along $y = x$)
-- If $\sigma_{xy} < 0$, the ellipse is oriented at 135° (along $y = -x$)
-- If $\sigma_{xy} = 0$, there is no preferred orientation (the contours form circles)
+In the special case where variances are equal, the orientation depends only on the sign of the covariance:
+- If $\sigma_{xy} > 0$, $\theta = 45°$ (along $y = x$)
+- If $\sigma_{xy} < 0$, $\theta = 135°$ (along $y = -x$)
+- If $\sigma_{xy} = 0$, contours are circular with no preferred orientation
 
 ![Rotation Angles](../Images/L2_1_35/11_rotation_angles.png)
 
-The figure shows how the orientation of probability contours changes with different covariance structures.
+The figure shows:
+- Left: Unequal variances case where the formula can be applied
+- Middle: Equal variances with positive covariance (45° orientation)
+- Right: Equal variances with negative covariance (135° orientation)
 
 #### Verdict
 Statement 13 is **FALSE**. The given formula for the angle of rotation is not valid when $\sigma_x^2 = \sigma_y^2$. In this special case, the orientation is determined only by the sign of $\sigma_{xy}$.
@@ -304,10 +376,10 @@ Out of the 13 statements, 10 are TRUE and 3 are FALSE:
    - Principal axes align with eigenvectors of the covariance matrix
 
 3. **Matrix Properties**:
-   - Valid covariance matrices must be positive semi-definite
-   - Positive definite matrices are invertible
-   - Eigenvalues must be non-negative for a valid covariance matrix
-   - Eigenvectors determine the orientation of probability contours
+   - Valid covariance matrices must be positive semi-definite (all eigenvalues $\geq 0$)
+   - Are invertible if and only if positive definite (all eigenvalues $> 0$)
+   - Diagonal elements are variances of individual variables
+   - Off-diagonal elements are covariances between pairs of variables
 
 4. **Limitations**:
    - Covariance only captures linear relationships
@@ -315,8 +387,8 @@ Out of the 13 statements, 10 are TRUE and 3 are FALSE:
    - Non-linear dependencies require other measures beyond covariance
 
 5. **Mathematical Relationships**:
-   - $Cov(X,Y) = E[(X-E[X])(Y-E[Y])] = E[XY] - E[X]E[Y]$
-   - $Cov(X,X) = Var(X)$
-   - For a linear combination $Y = a^T X$, $Var(Y) = a^T \Sigma a$
+   - $\text{Cov}(X,Y) = \mathbb{E}[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])] = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$
+   - $\text{Cov}(X,X) = \text{Var}(X)$
+   - For a linear combination $Y = a^T X$, $\text{Var}(Y) = a^T \Sigma a$
 
 Understanding these concepts is crucial for multivariate statistical analysis, machine learning algorithms, and interpreting the relationships between variables in complex datasets. 
