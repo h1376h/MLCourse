@@ -3,7 +3,7 @@
 ## Overview
 This quiz contains 29 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
 
-## Question 1
+## [⭐] Question 1
 
 ### Problem Statement
 Suppose we have i.i.d. random variables $X_1, X_2, \ldots, X_n$ with the following probability density function:
@@ -387,7 +387,7 @@ Find the MLE of $\theta$.
 
 For a detailed explanation, see [Question 25: MLE for Power Distribution](L2_4_25_explanation.md).
 
-## Question 26
+## [⭐] Question 26
 
 ### Problem Statement
 Maximum Likelihood Estimation (MLE) yields fundamental estimator formulas for common probability distributions. For each of the following distributions, prove that the given formula is indeed the maximum likelihood estimator.

@@ -492,7 +492,7 @@ The contour plot shows elliptical contours of a bivariate normal distribution.
 
 For a detailed explanation of this problem, including properties of bivariate normal distributions and contour plot interpretation, see [Question 30: Contour Plot Interpretation](L2_1_30_explanation.md).
 
-## Question 31
+## [⭐] Question 31
 
 ### Problem Statement
 You are given data from two classes with the following 2-dimensional feature vectors:
