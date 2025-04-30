@@ -10,7 +10,7 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 4. A covariance matrix is strictly positive definite if and only if all its eigenvalues are strictly positive; this condition guarantees the matrix is invertible.
 5. Covariance only quantifies the strength and direction of the *linear* relationship between two random variables.
 6. Zero covariance ($\text{Cov}(X,Y) = 0$) guarantees that the random variables X and Y are statistically independent.
-7. The covariance between X and Y can be calculated using the formula $\text{Cov}(X,Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])] = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$.
+7. The covariance between X and Y can be calculated using the formula $\text{Cov}(X,Y) = E[(X - E[X])(Y - E[Y])] = E[XY] - E[X]E[Y]$.
 8. The covariance of a random variable X with itself, $\text{Cov}(X,X)$, is equal to its variance, $\text{Var}(X)$.
 9. In a bivariate normal distribution, negative correlation corresponds to probability density contours being tilted primarily along the line $y = -x$.
 10. The principal axes of the probability density contours for a multivariate normal distribution align with the eigenvectors of its covariance matrix.
@@ -47,15 +47,15 @@ Statement 1 is **TRUE**. A diagonal covariance matrix implies uncorrelated varia
 #### Analysis
 Covariance measures how two random variables change together:
 - Positive covariance: Variables tend to increase or decrease together
-  * When X increases, Y tends to increase
-  * When X decreases, Y tends to decrease
+  * When $X$ increases, $Y$ tends to increase
+  * When $X$ decreases, $Y$ tends to decrease
   * The trend follows a line with positive slope
 - Negative covariance: Variables tend to change in opposite directions
-  * When X increases, Y tends to decrease
-  * When X decreases, Y tends to increase
+  * When $X$ increases, $Y$ tends to decrease
+  * When $X$ decreases, $Y$ tends to increase
   * The trend follows a line with negative slope
 - Zero covariance: No linear relationship between variables
-  * Changes in X are not linearly associated with changes in Y
+  * Changes in $X$ are not linearly associated with changes in $Y$
   * The variables appear to be scattered randomly
 
 ![Positive and Negative Covariance](../Images/L2_1_35/2_positive_negative_covariance.png)
@@ -76,15 +76,15 @@ Statement 2 is **TRUE**. Covariance measures the tendency of variables to vary t
 For a matrix to be a valid covariance matrix, it must be positive semi-definite:
 - Positive definite matrix:
   * All eigenvalues are positive
-  * For any non-zero vector a, $a^T \Sigma a > 0$
+  * For any non-zero vector $a$, $a^T \Sigma a > 0$
   * The quadratic form creates a paraboloid that never crosses below zero
 - Positive semi-definite matrix:
   * All eigenvalues are non-negative (some can be zero)
-  * For any vector a, $a^T \Sigma a \geq 0$
+  * For any vector $a$, $a^T \Sigma a \geq 0$
   * The quadratic form creates a paraboloid that touches but never goes below zero
 - Indefinite matrix:
   * Some eigenvalues are negative
-  * For some vectors a, $a^T \Sigma a < 0$
+  * For some vectors $a$, $a^T \Sigma a < 0$
   * The quadratic form crosses below zero
   * Cannot be a valid covariance matrix since variance cannot be negative
 
@@ -93,9 +93,9 @@ This property ensures that $\text{Var}(a^T X) = a^T \Sigma a \geq 0$ for any lin
 ![Positive Semi-Definite Matrices](../Images/L2_1_35/3_positive_semi_definite.png)
 
 The figure shows:
-- Left: A positive definite matrix where $a^T \Sigma a > 0$ for all non-zero a
-- Middle: A positive semi-definite matrix where $a^T \Sigma a \geq 0$ for all a
-- Right: An indefinite matrix that cannot be a valid covariance matrix because $a^T \Sigma a < 0$ for some a
+- Left: A positive definite matrix where $a^T \Sigma a > 0$ for all non-zero $a$
+- Middle: A positive semi-definite matrix where $a^T \Sigma a \geq 0$ for all $a$
+- Right: An indefinite matrix that cannot be a valid covariance matrix because $a^T \Sigma a < 0$ for some $a$
 
 A key characteristic of positive semi-definite matrices is that all their eigenvalues are non-negative. Indefinite matrices, with some negative eigenvalues, cannot be valid covariance matrices.
 
@@ -156,7 +156,7 @@ This figure demonstrates:
 - Top right: A non-linear (quadratic) relationship with near-zero covariance
 - Bottom: Visualization of how covariance is computed as the average product of centered variables, with positive and negative contributions from different quadrants
 
-Covariance measures the average product of centered variables: $\mathbb{E}[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])]$. Positive contributions come from quadrants where both variables are above or below their means, while negative contributions come from quadrants where one variable is above while the other is below its mean.
+Covariance measures the average product of centered variables: $E[(X-E[X])(Y-E[Y])]$. Positive contributions come from quadrants where both variables are above or below their means, while negative contributions come from quadrants where one variable is above while the other is below its mean.
 
 For the quadratic relationship shown, despite a clear deterministic relationship between the variables, the covariance is close to zero because the positive and negative contributions cancel out.
 
@@ -166,13 +166,13 @@ Statement 5 is **TRUE**. Covariance only quantifies the strength and direction o
 ### Statement 6: Zero Covariance and Independence
 
 #### Analysis
-Zero covariance between X and Y does not guarantee they are statistically independent:
+Zero covariance between $X$ and $Y$ does not guarantee they are statistically independent:
 - Truly independent variables:
-  * X and Y are independent random variables
+  * $X$ and $Y$ are independent random variables
   * Their covariance is close to zero
   * No pattern is visible in the scatter plot
 - Dependent variables with zero covariance:
-  * Y depends on X through a non-linear relationship (e.g., $Y \approx X^2$)
+  * $Y$ depends on $X$ through a non-linear relationship (e.g., $Y \approx X^2$)
   * Their covariance is close to zero
   * A clear non-linear pattern is visible
   * These variables are strongly dependent despite zero covariance
@@ -194,18 +194,18 @@ Statement 6 is **FALSE**. Zero covariance does not generally guarantee that rand
 ### Statement 7: Covariance Formula
 
 #### Analysis
-The covariance between random variables X and Y can be expressed in two equivalent forms:
+The covariance between random variables $X$ and $Y$ can be expressed in two equivalent forms:
 
-1. $\text{Cov}(X,Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])]$
-2. $\text{Cov}(X,Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$
+1. $\text{Cov}(X,Y) = E[(X - E[X])(Y - E[Y])]$
+2. $\text{Cov}(X,Y) = E[XY] - E[X]E[Y]$
 
 The mathematical proof of this equivalence is straightforward:
 
 $$\begin{align}
-\mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])] &= \mathbb{E}[XY - Y\cdot \mathbb{E}[X] - X \cdot \mathbb{E}[Y] + \mathbb{E}[X]\mathbb{E}[Y]]\\
-&= \mathbb{E}[XY] - \mathbb{E}[Y \cdot \mathbb{E}[X]] - \mathbb{E}[X \cdot \mathbb{E}[Y]] + \mathbb{E}[X]\mathbb{E}[Y]\\
-&= \mathbb{E}[XY] - \mathbb{E}[Y] \cdot \mathbb{E}[X] - \mathbb{E}[X] \cdot \mathbb{E}[Y] + \mathbb{E}[X]\mathbb{E}[Y]\\
-&= \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]
+E[(X - E[X])(Y - E[Y])] &= E[XY - Y\cdot E[X] - X \cdot E[Y] + E[X]E[Y]]\\
+&= E[XY] - E[Y \cdot E[X]] - E[X \cdot E[Y]] + E[X]E[Y]\\
+&= E[XY] - E[Y] \cdot E[X] - E[X] \cdot E[Y] + E[X]E[Y]\\
+&= E[XY] - E[X]E[Y]
 \end{align}$$
 
 ![Covariance Formula](../Images/L2_1_35/7_covariance_formula.png)
@@ -215,17 +215,17 @@ The figure demonstrates the equivalence of these formulations:
 - Right: Scatter plot showing the perfect equivalence between the two formulations (points fall on the y=x line)
 
 #### Verdict
-Statement 7 is **TRUE**. The covariance between X and Y can be calculated using either formula: $\text{Cov}(X,Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])] = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$.
+Statement 7 is **TRUE**. The covariance between $X$ and $Y$ can be calculated using either formula: $\text{Cov}(X,Y) = E[(X - E[X])(Y - E[Y])] = E[XY] - E[X]E[Y]$.
 
 ### Statement 8: Self-Covariance and Variance
 
 #### Analysis
 When calculating the covariance of a random variable with itself, we get the variance:
 
-$$\text{Cov}(X,X) = \mathbb{E}[(X-\mathbb{E}[X])(X-\mathbb{E}[X])] = \mathbb{E}[(X-\mathbb{E}[X])^2] = \text{Var}(X)$$
+$$\text{Cov}(X,X) = E[(X-E[X])(X-E[X])] = E[(X-E[X])^2] = \text{Var}(X)$$
 
 Alternative form: 
-$$\text{Cov}(X,X) = \mathbb{E}[XX] - \mathbb{E}[X]\mathbb{E}[X] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2 = \text{Var}(X)$$
+$$\text{Cov}(X,X) = E[XX] - E[X]E[X] = E[X^2] - (E[X])^2 = \text{Var}(X)$$
 
 The variance is simply a special case of covariance when the two variables are identical.
 
@@ -242,15 +242,15 @@ In a bivariate normal distribution, the correlation coefficient determines the o
 As shown in the figure:
 - Left column: Negative correlation ($\rho = -0.8$)
   * Contours are tilted along the line $y = -x$
-  * When X increases, Y tends to decrease (negative relationship)
+  * When $X$ increases, $Y$ tends to decrease (negative relationship)
   * Principal axes (eigenvectors) align with the contour ellipse axes
 - Middle column: Zero correlation ($\rho = 0.0$)
   * Contours are axis-aligned (no tilt)
-  * X and Y vary independently
+  * $X$ and $Y$ vary independently
   * Principal axes align with the coordinate axes
 - Right column: Positive correlation ($\rho = 0.8$)
   * Contours are tilted along the line $y = x$
-  * When X increases, Y tends to increase (positive relationship)
+  * When $X$ increases, $Y$ tends to increase (positive relationship)
   * Principal axes align with the contour ellipse axes
 
 With negative correlation, when one variable increases, the other tends to decrease, leading to contours that are elongated in the direction from top-left to bottom-right (along $y = -x$).
@@ -387,7 +387,7 @@ Out of the 13 statements, 10 are TRUE and 3 are FALSE:
    - Non-linear dependencies require other measures beyond covariance
 
 5. **Mathematical Relationships**:
-   - $\text{Cov}(X,Y) = \mathbb{E}[(X-\mathbb{E}[X])(Y-\mathbb{E}[Y])] = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$
+   - $\text{Cov}(X,Y) = E[(X-E[X])(Y-E[Y])] = E[XY] - E[X]E[Y]$
    - $\text{Cov}(X,X) = \text{Var}(X)$
    - For a linear combination $Y = a^T X$, $\text{Var}(Y) = a^T \Sigma a$
 
