@@ -106,7 +106,7 @@
   - ⭐ Quiz: L4_3_Quiz
   - 📚 Examples: Coming Soon
 - 4.4: Linear Separability and Loss Functions
-  - ⭐ Quiz: L4_4_Quiz
+  - ⭐ Quiz: [[L4_4_Quiz]]
   - 📚 Examples: Coming Soon
 - 4.5: Optimization for Linear Classifiers
   - ⭐ Quiz: L4_5_Quiz
