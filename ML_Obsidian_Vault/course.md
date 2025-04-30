@@ -34,12 +34,12 @@
 
 ### Lecture 2: Probability and Statistical Foundations
 - 2.1: Probability Fundamentals
-  - ⭐ Quiz: [[L2_1_Quiz_course]]
+  - ⭐ Quiz: [[L2_1_Quiz]]
   - 📚 Examples: [[L2_1_Examples|Examples]]
 - 2.2: Information Theory and Entropy
   - 📚 Quiz: [[L2_2_Quiz]]
 - 2.3: Statistical Estimation Basics
-  - ⭐ Quiz: [[L2_3_Quiz_course]]
+  - ⭐ Quiz: [[L2_3_Quiz]]
   - 📚 Examples: [[L2_3_Likelihood_Examples|Likelihood Examples]]
   - 📚 Examples: [[L2_3_Probability_vs_Likelihood_Examples|Probability vs Likelihood Examples]]
   - 📚 Special Examples (Slides): Coming Soon
@@ -56,7 +56,7 @@
   - 🚫 Examples: Coming Soon
   - 🚫 Special Examples (Slides): Coming Soon
 - 2.7: Maximum A Posteriori and Full Bayesian Inference
-  - ⭐ Quiz: [[L2_7_Quiz_course]]
+  - ⭐ Quiz: [[L2_7_Quiz]]
   - ⭐ Examples: [[L2_7_MAP_Examples|MAP Examples]]
   - ⭐ Examples: [[L2_7_Full_Bayesian_Inference|Full Bayesian Inference Examples]]
   - 📚 Special Examples (Slides): Coming Soon
