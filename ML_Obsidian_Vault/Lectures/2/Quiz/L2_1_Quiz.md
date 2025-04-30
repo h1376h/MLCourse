@@ -595,11 +595,11 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 ## Task
 1. For a multivariate normal distribution, a diagonal covariance matrix implies that the variables are uncorrelated, resulting in probability density contours that are axis-aligned ellipses (or circles if variances are equal).
 2. Covariance measures the tendency of two random variables to vary together; a positive value indicates they tend to increase or decrease together, while a negative value indicates one tends to increase as the other decreases.
-3. All valid covariance matrices must be positive semi-definite, meaning $\text{Var}(a^T X) = a^T \Sigma a \ge 0$ for any vector $a$.
+3. All valid covariance matrices must be positive semi-definite, meaning $\text{Var}(a^T X) = a^T \Sigma a \geq 0$ for any vector $a$.
 4. A covariance matrix is strictly positive definite if and only if all its eigenvalues are strictly positive; this condition guarantees the matrix is invertible.
 5. Covariance only quantifies the strength and direction of the *linear* relationship between two random variables.
 6. Zero covariance ($\text{Cov}(X,Y) = 0$) guarantees that the random variables X and Y are statistically independent.
-7. The covariance between X and Y can be calculated using the formula $\text{Cov}(X,Y) = \mathbb{E}[(X - \mathbb{E}[X])(Y - \mathbb{E}[Y])] = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb{E}[Y]$.
+7. The covariance between X and Y can be calculated using the formula $\text{Cov}(X,Y) = E[(X - E[X])(Y - E[Y])] = E[XY] - E[X]E[Y]$.
 8. The covariance of a random variable X with itself, $\text{Cov}(X,X)$, is equal to its variance, $\text{Var}(X)$.
 9. In a bivariate normal distribution, negative correlation corresponds to probability density contours being tilted primarily along the line $y = -x$.
 10. The principal axes of the probability density contours for a multivariate normal distribution align with the eigenvectors of its covariance matrix.
