@@ -191,7 +191,7 @@ Using only the information provided in these visualizations:
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: Visual Bayesian Inference and Prior Selection](L2_5_14_explanation.md).
 
-## Question 15
+## [⭐] Question 15
 
 ### Problem Statement
 Consider a Naive Bayes classifier for predicting heart disease based on two features: diabetes status and smoking status. The following table shows the training data:
