@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 34 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 35 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -138,10 +138,10 @@ For a detailed explanation of this problem, including joint probability concepts
 ### Problem Statement
 Consider a random vector $X = [X₁, X₂]$ with mean vector $μ = [2, 3]$ and covariance matrix:
 
-$$\Sigma = \begin{pmatrix} 
+$$\Sigma = \begin{bmatrix} 
 4 & 2 \\
 2 & 5
-\end{pmatrix}$$
+\end{bmatrix}$$
 
 #### Task
 1. What is the variance of $X₁$ and $X₂$?
@@ -492,7 +492,7 @@ The contour plot shows elliptical contours of a bivariate normal distribution.
 
 For a detailed explanation of this problem, including properties of bivariate normal distributions and contour plot interpretation, see [Question 30: Contour Plot Interpretation](L2_1_30_explanation.md).
 
-## Question 31
+## [⭐] Question 31
 
 ### Problem Statement
 You are given data from two classes with the following 2-dimensional feature vectors:
@@ -586,3 +586,25 @@ Assume these measurements follow a multivariate Gaussian distribution for each s
 4. If Species B is three times more common than Species A in this region (i.e., $P(\text{Species A}) = 0.25$ and $P(\text{Species B}) = 0.75$), would your classification change using either method? Explain briefly.
 
 For a detailed explanation of this problem, including nearest centroid classification and Bayesian decision theory, see [Question 34: Quick Flower Classification](L2_1_34_explanation.md).
+
+## [🔍] Question 35
+
+## Problem Statement
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
+
+## Task
+1. For a multivariate normal distribution, a diagonal covariance matrix implies that the variables are uncorrelated, resulting in probability density contours that are axis-aligned ellipses (or circles if variances are equal).
+2. Covariance measures the tendency of two random variables to vary together; a positive value indicates they tend to increase or decrease together, while a negative value indicates one tends to increase as the other decreases.
+3. All valid covariance matrices must be positive semi-definite, meaning $\text{Var}(a^T X) = a^T \Sigma a \geq 0$ for any vector $a$.
+4. A covariance matrix is strictly positive definite if and only if all its eigenvalues are strictly positive; this condition guarantees the matrix is invertible.
+5. Covariance only quantifies the strength and direction of the *linear* relationship between two random variables.
+6. Zero covariance ($\text{Cov}(X,Y) = 0$) guarantees that the random variables X and Y are statistically independent.
+7. The covariance between X and Y can be calculated using the formula $\text{Cov}(X,Y) = E[(X - E[X])(Y - E[Y])] = E[XY] - E[X]E[Y]$.
+8. The covariance of a random variable X with itself, $\text{Cov}(X,X)$, is equal to its variance, $\text{Var}(X)$.
+9. In a bivariate normal distribution, negative correlation corresponds to probability density contours being tilted primarily along the line $y = -x$.
+10. The principal axes of the probability density contours for a multivariate normal distribution align with the eigenvectors of its covariance matrix.
+11. Contour lines on a probability density plot connect points having the same probability density value.
+12. For any $n \times n$ covariance matrix with eigenvalues $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n$, the volume of the ellipsoid representing the region within one standard deviation is directly proportional to $\sum_{i=1}^{n} \lambda_i$ rather than $\prod_{i=1}^{n} \lambda_i$.
+13. In a multivariate normal distribution, the angle of rotation of probability density contours in a 2D plane is always given by $\theta = \frac{1}{2}\tan^{-1}\left(\frac{2\sigma_{xy}}{\sigma_x^2-\sigma_y^2}\right)$, regardless of whether $\sigma_x^2 = \sigma_y^2$.
+
+For a detailed explanation of these true/false questions about covariance and contours, see [Question 35: Covariance Concepts True/False](L2_1_35_explanation.md).
