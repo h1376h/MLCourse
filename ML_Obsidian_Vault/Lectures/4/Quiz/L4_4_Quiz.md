@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 12 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 17 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -160,7 +160,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider combining concepts from earlier lectures with linear separability.
 
 #### Task
-1. How does the concept of bias-variance tradeoff (from Lecture 2) relate to the choice of linear vs. non-linear decision boundaries?
+1. How does the concept of bias-variance tradeoff relate to the choice of linear vs. non-linear decision boundaries?
 2. If a dataset has high overlap between classes, which would typically perform better: a linear classifier with regularization or a linear classifier without regularization? Explain in one sentence
 3. For a 2D dataset where the optimal Bayes decision boundary is a circle, would a linear classifier or a quadratic feature transform be more appropriate? Why?
 
@@ -177,4 +177,77 @@ Linear Discriminant Analysis (LDA) approaches classification from a generative m
 3. Compare and contrast how LDA and Logistic Regression would behave with outliers in the training data in one sentence
 4. When would you prefer Logistic Regression over LDA? List one specific scenario
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: LDA vs. Logistic Regression](L4_4_12_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: LDA vs. Logistic Regression](L4_4_12_explanation.md).
+
+## Question 13
+
+### Problem Statement
+Consider a dataset with two features $(x_1, x_2)$ and binary labels $y \in \{-1, 1\}$. You're using a linear classifier with decision boundary $2x_1 - 3x_2 + 1 = 0$.
+
+#### Task
+1. Calculate the distance from point $(2, 3)$ to this decision boundary
+2. For a new data point $(0, 1)$, determine which class the model will predict
+3. If you normalize the weight vector to unit length, what would the new decision boundary equation be?
+4. Sketch the decision boundary in a 2D coordinate system and indicate the positive and negative regions
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 13: Decision Boundary Geometry](L4_4_13_explanation.md).
+
+## Question 14
+
+### Problem Statement
+You've trained two linear classifiers on the same dataset:
+- Model A: Linear Perceptron with weights $w = [2, -1]^T$ and bias $b = 0.5$
+- Model B: Linear Discriminant Analysis (LDA)
+
+For a new data point, you want to understand how these models make their classification decisions.
+
+#### Task
+1. Write the decision boundary equation for Model A in the form $w_1x_1 + w_2x_2 + b = 0$
+2. If the true data-generating distributions are Gaussian with equal covariance, which model is theoretically more appropriate? Explain why in one sentence
+3. For a test point $(1, 2)$, determine which class Model A will predict
+4. How does LDA's approach to finding the decision boundary differ from the Perceptron's approach? Explain in one sentence
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: Comparing Classifiers](L4_4_14_explanation.md).
+
+## Question 15
+
+### Problem Statement
+Consider a linear classifier with the following loss function:
+$$L(y, f(x)) = \exp(-y \cdot f(x))$$
+where $y \in \{-1, 1\}$ is the true label and $f(x) = w^T x + b$ is the model's prediction.
+
+#### Task
+1. Compute the gradient of this loss function with respect to $w$
+2. Compare this exponential loss with the hinge loss in terms of how they penalize misclassified points
+3. For a correctly classified point with margin $y \cdot f(x) = 2$, calculate the loss value
+4. Is this loss function convex? Explain why or why not in one sentence
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 15: Exponential Loss](L4_4_15_explanation.md).
+
+## Question 16
+
+### Problem Statement
+You have a dataset with two perfectly linearly separable classes. Considering both the Perceptron algorithm and the Pocket algorithm:
+
+#### Task
+1. Would the Pocket algorithm give a different result than the standard Perceptron for this dataset? Explain why or why not in one sentence
+2. If we add 5% random noise to the class labels (flipping some labels), which algorithm would be more robust? Explain in one sentence
+3. Draw a simple 2D example where the Perceptron's final solution depends on the initialization of weights
+4. How does the Pocket algorithm relate to the concept of empirical risk minimization from statistical learning theory? Answer in one sentence
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 16: Perceptron vs Pocket](L4_4_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+Consider a linear classifier being trained on a dataset with the following properties:
+- The true data distribution has significant class overlap
+- There are a few extreme outliers in the minority class
+
+#### Task
+1. Which is likely to perform better on this dataset: a model trained with 0-1 loss or a model trained with hinge loss? Explain why in one sentence
+2. How would the Pocket algorithm handle the outliers compared to the standard Perceptron? Explain in one sentence
+3. Connect this scenario to the bias-variance tradeoff concept from earlier lectures
+4. Draw a simple illustration of how LDA might place its decision boundary differently than a standard Perceptron in this scenario
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Robust Classification](L4_4_17_explanation.md). 
