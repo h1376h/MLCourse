@@ -33,29 +33,31 @@ This vault offers two ways to navigate the content:
 
 ### [[Lectures/3/L3_Linear_Regression|Lecture 3: Linear Regression]]
 - Mathematical foundations and linear algebra for linear models
-- Simple linear regression fundamentals and implementation
-- Probabilistic view and Maximum Likelihood in regression
-- Multiple linear regression and feature engineering
+- Simple and multiple linear regression
+- Probabilistic view and maximum likelihood estimation
 - Optimization techniques (Gradient Descent, SGD)
-- Model evaluation and validation methods
+- Model evaluation and validation
 - Regularization techniques (Ridge, Lasso, Elastic Net)
-- Advanced topics and real-world applications
+- Advanced topics and applications
 - Required Reading: Chapter 3 of "Pattern Recognition and Machine Learning" by Bishop
 
 ### [[Lectures/4/L4_Linear_Classifiers|Lecture 4: Linear Classifiers]]
-- The Perceptron algorithm
-- Linear classification and decision boundaries
-- Convergence analysis
-- Multi-class classification
+- Classification vs. regression fundamentals
+- Linear decision boundaries and discriminant functions
+- The Perceptron algorithm and convergence properties
+- Probabilistic discriminative approaches
+- Linear separability concepts
+- Multi-class classification strategies
 - Required Reading: Chapter 4.1-4.3 of "Pattern Recognition and Machine Learning" by Bishop
 
 ### [[Lectures/5/L5_Logistic_Regression|Lecture 5: Logistic Regression]]
-- Binary classification with logistic function
-- Multi-class logistic regression
-- Maximum likelihood estimation for classification
-- Newton's method and optimization
-- Regularized logistic regression
-- Comparison with other classifiers
+- Binary logistic regression model and sigmoid function
+- Maximum likelihood estimation for logistic regression
+- Optimization methods (Gradient Descent, Newton's Method)
+- Multi-class logistic regression and softmax function
+- Regularization for logistic regression
+- Evaluation metrics and model comparison
+- Advanced applications and implementation
 - Required Reading: Chapter 4.3-4.4 of "Pattern Recognition and Machine Learning" by Bishop
 
 ### [[Lectures/6/L6_Support_Vector_Machines|Lecture 6: Support Vector Machines]]
