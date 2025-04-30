@@ -81,7 +81,7 @@
   - 📚 Examples: Coming Soon
 - 3.4: Multiple Linear Regression
   - ⭐ Quiz: L3_4_Quiz
-  - 📚 Examples: [[L3_3_Multivariate_Regression|Multivariate Regression Examples]]
+  - 📚 Examples: [[L3_4_Multivariate_Regression|Multivariate Regression Examples]]
 - 3.5: Optimization Techniques for Linear Regression
   - ⭐ Quiz: L3_5_Quiz
   - 📚 Examples: Coming Soon
