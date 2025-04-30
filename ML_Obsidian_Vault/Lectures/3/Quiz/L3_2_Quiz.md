@@ -289,7 +289,7 @@ A medical researcher is studying the relationship between daily vitamin C intake
 
 For a detailed explanation of this problem, including medical data analysis and interpretation, see [Question 14: Vitamin C and Cold Duration](L3_2_14_explanation.md).
 
-## Question 15
+## [⭐] Question 15
 
 ### Problem Statement
 A researcher is investigating the relationship between age and glucose levels in patients. The data collected from 6 subjects is as follows:
