@@ -138,10 +138,10 @@ For a detailed explanation of this problem, including joint probability concepts
 ### Problem Statement
 Consider a random vector $X = [X₁, X₂]$ with mean vector $μ = [2, 3]$ and covariance matrix:
 
-$$\Sigma = \begin{pmatrix} 
+$$\Sigma = \begin{bmatrix} 
 4 & 2 \\
 2 & 5
-\end{pmatrix}$$
+\end{bmatrix}$$
 
 #### Task
 1. What is the variance of $X₁$ and $X₂$?

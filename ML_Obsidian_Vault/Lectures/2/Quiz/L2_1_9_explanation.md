@@ -3,10 +3,10 @@
 ## Problem Statement
 Consider a random vector $X = [X₁, X₂]$ with mean vector $μ = [2, 3]$ and covariance matrix:
 
-$$\Sigma = \begin{pmatrix} 
+$$\Sigma = \begin{bmatrix} 
 4 & 2 \\
 2 & 5
-\end{pmatrix}$$
+\end{bmatrix}$$
 
 ### Task
 1. What is the variance of $X₁$ and $X₂$?
@@ -22,17 +22,17 @@ This problem focuses on a bivariate random vector and its properties. The random
 ### Step 1: Determine the variances of $X₁$ and $X₂$
 The covariance matrix $\Sigma$ of a random vector has variances of individual components along its diagonal elements:
 
-$$\Sigma = \begin{pmatrix} 
+$$\Sigma = \begin{bmatrix} 
 Var(X₁) & Cov(X₁, X₂) \\
 Cov(X₂, X₁) & Var(X₂)
-\end{pmatrix}$$
+\end{bmatrix}$$
 
 From the given covariance matrix:
 
-$$\Sigma = \begin{pmatrix} 
+$$\Sigma = \begin{bmatrix} 
 4 & 2 \\
 2 & 5
-\end{pmatrix}$$
+\end{bmatrix}$$
 
 We can directly read:
 - $Var(X₁) = 4$
