@@ -248,6 +248,165 @@ plt.axis('equal')
 # Save the plot
 plt.savefig(os.path.join(save_dir, "lda_projection.png"), dpi=300, bbox_inches='tight')
 
+# ---------------- VISUALIZATION 1: Projection onto LDA Direction ----------------
+plt.figure(figsize=(12, 7))
+
+# Create a new axis for the projected data
+w_unit = w_star_normalized.flatten()
+
+# Project the data points onto the LDA direction
+X0_proj = np.array([np.dot(X0[:, i], w_unit) for i in range(X0.shape[1])])
+X1_proj = np.array([np.dot(X1[:, i], w_unit) for i in range(X1.shape[1])])
+
+# Original points projections (for comparison)
+orig_X0 = np.array([[1, 2], [2, 1]]).T
+orig_X1 = np.array([[4, 3], [5, 4]]).T
+orig_X0_proj = np.array([np.dot(orig_X0[:, i], w_unit) for i in range(orig_X0.shape[1])])
+orig_X1_proj = np.array([np.dot(orig_X1[:, i], w_unit) for i in range(orig_X1.shape[1])])
+
+# Calculate the range for the plot
+x_min, x_max = min(np.min(X0_proj), np.min(X1_proj)) - 0.5, max(np.max(X0_proj), np.max(X1_proj)) + 0.5
+y_min, y_max = -0.1, 0.5  # Just for visualization
+
+# Plot the projected points on the LDA direction line
+plt.plot([x_min, x_max], [0, 0], 'k-', lw=2)
+plt.scatter(X0_proj, np.zeros_like(X0_proj) + 0.1, s=100, color='blue', marker='o', label='Class 0 (perturbed)')
+plt.scatter(X1_proj, np.zeros_like(X1_proj) + 0.1, s=100, color='red', marker='x', label='Class 1 (perturbed)')
+
+# Add original points (faded)
+plt.scatter(orig_X0_proj, np.zeros_like(orig_X0_proj) + 0.2, s=80, color='blue', marker='o', alpha=0.3, label='Class 0 (original)')
+plt.scatter(orig_X1_proj, np.zeros_like(orig_X1_proj) + 0.2, s=80, color='red', marker='x', alpha=0.3, label='Class 1 (original)')
+
+# Calculate and plot the projected means
+mu0_proj = np.dot(mu0.flatten(), w_unit)
+mu1_proj = np.dot(mu1.flatten(), w_unit)
+plt.scatter(mu0_proj, 0.3, s=200, color='blue', marker='*', label='Mean of Class 0')
+plt.scatter(mu1_proj, 0.3, s=200, color='red', marker='*', label='Mean of Class 1')
+
+# Add annotations
+for i in range(len(X0_proj)):
+    plt.annotate(f'$x_{i+1}^{{(0)}}$', (X0_proj[i], 0.1), 
+                 xytext=(0, 10), textcoords='offset points', fontsize=12, ha='center')
+for i in range(len(X1_proj)):
+    plt.annotate(f'$x_{i+1}^{{(1)}}$', (X1_proj[i], 0.1), 
+                 xytext=(0, 10), textcoords='offset points', fontsize=12, ha='center')
+
+plt.annotate('$\\mu_0$', (mu0_proj, 0.3), 
+             xytext=(0, 10), textcoords='offset points', fontsize=14, ha='center')
+plt.annotate('$\\mu_1$', (mu1_proj, 0.3), 
+             xytext=(0, 10), textcoords='offset points', fontsize=14, ha='center')
+
+# Calculate the optimal threshold for classification
+threshold = (mu0_proj + mu1_proj) / 2
+plt.axvline(x=threshold, color='g', linestyle='--', label=f'Threshold: {threshold:.2f}')
+
+plt.title('Projection of Data Points onto LDA Direction', fontsize=16)
+plt.xlim(x_min, x_max)
+plt.ylim(y_min, y_max)
+plt.xlabel('Projection Value', fontsize=14)
+plt.yticks([])  # Hide y-axis ticks as they're not meaningful here
+plt.grid(True, alpha=0.3)
+plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=3, fontsize=10)
+plt.tight_layout()
+
+# Save the projection visualization
+plt.savefig(os.path.join(save_dir, "lda_projection_1d.png"), dpi=300, bbox_inches='tight')
+
+# ---------------- VISUALIZATION 2: Between-class and Within-class Scatter ----------------
+plt.figure(figsize=(12, 10))
+
+# Create scatter plots to show between-class and within-class scatter
+plt.subplot(2, 2, 1)
+plt.scatter(X0[0, :], X0[1, :], color='blue', s=100, marker='o', label='Class 0')
+plt.scatter(X1[0, :], X1[1, :], color='red', s=100, marker='x', label='Class 1')
+plt.scatter(mu0[0, 0], mu0[1, 0], color='blue', s=200, marker='*')
+plt.scatter(mu1[0, 0], mu1[1, 0], color='red', s=200, marker='*')
+plt.plot([mu0[0, 0], mu1[0, 0]], [mu0[1, 0], mu1[1, 0]], 'k--', lw=2, label='Between-class')
+plt.title('Original Data with Class Means', fontsize=14)
+plt.xlabel('$x_1$', fontsize=12)
+plt.ylabel('$x_2$', fontsize=12)
+plt.legend(fontsize=10)
+plt.grid(True, alpha=0.3)
+
+# Plot within-class scatter for Class 0
+plt.subplot(2, 2, 2)
+plt.scatter(X0[0, :], X0[1, :], color='blue', s=100, marker='o', label='Class 0')
+plt.scatter(mu0[0, 0], mu0[1, 0], color='blue', s=200, marker='*', label='Mean of Class 0')
+
+# Draw lines from each point to the mean to show the scatter
+for i in range(n0):
+    plt.plot([X0[0, i], mu0[0, 0]], [X0[1, i], mu0[1, 0]], 'b--', alpha=0.6)
+    
+# Visualize the covariance matrix as an ellipse
+from matplotlib.patches import Ellipse
+lambda_, v = np.linalg.eig(Sigma0)
+lambda_ = np.sqrt(lambda_)
+ell = Ellipse(xy=(mu0[0, 0], mu0[1, 0]),
+              width=lambda_[0]*4, height=lambda_[1]*4,
+              angle=np.rad2deg(np.arctan2(v[1, 0], v[0, 0])),
+              edgecolor='blue', fc='none', lw=2, label='Covariance ellipse')
+plt.gca().add_patch(ell)
+
+plt.title('Within-class Scatter for Class 0', fontsize=14)
+plt.xlabel('$x_1$', fontsize=12)
+plt.ylabel('$x_2$', fontsize=12)
+plt.legend(fontsize=10)
+plt.grid(True, alpha=0.3)
+
+# Plot within-class scatter for Class 1
+plt.subplot(2, 2, 3)
+plt.scatter(X1[0, :], X1[1, :], color='red', s=100, marker='x', label='Class 1')
+plt.scatter(mu1[0, 0], mu1[1, 0], color='red', s=200, marker='*', label='Mean of Class 1')
+
+# Draw lines from each point to the mean to show the scatter
+for i in range(n1):
+    plt.plot([X1[0, i], mu1[0, 0]], [X1[1, i], mu1[1, 0]], 'r--', alpha=0.6)
+    
+# Visualize the covariance matrix as an ellipse
+lambda_, v = np.linalg.eig(Sigma1)
+lambda_ = np.sqrt(lambda_)
+ell = Ellipse(xy=(mu1[0, 0], mu1[1, 0]),
+              width=lambda_[0]*4, height=lambda_[1]*4,
+              angle=np.rad2deg(np.arctan2(v[1, 0], v[0, 0])),
+              edgecolor='red', fc='none', lw=2, label='Covariance ellipse')
+plt.gca().add_patch(ell)
+
+plt.title('Within-class Scatter for Class 1', fontsize=14)
+plt.xlabel('$x_1$', fontsize=12)
+plt.ylabel('$x_2$', fontsize=12)
+plt.legend(fontsize=10)
+plt.grid(True, alpha=0.3)
+
+# Plot the pooled within-class scatter and the optimal projection direction
+plt.subplot(2, 2, 4)
+plt.scatter(X0[0, :], X0[1, :], color='blue', s=100, marker='o', label='Class 0')
+plt.scatter(X1[0, :], X1[1, :], color='red', s=100, marker='x', label='Class 1')
+plt.scatter(mu0[0, 0], mu0[1, 0], color='blue', s=200, marker='*')
+plt.scatter(mu1[0, 0], mu1[1, 0], color='red', s=200, marker='*')
+
+# Draw the LDA direction
+origin = (mu0 + mu1) / 2  # Use the midpoint between means as origin for better visualization
+origin = origin.flatten()
+plt.arrow(origin[0], origin[1], 
+          w_star_normalized[0, 0]*2, w_star_normalized[1, 0]*2,  # Scale for visibility
+          head_width=0.15, head_length=0.25, fc='green', ec='green', 
+          label='LDA direction')
+
+# Draw a perpendicular line to show the decision boundary
+perp_vec = np.array([-w_star_normalized[1, 0], w_star_normalized[0, 0]])
+plt.plot([origin[0] - perp_vec[0]*3, origin[0] + perp_vec[0]*3],
+         [origin[1] - perp_vec[1]*3, origin[1] + perp_vec[1]*3],
+         'g--', label='Decision boundary')
+
+plt.title('LDA Direction and Decision Boundary', fontsize=14)
+plt.xlabel('$x_1$', fontsize=12)
+plt.ylabel('$x_2$', fontsize=12)
+plt.legend(fontsize=10)
+plt.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, "lda_scatter_analysis.png"), dpi=300, bbox_inches='tight')
+
 print("\nFinal Results Summary:")
 print("====================")
 print("Note: The results below are based on the perturbed data points.")
