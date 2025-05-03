@@ -146,12 +146,14 @@ The hinge loss has a non-differentiable point at $z = 1$:
 
 ![Hinge Loss Non-differentiability](../Images/L4_4_Quiz_8/hinge_loss_non_differentiability.png)
 
-This non-differentiability has implications for optimization - while the function is still convex, optimization methods that require derivatives need special handling at this point.
+To see this critical point more clearly, we can examine a zoomed-in view focusing specifically on the non-differentiable point at $z = 1$:
+
+![Hinge Loss Zoomed View](../Images/L4_4_Quiz_8/hinge_loss_zoomed.png)
 
 At $z = 1$, the left and right derivatives differ:
 $$\lim_{z \to 1^-} L'_{hinge}(z) = -1 \neq \lim_{z \to 1^+} L'_{hinge}(z) = 0$$
 
-In optimization, this requires using subgradient methods instead of standard gradient descent.
+This non-differentiability has important implications for optimization. While the hinge loss function remains convex, optimization methods that require continuous derivatives need special handling at this point, typically through subgradient methods that can handle these "kinks" in the function.
 
 ### Step 7: Compare first derivatives of the loss functions
 To better understand how these loss functions behave during optimization, we can visualize their first derivatives, which correspond to the gradients used in gradient descent:

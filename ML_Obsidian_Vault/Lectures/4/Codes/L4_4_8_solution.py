@@ -223,7 +223,7 @@ print("----------------------------------")
 
 # Create a figure to focus on the non-differentiability of the hinge loss
 plt.figure(figsize=(10, 6))
-z = np.linspace(0.7, 1.3, 1000)
+z = np.linspace(0.5, 1.5, 1000)
 hinge_losses = np.maximum(0, 1 - z)
 
 # Plot the hinge loss function
@@ -231,32 +231,46 @@ plt.plot(z, hinge_losses, 'r-', linewidth=3, label='Hinge Loss')
 plt.axvline(x=1, color='k', linestyle='--', alpha=0.7, label='Non-differentiable point at z=1')
 
 # Add annotations to highlight the change in slope
-plt.annotate('Slope = -1', xy=(0.9, 0.1), xytext=(0.75, 0.15), 
+plt.annotate('Slope = -1', xy=(0.85, 0.15), xytext=(0.6, 0.25), 
              fontsize=12, arrowprops=dict(facecolor='blue', shrink=0.05, width=1.5, headwidth=8))
-plt.annotate('Slope = 0', xy=(1.1, 0), xytext=(1.15, 0.15), 
+plt.annotate('Slope = 0', xy=(1.15, 0), xytext=(1.25, 0.15), 
              fontsize=12, arrowprops=dict(facecolor='blue', shrink=0.05, width=1.5, headwidth=8))
-
-# Add zoomed inset
-from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes, mark_inset
-axins = zoomed_inset_axes(plt.gca(), 6, loc=1)  # Position in upper right
-axins.plot(z, hinge_losses, 'r-', linewidth=3)
-axins.axvline(x=1, color='k', linestyle='--', alpha=0.7)
-axins.set_xlim(0.97, 1.03)  # Narrower x range for better focus
-axins.set_ylim(-0.005, 0.03)  # Adjusted y-axis range
-axins.grid(True, alpha=0.3)
-axins.set_xticks([0.97, 1.00, 1.03])
-axins.set_xticklabels(['0.97', '1.00', '1.03'])
-mark_inset(plt.gca(), axins, loc1=3, loc2=4, fc="none", ec="0.5")
 
 plt.xlabel('z = y·f(x)', fontsize=14)
 plt.ylabel('Loss Value', fontsize=14)
 plt.title('Non-differentiability of Hinge Loss at z=1', fontsize=16)
 plt.legend(fontsize=12, loc='upper right')
 plt.grid(True, alpha=0.3)
-plt.ylim(-0.05, 0.35)
+plt.ylim(-0.05, 0.55)
+plt.xlim(0.5, 1.5)
 
 # Save the non-differentiability plot
 plt.savefig(os.path.join(save_dir, "hinge_loss_non_differentiability.png"), dpi=300, bbox_inches='tight')
+
+# Create a second figure with a zoomed-in view
+plt.figure(figsize=(8, 6))
+z_zoomed = np.linspace(0.97, 1.03, 1000)
+hinge_losses_zoomed = np.maximum(0, 1 - z_zoomed)
+
+plt.plot(z_zoomed, hinge_losses_zoomed, 'r-', linewidth=4, label='Hinge Loss')
+plt.axvline(x=1, color='k', linestyle='--', alpha=0.7, label='Non-differentiable point at z=1')
+
+# Add arrows pointing to the corner
+plt.annotate('', xy=(1, 0), xytext=(0.98, 0.02),
+             arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=8))
+plt.annotate('', xy=(1, 0), xytext=(1.02, 0.02),
+             arrowprops=dict(facecolor='black', shrink=0, width=1.5, headwidth=8))
+
+plt.xlabel('z = y·f(x)', fontsize=14)
+plt.ylabel('Loss Value', fontsize=14)
+plt.title('Zoomed View of Hinge Loss Non-differentiability at z=1', fontsize=16)
+plt.legend(fontsize=12, loc='upper right')
+plt.grid(True, alpha=0.3)
+plt.ylim(-0.005, 0.03)
+plt.xlim(0.97, 1.03)
+
+# Save the zoomed non-differentiability plot
+plt.savefig(os.path.join(save_dir, "hinge_loss_zoomed.png"), dpi=300, bbox_inches='tight')
 
 # Add a new visualization: First derivatives of loss functions
 print("\nStep 5.1: Visualize the first derivatives")
