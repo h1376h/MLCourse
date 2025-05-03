@@ -11,6 +11,8 @@ os.makedirs(save_dir, exist_ok=True)
 
 # Set a nice style for the plots
 plt.style.use('seaborn-v0_8-whitegrid')
+# Set fonts to more common ones that have the required glyphs
+plt.rcParams['font.family'] = 'DejaVu Sans'
 
 print("Question 10: Pocket Algorithm Applications")
 print("======================================")
@@ -54,10 +56,10 @@ y2 = -np.ones(n_samples)
 X = np.vstack((X1, X2))
 y = np.hstack((y1, y2))
 
-# Plot the dataset
+# Plot the dataset - make it simpler and prettier
 plt.figure(figsize=(10, 8))
-plt.scatter(X1[:, 0], X1[:, 1], color='blue', alpha=0.5, label='Class 1')
-plt.scatter(X2[:, 0], X2[:, 1], color='red', alpha=0.5, label='Class 2')
+plt.scatter(X1[:, 0], X1[:, 1], color='blue', alpha=0.6, label='Class 1', s=50, edgecolor='none')
+plt.scatter(X2[:, 0], X2[:, 1], color='red', alpha=0.6, label='Class 2', s=50, edgecolor='none')
 plt.xlabel('$x_1$', fontsize=14)
 plt.ylabel('$x_2$', fontsize=14)
 plt.title('Non-separable Dataset', fontsize=16)
@@ -213,8 +215,8 @@ def plot_decision_boundary(weights, X, y, title, filename):
     plt.pcolormesh(xx1, xx2, Z, cmap=cmap_light, alpha=0.2)
     
     # Plot the data points
-    plt.scatter(X[y == 1, 0], X[y == 1, 1], color='blue', alpha=0.5, label='Class 1')
-    plt.scatter(X[y == -1, 0], X[y == -1, 1], color='red', alpha=0.5, label='Class 2')
+    plt.scatter(X[y == 1, 0], X[y == 1, 1], color='blue', alpha=0.6, label='Class 1', s=50, edgecolor='none')
+    plt.scatter(X[y == -1, 0], X[y == -1, 1], color='red', alpha=0.6, label='Class 2', s=50, edgecolor='none')
     
     # Add the decision boundary line
     slope = -weights[1] / weights[2]
@@ -223,19 +225,19 @@ def plot_decision_boundary(weights, X, y, title, filename):
     x2_line = slope * x1_line + intercept
     plt.plot(x1_line, x2_line, 'k-', linewidth=2, label='Decision Boundary')
     
-    # Highlight misclassified points
+    # Highlight misclassified points - Fix warning by removing edgecolors parameter
     X_with_bias = np.hstack((np.ones((X.shape[0], 1)), X))
     predictions = np.sign(np.dot(X_with_bias, weights))
     misclassified = predictions != y
     plt.scatter(X[misclassified, 0], X[misclassified, 1], color='yellow', 
-               edgecolors='k', alpha=0.8, s=80, marker='x', label='Misclassified')
+               alpha=0.8, s=80, marker='o', label='Misclassified')
     
     # Count misclassified points
     num_misclassified = np.sum(misclassified)
     accuracy = 1 - num_misclassified / len(y)
     
-    # Add the equation of the boundary
-    eq_text = f"Decision Boundary Equation:\n{weights[1]:.4f}x₁ + {weights[2]:.4f}x₂ + {weights[0]:.4f} = 0"
+    # Add the equation of the boundary - Fix warning by using regular subscripts
+    eq_text = f"Decision Boundary Equation:\n{weights[1]:.4f}x1 + {weights[2]:.4f}x2 + {weights[0]:.4f} = 0"
     acc_text = f"Accuracy: {accuracy:.4f}\nMisclassified: {num_misclassified}/{len(y)}"
     plt.text(0.02, 0.98, eq_text, transform=plt.gca().transAxes, fontsize=12,
             verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
@@ -269,11 +271,11 @@ final_accuracy, final_misclassified = plot_decision_boundary(
 
 print(f"Plotted the decision boundaries for both algorithms:")
 print(f"1. Pocket Algorithm (Best Weights):")
-print(f"   - Equation: {pocket_weights[1]:.4f}x₁ + {pocket_weights[2]:.4f}x₂ + {pocket_weights[0]:.4f} = 0")
+print(f"   - Equation: {pocket_weights[1]:.4f}x1 + {pocket_weights[2]:.4f}x2 + {pocket_weights[0]:.4f} = 0")
 print(f"   - Accuracy: {pocket_accuracy:.4f}")
 print(f"   - Misclassified: {pocket_misclassified}/{len(y)} points")
 print(f"\n2. Standard Perceptron (Final Weights):")
-print(f"   - Equation: {final_weights[1]:.4f}x₁ + {final_weights[2]:.4f}x₂ + {final_weights[0]:.4f} = 0")
+print(f"   - Equation: {final_weights[1]:.4f}x1 + {final_weights[2]:.4f}x2 + {final_weights[0]:.4f} = 0")
 print(f"   - Accuracy: {final_accuracy:.4f}")
 print(f"   - Misclassified: {final_misclassified}/{len(y)} points")
 
@@ -283,9 +285,9 @@ print("----------------------------------------------------")
 
 plt.figure(figsize=(12, 8))
 
-# Plot the data points
-plt.scatter(X[y == 1, 0], X[y == 1, 1], color='blue', alpha=0.5, label='Class 1')
-plt.scatter(X[y == -1, 0], X[y == -1, 1], color='red', alpha=0.5, label='Class 2')
+# Plot the data points - make it simpler and prettier
+plt.scatter(X[y == 1, 0], X[y == 1, 1], color='blue', alpha=0.6, label='Class 1', s=50, edgecolor='none')
+plt.scatter(X[y == -1, 0], X[y == -1, 1], color='red', alpha=0.6, label='Class 2', s=50, edgecolor='none')
 
 # Plot the pocket decision boundary
 slope_pocket = -pocket_weights[1] / pocket_weights[2]
@@ -352,9 +354,9 @@ standard_class_num, standard_class_name = classify_point(final_weights, new_poin
 # Plot the classification of the new point
 plt.figure(figsize=(10, 8))
 
-# Plot the data points
-plt.scatter(X[y == 1, 0], X[y == 1, 1], color='blue', alpha=0.3, label='Class 1')
-plt.scatter(X[y == -1, 0], X[y == -1, 1], color='red', alpha=0.3, label='Class 2')
+# Plot the data points - make it simpler and prettier
+plt.scatter(X[y == 1, 0], X[y == 1, 1], color='blue', alpha=0.3, label='Class 1', s=50, edgecolor='none')
+plt.scatter(X[y == -1, 0], X[y == -1, 1], color='red', alpha=0.3, label='Class 2', s=50, edgecolor='none')
 
 # Plot the pocket decision boundary
 plt.plot(x1_line, x2_line_pocket, 'g-', linewidth=2, label='Pocket Algorithm')
@@ -362,7 +364,7 @@ plt.plot(x1_line, x2_line_pocket, 'g-', linewidth=2, label='Pocket Algorithm')
 # Highlight the new point
 point_color = 'blue' if pocket_class_num > 0 else 'red'
 plt.scatter(new_point[0], new_point[1], color=point_color, s=150, marker='*', 
-           edgecolors='k', linewidth=2, label=f'New Point: {pocket_class_name}')
+           linewidth=1.5, edgecolors='black', label=f'New Point: {pocket_class_name}')
 
 # Add labels and title
 plt.xlabel('$x_1$', fontsize=14)
@@ -416,6 +418,6 @@ print(f"   of {pocket_accuracy:.4f}, misclassifying {pocket_misclassified} out o
 print("\n3. The Standard Perceptron achieves an accuracy of {final_accuracy:.4f}, misclassifying")
 print(f"   {final_misclassified} out of {len(y)} points.")
 print(f"\n4. The Pocket Algorithm's decision boundary is given by:")
-print(f"   {pocket_weights[1]:.4f}x₁ + {pocket_weights[2]:.4f}x₂ + {pocket_weights[0]:.4f} = 0")
+print(f"   {pocket_weights[1]:.4f}x1 + {pocket_weights[2]:.4f}x2 + {pocket_weights[0]:.4f} = 0")
 print("\n5. This demonstrates the advantage of the Pocket Algorithm for non-separable data,")
 print("   where the standard Perceptron may never converge to a stable solution.") 
