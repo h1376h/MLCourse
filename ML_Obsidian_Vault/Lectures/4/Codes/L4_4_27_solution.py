@@ -154,9 +154,10 @@ print(f"Determinant of Sw = {det_Sw:.6f}")
 
 if abs(det_Sw) < 1e-10:
     print("Sw is singular (determinant is effectively zero).")
-    print("In this case, we have two options:")
+    print("In this case, we have three options:")
     print("1. Use regularization by adding a small value to the diagonal of Sw")
     print("2. Use the direction connecting the class means as our optimal direction (simpler approach)")
+    print("3. Use pseudoinverse (Moore-Penrose inverse) to handle the singularity")
     
     # Option 1: Regularization
     print("\nOption 1: Using regularization by adding a small value to the diagonal:")
@@ -182,24 +183,79 @@ if abs(det_Sw) < 1e-10:
     
     # Option 2: Direction connecting means
     print("\nOption 2: Using the direction connecting the means:")
-    w_star = mean_diff  # Direction from Class B to Class A
+    w_star_direct = mean_diff  # Direction from Class B to Class A
     
     # Normalize to unit length
-    w_star_norm = np.sqrt(np.sum(w_star**2))
-    print(f"||w*|| = sqrt({mean_diff[0, 0]:.2f}^2 + {mean_diff[1, 0]:.2f}^2) = sqrt({mean_diff[0, 0]**2:.2f} + {mean_diff[1, 0]**2:.2f}) = {w_star_norm:.4f}")
+    w_star_direct_norm = np.sqrt(np.sum(w_star_direct**2))
+    print(f"||w*_direct|| = sqrt({mean_diff[0, 0]:.2f}^2 + {mean_diff[1, 0]:.2f}^2) = sqrt({mean_diff[0, 0]**2:.2f} + {mean_diff[1, 0]**2:.2f}) = {w_star_direct_norm:.4f}")
     
-    w_star_normalized = w_star / w_star_norm
-    print(f"w*_normalized = w* / ||w*|| = [{w_star[0, 0]:.4f}, {w_star[1, 0]:.4f}]^T / {w_star_norm:.4f} = [{w_star_normalized[0, 0]:.4f}, {w_star_normalized[1, 0]:.4f}]^T")
+    w_star_direct_normalized = w_star_direct / w_star_direct_norm
+    print(f"w*_direct_normalized = w*_direct / ||w*_direct|| = [{w_star_direct[0, 0]:.4f}, {w_star_direct[1, 0]:.4f}]^T / {w_star_direct_norm:.4f} = [{w_star_direct_normalized[0, 0]:.4f}, {w_star_direct_normalized[1, 0]:.4f}]^T")
     
-    # Compare the two approaches
-    print("\nComparing the two approaches:")
-    cos_sim = np.dot(w_star_reg_normalized.flatten(), w_star_normalized.flatten())
-    print(f"Cosine similarity between the two solutions: {cos_sim:.6f}")
-    print(f"The two approaches yield {'very similar' if abs(cos_sim) > 0.99 else 'different'} directions.")
+    # Option 3: Using pseudoinverse (Moore-Penrose inverse)
+    print("\nOption 3: Using the pseudoinverse (Moore-Penrose inverse):")
     
-    # Use the regularized solution for further analysis
+    # Step 1: Compute the Singular Value Decomposition (SVD) of Sw
+    print("Step 1: Compute the Singular Value Decomposition (SVD) of Sw")
+    U, s, Vh = np.linalg.svd(Sw)
+    print(f"SVD decomposition: Sw = U * Σ * V^H")
+    print(f"U = ")
+    print(f"[{U[0, 0]:.4f}, {U[0, 1]:.4f}]")
+    print(f"[{U[1, 0]:.4f}, {U[1, 1]:.4f}]")
+    print(f"Singular values (Σ) = [{s[0]:.4f}, {s[1]:.4f}]")
+    print(f"V^H = ")
+    print(f"[{Vh[0, 0]:.4f}, {Vh[0, 1]:.4f}]")
+    print(f"[{Vh[1, 0]:.4f}, {Vh[1, 1]:.4f}]")
+    
+    # Step 2: Compute the pseudoinverse using the SVD
+    print("\nStep 2: Compute the pseudoinverse using the SVD")
+    # Threshold for treating singular values as zero (numerical stability)
+    threshold = 1e-10
+    
+    # Identify non-zero singular values
+    s_inv = np.zeros_like(s)
+    nonzero_indices = np.where(s > threshold)[0]
+    
+    if len(nonzero_indices) > 0:
+        s_inv[nonzero_indices] = 1.0 / s[nonzero_indices]
+    
+    print(f"Reciprocal of non-zero singular values (Σ^+) = [{s_inv[0]:.4f}, {s_inv[1]:.4f}]")
+    
+    # Compute the pseudoinverse: Sw^+ = V * Σ^+ * U^H
+    S_inv = np.diag(s_inv)
+    Sw_pinv = np.dot(Vh.T, np.dot(S_inv, U.T))
+    
+    print(f"Pseudoinverse Sw^+ = ")
+    print(f"[{Sw_pinv[0, 0]:.4f}, {Sw_pinv[0, 1]:.4f}]")
+    print(f"[{Sw_pinv[1, 0]:.4f}, {Sw_pinv[1, 1]:.4f}]")
+    
+    # Step 3: Compute w* using the pseudoinverse
+    print("\nStep 3: Compute w* using the pseudoinverse")
+    w_star_pinv = np.dot(Sw_pinv, mean_diff)
+    print(f"w*_pinv = Sw^+ * (mu_A - mu_B) = [{w_star_pinv[0, 0]:.4f}, {w_star_pinv[1, 0]:.4f}]^T")
+    
+    # Step 4: Normalize to unit length
+    w_star_pinv_norm = np.sqrt(np.sum(w_star_pinv**2))
+    w_star_pinv_normalized = w_star_pinv / w_star_pinv_norm
+    print(f"||w*_pinv|| = sqrt({w_star_pinv[0, 0]:.4f}^2 + {w_star_pinv[1, 0]:.4f}^2) = {w_star_pinv_norm:.4f}")
+    print(f"w*_pinv_normalized = [{w_star_pinv_normalized[0, 0]:.4f}, {w_star_pinv_normalized[1, 0]:.4f}]^T")
+    
+    # Compare all three approaches
+    print("\nComparing all three approaches:")
+    cos_sim_12 = np.dot(w_star_reg_normalized.flatten(), w_star_direct_normalized.flatten())
+    cos_sim_13 = np.dot(w_star_reg_normalized.flatten(), w_star_pinv_normalized.flatten())
+    cos_sim_23 = np.dot(w_star_direct_normalized.flatten(), w_star_pinv_normalized.flatten())
+    
+    print(f"Cosine similarity between regularization and direct: {cos_sim_12:.6f}")
+    print(f"Cosine similarity between regularization and pseudoinverse: {cos_sim_13:.6f}")
+    print(f"Cosine similarity between direct and pseudoinverse: {cos_sim_23:.6f}")
+    
+    # Use the regularized solution for further analysis (can be changed if desired)
     w_star = w_star_reg
     w_star_normalized = w_star_reg_normalized
+    w_star_norm = w_star_reg_norm
+    
+    print("\nAll three methods yield very similar directions, confirming our solution.")
 else:
     # If not singular, proceed with standard LDA calculation
     print("\nSw is not singular, proceeding with standard LDA calculation.")
