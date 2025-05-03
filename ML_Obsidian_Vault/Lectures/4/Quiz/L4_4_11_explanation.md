@@ -51,11 +51,11 @@ The comparison shows:
 - Linear classifier (left): Cannot capture the circular boundary, achieving only 66.2% training accuracy and 75.6% test accuracy.
 - Quadratic feature transform (right): Perfectly captures the circular boundary, achieving 100% training and test accuracy.
 
-A quadratic feature transformation is more appropriate than a linear classifier for a circular decision boundary because it includes the quadratic terms (x₁², x₂², x₁·x₂) that can model the equation of a circle: x₁² + x₂² = r².
+A quadratic feature transformation is more appropriate than a linear classifier for a circular decision boundary because it includes the quadratic terms $(x_1^2, x_2^2, x_1 \cdot x_2)$ that can model the equation of a circle: $x_1^2 + x_2^2 = r^2$.
 
 Looking at a specific example of the transformation:
-- Original features: [x₁, x₂] = [1, 2]
-- Transformed features: [1, x₁, x₂, x₁², x₁·x₂, x₂²] = [1, 1, 2, 1, 2, 4]
+- Original features: $[x_1, x_2] = [1, 2]$
+- Transformed features: $[1, x_1, x_2, x_1^2, x_1 \cdot x_2, x_2^2] = [1, 1, 2, 1, 2, 4]$
 
 This transformation allows a linear classifier in the transformed space to represent a non-linear (circular) boundary in the original feature space.
 
@@ -81,4 +81,4 @@ This transformation allows a linear classifier in the transformed space to repre
 ## Conclusion
 - The bias-variance tradeoff guides the choice between linear (higher bias) and non-linear (potentially higher variance) decision boundaries, with the optimal choice depending on the true data structure.
 - For datasets with high class overlap, linear classifiers with regularization typically outperform unregularized models because they create more stable and generalizable decision boundaries.
-- For circular decision boundaries, quadratic feature transformations are more appropriate than linear classifiers because they can represent the mathematical equation of a circle, transforming a non-linearly separable problem into a linearly separable one in the expanded feature space. 
+- For circular decision boundaries, quadratic feature transformations are more appropriate than linear classifiers because they can represent the mathematical equation of a circle, transforming a non-linearly separable problem into a linearly separable one in the expanded feature space.
