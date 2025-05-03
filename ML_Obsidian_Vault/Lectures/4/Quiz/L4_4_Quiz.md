@@ -401,4 +401,4 @@ Find the LDA classifier for a training set of eight points:
 4. Calculate the threshold value for classification in the projected space, assuming equal prior probabilities
 5. For a new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$, which class would LDA assign it to?
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Additional Exercise: LDA Classification](L4_4_23_explanation.md).
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 23: LDA Classification](L4_4_23_explanation.md).
