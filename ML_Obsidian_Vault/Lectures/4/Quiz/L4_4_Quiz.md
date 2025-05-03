@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 21 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 22 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -364,4 +364,25 @@ for Class 0
 3. Determine the predicted class for the new data point $\mathbf{x}_{\text{new}} = [4, 5]^T$
 4. Describe how the decision boundary would be different if we used a pooled covariance matrix (standard LDA)
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 21: LDA Prediction](L4_4_21_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 21: LDA Prediction](L4_4_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+Consider the following table with gender and height data:
+
+| Gender | Height | Estimation |
+|--------|--------|------------|
+| F      | 160    |            |
+| M      | 160    |            |
+| F      | 170    |            |
+| M      | 170    |            |
+| M      | 170    |            |
+| M      | 180    |            |
+
+#### Task
+1. Based on the LDA method, estimate the category (gender) for each person in the table
+2. Show your work and explain the LDA classification process
+3. What assumptions does LDA make about the data distribution?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 22: LDA Classification](L4_4_22_explanation.md). 
