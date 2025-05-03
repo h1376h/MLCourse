@@ -240,4 +240,7 @@ Through this step-by-step analysis, we have:
 
 The analysis demonstrates that LDA effectively separates the two classes with a linear decision boundary, confirming that the dataset is linearly separable. This means a linear classifier is sufficient for this classification task without needing more complex nonlinear models.
 
-The optimal projection direction found by LDA maximizes the separation between classes while minimizing within-class variance, making it an ideal method for dimensionality reduction when the goal is classification. 
+The optimal projection direction found by LDA maximizes the separation between classes while minimizing within-class variance, making it an ideal method for dimensionality reduction when the goal is classification.
+
+## Related Questions
+For a detailed analysis of this same dataset using multivariate Gaussian classification approach, see [[L2_1_31_explanation_population]].

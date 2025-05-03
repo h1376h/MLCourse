@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from mpl_toolkits.mplot3d import Axes3D  # Import for 3D plotting
+import matplotlib.font_manager as fm  # For font management
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -11,6 +12,8 @@ os.makedirs(save_dir, exist_ok=True)
 
 # Set a nice style for the plots
 plt.style.use('seaborn-v0_8-whitegrid')
+# Use a different font that supports subscripts, or use regular notation
+plt.rcParams['font.family'] = 'DejaVu Sans'
 
 print("Question 13: Decision Boundary Geometry")
 print("====================================")
@@ -24,7 +27,7 @@ b = 1
 w = np.array([w1, w2])
 print(f"Weight vector w = [{w1}, {w2}]")
 print(f"Bias term b = {b}")
-print(f"Decision boundary equation: {w1}x₁ + {w2}x₂ + {b} = 0")
+print(f"Decision boundary equation: {w1}x_1 + {w2}x_2 + {b} = 0")
 
 # Task 1: Calculate the distance from point (2, 3) to the decision boundary
 print("\nTask 1: Distance from point (2, 3) to the decision boundary")
@@ -44,7 +47,7 @@ print(f"f({x_point[0]}, {x_point[1]}) = {w1 * x_point[0]} + {w2 * x_point[1]} + 
 print("\nStep 2: Calculate the norm of the weight vector")
 w_norm_squared = w1**2 + w2**2
 w_norm = np.sqrt(w_norm_squared)
-print(f"||w||² = w₁² + w₂² = {w1}² + {w2}² = {w1**2} + {w2**2} = {w_norm_squared}")
+print(f"||w||² = w_1² + w_2² = {w1}² + {w2}² = {w1**2} + {w2**2} = {w_norm_squared}")
 print(f"||w|| = √({w_norm_squared}) = {w_norm:.4f}")
 
 # Step 3: Calculate the distance using the formula
@@ -76,7 +79,7 @@ euclidean_distance = np.sqrt((x_point[0] - closest_point[0])**2 + (x_point[1] - 
 print(f"Euclidean distance between original point and closest point = {euclidean_distance:.4f}")
 print(f"This matches our formula-based calculation: {distance:.4f}")
 
-print("\nTherefore, the distance from the point ({x_point[0]}, {x_point[1]}) to the decision boundary {w1}x₁ + {w2}x₂ + {b} = 0 is {distance:.4f} units.")
+print("\nTherefore, the distance from the point ({x_point[0]}, {x_point[1]}) to the decision boundary {w1}x_1 + {w2}x_2 + {b} = 0 is {distance:.4f} units.")
 
 # Task 2: Determine the class prediction for a new data point (0, 1)
 print("\nTask 2: Class prediction for point (0, 1)")
@@ -116,7 +119,7 @@ print("----------------------------------------------")
 
 # Step 1: Calculate the norm of the weight vector (already done)
 print("Step 1: Calculate the norm of the weight vector")
-print(f"||w|| = √(w₁² + w₂²) = √({w1}² + {w2}²) = √({w_norm_squared}) = {w_norm:.4f}")
+print(f"||w|| = √(w_1² + w_2²) = √({w1}² + {w2}²) = √({w_norm_squared}) = {w_norm:.4f}")
 
 # Step 2: Normalize the weight vector
 print("\nStep 2: Normalize the weight vector by dividing by its norm")
@@ -131,8 +134,8 @@ print(f"b_normalized = b / ||w|| = {b} / {w_norm:.4f} = {b_normalized:.4f}")
 
 # Step 4: Write the new decision boundary equation
 print("\nStep 4: Write the new normalized decision boundary equation")
-print(f"Original equation: {w1}x₁ + {w2}x₂ + {b} = 0")
-print(f"Normalized equation: {w_normalized[0]:.4f}x₁ + {w_normalized[1]:.4f}x₂ + {b_normalized:.4f} = 0")
+print(f"Original equation: {w1}x_1 + {w2}x_2 + {b} = 0")
+print(f"Normalized equation: {w_normalized[0]:.4f}x_1 + {w_normalized[1]:.4f}x_2 + {b_normalized:.4f} = 0")
 
 # Step 5: Verify that both equations represent the same boundary
 print("\nStep 5: Verify that both equations represent the same decision boundary")
@@ -157,15 +160,15 @@ print(f"This is very close to the weight norm {w_norm:.4f}, confirming both equa
 print("\nTask 4: Sketch the decision boundary")
 print("----------------------------------")
 
-# Step 1: Rearrange the equation to express x₂ in terms of x₁
-print("Step 1: Rearrange the decision boundary equation to express x₂ in terms of x₁")
-print(f"Original equation: {w1}x₁ + {w2}x₂ + {b} = 0")
-print(f"Rearranging: {w2}x₂ = -{w1}x₁ - {b}")
-print(f"Therefore: x₂ = ({-w1}x₁ - {b}) / {w2}")
+# Step 1: Rearrange the equation to express x_2 in terms of x_1
+print("Step 1: Rearrange the decision boundary equation to express x_2 in terms of x_1")
+print(f"Original equation: {w1}x_1 + {w2}x_2 + {b} = 0")
+print(f"Rearranging: {w2}x_2 = -{w1}x_1 - {b}")
+print(f"Therefore: x_2 = ({-w1}x_1 - {b}) / {w2}")
 slope = -w1 / w2
 intercept = -b / w2
 print(f"This is a line with slope {slope:.4f} and y-intercept {intercept:.4f}")
-print(f"Equation: x₂ = {slope:.4f}x₁ + {intercept:.4f}")
+print(f"Equation: x_2 = {slope:.4f}x_1 + {intercept:.4f}")
 
 # Create data for visualization
 x1_range = np.linspace(-3, 6, 100)
@@ -208,7 +211,7 @@ plt.annotate('Negative Region (y = -1)', xy=(0, 4), fontsize=12,
              bbox=dict(boxstyle="round,pad=0.3", fc='#FFAAAA', ec="r", alpha=0.3))
 
 # Add decision boundary equation
-plt.annotate(f'Decision Boundary: {w1}x₁ + {w2}x₂ + {b} = 0',
+plt.annotate(f'Decision Boundary: {w1}x_1 + {w2}x_2 + {b} = 0',
              xy=(0.05, 0.95), xycoords='axes fraction',
              bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
 
@@ -255,16 +258,97 @@ ax.legend()
 # Save the 3D figure
 plt.savefig(os.path.join(save_dir, "decision_function_3d.png"), dpi=300, bbox_inches='tight')
 
+# NEW VISUALIZATION: Showing multiple points with distances to decision boundary
+plt.figure(figsize=(12, 10))
+
+# Plot the decision boundary and regions
+plt.contourf(X1, X2, Z, levels=[-10, 0, 10], colors=['#FFAAAA', '#AAAAFF'], alpha=0.5)
+cs = plt.contour(X1, X2, np.abs(Z)/w_norm, levels=np.arange(0, 3, 0.5), 
+                  colors='gray', linestyles='--', alpha=0.7)
+plt.clabel(cs, inline=1, fontsize=10, fmt='%.1f')
+plt.contour(X1, X2, Z, levels=[0], colors='k', linewidths=2)
+
+# Generate random points
+np.random.seed(42)  # For reproducibility
+num_points = 10
+points_x1 = np.random.uniform(-2, 5, num_points)
+points_x2 = np.random.uniform(-2, 5, num_points)
+points = np.column_stack((points_x1, points_x2))
+
+# Calculate distances and classify points
+distances = []
+classes = []
+closest_points = []
+
+for i, point in enumerate(points):
+    # Calculate distance to decision boundary
+    decision_val = w1 * point[0] + w2 * point[1] + b
+    distance_i = abs(decision_val) / w_norm
+    distances.append(distance_i)
+    
+    # Determine class
+    class_i = 1 if decision_val > 0 else -1
+    classes.append(class_i)
+    
+    # Find closest point on boundary
+    proj_factor = decision_val / w_norm_squared
+    closest_point_i = point - proj_factor * w
+    closest_points.append(closest_point_i)
+    
+    # Plot line connecting point to decision boundary
+    plt.plot([point[0], closest_point_i[0]], [point[1], closest_point_i[1]], 
+             'k--', alpha=0.5, linewidth=1)
+    
+    # Annotate with distance
+    mid_point = (point + closest_point_i) / 2
+    plt.annotate(f'{distance_i:.2f}', xy=(mid_point[0], mid_point[1]), 
+                 fontsize=9, ha='center', va='center',
+                 bbox=dict(boxstyle="round,pad=0.1", fc="white", ec="none", alpha=0.7))
+
+# Plot the points
+for i, (point, cls) in enumerate(zip(points, classes)):
+    color = 'blue' if cls == 1 else 'red'
+    plt.scatter(point[0], point[1], color=color, s=100, alpha=0.7,
+                edgecolors='black', linewidths=1)
+    plt.annotate(f'P{i+1}', xy=(point[0], point[1]), xytext=(5, 5), 
+                 textcoords='offset points', fontsize=10)
+
+# Plot the weight vector (perpendicular to the decision boundary)
+plt.arrow(0, 0, w[0], w[1], head_width=0.2, head_length=0.3, 
+          fc='green', ec='green', label='Weight Vector w')
+
+# Add a title and labels with clear explanation
+plt.title('Multiple Points and Their Distances to Decision Boundary', fontsize=14)
+plt.xlabel('Feature $x_1$', fontsize=12)
+plt.ylabel('Feature $x_2$', fontsize=12)
+
+# Add a special annotation explaining the distance contours
+plt.annotate('Contour lines show equal distances\nto the decision boundary', 
+             xy=(0.05, 0.05), xycoords='axes fraction',
+             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
+
+# Add an explanation of points
+plt.annotate('Red points = Negative class (-1)\nBlue points = Positive class (+1)', 
+             xy=(0.70, 0.05), xycoords='axes fraction',
+             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
+
+plt.grid(True, alpha=0.3)
+plt.legend()
+
+# Save this new visualization
+plt.savefig(os.path.join(save_dir, "distance_visualization.png"), dpi=300, bbox_inches='tight')
+
 print("\nImages saved:")
 print(f"1. Decision boundary: {os.path.join(save_dir, 'decision_boundary.png')}")
 print(f"2. 3D decision function: {os.path.join(save_dir, 'decision_function_3d.png')}")
+print(f"3. Distance visualization: {os.path.join(save_dir, 'distance_visualization.png')}")
 
 print("\nSummary of Findings:")
 print("------------------")
-print(f"1. The distance from point (2, 3) to the decision boundary {w1}x₁ + {w2}x₂ + {b} = 0 is {distance:.4f} units")
+print(f"1. The distance from point (2, 3) to the decision boundary {w1}x_1 + {w2}x_2 + {b} = 0 is {distance:.4f} units")
 print(f"2. For the data point (0, 1), the model predicts class {prediction}")
 print(f"   This is because the decision function value f(0, 1) = {decision_value_new} is {'positive' if decision_value_new > 0 else 'negative'}")
-print(f"3. When normalized, the decision boundary equation becomes: {w_normalized[0]:.4f}x₁ + {w_normalized[1]:.4f}x₂ + {b_normalized:.4f} = 0")
+print(f"3. When normalized, the decision boundary equation becomes: {w_normalized[0]:.4f}x_1 + {w_normalized[1]:.4f}x_2 + {b_normalized:.4f} = 0")
 print("   Both equations represent the same geometric boundary but with the constraint that ||w|| = 1")
 print("4. The decision boundary divides the feature space into:")
 print("   - Positive region: points where decision function > 0, classified as y = +1")

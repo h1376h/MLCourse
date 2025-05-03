@@ -340,3 +340,5 @@ For applications of multivariate Gaussian classification with MAP estimation and
 For a case with non-singular covariance matrices that results in quadratic decision boundaries, see [[L2_7_28_explanation]]. This extension demonstrates how having different covariance structures between classes affects the classification process and the geometry of the decision boundaries. 
 
 For another example of flower species classification using multivariate Gaussian distributions, see [[L2_1_34_explanation]]. This example explores the effect of different covariance structures between classes and compares Euclidean distance and Mahalanobis distance approaches in classification.
+
+For an analysis of this same dataset using Linear Discriminant Analysis (LDA) approach, see [[L4_4_20_explanation]].
