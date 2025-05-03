@@ -18,32 +18,17 @@ print("========================================================")
 print("\nStep 1: Define the data points")
 print("----------------------------")
 
-# Define the data points for each class - slightly modified to avoid degenerate case
+# Define the original data points for each class
 class0_x1 = np.array([1, 2]).reshape(2, 1)  # First point of Class 0
 class0_x2 = np.array([2, 1]).reshape(2, 1)  # Second point of Class 0
 class1_x1 = np.array([4, 3]).reshape(2, 1)  # First point of Class 1
 class1_x2 = np.array([5, 4]).reshape(2, 1)  # Second point of Class 1
 
-# After double-checking the problem statement, I realized we need to use these specific points
-print("Note: Using the exact data points from the problem statement, we will get zero covariance")
-print("matrices due to the specific configuration of the points. This is a degenerate case.")
-print("To demonstrate the full LDA calculation, we are adding small perturbations to the points.")
-
-# Add small perturbations to avoid degeneracy
-class0_x1 = np.array([1.1, 1.9]).reshape(2, 1)  # Slightly perturbed
-class0_x2 = np.array([1.9, 1.1]).reshape(2, 1)  # Slightly perturbed
-class1_x1 = np.array([3.9, 3.1]).reshape(2, 1)  # Slightly perturbed
-class1_x2 = np.array([5.1, 3.9]).reshape(2, 1)  # Slightly perturbed
-
 # Stack data points column-wise for each class
 X0 = np.hstack([class0_x1, class0_x2])  # Class 0 data matrix (2x2)
 X1 = np.hstack([class1_x1, class1_x2])  # Class 1 data matrix (2x2)
 
-print("\nOriginal data points from problem statement:")
-print("Class 0: (1, 2), (2, 1)")
-print("Class 1: (4, 3), (5, 4)")
-
-print("\nSlightly perturbed data points for calculation:")
+print("Original data points:")
 print("Class 0 data points:")
 print(f"x_1^(0) = [{X0[0, 0]}, {X0[1, 0]}]^T")
 print(f"x_2^(0) = [{X0[0, 1]}, {X0[1, 1]}]^T")
@@ -156,53 +141,56 @@ print("\nStep 2: Calculate the between-class mean difference")
 mean_diff = mu0 - mu1
 print(f"mu0 - mu1 = [{mu0[0, 0]}, {mu0[1, 0]}]^T - [{mu1[0, 0]}, {mu1[1, 0]}]^T = [{mean_diff[0, 0]}, {mean_diff[1, 0]}]^T")
 
-# Add a small regularization term if Sw is singular (determinant is zero or very small)
-epsilon = 1e-6
+# Note: Since Sw might be singular for the original data, we'll handle this case
+print("\nStep 3: Check if Sw is singular and handle accordingly")
 det_Sw = np.linalg.det(Sw)
-if abs(det_Sw) < epsilon:
-    print(f"\nWarning: Sw is nearly singular with determinant {det_Sw}")
-    print(f"Adding small regularization term {epsilon} to the diagonal elements")
-    Sw = Sw + epsilon * np.eye(2)
-    det_Sw = np.linalg.det(Sw)
-    print(f"New determinant: {det_Sw}")
+print(f"Determinant of Sw = {det_Sw}")
 
-# Step 3: Calculate the inverse of Sw
-print("\nStep 3: Calculate the inverse of Sw")
-# Compute the inverse explicitly
-det_Sw = Sw[0, 0] * Sw[1, 1] - Sw[0, 1] * Sw[1, 0]
-Sw_inv = np.zeros_like(Sw)
-Sw_inv[0, 0] = Sw[1, 1] / det_Sw
-Sw_inv[0, 1] = -Sw[0, 1] / det_Sw
-Sw_inv[1, 0] = -Sw[1, 0] / det_Sw
-Sw_inv[1, 1] = Sw[0, 0] / det_Sw
+if abs(det_Sw) < 1e-10:
+    print("Sw is singular (determinant is effectively zero).")
+    print("This is expected with the original data points where each class has perfectly symmetric points around its mean.")
+    print("In this case, we have two options:")
+    print("1. Use regularization by adding a small value to the diagonal")
+    print("2. Use the direction connecting the means as our optimal direction (simpler approach)")
+    
+    print("\nOption 2: Using the direction connecting the means:")
+    w_star = mean_diff  # Direction from Class 1 to Class 0
+    
+    # Normalize to unit length
+    w_star_norm = np.sqrt(np.sum(w_star**2))
+    print(f"||w*|| = sqrt({mean_diff[0, 0]}^2 + {mean_diff[1, 0]}^2) = sqrt({mean_diff[0, 0]**2} + {mean_diff[1, 0]**2}) = {w_star_norm}")
+    w_star_normalized = w_star / w_star_norm
+    print(f"w*_normalized = w* / ||w*|| = [{w_star[0, 0]}, {w_star[1, 0]}]^T / {w_star_norm} = [{w_star_normalized[0, 0]}, {w_star_normalized[1, 0]}]^T")
 
-print(f"Determinant of Sw = {Sw[0, 0]} * {Sw[1, 1]} - {Sw[0, 1]} * {Sw[1, 0]} = {det_Sw}")
-print(f"Sw^-1 = 1/{det_Sw} * ")
-print(f"[{Sw[1, 1]}, {-Sw[0, 1]}] = [{Sw_inv[0, 0]}, {Sw_inv[0, 1]}]")
-print(f"[{-Sw[1, 0]}, {Sw[0, 0]}] = [{Sw_inv[1, 0]}, {Sw_inv[1, 1]}]")
+else:
+    # If not singular, proceed with standard LDA calculation
+    print("\nSw is not singular, proceeding with standard LDA calculation.")
+    
+    # Step 3: Calculate the inverse of Sw
+    print("\nStep 3: Calculate the inverse of Sw")
+    Sw_inv = np.linalg.inv(Sw)
+    print(f"Sw^-1 = ")
+    print(f"[{Sw_inv[0, 0]}, {Sw_inv[0, 1]}]")
+    print(f"[{Sw_inv[1, 0]}, {Sw_inv[1, 1]}]")
+    
+    # Step 4: Calculate w* = Sw^-1 * (mu0 - mu1)
+    print("\nStep 4: Calculate w* = Sw^-1 * (mu0 - mu1)")
+    w_star = np.dot(Sw_inv, mean_diff)
+    print(f"w* = Sw^-1 * (mu0 - mu1) = ")
+    print(f"[{Sw_inv[0, 0]}, {Sw_inv[0, 1]}] * [{mean_diff[0, 0]}] = [{w_star[0, 0]}]")
+    print(f"[{Sw_inv[1, 0]}, {Sw_inv[1, 1]}] * [{mean_diff[1, 0]}] = [{w_star[1, 0]}]")
+    
+    # Step 5: Normalize w* to unit length
+    print("\nStep 5: Normalize w* to unit length")
+    w_star_norm = np.sqrt(np.sum(w_star**2))
+    print(f"||w*|| = sqrt({w_star[0, 0]}^2 + {w_star[1, 0]}^2) = sqrt({w_star[0, 0]**2} + {w_star[1, 0]**2}) = {w_star_norm}")
+    w_star_normalized = w_star / w_star_norm
+    print(f"w*_normalized = w* / ||w*|| = [{w_star[0, 0]}, {w_star[1, 0]}]^T / {w_star_norm} = [{w_star_normalized[0, 0]}, {w_star_normalized[1, 0]}]^T")
 
-# Step 4: Calculate w* = Sw^-1 * (mu0 - mu1)
-print("\nStep 4: Calculate w* = Sw^-1 * (mu0 - mu1)")
-w_star = np.dot(Sw_inv, mean_diff)
-print(f"w* = Sw^-1 * (mu0 - mu1) = ")
-print(f"[{Sw_inv[0, 0]}, {Sw_inv[0, 1]}] * [{mean_diff[0, 0]}] = [{w_star[0, 0]}]")
-print(f"[{Sw_inv[1, 0]}, {Sw_inv[1, 1]}] * [{mean_diff[1, 0]}] = [{w_star[1, 0]}]")
-
-# Step 5: Normalize w* to unit length
-print("\nStep 5: Normalize w* to unit length")
-w_star_norm = np.sqrt(np.sum(w_star**2))
-print(f"||w*|| = sqrt({w_star[0, 0]}^2 + {w_star[1, 0]}^2) = sqrt({w_star[0, 0]**2} + {w_star[1, 0]**2}) = {w_star_norm}")
-w_star_normalized = w_star / w_star_norm
-print(f"w*_normalized = w* / ||w*|| = [{w_star[0, 0]}, {w_star[1, 0]}]^T / {w_star_norm} = [{w_star_normalized[0, 0]}, {w_star_normalized[1, 0]}]^T")
-
-# Create a simple visualization showing the data points, means, and optimal direction w*
+# Create a visualization showing the data points, means, and optimal direction w*
 plt.figure(figsize=(10, 8))
-plt.scatter(X0[0, :], X0[1, :], color='blue', s=100, marker='o', label='Class 0 (perturbed)')
-plt.scatter(X1[0, :], X1[1, :], color='red', s=100, marker='x', label='Class 1 (perturbed)')
-
-# Plot original points as well (faded)
-plt.scatter([1, 2], [2, 1], color='blue', s=80, marker='o', alpha=0.3, label='Class 0 (original)')
-plt.scatter([4, 5], [3, 4], color='red', s=80, marker='x', alpha=0.3, label='Class 1 (original)')
+plt.scatter(X0[0, :], X0[1, :], color='blue', s=100, marker='o', label='Class 0')
+plt.scatter(X1[0, :], X1[1, :], color='red', s=100, marker='x', label='Class 1')
 
 # Plot mean vectors
 plt.scatter(mu0[0, 0], mu0[1, 0], color='blue', s=200, marker='*', label='Mean of Class 0')
@@ -227,7 +215,7 @@ plt.annotate('$\\mu_1$', (mu1[0, 0], mu1[1, 0]),
 
 # Calculate the LDA line (projection direction)
 origin = np.zeros(2)
-plt.arrow(origin[0], origin[1], w_star[0, 0]/10, w_star[1, 0]/10,  # Scale down for visibility
+plt.arrow(origin[0], origin[1], w_star[0, 0]/2, w_star[1, 0]/2,  # Scale down for visibility
           head_width=0.2, head_length=0.3, fc='green', ec='green', 
           label='LDA direction (w*)')
 
@@ -258,24 +246,14 @@ w_unit = w_star_normalized.flatten()
 X0_proj = np.array([np.dot(X0[:, i], w_unit) for i in range(X0.shape[1])])
 X1_proj = np.array([np.dot(X1[:, i], w_unit) for i in range(X1.shape[1])])
 
-# Original points projections (for comparison)
-orig_X0 = np.array([[1, 2], [2, 1]]).T
-orig_X1 = np.array([[4, 3], [5, 4]]).T
-orig_X0_proj = np.array([np.dot(orig_X0[:, i], w_unit) for i in range(orig_X0.shape[1])])
-orig_X1_proj = np.array([np.dot(orig_X1[:, i], w_unit) for i in range(orig_X1.shape[1])])
-
 # Calculate the range for the plot
 x_min, x_max = min(np.min(X0_proj), np.min(X1_proj)) - 0.5, max(np.max(X0_proj), np.max(X1_proj)) + 0.5
 y_min, y_max = -0.1, 0.5  # Just for visualization
 
 # Plot the projected points on the LDA direction line
 plt.plot([x_min, x_max], [0, 0], 'k-', lw=2)
-plt.scatter(X0_proj, np.zeros_like(X0_proj) + 0.1, s=100, color='blue', marker='o', label='Class 0 (perturbed)')
-plt.scatter(X1_proj, np.zeros_like(X1_proj) + 0.1, s=100, color='red', marker='x', label='Class 1 (perturbed)')
-
-# Add original points (faded)
-plt.scatter(orig_X0_proj, np.zeros_like(orig_X0_proj) + 0.2, s=80, color='blue', marker='o', alpha=0.3, label='Class 0 (original)')
-plt.scatter(orig_X1_proj, np.zeros_like(orig_X1_proj) + 0.2, s=80, color='red', marker='x', alpha=0.3, label='Class 1 (original)')
+plt.scatter(X0_proj, np.zeros_like(X0_proj) + 0.1, s=100, color='blue', marker='o', label='Class 0')
+plt.scatter(X1_proj, np.zeros_like(X1_proj) + 0.1, s=100, color='red', marker='x', label='Class 1')
 
 # Calculate and plot the projected means
 mu0_proj = np.dot(mu0.flatten(), w_unit)
@@ -337,15 +315,16 @@ plt.scatter(mu0[0, 0], mu0[1, 0], color='blue', s=200, marker='*', label='Mean o
 for i in range(n0):
     plt.plot([X0[0, i], mu0[0, 0]], [X0[1, i], mu0[1, 0]], 'b--', alpha=0.6)
     
-# Visualize the covariance matrix as an ellipse
-from matplotlib.patches import Ellipse
-lambda_, v = np.linalg.eig(Sigma0)
-lambda_ = np.sqrt(lambda_)
-ell = Ellipse(xy=(mu0[0, 0], mu0[1, 0]),
-              width=lambda_[0]*4, height=lambda_[1]*4,
-              angle=np.rad2deg(np.arctan2(v[1, 0], v[0, 0])),
-              edgecolor='blue', fc='none', lw=2, label='Covariance ellipse')
-plt.gca().add_patch(ell)
+# Visualize the covariance matrix as an ellipse (if non-singular)
+if np.linalg.det(Sigma0) > 1e-10:
+    from matplotlib.patches import Ellipse
+    lambda_, v = np.linalg.eig(Sigma0)
+    lambda_ = np.sqrt(lambda_)
+    ell = Ellipse(xy=(mu0[0, 0], mu0[1, 0]),
+                width=lambda_[0]*4, height=lambda_[1]*4,
+                angle=np.rad2deg(np.arctan2(v[1, 0], v[0, 0])),
+                edgecolor='blue', fc='none', lw=2, label='Covariance ellipse')
+    plt.gca().add_patch(ell)
 
 plt.title('Within-class Scatter for Class 0', fontsize=14)
 plt.xlabel('$x_1$', fontsize=12)
@@ -362,14 +341,15 @@ plt.scatter(mu1[0, 0], mu1[1, 0], color='red', s=200, marker='*', label='Mean of
 for i in range(n1):
     plt.plot([X1[0, i], mu1[0, 0]], [X1[1, i], mu1[1, 0]], 'r--', alpha=0.6)
     
-# Visualize the covariance matrix as an ellipse
-lambda_, v = np.linalg.eig(Sigma1)
-lambda_ = np.sqrt(lambda_)
-ell = Ellipse(xy=(mu1[0, 0], mu1[1, 0]),
-              width=lambda_[0]*4, height=lambda_[1]*4,
-              angle=np.rad2deg(np.arctan2(v[1, 0], v[0, 0])),
-              edgecolor='red', fc='none', lw=2, label='Covariance ellipse')
-plt.gca().add_patch(ell)
+# Visualize the covariance matrix as an ellipse (if non-singular)
+if np.linalg.det(Sigma1) > 1e-10:
+    lambda_, v = np.linalg.eig(Sigma1)
+    lambda_ = np.sqrt(lambda_)
+    ell = Ellipse(xy=(mu1[0, 0], mu1[1, 0]),
+                width=lambda_[0]*4, height=lambda_[1]*4,
+                angle=np.rad2deg(np.arctan2(v[1, 0], v[0, 0])),
+                edgecolor='red', fc='none', lw=2, label='Covariance ellipse')
+    plt.gca().add_patch(ell)
 
 plt.title('Within-class Scatter for Class 1', fontsize=14)
 plt.xlabel('$x_1$', fontsize=12)
@@ -377,7 +357,7 @@ plt.ylabel('$x_2$', fontsize=12)
 plt.legend(fontsize=10)
 plt.grid(True, alpha=0.3)
 
-# Plot the pooled within-class scatter and the optimal projection direction
+# Plot the LDA direction and decision boundary
 plt.subplot(2, 2, 4)
 plt.scatter(X0[0, :], X0[1, :], color='blue', s=100, marker='o', label='Class 0')
 plt.scatter(X1[0, :], X1[1, :], color='red', s=100, marker='x', label='Class 1')
@@ -409,25 +389,12 @@ plt.savefig(os.path.join(save_dir, "lda_scatter_analysis.png"), dpi=300, bbox_in
 
 print("\nFinal Results Summary:")
 print("====================")
-print("Note: The results below are based on the perturbed data points.")
 print(f"1. Mean vector for Class 0: [{mu0[0,0]}, {mu0[1,0]}]^T")
 print(f"2. Mean vector for Class 1: [{mu1[0,0]}, {mu1[1,0]}]^T")
 print(f"3. Covariance matrix for Class 0:\n{Sigma0}")
 print(f"4. Covariance matrix for Class 1:\n{Sigma1}")
 print(f"5. Optimal projection direction w* (normalized): [{w_star_normalized[0,0]:.4f}, {w_star_normalized[1,0]:.4f}]^T")
 print("\nAll figures have been saved to:", save_dir)
-
-print("\nFor the original problem statement with points:")
-print("Class 0: (1, 2), (2, 1)")
-print("Class 1: (4, 3), (5, 4)")
-print("The means would be:")
-print("Mean vector for Class 0: [1.5, 1.5]^T")
-print("Mean vector for Class 1: [4.5, 3.5]^T")
-print("The covariance matrices would be zero matrices, as the points")
-print("in each class are perfectly symmetric around their means.")
-print("In such case, any direction would work, but the direction")
-print("connecting the means ([-3, -2]^T) normalized as [-0.832, -0.555]^T")
-print("would be the typical choice.")
 
 # Show the plot
 plt.show()
