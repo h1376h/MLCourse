@@ -385,4 +385,4 @@ Consider the following table with gender and height data:
 2. Show your work and explain the LDA classification process
 3. What assumptions does LDA make about the data distribution?
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 22: LDA Classification](L4_4_22_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 22: LDA Classification](L4_4_22_explanation.md).
