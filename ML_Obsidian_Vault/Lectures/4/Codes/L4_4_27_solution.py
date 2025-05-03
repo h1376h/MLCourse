@@ -5,135 +5,131 @@ import os
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
 images_dir = os.path.join(os.path.dirname(script_dir), "Images")
-save_dir = os.path.join(images_dir, "L4_4_Quiz_26")
+save_dir = os.path.join(images_dir, "L4_4_Quiz_27")
 os.makedirs(save_dir, exist_ok=True)
 
 # Set a nice style for the plots
 plt.style.use('seaborn-v0_8-whitegrid')
 
-print("Question 26: Linear Discriminant Analysis with Simple Data")
-print("========================================================")
+print("Question 27: Linear Discriminant Analysis with Special Case")
+print("==========================================================")
 
 # Step 1: Define the data points for both classes
 print("\nStep 1: Define the data points")
 print("----------------------------")
 
 # Define the original data points for each class
-class0_x1 = np.array([1, 2]).reshape(2, 1)  # First point of Class 0
-class0_x2 = np.array([2, 1]).reshape(2, 1)  # Second point of Class 0
-class1_x1 = np.array([4, 3]).reshape(2, 1)  # First point of Class 1
-class1_x2 = np.array([5, 4]).reshape(2, 1)  # Second point of Class 1
+class_A_x1 = np.array([1, 3]).reshape(2, 1)  # First point of Class A
+class_A_x2 = np.array([3, 1]).reshape(2, 1)  # Second point of Class A
+class_B_x1 = np.array([6, 4]).reshape(2, 1)  # First point of Class B
+class_B_x2 = np.array([4, 6]).reshape(2, 1)  # Second point of Class B
 
 # Stack data points column-wise for each class
-X0 = np.hstack([class0_x1, class0_x2])  # Class 0 data matrix (2x2)
-X1 = np.hstack([class1_x1, class1_x2])  # Class 1 data matrix (2x2)
+X_A = np.hstack([class_A_x1, class_A_x2])  # Class A data matrix (2x2)
+X_B = np.hstack([class_B_x1, class_B_x2])  # Class B data matrix (2x2)
 
 print("Original data points:")
-print("Class 0 data points:")
-print(f"x_1^(0) = [{X0[0, 0]}, {X0[1, 0]}]^T")
-print(f"x_2^(0) = [{X0[0, 1]}, {X0[1, 1]}]^T")
+print("Class A data points:")
+print(f"x_1^(A) = [{X_A[0, 0]}, {X_A[1, 0]}]^T")
+print(f"x_2^(A) = [{X_A[0, 1]}, {X_A[1, 1]}]^T")
 
-print("\nClass 1 data points:")
-print(f"x_1^(1) = [{X1[0, 0]}, {X1[1, 0]}]^T")
-print(f"x_2^(1) = [{X1[0, 1]}, {X1[1, 1]}]^T")
+print("\nClass B data points:")
+print(f"x_1^(B) = [{X_B[0, 0]}, {X_B[1, 0]}]^T")
+print(f"x_2^(B) = [{X_B[0, 1]}, {X_B[1, 1]}]^T")
 
 # Task 1: Compute the mean vector for each class
 print("\nTask 1: Compute the mean vector for each class")
 print("--------------------------------------------")
 
-# Calculate mean vector for Class 0
-n0 = X0.shape[1]  # Number of data points in Class 0
-mu0_sum = np.zeros((2, 1))
-for i in range(n0):
-    mu0_sum += X0[:, i].reshape(2, 1)
-mu0 = mu0_sum / n0
-print("Step-by-step calculation of mean vector for Class 0:")
-print(f"Sum of Class 0 data points: ({X0[0, 0]} + {X0[0, 1]}, {X0[1, 0]} + {X0[1, 1]})^T = ({mu0_sum[0, 0]}, {mu0_sum[1, 0]})^T")
-print(f"mu0 = ({mu0_sum[0, 0]}, {mu0_sum[1, 0]})^T / {n0} = ({mu0[0, 0]}, {mu0[1, 0]})^T")
+# Calculate mean vector for Class A
+n_A = X_A.shape[1]  # Number of data points in Class A
+mu_A_sum = np.zeros((2, 1))
+for i in range(n_A):
+    mu_A_sum += X_A[:, i].reshape(2, 1)
+mu_A = mu_A_sum / n_A
+print("Step-by-step calculation of mean vector for Class A:")
+print(f"Sum of Class A data points: ({X_A[0, 0]} + {X_A[0, 1]}, {X_A[1, 0]} + {X_A[1, 1]})^T = ({mu_A_sum[0, 0]}, {mu_A_sum[1, 0]})^T")
+print(f"mu_A = ({mu_A_sum[0, 0]}, {mu_A_sum[1, 0]})^T / {n_A} = ({mu_A[0, 0]}, {mu_A[1, 0]})^T")
 
-# Calculate mean vector for Class 1
-n1 = X1.shape[1]  # Number of data points in Class 1
-mu1_sum = np.zeros((2, 1))
-for i in range(n1):
-    mu1_sum += X1[:, i].reshape(2, 1)
-mu1 = mu1_sum / n1
-print("\nStep-by-step calculation of mean vector for Class 1:")
-print(f"Sum of Class 1 data points: ({X1[0, 0]} + {X1[0, 1]}, {X1[1, 0]} + {X1[1, 1]})^T = ({mu1_sum[0, 0]}, {mu1_sum[1, 0]})^T")
-print(f"mu1 = ({mu1_sum[0, 0]}, {mu1_sum[1, 0]})^T / {n1} = ({mu1[0, 0]}, {mu1[1, 0]})^T")
+# Calculate mean vector for Class B
+n_B = X_B.shape[1]  # Number of data points in Class B
+mu_B_sum = np.zeros((2, 1))
+for i in range(n_B):
+    mu_B_sum += X_B[:, i].reshape(2, 1)
+mu_B = mu_B_sum / n_B
+print("\nStep-by-step calculation of mean vector for Class B:")
+print(f"Sum of Class B data points: ({X_B[0, 0]} + {X_B[0, 1]}, {X_B[1, 0]} + {X_B[1, 1]})^T = ({mu_B_sum[0, 0]}, {mu_B_sum[1, 0]})^T")
+print(f"mu_B = ({mu_B_sum[0, 0]}, {mu_B_sum[1, 0]})^T / {n_B} = ({mu_B[0, 0]}, {mu_B[1, 0]})^T")
 
 print("\nFinal mean vectors:")
-print(f"Mean vector for Class 0 (mu0): [{mu0[0, 0]}, {mu0[1, 0]}]^T")
-print(f"Mean vector for Class 1 (mu1): [{mu1[0, 0]}, {mu1[1, 0]}]^T")
+print(f"Mean vector for Class A (mu_A): [{mu_A[0, 0]}, {mu_A[1, 0]}]^T")
+print(f"Mean vector for Class B (mu_B): [{mu_B[0, 0]}, {mu_B[1, 0]}]^T")
 
 # Task 2: Compute the covariance matrix for each class
 print("\nTask 2: Compute the covariance matrix for each class")
 print("-------------------------------------------------")
 
-# The data points for each class should be centered as follows:
-# For Class 0: [-0.5, 0.5] and [0.5, -0.5]
-# For Class 1: [-0.5, -0.5] and [0.5, 0.5]
+# Theoretical centered points for calculation clarity
+X_A_centered = np.zeros_like(X_A, dtype=float)
+X_A_centered[:, 0] = (X_A[:, 0] - mu_A.flatten()).flatten()
+X_A_centered[:, 1] = (X_A[:, 1] - mu_A.flatten()).flatten()
 
-# Calculate theoretical centered points for Class 0 (using exact values for better precision)
-print("Step-by-step calculation of centered data points for Class 0:")
-X0_centered = np.zeros_like(X0, dtype=float)
-X0_centered[:, 0] = np.array([-0.5, 0.5])  # First centered point
-X0_centered[:, 1] = np.array([0.5, -0.5])  # Second centered point
+print("Step-by-step calculation of centered data points for Class A:")
+for i in range(n_A):
+    print(f"x_{i+1}^(A) - mu_A = [{X_A[0, i]}, {X_A[1, i]}]^T - [{mu_A[0, 0]}, {mu_A[1, 0]}]^T = [{X_A_centered[0, i]}, {X_A_centered[1, i]}]^T")
 
-for i in range(n0):
-    print(f"x_{i+1}^(0) - mu0 = [{X0[0, i]}, {X0[1, i]}]^T - [{mu0[0, 0]}, {mu0[1, 0]}]^T = [{X0_centered[0, i]}, {X0_centered[1, i]}]^T")
-
-# Calculate theoretical covariance matrix for Class 0
-Sigma0 = np.zeros((2, 2))
-for i in range(n0):
-    x_i_centered = X0_centered[:, i].reshape(2, 1)
+# Calculate theoretical covariance matrix for Class A
+Sigma_A = np.zeros((2, 2))
+for i in range(n_A):
+    x_i_centered = X_A_centered[:, i].reshape(2, 1)
     outer_product = np.dot(x_i_centered, x_i_centered.T)
     
-    print(f"\nOuter product for centered data point {i+1} of Class 0:")
-    print(f"[{X0_centered[0, i]}] × [{X0_centered[0, i]}, {X0_centered[1, i]}] = ")
-    print(f"[{X0_centered[1, i]}]")
+    print(f"\nOuter product for centered data point {i+1} of Class A:")
+    print(f"[{X_A_centered[0, i]:.2f}] × [{X_A_centered[0, i]:.2f}, {X_A_centered[1, i]:.2f}] = ")
+    print(f"[{X_A_centered[1, i]:.2f}]")
     print(f"[{outer_product[0, 0]:.2f}, {outer_product[0, 1]:.2f}]")
     print(f"[{outer_product[1, 0]:.2f}, {outer_product[1, 1]:.2f}]")
     
-    Sigma0 += outer_product
+    Sigma_A += outer_product
 
-Sigma0 = Sigma0 / n0
-print(f"\nSum of outer products / {n0} = Sigma0:")
-print(f"[{Sigma0[0, 0]:.2f}, {Sigma0[0, 1]:.2f}]")
-print(f"[{Sigma0[1, 0]:.2f}, {Sigma0[1, 1]:.2f}]")
+Sigma_A = Sigma_A / n_A
+print(f"\nSum of outer products / {n_A} = Sigma_A:")
+print(f"[{Sigma_A[0, 0]:.2f}, {Sigma_A[0, 1]:.2f}]")
+print(f"[{Sigma_A[1, 0]:.2f}, {Sigma_A[1, 1]:.2f}]")
 
-# Calculate theoretical centered points for Class 1
-print("\nStep-by-step calculation of centered data points for Class 1:")
-X1_centered = np.zeros_like(X1, dtype=float)
-X1_centered[:, 0] = np.array([-0.5, -0.5])  # First centered point
-X1_centered[:, 1] = np.array([0.5, 0.5])    # Second centered point
+# Calculate theoretical centered points for Class B
+X_B_centered = np.zeros_like(X_B, dtype=float)
+X_B_centered[:, 0] = (X_B[:, 0] - mu_B.flatten()).flatten()
+X_B_centered[:, 1] = (X_B[:, 1] - mu_B.flatten()).flatten()
 
-for i in range(n1):
-    print(f"x_{i+1}^(1) - mu1 = [{X1[0, i]}, {X1[1, i]}]^T - [{mu1[0, 0]}, {mu1[1, 0]}]^T = [{X1_centered[0, i]}, {X1_centered[1, i]}]^T")
+print("\nStep-by-step calculation of centered data points for Class B:")
+for i in range(n_B):
+    print(f"x_{i+1}^(B) - mu_B = [{X_B[0, i]}, {X_B[1, i]}]^T - [{mu_B[0, 0]}, {mu_B[1, 0]}]^T = [{X_B_centered[0, i]}, {X_B_centered[1, i]}]^T")
 
-# Calculate theoretical covariance matrix for Class 1
-Sigma1 = np.zeros((2, 2))
-for i in range(n1):
-    x_i_centered = X1_centered[:, i].reshape(2, 1)
+# Calculate theoretical covariance matrix for Class B
+Sigma_B = np.zeros((2, 2))
+for i in range(n_B):
+    x_i_centered = X_B_centered[:, i].reshape(2, 1)
     outer_product = np.dot(x_i_centered, x_i_centered.T)
     
-    print(f"\nOuter product for centered data point {i+1} of Class 1:")
-    print(f"[{X1_centered[0, i]}] × [{X1_centered[0, i]}, {X1_centered[1, i]}] = ")
-    print(f"[{X1_centered[1, i]}]")
+    print(f"\nOuter product for centered data point {i+1} of Class B:")
+    print(f"[{X_B_centered[0, i]:.2f}] × [{X_B_centered[0, i]:.2f}, {X_B_centered[1, i]:.2f}] = ")
+    print(f"[{X_B_centered[1, i]:.2f}]")
     print(f"[{outer_product[0, 0]:.2f}, {outer_product[0, 1]:.2f}]")
     print(f"[{outer_product[1, 0]:.2f}, {outer_product[1, 1]:.2f}]")
     
-    Sigma1 += outer_product
+    Sigma_B += outer_product
 
-Sigma1 = Sigma1 / n1
-print(f"\nSum of outer products / {n1} = Sigma1:")
-print(f"[{Sigma1[0, 0]:.2f}, {Sigma1[0, 1]:.2f}]")
-print(f"[{Sigma1[1, 0]:.2f}, {Sigma1[1, 1]:.2f}]")
+Sigma_B = Sigma_B / n_B
+print(f"\nSum of outer products / {n_B} = Sigma_B:")
+print(f"[{Sigma_B[0, 0]:.2f}, {Sigma_B[0, 1]:.2f}]")
+print(f"[{Sigma_B[1, 0]:.2f}, {Sigma_B[1, 1]:.2f}]")
 
 print("\nFinal covariance matrices:")
-print(f"Covariance matrix for Class 0 (Sigma0):")
-print(Sigma0)
-print(f"\nCovariance matrix for Class 1 (Sigma1):")
-print(Sigma1)
+print(f"Covariance matrix for Class A (Sigma_A):")
+print(Sigma_A)
+print(f"\nCovariance matrix for Class B (Sigma_B):")
+print(Sigma_B)
 
 # Task 3: Find the optimal projection direction w* with unit length
 print("\nTask 3: Find the optimal projection direction w* with unit length")
@@ -141,15 +137,15 @@ print("--------------------------------------------------------------")
 
 # Step 1: Calculate the pooled within-class scatter matrix Sw
 print("Step 1: Calculate the pooled within-class scatter matrix Sw")
-Sw = Sigma0 + Sigma1
-print(f"Sw = Sigma0 + Sigma1 = ")
-print(f"[{Sigma0[0, 0]:.2f}, {Sigma0[0, 1]:.2f}] + [{Sigma1[0, 0]:.2f}, {Sigma1[0, 1]:.2f}] = [{Sw[0, 0]:.2f}, {Sw[0, 1]:.2f}]")
-print(f"[{Sigma0[1, 0]:.2f}, {Sigma0[1, 1]:.2f}] + [{Sigma1[1, 0]:.2f}, {Sigma1[1, 1]:.2f}] = [{Sw[1, 0]:.2f}, {Sw[1, 1]:.2f}]")
+Sw = Sigma_A + Sigma_B
+print(f"Sw = Sigma_A + Sigma_B = ")
+print(f"[{Sigma_A[0, 0]:.2f}, {Sigma_A[0, 1]:.2f}] + [{Sigma_B[0, 0]:.2f}, {Sigma_B[0, 1]:.2f}] = [{Sw[0, 0]:.2f}, {Sw[0, 1]:.2f}]")
+print(f"[{Sigma_A[1, 0]:.2f}, {Sigma_A[1, 1]:.2f}] + [{Sigma_B[1, 0]:.2f}, {Sigma_B[1, 1]:.2f}] = [{Sw[1, 0]:.2f}, {Sw[1, 1]:.2f}]")
 
 # Step 2: Calculate the between-class mean difference
 print("\nStep 2: Calculate the between-class mean difference")
-mean_diff = mu0 - mu1
-print(f"mu0 - mu1 = [{mu0[0, 0]:.2f}, {mu0[1, 0]:.2f}]^T - [{mu1[0, 0]:.2f}, {mu1[1, 0]:.2f}]^T = [{mean_diff[0, 0]:.2f}, {mean_diff[1, 0]:.2f}]^T")
+mean_diff = mu_A - mu_B
+print(f"mu_A - mu_B = [{mu_A[0, 0]:.2f}, {mu_A[1, 0]:.2f}]^T - [{mu_B[0, 0]:.2f}, {mu_B[1, 0]:.2f}]^T = [{mean_diff[0, 0]:.2f}, {mean_diff[1, 0]:.2f}]^T")
 
 # Step 3: Check if Sw is singular
 print("\nStep 3: Check if Sw is singular and handle accordingly")
@@ -176,7 +172,7 @@ if abs(det_Sw) < 1e-10:
     print(f"[{Sw_reg_inv[1, 0]:.4f}, {Sw_reg_inv[1, 1]:.4f}]")
     
     w_star_reg = np.dot(Sw_reg_inv, mean_diff)
-    print(f"w*_reg = Sw_reg^-1 * (mu0 - mu1) = [{w_star_reg[0, 0]:.4f}, {w_star_reg[1, 0]:.4f}]^T")
+    print(f"w*_reg = Sw_reg^-1 * (mu_A - mu_B) = [{w_star_reg[0, 0]:.4f}, {w_star_reg[1, 0]:.4f}]^T")
     
     # Normalize the regularized solution
     w_star_reg_norm = np.sqrt(np.sum(w_star_reg**2))
@@ -186,7 +182,7 @@ if abs(det_Sw) < 1e-10:
     
     # Option 2: Direction connecting means
     print("\nOption 2: Using the direction connecting the means:")
-    w_star = mean_diff  # Direction from Class 1 to Class 0
+    w_star = mean_diff  # Direction from Class B to Class A
     
     # Normalize to unit length
     w_star_norm = np.sqrt(np.sum(w_star**2))
@@ -215,10 +211,10 @@ else:
     print(f"[{Sw_inv[0, 0]:.2f}, {Sw_inv[0, 1]:.2f}]")
     print(f"[{Sw_inv[1, 0]:.2f}, {Sw_inv[1, 1]:.2f}]")
     
-    # Step 4: Calculate w* = Sw^-1 * (mu0 - mu1)
-    print("\nStep 4: Calculate w* = Sw^-1 * (mu0 - mu1)")
+    # Step 4: Calculate w* = Sw^-1 * (mu_A - mu_B)
+    print("\nStep 4: Calculate w* = Sw^-1 * (mu_A - mu_B)")
     w_star = np.dot(Sw_inv, mean_diff)
-    print(f"w* = Sw^-1 * (mu0 - mu1) = ")
+    print(f"w* = Sw^-1 * (mu_A - mu_B) = ")
     print(f"[{Sw_inv[0, 0]:.2f}, {Sw_inv[0, 1]:.2f}] * [{mean_diff[0, 0]:.2f}] = [{w_star[0, 0]:.4f}]")
     print(f"[{Sw_inv[1, 0]:.2f}, {Sw_inv[1, 1]:.2f}] * [{mean_diff[1, 0]:.2f}] = [{w_star[1, 0]:.4f}]")
     
@@ -236,40 +232,41 @@ print("1. Fisher's Linear Discriminant Analysis seeks to maximize between-class"
 print("   separation while minimizing within-class scatter.")
 print("2. The criterion function S(w) quantifies this trade-off.")
 print("3. The covariance matrices show different patterns for each class:")
-print("   - For Class 0, we observe negative correlation between features")
-print("   - For Class 1, we observe positive correlation between features")
-print("4. The pooled within-class scatter matrix is a diagonal matrix because")
-print("   the off-diagonal elements of the covariance matrices cancel out.")
-print("5. When Sw is a diagonal matrix with equal elements, its inverse scales")
-print("   the mean difference vector uniformly in each dimension.")
-print("6. The optimal projection direction points from Class 1 to Class 0.")
-print("7. After normalization, this direction provides perfect class separation.")
+print("   - For Class A, we observe negative correlation between features")
+print("   - For Class B, we observe positive correlation between features")
+print("4. The pooled within-class scatter matrix is special in this case:")
+print("   it has a determinant close to zero, indicating near-singularity.")
+print("5. This singularity suggests that the within-class scatter is")
+print("   concentrated along a particular direction in the feature space.")
+print("6. We handled the singularity through regularization, which stabilizes")
+print("   the computation while minimally affecting the solution.")
+print("7. The optimal projection direction effectively separates the classes.")
 print("-------------------------------------------------------")
 
 # Create a visualization showing the data points, means, and optimal direction w*
 plt.figure(figsize=(10, 8))
-plt.scatter(X0[0, :], X0[1, :], color='blue', s=100, marker='o', label='Class 0')
-plt.scatter(X1[0, :], X1[1, :], color='red', s=100, marker='x', label='Class 1')
+plt.scatter(X_A[0, :], X_A[1, :], color='blue', s=100, marker='o', label='Class A')
+plt.scatter(X_B[0, :], X_B[1, :], color='red', s=100, marker='x', label='Class B')
 
 # Plot mean vectors
-plt.scatter(mu0[0, 0], mu0[1, 0], color='blue', s=200, marker='*', label='Mean of Class 0')
-plt.scatter(mu1[0, 0], mu1[1, 0], color='red', s=200, marker='*', label='Mean of Class 1')
+plt.scatter(mu_A[0, 0], mu_A[1, 0], color='blue', s=200, marker='*', label='Mean of Class A')
+plt.scatter(mu_B[0, 0], mu_B[1, 0], color='red', s=200, marker='*', label='Mean of Class B')
 
 # Draw a line connecting the means
-plt.plot([mu0[0, 0], mu1[0, 0]], [mu0[1, 0], mu1[1, 0]], 'k--', alpha=0.5)
+plt.plot([mu_A[0, 0], mu_B[0, 0]], [mu_A[1, 0], mu_B[1, 0]], 'k--', alpha=0.5)
 
 # Label the points
-for i in range(n0):
-    plt.annotate(f'$x_{i+1}^{{(0)}}$', (X0[0, i], X0[1, i]), 
+for i in range(n_A):
+    plt.annotate(f'$x_{i+1}^{{(A)}}$', (X_A[0, i], X_A[1, i]), 
                  xytext=(10, 5), textcoords='offset points', fontsize=12)
-for i in range(n1):
-    plt.annotate(f'$x_{i+1}^{{(1)}}$', (X1[0, i], X1[1, i]), 
+for i in range(n_B):
+    plt.annotate(f'$x_{i+1}^{{(B)}}$', (X_B[0, i], X_B[1, i]), 
                  xytext=(10, 5), textcoords='offset points', fontsize=12)
 
 # Label the means
-plt.annotate('$\\mu_0$', (mu0[0, 0], mu0[1, 0]), 
+plt.annotate('$\\mu_A$', (mu_A[0, 0], mu_A[1, 0]), 
              xytext=(10, 5), textcoords='offset points', fontsize=14)
-plt.annotate('$\\mu_1$', (mu1[0, 0], mu1[1, 0]), 
+plt.annotate('$\\mu_B$', (mu_B[0, 0], mu_B[1, 0]), 
              xytext=(10, 5), textcoords='offset points', fontsize=14)
 
 # Calculate the LDA line (projection direction)
@@ -302,39 +299,39 @@ plt.figure(figsize=(12, 7))
 w_unit = w_star_normalized.flatten()
 
 # Project the data points onto the LDA direction
-X0_proj = np.array([np.dot(X0[:, i], w_unit) for i in range(X0.shape[1])])
-X1_proj = np.array([np.dot(X1[:, i], w_unit) for i in range(X1.shape[1])])
+X_A_proj = np.array([np.dot(X_A[:, i], w_unit) for i in range(X_A.shape[1])])
+X_B_proj = np.array([np.dot(X_B[:, i], w_unit) for i in range(X_B.shape[1])])
 
 # Calculate the range for the plot
-x_min, x_max = min(np.min(X0_proj), np.min(X1_proj)) - 0.5, max(np.max(X0_proj), np.max(X1_proj)) + 0.5
+x_min, x_max = min(np.min(X_A_proj), np.min(X_B_proj)) - 0.5, max(np.max(X_A_proj), np.max(X_B_proj)) + 0.5
 y_min, y_max = -0.1, 0.5  # Just for visualization
 
 # Plot the projected points on the LDA direction line
 plt.plot([x_min, x_max], [0, 0], 'k-', lw=2)
-plt.scatter(X0_proj, np.zeros_like(X0_proj) + 0.1, s=100, color='blue', marker='o', label='Class 0')
-plt.scatter(X1_proj, np.zeros_like(X1_proj) + 0.1, s=100, color='red', marker='x', label='Class 1')
+plt.scatter(X_A_proj, np.zeros_like(X_A_proj) + 0.1, s=100, color='blue', marker='o', label='Class A')
+plt.scatter(X_B_proj, np.zeros_like(X_B_proj) + 0.1, s=100, color='red', marker='x', label='Class B')
 
 # Calculate and plot the projected means
-mu0_proj = np.dot(mu0.flatten(), w_unit)
-mu1_proj = np.dot(mu1.flatten(), w_unit)
-plt.scatter(mu0_proj, 0.3, s=200, color='blue', marker='*', label='Mean of Class 0')
-plt.scatter(mu1_proj, 0.3, s=200, color='red', marker='*', label='Mean of Class 1')
+mu_A_proj = np.dot(mu_A.flatten(), w_unit)
+mu_B_proj = np.dot(mu_B.flatten(), w_unit)
+plt.scatter(mu_A_proj, 0.3, s=200, color='blue', marker='*', label='Mean of Class A')
+plt.scatter(mu_B_proj, 0.3, s=200, color='red', marker='*', label='Mean of Class B')
 
 # Add annotations
-for i in range(len(X0_proj)):
-    plt.annotate(f'$x_{i+1}^{{(0)}}$', (X0_proj[i], 0.1), 
+for i in range(len(X_A_proj)):
+    plt.annotate(f'$x_{i+1}^{{(A)}}$', (X_A_proj[i], 0.1), 
                  xytext=(0, 10), textcoords='offset points', fontsize=12, ha='center')
-for i in range(len(X1_proj)):
-    plt.annotate(f'$x_{i+1}^{{(1)}}$', (X1_proj[i], 0.1), 
+for i in range(len(X_B_proj)):
+    plt.annotate(f'$x_{i+1}^{{(B)}}$', (X_B_proj[i], 0.1), 
                  xytext=(0, 10), textcoords='offset points', fontsize=12, ha='center')
 
-plt.annotate('$\\mu_0$', (mu0_proj, 0.3), 
+plt.annotate('$\\mu_A$', (mu_A_proj, 0.3), 
              xytext=(0, 10), textcoords='offset points', fontsize=14, ha='center')
-plt.annotate('$\\mu_1$', (mu1_proj, 0.3), 
+plt.annotate('$\\mu_B$', (mu_B_proj, 0.3), 
              xytext=(0, 10), textcoords='offset points', fontsize=14, ha='center')
 
 # Calculate the optimal threshold for classification
-threshold = (mu0_proj + mu1_proj) / 2
+threshold = (mu_A_proj + mu_B_proj) / 2
 plt.axvline(x=threshold, color='g', linestyle='--', label=f'Threshold: {threshold:.2f}')
 
 plt.title('Projection of Data Points onto LDA Direction', fontsize=16)
@@ -354,63 +351,63 @@ plt.figure(figsize=(12, 10))
 
 # Create scatter plots to show between-class and within-class scatter
 plt.subplot(2, 2, 1)
-plt.scatter(X0[0, :], X0[1, :], color='blue', s=100, marker='o', label='Class 0')
-plt.scatter(X1[0, :], X1[1, :], color='red', s=100, marker='x', label='Class 1')
-plt.scatter(mu0[0, 0], mu0[1, 0], color='blue', s=200, marker='*')
-plt.scatter(mu1[0, 0], mu1[1, 0], color='red', s=200, marker='*')
-plt.plot([mu0[0, 0], mu1[0, 0]], [mu0[1, 0], mu1[1, 0]], 'k--', lw=2, label='Between-class')
+plt.scatter(X_A[0, :], X_A[1, :], color='blue', s=100, marker='o', label='Class A')
+plt.scatter(X_B[0, :], X_B[1, :], color='red', s=100, marker='x', label='Class B')
+plt.scatter(mu_A[0, 0], mu_A[1, 0], color='blue', s=200, marker='*')
+plt.scatter(mu_B[0, 0], mu_B[1, 0], color='red', s=200, marker='*')
+plt.plot([mu_A[0, 0], mu_B[0, 0]], [mu_A[1, 0], mu_B[1, 0]], 'k--', lw=2, label='Between-class')
 plt.title('Original Data with Class Means', fontsize=14)
 plt.xlabel('$x_1$', fontsize=12)
 plt.ylabel('$x_2$', fontsize=12)
 plt.legend(fontsize=10)
 plt.grid(True, alpha=0.3)
 
-# Plot within-class scatter for Class 0
+# Plot within-class scatter for Class A
 plt.subplot(2, 2, 2)
-plt.scatter(X0[0, :], X0[1, :], color='blue', s=100, marker='o', label='Class 0')
-plt.scatter(mu0[0, 0], mu0[1, 0], color='blue', s=200, marker='*', label='Mean of Class 0')
+plt.scatter(X_A[0, :], X_A[1, :], color='blue', s=100, marker='o', label='Class A')
+plt.scatter(mu_A[0, 0], mu_A[1, 0], color='blue', s=200, marker='*', label='Mean of Class A')
 
 # Draw lines from each point to the mean to show the scatter
-for i in range(n0):
-    plt.plot([X0[0, i], mu0[0, 0]], [X0[1, i], mu0[1, 0]], 'b--', alpha=0.6)
+for i in range(n_A):
+    plt.plot([X_A[0, i], mu_A[0, 0]], [X_A[1, i], mu_A[1, 0]], 'b--', alpha=0.6)
     
 # Visualize the covariance matrix as an ellipse (if non-singular)
-if np.linalg.det(Sigma0) > 1e-10:
+if np.linalg.det(Sigma_A) > 1e-10:
     from matplotlib.patches import Ellipse
-    lambda_, v = np.linalg.eig(Sigma0)
+    lambda_, v = np.linalg.eig(Sigma_A)
     lambda_ = np.sqrt(lambda_)
-    ell = Ellipse(xy=(mu0[0, 0], mu0[1, 0]),
+    ell = Ellipse(xy=(mu_A[0, 0], mu_A[1, 0]),
                 width=lambda_[0]*4, height=lambda_[1]*4,
                 angle=np.rad2deg(np.arctan2(v[1, 0], v[0, 0])),
                 edgecolor='blue', fc='none', lw=2, label='Covariance ellipse')
     plt.gca().add_patch(ell)
 
-plt.title('Within-class Scatter for Class 0', fontsize=14)
+plt.title('Within-class Scatter for Class A', fontsize=14)
 plt.xlabel('$x_1$', fontsize=12)
 plt.ylabel('$x_2$', fontsize=12)
 plt.legend(fontsize=10)
 plt.grid(True, alpha=0.3)
 
-# Plot within-class scatter for Class 1
+# Plot within-class scatter for Class B
 plt.subplot(2, 2, 3)
-plt.scatter(X1[0, :], X1[1, :], color='red', s=100, marker='x', label='Class 1')
-plt.scatter(mu1[0, 0], mu1[1, 0], color='red', s=200, marker='*', label='Mean of Class 1')
+plt.scatter(X_B[0, :], X_B[1, :], color='red', s=100, marker='x', label='Class B')
+plt.scatter(mu_B[0, 0], mu_B[1, 0], color='red', s=200, marker='*', label='Mean of Class B')
 
 # Draw lines from each point to the mean to show the scatter
-for i in range(n1):
-    plt.plot([X1[0, i], mu1[0, 0]], [X1[1, i], mu1[1, 0]], 'r--', alpha=0.6)
+for i in range(n_B):
+    plt.plot([X_B[0, i], mu_B[0, 0]], [X_B[1, i], mu_B[1, 0]], 'r--', alpha=0.6)
     
 # Visualize the covariance matrix as an ellipse (if non-singular)
-if np.linalg.det(Sigma1) > 1e-10:
-    lambda_, v = np.linalg.eig(Sigma1)
+if np.linalg.det(Sigma_B) > 1e-10:
+    lambda_, v = np.linalg.eig(Sigma_B)
     lambda_ = np.sqrt(lambda_)
-    ell = Ellipse(xy=(mu1[0, 0], mu1[1, 0]),
+    ell = Ellipse(xy=(mu_B[0, 0], mu_B[1, 0]),
                 width=lambda_[0]*4, height=lambda_[1]*4,
                 angle=np.rad2deg(np.arctan2(v[1, 0], v[0, 0])),
                 edgecolor='red', fc='none', lw=2, label='Covariance ellipse')
     plt.gca().add_patch(ell)
 
-plt.title('Within-class Scatter for Class 1', fontsize=14)
+plt.title('Within-class Scatter for Class B', fontsize=14)
 plt.xlabel('$x_1$', fontsize=12)
 plt.ylabel('$x_2$', fontsize=12)
 plt.legend(fontsize=10)
@@ -418,13 +415,13 @@ plt.grid(True, alpha=0.3)
 
 # Plot the LDA direction and decision boundary
 plt.subplot(2, 2, 4)
-plt.scatter(X0[0, :], X0[1, :], color='blue', s=100, marker='o', label='Class 0')
-plt.scatter(X1[0, :], X1[1, :], color='red', s=100, marker='x', label='Class 1')
-plt.scatter(mu0[0, 0], mu0[1, 0], color='blue', s=200, marker='*')
-plt.scatter(mu1[0, 0], mu1[1, 0], color='red', s=200, marker='*')
+plt.scatter(X_A[0, :], X_A[1, :], color='blue', s=100, marker='o', label='Class A')
+plt.scatter(X_B[0, :], X_B[1, :], color='red', s=100, marker='x', label='Class B')
+plt.scatter(mu_A[0, 0], mu_A[1, 0], color='blue', s=200, marker='*')
+plt.scatter(mu_B[0, 0], mu_B[1, 0], color='red', s=200, marker='*')
 
 # Draw the LDA direction
-origin = (mu0 + mu1) / 2  # Use the midpoint between means as origin for better visualization
+origin = (mu_A + mu_B) / 2  # Use the midpoint between means as origin for better visualization
 origin = origin.flatten()
 plt.arrow(origin[0], origin[1], 
           w_star_normalized[0, 0]*2, w_star_normalized[1, 0]*2,  # Scale for visibility
@@ -448,12 +445,12 @@ plt.savefig(os.path.join(save_dir, "lda_scatter_analysis.png"), dpi=300, bbox_in
 
 print("\nFinal Results Summary:")
 print("====================")
-print(f"1. Mean vector for Class 0: [{mu0[0,0]}, {mu0[1,0]}]^T")
-print(f"2. Mean vector for Class 1: [{mu1[0,0]}, {mu1[1,0]}]^T")
-print(f"3. Covariance matrix for Class 0:")
-print(Sigma0)
-print(f"4. Covariance matrix for Class 1:")
-print(Sigma1)
+print(f"1. Mean vector for Class A: [{mu_A[0,0]}, {mu_A[1,0]}]^T")
+print(f"2. Mean vector for Class B: [{mu_B[0,0]}, {mu_B[1,0]}]^T")
+print(f"3. Covariance matrix for Class A:")
+print(Sigma_A)
+print(f"4. Covariance matrix for Class B:")
+print(Sigma_B)
 print(f"5. Pooled within-class scatter matrix Sw:")
 print(Sw)
 print(f"6. Optimal projection direction w* (non-normalized): [{w_star[0,0]:.4f}, {w_star[1,0]:.4f}]^T")
@@ -468,7 +465,7 @@ else:
     print("- The covariance matrices capture the variance and correlation structure of each class.")
     print("- The pooled within-class scatter matrix combines both class covariance patterns.")
 
-print("- The optimal projection direction was computed using the formula w* = Sw^(-1)(μ0 - μ1).")
+print("- The optimal projection direction was computed using the formula w* = Sw^(-1)(μA - μB).")
 print("- The normalized projection direction effectively separates the two classes.")
 print("- Linear Discriminant Analysis works by maximizing between-class variance while")
 print("  minimizing within-class variance, which is achieved through this projection.")
