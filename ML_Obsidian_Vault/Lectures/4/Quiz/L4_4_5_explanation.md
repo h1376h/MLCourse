@@ -22,6 +22,14 @@ The concept of "margin" is particularly important - it refers to the distance be
 ### Step 1: SVM maximizes the margin between classes
 The Support Vector Machine (SVM) is explicitly designed to maximize the margin between classes.
 
+#### Basic Decision Boundary
+First, let's look at the basic SVM decision boundary:
+
+![SVM Basic Decision Boundary](../Images/L4_4_Quiz_5/svm.png)
+
+#### Margin Concept
+Now let's examine the margin concept in more detail:
+
 ![SVM Margin](../Images/L4_4_Quiz_5/svm_margin.png)
 
 SVMs find the hyperplane that maximizes the distance to the nearest data points from each class (called support vectors).
@@ -75,6 +83,14 @@ Therefore, statement 1 corresponds to (d) Support Vector Machine (SVM).
 
 ### Step 2: LDA uses class-conditional densities and Bayes' rule
 Linear Discriminant Analysis (LDA) uses a generative approach based on modeling the class-conditional densities as Gaussian distributions with equal covariance matrices.
+
+#### Basic Decision Boundary
+First, let's look at the basic LDA decision boundary:
+
+![LDA Basic Decision Boundary](../Images/L4_4_Quiz_5/lda.png)
+
+#### Probabilistic Interpretation
+Now, let's examine the probabilistic approach with class-conditional densities:
 
 ![LDA Densities](../Images/L4_4_Quiz_5/lda_densities.png)
 
@@ -132,6 +148,14 @@ Therefore, statement 2 corresponds to (c) Linear Discriminant Analysis (LDA).
 
 ### Step 3: Perceptron finds any separating boundary
 The Perceptron algorithm simply aims to find any decision boundary that correctly separates the training points, without specifically optimizing the margin or using probabilistic interpretations.
+
+#### Basic Decision Boundary
+First, let's look at the basic Perceptron decision boundary:
+
+![Perceptron Basic Decision Boundary](../Images/L4_4_Quiz_5/perceptron.png)
+
+#### Multiple Solutions
+Now, let's examine how different initializations lead to different decision boundaries:
 
 ![Perceptron Boundaries](../Images/L4_4_Quiz_5/perceptron_boundaries.png)
 
@@ -193,7 +217,19 @@ Therefore, statement 3 corresponds to (a) Perceptron.
 ### Step 4: Logistic Regression models posterior probability using sigmoid
 Logistic Regression directly models the posterior probability $P(y|x)$ using the sigmoid function.
 
-![Logistic Regression](../Images/L4_4_Quiz_5/logistic_regression_prob.png)
+#### Basic Decision Boundary
+First, let's look at the basic Logistic Regression decision boundary:
+
+![Logistic Regression Basic Decision Boundary](../Images/L4_4_Quiz_5/logistic_regression.png)
+
+#### Probabilistic Interpretation
+Now, let's examine the probability contours and decision boundary:
+
+![Logistic Regression Probability](../Images/L4_4_Quiz_5/logistic_regression_prob.png)
+
+#### Sigmoid Function
+The key to Logistic Regression is the sigmoid function that transforms linear outputs to probabilities:
+
 ![Sigmoid Function](../Images/L4_4_Quiz_5/sigmoid_function.png)
 
 #### Mathematical Derivation
