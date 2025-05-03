@@ -34,18 +34,19 @@ def create_lda_visualization():
         t = i / (n_samples_class0 - 1)
         X_class0[i, 0] = -2 + t * 2  # x from -2 to 0
         X_class0[i, 1] = -1 + t * 1  # y from -1 to 0
-        # Add random variation
-        X_class0[i, 0] += np.random.normal(0, 0.15)
-        X_class0[i, 1] += np.random.normal(0, 0.15)
+        # Add random variation but limit how far points can stray
+        X_class0[i, 0] += np.clip(np.random.normal(0, 0.15), -0.3, 0.3)
+        X_class0[i, 1] += np.clip(np.random.normal(0, 0.15), -0.3, 0.3)
     
     # Class 1 (red triangles) - more scattered in top right
     n_samples_class1 = 40
     X_class1 = np.zeros((n_samples_class1, 2))
     
-    # Create scattered pattern for red points
+    # Create scattered pattern for red points (ensuring they stay in the top right quadrant)
     for i in range(n_samples_class1):
-        X_class1[i, 0] = np.random.uniform(0, 4)  # x from 0 to 4
-        X_class1[i, 1] = np.random.uniform(0, 2)  # y from 0 to 2
+        # Generate points further away from the blue cluster
+        X_class1[i, 0] = np.random.uniform(0.5, 4)  # x from 0.5 to 4 (minimum 0.5 to avoid overlap)
+        X_class1[i, 1] = np.random.uniform(0, 2)    # y from 0 to 2
     
     # Combine data
     X = np.vstack([X_class0, X_class1])
@@ -73,9 +74,13 @@ def create_lda_visualization():
         w = mean1 - mean0
         w = w / np.linalg.norm(w)
     
-    # For visualization bounds
-    x_min, x_max = -2.5, 4.5
-    y_min, y_max = -2.0, 3.0
+    # Calculate plot bounds based on data
+    x_padding = (np.max(X[:, 0]) - np.min(X[:, 0])) * 0.2
+    y_padding = (np.max(X[:, 1]) - np.min(X[:, 1])) * 0.2
+    x_min = np.min(X[:, 0]) - x_padding
+    x_max = np.max(X[:, 0]) + x_padding
+    y_min = np.min(X[:, 1]) - y_padding
+    y_max = np.max(X[:, 1]) + y_padding
     
     # Compute decision boundary (perpendicular to w, passing through midpoint)
     midpoint = (mean0 + mean1) / 2
@@ -96,21 +101,37 @@ def create_lda_visualization():
             proj = np.dot(point - midpoint, w)
             Z[i, j] = 1 if proj > 0 else 0
     
+    # Force-check data points to make sure there are no misclassifications
+    # Calculate linear classification for each data point
+    for i in range(len(X)):
+        point_class = 1 if np.dot(X[i] - midpoint, w) > 0 else 0
+        # If point is misclassified according to the LDA boundary
+        if point_class != y[i]:
+            # Move the point further into its correct class region
+            if y[i] == 0:  # Blue class
+                # Move blue point more to the left/bottom
+                X[i] = X[i] - 0.5 * w
+            else:  # Red class
+                # Move red point more to the right/top
+                X[i] = X[i] + 0.5 * w
+    
     # Create projection line (in direction perpendicular to decision boundary)
-    # Position it at the bottom of the plot
-    proj_line_y = -1.0  # fixed y-coordinate for the projection line
+    # Position it below the data points (calculate based on data bounds)
+    proj_line_y = y_min + 0.2 * (y_max - y_min)  # Position relative to data bounds
     # Calculate the direction vector of the projection line
     # This is the direction of w itself (perpendicular to decision boundary)
     proj_direction = w / np.linalg.norm(w)
     # Create the projection line endpoints
-    line_length = 8.0
-    proj_center = np.array([1.0, proj_line_y])  # Center of projection line
+    # Calculate line length based on data bounds
+    line_length = 1.2 * (x_max - x_min)
+    # Place line horizontally centered in the plot
+    proj_center = np.array([(x_min + x_max) / 2, proj_line_y])
     proj_start = proj_center - line_length/2 * proj_direction
     proj_end = proj_center + line_length/2 * proj_direction
     
-    return X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_start, proj_end
+    return X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_start, proj_end, midpoint
 
-def plot_visualization(X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_start, proj_end):
+def plot_visualization(X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_start, proj_end, midpoint):
     """Plot the LDA visualization with proper projections."""
     fig, ax = plt.subplots(figsize=(6.5, 5))
     
@@ -124,20 +145,36 @@ def plot_visualization(X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_
     # Plot decision boundary
     plt.plot(xx_line, yy_line, 'k-', linewidth=1)
     
-    # Add "Decision boundary" label
+    # Add "Decision boundary" label with improved placement and visibility
     midpoint_idx = len(xx_line) // 2
+    # Calculate a good position for the label that's away from data points
+    label_x = xx_line[midpoint_idx + 15]
+    label_y = yy_line[midpoint_idx + 15]
+    
+    # Create a white background for the text for better readability
     plt.annotate('Decision boundary', 
                xy=(xx_line[midpoint_idx], yy_line[midpoint_idx]),
-               xytext=(xx_line[midpoint_idx] + 0.5, yy_line[midpoint_idx] + 0.2),
-               fontsize=10)
+               xytext=(label_x, label_y),
+               fontsize=10,
+               bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8),
+               arrowprops=dict(arrowstyle="->", connectionstyle="arc3", color="black"))
     
     # Plot projection line
     plt.plot([proj_start[0], proj_end[0]], [proj_start[1], proj_end[1]], 'k-', linewidth=1)
     
     # Choose a subset of points from each class
-    indices0 = np.random.choice(np.where(y == 0)[0], 6, replace=False)
-    indices1 = np.random.choice(np.where(y == 1)[0], 6, replace=False)
-    indices = np.concatenate([indices0, indices1])
+    # Use stratified sampling to ensure good coverage
+    class0_indices = np.where(y == 0)[0]
+    class1_indices = np.where(y == 1)[0]
+    
+    # Select points at regular intervals for better distribution
+    step0 = max(1, len(class0_indices) // 6)
+    step1 = max(1, len(class1_indices) // 6)
+    
+    selected_indices0 = class0_indices[::step0][:6]  # Take up to 6 points
+    selected_indices1 = class1_indices[::step1][:6]  # Take up to 6 points
+    
+    indices = np.concatenate([selected_indices0, selected_indices1])
     
     # Unit vector along projection line
     proj_vec = (proj_end - proj_start) / np.linalg.norm(proj_end - proj_start)
@@ -169,9 +206,11 @@ def plot_visualization(X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_
             # Red class projections
             plt.plot(proj_point[0], proj_point[1], 'o', color='red', markersize=4, alpha=0.9)
     
-    # Set axis limits
-    plt.xlim(-2.5, 4.5)
-    plt.ylim(-2.0, 3.0)
+    # Set axis limits based on data
+    x_padding = (np.max(X[:, 0]) - np.min(X[:, 0])) * 0.2
+    y_padding = (np.max(X[:, 1]) - np.min(X[:, 1])) * 0.2
+    plt.xlim(np.min(X[:, 0]) - x_padding, np.max(X[:, 0]) + x_padding)
+    plt.ylim(np.min(X[:, 1]) - y_padding, np.max(X[:, 1]) + y_padding)
     
     # Add labels
     plt.xlabel('x₁')
@@ -180,11 +219,21 @@ def plot_visualization(X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, "lda_visualization.png"), dpi=300, bbox_inches='tight')
     plt.close()
+    
+    # Additional check - print any potentially misclassified points
+    misclassified = []
+    for i in range(len(X)):
+        point_class = 1 if np.dot(X[i] - midpoint, w) > 0 else 0
+        if point_class != y[i]:
+            misclassified.append(i)
+    
+    if misclassified:
+        print(f"Warning: {len(misclassified)} points might be misclassified")
 
 # Generate and save visualization
-print("Generating improved LDA visualization for quiz question...")
-X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_start, proj_end = create_lda_visualization()
-plot_visualization(X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_start, proj_end)
+print("Generating final LDA visualization for quiz question...")
+X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_start, proj_end, midpoint = create_lda_visualization()
+plot_visualization(X, y, mean0, mean1, w, xx, yy, Z, xx_line, yy_line, proj_start, proj_end, midpoint)
 
 print(f"Visualization saved to: {save_dir}")
 print(f"LDA direction vector: {w}")
