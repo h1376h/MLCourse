@@ -119,17 +119,26 @@ outlier_labels = np.ones(n_outliers)  # Assuming Class 1 as the minority class
 X = np.vstack([X, outlier_points])
 y = np.hstack([y, outlier_labels])
 
-# Visualize the dataset
-plt.figure(figsize=(10, 6))
-plt.scatter(X[y == 1, 0], X[y == 1, 1], c='blue', marker='o', alpha=0.6, label='Class 1')
-plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red', marker='x', alpha=0.6, label='Class -1')
-plt.scatter(outlier_points[:, 0], outlier_points[:, 1], c='green', marker='s', s=100, alpha=0.8, label='Outliers')
+# Define color maps for better visualization
+class1_color = '#4169E1'  # Royal blue
+class2_color = '#FF6347'  # Tomato
+outlier_color = '#32CD32'  # Lime green
+region1_color = '#B3C6FF'  # Light blue
+region2_color = '#FFB3B3'  # Light red
+custom_cmap = ListedColormap([region2_color, region1_color])
 
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.title('Dataset with Class Overlap and Outliers')
-plt.legend()
+# Visualize the dataset
+plt.figure(figsize=(10, 8))
+plt.scatter(X[y == 1, 0], X[y == 1, 1], c=class1_color, marker='o', alpha=0.7, label='Class 1', s=70)
+plt.scatter(X[y == -1, 0], X[y == -1, 1], c=class2_color, marker='x', alpha=0.7, label='Class -1', s=70)
+plt.scatter(outlier_points[:, 0], outlier_points[:, 1], c=outlier_color, marker='s', s=120, alpha=0.9, label='Outliers (Class 1)', edgecolors='k')
+
+plt.xlabel('Feature 1', fontsize=14)
+plt.ylabel('Feature 2', fontsize=14)
+plt.title('Dataset with Class Overlap and Outliers', fontsize=16)
+plt.legend(fontsize=12, loc='upper right')
 plt.grid(True, alpha=0.3)
+plt.tight_layout()
 plt.savefig(os.path.join(save_dir, "dataset_with_outliers.png"), dpi=300, bbox_inches='tight')
 
 print("Dataset created with the following properties:")
@@ -173,48 +182,52 @@ print("- The 0-1 loss is discontinuous and only counts misclassifications, witho
 print("- For datasets with outliers, hinge loss is typically more robust because it focuses on")
 print("  maximizing the margin rather than just minimizing misclassifications.")
 
-# Visualize the decision boundaries
-plt.figure(figsize=(12, 5))
-
 # Set up meshgrid for contour plots
 x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
 y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
 xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1),
                      np.arange(y_min, y_max, 0.1))
 
-# Plot Perceptron decision boundary
-plt.subplot(1, 2, 1)
-Z = perceptron.predict(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
-plt.contourf(xx, yy, Z, alpha=0.3, cmap=ListedColormap(['#FFAAAA', '#AAAAFF']))
-plt.contour(xx, yy, Z, colors='k', linestyles=['-'], levels=[-1, 0, 1])
+# Create a figure with side-by-side comparison
+fig, axes = plt.subplots(1, 2, figsize=(16, 8))
 
-plt.scatter(X[y == 1, 0], X[y == 1, 1], c='blue', marker='o', alpha=0.6, label='Class 1')
-plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red', marker='x', alpha=0.6, label='Class -1')
-plt.scatter(outlier_points[:, 0], outlier_points[:, 1], c='green', marker='s', s=100, alpha=0.8, label='Outliers')
+# Plot Perceptron decision boundary (left subplot)
+Z_perceptron = perceptron.predict(np.c_[xx.ravel(), yy.ravel()])
+Z_perceptron = Z_perceptron.reshape(xx.shape)
 
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.title('Perceptron (0-1 Loss)')
-plt.legend()
-plt.grid(True, alpha=0.3)
+axes[0].contourf(xx, yy, Z_perceptron, alpha=0.4, cmap=custom_cmap)
+axes[0].contour(xx, yy, Z_perceptron, colors='k', linestyles=['-'], linewidths=2, levels=[-1, 0, 1])
+axes[0].scatter(X[y == 1, 0], X[y == 1, 1], c=class1_color, marker='o', alpha=0.7, label='Class 1', s=70)
+axes[0].scatter(X[y == -1, 0], X[y == -1, 1], c=class2_color, marker='x', alpha=0.7, label='Class -1', s=70)
+axes[0].scatter(outlier_points[:, 0], outlier_points[:, 1], c=outlier_color, marker='s', s=120, alpha=0.9, label='Outliers', edgecolors='k')
+axes[0].set_xlabel('Feature 1', fontsize=14)
+axes[0].set_ylabel('Feature 2', fontsize=14)
+axes[0].set_title('Perceptron (0-1 Loss)', fontsize=16)
+axes[0].grid(True, alpha=0.3)
+axes[0].legend(fontsize=12, loc='upper right')
 
-# Plot SVM decision boundary
-plt.subplot(1, 2, 2)
-Z = svm.predict(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
-plt.contourf(xx, yy, Z, alpha=0.3, cmap=ListedColormap(['#FFAAAA', '#AAAAFF']))
-plt.contour(xx, yy, Z, colors='k', linestyles=['-'], levels=[-1, 0, 1])
+# Add accuracy text below the plot
+acc_text = f"Accuracy: {accuracy_perceptron:.4f}"
+axes[0].text(0.5, -0.1, acc_text, ha='center', va='center', transform=axes[0].transAxes, fontsize=14, bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5'))
 
-plt.scatter(X[y == 1, 0], X[y == 1, 1], c='blue', marker='o', alpha=0.6, label='Class 1')
-plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red', marker='x', alpha=0.6, label='Class -1')
-plt.scatter(outlier_points[:, 0], outlier_points[:, 1], c='green', marker='s', s=100, alpha=0.8, label='Outliers')
+# Plot SVM decision boundary (right subplot)
+Z_svm = svm.predict(np.c_[xx.ravel(), yy.ravel()])
+Z_svm = Z_svm.reshape(xx.shape)
 
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.title('Linear SVM (Hinge Loss)')
-plt.legend()
-plt.grid(True, alpha=0.3)
+axes[1].contourf(xx, yy, Z_svm, alpha=0.4, cmap=custom_cmap)
+axes[1].contour(xx, yy, Z_svm, colors='k', linestyles=['-'], linewidths=2, levels=[-1, 0, 1])
+axes[1].scatter(X[y == 1, 0], X[y == 1, 1], c=class1_color, marker='o', alpha=0.7, label='Class 1', s=70)
+axes[1].scatter(X[y == -1, 0], X[y == -1, 1], c=class2_color, marker='x', alpha=0.7, label='Class -1', s=70)
+axes[1].scatter(outlier_points[:, 0], outlier_points[:, 1], c=outlier_color, marker='s', s=120, alpha=0.9, label='Outliers', edgecolors='k')
+axes[1].set_xlabel('Feature 1', fontsize=14)
+axes[1].set_ylabel('Feature 2', fontsize=14)
+axes[1].set_title('Linear SVM (Hinge Loss)', fontsize=16)
+axes[1].grid(True, alpha=0.3)
+axes[1].legend(fontsize=12, loc='upper right')
+
+# Add accuracy text below the plot
+acc_text = f"Accuracy: {accuracy_svm:.4f}"
+axes[1].text(0.5, -0.1, acc_text, ha='center', va='center', transform=axes[1].transAxes, fontsize=14, bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5'))
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, "0-1_vs_hinge_loss.png"), dpi=300, bbox_inches='tight')
@@ -247,42 +260,46 @@ print("- The Pocket algorithm is more robust to outliers because it keeps the be
 print("  weights overall, even if they don't perfectly classify all points including outliers.")
 print("- This makes the Pocket algorithm better suited for real-world data with noise and outliers.")
 
-# Visualize Perceptron vs Pocket
-plt.figure(figsize=(12, 5))
+# Create a figure with side-by-side comparison for Perceptron vs Pocket
+fig, axes = plt.subplots(1, 2, figsize=(16, 8))
 
-# Plot Perceptron
-plt.subplot(1, 2, 1)
-Z = perceptron_custom.predict(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
-plt.contourf(xx, yy, Z, alpha=0.3, cmap=ListedColormap(['#FFAAAA', '#AAAAFF']))
-plt.contour(xx, yy, Z, colors='k', linestyles=['-'], levels=[-1, 0, 1])
+# Plot Perceptron (left subplot)
+Z_perceptron_custom = perceptron_custom.predict(np.c_[xx.ravel(), yy.ravel()])
+Z_perceptron_custom = Z_perceptron_custom.reshape(xx.shape)
 
-plt.scatter(X[y == 1, 0], X[y == 1, 1], c='blue', marker='o', alpha=0.6, label='Class 1')
-plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red', marker='x', alpha=0.6, label='Class -1')
-plt.scatter(outlier_points[:, 0], outlier_points[:, 1], c='green', marker='s', s=100, alpha=0.8, label='Outliers')
+axes[0].contourf(xx, yy, Z_perceptron_custom, alpha=0.4, cmap=custom_cmap)
+axes[0].contour(xx, yy, Z_perceptron_custom, colors='k', linestyles=['-'], linewidths=2, levels=[-1, 0, 1])
+axes[0].scatter(X[y == 1, 0], X[y == 1, 1], c=class1_color, marker='o', alpha=0.7, label='Class 1', s=70)
+axes[0].scatter(X[y == -1, 0], X[y == -1, 1], c=class2_color, marker='x', alpha=0.7, label='Class -1', s=70)
+axes[0].scatter(outlier_points[:, 0], outlier_points[:, 1], c=outlier_color, marker='s', s=120, alpha=0.9, label='Outliers', edgecolors='k')
+axes[0].set_xlabel('Feature 1', fontsize=14)
+axes[0].set_ylabel('Feature 2', fontsize=14)
+axes[0].set_title('Standard Perceptron', fontsize=16)
+axes[0].grid(True, alpha=0.3)
+axes[0].legend(fontsize=12, loc='upper right')
 
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.title('Standard Perceptron')
-plt.legend()
-plt.grid(True, alpha=0.3)
+# Add accuracy text below the plot
+acc_text = f"Accuracy: {accuracy_perceptron_custom:.4f}"
+axes[0].text(0.5, -0.1, acc_text, ha='center', va='center', transform=axes[0].transAxes, fontsize=14, bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5'))
 
-# Plot Pocket
-plt.subplot(1, 2, 2)
-Z = np.sign(np.dot(np.c_[xx.ravel(), yy.ravel()], pocket_w) + pocket_b)
-Z = Z.reshape(xx.shape)
-plt.contourf(xx, yy, Z, alpha=0.3, cmap=ListedColormap(['#FFAAAA', '#AAAAFF']))
-plt.contour(xx, yy, Z, colors='k', linestyles=['-'], levels=[-1, 0, 1])
+# Plot Pocket (right subplot)
+Z_pocket = np.sign(np.dot(np.c_[xx.ravel(), yy.ravel()], pocket_w) + pocket_b)
+Z_pocket = Z_pocket.reshape(xx.shape)
 
-plt.scatter(X[y == 1, 0], X[y == 1, 1], c='blue', marker='o', alpha=0.6, label='Class 1')
-plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red', marker='x', alpha=0.6, label='Class -1')
-plt.scatter(outlier_points[:, 0], outlier_points[:, 1], c='green', marker='s', s=100, alpha=0.8, label='Outliers')
+axes[1].contourf(xx, yy, Z_pocket, alpha=0.4, cmap=custom_cmap)
+axes[1].contour(xx, yy, Z_pocket, colors='k', linestyles=['-'], linewidths=2, levels=[-1, 0, 1])
+axes[1].scatter(X[y == 1, 0], X[y == 1, 1], c=class1_color, marker='o', alpha=0.7, label='Class 1', s=70)
+axes[1].scatter(X[y == -1, 0], X[y == -1, 1], c=class2_color, marker='x', alpha=0.7, label='Class -1', s=70)
+axes[1].scatter(outlier_points[:, 0], outlier_points[:, 1], c=outlier_color, marker='s', s=120, alpha=0.9, label='Outliers', edgecolors='k')
+axes[1].set_xlabel('Feature 1', fontsize=14)
+axes[1].set_ylabel('Feature 2', fontsize=14)
+axes[1].set_title('Pocket Algorithm', fontsize=16)
+axes[1].grid(True, alpha=0.3)
+axes[1].legend(fontsize=12, loc='upper right')
 
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.title('Pocket Algorithm')
-plt.legend()
-plt.grid(True, alpha=0.3)
+# Add accuracy text below the plot
+acc_text = f"Accuracy: {accuracy_pocket:.4f}"
+axes[1].text(0.5, -0.1, acc_text, ha='center', va='center', transform=axes[1].transAxes, fontsize=14, bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5'))
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, "perceptron_vs_pocket.png"), dpi=300, bbox_inches='tight')
@@ -309,6 +326,41 @@ print("   - The standard Perceptron with 0-1 loss tends toward higher variance")
 print("   - The SVM with hinge loss and the Pocket algorithm tend toward lower variance")
 print("   - The tradeoff manifests in how the models handle the outliers in Class 1")
 
+# Create a figure to illustrate the bias-variance tradeoff
+plt.figure(figsize=(12, 8))
+
+# Plot data points
+plt.scatter(X[y == 1, 0], X[y == 1, 1], c=class1_color, marker='o', alpha=0.7, label='Class 1', s=70)
+plt.scatter(X[y == -1, 0], X[y == -1, 1], c=class2_color, marker='x', alpha=0.7, label='Class -1', s=70)
+plt.scatter(outlier_points[:, 0], outlier_points[:, 1], c=outlier_color, marker='s', s=120, alpha=0.9, label='Outliers', edgecolors='k')
+
+# Plot decision boundaries
+plt.contour(xx, yy, Z_perceptron_custom, colors='#e41a1c', linestyles=['-'], linewidths=2, levels=[0], label='Perceptron')
+plt.contour(xx, yy, Z_svm, colors='#377eb8', linestyles=['--'], linewidths=2, levels=[0], label='SVM')
+plt.contour(xx, yy, Z_pocket, colors='#4daf4a', linestyles=['-.'], linewidths=2, levels=[0], label='Pocket')
+
+plt.xlabel('Feature 1', fontsize=14)
+plt.ylabel('Feature 2', fontsize=14)
+plt.title('Bias-Variance Tradeoff: Decision Boundaries Comparison', fontsize=16)
+plt.grid(True, alpha=0.3)
+
+# Add a custom legend for boundaries
+from matplotlib.lines import Line2D
+custom_lines = [
+    Line2D([0], [0], color='#e41a1c', linestyle='-', linewidth=2),
+    Line2D([0], [0], color='#377eb8', linestyle='--', linewidth=2),
+    Line2D([0], [0], color='#4daf4a', linestyle='-.', linewidth=2)
+]
+first_legend = plt.legend(custom_lines, ['Perceptron (High Variance)', 'SVM (Balanced)', 'Pocket (Lower Variance)'], 
+                         loc='lower left', fontsize=12, title='Decision Boundaries')
+plt.gca().add_artist(first_legend)
+
+# Add a second legend for the data points
+plt.legend(loc='upper right', fontsize=12, title='Data Points')
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, "bias_variance_tradeoff.png"), dpi=300, bbox_inches='tight')
+
 # Task 5: Linear Discriminant Analysis (LDA) comparison
 print("\nTask 5: LDA Comparison")
 print("------------------")
@@ -330,42 +382,43 @@ print("- Perceptron simply tries to find any hyperplane that separates the class
 print("- Due to these differences, LDA often handles class overlap better but can be")
 print("  more affected by outliers if they significantly distort the class distributions")
 
-# Visualize LDA vs Perceptron
-plt.figure(figsize=(12, 5))
+# Create a figure with side-by-side comparison for Perceptron vs LDA
+fig, axes = plt.subplots(1, 2, figsize=(16, 8))
 
-# Plot Perceptron
-plt.subplot(1, 2, 1)
-Z = perceptron_custom.predict(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
-plt.contourf(xx, yy, Z, alpha=0.3, cmap=ListedColormap(['#FFAAAA', '#AAAAFF']))
-plt.contour(xx, yy, Z, colors='k', linestyles=['-'], levels=[-1, 0, 1])
+# Plot Perceptron (left subplot)
+axes[0].contourf(xx, yy, Z_perceptron_custom, alpha=0.4, cmap=custom_cmap)
+axes[0].contour(xx, yy, Z_perceptron_custom, colors='k', linestyles=['-'], linewidths=2, levels=[-1, 0, 1])
+axes[0].scatter(X[y == 1, 0], X[y == 1, 1], c=class1_color, marker='o', alpha=0.7, label='Class 1', s=70)
+axes[0].scatter(X[y == -1, 0], X[y == -1, 1], c=class2_color, marker='x', alpha=0.7, label='Class -1', s=70)
+axes[0].scatter(outlier_points[:, 0], outlier_points[:, 1], c=outlier_color, marker='s', s=120, alpha=0.9, label='Outliers', edgecolors='k')
+axes[0].set_xlabel('Feature 1', fontsize=14)
+axes[0].set_ylabel('Feature 2', fontsize=14)
+axes[0].set_title('Standard Perceptron', fontsize=16)
+axes[0].grid(True, alpha=0.3)
+axes[0].legend(fontsize=12, loc='upper right')
 
-plt.scatter(X[y == 1, 0], X[y == 1, 1], c='blue', marker='o', alpha=0.6, label='Class 1')
-plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red', marker='x', alpha=0.6, label='Class -1')
-plt.scatter(outlier_points[:, 0], outlier_points[:, 1], c='green', marker='s', s=100, alpha=0.8, label='Outliers')
+# Add accuracy text below the plot
+acc_text = f"Accuracy: {accuracy_perceptron_custom:.4f}"
+axes[0].text(0.5, -0.1, acc_text, ha='center', va='center', transform=axes[0].transAxes, fontsize=14, bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5'))
 
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.title('Standard Perceptron')
-plt.legend()
-plt.grid(True, alpha=0.3)
+# Plot LDA (right subplot)
+Z_lda = lda.predict(np.c_[xx.ravel(), yy.ravel()])
+Z_lda = Z_lda.reshape(xx.shape)
 
-# Plot LDA
-plt.subplot(1, 2, 2)
-Z = lda.predict(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
-plt.contourf(xx, yy, Z, alpha=0.3, cmap=ListedColormap(['#FFAAAA', '#AAAAFF']))
-plt.contour(xx, yy, Z, colors='k', linestyles=['-'], levels=[-1, 0, 1])
+axes[1].contourf(xx, yy, Z_lda, alpha=0.4, cmap=custom_cmap)
+axes[1].contour(xx, yy, Z_lda, colors='k', linestyles=['-'], linewidths=2, levels=[-1, 0, 1])
+axes[1].scatter(X[y == 1, 0], X[y == 1, 1], c=class1_color, marker='o', alpha=0.7, label='Class 1', s=70)
+axes[1].scatter(X[y == -1, 0], X[y == -1, 1], c=class2_color, marker='x', alpha=0.7, label='Class -1', s=70)
+axes[1].scatter(outlier_points[:, 0], outlier_points[:, 1], c=outlier_color, marker='s', s=120, alpha=0.9, label='Outliers', edgecolors='k')
+axes[1].set_xlabel('Feature 1', fontsize=14)
+axes[1].set_ylabel('Feature 2', fontsize=14)
+axes[1].set_title('Linear Discriminant Analysis (LDA)', fontsize=16)
+axes[1].grid(True, alpha=0.3)
+axes[1].legend(fontsize=12, loc='upper right')
 
-plt.scatter(X[y == 1, 0], X[y == 1, 1], c='blue', marker='o', alpha=0.6, label='Class 1')
-plt.scatter(X[y == -1, 0], X[y == -1, 1], c='red', marker='x', alpha=0.6, label='Class -1')
-plt.scatter(outlier_points[:, 0], outlier_points[:, 1], c='green', marker='s', s=100, alpha=0.8, label='Outliers')
-
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.title('Linear Discriminant Analysis (LDA)')
-plt.legend()
-plt.grid(True, alpha=0.3)
+# Add accuracy text below the plot
+acc_text = f"Accuracy: {accuracy_lda:.4f}"
+axes[1].text(0.5, -0.1, acc_text, ha='center', va='center', transform=axes[1].transAxes, fontsize=14, bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5'))
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, "perceptron_vs_lda.png"), dpi=300, bbox_inches='tight')

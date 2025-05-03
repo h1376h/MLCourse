@@ -26,8 +26,8 @@ The problem focuses on four key aspects:
 To analyze this problem, we first create a synthetic dataset with the specified characteristics:
 
 1. **Class Overlap**: We generate two Gaussian distributions that overlap significantly
-   - Class 1 (blue circles): Centered at (2, 2)
-   - Class -1 (red crosses): Centered at (0, 0)
+   - Class 1 (blue circles): Centered at $(2, 2)$
+   - Class -1 (red crosses): Centered at $(0, 0)$
    - Both classes have covariance matrices that create significant overlap
 
 2. **Extreme Outliers**: We add 5 extreme outliers to Class 1 (the minority class)
@@ -74,6 +74,20 @@ The model trained with hinge loss (SVM) achieved higher accuracy than the model 
   - Can ignore some outliers if that leads to a better overall margin
   - More robust to outliers due to its margin-awareness
 
+The mathematical formulations of these loss functions are:
+
+**0-1 Loss:**
+$$L_{0-1}(y, f(\mathbf{x})) = 
+\begin{cases} 
+0 & \text{if } y \cdot f(\mathbf{x}) > 0 \\ 
+1 & \text{otherwise} 
+\end{cases}$$
+
+**Hinge Loss:**
+$$L_{hinge}(y, f(\mathbf{x})) = \max(0, 1 - y \cdot f(\mathbf{x}))$$
+
+Where $y \in \{-1, 1\}$ is the true label and $f(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + b$ is the model's prediction.
+
 The visual comparison shows how the SVM decision boundary (right) is less influenced by the outliers compared to the Perceptron boundary (left).
 
 ### Step 3: Pocket Algorithm vs. Standard Perceptron
@@ -103,6 +117,13 @@ The Pocket algorithm achieved better accuracy than the standard Perceptron. This
   - Returns the best weights found during training, not necessarily the final weights
   - More robust to outliers because it prioritizes overall performance over correctly classifying every point
 
+The update rule for both algorithms is:
+
+$$\mathbf{w}_{t+1} = \mathbf{w}_t + \eta \cdot y_i \cdot \mathbf{x}_i$$
+$$b_{t+1} = b_t + \eta \cdot y_i$$
+
+Where $\eta$ is the learning rate, $y_i$ is the label of the misclassified point, and $\mathbf{x}_i$ is the feature vector of the misclassified point.
+
 The visual comparison shows that the Pocket algorithm (right) produces a decision boundary that better handles the general data distribution, while the Perceptron (left) is more affected by the outliers.
 
 ### Step 4: Connecting to Bias-Variance Tradeoff
@@ -121,6 +142,8 @@ In the context of our problem:
    - Ignore some outliers to find a better overall pattern
    - May not fit the training data perfectly but generalize better
    - Are more robust to noise and outliers
+
+![Bias-Variance Tradeoff](../Images/L4_4_Quiz_17/bias_variance_tradeoff.png)
 
 The models in our experiment illustrate this tradeoff:
 - The standard Perceptron with 0-1 loss tends toward higher variance
@@ -156,6 +179,12 @@ Despite having the same accuracy in this case, LDA and Perceptron place their de
   - Updates weights based on misclassified points
   - Algorithmically driven to find a separating hyperplane (if one exists)
 
+The mathematical formulation for LDA's decision boundary is:
+
+$$(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)^T \boldsymbol{\Sigma}^{-1} \mathbf{x} - \frac{1}{2}(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)^T \boldsymbol{\Sigma}^{-1} (\boldsymbol{\mu}_1 + \boldsymbol{\mu}_2) = 0$$
+
+Where $\boldsymbol{\mu}_1$ and $\boldsymbol{\mu}_2$ are the mean vectors of the two classes, and $\boldsymbol{\Sigma}$ is the pooled covariance matrix.
+
 The visual comparison shows that LDA (right) places its decision boundary to balance the statistical properties of the two classes, while the Perceptron (left) places the boundary based on the sequence of misclassified points it encountered during training.
 
 ## Visual Explanations
@@ -190,6 +219,16 @@ This comparison shows how the Pocket algorithm improves upon the standard Percep
 - Right: Pocket algorithm
 - The Pocket algorithm finds a boundary that better represents the overall data distribution
 - The standard Perceptron is more affected by the outliers
+
+### Bias-Variance Tradeoff Visualization
+![Bias-Variance Tradeoff](../Images/L4_4_Quiz_17/bias_variance_tradeoff.png)
+
+This visualization shows all three decision boundaries on the same plot:
+- Red line: Perceptron boundary (high variance)
+- Blue dashed line: SVM boundary (balanced bias-variance)
+- Green dot-dash line: Pocket boundary (lower variance)
+- All three models classify the main clusters similarly but differ in how they handle the outliers
+- The higher variance model (Perceptron) is more influenced by the outliers than the others
 
 ### Perceptron vs. LDA
 ![Perceptron vs LDA](../Images/L4_4_Quiz_17/perceptron_vs_lda.png)

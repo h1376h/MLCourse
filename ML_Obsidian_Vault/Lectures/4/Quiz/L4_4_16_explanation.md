@@ -21,7 +21,7 @@ First, let's understand both algorithms:
 
 **Perceptron Algorithm:**
 - Initializes weights to zero
-- For each misclassified point, updates weights: $w = w + y \cdot x$
+- For each misclassified point, updates weights: $\mathbf{w} = \mathbf{w} + y \cdot \mathbf{x}$
 - Continues until all points are correctly classified or maximum iterations reached
 - Returns the final weights
 
@@ -42,6 +42,8 @@ Pocket:
   Iterations: 25
   Accuracy: 1.0000
 ```
+
+![Separable Data Comparison](../Images/L4_4_Quiz_16/separable_comparison.png)
 
 Both algorithms achieved perfect accuracy on the linearly separable dataset, but potentially with different decision boundaries. The Pocket algorithm might find the boundary in a different number of iterations, but for separable data, both algorithms will eventually find a perfect separator.
 
@@ -84,6 +86,10 @@ Initialization 2: w=[ 1.  -0.5], b=0.5
 
 ![Initialization Dependence](../Images/L4_4_Quiz_16/initialization_dependence.png)
 
+We can see both initializations lead to different final decision boundaries:
+
+![Initialization Comparison](../Images/L4_4_Quiz_16/initialization_comparison.png)
+
 The visualization clearly shows how different initializations lead to different decision boundaries, even for the same dataset. This occurs because the Perceptron algorithm simply finds any hyperplane that separates the classes, not necessarily a unique or optimal one. The update rule depends on the order of encountering misclassified points, which in turn depends on the initial weights.
 
 This demonstrates that the final solution of the Perceptron algorithm can vary significantly based on the initialization, which is an important consideration in practice.
@@ -92,16 +98,34 @@ This demonstrates that the final solution of the Perceptron algorithm can vary s
 To understand the relationship between the Pocket algorithm and empirical risk minimization (ERM), we need to analyze the objective of each.
 
 Empirical Risk Minimization involves finding the model parameters that minimize the average loss over the training data:
-$J(w) = \frac{1}{n} \sum_{i=1}^{n} L(y_i, f(x_i; w))$
+
+$$J(\mathbf{w}) = \frac{1}{n} \sum_{i=1}^{n} L(y_i, f(\mathbf{x}_i; \mathbf{w}))$$
 
 The Pocket algorithm effectively implements ERM with the 0-1 loss function by:
 1. Continuously updating weights like the standard Perceptron
 2. After each update, evaluating the empirical risk (error rate) on the entire dataset
 3. Keeping the weights that achieve the minimum empirical risk (maximum accuracy)
 
+![Empirical Risk Minimization](../Images/L4_4_Quiz_16/empirical_risk_minimization.png)
+
+The plot shows how the Pocket algorithm tracks the empirical risk (error rate) and keeps the weights that achieve the minimum risk. We can also see the performance difference on a non-separable dataset:
+
+![ERM Comparison](../Images/L4_4_Quiz_16/erm_comparison.png)
+
 Therefore, the Pocket algorithm directly implements empirical risk minimization by explicitly keeping track of and returning the weights that minimize the empirical risk (error rate) on the training data.
 
 ## Visual Explanations
+
+### Perceptron vs Pocket on Separable Data
+![Separable Data Comparison](../Images/L4_4_Quiz_16/separable_comparison.png)
+
+This visualization shows how both algorithms perform on linearly separable data:
+- Blue circles: Points labeled as Class +1
+- Red crosses: Points labeled as Class -1
+- Red line: Perceptron decision boundary
+- Green dashed line: Pocket algorithm decision boundary
+
+Both algorithms achieve perfect classification, but with slightly different decision boundaries.
 
 ### Perceptron vs Pocket on Noisy Data
 ![Noisy Comparison](../Images/L4_4_Quiz_16/noisy_comparison.png)
@@ -110,7 +134,7 @@ This visualization compares how the Perceptron (left) and Pocket (right) algorit
 - Blue circles: Points labeled as Class +1
 - Red crosses: Points labeled as Class -1
 - Green squares: Points with flipped (noisy) labels
-- Background colors: Decision regions (light blue for Class +1, light red for Class -1)
+- Light blue/red regions: Decision regions for each class
 - Black line: Decision boundary
 
 The Pocket algorithm's decision boundary better approximates the true underlying boundary, avoiding overfitting to the noisy labels. The Perceptron's boundary, in contrast, is more affected by the noisy points.
@@ -119,14 +143,24 @@ The Pocket algorithm's decision boundary better approximates the true underlying
 ![Initialization Dependence](../Images/L4_4_Quiz_16/initialization_dependence.png)
 
 This visualization demonstrates how different initializations lead to different final decision boundaries:
-- Top: Perceptron initialized with w=[0.1, 0.1], b=0
-- Bottom: Perceptron initialized with w=[1.0, -0.5], b=0.5
+- Top: Perceptron initialized with $\mathbf{w}=[0.1, 0.1]$, $b=0$
+- Bottom: Perceptron initialized with $\mathbf{w}=[1.0, -0.5]$, $b=0.5$
 - Blue circles: Points labeled as Class +1
 - Red crosses: Points labeled as Class -1
-- Background colors: Decision regions based on final weights
-- Colored lines: Final decision boundaries
+- Light blue/red regions: Decision regions based on final weights
+- Blue/green lines: Final decision boundaries
 
 Despite working on the same dataset, the Perceptron algorithm converges to completely different solutions depending on the initialization of weights.
+
+### Empirical Risk Minimization
+![Empirical Risk Minimization](../Images/L4_4_Quiz_16/empirical_risk_minimization.png)
+
+This plot demonstrates how the Pocket algorithm implements empirical risk minimization:
+- Blue line: Error rate after each weight update
+- Red dots: The best weights kept by the Pocket algorithm (lowest error achieved so far)
+- Green dashed line: Minimum error rate achieved
+
+The Pocket algorithm keeps track of the weights that minimize the empirical risk (error rate), which is the core principle of empirical risk minimization.
 
 ## Key Insights
 
