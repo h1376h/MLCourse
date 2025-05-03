@@ -259,4 +259,57 @@ Consider a linear classifier being trained on a dataset with the following prope
 3. Connect this scenario to the bias-variance tradeoff concept from earlier lectures
 4. Draw a simple illustration of how LDA might place its decision boundary differently than a standard Perceptron in this scenario
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Robust Classification](L4_4_17_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Robust Classification](L4_4_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+Consider a medical dataset with tumor features and diagnostic outcomes. Each patient has data on tumor size (mm) and age (years), with the target variable y indicating whether the tumor is malignant (1) or benign (0).
+
+| Tumor Size (mm) | Age (years) | y (Malignant) |
+|-----------------|-------------|---------------|
+| 15              | 20          | 0             |
+| 65              | 30          | 0             |
+| 30              | 50          | 1             |
+| 90              | 20          | 1             |
+| 44              | 35          | 0             |
+| 20              | 70          | 1             |
+| 50              | 40          | 1             |
+| 36              | 25          | 0             |
+
+#### Task
+1. Calculate the mean vectors for each class (malignant and benign)
+2. Calculate the shared covariance matrix assuming equal covariance for both classes
+3. Determine the LDA projection direction $w = \Sigma^{-1}(\mu_1 - \mu_2)$ where $\mu_1$ is the mean for class y=1 and $\mu_2$ is the mean for class y=0
+4. Calculate the threshold value for classification in the projected space, assuming equal prior probabilities
+5. For a new patient with tumor size 40mm and age 45 years, which diagnosis would LDA predict?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: LDA for Medical Diagnosis](L4_4_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+A bank is using LDA to classify credit applications as approved (1) or denied (0) based on annual income (thousands of dollars) and debt-to-income ratio (percentage). The following table shows training data from previous applications:
+
+| Income ($K) | Debt-to-Income (%) | Credit Approved (y) |
+|-------------|---------------------|---------------------|
+| 65          | 28                  | 1                   |
+| 50          | 32                  | 0                   |
+| 79          | 22                  | 1                   |
+| 48          | 40                  | 0                   |
+| 95          | 18                  | 1                   |
+| 36          | 36                  | 0                   |
+| 72          | 30                  | 1                   |
+| 60          | 34                  | 0                   |
+| 85          | 24                  | 1                   |
+| 42          | 38                  | 0                   |
+
+#### Task
+1. Calculate the class means for approved and denied applications
+2. Calculate the pooled within-class covariance matrix
+3. Find the between-class covariance matrix $S_B$
+4. Determine the optimal projection direction for the LDA by finding the eigenvector corresponding to the largest eigenvalue of $S_W^{-1}S_B$
+5. Calculate the threshold for classification assuming the prior probabilities are $P(y=1) = 0.3$ and $P(y=0) = 0.7$
+6. For a new applicant with income $55K and debt-to-income ratio 25%, which class would LDA predict? Will their credit application be approved or denied?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: LDA for Credit Approval](L4_4_19_explanation.md). 
