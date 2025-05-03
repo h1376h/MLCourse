@@ -11,14 +11,14 @@ plt.rcParams.update({
     "figure.dpi": 150,
 })
 
-# Set color palette for better visuals
+# Set color palette for better visuals with higher contrast
 CLASS1_COLOR = '#3498db'  # Blue
 CLASS2_COLOR = '#e74c3c'  # Red
 MEAN_COLOR1 = '#2980b9'   # Darker blue
 MEAN_COLOR2 = '#c0392b'   # Darker red
 NEW_POINT_COLOR = '#2ecc71'  # Green
 BOUNDARY_COLOR = '#34495e'  # Dark blue/gray
-PROJECTION_COLOR = '#8e44ad'  # Purple
+PROJECTION_COLOR = '#9b59b6'  # Brighter purple for better visibility
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -273,25 +273,38 @@ for i, point in enumerate(class2):
                  fontsize=12, color=CLASS2_COLOR, fontweight='bold')
 
 # Plot the LDA direction with a much larger, more visible arrow
-scale = 5  # Increased from 3 to 5
+scale = 6  # Increased scale for better visibility
 arrow_props = dict(
     arrowstyle='-|>', 
-    lw=3,  # Increased from 2 to 3
+    lw=4,  # Thicker line width
     shrinkA=0, 
     shrinkB=0, 
     fc=PROJECTION_COLOR, 
     ec=PROJECTION_COLOR, 
-    alpha=1.0  # Increased from 0.8 to 1.0
+    alpha=1.0
 )
+
+# Add background for LDA direction for greater contrast
+plt.plot([0, scale * w_norm[0]], [0, scale * w_norm[1]], 
+         color='white', linewidth=6, alpha=0.8, zorder=2)
+
+# Add the arrow on top
 plt.annotate('', xy=(scale * w_norm[0], scale * w_norm[1]), xytext=(0, 0), 
-             arrowprops=arrow_props)
+             arrowprops=arrow_props, zorder=3)
 
 # Add a clearer label for the LDA direction with better positioning
+lda_label_x = scale * w_norm[0] * 0.5
+lda_label_y = scale * w_norm[1] * 0.5
 plt.annotate(r'LDA Direction ($w$)', 
-             xy=(scale * w_norm[0]/2, scale * w_norm[1]/2), 
-             xytext=(30, 10), textcoords='offset points', 
+             xy=(lda_label_x, lda_label_y), 
+             xytext=(30, 15), textcoords='offset points', 
              fontsize=14, color=PROJECTION_COLOR, fontweight='bold',
-             bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
+             bbox=dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor=PROJECTION_COLOR))
+
+# Add an explicit callout to the LDA direction arrow for extra emphasis
+plt.annotate('', xy=(scale * w_norm[0] * 0.8, scale * w_norm[1] * 0.8), 
+             xytext=(scale * w_norm[0] * 0.8 + 1.5, scale * w_norm[1] * 0.8 + 0.5), 
+             arrowprops=dict(arrowstyle='->', lw=2, color=PROJECTION_COLOR), zorder=4)
 
 # Calculate and plot the decision boundary with shaded regions
 if w[1] != 0:  # Not a vertical line
@@ -360,64 +373,68 @@ plt.axvspan(threshold, x_range[-1], alpha=0.15, color=CLASS1_COLOR, label='Class
 # Add a subtle axis line
 plt.axhline(y=0, color='gray', linestyle='-', linewidth=1.5, alpha=0.5)
 
-# Improve spacing for better readability
-offset_pairs = [
-    (0, 0.12, '$C_1^1$', 8, CLASS1_COLOR),
-    (1, 0.08, '$C_1^2$', 10, CLASS1_COLOR),
-    (2, 0.10, '$C_1^3$', 12, CLASS1_COLOR),
-    (3, 0.06, '$C_1^4$', 14, CLASS1_COLOR),
-    (0, -0.06, '$C_2^1$', -14, CLASS2_COLOR),
-    (1, -0.08, '$C_2^2$', -12, CLASS2_COLOR),
-    (2, -0.10, '$C_2^3$', -10, CLASS2_COLOR),
-    (3, -0.12, '$C_2^4$', -8, CLASS2_COLOR)
-]
+# Prepare sorted points and make sure there's no text overlap
+# Sort points for better visualization
+class1_proj_sorted = sorted(list(zip(proj_class1, range(len(proj_class1)))))
+class2_proj_sorted = sorted(list(zip(proj_class2, range(len(proj_class2)))))
 
-# Plot Class 1 points with vertical offsets
-for i, (proj, offset_y, label, offset_text, color) in enumerate(zip(
-    sorted(proj_class1), 
-    [offset[1] for offset in offset_pairs[:4]],
-    [f'$C_1^{{{i+1}}}$' for i in range(4)],
-    [offset[3] for offset in offset_pairs[:4]],
-    [offset[4] for offset in offset_pairs[:4]]
-)):
-    plt.scatter(proj, offset_y, color=color, s=100, marker='o', 
+# Create distinct vertical positions to avoid overlap
+# For class 1 (top half)
+class1_offsets = []
+for i in range(len(class1_proj_sorted)):
+    if i > 0 and abs(class1_proj_sorted[i][0] - class1_proj_sorted[i-1][0]) < 0.5:
+        # If this projection is close to the previous one, adjust offset
+        class1_offsets.append(class1_offsets[-1] - 0.04)
+    else:
+        class1_offsets.append(0.12 - 0.02 * i)  # Start at 0.12 and decrease
+
+# For class 2 (bottom half)
+class2_offsets = []
+for i in range(len(class2_proj_sorted)):
+    if i > 0 and abs(class2_proj_sorted[i][0] - class2_proj_sorted[i-1][0]) < 0.5:
+        # If this projection is close to the previous one, adjust offset
+        class2_offsets.append(class2_offsets[-1] + 0.04)
+    else:
+        class2_offsets.append(-0.06 - 0.02 * i)  # Start at -0.06 and decrease
+
+# Plot Class 1 points with optimized vertical offsets
+for i, (proj, idx) in enumerate(class1_proj_sorted):
+    offset_y = class1_offsets[i]
+    label = f'$C_1^{{{idx+1}}}$'
+    plt.scatter(proj, offset_y, color=CLASS1_COLOR, s=100, marker='o', 
                 edgecolor='white', linewidth=1, zorder=3)
     plt.annotate(label, (proj, offset_y), 
-                 xytext=(0, offset_text), textcoords='offset points', 
-                 fontsize=12, ha='center', color=color, 
-                 fontweight='bold')
+                 xytext=(0, 10), textcoords='offset points', 
+                 fontsize=12, ha='center', color=CLASS1_COLOR, 
+                 fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
     plt.plot([proj, proj], [0, offset_y], 'k--', alpha=0.3)
 
-# Plot Class 2 points with vertical offsets
-for i, (proj, offset_y, label, offset_text, color) in enumerate(zip(
-    sorted(proj_class2), 
-    [offset[1] for offset in offset_pairs[4:]],
-    [f'$C_2^{{{i+1}}}$' for i in range(4)],
-    [offset[3] for offset in offset_pairs[4:]],
-    [offset[4] for offset in offset_pairs[4:]]
-)):
-    plt.scatter(proj, offset_y, color=color, s=100, marker='x', 
+# Plot Class 2 points with optimized vertical offsets
+for i, (proj, idx) in enumerate(class2_proj_sorted):
+    offset_y = class2_offsets[i]
+    label = f'$C_2^{{{idx+1}}}$'
+    plt.scatter(proj, offset_y, color=CLASS2_COLOR, s=100, marker='x', 
                 linewidth=2, zorder=3)
     plt.annotate(label, (proj, offset_y), 
-                 xytext=(0, offset_text), textcoords='offset points', 
-                 fontsize=12, ha='center', color=color, 
-                 fontweight='bold')
+                 xytext=(0, -18), textcoords='offset points', 
+                 fontsize=12, ha='center', color=CLASS2_COLOR, 
+                 fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
     plt.plot([proj, proj], [0, offset_y], 'k--', alpha=0.3)
 
 # Plot means with clearer labels
-plt.scatter(projected_mu1, 0.18, color=MEAN_COLOR1, s=180, marker='*', zorder=4)
-plt.annotate(r'$\mu_1$', (projected_mu1, 0.18), 
+plt.scatter(projected_mu1, 0.20, color=MEAN_COLOR1, s=180, marker='*', zorder=4)
+plt.annotate(r'$\mu_1$', (projected_mu1, 0.20), 
              xytext=(0, 12), textcoords='offset points', 
              fontsize=14, ha='center', color=MEAN_COLOR1, 
-             fontweight='bold')
-plt.plot([projected_mu1, projected_mu1], [0, 0.18], 'k--', alpha=0.3)
+             fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+plt.plot([projected_mu1, projected_mu1], [0, 0.20], 'k--', alpha=0.3)
 
-plt.scatter(projected_mu2, -0.18, color=MEAN_COLOR2, s=180, marker='*', zorder=4)
-plt.annotate(r'$\mu_2$', (projected_mu2, -0.18), 
+plt.scatter(projected_mu2, -0.20, color=MEAN_COLOR2, s=180, marker='*', zorder=4)
+plt.annotate(r'$\mu_2$', (projected_mu2, -0.20), 
              xytext=(0, -20), textcoords='offset points', 
              fontsize=14, ha='center', color=MEAN_COLOR2, 
-             fontweight='bold')
-plt.plot([projected_mu2, projected_mu2], [0, -0.18], 'k--', alpha=0.3)
+             fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+plt.plot([projected_mu2, projected_mu2], [0, -0.20], 'k--', alpha=0.3)
 
 # Plot new point with a clear label
 plt.scatter(proj_x_new, 0, color=NEW_POINT_COLOR, s=150, marker='D', 
@@ -425,7 +442,7 @@ plt.scatter(proj_x_new, 0, color=NEW_POINT_COLOR, s=150, marker='D',
 plt.annotate(r'$x_{new}$', (proj_x_new, 0), 
              xytext=(0, 20), textcoords='offset points', 
              fontsize=14, ha='center', color=NEW_POINT_COLOR, 
-             fontweight='bold')
+             fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
 
 # Plot the threshold with a nicer label and line
 plt.axvline(x=threshold, color=PROJECTION_COLOR, linestyle='--', linewidth=2.5)
@@ -433,7 +450,7 @@ plt.annotate(r'$\theta$',
              xy=(threshold, 0.25),
              xytext=(0, -7), textcoords='offset points',
              fontsize=14, ha='center', color=PROJECTION_COLOR,
-             fontweight='bold')
+             fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
 
 # Better axis labels and title
 plt.xlim(x_range[0], x_range[-1])
@@ -533,7 +550,8 @@ plt.annotate('LDA Direction',
              fontsize=12, color='#e74c3c',
              arrowprops=dict(arrowstyle='->',
                             connectionstyle='arc3,rad=.2',
-                            color='#e74c3c'))
+                            color='#e74c3c'),
+             bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
 
 plt.annotate('Maximum',
              xy=(max_angle, J_fisher[max_idx]),
@@ -541,7 +559,8 @@ plt.annotate('Maximum',
              fontsize=12, color='#2ecc71',
              arrowprops=dict(arrowstyle='->',
                             connectionstyle='arc3,rad=-.2',
-                            color='#2ecc71'))
+                            color='#2ecc71'),
+             bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
 
 plt.legend([
     'Fisher\'s Criterion',
