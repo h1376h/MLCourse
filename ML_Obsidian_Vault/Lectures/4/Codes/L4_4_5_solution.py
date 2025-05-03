@@ -253,9 +253,9 @@ def visualize_logistic_regression():
     
     plt.plot(x, y, 'k-', linewidth=2)
     plt.grid(True)
-    plt.title('Sigmoid Function: σ(z) = 1/(1+e^(-z))', fontsize=14)
-    plt.xlabel('z = w₁x₁ + w₂x₂ + b', fontsize=12)
-    plt.ylabel('Probability: P(y=1|x)', fontsize=12)
+    plt.title('Sigmoid Function: $\\sigma(z) = \\frac{1}{1+e^{-z}}$', fontsize=14)
+    plt.xlabel('$z = w_1x_1 + w_2x_2 + b$', fontsize=12)
+    plt.ylabel('Probability: $P(y=1|x)$', fontsize=12)
     
     # Mark the decision boundary
     plt.axvline(x=0, color='r', linestyle='--')

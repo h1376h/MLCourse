@@ -24,19 +24,52 @@ The Support Vector Machine (SVM) is explicitly designed to maximize the margin b
 
 ![SVM Margin](../Images/L4_4_Quiz_5/svm_margin.png)
 
-From our analysis:
+SVMs find the hyperplane that maximizes the distance to the nearest data points from each class (called support vectors).
+
+#### Mathematical Derivation
+For a binary classification problem with linearly separable data, we want to find a hyperplane:
+$$f(x) = w^T x + b = 0$$
+
+Where:
+- $w$ is the weight vector (normal to the hyperplane)
+- $b$ is the bias term
+- $x$ is the feature vector
+
+The signed distance from a point $x$ to the hyperplane is:
+$$d(x) = \frac{w^T x + b}{||w||}$$
+
+For a correctly classified point, we have:
+$$y_i(w^T x_i + b) > 0$$
+
+We can scale $w$ and $b$ such that for the nearest points to the hyperplane (support vectors), we have:
+$$y_i(w^T x_i + b) = 1$$
+
+Then the margin (distance between the support vectors of the two classes) is:
+$$\text{margin} = \frac{2}{||w||}$$
+
+The SVM optimization problem becomes:
+$$\min_{w,b} \frac{1}{2}||w||^2 \quad \text{subject to} \quad y_i(w^T x_i + b) \geq 1 \quad \forall i$$
+
+Solving this optimization problem using Lagrange multipliers:
+$$\mathcal{L}(w, b, \alpha) = \frac{1}{2}||w||^2 - \sum_{i=1}^n \alpha_i [y_i(w^T x_i + b) - 1]$$
+
+Taking derivatives and setting to zero:
+$$\frac{\partial \mathcal{L}}{\partial w} = w - \sum_{i=1}^n \alpha_i y_i x_i = 0 \implies w = \sum_{i=1}^n \alpha_i y_i x_i$$
+$$\frac{\partial \mathcal{L}}{\partial b} = -\sum_{i=1}^n \alpha_i y_i = 0$$
+
+The dual problem becomes:
+$$\max_{\alpha} \sum_{i=1}^n \alpha_i - \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n \alpha_i \alpha_j y_i y_j x_i^T x_j$$
+$$\text{subject to } \alpha_i \geq 0 \text{ and } \sum_{i=1}^n \alpha_i y_i = 0$$
+
+From our implementation, we get:
 ```
 SVM Coefficients: [ 0.39210596 -0.0807168 ]
 SVM Intercept: 0.09015145621457668
-Decision Boundary Equation: 0.3921*x1 + -0.0807*x2 + 0.0902 = 0
 Margin width: 4.9959
 ```
 
-SVMs find the hyperplane that maximizes the distance to the nearest data points from each class (called support vectors). The margin width (4.9959 in our example) is calculated as $\frac{2}{||w||}$ where $w$ is the weight vector.
-
-The mathematical formulation of SVM optimization explicitly aims to maximize this margin while ensuring all points are correctly classified:
-
-$$\min_{w,b} \frac{1}{2}||w||^2 \quad \text{subject to} \quad y_i(w^Tx_i + b) \geq 1 \quad \forall i$$
+For these coefficients, the margin is:
+$$\text{margin} = \frac{2}{||w||} = \frac{2}{\sqrt{w_1^2 + w_2^2}} = \frac{2}{\sqrt{0.39210596^2 + (-0.0807168)^2}} \approx 4.9959$$
 
 Therefore, statement 1 corresponds to (d) Support Vector Machine (SVM).
 
@@ -45,7 +78,43 @@ Linear Discriminant Analysis (LDA) uses a generative approach based on modeling 
 
 ![LDA Densities](../Images/L4_4_Quiz_5/lda_densities.png)
 
-From our analysis:
+#### Mathematical Derivation
+LDA makes the following assumptions:
+1. Each class follows a multivariate Gaussian distribution
+2. All classes share the same covariance matrix
+
+For class $c$, the class-conditional density is:
+$$p(x|y=c) = \frac{1}{(2\pi)^{d/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x-\mu_c)^T\Sigma^{-1}(x-\mu_c)\right)$$
+
+Where:
+- $\mu_c$ is the mean vector for class $c$
+- $\Sigma$ is the shared covariance matrix
+- $d$ is the dimensionality of the feature space
+
+Using Bayes' rule, the posterior probability is:
+$$p(y=c|x) = \frac{p(x|y=c)p(y=c)}{p(x)}$$
+
+For a binary classification problem, the decision boundary is where:
+$$p(y=1|x) = p(y=0|x)$$
+
+Taking the log and substituting the Gaussian formula:
+$$\log p(y=1|x) = \log p(y=0|x)$$
+$$\log p(x|y=1) + \log p(y=1) = \log p(x|y=0) + \log p(y=0)$$
+
+Expanding and simplifying:
+$$-\frac{1}{2}(x-\mu_1)^T\Sigma^{-1}(x-\mu_1) + \log p(y=1) = -\frac{1}{2}(x-\mu_0)^T\Sigma^{-1}(x-\mu_0) + \log p(y=0)$$
+
+Further simplification yields:
+$$x^T\Sigma^{-1}(\mu_1-\mu_0) - \frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1 + \frac{1}{2}\mu_0^T\Sigma^{-1}\mu_0 + \log\frac{p(y=1)}{p(y=0)} = 0$$
+
+This is a linear function of $x$, resulting in a linear decision boundary:
+$$w^Tx + b = 0$$
+
+Where:
+$$w = \Sigma^{-1}(\mu_1-\mu_0)$$
+$$b = -\frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1 + \frac{1}{2}\mu_0^T\Sigma^{-1}\mu_0 + \log\frac{p(y=1)}{p(y=0)}$$
+
+From our implementation:
 ```
 LDA Coefficients: [5.31497736 4.08982703]
 LDA Intercept: 0.47507597590560025
@@ -53,15 +122,11 @@ Class means: Class 0 = [-2, -2], Class 1 = [2, 2]
 Shared covariance matrix: [[1, 0], [0, 1]]
 ```
 
-LDA models:
-- The class-conditional densities $p(x|y=c)$ as Gaussian distributions
-- Each class has its own mean vector ([-2, -2] and [2, 2] in our example)
-- All classes share the same covariance matrix ([[1, 0], [0, 1]] in our example)
+With the identity covariance matrix and means $\mu_0 = [-2, -2]$ and $\mu_1 = [2, 2]$, we get:
+$$w = \Sigma^{-1}(\mu_1-\mu_0) = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} 2-(-2) \\ 2-(-2) \end{bmatrix} = \begin{bmatrix} 4 \\ 4 \end{bmatrix}$$
 
-LDA applies Bayes' rule to compute the posterior probability:
-$$p(y=c|x) = \frac{p(x|y=c)p(y=c)}{p(x)}$$
-
-Since the class-conditional densities are modeled as Gaussians with equal covariance matrices, the decision boundary becomes linear.
+Assuming equal priors, the bias term becomes:
+$$b = -\frac{1}{2}\mu_1^T\Sigma^{-1}\mu_1 + \frac{1}{2}\mu_0^T\Sigma^{-1}\mu_0 = -\frac{1}{2}(2^2+2^2) + \frac{1}{2}((-2)^2+(-2)^2) = 0$$
 
 Therefore, statement 2 corresponds to (c) Linear Discriminant Analysis (LDA).
 
@@ -70,34 +135,58 @@ The Perceptron algorithm simply aims to find any decision boundary that correctl
 
 ![Perceptron Boundaries](../Images/L4_4_Quiz_5/perceptron_boundaries.png)
 
-From our analysis:
-```
-Perceptron solution 1:
-  Coefficients: [-1.2846*x1 + 1.3446*x2 + 1.0000 = 0
-  
-Perceptron solution 2:
-  Coefficients: [-0.8509*x1 + 1.6698*x2 + 1.0000 = 0
-  
-Perceptron solution 3:
-  Coefficients: [-0.3193*x1 + 2.1041*x2 + 1.0000 = 0
-  
-Perceptron solution 4:
-  Coefficients: [-1.5863*x1 + 3.4018*x2 + 1.0000 = 0
-  
-Perceptron solution 5:
-  Coefficients: [-0.7600*x1 + 1.8282*x2 + 2.0000 = 0
-```
+#### Mathematical Derivation
+The Perceptron model defines a linear decision boundary:
+$$f(x) = w^Tx + b$$
 
-The Perceptron learning algorithm updates its weights whenever it misclassifies a training example:
-$$w \leftarrow w + \eta y x$$
+The prediction is given by:
+$$\hat{y} = \text{sign}(f(x)) = \begin{cases} 
+1 & \text{if } w^Tx + b > 0 \\
+-1 & \text{otherwise}
+\end{cases}$$
+
+The Perceptron algorithm updates the weights and bias whenever it misclassifies a training example:
+$$w_{t+1} = w_t + \eta y_i x_i$$
+$$b_{t+1} = b_t + \eta y_i$$
 
 Where:
-- $w$ is the weight vector
+- $w_t$ is the weight vector at iteration $t$
+- $b_t$ is the bias term at iteration $t$
 - $\eta$ is the learning rate
-- $y$ is the true label
-- $x$ is the feature vector
+- $y_i$ is the true label $\in \{-1, 1\}$
+- $x_i$ is the feature vector
 
-As shown in our visualization, different initializations (random states) lead to different decision boundaries, all of which correctly separate the classes but with different orientations. The algorithm stops once all training points are correctly classified, with no guarantee of finding the optimal boundary.
+The algorithm iterates through the training data and makes updates until all points are correctly classified or a maximum number of iterations is reached.
+
+For linearly separable data, the Perceptron convergence theorem guarantees that the algorithm will find a separating hyperplane in a finite number of updates, but this hyperplane is not unique and depends on:
+1. The initialization of weights
+2. The order of data points
+3. The learning rate
+
+From our multiple runs with different random states:
+```
+Perceptron solution 1:
+  Coefficients: [-1.28462251  1.34463855]
+  Intercept: 1.0
+  
+Perceptron solution 2:
+  Coefficients: [-0.85091259  1.66982572]
+  Intercept: 1.0
+  
+Perceptron solution 3:
+  Coefficients: [-0.31926943  2.10406336]
+  Intercept: 1.0
+  
+Perceptron solution 4:
+  Coefficients: [-1.5863175   3.40175467]
+  Intercept: 1.0
+  
+Perceptron solution 5:
+  Coefficients: [-0.76002187  1.82817675]
+  Intercept: 2.0
+```
+
+As shown, different initializations lead to different decision boundaries, all of which correctly separate the classes but with different orientations.
 
 Therefore, statement 3 corresponds to (a) Perceptron.
 
@@ -107,22 +196,47 @@ Logistic Regression directly models the posterior probability $P(y|x)$ using the
 ![Logistic Regression](../Images/L4_4_Quiz_5/logistic_regression_prob.png)
 ![Sigmoid Function](../Images/L4_4_Quiz_5/sigmoid_function.png)
 
-From our analysis:
-```
-Logistic Regression Coefficients: [-1.21450618  2.62035317]
-Logistic Regression Intercept: 2.0452270318395054
-Decision Boundary Equation: -1.2145*x1 + 2.6204*x2 + 2.0452 = 0
-```
-
-In binary classification, Logistic Regression models the probability of class membership as:
-$$P(y=1|x) = \frac{1}{1 + e^{-(w^Tx + b)}}$$
+#### Mathematical Derivation
+In binary classification, Logistic Regression models the probability of class 1 as:
+$$P(y=1|x) = \sigma(w^Tx + b) = \frac{1}{1 + e^{-(w^Tx + b)}}$$
 
 Where:
+- $\sigma(z)$ is the sigmoid function
 - $w$ is the weight vector
 - $b$ is the bias term
 - $x$ is the feature vector
 
-The sigmoid function transforms the real-valued output into a probability between 0 and 1. The decision boundary is where $P(y=1|x) = 0.5$, which corresponds to $w^Tx + b = 0$. This is shown in our visualization where the probability contours indicate the predicted probabilities across the feature space.
+The decision boundary is where $P(y=1|x) = 0.5$, which corresponds to:
+$$\sigma(w^Tx + b) = 0.5$$
+$$\frac{1}{1 + e^{-(w^Tx + b)}} = 0.5$$
+$$1 + e^{-(w^Tx + b)} = 2$$
+$$e^{-(w^Tx + b)} = 1$$
+$$-(w^Tx + b) = 0$$
+$$w^Tx + b = 0$$
+
+To find the optimal parameters $w$ and $b$, Logistic Regression uses maximum likelihood estimation. The likelihood function is:
+$$L(w, b) = \prod_{i=1}^n P(y=y_i|x_i)$$
+$$= \prod_{i=1}^n \sigma(w^Tx_i + b)^{y_i} (1-\sigma(w^Tx_i + b))^{1-y_i}$$
+
+Taking the negative log-likelihood (binary cross-entropy loss):
+$$J(w, b) = -\sum_{i=1}^n [y_i \log \sigma(w^Tx_i + b) + (1-y_i) \log (1-\sigma(w^Tx_i + b))]$$
+
+Minimizing this function using gradient descent:
+$$\frac{\partial J}{\partial w} = \sum_{i=1}^n (\sigma(w^Tx_i + b) - y_i)x_i$$
+$$\frac{\partial J}{\partial b} = \sum_{i=1}^n (\sigma(w^Tx_i + b) - y_i)$$
+
+The updates are:
+$$w_{t+1} = w_t - \eta \sum_{i=1}^n (\sigma(w_t^Tx_i + b_t) - y_i)x_i$$
+$$b_{t+1} = b_t - \eta \sum_{i=1}^n (\sigma(w_t^Tx_i + b_t) - y_i)$$
+
+From our implementation:
+```
+Logistic Regression Coefficients: [-1.21450618  2.62035317]
+Logistic Regression Intercept: 2.0452270318395054
+```
+
+For these parameters, the decision boundary equation is:
+$$-1.2145x_1 + 2.6204x_2 + 2.0452 = 0$$
 
 Therefore, statement 4 corresponds to (b) Logistic Regression.
 
@@ -131,7 +245,29 @@ Linear Discriminant Analysis (LDA) seeks to maximize the ratio of between-class 
 
 ![LDA Scatter Ratio](../Images/L4_4_Quiz_5/lda_scatter_ratio.png)
 
-From our analysis:
+#### Mathematical Derivation
+Another perspective on LDA is that it finds a projection direction that maximizes the separation between classes while minimizing the spread within each class.
+
+The within-class scatter matrix is defined as:
+$$S_W = \sum_{c=0}^{C-1} \sum_{i:y_i=c} (x_i - \mu_c)(x_i - \mu_c)^T$$
+
+Where:
+- $\mu_c$ is the mean vector for class $c$
+- $C$ is the number of classes
+
+The between-class scatter matrix is defined as:
+$$S_B = \sum_{c=0}^{C-1} n_c (\mu_c - \mu)(\mu_c - \mu)^T$$
+
+Where:
+- $\mu$ is the overall mean of the data
+- $n_c$ is the number of samples in class $c$
+
+LDA finds the projection direction $w$ that maximizes Fisher's criterion:
+$$J(w) = \frac{w^T S_B w}{w^T S_W w}$$
+
+This is a generalized eigenvalue problem, and the solution is the eigenvector corresponding to the largest eigenvalue of $S_W^{-1}S_B$.
+
+From our implementation with two classes:
 ```
 Class means: Class 0 = [-1.78923835 -1.98211085], Class 1 = [2.08328613 2.16949163]
 Overall mean: [0.14702389 0.09369039]
@@ -144,16 +280,14 @@ Between-class scatter matrix S_B:
 LDA projection direction: [-0.3984462  -0.91719171]
 ```
 
-LDA finds the projection direction $w$ that maximizes:
-$$J(w) = \frac{w^T S_B w}{w^T S_W w}$$
+The within-class scatter matrix:
+$$S_W = \begin{bmatrix} 150.38 & 26.88 \\ 26.88 & 87.18 \end{bmatrix}$$
 
-Where:
-- $S_B$ is the between-class scatter matrix
-- $S_W$ is the within-class scatter matrix
+The between-class scatter matrix:
+$$S_B = \begin{bmatrix} 374.91 & 401.93 \\ 401.93 & 430.90 \end{bmatrix}$$
 
-The between-class scatter matrix $S_B$ measures the distance between class means, while the within-class scatter matrix $S_W$ measures the spread of each class around its own mean. 
-
-By maximizing this ratio, LDA seeks a projection where classes are well-separated (high between-class scatter) and compact (low within-class scatter). This is different from just focusing on maximizing the margin as in SVM.
+The projection direction is the eigenvector of $S_W^{-1}S_B$ with the largest eigenvalue:
+$$w = \begin{bmatrix} -0.3984 \\ -0.9172 \end{bmatrix}$$
 
 Therefore, statement 5 corresponds to (c) Linear Discriminant Analysis (LDA).
 
@@ -179,6 +313,9 @@ Therefore, statement 5 corresponds to (c) Linear Discriminant Analysis (LDA).
 - **Dual optimization**: Maximizes between-class to within-class scatter ratio
 - **Distinguishing feature**: Makes assumptions about data distribution
 - **Decision boundary equation (example)**: $5.3150x_1 + 4.0898x_2 + 0.4751 = 0$
+- **Scatter matrices (example)**:
+  - Within-class: $S_W = \begin{bmatrix} 150.38 & 26.88 \\ 26.88 & 87.18 \end{bmatrix}$
+  - Between-class: $S_B = \begin{bmatrix} 374.91 & 401.93 \\ 401.93 & 430.90 \end{bmatrix}$
 
 ### Support Vector Machine (SVM)
 - **Objective**: Maximize the margin between classes
@@ -186,7 +323,7 @@ Therefore, statement 5 corresponds to (c) Linear Discriminant Analysis (LDA).
 - **Margin focus**: Explicitly optimizes the distance to closest points
 - **Distinguishing feature**: Focuses only on support vectors (points near the boundary)
 - **Decision boundary equation (example)**: $0.3921x_1 - 0.0807x_2 + 0.0902 = 0$
-- **Margin width (example)**: 4.9959
+- **Margin width (example)**: $\frac{2}{||w||} = \frac{2}{\sqrt{0.3921^2 + (-0.0807)^2}} \approx 4.9959$
 
 ## Practical Implications
 
@@ -205,7 +342,7 @@ Therefore, statement 5 corresponds to (c) Linear Discriminant Analysis (LDA).
 #### Linear Discriminant Analysis (LDA)
 - Best for: When data follows Gaussian distribution with equal covariance
 - Limitations: Strong distributional assumptions
-- Example parameter values: Class means = $[-2, -2]$ and $[2, 2]$, Shared covariance = identity matrix
+- Example parameter values: Class means = $\mu_0 = [-2, -2]$ and $\mu_1 = [2, 2]$, Shared covariance = $\Sigma = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$
 
 #### Support Vector Machine (SVM)
 - Best for: Maximizing separation between classes, robust to outliers
