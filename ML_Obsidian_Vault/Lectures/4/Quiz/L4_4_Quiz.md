@@ -407,15 +407,15 @@ For a detailed explanation of this problem, including step-by-step solutions and
 
 ### Problem Statement
 Compute LDA projection for the following two-dimensional dataset:
-- X1=(x₁, x₂)={(4, 1), (2, 4), (2, 3), (3, 6), (4, 4)}
-- X2=(x₁, x₂)={(9, 10), (6, 8), (9, 5), (8, 7), (10, 8)}
+- $X_1=(x_1, x_2)=\{(4, 1), (2, 4), (2, 3), (3, 6), (4, 4)\}$
+- $X_2=(x_1, x_2)=\{(9, 10), (6, 8), (9, 5), (8, 7), (10, 8)\}$
 
 #### Task
-1. Calculate the mean vectors for each class
-2. Compute the within-class scatter matrices S₁ and S₂ for each class
-3. Determine the total within-class scatter matrix Sw
-4. Calculate the between-class scatter matrix Sb
-5. Find the optimal projection direction w by solving the generalized eigenvalue problem
-6. For a new data point (5, 5), determine which class it would be assigned to using LDA
+1. Calculate the mean vectors $\mu_1$ and $\mu_2$ for each class
+2. Compute the within-class scatter matrices $S_1$ and $S_2$ for each class
+3. Determine the total within-class scatter matrix $S_W$
+4. Calculate the between-class scatter matrix $S_B$
+5. Find the optimal projection direction $\mathbf{w}$ by solving the generalized eigenvalue problem
+6. For a new data point $(5, 5)$, determine which class it would be assigned to using LDA
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 24: LDA Projection for Two-Dimensional Dataset](L4_4_24_explanation.md).
