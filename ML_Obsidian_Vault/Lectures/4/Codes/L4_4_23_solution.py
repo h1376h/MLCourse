@@ -356,15 +356,20 @@ proj_class1 = np.array([np.dot(w, point) for point in class1])
 proj_class2 = np.array([np.dot(w, point) for point in class2])
 proj_x_new = np.dot(w, x_new)
 
-# Print the projected points
+# Print the projected points for debugging
 print("\nProjected points onto LDA direction:")
 print("Class 1 projections:", [f"{p:.4f}" for p in proj_class1])
 print("Class 2 projections:", [f"{p:.4f}" for p in proj_class2])
 print(f"New point projection: {proj_x_new:.4f}")
 
-# Define the 1D axis range
-x_range = np.linspace(min(np.min(proj_class1), np.min(proj_class2)) - 0.5, 
-                      max(np.max(proj_class1), np.max(proj_class2)) + 0.5, 1000)
+# Create a map of point indices to original classes for correct point-class association
+class1_indices = {i: 1 for i in range(len(class1))}
+class2_indices = {i: 2 for i in range(len(class2))}
+
+# Define the 1D axis range with a bit more margin for better visualization
+margin = 0.7
+x_range = np.linspace(min(np.min(proj_class1), np.min(proj_class2)) - margin, 
+                      max(np.max(proj_class1), np.max(proj_class2)) + margin, 1000)
 
 # Mark the decision regions with better aesthetics
 plt.axvspan(x_range[0], threshold, alpha=0.15, color=CLASS2_COLOR, label='Class 2 Region')
@@ -373,94 +378,128 @@ plt.axvspan(threshold, x_range[-1], alpha=0.15, color=CLASS1_COLOR, label='Class
 # Add a subtle axis line
 plt.axhline(y=0, color='gray', linestyle='-', linewidth=1.5, alpha=0.5)
 
-# Prepare sorted points and make sure there's no text overlap
-# Sort points for better visualization
-class1_proj_sorted = sorted(list(zip(proj_class1, range(len(proj_class1)))))
-class2_proj_sorted = sorted(list(zip(proj_class2, range(len(proj_class2)))))
+# Create data structures for each class with original indices
+class1_data = [(proj, i) for i, proj in enumerate(proj_class1)]
+class2_data = [(proj, i) for i, proj in enumerate(proj_class2)]
 
-# Create distinct vertical positions to avoid overlap
-# For class 1 (top half)
-class1_offsets = []
-for i in range(len(class1_proj_sorted)):
-    if i > 0 and abs(class1_proj_sorted[i][0] - class1_proj_sorted[i-1][0]) < 0.5:
-        # If this projection is close to the previous one, adjust offset
-        class1_offsets.append(class1_offsets[-1] - 0.04)
-    else:
-        class1_offsets.append(0.12 - 0.02 * i)  # Start at 0.12 and decrease
+# Sort by projection value for better display
+class1_data.sort(key=lambda x: x[0])
+class2_data.sort(key=lambda x: x[0])
 
-# For class 2 (bottom half)
-class2_offsets = []
-for i in range(len(class2_proj_sorted)):
-    if i > 0 and abs(class2_proj_sorted[i][0] - class2_proj_sorted[i-1][0]) < 0.5:
-        # If this projection is close to the previous one, adjust offset
-        class2_offsets.append(class2_offsets[-1] + 0.04)
-    else:
-        class2_offsets.append(-0.06 - 0.02 * i)  # Start at -0.06 and decrease
+# Create distinct vertical positions with better spacing
+# Add more separation between points with similar projection values
+def create_vertical_offsets(sorted_data, start_offset, step, is_top=True):
+    offsets = []
+    for i in range(len(sorted_data)):
+        if i > 0 and abs(sorted_data[i][0] - sorted_data[i-1][0]) < 0.5:
+            # If this projection is close to the previous one, increase spacing
+            offset_adjust = 0.06 if is_top else -0.06
+            offsets.append(offsets[-1] + offset_adjust)
+        else:
+            # Start with base offset and adjust based on position
+            if is_top:
+                offsets.append(start_offset - step * i)
+            else:
+                offsets.append(start_offset + step * i)
+    return offsets
 
-# Plot Class 1 points with optimized vertical offsets
-for i, (proj, idx) in enumerate(class1_proj_sorted):
-    offset_y = class1_offsets[i]
-    label = f'$C_1^{{{idx+1}}}$'
-    plt.scatter(proj, offset_y, color=CLASS1_COLOR, s=100, marker='o', 
-                edgecolor='white', linewidth=1, zorder=3)
-    plt.annotate(label, (proj, offset_y), 
-                 xytext=(0, 10), textcoords='offset points', 
-                 fontsize=12, ha='center', color=CLASS1_COLOR, 
-                 fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
-    plt.plot([proj, proj], [0, offset_y], 'k--', alpha=0.3)
+# Generate vertical offsets for better spacing
+class1_offsets = create_vertical_offsets(class1_data, 0.15, 0.03, is_top=True)
+class2_offsets = create_vertical_offsets(class2_data, -0.15, 0.03, is_top=False)
 
-# Plot Class 2 points with optimized vertical offsets
-for i, (proj, idx) in enumerate(class2_proj_sorted):
-    offset_y = class2_offsets[i]
-    label = f'$C_2^{{{idx+1}}}$'
-    plt.scatter(proj, offset_y, color=CLASS2_COLOR, s=100, marker='x', 
-                linewidth=2, zorder=3)
-    plt.annotate(label, (proj, offset_y), 
-                 xytext=(0, -18), textcoords='offset points', 
-                 fontsize=12, ha='center', color=CLASS2_COLOR, 
-                 fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
-    plt.plot([proj, proj], [0, offset_y], 'k--', alpha=0.3)
-
-# Plot means with clearer labels
+# Plot the means first so they are behind other elements
 plt.scatter(projected_mu1, 0.20, color=MEAN_COLOR1, s=180, marker='*', zorder=4)
+plt.scatter(projected_mu2, -0.20, color=MEAN_COLOR2, s=180, marker='*', zorder=4)
+
+# Plot Class 1 points with improved vertical offsets and clearer labels
+for i, ((proj, idx), offset_y) in enumerate(zip(class1_data, class1_offsets)):
+    # Use the original index for the label
+    label = f'$C_1^{{{idx+1}}}$'
+    
+    # Plot the point
+    plt.scatter(proj, offset_y, color=CLASS1_COLOR, s=100, marker='o', 
+                edgecolor='white', linewidth=1, zorder=5)
+    
+    # Add the vertical connection line first (so it's behind the label)
+    plt.plot([proj, proj], [0, offset_y], 'k--', alpha=0.3, zorder=2)
+    
+    # Add the label with a white background box for clarity
+    box_props = dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor=CLASS1_COLOR, pad=0.3)
+    plt.annotate(label, (proj, offset_y), 
+                 xytext=(0, 12), textcoords='offset points', 
+                 fontsize=12, ha='center', color=CLASS1_COLOR, 
+                 fontweight='bold', bbox=box_props, zorder=6)
+
+# Plot Class 2 points with similar improvements
+for i, ((proj, idx), offset_y) in enumerate(zip(class2_data, class2_offsets)):
+    # Use the original index for the label
+    label = f'$C_2^{{{idx+1}}}$'
+    
+    # Plot the point
+    plt.scatter(proj, offset_y, color=CLASS2_COLOR, s=100, marker='x', 
+                linewidth=2, zorder=5)
+    
+    # Add the vertical connection line first
+    plt.plot([proj, proj], [0, offset_y], 'k--', alpha=0.3, zorder=2)
+    
+    # Add the label with a white background box
+    box_props = dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor=CLASS2_COLOR, pad=0.3)
+    plt.annotate(label, (proj, offset_y), 
+                 xytext=(0, -20), textcoords='offset points', 
+                 fontsize=12, ha='center', color=CLASS2_COLOR, 
+                 fontweight='bold', bbox=box_props, zorder=6)
+
+# Add connecting lines and labels for the means
+plt.plot([projected_mu1, projected_mu1], [0, 0.20], 'k--', alpha=0.3, zorder=2)
+plt.plot([projected_mu2, projected_mu2], [0, -0.20], 'k--', alpha=0.3, zorder=2)
+
+# Add labels for the means with improved styling
+mean1_box = dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor=MEAN_COLOR1, pad=0.3)
 plt.annotate(r'$\mu_1$', (projected_mu1, 0.20), 
              xytext=(0, 12), textcoords='offset points', 
              fontsize=14, ha='center', color=MEAN_COLOR1, 
-             fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
-plt.plot([projected_mu1, projected_mu1], [0, 0.20], 'k--', alpha=0.3)
+             fontweight='bold', bbox=mean1_box, zorder=6)
 
-plt.scatter(projected_mu2, -0.20, color=MEAN_COLOR2, s=180, marker='*', zorder=4)
+mean2_box = dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor=MEAN_COLOR2, pad=0.3)
 plt.annotate(r'$\mu_2$', (projected_mu2, -0.20), 
              xytext=(0, -20), textcoords='offset points', 
              fontsize=14, ha='center', color=MEAN_COLOR2, 
-             fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
-plt.plot([projected_mu2, projected_mu2], [0, -0.20], 'k--', alpha=0.3)
+             fontweight='bold', bbox=mean2_box, zorder=6)
 
 # Plot new point with a clear label
 plt.scatter(proj_x_new, 0, color=NEW_POINT_COLOR, s=150, marker='D', 
-            edgecolor='white', linewidth=1, zorder=5)
+            edgecolor='white', linewidth=1, zorder=6)
+
+# Add connecting line for the new point
+plt.plot([proj_x_new, proj_x_new], [-0.05, 0.05], 'k-', linewidth=1.5, alpha=0.5, zorder=3)
+
+# Add label for the new point with improved styling
+xnew_box = dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor=NEW_POINT_COLOR, pad=0.3)
 plt.annotate(r'$x_{new}$', (proj_x_new, 0), 
-             xytext=(0, 20), textcoords='offset points', 
+             xytext=(0, 25), textcoords='offset points', 
              fontsize=14, ha='center', color=NEW_POINT_COLOR, 
-             fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+             fontweight='bold', bbox=xnew_box, zorder=7)
 
 # Plot the threshold with a nicer label and line
-plt.axvline(x=threshold, color=PROJECTION_COLOR, linestyle='--', linewidth=2.5)
+plt.axvline(x=threshold, color=PROJECTION_COLOR, linestyle='--', linewidth=2.5, zorder=4)
+
+# Add label for threshold with improved styling
+theta_box = dict(boxstyle='round', facecolor='white', alpha=0.9, edgecolor=PROJECTION_COLOR, pad=0.3)
 plt.annotate(r'$\theta$', 
-             xy=(threshold, 0.25),
-             xytext=(0, -7), textcoords='offset points',
+             xy=(threshold, 0.27),
+             xytext=(0, 0), textcoords='offset points',
              fontsize=14, ha='center', color=PROJECTION_COLOR,
-             fontweight='bold', bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+             fontweight='bold', bbox=theta_box, zorder=7)
 
 # Better axis labels and title
 plt.xlim(x_range[0], x_range[-1])
-plt.ylim(-0.3, 0.3)
+plt.ylim(-0.35, 0.35)  # Increased y-range for better spacing
 plt.yticks([])  # Hide y-axis ticks since this is a 1D projection
 plt.xlabel(r'Projection onto LDA Direction ($w^T x$)', fontsize=16)
 plt.title(r'1D Projection of Data Points with Threshold', fontsize=18, pad=20)
 plt.grid(True, alpha=0.3, axis='x')
 
-# Add a custom legend
+# Add a custom legend with better positioning
 plt.legend(fontsize=12, loc='upper right', framealpha=0.9, 
            edgecolor=BOUNDARY_COLOR, fancybox=True)
 
