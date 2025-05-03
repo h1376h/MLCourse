@@ -597,6 +597,105 @@ for i, val in enumerate(normalized_importance):
 print("Saving visualization: Feature Importance Plot")
 plt.savefig(os.path.join(save_dir, "feature_importance.png"), dpi=300, bbox_inches='tight')
 
+# Eigendecomposition explanation
+print("\nA deeper dive into eigendecomposition of S_W^(-1)S_B:")
+print("For binary classification, we can also find the optimal direction by analyzing")
+print("the eigenvalues and eigenvectors of S_W^(-1)S_B.")
+print("\nEigenvalues represent the amount of discriminative information along each direction,")
+print("while eigenvectors represent those directions.")
+
+# Detailed matrix multiplication explanation
+print("\nDetailed S_W^(-1)S_B calculation:")
+for i in range(2):
+    for j in range(2):
+        # Calculate the (i,j) element of S_W^(-1)S_B
+        element = 0
+        for k in range(2):
+            component = S_W_inv[i,k] * S_B[k,j]
+            element += component
+            print(f"  S_W^(-1)S_B[{i},{j}] += S_W^(-1)[{i},{k}] * S_B[{k},{j}] = {S_W_inv[i,k]:.4f} * {S_B[k,j]:.1f} = {component:.4f}")
+        print(f"  S_W^(-1)S_B[{i},{j}] = {element:.4f}")
+
+print("\nEigenvalue interpretation:")
+print(f"  λ1 = {eig_vals[0].real:.8f} - This large value indicates strong class separation along v1.")
+print(f"  λ2 = {eig_vals[1].real:.8f} - This value is near zero, as expected for binary classification.")
+print("\nIn LDA for binary classification, we expect exactly one significant eigenvalue,")
+print("as the rank of S_B is 1 (being the outer product of a single difference vector).")
+
+# Expanded threshold calculation
+print("\nMore detailed decision boundary derivation:")
+print("In discriminant analysis with Gaussian class-conditional densities and shared")
+print("covariance, the log-likelihood ratio gives us the decision rule:")
+print("\n  P(y=1|x)/P(y=0|x) > 1  ⟹  x is classified as Class 1")
+print("  P(y=1|x)/P(y=0|x) < 1  ⟹  x is classified as Class 0")
+print("\nApplying Bayes' rule and taking logarithms, we get:")
+print("  log[p(x|y=1)P(y=1)] > log[p(x|y=0)P(y=0)]")
+print("  log[p(x|y=1)] + log[P(y=1)] > log[p(x|y=0)] + log[P(y=0)]")
+print("\nFor multivariate Gaussians with shared covariance Σ:")
+print("  -0.5(x-μ₁)ᵀΣ⁻¹(x-μ₁) - 0.5log|2πΣ| + log[P(y=1)] > -0.5(x-μ₀)ᵀΣ⁻¹(x-μ₀) - 0.5log|2πΣ| + log[P(y=0)]")
+print("\nSimplifying by removing common terms and rearranging:")
+print("  -0.5[(x-μ₁)ᵀΣ⁻¹(x-μ₁) - (x-μ₀)ᵀΣ⁻¹(x-μ₀)] > log[P(y=0)/P(y=1)]")
+print("  -0.5[xᵀΣ⁻¹x - μ₁ᵀΣ⁻¹x - xᵀΣ⁻¹μ₁ + μ₁ᵀΣ⁻¹μ₁ - xᵀΣ⁻¹x + μ₀ᵀΣ⁻¹x + xᵀΣ⁻¹μ₀ - μ₀ᵀΣ⁻¹μ₀] > log[P(y=0)/P(y=1)]")
+print("  0.5[(μ₁ᵀ - μ₀ᵀ)Σ⁻¹x + xᵀΣ⁻¹(μ₁ - μ₀) - μ₁ᵀΣ⁻¹μ₁ + μ₀ᵀΣ⁻¹μ₀] > log[P(y=0)/P(y=1)]")
+print("\nSince (μ₁ᵀ - μ₀ᵀ)Σ⁻¹x is a scalar and equals its transpose xᵀΣ⁻¹(μ₁ - μ₀):")
+print("  (μ₁ - μ₀)ᵀΣ⁻¹x - 0.5(μ₁ᵀΣ⁻¹μ₁ - μ₀ᵀΣ⁻¹μ₀) > log[P(y=0)/P(y=1)]")
+print("\nRearranging to get the threshold equation:")
+print("  (μ₁ - μ₀)ᵀΣ⁻¹x > log[P(y=0)/P(y=1)] + 0.5(μ₁ᵀΣ⁻¹μ₁ - μ₀ᵀΣ⁻¹μ₀)")
+print("  wᵀx > constant, where w = Σ⁻¹(μ₁ - μ₀)")
+print("\nIn the 1D projected space, this becomes:")
+print("  wᵀx > 0.5(wᵀμ₁ + wᵀμ₀) + (1/(wᵀΣw))·log[P(y=0)/P(y=1)]")
+print(f"  For our problem: wᵀx > {(proj_mean_approved + proj_mean_denied)/2:.4f} + (1/{w_S_w:.4f})·{log_prior_ratio:.4f}")
+print(f"                   wᵀx > {(proj_mean_approved + proj_mean_denied)/2:.4f} + {log_prior_ratio/w_S_w:.4f}")
+print(f"                   wᵀx > {threshold_with_priors:.4f}")
+
+# Expanded interpretation of feature importance
+print("\nFeature importance detailed interpretation:")
+# Calculate relative contribution of features in a different way
+total_abs_weight = np.abs(w[0]) + np.abs(w[1])
+weight_income_percentage = np.abs(w[0]) / total_abs_weight * 100
+weight_dti_percentage = np.abs(w[1]) / total_abs_weight * 100
+
+print(f"Income weight: {w[0]:.4f} (positive) - Higher income contributes {weight_income_percentage:.1f}% toward approval")
+print(f"Debt-to-Income weight: {w[1]:.4f} (negative) - Higher DTI contributes {weight_dti_percentage:.1f}% toward denial")
+
+# Calculate effect size for each feature
+income_effect_size = np.abs(w[0] * (mean_approved[0] - mean_denied[0]))
+dti_effect_size = np.abs(w[1] * (mean_approved[1] - mean_denied[1]))
+total_effect_size = income_effect_size + dti_effect_size
+
+print("\nEffect size analysis:")
+print(f"Income effect: {w[0]:.4f} × |{mean_approved[0]:.1f} - {mean_denied[0]:.1f}| = {income_effect_size:.4f}")
+print(f"DTI effect: {np.abs(w[1]):.4f} × |{mean_approved[1]:.1f} - {mean_denied[1]:.1f}| = {dti_effect_size:.4f}")
+print(f"Total separation contribution: Income {income_effect_size/total_effect_size*100:.1f}%, DTI {dti_effect_size/total_effect_size*100:.1f}%")
+
+# Decision boundary sensitivity analysis
+print("\nDecision boundary sensitivity analysis:")
+# Calculate how much each feature needs to change to cross the boundary
+income_change_needed = (threshold_with_priors - proj_new) / w[0]
+dti_change_needed = (threshold_with_priors - proj_new) / w[1]
+
+print(f"For the new applicant (Income: ${new_applicant[0]}K, DTI: {new_applicant[1]}%):")
+print(f"To change the decision from denied to approved:")
+print(f"  Income increase needed: ${income_change_needed:.2f}K (to ${new_applicant[0] + income_change_needed:.2f}K, holding DTI constant)")
+print(f"  OR DTI decrease needed: {np.abs(dti_change_needed):.2f}% (to {new_applicant[1] + dti_change_needed:.2f}%, holding income constant)")
+
+# Explanation of probabilistic interpretation
+print("\nProbabilistic interpretation:")
+# Calculate posterior probabilities
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+# Linear discriminant function value
+discriminant_value = proj_new - threshold_with_priors
+
+# Convert to probability using a sigmoid approximation
+# This is a simplification - actual posteriors would use Bayes rule with the Gaussians
+approval_probability = sigmoid(discriminant_value)
+print(f"Discriminant value: {discriminant_value:.4f}")
+print(f"Approximate approval probability: {approval_probability:.4f} or {approval_probability*100:.1f}%")
+print(f"Approximate denial probability: {1-approval_probability:.4f} or {(1-approval_probability)*100:.1f}%")
+print("This is a rough approximation. Actual LDA posterior probabilities would use the full Gaussian model.")
+
 # Summary of Results
 print("\nSummary of Results:")
 print("=" * 40)
