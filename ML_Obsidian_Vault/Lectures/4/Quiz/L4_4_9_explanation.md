@@ -32,7 +32,7 @@ When these assumptions are met, LDA provides the optimal decision boundary in th
 As shown in the figure above, both classes have the same shape and orientation, differing only in their means. This illustrates the equal covariance assumption of LDA.
 
 ### Step 2: Calculate the LDA projection direction
-For the problem with means $\boldsymbol{\mu}_1 = [1, 2]^T$ and $\boldsymbol{\mu}_2 = [3, 0]^T$ and shared covariance matrix $\boldsymbol{\Sigma} = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$, we need to find the LDA projection direction $\mathbf{w}$.
+For the problem with means $\boldsymbol{\mu}_1 = [2, 3]^T$ and $\boldsymbol{\mu}_2 = [4, 1]^T$ and shared covariance matrix $\boldsymbol{\Sigma} = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$, we need to find the LDA projection direction $\mathbf{w}$.
 
 The formula for the LDA projection direction is:
 $$\mathbf{w} = \boldsymbol{\Sigma}^{-1}(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)$$
@@ -53,7 +53,7 @@ Let's calculate this step-by-step:
    Therefore, $\boldsymbol{\Sigma}^{-1} = \begin{bmatrix} 0.5 & 0 \\ 0 & 1 \end{bmatrix}$
 
 2. Calculate the difference between class means:
-   $$\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2 = \begin{bmatrix} 1 \\ 2 \end{bmatrix} - \begin{bmatrix} 3 \\ 0 \end{bmatrix} = \begin{bmatrix} -2 \\ 2 \end{bmatrix}$$
+   $$\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2 = \begin{bmatrix} 2 \\ 3 \end{bmatrix} - \begin{bmatrix} 4 \\ 1 \end{bmatrix} = \begin{bmatrix} -2 \\ 2 \end{bmatrix}$$
 
 3. Calculate the projection vector:
    $$\mathbf{w} = \boldsymbol{\Sigma}^{-1}(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2) = \begin{bmatrix} 0.5 & 0 \\ 0 & 1 \end{bmatrix} \begin{bmatrix} -2 \\ 2 \end{bmatrix}$$
@@ -69,40 +69,59 @@ The figure above illustrates the LDA projection direction $\mathbf{w}$ and the r
 For LDA with equal prior probabilities, the threshold is the midpoint of the projected class means.
 
 1. Project the class means onto the direction $\mathbf{w}$:
-   $$\mathbf{w}^T\boldsymbol{\mu}_1 = [-1, 2] \cdot [1, 2]^T = (-1) \times 1 + 2 \times 2 = -1 + 4 = 3$$
-   $$\mathbf{w}^T\boldsymbol{\mu}_2 = [-1, 2] \cdot [3, 0]^T = (-1) \times 3 + 2 \times 0 = -3 + 0 = -3$$
+   $$\mathbf{w}^T\boldsymbol{\mu}_1 = [-1, 2] \cdot [2, 3]^T = (-1) \times 2 + 2 \times 3 = -2 + 6 = 4$$
+   $$\mathbf{w}^T\boldsymbol{\mu}_2 = [-1, 2] \cdot [4, 1]^T = (-1) \times 4 + 2 \times 1 = -4 + 2 = -2$$
 
 2. Calculate the threshold as the midpoint:
-   $$\text{threshold} = \frac{\mathbf{w}^T\boldsymbol{\mu}_1 + \mathbf{w}^T\boldsymbol{\mu}_2}{2} = \frac{3 + (-3)}{2} = 0$$
+   $$\text{threshold} = \frac{\mathbf{w}^T\boldsymbol{\mu}_1 + \mathbf{w}^T\boldsymbol{\mu}_2}{2} = \frac{4 + (-2)}{2} = 1$$
 
 3. The decision rule becomes:
-   - If $\mathbf{w}^T \mathbf{x} > 0$, classify as Class 1
-   - If $\mathbf{w}^T \mathbf{x} < 0$, classify as Class 2
+   - If $\mathbf{w}^T \mathbf{x} > 1$, classify as Class 1
+   - If $\mathbf{w}^T \mathbf{x} < 1$, classify as Class 2
    
-The point where the posterior probabilities are equal ($P(C_1|\mathbf{x}) = P(C_2|\mathbf{x}) = 0.5$) is precisely at this decision boundary, where $\mathbf{w}^T \mathbf{x} = 0$.
+The point where the posterior probabilities are equal ($P(C_1|\mathbf{x}) = P(C_2|\mathbf{x}) = 0.5$) is precisely at this decision boundary, where $\mathbf{w}^T \mathbf{x} = 1$.
 
 Expanding the decision boundary equation:
-$$\mathbf{w}^T \mathbf{x} = 0$$
-$$[-1, 2] \cdot [x_1, x_2]^T = 0$$
-$$-x_1 + 2x_2 = 0$$
-$$x_1 = 2x_2$$
+$$\mathbf{w}^T \mathbf{x} = 1$$
+$$[-1, 2] \cdot [x_1, x_2]^T = 1$$
+$$-x_1 + 2x_2 = 1$$
+$$x_1 = 2x_2 - 1$$
 
-This is the equation of the decision boundary in the original feature space.
+This is the equation of the decision boundary in the original feature space, which represents the line where $P(C_1|\mathbf{x}) = P(C_2|\mathbf{x}) = 0.5$.
 
-### Step 4: Classify new data points
-Let's classify two new points using our LDA model:
+### Step 4: Special case - LDA with identity covariance matrix
+For task 3, we need to derive the decision boundary equation when $\Sigma = I$ (identity matrix).
 
-**Point 1**: $\mathbf{x}_1 = [2, 1]^T$
-- Projection onto $\mathbf{w}$: $\mathbf{w}^T \mathbf{x}_1 = [-1, 2] \cdot [2, 1]^T = (-1) \times 2 + 2 \times 1 = -2 + 2 = 0$
-- Since $\mathbf{w}^T \mathbf{x}_1 = 0$ (exactly at the threshold), we classify this as Class 2 (by convention)
+When $\Sigma = I$, the projection vector simplifies to:
+$$\mathbf{w} = \Sigma^{-1}(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2) = I \cdot (\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2) = \boldsymbol{\mu}_1 - \boldsymbol{\mu}_2$$
 
-**Point 2**: $\mathbf{x}_2 = [0, 3]^T$
-- Projection onto $\mathbf{w}$: $\mathbf{w}^T \mathbf{x}_2 = [-1, 2] \cdot [0, 3]^T = (-1) \times 0 + 2 \times 3 = 0 + 6 = 6$
-- Since $\mathbf{w}^T \mathbf{x}_2 > 0$, we classify this as Class 1
+Using the means from our problem:
+$$\mathbf{w} = \begin{bmatrix} 2 \\ 3 \end{bmatrix} - \begin{bmatrix} 4 \\ 1 \end{bmatrix} = \begin{bmatrix} -2 \\ 2 \end{bmatrix}$$
 
-![LDA Classification](../Images/L4_4_Quiz_9/lda_classification.png)
+The threshold calculation remains the same:
+$$\mathbf{w}^T\boldsymbol{\mu}_1 = [-2, 2] \cdot [2, 3]^T = (-2) \times 2 + 2 \times 3 = -4 + 6 = 2$$
+$$\mathbf{w}^T\boldsymbol{\mu}_2 = [-2, 2] \cdot [4, 1]^T = (-2) \times 4 + 2 \times 1 = -8 + 2 = -6$$
 
-The figure above shows the classification of the two points. Notice that $\mathbf{x}_1$ lies exactly on the decision boundary, while $\mathbf{x}_2$ is clearly in the Class 1 region.
+$$\text{threshold} = \frac{\mathbf{w}^T\boldsymbol{\mu}_1 + \mathbf{w}^T\boldsymbol{\mu}_2}{2} = \frac{2 + (-6)}{2} = -2$$
+
+The decision boundary equation becomes:
+$$\mathbf{w}^T \mathbf{x} = \text{threshold}$$
+$$[-2, 2] \cdot [x_1, x_2]^T = -2$$
+$$-2x_1 + 2x_2 = -2$$
+$$-x_1 + x_2 = -1$$
+$$x_1 = x_2 + 1$$
+
+In the general case with identity covariance matrix, for any two class means $\boldsymbol{\mu}_1$ and $\boldsymbol{\mu}_2$, the decision boundary equation is:
+$$(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)^T \mathbf{x} = \frac{(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)^T(\boldsymbol{\mu}_1 + \boldsymbol{\mu}_2)}{2}$$
+
+This simplifies to:
+$$(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)^T \mathbf{x} = \frac{1}{2}(||\boldsymbol{\mu}_1||^2 - ||\boldsymbol{\mu}_2||^2)$$
+
+$$(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)^T \mathbf{x} = \frac{1}{2}(||\boldsymbol{\mu}_1||^2 - ||\boldsymbol{\mu}_2||^2)$$
+
+![LDA with Identity Covariance](../Images/L4_4_Quiz_9/lda_identity_covariance.png)
+
+As shown in the figure above, when $\Sigma = I$, the decision boundary is perpendicular to the line connecting the class means and passes through the midpoint of that line only if the classes have equal variances in all directions.
 
 ### Step 5: Visualize posterior probabilities
 The LDA model allows us to calculate posterior probabilities for each class. These probabilities can be visualized as a continuous field over the feature space.
@@ -111,13 +130,14 @@ The LDA model allows us to calculate posterior probabilities for each class. The
 
 The figure above shows the posterior probability of Class 1 throughout the feature space. The decision boundary corresponds to the 0.5 contour where $P(C_1|\mathbf{x}) = P(C_2|\mathbf{x}) = 0.5$.
 
-We can also visualize these posterior probabilities in 3D, which gives a better understanding of how the probability changes across the feature space:
+### Step 6: Feature importance in LDA
+A new visualization we've added shows the relative importance of each feature in the LDA decision boundary, based on the magnitude of the weights in $\mathbf{w}$:
 
-![LDA Posterior Probabilities in 3D](../Images/L4_4_Quiz_9/lda_posterior_3d.png)
+![LDA Feature Importance](../Images/L4_4_Quiz_9/lda_feature_importance.png)
 
-In this 3D visualization, the height represents the posterior probability of Class 1, and the decision boundary is where the surface crosses the 0.5 level.
+This visualization helps us understand which features contribute most significantly to the classification decision. In our case, $x_2$ has a larger weight magnitude, indicating it has a more substantial influence on the decision boundary.
 
-### Step 6: Compare LDA with Perceptron
+### Step 7: Compare LDA with Perceptron
 Let's visualize the difference between LDA and Perceptron decision boundaries:
 
 ![LDA vs Perceptron](../Images/L4_4_Quiz_9/lda_vs_perceptron.png)
@@ -160,14 +180,16 @@ LDA differs from the Perceptron in several important ways:
 - LDA naturally handles multi-class problems
 
 ## Conclusion
+
 1. Two key assumptions of LDA are:
    - Classes follow multivariate Gaussian distributions
    - Classes share the same covariance matrix (homoscedasticity)
 
-2. For the given means $\boldsymbol{\mu}_1 = [1, 2]^T$ and $\boldsymbol{\mu}_2 = [3, 0]^T$ with shared covariance matrix $\boldsymbol{\Sigma} = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$, the decision boundary (where posterior probabilities equal 0.5) is given by the equation $-x_1 + 2x_2 = 0$ or equivalently $x_1 = 2x_2$.
+2. For the given means $\boldsymbol{\mu}_1 = [2, 3]^T$ and $\boldsymbol{\mu}_2 = [4, 1]^T$ with shared covariance matrix $\boldsymbol{\Sigma} = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$, the posterior probabilities are equal ($P(C_1|\mathbf{x}) = P(C_2|\mathbf{x}) = 0.5$) at the decision boundary given by the equation $-x_1 + 2x_2 = 1$ or equivalently $x_1 = 2x_2 - 1$.
 
-3. Classification results:
-   - Point $\mathbf{x}_1 = [2, 1]^T$ is classified as Class 2 (lies exactly on the boundary)
-   - Point $\mathbf{x}_2 = [0, 3]^T$ is classified as Class 1 (has a positive projection onto $\mathbf{w}$)
+3. For a two-class LDA with shared covariance matrix $\Sigma = I$ (identity matrix), the decision boundary equation in terms of the class means $\mu_1$ and $\mu_2$ is:
+   $$(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)^T \mathbf{x} = \frac{1}{2}(||\boldsymbol{\mu}_1||^2 - ||\boldsymbol{\mu}_2||^2)$$
+   
+   This is a hyperplane perpendicular to the line connecting the class means.
 
 4. LDA differs from the Perceptron in that it takes a statistical approach to find the optimal decision boundary based on class distributions and covariance structure, while the Perceptron simply seeks any hyperplane that separates the classes without considering the underlying distributions. 

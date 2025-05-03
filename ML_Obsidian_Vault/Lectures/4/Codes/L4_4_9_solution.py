@@ -99,20 +99,20 @@ plt.text(0.02, 0.98, "Both classes have the same shape and orientation\n(equal c
 # Save the plot
 plt.savefig(os.path.join(save_dir, "lda_assumptions_equal_covariance.png"), dpi=300, bbox_inches='tight')
 
-# Step 3: Calculate the LDA projection vector w - More detailed step-by-step calculation
+# Step 3: Calculate the LDA projection vector w - Detailed step-by-step calculation
 print("\nStep 3: Calculating the LDA projection vector")
 print("-----------------------------------------")
 
-# Given data
-mu1 = np.array([1, 2])  # Class 1 mean
-mu2 = np.array([3, 0])  # Class 2 mean
+# Use the means from the problem statement
+mu1 = np.array([2, 3])  # Class 1 mean from problem statement
+mu2 = np.array([4, 1])  # Class 2 mean from problem statement
 Sigma = np.array([[2, 0], [0, 1]])  # Shared covariance matrix
 
-print("STEP-BY-STEP CALCULATION OF LDA PROJECTION VECTOR:")
+print("DETAILED STEP-BY-STEP CALCULATION OF LDA PROJECTION VECTOR:")
 print("--------------------------------------------------")
 print(f"Given information:")
-print(f"  Class 1 mean (μ₁): {mu1}")
-print(f"  Class 2 mean (μ₂): {mu2}")
+print(f"  Class 1 mean (μ₁): {mu1} (from problem statement)")
+print(f"  Class 2 mean (μ₂): {mu2} (from problem statement)")
 print(f"  Shared covariance matrix (Σ):\n{Sigma}")
 
 # Step 3.1: Calculate the inverse of the covariance matrix
