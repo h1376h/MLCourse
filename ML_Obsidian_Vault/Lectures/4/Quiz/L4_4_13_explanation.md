@@ -9,18 +9,35 @@ Consider a dataset with two features $(x_1, x_2)$ and binary labels $y \in \{-1,
 3. If you normalize the weight vector to unit length, what would the new decision boundary equation be?
 4. Sketch the decision boundary in a 2D coordinate system and indicate the positive and negative regions
 
-## Understanding
-In linear classification, a decision boundary is a hyperplane that separates the feature space into regions corresponding to different classes. The distance from any point to this hyperplane has a geometric interpretation related to the model's confidence in its prediction.
+## Understanding the Problem
+In linear classification, a decision boundary is a hyperplane that separates the feature space into regions corresponding to different classes. For a binary classification problem with a linear decision boundary in 2D, we can represent this as:
+
+$\mathbf{w}^T\mathbf{x} + b = 0$
+
+where:
+- $\mathbf{w} = [w_1, w_2]^T$ is the weight vector (perpendicular to the boundary)
+- $\mathbf{x} = [x_1, x_2]^T$ is the feature vector
+- $b$ is the bias term
+
+The decision rule is:
+- If $\mathbf{w}^T\mathbf{x} + b > 0$, classify as positive class $(+1)$
+- If $\mathbf{w}^T\mathbf{x} + b < 0$, classify as negative class $(-1)$
+
+The distance from any point to this hyperplane has a geometric interpretation related to the model's confidence in its prediction. Points further from the boundary are classified with higher confidence.
 
 ## Solution
 
-### Task 1: Distance from point $(2, 3)$ to the decision boundary
+### Task 1: Calculate the distance from point $(2, 3)$ to the decision boundary
 
 To calculate the distance from a point $\mathbf{p}$ to the decision boundary $\mathbf{w}^T\mathbf{x} + b = 0$, we use the formula:
 
 $$d = \frac{|\mathbf{w}^T\mathbf{p} + b|}{\|\mathbf{w}\|}$$
 
-**Step 1**: Calculate the decision function value at the point $(2, 3)$:
+**Step 1**: First, identify the parameters of our boundary equation $2x_1 - 3x_2 + 1 = 0$:
+- Weight vector: $\mathbf{w} = [2, -3]^T$
+- Bias term: $b = 1$
+
+**Step 2**: Calculate the decision function value at the point $(2, 3)$:
 $$\begin{align}
 f(\mathbf{p}) &= \mathbf{w}^T\mathbf{p} + b \\
 &= 2 \times 2 + (-3) \times 3 + 1 \\
@@ -28,7 +45,7 @@ f(\mathbf{p}) &= \mathbf{w}^T\mathbf{p} + b \\
 &= -4
 \end{align}$$
 
-**Step 2**: Calculate the norm of the weight vector:
+**Step 3**: Calculate the norm of the weight vector:
 $$\begin{align}
 \|\mathbf{w}\|^2 &= w_1^2 + w_2^2 \\
 &= 2^2 + (-3)^2 \\
@@ -38,7 +55,7 @@ $$\begin{align}
 
 $$\|\mathbf{w}\| = \sqrt{13} \approx 3.6056$$
 
-**Step 3**: Calculate the distance using the formula:
+**Step 4**: Calculate the distance using the formula:
 $$\begin{align}
 d &= \frac{|f(\mathbf{p})|}{\|\mathbf{w}\|} \\
 &= \frac{|-4|}{3.6056} \\
@@ -46,7 +63,7 @@ d &= \frac{|f(\mathbf{p})|}{\|\mathbf{w}\|} \\
 &\approx 1.1094
 \end{align}$$
 
-**Step 4**: Verify the result by finding the closest point on the boundary:
+**Step 5**: Verify the result by finding the closest point on the boundary:
 The closest point on the boundary is found by projecting from the given point in the direction of $\mathbf{w}$:
 
 $$\text{Projection factor} = \frac{\mathbf{w}^T\mathbf{p} + b}{\|\mathbf{w}\|^2} = \frac{-4}{13} \approx -0.3077$$
@@ -155,27 +172,47 @@ This is a line with slope $\frac{2}{3} \approx 0.6667$ and y-intercept $\frac{1}
 - For points above the line (larger $x_2$ values), the decision function is negative, corresponding to class $-1$.
 - For points below the line (smaller $x_2$ values), the decision function is positive, corresponding to class $+1$.
 
-The decision boundary and these regions are visualized in the image:
+## Visual Explanations
+
+### Decision Boundary and Regions
 ![Decision Boundary Visualization](../Images/L4_4_Quiz_13/decision_boundary.png)
 
-The 3D visualization of the decision function:
+This visualization shows the decision boundary (black line) dividing the feature space into positive (blue) and negative (red) regions. The weight vector $\mathbf{w}$ (green arrow) is perpendicular to the decision boundary, pointing toward the positive region. The distance from point $(2, 3)$ to the boundary is shown with a dashed line.
+
+### 3D Decision Function Surface
 ![3D Decision Function](../Images/L4_4_Quiz_13/decision_function_3d.png)
 
-Additionally, we can visualize multiple points and their distances to the decision boundary:
+This 3D visualization represents the decision function $f(x_1, x_2) = 2x_1 - 3x_2 + 1$ as a plane. The decision boundary corresponds to where this plane intersects the $z=0$ plane (gray). Points above the $z=0$ plane are classified as positive, while points below are classified as negative.
+
+### Distance Visualization for Multiple Points
 ![Distance Visualization for Multiple Points](../Images/L4_4_Quiz_13/distance_visualization.png)
 
-In this visualization, the contour lines represent equal distances to the decision boundary. The dashed lines show the perpendicular projection from each point to the decision boundary, with the distance value labeled along each line. Red points belong to the negative class, while blue points belong to the positive class.
+This visualization illustrates how distances are calculated for multiple points in the feature space. The contour lines represent points equidistant from the decision boundary. The dashed lines show the perpendicular projections from each point to the decision boundary, with distance values labeled. Red points belong to the negative class, while blue points belong to the positive class.
 
 ## Key Insights
 
-1. **Geometric Interpretation**: The distance from a point to the decision boundary relates to the model's confidence in its prediction. Points further from the boundary have higher confidence scores.
+### Geometric Interpretation
+- The decision boundary is a hyperplane (a line in 2D) perpendicular to the weight vector $\mathbf{w}$.
+- The weight vector $\mathbf{w}$ points in the direction of the positive class.
+- The distance from a point to the decision boundary relates to the model's confidence in its prediction.
+- Points further from the boundary have higher confidence scores.
 
-2. **Distance Calculation**: The formula $d = \frac{|\mathbf{w}^T\mathbf{x} + b|}{\|\mathbf{w}\|}$ gives the perpendicular distance from a point to the decision boundary.
+### Mathematical Properties
+- The formula $d = \frac{|\mathbf{w}^T\mathbf{x} + b|}{\|\mathbf{w}\|}$ gives the perpendicular distance from a point to the decision boundary.
+- The sign of the decision function $f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} + b$ determines the predicted class.
+- Normalizing the weight vector to unit length simplifies distance calculations without changing the decision boundary's location.
+- Points equidistant from the decision boundary form parallel lines (in 2D) or hyperplanes (in higher dimensions).
 
-3. **Normalization Effects**: Normalizing the weight vector to unit length simplifies distance calculations without changing the decision boundary's location.
+### Practical Applications
+- Distance to the boundary can be used as a confidence measure in classification.
+- Normalizing the weight vector simplifies the interpretation of coefficients and distances.
+- Decision boundaries visually represent how a linear classifier partitions the feature space.
+- Contour lines of equal distance show how the classifier's confidence changes throughout the feature space.
 
-4. **Visualization**: The decision boundary is a straight line in 2D, dividing the feature space into positive and negative regions. The 3D visualization shows the decision function as a plane intersecting the $z=0$ plane along the decision boundary.
+## Conclusion
+- The distance from point $(2, 3)$ to the decision boundary is approximately $1.1094$ units.
+- The point $(0, 1)$ is classified as class $-1$ and is $0.5547$ units from the decision boundary.
+- When normalized, the decision boundary equation becomes $0.5547x_1 - 0.8321x_2 + 0.2774 = 0$.
+- The decision boundary is a line with slope $\frac{2}{3}$ and y-intercept $\frac{1}{3}$, dividing the feature space into positive (below) and negative (above) regions.
 
-5. **Classification Rule**: The sign of the decision function $f(\mathbf{x}) = \mathbf{w}^T\mathbf{x} + b$ determines the predicted class, with the magnitude indicating confidence in the prediction. 
-
-6. **Distance Contours**: Points equidistant from the decision boundary form parallel lines (in 2D) or hyperplanes (in higher dimensions). These contours represent regions with equal confidence in the model's predictions. 
+This analysis demonstrates how geometric concepts like distance and direction play crucial roles in understanding linear classifiers, providing both mathematical rigor and intuitive visual interpretations. 
