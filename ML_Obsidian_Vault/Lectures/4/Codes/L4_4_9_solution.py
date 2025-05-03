@@ -392,13 +392,13 @@ plt.tight_layout()
 # Save the figure
 plt.savefig(os.path.join(save_dir, "lda_classification.png"), dpi=300, bbox_inches='tight')
 
-# Step 8: Visualize posterior probabilities with improved aesthetics
-print("\nStep 8: Visualizing posterior probabilities")
+# Step 7.5: Visualize posterior probabilities
+print("\nStep 7.5: Visualizing posterior probabilities")
 print("----------------------------------------")
 
 # Define a grid of points for visualization
-x1_range = np.linspace(-2, 6, 100)
-x2_range = np.linspace(-2, 5, 100)
+x1_range = np.linspace(-1, 7, 100)
+x2_range = np.linspace(-1, 5, 100)
 X1_grid, X2_grid = np.meshgrid(x1_range, x2_range)
 grid_points = np.vstack([X1_grid.ravel(), X2_grid.ravel()]).T
 
@@ -416,107 +416,203 @@ def lda_posterior(x, mu1, mu2, Sigma, prior1=0.5, prior2=0.5):
 posteriors = np.array([lda_posterior(x, mu1, mu2, Sigma) for x in grid_points])
 posterior_grid = posteriors.reshape(X1_grid.shape)
 
-# Create a more elegant visualization of the posterior probabilities
-plt.figure(figsize=(10, 8))
+# Create visualization of the posterior probabilities
+plt.figure(figsize=(9, 7))
 
 # Use a better colormap for the posterior probability
 cmap = plt.cm.RdBu_r
-contour = plt.contourf(X1_grid, X2_grid, posterior_grid, levels=20, cmap=cmap, alpha=0.8)
+contour = plt.contourf(X1_grid, X2_grid, posterior_grid, levels=np.linspace(0, 1, 21), 
+                       cmap=cmap, alpha=0.8)
 cbar = plt.colorbar(contour, label='P(Class 1 | x)')
-cbar.ax.tick_params(labelsize=10)
 
 # Add contour line for decision boundary (P(Class 1 | x) = 0.5)
 decision_contour = plt.contour(X1_grid, X2_grid, posterior_grid, levels=[0.5], 
                               colors='k', linewidths=2, linestyles='--')
-plt.clabel(decision_contour, inline=True, fontsize=10)
+plt.clabel(decision_contour, inline=True, fontsize=10, fmt='P = 0.5')
 
 # Plot the class means
-plt.scatter(mu1[0], mu1[1], c='#3498db', s=150, marker='X', edgecolor='k', 
+plt.scatter(mu1[0], mu1[1], c='white', s=150, marker='X', edgecolor='k', 
             linewidth=2, label='Class 1 Mean')
-plt.scatter(mu2[0], mu2[1], c='#e74c3c', s=150, marker='X', edgecolor='k', 
+plt.scatter(mu2[0], mu2[1], c='white', s=150, marker='X', edgecolor='k', 
             linewidth=2, label='Class 2 Mean')
 
-# Plot the new points to classify
-plt.scatter(x1[0], x1[1], c=point_colors[class_x1], s=120, marker='o', 
-            edgecolor='k', linewidth=1.5, label=f'New Point x₁ (Class {class_x1})')
-plt.scatter(x2[0], x2[1], c=point_colors[class_x2], s=120, marker='s', 
-            edgecolor='k', linewidth=1.5, label=f'New Point x₂ (Class {class_x2})')
+# Annotate the class means
+plt.annotate('$\\mu_1$', xy=(mu1[0], mu1[1]), xytext=(mu1[0]+0.2, mu1[1]+0.2), 
+             fontsize=14, color='k')
+plt.annotate('$\\mu_2$', xy=(mu2[0], mu2[1]), xytext=(mu2[0]+0.2, mu2[1]+0.2), 
+             fontsize=14, color='k')
 
-# Add annotations to explain the colors
-plt.text(0.02, 0.98, 
-        "Darker blue: Higher probability of Class 1\nDarker red: Higher probability of Class 2", 
+# Add annotations for the decision boundary
+plt.text(0.02, 0.95, 
+        "Decision Boundary: P(Class 1 | x) = 0.5\n"
+        f"Equation: {w[0]:.2f}x₁ + {w[1]:.2f}x₂ = {threshold:.2f}", 
         transform=plt.gca().transAxes, fontsize=12, va='top',
         bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5'))
 
 plt.xlabel('$x_1$', fontsize=14)
 plt.ylabel('$x_2$', fontsize=14)
-plt.title('LDA Posterior Probability P(Class 1 | x)', fontsize=16, pad=20)
+plt.title('LDA Posterior Probability P(Class 1 | x)', fontsize=16)
 plt.grid(True, alpha=0.3, linestyle='--')
-plt.legend(fontsize=10)
 plt.tight_layout()
 
 # Save the figure
 plt.savefig(os.path.join(save_dir, "lda_posterior.png"), dpi=300, bbox_inches='tight')
 
-# Step 9: Add a new visualization - 3D view of the posterior probabilities
-print("\nStep 9: Creating a 3D visualization of posterior probabilities")
-print("-------------------------------------------------------")
+# Step 8: Special case - LDA with identity covariance matrix
+print("\nStep 8: Special case - LDA with Σ = I (Identity Matrix)")
+print("----------------------------------------------------")
 
-fig = plt.figure(figsize=(12, 10))
-ax = fig.add_subplot(111, projection='3d')
+# Use the identity matrix for covariance
+I_matrix = np.eye(2)  # 2x2 identity matrix
+print(f"For the special case where Σ = I (identity matrix):")
+print(f"  Σ = {I_matrix}")
 
-# Create a 3D surface for the posterior probabilities
-surf = ax.plot_surface(X1_grid, X2_grid, posterior_grid, cmap=cmap, alpha=0.8,
-                      linewidth=0, antialiased=True)
+# Calculate w for the identity covariance case
+w_identity = np.dot(I_matrix, mu1 - mu2)
+print(f"\nStep 8.1: Calculate w = Σ⁻¹(μ₁ - μ₂) = I(μ₁ - μ₂) = μ₁ - μ₂")
+print(f"  w = {mu1} - {mu2} = {w_identity}")
 
-# Add a color bar
-cbar = fig.colorbar(surf, ax=ax, shrink=0.7, aspect=10, label='P(Class 1 | x)')
-cbar.ax.tick_params(labelsize=10)
+# Calculate threshold for identity case
+proj_mu1_identity = np.dot(w_identity, mu1)
+proj_mu2_identity = np.dot(w_identity, mu2)
+threshold_identity = (proj_mu1_identity + proj_mu2_identity) / 2
 
-# Add the decision boundary at P(Class 1 | x) = 0.5
-ax.contour(X1_grid, X2_grid, posterior_grid, levels=[0.5], colors='k', 
-          linewidths=3, linestyles='dashed', offset=0)
+print(f"\nStep 8.2: Calculate the threshold:")
+print(f"  w·μ₁ = {w_identity} · {mu1} = {proj_mu1_identity:.4f}")
+print(f"  w·μ₂ = {w_identity} · {mu2} = {proj_mu2_identity:.4f}")
+print(f"  threshold = (w·μ₁ + w·μ₂)/2 = ({proj_mu1_identity:.4f} + {proj_mu2_identity:.4f})/2 = {threshold_identity:.4f}")
 
-# Add points for the class means
-ax.scatter(mu1[0], mu1[1], 1.0, c='#3498db', s=100, marker='X', edgecolor='k', 
-          linewidth=2, label='Class 1 Mean')
-ax.scatter(mu2[0], mu2[1], 0.0, c='#e74c3c', s=100, marker='X', edgecolor='k', 
-          linewidth=2, label='Class 2 Mean')
+print(f"\nStep 8.3: Express the decision boundary equation:")
+print(f"  At the decision boundary, w·x = threshold")
+print(f"  {w_identity[0]}x₁ + {w_identity[1]}x₂ = {threshold_identity:.4f}")
 
-# Add the new points
-ax.scatter(x1[0], x1[1], lda_posterior(x1, mu1, mu2, Sigma), 
-         c=point_colors[class_x1], s=100, marker='o', edgecolor='k', 
-         linewidth=1.5, label=f'New Point x₁')
-ax.scatter(x2[0], x2[1], lda_posterior(x2, mu1, mu2, Sigma), 
-         c=point_colors[class_x2], s=100, marker='s', edgecolor='k', 
-         linewidth=1.5, label=f'New Point x₂')
+# Find the most convenient form
+if w_identity[0] != 0:
+    boundary_slope = -w_identity[1]/w_identity[0]
+    boundary_intercept = threshold_identity/w_identity[0]
+    print(f"  Solving for x₁: x₁ = {boundary_slope:.4f}x₂ + {boundary_intercept:.4f}")
+else:
+    boundary_constant = threshold_identity/w_identity[1]
+    print(f"  Solving for x₂: x₂ = {boundary_constant:.4f}")
 
-# Add lines from points to the surface
-for point, marker in zip([x1, x2], ['o', 's']):
-    post = lda_posterior(point, mu1, mu2, Sigma)
-    ax.plot([point[0], point[0]], [point[1], point[1]], [0, post], 'k--', alpha=0.5)
+# Compute the general form in terms of means
+mu1_squared_norm = np.dot(mu1, mu1)
+mu2_squared_norm = np.dot(mu2, mu2)
+boundary_constant_general = 0.5 * (mu1_squared_norm - mu2_squared_norm)
+print(f"\nStep 8.4: General formula for the decision boundary with Σ = I:")
+print(f"  (μ₁ - μ₂)ᵀx = 0.5(||μ₁||² - ||μ₂||²)")
+print(f"  (μ₁ - μ₂)ᵀx = 0.5({mu1_squared_norm:.4f} - {mu2_squared_norm:.4f}) = {boundary_constant_general:.4f}")
+print(f"  {w_identity[0]}x₁ + {w_identity[1]}x₂ = {boundary_constant_general:.4f}")
 
-# Add axis labels
-ax.set_xlabel('$x_1$', fontsize=14)
-ax.set_ylabel('$x_2$', fontsize=14)
-ax.set_zlabel('P(Class 1 | x)', fontsize=14)
-ax.set_title('3D Visualization of LDA Posterior Probability', fontsize=16, pad=20)
+# Visualize LDA with identity covariance
+plt.figure(figsize=(9, 7))
 
-# Set viewing angle
-ax.view_init(elev=30, azim=140)
+# Generate data with identity covariance
+n_points = 80
+X1_identity = np.random.multivariate_normal(mu1, I_matrix, n_points)
+X2_identity = np.random.multivariate_normal(mu2, I_matrix, n_points)
 
-# Add a legend
-ax.legend(fontsize=10)
+# Plot the data points
+plt.scatter(X1_identity[:, 0], X1_identity[:, 1], c=colors[1], alpha=0.4, 
+            edgecolors='none', label='Class 1')
+plt.scatter(X2_identity[:, 0], X2_identity[:, 1], c=colors[2], alpha=0.4, 
+            edgecolors='none', label='Class 2')
 
-# Improve tick label formatting
-ax.tick_params(axis='x', labelsize=10)
-ax.tick_params(axis='y', labelsize=10)
-ax.tick_params(axis='z', labelsize=10)
+# Plot class means
+plt.scatter(mu1[0], mu1[1], c=colors[1], s=150, marker='X', edgecolor='k', 
+            linewidth=2, label='Class 1 Mean')
+plt.scatter(mu2[0], mu2[1], c=colors[2], s=150, marker='X', edgecolor='k', 
+            linewidth=2, label='Class 2 Mean')
 
-plt.tight_layout()
+# Add equal-probability contours (circles for identity covariance)
+ax = plt.gca()
+ax.add_patch(plot_ellipse(mu1, I_matrix, colors[1], alpha=0.15))
+ax.add_patch(plot_ellipse(mu2, I_matrix, colors[2], alpha=0.15))
+
+# Calculate the midpoint between the class means
+midpoint_identity = (mu1 + mu2) / 2
+
+# Draw projection vector (w = μ₁ - μ₂ for identity case)
+scale = 0.5  # Scale for vector visualization
+plt.arrow(midpoint_identity[0], midpoint_identity[1], 
+          scale * w_identity[0], scale * w_identity[1], 
+          head_width=0.2, head_length=0.3, fc='#2ecc71', ec='#2ecc71', 
+          width=0.05, length_includes_head=True, zorder=10)
+
+# Draw decision boundary (perpendicular to w, passing through midpoint)
+perp_w_identity = np.array([-w_identity[1], w_identity[0]])
+perp_w_identity = perp_w_identity / np.linalg.norm(perp_w_identity)
+
+boundary_x_identity = np.array([midpoint_identity[0] - 5 * perp_w_identity[0], 
+                               midpoint_identity[0] + 5 * perp_w_identity[0]])
+boundary_y_identity = np.array([midpoint_identity[1] - 5 * perp_w_identity[1], 
+                               midpoint_identity[1] + 5 * perp_w_identity[1]])
+plt.plot(boundary_x_identity, boundary_y_identity, 'k--', linewidth=2, 
+         label='Decision Boundary')
+
+# Annotate the decision boundary equation
+plt.text(0.02, 0.95, 
+        f"When Σ = I (identity matrix):\n"
+        f"w = μ₁ - μ₂ = [{w_identity[0]}, {w_identity[1]}]ᵀ\n"
+        f"Decision boundary: {w_identity[0]:.2f}x₁ + {w_identity[1]:.2f}x₂ = {boundary_constant_general:.2f}", 
+        transform=plt.gca().transAxes, fontsize=12, va='top',
+        bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5'))
+
+# Add key insight: w direction is orthogonal to decision boundary
+plt.arrow(midpoint_identity[0], midpoint_identity[1], 
+          3 * perp_w_identity[0], 3 * perp_w_identity[1], 
+          head_width=0.2, head_length=0.3, fc='gray', ec='gray', 
+          width=0.05, alpha=0.5, length_includes_head=True, zorder=9)
+plt.annotate('Boundary\ndirection', 
+             xy=(midpoint_identity[0] + 1.5 * perp_w_identity[0], 
+                 midpoint_identity[1] + 1.5 * perp_w_identity[1]),
+             xytext=(midpoint_identity[0] + 2 * perp_w_identity[0], 
+                    midpoint_identity[1] + 2 * perp_w_identity[1]),
+             fontsize=10, color='gray')
+
+plt.xlabel('$x_1$', fontsize=14)
+plt.ylabel('$x_2$', fontsize=14)
+plt.title('LDA with Identity Covariance: w = μ₁ - μ₂', fontsize=16)
+plt.grid(True, alpha=0.3, linestyle='--')
+plt.legend(loc='upper right')
 
 # Save the figure
-plt.savefig(os.path.join(save_dir, "lda_posterior_3d.png"), dpi=300, bbox_inches='tight')
+plt.savefig(os.path.join(save_dir, "lda_identity_covariance.png"), dpi=300, bbox_inches='tight')
+
+# Step 9: New Visualization - Feature Importance in LDA
+print("\nStep 9: NEW - Visualizing Feature Importance in LDA")
+print("------------------------------------------------")
+
+plt.figure(figsize=(9, 7))
+
+# Calculate explained variance for each feature
+# This is based on how much each feature contributes to w relative to its variability
+w_abs = np.abs(w)  # Take absolute values
+feature_importance = w_abs / np.sum(w_abs)  # Normalize to get relative importance
+
+# Create a bar chart of feature importance
+features = ['$x_1$', '$x_2$']
+plt.bar(features, feature_importance, color=['#3498db', '#2ecc71'])
+plt.ylabel('Relative Importance', fontsize=14)
+plt.title('Feature Importance in LDA Decision Boundary', fontsize=16)
+
+# Add annotation explaining the interpretation
+plt.text(0.02, 0.95, 
+        "Feature importance in LDA is proportional to\n"
+        "the magnitude of weights in w = Σ⁻¹(μ₁ - μ₂)\n"
+        f"w = [{w[0]:.2f}, {w[1]:.2f}]", 
+        transform=plt.gca().transAxes, fontsize=12, va='top',
+        bbox=dict(facecolor='white', alpha=0.8, boxstyle='round,pad=0.5'))
+
+# Add the exact values as text on the bars
+for i, v in enumerate(feature_importance):
+    plt.text(i, v + 0.01, f'{v:.2f}', ha='center', fontsize=12)
+
+plt.ylim(0, max(feature_importance) + 0.1)  # Add some padding at the top
+plt.grid(axis='y', alpha=0.3, linestyle='--')
+
+# Save the figure
+plt.savefig(os.path.join(save_dir, "lda_feature_importance.png"), dpi=300, bbox_inches='tight')
 
 # Step 10: Compare LDA with Perceptron with improved visualization
 print("\nStep 10: Comparing LDA with Perceptron")
