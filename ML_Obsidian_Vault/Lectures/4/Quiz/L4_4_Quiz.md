@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 17 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 20 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -313,3 +313,23 @@ A bank is using LDA to classify credit applications as approved (1) or denied (0
 6. For a new applicant with income $55K and debt-to-income ratio 25%, which class would LDA predict? Will their credit application be approved or denied?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: LDA for Credit Approval](L4_4_19_explanation.md). 
+
+## Question 20
+
+### Problem Statement
+You are given data from two classes with the following 2-dimensional feature vectors:
+
+**Class 0:** $\mathbf{x}^{(1)}=\begin{bmatrix} 1 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 2 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 3 \\ 3 \end{bmatrix}$  
+**Class 1:** $\mathbf{x}^{(1)}=\begin{bmatrix} 5 \\ 2 \end{bmatrix}$, $\mathbf{x}^{(2)}=\begin{bmatrix} 6 \\ 3 \end{bmatrix}$, $\mathbf{x}^{(3)}=\begin{bmatrix} 6 \\ 4 \end{bmatrix}$
+
+Assume that the feature vectors in each class follow a multivariate Gaussian distribution.
+
+#### Task
+1. Calculate the mean vector for each class
+2. Calculate the within-class scatter matrix $S_W$ by summing the individual class scatter matrices
+3. Calculate the between-class scatter matrix $S_B = (\boldsymbol{\mu}_0 - \boldsymbol{\mu}_1)(\boldsymbol{\mu}_0 - \boldsymbol{\mu}_1)^T$
+4. Determine the LDA projection direction by finding the eigenvector corresponding to the largest eigenvalue of $S_W^{-1}S_B$
+5. Assuming equal prior probabilities, calculate the threshold for classification in the projected space
+6. Using LDA, classify the new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$ and explain how the decision boundary relates to linear separability
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 20: LDA with Scatter Matrices](L4_4_20_explanation.md). 
