@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 25 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 26 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -435,3 +435,30 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 5. The resulting model using LDA is always equivalent to that of linear classification with LSE.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 25: Fisher's Linear Discriminant Analysis](L4_4_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+Linear discriminant analysis has many applications, such as dimensionality reduction and feature extraction. In this problem, we consider a simple task with two classes expressed as follows:
+
+- Class 0: $\mathbf{x}_1^{(0)} = \begin{bmatrix} 1 \\ 2 \end{bmatrix}$, $\mathbf{x}_2^{(0)} = \begin{bmatrix} 2 \\ 1 \end{bmatrix}$
+
+- Class 1: $\mathbf{x}_1^{(1)} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$, $\mathbf{x}_2^{(1)} = \begin{bmatrix} 5 \\ 4 \end{bmatrix}$
+
+Note that in this problem we use column vectors for the data points to simplify the calculation.
+
+#### Task
+1. Compute the mean vector for each class, $\mu_0$ and $\mu_1$.
+2. Compute the covariance matrix for each class, $\Sigma_0$ and $\Sigma_1$.
+
+The Fisher's linear discriminant analysis is defined to maximize criterion function:
+
+$$S(\mathbf{w}) = \frac{\sigma^2_{\text{between}}}{\sigma^2_{\text{within}}} = \frac{(\mathbf{w}^{\top} \mu_0 - \mathbf{w}^{\top} \mu_1)^2}{\mathbf{w}^{\top} (\Sigma_0 + \Sigma_1)\mathbf{w}}$$
+
+An optimal solution $\mathbf{w}^*$ is:
+
+$$\mathbf{w}^* = (\Sigma_0 + \Sigma_1)^{-1}(\mu_0 - \mu_1)$$
+
+3. Find the optimal $\mathbf{w}^*$ with unit length.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 26: Linear Discriminant Analysis with Simple Data](L4_4_26_explanation.md).
