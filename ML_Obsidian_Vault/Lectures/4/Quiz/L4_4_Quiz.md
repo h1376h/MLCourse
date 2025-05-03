@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 22 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 23 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -386,3 +386,19 @@ Consider the following table with gender and height data:
 3. What assumptions does LDA make about the data distribution?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 22: LDA Classification](L4_4_22_explanation.md).
+
+## Question 23
+
+### Problem Statement
+Find the LDA classifier for a training set of eight points: 
+- Class 1: $\begin{bmatrix} 1 \\ 0 \end{bmatrix}$, $\begin{bmatrix} -1 \\ 0 \end{bmatrix}$, $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$, $\begin{bmatrix} 0 \\ -1 \end{bmatrix}$
+- Class 2: $\begin{bmatrix} 0 \\ 1 \end{bmatrix}$, $\begin{bmatrix} 0 \\ -1 \end{bmatrix}$, $\begin{bmatrix} 2 \\ 1 \end{bmatrix}$, $\begin{bmatrix} 2 \\ -1 \end{bmatrix}$
+
+#### Task
+1. Calculate the mean vector $\boldsymbol{\mu}_1$ and $\boldsymbol{\mu}_2$ for each class
+2. Calculate the shared covariance matrix $\boldsymbol{\Sigma}$ assuming equal covariance for both classes
+3. Determine the LDA projection direction $\mathbf{w} = \boldsymbol{\Sigma}^{-1}(\boldsymbol{\mu}_1 - \boldsymbol{\mu}_2)$
+4. Calculate the threshold value for classification in the projected space, assuming equal prior probabilities
+5. For a new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$, which class would LDA assign it to?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Additional Exercise: LDA Classification](L4_4_23_explanation.md).
