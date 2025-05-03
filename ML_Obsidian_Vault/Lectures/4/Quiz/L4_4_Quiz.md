@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 23 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 24 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -402,3 +402,20 @@ Find the LDA classifier for a training set of eight points:
 5. For a new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$, which class would LDA assign it to?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 23: LDA Classification](L4_4_23_explanation.md).
+
+## Question 24
+
+### Problem Statement
+Compute LDA projection for the following two-dimensional dataset:
+- X1=(x₁, x₂)={(4, 1), (2, 4), (2, 3), (3, 6), (4, 4)}
+- X2=(x₁, x₂)={(9, 10), (6, 8), (9, 5), (8, 7), (10, 8)}
+
+#### Task
+1. Calculate the mean vectors for each class
+2. Compute the within-class scatter matrices S₁ and S₂ for each class
+3. Determine the total within-class scatter matrix Sw
+4. Calculate the between-class scatter matrix Sb
+5. Find the optimal projection direction w by solving the generalized eigenvalue problem
+6. For a new data point (5, 5), determine which class it would be assigned to using LDA
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 24: LDA Projection for Two-Dimensional Dataset](L4_4_24_explanation.md).
