@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 23 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 27 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -402,3 +402,90 @@ Find the LDA classifier for a training set of eight points:
 5. For a new point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$, which class would LDA assign it to?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 23: LDA Classification](L4_4_23_explanation.md).
+
+## Question 24
+
+### Problem Statement
+Compute LDA projection for the following two-dimensional dataset:
+- $X_1=(x_1, x_2)=\{(4, 1), (2, 4), (2, 3), (3, 6), (4, 4)\}$
+- $X_2=(x_1, x_2)=\{(9, 10), (6, 8), (9, 5), (8, 7), (10, 8)\}$
+
+#### Task
+1. Calculate the mean vectors $\mu_1$ and $\mu_2$ for each class
+2. Compute the within-class scatter matrices $S_1$ and $S_2$ for each class
+3. Determine the total within-class scatter matrix $S_W$
+4. Calculate the between-class scatter matrix $S_B$
+5. Find the optimal projection direction $\mathbf{w}$ by solving the generalized eigenvalue problem
+6. For a new data point $(5, 5)$, determine which class it would be assigned to using LDA
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 24: LDA Projection for Two-Dimensional Dataset](L4_4_24_explanation.md).
+
+## Question 25
+
+### Problem Statement
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
+
+![LDA Visualization](../Images/L4_4_Quiz_25/lda_visualization.png)
+
+#### Task
+1. LDA method projects p-dimensional data into a one-dimensional space and then compares it with a threshold to determine the class label
+2. LDA method is more appropriate for linearly separable data.
+3. In developing LDA, the mean values of both classes $m_1 = \sum_{i=1}^{N_1} x_i$ and $m_2 = \sum_{i=1}^{N_2} x_i$ play essential roles.
+4. The main objective of this approach is to transform data into a space such that the resulting data points demonstrate minimum within-class variations and maximum between-class variations.
+5. The resulting model using LDA is always equivalent to that of linear classification with LSE.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 25: Fisher's Linear Discriminant Analysis](L4_4_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+Linear discriminant analysis has many applications, such as dimensionality reduction and feature extraction. In this problem, we consider a simple task with two classes expressed as follows:
+
+- Class 0: $\mathbf{x}_1^{(0)} = \begin{bmatrix} 1 \\ 2 \end{bmatrix}$, $\mathbf{x}_2^{(0)} = \begin{bmatrix} 2 \\ 1 \end{bmatrix}$
+
+- Class 1: $\mathbf{x}_1^{(1)} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$, $\mathbf{x}_2^{(1)} = \begin{bmatrix} 5 \\ 4 \end{bmatrix}$
+
+Note that in this problem we use column vectors for the data points to simplify the calculation.
+
+#### Task
+1. Compute the mean vector for each class, $\mu_0$ and $\mu_1$.
+2. Compute the covariance matrix for each class, $\Sigma_0$ and $\Sigma_1$.
+
+The Fisher's linear discriminant analysis is defined to maximize criterion function:
+
+$$S(\mathbf{w}) = \frac{\sigma^2_{\text{between}}}{\sigma^2_{\text{within}}} = \frac{(\mathbf{w}^{\top} \mu_0 - \mathbf{w}^{\top} \mu_1)^2}{\mathbf{w}^{\top} (\Sigma_0 + \Sigma_1)\mathbf{w}}$$
+
+An optimal solution $\mathbf{w}^*$ is:
+
+$$\mathbf{w}^* = (\Sigma_0 + \Sigma_1)^{-1}(\mu_0 - \mu_1)$$
+
+3. Find the optimal $\mathbf{w}^*$ with unit length.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 26: Linear Discriminant Analysis with Simple Data](L4_4_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+Linear discriminant analysis has many applications, such as dimensionality reduction and feature extraction. In this problem, we consider a special case with two classes expressed as follows:
+
+- Class A: $\mathbf{x}_1^{(A)} = \begin{bmatrix} 1 \\ 3 \end{bmatrix}$, $\mathbf{x}_2^{(A)} = \begin{bmatrix} 3 \\ 1 \end{bmatrix}$
+
+- Class B: $\mathbf{x}_1^{(B)} = \begin{bmatrix} 6 \\ 4 \end{bmatrix}$, $\mathbf{x}_2^{(B)} = \begin{bmatrix} 4 \\ 6 \end{bmatrix}$
+
+Note that in this problem we use column vectors for the data points to simplify the calculation.
+
+#### Task
+1. Compute the mean vector for each class, $\mu_A$ and $\mu_B$.
+2. Compute the covariance matrix for each class, $\Sigma_A$ and $\Sigma_B$.
+
+Fisher's linear discriminant analysis aims to maximize the criterion function:
+
+$$S(\mathbf{w}) = \frac{\sigma^2_{\text{between}}}{\sigma^2_{\text{within}}} = \frac{(\mathbf{w}^{\top} \mu_A - \mathbf{w}^{\top} \mu_B)^2}{\mathbf{w}^{\top} (\Sigma_A + \Sigma_B)\mathbf{w}}$$
+
+An optimal solution $\mathbf{w}^*$ is:
+
+$$\mathbf{w}^* = (\Sigma_A + \Sigma_B)^{-1}(\mu_A - \mu_B)$$
+
+3. Find the optimal $\mathbf{w}^*$ with unit length.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 27: Linear Discriminant Analysis with Singular Scatter Matrix](L4_4_27_explanation.md).
