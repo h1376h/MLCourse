@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from mpl_toolkits.mplot3d import Axes3D  # Import for 3D plotting
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -14,7 +15,7 @@ plt.style.use('seaborn-v0_8-whitegrid')
 print("Question 13: Decision Boundary Geometry")
 print("====================================")
 
-# Given information
+# Define the decision boundary parameters
 w1 = 2
 w2 = -3
 b = 1
@@ -23,6 +24,7 @@ b = 1
 w = np.array([w1, w2])
 print(f"Weight vector w = [{w1}, {w2}]")
 print(f"Bias term b = {b}")
+print(f"Decision boundary equation: {w1}x₁ + {w2}x₂ + {b} = 0")
 
 # Task 1: Calculate the distance from point (2, 3) to the decision boundary
 print("\nTask 1: Distance from point (2, 3) to the decision boundary")
@@ -30,20 +32,51 @@ print("------------------------------------------------------")
 
 # The point (2, 3)
 x_point = np.array([2, 3])
-
-# The formula for the distance from a point to a line ax + by + c = 0 is:
-# d = |ax0 + by0 + c| / sqrt(a^2 + b^2)
-# In our case, a = w1, b = w2, c = b, (x0, y0) = (2, 3)
-numerator = abs(w1 * x_point[0] + w2 * x_point[1] + b)
-denominator = np.sqrt(w1**2 + w2**2)
-distance = numerator / denominator
-
 print(f"Point: ({x_point[0]}, {x_point[1]})")
-print(f"Decision boundary equation: {w1}x₁ + {w2}x₂ + {b} = 0")
-print(f"Distance calculation: |{w1}×{x_point[0]} + {w2}×{x_point[1]} + {b}| / √({w1}² + {w2}²)")
-print(f"Distance = |{w1 * x_point[0] + w2 * x_point[1] + b}| / √{w1**2 + w2**2}")
-print(f"Distance = {numerator} / {denominator:.4f}")
-print(f"Distance = {distance:.4f}")
+
+# Step 1: Calculate the value of the decision function at the point
+print("Step 1: Calculate the decision function value at the point")
+decision_value = w1 * x_point[0] + w2 * x_point[1] + b
+print(f"f(x) = w·x + b = {w1}×{x_point[0]} + {w2}×{x_point[1]} + {b}")
+print(f"f({x_point[0]}, {x_point[1]}) = {w1 * x_point[0]} + {w2 * x_point[1]} + {b} = {decision_value}")
+
+# Step 2: Calculate the norm of the weight vector
+print("\nStep 2: Calculate the norm of the weight vector")
+w_norm_squared = w1**2 + w2**2
+w_norm = np.sqrt(w_norm_squared)
+print(f"||w||² = w₁² + w₂² = {w1}² + {w2}² = {w1**2} + {w2**2} = {w_norm_squared}")
+print(f"||w|| = √({w_norm_squared}) = {w_norm:.4f}")
+
+# Step 3: Calculate the distance using the formula
+print("\nStep 3: Calculate the distance using the formula")
+print("The formula for the distance from a point to a hyperplane is:")
+print("d = |w·x + b| / ||w||")
+numerator = abs(decision_value)
+denominator = w_norm
+distance = numerator / denominator
+print(f"d = |f(x)| / ||w|| = |{decision_value}| / {w_norm:.4f} = {numerator} / {denominator:.4f} = {distance:.4f}")
+
+# Step 4: Verify the result by finding the closest point on the boundary
+print("\nStep 4: Verify the result by finding the closest point on the boundary")
+print("The closest point on the boundary is found by projecting from the given point in the direction of w:")
+# The formula: x_closest = x - (w·x + b)w / ||w||²
+projection_factor = decision_value / w_norm_squared
+print(f"Projection factor = (w·x + b) / ||w||² = {decision_value} / {w_norm_squared} = {projection_factor:.4f}")
+closest_point = x_point - projection_factor * w
+print(f"Closest point = point - factor × w = [{x_point[0]}, {x_point[1]}] - {projection_factor:.4f} × [{w1}, {w2}]")
+print(f"Closest point = [{x_point[0] - projection_factor * w1:.4f}, {x_point[1] - projection_factor * w2:.4f}]")
+
+# Verify the closest point is on the boundary
+closest_point_decision_value = w1 * closest_point[0] + w2 * closest_point[1] + b
+print(f"Decision function value at closest point: {w1}×{closest_point[0]:.4f} + {w2}×{closest_point[1]:.4f} + {b} = {closest_point_decision_value:.10f}")
+print("The value is very close to zero, confirming the point is on the decision boundary.")
+
+# Calculate Euclidean distance between the original point and the closest point
+euclidean_distance = np.sqrt((x_point[0] - closest_point[0])**2 + (x_point[1] - closest_point[1])**2)
+print(f"Euclidean distance between original point and closest point = {euclidean_distance:.4f}")
+print(f"This matches our formula-based calculation: {distance:.4f}")
+
+print("\nTherefore, the distance from the point ({x_point[0]}, {x_point[1]}) to the decision boundary {w1}x₁ + {w2}x₂ + {b} = 0 is {distance:.4f} units.")
 
 # Task 2: Determine the class prediction for a new data point (0, 1)
 print("\nTask 2: Class prediction for point (0, 1)")
@@ -51,51 +84,88 @@ print("--------------------------------------")
 
 # New data point (0, 1)
 x_new = np.array([0, 1])
-
-# Calculate the decision function value
-decision_value = w1 * x_new[0] + w2 * x_new[1] + b
-# Determine the class (positive or negative)
-prediction = 1 if decision_value > 0 else -1
-
 print(f"New point: ({x_new[0]}, {x_new[1]})")
-print(f"Decision function: f(x) = {w1}x₁ + {w2}x₂ + {b}")
-print(f"f({x_new[0]}, {x_new[1]}) = {w1}×{x_new[0]} + {w2}×{x_new[1]} + {b} = {decision_value}")
-print(f"Since f(x) = {decision_value} < 0, the predicted class is: {prediction}")
+
+# Step 1: Calculate the decision function value
+print("Step 1: Calculate the decision function value")
+decision_value_new = w1 * x_new[0] + w2 * x_new[1] + b
+print(f"f(x) = w·x + b = {w1}×{x_new[0]} + {w2}×{x_new[1]} + {b}")
+print(f"f({x_new[0]}, {x_new[1]}) = {w1 * x_new[0]} + {w2 * x_new[1]} + {b} = {decision_value_new}")
+
+# Step 2: Determine the class based on the sign of the decision function
+print("\nStep 2: Determine the class based on the sign of the decision function")
+print("Classification rule:")
+print("- If f(x) > 0, predict class +1")
+print("- If f(x) < 0, predict class -1")
+print("- If f(x) = 0, the point is on the decision boundary")
+
+prediction = 1 if decision_value_new > 0 else -1
+print(f"Since f({x_new[0]}, {x_new[1]}) = {decision_value_new} {'>' if decision_value_new > 0 else '<'} 0")
+print(f"The predicted class is: {prediction}")
+
+# Step 3: Calculate the distance to the decision boundary
+print("\nStep 3: Calculate the point's distance to the decision boundary")
+distance_new = abs(decision_value_new) / w_norm
+print(f"Distance = |f(x)| / ||w|| = |{decision_value_new}| / {w_norm:.4f} = {abs(decision_value_new)} / {w_norm:.4f} = {distance_new:.4f}")
+print(f"The distance from point ({x_new[0]}, {x_new[1]}) to the decision boundary is {distance_new:.4f} units")
+print(f"This means the point is {distance_new:.4f} units into the {'positive' if prediction > 0 else 'negative'} region")
 
 # Task 3: Normalize the weight vector to unit length
 print("\nTask 3: Normalize the weight vector to unit length")
 print("----------------------------------------------")
 
-# Calculate the norm of the weight vector
-w_norm = np.linalg.norm(w)
-# Normalize the weight vector
+# Step 1: Calculate the norm of the weight vector (already done)
+print("Step 1: Calculate the norm of the weight vector")
+print(f"||w|| = √(w₁² + w₂²) = √({w1}² + {w2}²) = √({w_norm_squared}) = {w_norm:.4f}")
+
+# Step 2: Normalize the weight vector
+print("\nStep 2: Normalize the weight vector by dividing by its norm")
 w_normalized = w / w_norm
-# Normalize the bias term
+print(f"w_normalized = w / ||w|| = [{w1}, {w2}] / {w_norm:.4f}")
+print(f"w_normalized = [{w1 / w_norm:.4f}, {w2 / w_norm:.4f}]")
+
+# Step 3: Normalize the bias term
+print("\nStep 3: Normalize the bias term")
 b_normalized = b / w_norm
+print(f"b_normalized = b / ||w|| = {b} / {w_norm:.4f} = {b_normalized:.4f}")
 
-print(f"Original weight vector: w = [{w1}, {w2}]")
-print(f"Original bias term: b = {b}")
-print(f"Norm of the weight vector: ||w|| = √({w1}² + {w2}²) = {w_norm:.4f}")
-print(f"Normalized weight vector: w_normalized = w / ||w|| = [{w_normalized[0]:.4f}, {w_normalized[1]:.4f}]")
-print(f"Normalized bias term: b_normalized = b / ||w|| = {b_normalized:.4f}")
-print(f"New decision boundary equation: {w_normalized[0]:.4f}x₁ + {w_normalized[1]:.4f}x₂ + {b_normalized:.4f} = 0")
+# Step 4: Write the new decision boundary equation
+print("\nStep 4: Write the new normalized decision boundary equation")
+print(f"Original equation: {w1}x₁ + {w2}x₂ + {b} = 0")
+print(f"Normalized equation: {w_normalized[0]:.4f}x₁ + {w_normalized[1]:.4f}x₂ + {b_normalized:.4f} = 0")
 
-# Verify that the decision boundary is the same
-print("\nVerification that both equations represent the same decision boundary:")
+# Step 5: Verify that both equations represent the same boundary
+print("\nStep 5: Verify that both equations represent the same decision boundary")
+print("A test point should yield proportional results with both equations")
 
-# For a point on the decision boundary, both equations should give the same result (equal to zero)
-x_verify = np.array([3, 2])  # Arbitrarily chosen point
+# Choose a test point that's close to the boundary
+x_verify = np.array([3, 2])
 original_result = w1 * x_verify[0] + w2 * x_verify[1] + b
 normalized_result = w_normalized[0] * x_verify[0] + w_normalized[1] * x_verify[1] + b_normalized
 
-print(f"For point ({x_verify[0]}, {x_verify[1]})")
-print(f"Original equation: {w1}×{x_verify[0]} + {w2}×{x_verify[1]} + {b} = {original_result}")
-print(f"Normalized equation: {w_normalized[0]:.4f}×{x_verify[0]} + {w_normalized[1]:.4f}×{x_verify[1]} + {b_normalized:.4f} = {normalized_result:.4f}")
-print(f"Ratio of results: {original_result / normalized_result:.4f}")
+print(f"Test point: ({x_verify[0]}, {x_verify[1]})")
+print("Original equation:")
+print(f"{w1}×{x_verify[0]} + {w2}×{x_verify[1]} + {b} = {w1 * x_verify[0]} + ({w2 * x_verify[1]}) + {b} = {original_result}")
+print("Normalized equation:")
+print(f"{w_normalized[0]:.4f}×{x_verify[0]} + {w_normalized[1]:.4f}×{x_verify[1]} + {b_normalized:.4f} = {normalized_result:.4f}")
+
+ratio = original_result / normalized_result
+print(f"Ratio of results: {original_result} / {normalized_result:.4f} = {ratio:.4f}")
+print(f"This is very close to the weight norm {w_norm:.4f}, confirming both equations represent the same boundary")
 
 # Task 4: Sketch the decision boundary and indicate positive and negative regions
 print("\nTask 4: Sketch the decision boundary")
 print("----------------------------------")
+
+# Step 1: Rearrange the equation to express x₂ in terms of x₁
+print("Step 1: Rearrange the decision boundary equation to express x₂ in terms of x₁")
+print(f"Original equation: {w1}x₁ + {w2}x₂ + {b} = 0")
+print(f"Rearranging: {w2}x₂ = -{w1}x₁ - {b}")
+print(f"Therefore: x₂ = ({-w1}x₁ - {b}) / {w2}")
+slope = -w1 / w2
+intercept = -b / w2
+print(f"This is a line with slope {slope:.4f} and y-intercept {intercept:.4f}")
+print(f"Equation: x₂ = {slope:.4f}x₁ + {intercept:.4f}")
 
 # Create data for visualization
 x1_range = np.linspace(-3, 6, 100)
@@ -111,7 +181,6 @@ plt.contourf(X1, X2, Z, levels=[-10, 0, 10], colors=['#FFAAAA', '#AAAAFF'], alph
 plt.contour(X1, X2, Z, levels=[0], colors='k', linewidths=2)
 
 # Calculate some points along the decision boundary for better understanding
-# 2x - 3y + 1 = 0 => y = (2x + 1) / 3
 x1_boundary = np.array([-1, 5])
 x2_boundary = (w1 * x1_boundary + b) / (-w2)
 
@@ -125,22 +194,10 @@ plt.arrow(0, 0, w[0], w[1], head_width=0.2, head_length=0.3, fc='green', ec='gre
 plt.arrow(0, 0, w_normalized[0], w_normalized[1], head_width=0.1, head_length=0.15, 
           fc='purple', ec='purple', label='Normalized w', alpha=0.7)
 
-# Annotate the distance
-# Calculate a point on the decision boundary closest to (2, 3)
-# This is the projection of (2, 3) onto the decision boundary
-# First, find a vector perpendicular to the weight vector
-perpendicular = w / np.linalg.norm(w)
-# Calculate how far along this perpendicular to go
-t = -(w1 * x_point[0] + w2 * x_point[1] + b) / (w1**2 + w2**2)
-# Find the closest point on the boundary
-closest_x = x_point[0] + t * w1
-closest_y = x_point[1] + t * w2
-
-# Plot the distance line
-plt.plot([x_point[0], closest_x], [x_point[1], closest_y], 'k--', linewidth=1.5)
-# Annotate the distance value
+# Annotate the distance from (2, 3) to the boundary
+plt.plot([x_point[0], closest_point[0]], [x_point[1], closest_point[1]], 'k--', linewidth=1.5)
 plt.annotate(f'Distance = {distance:.4f}', 
-             xy=((x_point[0] + closest_x)/2, (x_point[1] + closest_y)/2), 
+             xy=((x_point[0] + closest_point[0])/2, (x_point[1] + closest_point[1])/2), 
              xytext=(3, 3.5), 
              arrowprops=dict(arrowstyle='->'))
 
@@ -204,7 +261,11 @@ print(f"2. 3D decision function: {os.path.join(save_dir, 'decision_function_3d.p
 
 print("\nSummary of Findings:")
 print("------------------")
-print(f"1. The distance from point (2, 3) to the decision boundary is {distance:.4f}")
+print(f"1. The distance from point (2, 3) to the decision boundary {w1}x₁ + {w2}x₂ + {b} = 0 is {distance:.4f} units")
 print(f"2. For the data point (0, 1), the model predicts class {prediction}")
+print(f"   This is because the decision function value f(0, 1) = {decision_value_new} is {'positive' if decision_value_new > 0 else 'negative'}")
 print(f"3. When normalized, the decision boundary equation becomes: {w_normalized[0]:.4f}x₁ + {w_normalized[1]:.4f}x₂ + {b_normalized:.4f} = 0")
-print("4. The decision boundary has been sketched with positive region (y = +1) and negative region (y = -1) clearly indicated") 
+print("   Both equations represent the same geometric boundary but with the constraint that ||w|| = 1")
+print("4. The decision boundary divides the feature space into:")
+print("   - Positive region: points where decision function > 0, classified as y = +1")
+print("   - Negative region: points where decision function < 0, classified as y = -1") 
