@@ -278,6 +278,8 @@ Between-class scatter matrix S_B:
 [[374.91114587 401.92955598]
  [401.92955598 430.89507941]]
 LDA projection direction: [-0.3984462  -0.91719171]
+LDA Coefficients: [1.78794183 4.11570104]
+LDA Intercept: -0.6484718000505643
 ```
 
 The within-class scatter matrix:
