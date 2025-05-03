@@ -134,6 +134,70 @@ print(f"\nSw^-1 * Sb = ")
 print(f"  [  {Sw_inv[0,0]:.3f}  {Sw_inv[0,1]:.3f}  ]   ×   [  {Sb[0,0]:.3f}  {Sb[0,1]:.3f}  ]   =   [  {Sw_inv_Sb[0,0]:.3f}  {Sw_inv_Sb[0,1]:.3f}  ]")
 print(f"  [  {Sw_inv[1,0]:.3f}  {Sw_inv[1,1]:.3f}  ]       [  {Sb[1,0]:.3f}  {Sb[1,1]:.3f}  ]       [  {Sw_inv_Sb[1,0]:.3f}  {Sw_inv_Sb[1,1]:.3f}  ]")
 
+# Detailed eigenvalue calculation
+print("\nStep 4.1: Detailed eigenvalue calculation")
+print("----------------------------------------")
+
+print("For a 2×2 matrix A, the characteristic equation is: |A - λI| = 0")
+print(f"For our matrix Sw^-1*Sb = [ {Sw_inv_Sb[0,0]:.3f} {Sw_inv_Sb[0,1]:.3f} ]")
+print(f"                           [ {Sw_inv_Sb[1,0]:.3f} {Sw_inv_Sb[1,1]:.3f} ]")
+
+print("\nThe characteristic equation is:")
+print(f"|[ {Sw_inv_Sb[0,0]:.3f} - λ    {Sw_inv_Sb[0,1]:.3f}     ]| = 0")
+print(f"|[ {Sw_inv_Sb[1,0]:.3f}        {Sw_inv_Sb[1,1]:.3f} - λ ]|")
+
+print("\nExpanding the determinant:")
+print(f"({Sw_inv_Sb[0,0]:.3f} - λ)({Sw_inv_Sb[1,1]:.3f} - λ) - ({Sw_inv_Sb[0,1]:.3f})({Sw_inv_Sb[1,0]:.3f}) = 0")
+
+# Calculate coefficients of the quadratic equation: λ² - (a+d)λ + (ad-bc) = 0
+a = Sw_inv_Sb[0,0]
+b = Sw_inv_Sb[0,1]
+c = Sw_inv_Sb[1,0]
+d = Sw_inv_Sb[1,1]
+trace = a + d
+det = a*d - b*c
+
+print(f"\nThis simplifies to the quadratic equation: λ² - {trace:.3f}λ + {det:.3f} = 0")
+
+# Calculate the discriminant
+discriminant = trace**2 - 4*det
+print(f"\nThe discriminant is: {trace:.3f}² - 4({det:.3f}) = {discriminant:.3f}")
+
+# Calculate the eigenvalues using the quadratic formula
+lambda1 = (trace + np.sqrt(discriminant))/2
+lambda2 = (trace - np.sqrt(discriminant))/2
+
+print(f"\nUsing the quadratic formula: λ = ({trace:.3f} ± √{discriminant:.3f})/2")
+print(f"Eigenvalue 1: λ₁ = ({trace:.3f} + {np.sqrt(discriminant):.3f})/2 = {lambda1:.6f}")
+print(f"Eigenvalue 2: λ₂ = ({trace:.3f} - {np.sqrt(discriminant):.3f})/2 = {lambda2:.6f}")
+
+# Find eigenvectors
+print("\nStep 4.2: Detailed eigenvector calculation")
+print("----------------------------------------")
+
+print(f"For eigenvalue λ₁ = {lambda1:.6f}, we solve (A - λ₁I)v = 0:")
+print(f"[ {a:.3f} - {lambda1:.3f}    {b:.3f}     ] [ v₁ ] = [ 0 ]")
+print(f"[ {c:.3f}                {d:.3f} - {lambda1:.3f} ] [ v₂ ] = [ 0 ]")
+
+# Calculate the eigenvector for eigenvalue 1
+A_minus_lambda1I = Sw_inv_Sb - lambda1 * np.eye(2)
+print(f"\nThis gives us the system:")
+print(f"[ {A_minus_lambda1I[0,0]:.3f}    {A_minus_lambda1I[0,1]:.3f} ] [ v₁ ] = [ 0 ]")
+print(f"[ {A_minus_lambda1I[1,0]:.3f}    {A_minus_lambda1I[1,1]:.3f} ] [ v₂ ] = [ 0 ]")
+
+print("\nFrom the first equation:")
+if abs(A_minus_lambda1I[0,0]) > 1e-10:
+    ratio1 = -A_minus_lambda1I[0,1] / A_minus_lambda1I[0,0]
+    print(f"{A_minus_lambda1I[0,0]:.3f}v₁ + {A_minus_lambda1I[0,1]:.3f}v₂ = 0")
+    print(f"v₁ = {-A_minus_lambda1I[0,1]:.3f}v₂ / {A_minus_lambda1I[0,0]:.3f} = {ratio1:.3f}v₂")
+else:
+    ratio1 = 0
+    print(f"{A_minus_lambda1I[0,1]:.3f}v₂ = 0")
+    if abs(A_minus_lambda1I[0,1]) > 1e-10:
+        print(f"v₂ = 0, therefore v₁ can be any non-zero value")
+    else:
+        print(f"Both coefficients are zero, any non-zero vector is an eigenvector")
+
 # Find eigenvalues and eigenvectors of Sw^-1*Sb
 eigenvalues, eigenvectors = linalg.eig(Sw_inv_Sb)
 
@@ -145,7 +209,8 @@ w = eigenvectors[:, max_eigen_idx].real  # Use real part if there's any numerica
 # Normalize the direction vector
 w = w / np.linalg.norm(w)
 
-print(f"\nEigenvalues of Sw^-1*Sb: [{eigenvalues[0].real:.6f}, {eigenvalues[1].real:.6f}]")
+print(f"\nUsing numerical methods, the eigenvalues and eigenvectors are:")
+print(f"Eigenvalues: [{eigenvalues[0].real:.6f}, {eigenvalues[1].real:.6f}]")
 print(f"First eigenvector: [{eigenvectors[0,0].real:.6f}, {eigenvectors[1,0].real:.6f}]^T")
 print(f"Second eigenvector: [{eigenvectors[0,1].real:.6f}, {eigenvectors[1,1].real:.6f}]^T")
 print(f"\nEigenvector corresponding to largest eigenvalue λ = {eigenvalues[max_eigen_idx].real:.6f}:")
@@ -291,14 +356,11 @@ plt.legend(fontsize=10)
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, "lda_projection.png"), dpi=300, bbox_inches='tight')
 
-# Plot 3: Projection of points onto LDA direction (simpler version)
-plt.figure(figsize=(8, 4))
+# Plot 3: Projection of points onto LDA direction (improved version)
+plt.figure(figsize=(10, 4))
 line_y = 0.5
 # Draw the number line
 plt.axhline(y=line_y, color='black', linestyle='-', linewidth=1)
-plt.scatter(mean0_projected, line_y, color='navy', s=100, marker='*')
-plt.scatter(mean1_projected, line_y, color='darkred', s=100, marker='*')
-plt.scatter(x_new_projected, line_y, color='green', s=100, marker='d')
 
 # Project all points
 class0_proj = np.dot(class0, w)
@@ -307,24 +369,32 @@ class1_proj = np.dot(class1, w)
 # Plot projected points
 plt.scatter(class0_proj, [line_y]*len(class0_proj), color='blue', s=80, marker='o')
 plt.scatter(class1_proj, [line_y]*len(class1_proj), color='red', s=80, marker='x')
+plt.scatter(mean0_projected, line_y, color='navy', s=100, marker='*')
+plt.scatter(mean1_projected, line_y, color='darkred', s=100, marker='*')
+plt.scatter(x_new_projected, line_y, color='green', s=100, marker='d')
 
 # Add vertical line at the threshold
 plt.axvline(x=threshold, color='k', linestyle='--', linewidth=1)
 
-# Add labels
-plt.text(mean0_projected, line_y-0.07, 'μ₀ proj', fontsize=10, ha='center')
-plt.text(mean1_projected, line_y-0.07, 'μ₁ proj', fontsize=10, ha='center')
-plt.text(threshold, line_y+0.1, 'Threshold', fontsize=10, ha='center')
-plt.text(x_new_projected, line_y+0.1, 'New point', fontsize=10, ha='center', color='green')
+# Add labels with proper LaTeX notation and sufficient spacing
+plt.text(mean0_projected, line_y-0.1, r'$\mu_0$ proj', fontsize=12, ha='center')
+plt.text(mean1_projected, line_y+0.1, r'$\mu_1$ proj', fontsize=12, ha='center')
+plt.text(threshold, line_y+0.14, 'Threshold', fontsize=12, ha='center')
+plt.text(x_new_projected, line_y+0.07, 'New point', fontsize=12, ha='center', color='green')
 
+# Space the labels for class 0 points
+y_offsets0 = [0.07, 0.07, 0.07]
 for i, proj in enumerate(class0_proj):
-    plt.text(proj, line_y+0.05, f'C0-{i+1}', fontsize=8, ha='center')
-for i, proj in enumerate(class1_proj):
-    plt.text(proj, line_y-0.1, f'C1-{i+1}', fontsize=8, ha='center')
+    plt.text(proj, line_y+y_offsets0[i], f'C0-{i+1}', fontsize=10, ha='center')
 
-plt.ylim([0.25, 0.75])
+# Space the labels for class 1 points
+y_offsets1 = [-0.12, -0.12, -0.12]
+for i, proj in enumerate(class1_proj):
+    plt.text(proj, line_y+y_offsets1[i], f'C1-{i+1}', fontsize=10, ha='center')
+
+plt.ylim([0.2, 0.8])
 plt.yticks([])
-plt.xlabel('Projection onto LDA Direction', fontsize=12)
+plt.xlabel('Projection onto LDA Direction', fontsize=14)
 plt.title('Projection of Data Points onto LDA Direction', fontsize=14)
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
