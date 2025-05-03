@@ -153,7 +153,28 @@ $$\lim_{z \to 1^-} L'_{hinge}(z) = -1 \neq \lim_{z \to 1^+} L'_{hinge}(z) = 0$$
 
 In optimization, this requires using subgradient methods instead of standard gradient descent.
 
-### Step 7: Detailed analysis of the logistic loss function
+### Step 7: Compare first derivatives of the loss functions
+To better understand how these loss functions behave during optimization, we can visualize their first derivatives, which correspond to the gradients used in gradient descent:
+
+![First Derivatives](../Images/L4_4_Quiz_8/first_derivatives.png)
+
+Looking at the first derivatives reveals:
+
+1. **Hinge Loss**: The derivative is piecewise constant, with a discontinuity at $z = 1$:
+   $$L'_{hinge}(z) = \begin{cases} -1 & \text{if } z < 1 \\ 0 & \text{if } z > 1 \end{cases}$$
+   This discontinuity requires special optimization techniques like subgradient methods.
+
+2. **Logistic Loss**: The derivative is smooth and continuously approaches zero:
+   $$L'_{log}(z) = -\frac{1}{1 + e^z}$$
+   This smooth behavior makes it suitable for standard gradient-based optimization.
+
+3. **Squared Error Loss**: The derivative is linear:
+   $$L'_{sq}(z) = 2(z-1)$$
+   This linearity can lead to larger gradients for points far from the decision boundary.
+
+The choice of loss function affects not only the optimization behavior but also how the model penalizes errors. For example, the hinge loss stops penalizing (zero gradient) once examples are correctly classified with a margin of at least 1, while logistic loss always provides some gradient, albeit diminishing for well-classified examples.
+
+### Step 8: Examine the logistic loss function in detail
 Let's examine the logistic loss function $L(z) = \log(1 + e^{-z})$ for $z \in [-3, 3]$ in more detail:
 
 ![Logistic Loss](../Images/L4_4_Quiz_8/logistic_loss.png)
@@ -173,7 +194,7 @@ Key properties of the logistic loss:
 
 4. **Interpretation**: The logistic loss can be derived from the negative log-likelihood of the logistic regression model, making it a principled choice for binary classification.
 
-### Step 8: Visualize loss functions in 3D parameter space
+### Step 9: Visualize loss functions in 3D parameter space
 To further illustrate convexity, we can visualize the loss functions as surfaces in 3D space, representing loss as a function of model parameters $(w_1, w_2)$:
 
 ![3D Loss Surfaces](../Images/L4_4_Quiz_8/3d_loss_surfaces.png)

@@ -226,30 +226,85 @@ plt.figure(figsize=(10, 6))
 z = np.linspace(0.7, 1.3, 1000)
 hinge_losses = np.maximum(0, 1 - z)
 
+# Plot the hinge loss function
 plt.plot(z, hinge_losses, 'r-', linewidth=3, label='Hinge Loss')
 plt.axvline(x=1, color='k', linestyle='--', alpha=0.7, label='Non-differentiable point at z=1')
 
+# Add annotations to highlight the change in slope
+plt.annotate('Slope = -1', xy=(0.9, 0.1), xytext=(0.75, 0.15), 
+             fontsize=12, arrowprops=dict(facecolor='blue', shrink=0.05, width=1.5, headwidth=8))
+plt.annotate('Slope = 0', xy=(1.1, 0), xytext=(1.15, 0.15), 
+             fontsize=12, arrowprops=dict(facecolor='blue', shrink=0.05, width=1.5, headwidth=8))
+
 # Add zoomed inset
 from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes, mark_inset
-axins = zoomed_inset_axes(plt.gca(), 4, loc='upper right')
+axins = zoomed_inset_axes(plt.gca(), 6, loc=1)  # Position in upper right
 axins.plot(z, hinge_losses, 'r-', linewidth=3)
 axins.axvline(x=1, color='k', linestyle='--', alpha=0.7)
-axins.set_xlim(0.95, 1.05)
-axins.set_ylim(-0.01, 0.06)
+axins.set_xlim(0.97, 1.03)  # Narrower x range for better focus
+axins.set_ylim(-0.005, 0.03)  # Adjusted y-axis range
 axins.grid(True, alpha=0.3)
-axins.set_xticks([0.95, 1, 1.05])
-axins.set_xticklabels(['0.95', '1.00', '1.05'])
-mark_inset(plt.gca(), axins, loc1=2, loc2=4, fc="none", ec="0.5")
+axins.set_xticks([0.97, 1.00, 1.03])
+axins.set_xticklabels(['0.97', '1.00', '1.03'])
+mark_inset(plt.gca(), axins, loc1=3, loc2=4, fc="none", ec="0.5")
 
 plt.xlabel('z = y·f(x)', fontsize=14)
 plt.ylabel('Loss Value', fontsize=14)
 plt.title('Non-differentiability of Hinge Loss at z=1', fontsize=16)
-plt.legend(fontsize=12)
+plt.legend(fontsize=12, loc='upper right')
 plt.grid(True, alpha=0.3)
 plt.ylim(-0.05, 0.35)
 
 # Save the non-differentiability plot
 plt.savefig(os.path.join(save_dir, "hinge_loss_non_differentiability.png"), dpi=300, bbox_inches='tight')
+
+# Add a new visualization: First derivatives of loss functions
+print("\nStep 5.1: Visualize the first derivatives")
+print("--------------------------------------")
+
+# Calculate first derivatives for various z values
+def first_derivative_hinge(z):
+    # First derivative of hinge loss
+    return np.where(z < 1, -1, 0)
+
+def first_derivative_logistic(z):
+    # First derivative of logistic loss
+    return -1 / (1 + np.exp(z))
+
+def first_derivative_squared_error(z):
+    # First derivative of squared error loss (assuming y=1)
+    return 2 * (z - 1)
+
+# Create a figure for first derivatives
+plt.figure(figsize=(12, 6))
+z = np.linspace(-3, 3, 1000)
+
+# Plot first derivatives
+plt.plot(z, first_derivative_hinge(z), 'r-', linewidth=2.5, label='Hinge Loss (1st deriv)')
+plt.plot(z, first_derivative_logistic(z), 'g-', linewidth=2.5, label='Logistic Loss (1st deriv)')
+plt.plot(z, first_derivative_squared_error(z), 'm-', linewidth=2.5, label='Squared Error (1st deriv)')
+
+# Add vertical line at z = 1 (where hinge loss is non-differentiable)
+plt.axvline(x=1, color='k', linestyle='--', alpha=0.5, label='z=1 (non-diff. point)')
+plt.axvline(x=0, color='gray', linestyle='--', alpha=0.5)
+plt.axhline(y=0, color='k', linestyle='-', alpha=0.3)
+
+# Highlight the discontinuity in hinge loss derivative
+plt.scatter([1], [0], color='red', s=100, zorder=5)
+plt.scatter([1], [-1], color='red', s=100, zorder=5)
+plt.annotate('Discontinuity', xy=(1, -0.5), xytext=(1.5, -0.5),
+             fontsize=12, arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=8))
+
+plt.xlabel('z = y·f(x)', fontsize=14)
+plt.ylabel('First Derivative Value', fontsize=14)
+plt.title('First Derivatives of Loss Functions', fontsize=16)
+plt.legend(fontsize=12)
+plt.grid(True, alpha=0.3)
+plt.ylim(-2.1, 2.1)
+plt.xlim(-3, 3)
+
+# Save the first derivatives plot
+plt.savefig(os.path.join(save_dir, "first_derivatives.png"), dpi=300, bbox_inches='tight')
 
 # Step 6: Sketch the logistic loss function in the range [-3, 3]
 print("\nStep 6: Sketch the logistic loss function")
