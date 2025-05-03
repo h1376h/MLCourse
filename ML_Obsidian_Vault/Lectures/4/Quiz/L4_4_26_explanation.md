@@ -36,10 +36,10 @@ It's important to note that the specific data points in this problem create a sp
 First, we need to calculate the mean vectors for both classes by taking the average of the data points in each class.
 
 For Class 0:
-$$\mu_0 = \frac{1}{2} \left( \begin{bmatrix} 1 \\ 2 \end{bmatrix} + \begin{bmatrix} 2 \\ 1 \end{bmatrix} \right) = \begin{bmatrix} 1.5 \\ 1.5 \end{bmatrix}$$
+$$\mu_0 = \frac{1}{n_0} \sum_{i=1}^{n_0} \mathbf{x}_i^{(0)} = \frac{1}{2} \left( \begin{bmatrix} 1 \\ 2 \end{bmatrix} + \begin{bmatrix} 2 \\ 1 \end{bmatrix} \right) = \frac{1}{2} \begin{bmatrix} 3 \\ 3 \end{bmatrix} = \begin{bmatrix} 1.5 \\ 1.5 \end{bmatrix}$$
 
 For Class 1:
-$$\mu_1 = \frac{1}{2} \left( \begin{bmatrix} 4 \\ 3 \end{bmatrix} + \begin{bmatrix} 5 \\ 4 \end{bmatrix} \right) = \begin{bmatrix} 4.5 \\ 3.5 \end{bmatrix}$$
+$$\mu_1 = \frac{1}{n_1} \sum_{i=1}^{n_1} \mathbf{x}_i^{(1)} = \frac{1}{2} \left( \begin{bmatrix} 4 \\ 3 \end{bmatrix} + \begin{bmatrix} 5 \\ 4 \end{bmatrix} \right) = \frac{1}{2} \begin{bmatrix} 9 \\ 7 \end{bmatrix} = \begin{bmatrix} 4.5 \\ 3.5 \end{bmatrix}$$
 
 ### Step 2: Calculate the covariance matrices for each class
 Next, we compute the covariance matrices. For each class, we center the data points by subtracting the class mean, and then compute the scatter matrix.
@@ -49,10 +49,8 @@ The centered data points are:
 $$\mathbf{x}_1^{(0)} - \mu_0 = \begin{bmatrix} 1 \\ 2 \end{bmatrix} - \begin{bmatrix} 1.5 \\ 1.5 \end{bmatrix} = \begin{bmatrix} -0.5 \\ 0.5 \end{bmatrix}$$
 $$\mathbf{x}_2^{(0)} - \mu_0 = \begin{bmatrix} 2 \\ 1 \end{bmatrix} - \begin{bmatrix} 1.5 \\ 1.5 \end{bmatrix} = \begin{bmatrix} 0.5 \\ -0.5 \end{bmatrix}$$
 
-Note that these two vectors are negatives of each other. This is a special case that will lead to a zero covariance matrix.
-
 The covariance matrix $\Sigma_0$ is calculated as:
-$$\Sigma_0 = \frac{1}{n} \sum_{i=1}^{n} (\mathbf{x}_i^{(0)} - \mu_0)(\mathbf{x}_i^{(0)} - \mu_0)^T$$
+$$\Sigma_0 = \frac{1}{n_0} \sum_{i=1}^{n_0} (\mathbf{x}_i^{(0)} - \mu_0)(\mathbf{x}_i^{(0)} - \mu_0)^T$$
 
 $$\Sigma_0 = \frac{1}{2} \left( \begin{bmatrix} -0.5 \\ 0.5 \end{bmatrix} \begin{bmatrix} -0.5 & 0.5 \end{bmatrix} + \begin{bmatrix} 0.5 \\ -0.5 \end{bmatrix} \begin{bmatrix} 0.5 & -0.5 \end{bmatrix} \right)$$
 
@@ -65,25 +63,10 @@ $$\begin{bmatrix} 0.5 \\ -0.5 \end{bmatrix} \begin{bmatrix} 0.5 & -0.5 \end{bmat
 Adding these matrices and dividing by the number of samples:
 $$\Sigma_0 = \frac{1}{2} \left( \begin{bmatrix} 0.25 & -0.25 \\ -0.25 & 0.25 \end{bmatrix} + \begin{bmatrix} 0.25 & -0.25 \\ -0.25 & 0.25 \end{bmatrix} \right) = \begin{bmatrix} 0.25 & -0.25 \\ -0.25 & 0.25 \end{bmatrix}$$
 
-Interestingly, this is not zero as initially expected. Let's double-check our calculation.
-
-The centered data for Class 0:
-$$\mathbf{x}_1^{(0)} - \mu_0 = \begin{bmatrix} 1 - 1.5 \\ 2 - 1.5 \end{bmatrix} = \begin{bmatrix} -0.5 \\ 0.5 \end{bmatrix}$$
-$$\mathbf{x}_2^{(0)} - \mu_0 = \begin{bmatrix} 2 - 1.5 \\ 1 - 1.5 \end{bmatrix} = \begin{bmatrix} 0.5 \\ -0.5 \end{bmatrix}$$
-
-The outer products:
-$$\begin{bmatrix} -0.5 \\ 0.5 \end{bmatrix} \begin{bmatrix} -0.5 & 0.5 \end{bmatrix} = \begin{bmatrix} 0.25 & -0.25 \\ -0.25 & 0.25 \end{bmatrix}$$
-$$\begin{bmatrix} 0.5 \\ -0.5 \end{bmatrix} \begin{bmatrix} 0.5 & -0.5 \end{bmatrix} = \begin{bmatrix} 0.25 & -0.25 \\ -0.25 & 0.25 \end{bmatrix}$$
-
-The covariance matrix for Class 0:
-$$\Sigma_0 = \frac{1}{2} \left( \begin{bmatrix} 0.25 & -0.25 \\ -0.25 & 0.25 \end{bmatrix} + \begin{bmatrix} 0.25 & -0.25 \\ -0.25 & 0.25 \end{bmatrix} \right) = \begin{bmatrix} 0.25 & -0.25 \\ -0.25 & 0.25 \end{bmatrix}$$
-
 For Class 1:
 The centered data points are:
 $$\mathbf{x}_1^{(1)} - \mu_1 = \begin{bmatrix} 4 \\ 3 \end{bmatrix} - \begin{bmatrix} 4.5 \\ 3.5 \end{bmatrix} = \begin{bmatrix} -0.5 \\ -0.5 \end{bmatrix}$$
 $$\mathbf{x}_2^{(1)} - \mu_1 = \begin{bmatrix} 5 \\ 4 \end{bmatrix} - \begin{bmatrix} 4.5 \\ 3.5 \end{bmatrix} = \begin{bmatrix} 0.5 \\ 0.5 \end{bmatrix}$$
-
-Again, these two vectors are negatives of each other, creating a special case.
 
 The outer products:
 $$\begin{bmatrix} -0.5 \\ -0.5 \end{bmatrix} \begin{bmatrix} -0.5 & -0.5 \end{bmatrix} = \begin{bmatrix} 0.25 & 0.25 \\ 0.25 & 0.25 \end{bmatrix}$$
@@ -132,27 +115,43 @@ Using the perturbed data:
 - Class 1: (3.9, 3.1), (5.1, 3.9)
 
 ### Step 1: Calculate the mean vectors
-For the perturbed data, the mean vectors remain the same:
-$$\mu_0 = \begin{bmatrix} 1.5 \\ 1.5 \end{bmatrix}$$
-$$\mu_1 = \begin{bmatrix} 4.5 \\ 3.5 \end{bmatrix}$$
+For the perturbed data, the mean vectors remain approximately the same:
+$$\mu_0 = \frac{1}{2} \left( \begin{bmatrix} 1.1 \\ 1.9 \end{bmatrix} + \begin{bmatrix} 1.9 \\ 1.1 \end{bmatrix} \right) = \frac{1}{2} \begin{bmatrix} 3.0 \\ 3.0 \end{bmatrix} = \begin{bmatrix} 1.5 \\ 1.5 \end{bmatrix}$$
+
+$$\mu_1 = \frac{1}{2} \left( \begin{bmatrix} 3.9 \\ 3.1 \end{bmatrix} + \begin{bmatrix} 5.1 \\ 3.9 \end{bmatrix} \right) = \frac{1}{2} \begin{bmatrix} 9.0 \\ 7.0 \end{bmatrix} = \begin{bmatrix} 4.5 \\ 3.5 \end{bmatrix}$$
 
 ### Step 2: Calculate the covariance matrices
 With the perturbed data, we get non-zero covariance matrices:
 
-$$\Sigma_0 = \begin{bmatrix} 0.16 & -0.16 \\ -0.16 & 0.16 \end{bmatrix}$$
-$$\Sigma_1 = \begin{bmatrix} 0.36 & 0.24 \\ 0.24 & 0.16 \end{bmatrix}$$
+For Class 0, the centered data points are:
+$$\mathbf{x}_1^{(0)} - \mu_0 = \begin{bmatrix} 1.1 \\ 1.9 \end{bmatrix} - \begin{bmatrix} 1.5 \\ 1.5 \end{bmatrix} = \begin{bmatrix} -0.4 \\ 0.4 \end{bmatrix}$$
+$$\mathbf{x}_2^{(0)} - \mu_0 = \begin{bmatrix} 1.9 \\ 1.1 \end{bmatrix} - \begin{bmatrix} 1.5 \\ 1.5 \end{bmatrix} = \begin{bmatrix} 0.4 \\ -0.4 \end{bmatrix}$$
+
+Computing the outer products and the covariance matrix:
+$$\Sigma_0 = \frac{1}{2} \left( \begin{bmatrix} -0.4 \\ 0.4 \end{bmatrix} \begin{bmatrix} -0.4 & 0.4 \end{bmatrix} + \begin{bmatrix} 0.4 \\ -0.4 \end{bmatrix} \begin{bmatrix} 0.4 & -0.4 \end{bmatrix} \right) = \begin{bmatrix} 0.16 & -0.16 \\ -0.16 & 0.16 \end{bmatrix}$$
+
+For Class 1, the centered data points are:
+$$\mathbf{x}_1^{(1)} - \mu_1 = \begin{bmatrix} 3.9 \\ 3.1 \end{bmatrix} - \begin{bmatrix} 4.5 \\ 3.5 \end{bmatrix} = \begin{bmatrix} -0.6 \\ -0.4 \end{bmatrix}$$
+$$\mathbf{x}_2^{(1)} - \mu_1 = \begin{bmatrix} 5.1 \\ 3.9 \end{bmatrix} - \begin{bmatrix} 4.5 \\ 3.5 \end{bmatrix} = \begin{bmatrix} 0.6 \\ 0.4 \end{bmatrix}$$
+
+Computing the outer products and the covariance matrix:
+$$\Sigma_1 = \frac{1}{2} \left( \begin{bmatrix} -0.6 \\ -0.4 \end{bmatrix} \begin{bmatrix} -0.6 & -0.4 \end{bmatrix} + \begin{bmatrix} 0.6 \\ 0.4 \end{bmatrix} \begin{bmatrix} 0.6 & 0.4 \end{bmatrix} \right) = \begin{bmatrix} 0.36 & 0.24 \\ 0.24 & 0.16 \end{bmatrix}$$
 
 ### Step 3: Calculate the pooled within-class scatter matrix
-$$S_w = \Sigma_0 + \Sigma_1 = \begin{bmatrix} 0.52 & 0.08 \\ 0.08 & 0.32 \end{bmatrix}$$
+$$S_w = \Sigma_0 + \Sigma_1 = \begin{bmatrix} 0.16 & -0.16 \\ -0.16 & 0.16 \end{bmatrix} + \begin{bmatrix} 0.36 & 0.24 \\ 0.24 & 0.16 \end{bmatrix} = \begin{bmatrix} 0.52 & 0.08 \\ 0.08 & 0.32 \end{bmatrix}$$
 
 ### Step 4: Calculate the inverse of Sw
-$$S_w^{-1} = \begin{bmatrix} 2.00 & -0.50 \\ -0.50 & 3.25 \end{bmatrix}$$
+First, compute the determinant:
+$$\det(S_w) = 0.52 \times 0.32 - 0.08 \times 0.08 = 0.1664 - 0.0064 = 0.16$$
+
+Then, compute the inverse:
+$$S_w^{-1} = \frac{1}{0.16} \begin{bmatrix} 0.32 & -0.08 \\ -0.08 & 0.52 \end{bmatrix} = \begin{bmatrix} 2.0 & -0.5 \\ -0.5 & 3.25 \end{bmatrix}$$
 
 ### Step 5: Find the optimal projection direction
-$$\mathbf{w}^* = S_w^{-1}(\mu_0 - \mu_1) = \begin{bmatrix} 2.00 & -0.50 \\ -0.50 & 3.25 \end{bmatrix} \begin{bmatrix} -3 \\ -2 \end{bmatrix} = \begin{bmatrix} -5.00 \\ -5.00 \end{bmatrix}$$
+$$\mathbf{w}^* = S_w^{-1}(\mu_0 - \mu_1) = \begin{bmatrix} 2.0 & -0.5 \\ -0.5 & 3.25 \end{bmatrix} \begin{bmatrix} -3 \\ -2 \end{bmatrix} = \begin{bmatrix} -6.0 + 1.0 \\ 1.5 - 6.5 \end{bmatrix} = \begin{bmatrix} -5.0 \\ -5.0 \end{bmatrix}$$
 
 Normalizing to unit length:
-$$\|\mathbf{w}^*\| = \sqrt{(-5)^2 + (-5)^2} = \sqrt{50} \approx 7.071$$
+$$\|\mathbf{w}^*\| = \sqrt{(-5)^2 + (-5)^2} = \sqrt{50} = 7.071$$
 $$\mathbf{w}_{\text{normalized}}^* = \frac{\mathbf{w}^*}{\|\mathbf{w}^*\|} = \frac{1}{7.071} \begin{bmatrix} -5 \\ -5 \end{bmatrix} = \begin{bmatrix} -0.707 \\ -0.707 \end{bmatrix}$$
 
 This result indicates that with the perturbed data, the optimal LDA projection direction is along the negative diagonal, corresponding to the direction that best separates the classes.
@@ -164,13 +163,45 @@ This result indicates that with the perturbed data, the optimal LDA projection d
 
 This visualization shows the original data points (faded) and the perturbed data points used for the LDA calculation. The class means are marked with stars. The green arrow represents the optimal LDA projection direction w* (scaled), and the purple arrow shows the normalized direction.
 
-## Key Insights
+### Projection onto LDA Direction
+![LDA Projection in 1D](../Images/L4_4_Quiz_26/lda_projection_1d.png)
 
-### Theoretical Foundations
-- Fisher's LDA finds the direction that maximizes between-class separation while minimizing within-class scatter
-- The criterion function $S(\mathbf{w})$ quantifies this trade-off: higher values indicate better class separation
-- The solution involves the inverse of the pooled covariance matrix and the difference between class means
-- LDA is a supervised dimensionality reduction technique that takes class labels into account
+This visualization demonstrates how the data points are projected onto the LDA direction. The horizontal line represents the 1D subspace defined by the LDA direction. The projected points show clear separation between the two classes, with a decision threshold at the midpoint between the projected class means.
+
+### Between-class and Within-class Scatter Analysis
+![LDA Scatter Analysis](../Images/L4_4_Quiz_26/lda_scatter_analysis.png)
+
+This visualization provides a comprehensive analysis of the LDA components:
+- The top-left panel shows the original data with class means and the between-class direction.
+- The top-right and bottom-left panels show the within-class scatter for each class, visualized as lines from points to their means and covariance ellipses.
+- The bottom-right panel displays the LDA direction and the corresponding decision boundary.
+
+## Step-by-step Calculation Guide
+
+### Manual Calculation Procedure
+
+1. **Calculate class means**:
+   - Sum all data points in each class
+   - Divide by the number of points in each class
+
+2. **Calculate centered data points**:
+   - Subtract the class mean from each data point in that class
+
+3. **Compute covariance matrices**:
+   - For each class, compute outer products of centered data points
+   - Sum these outer products
+   - Divide by the number of points in the class
+
+4. **Form the pooled within-class scatter matrix**:
+   - Add the covariance matrices from both classes
+
+5. **Compute the between-class mean difference**:
+   - Subtract the mean of class 1 from the mean of class 0
+
+6. **Calculate the optimal projection direction**:
+   - Compute the inverse of the pooled scatter matrix
+   - Multiply this inverse by the between-class mean difference
+   - Normalize the resulting vector to unit length
 
 ### Computational Considerations
 - Special cases like perfectly symmetrical data points can lead to singular or nearly singular covariance matrices
