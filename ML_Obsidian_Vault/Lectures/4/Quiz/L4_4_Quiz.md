@@ -23,9 +23,17 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ### Problem Statement
 Consider the following loss functions for a classification problem where $y \in \{-1, 1\}$ and $f(x)$ is the model's prediction:
 
-- 0-1 Loss: $L(y, f(x)) = \begin{cases} 0 & \text{if } y \cdot f(x) > 0 \\ 1 & \text{otherwise} \end{cases}$
-- Hinge Loss: $L(y, f(x)) = \max(0, 1 - y \cdot f(x))$
-- Logistic Loss: $L(y, f(x)) = \log(1 + e^{-y \cdot f(x)})$
+- **0-1 Loss**: 
+$$L_{0-1}(y, f(x)) = \begin{cases} 
+0 & \text{if } y \cdot f(x) > 0 \\ 
+1 & \text{otherwise} 
+\end{cases}$$
+
+- **Hinge Loss**: 
+$$L_{hinge}(y, f(x)) = \max(0, 1 - y \cdot f(x))$$
+
+- **Logistic Loss**: 
+$$L_{log}(y, f(x)) = \log(1 + e^{-y \cdot f(x)})$$
 
 #### Task
 1. For a data point with true label $y = 1$ and model prediction $f(x) = 0.5$, calculate all three loss values
