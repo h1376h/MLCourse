@@ -53,7 +53,8 @@ Consider Linear Discriminant Analysis (LDA) for a binary classification problem 
 #### Task
 1. Calculate the direction of the LDA projection ($w = \Sigma^{-1}(\mu_1 - \mu_2)$)
 2. What is the threshold value for classification in the projected space?
-3. For a new data point $x = [2, 1]^T$, which class would LDA assign it to?
+3. For a new data point $x_1 = [2, 1]^T$, which class would LDA assign it to?
+4. For another new data point $x_2 = [0, 3]^T$, which class would LDA assign it to?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 3: Linear Discriminant Analysis](L4_4_3_explanation.md).
 
