@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 26 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 27 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -462,3 +462,30 @@ $$\mathbf{w}^* = (\Sigma_0 + \Sigma_1)^{-1}(\mu_0 - \mu_1)$$
 3. Find the optimal $\mathbf{w}^*$ with unit length.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 26: Linear Discriminant Analysis with Simple Data](L4_4_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+Linear discriminant analysis has many applications, such as dimensionality reduction and feature extraction. In this problem, we consider a special case with two classes expressed as follows:
+
+- Class A: $\mathbf{x}_1^{(A)} = \begin{bmatrix} 1 \\ 3 \end{bmatrix}$, $\mathbf{x}_2^{(A)} = \begin{bmatrix} 3 \\ 1 \end{bmatrix}$
+
+- Class B: $\mathbf{x}_1^{(B)} = \begin{bmatrix} 6 \\ 4 \end{bmatrix}$, $\mathbf{x}_2^{(B)} = \begin{bmatrix} 4 \\ 6 \end{bmatrix}$
+
+Note that in this problem we use column vectors for the data points to simplify the calculation.
+
+#### Task
+1. Compute the mean vector for each class, $\mu_A$ and $\mu_B$.
+2. Compute the covariance matrix for each class, $\Sigma_A$ and $\Sigma_B$.
+
+Fisher's linear discriminant analysis aims to maximize the criterion function:
+
+$$S(\mathbf{w}) = \frac{\sigma^2_{\text{between}}}{\sigma^2_{\text{within}}} = \frac{(\mathbf{w}^{\top} \mu_A - \mathbf{w}^{\top} \mu_B)^2}{\mathbf{w}^{\top} (\Sigma_A + \Sigma_B)\mathbf{w}}$$
+
+An optimal solution $\mathbf{w}^*$ is:
+
+$$\mathbf{w}^* = (\Sigma_A + \Sigma_B)^{-1}(\mu_A - \mu_B)$$
+
+3. Find the optimal $\mathbf{w}^*$ with unit length.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 27: Linear Discriminant Analysis with Singular Scatter Matrix](L4_4_27_explanation.md).
