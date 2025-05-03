@@ -235,23 +235,67 @@ $$
 $$Y_2 \approx [12.21, 8.66, 10.24, 10.11, 12.34]$$
 
 ### Step 7: Classify a new data point (5, 5)
-To classify a new data point $x_{\text{new}} = [5, 5]^T$ using LDA, we project it and the class means onto the LDA direction $w$, and then assign the point to the class whose projected mean is closest to the projected point.
+To classify a new data point $x_{\text{new}} = [5, 5]^T$ using LDA, we apply the discriminant function approach, which has two equivalent interpretations:
 
-1. Project the new point onto the LDA direction:
-   $$\text{proj}_{\text{new}} = w^T x_{\text{new}} = \begin{bmatrix} 0.9196 & 0.3930 \end{bmatrix} \begin{bmatrix} 5 \\ 5 \end{bmatrix} = (0.9196)(5) + (0.3930)(5) \approx 4.598 + 1.965 = 6.563$$
+1. **Minimum Distance to Projected Mean**: Project the new point and class means onto the LDA direction, then assign the point to the class whose projected mean is closest.
 
-2. Project the class means onto the LDA direction:
-   $$\text{proj}_{\mu_1} = w^T \mu_1 = \begin{bmatrix} 0.9196 & 0.3930 \end{bmatrix} \begin{bmatrix} 3.0 \\ 3.6 \end{bmatrix} = (0.9196)(3.0) + (0.3930)(3.6) \approx 2.7588 + 1.4148 = 4.1736$$
-   $$\text{proj}_{\mu_2} = w^T \mu_2 = \begin{bmatrix} 0.9196 & 0.3930 \end{bmatrix} \begin{bmatrix} 8.4 \\ 7.6 \end{bmatrix} = (0.9196)(8.4) + (0.3930)(7.6) \approx 7.7246 + 2.9868 = 10.7114$$
+2. **Decision Threshold**: Compare the projection of the new point to a threshold value determined by the projected means and prior probabilities.
 
-3. Calculate distances between projected points:
-   $$\text{distance to } \mu_1 = |\text{proj}_{\text{new}} - \text{proj}_{\mu_1}| = |6.563 - 4.174| \approx 2.389$$
-   $$\text{distance to } \mu_2 = |\text{proj}_{\text{new}} - \text{proj}_{\mu_2}| = |6.563 - 10.711| \approx |-4.148| = 4.148$$
+Let's work through both approaches step by step:
 
-4. Assign the point to the class with the minimum distance:
-   Since $2.389 < 4.148$, the distance to the projected mean of Class 1 is smaller. Therefore, the new point $(5, 5)$ is assigned to **Class 1**.
+#### Method 1: Minimum Distance to Projected Mean
+
+First, we project the new point onto the LDA direction $w \approx [0.9196, 0.3930]^T$:
+$$\text{proj}_{\text{new}} = w^T x_{\text{new}} = \begin{bmatrix} 0.9196 & 0.3930 \end{bmatrix} \begin{bmatrix} 5 \\ 5 \end{bmatrix}$$
+$$\text{proj}_{\text{new}} = (0.9196 \times 5) + (0.3930 \times 5) = 4.598 + 1.965 = 6.563$$
+
+Next, we project the class means onto the LDA direction:
+$$\text{proj}_{\mu_1} = w^T \mu_1 = \begin{bmatrix} 0.9196 & 0.3930 \end{bmatrix} \begin{bmatrix} 3.0 \\ 3.6 \end{bmatrix} = (0.9196 \times 3.0) + (0.3930 \times 3.6)$$
+$$\text{proj}_{\mu_1} = 2.7588 + 1.4148 = 4.1736$$
+
+$$\text{proj}_{\mu_2} = w^T \mu_2 = \begin{bmatrix} 0.9196 & 0.3930 \end{bmatrix} \begin{bmatrix} 8.4 \\ 7.6 \end{bmatrix} = (0.9196 \times 8.4) + (0.3930 \times 7.6)$$
+$$\text{proj}_{\mu_2} = 7.7246 + 2.9868 = 10.7114$$
+
+Now we calculate the distances between the projected new point and each projected class mean:
+$$\text{distance to } \mu_1 = |\text{proj}_{\text{new}} - \text{proj}_{\mu_1}| = |6.563 - 4.1736| = 2.3894$$
+$$\text{distance to } \mu_2 = |\text{proj}_{\text{new}} - \text{proj}_{\mu_2}| = |6.563 - 10.7114| = 4.1484$$
+
+Since $2.3894 < 4.1484$, the distance to the projected mean of Class 1 is smaller. Therefore, using the minimum distance approach, the new point $(5, 5)$ is assigned to **Class 1**.
+
+#### Method 2: Decision Threshold
+
+In LDA, we can also determine a threshold value that defines the decision boundary. For two classes with equal prior probabilities and equal covariance matrices (standard LDA assumptions), this threshold is located at the midpoint between the projected means:
+
+$$\text{threshold} = \frac{\text{proj}_{\mu_1} + \text{proj}_{\mu_2}}{2} = \frac{4.1736 + 10.7114}{2} = \frac{14.885}{2} = 7.4425$$
+
+The decision rule is:
+- If $\text{proj}_{\text{new}} < \text{threshold}$, assign to Class 1
+- If $\text{proj}_{\text{new}} > \text{threshold}$, assign to Class 2
+
+In our case:
+$$\text{proj}_{\text{new}} = 6.563 < 7.4425 = \text{threshold}$$
+
+Therefore, using the threshold approach, the new point is also assigned to **Class 1**.
+
+> **Note**: For unequal prior probabilities $P(C_1) = p_1$ and $P(C_2) = p_2$, the threshold would be adjusted to:
+> $$\text{threshold} = \frac{\text{proj}_{\mu_1} + \text{proj}_{\mu_2}}{2} + \frac{1}{2}\ln\frac{p_2}{p_1}$$
+> With equal priors $(p_1 = p_2 = 0.5)$, the logarithmic term becomes zero, giving us the midpoint formula we used.
+
+#### Geometric Interpretation
+
+The decision boundary in the original feature space is a line perpendicular to the LDA direction $w$ and passing through a point that corresponds to the threshold value in the projected space. This line separates the feature space into two regions, one for each class.
+
+For our example, the decision boundary can be written as:
+$$w^T x = \text{threshold}$$
+$$0.9196x_1 + 0.3930x_2 = 7.4425$$
+
+Any point $(x_1, x_2)$ that satisfies this equation lies on the decision boundary. Points for which $0.9196x_1 + 0.3930x_2 < 7.4425$ are classified as Class 1, and points for which $0.9196x_1 + 0.3930x_2 > 7.4425$ are classified as Class 2.
+
+Since $0.9196 \times 5 + 0.3930 \times 5 = 6.563 < 7.4425$, the point $(5, 5)$ is classified as **Class 1**.
 
 ![Classification Result](../Images/L4_4_Quiz_24/classification_result.png)
+
+This visualization shows the decision boundary (magenta line) perpendicular to the LDA direction (black line). The new point (green diamond) falls in the blue region (Class 1). Its projection onto the LDA direction (green '+' marker) is closer to the projection of the Class 1 mean than to the projection of the Class 2 mean.
 
 ## Visual Explanations
 
@@ -268,7 +312,7 @@ This figure illustrates the optimal LDA projection direction (black arrow along 
 ### Classification of New Point
 ![Classification Result](../Images/L4_4_Quiz_24/classification_result.png)
 
-This visualization shows the classification of the new point $(5, 5)$, marked as a green diamond. The magenta line perpendicular to the LDA direction represents the decision boundary, located at the midpoint between the projected means ($ ( \text{proj}_{\mu_1} + \text{proj}_{\mu_2}) / 2 \approx (4.17 + 10.71)/2 \approx 7.44 $). The light blue and light red regions indicate the classification areas for Class 1 and Class 2, respectively. The new point's projection ($\approx 6.56$) falls in the blue region, classifying it as belonging to Class 1.
+This visualization shows the decision boundary (magenta line) perpendicular to the LDA direction (black line). The new point (green diamond) falls in the blue region (Class 1). Its projection onto the LDA direction (green '+' marker) is closer to the projection of the Class 1 mean than to the projection of the Class 2 mean.
 
 ## Key Insights
 
