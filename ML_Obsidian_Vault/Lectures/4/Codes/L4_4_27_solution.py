@@ -269,16 +269,29 @@ plt.annotate('$\\mu_A$', (mu_A[0, 0], mu_A[1, 0]),
 plt.annotate('$\\mu_B$', (mu_B[0, 0], mu_B[1, 0]), 
              xytext=(10, 5), textcoords='offset points', fontsize=14)
 
-# Calculate the LDA line (projection direction)
-origin = np.zeros(2)
-plt.arrow(origin[0], origin[1], w_star[0, 0]/2, w_star[1, 0]/2,  # Scale down for visibility
+# Fix: Use a better origin for the LDA direction arrows
+# Use the midpoint between class means as the origin
+origin = np.array([(mu_A[0, 0] + mu_B[0, 0])/2, (mu_A[1, 0] + mu_B[1, 0])/2])
+
+# Draw scaled LDA direction (non-normalized)
+arrow_scale = 1.0  # Adjust for better visibility
+plt.arrow(origin[0], origin[1], 
+          arrow_scale * w_star_normalized[0, 0], arrow_scale * w_star_normalized[1, 0],
           head_width=0.2, head_length=0.3, fc='green', ec='green', 
           label='LDA direction (w*)')
 
-# Add normalized w* vector for clarity
-plt.arrow(origin[0], origin[1], w_star_normalized[0, 0], w_star_normalized[1, 0], 
-          head_width=0.1, head_length=0.15, fc='purple', ec='purple', 
-          label='Normalized w*')
+# Draw opposite direction for better visualization
+plt.arrow(origin[0], origin[1], 
+          -arrow_scale * w_star_normalized[0, 0], -arrow_scale * w_star_normalized[1, 0],
+          head_width=0.2, head_length=0.3, fc='purple', ec='purple', 
+          label='Opposite direction')
+
+# Draw the decision boundary (perpendicular to w*)
+perp_vec = np.array([-w_star_normalized[1, 0], w_star_normalized[0, 0]])
+boundary_length = 3  # Length of the boundary line
+plt.plot([origin[0] - boundary_length * perp_vec[0], origin[0] + boundary_length * perp_vec[0]],
+         [origin[1] - boundary_length * perp_vec[1], origin[1] + boundary_length * perp_vec[1]],
+         'g--', linewidth=2, label='Decision boundary')
 
 plt.xlabel('$x_1$', fontsize=14)
 plt.ylabel('$x_2$', fontsize=14)
@@ -286,7 +299,15 @@ plt.title('Data Points and LDA Projection Direction', fontsize=16)
 plt.grid(True, alpha=0.3)
 plt.axhline(y=0, color='k', linestyle='--', alpha=0.3)
 plt.axvline(x=0, color='k', linestyle='--', alpha=0.3)
-plt.legend(fontsize=10)
+
+# Set axis limits to show all data points with some margin
+margin = 1
+plt.xlim(min(np.min(X_A[0, :]), np.min(X_B[0, :])) - margin, 
+         max(np.max(X_A[0, :]), np.max(X_B[0, :])) + margin)
+plt.ylim(min(np.min(X_A[1, :]), np.min(X_B[1, :])) - margin, 
+         max(np.max(X_A[1, :]), np.max(X_B[1, :])) + margin)
+
+plt.legend(fontsize=10, loc='best')
 plt.axis('equal')
 
 # Save the plot
@@ -302,48 +323,79 @@ w_unit = w_star_normalized.flatten()
 X_A_proj = np.array([np.dot(X_A[:, i], w_unit) for i in range(X_A.shape[1])])
 X_B_proj = np.array([np.dot(X_B[:, i], w_unit) for i in range(X_B.shape[1])])
 
-# Calculate the range for the plot
-x_min, x_max = min(np.min(X_A_proj), np.min(X_B_proj)) - 0.5, max(np.max(X_A_proj), np.max(X_B_proj)) + 0.5
-y_min, y_max = -0.1, 0.5  # Just for visualization
+# Calculate the range for the plot with added margin
+margin = 1.0
+x_min = min(np.min(X_A_proj), np.min(X_B_proj)) - margin
+x_max = max(np.max(X_A_proj), np.max(X_B_proj)) + margin
+y_min, y_max = -0.1, 0.5  # For visualization height
 
-# Plot the projected points on the LDA direction line
-plt.plot([x_min, x_max], [0, 0], 'k-', lw=2)
-plt.scatter(X_A_proj, np.zeros_like(X_A_proj) + 0.1, s=100, color='blue', marker='o', label='Class A')
-plt.scatter(X_B_proj, np.zeros_like(X_B_proj) + 0.1, s=100, color='red', marker='x', label='Class B')
+# Plot the projection axis line
+plt.plot([x_min, x_max], [0, 0], 'k-', lw=2, label='Projection Axis')
+
+# Plot the projected points with increased vertical separation
+y_offset_A = 0.15
+y_offset_B = 0.05
+plt.scatter(X_A_proj, np.zeros_like(X_A_proj) + y_offset_A, s=100, color='blue', marker='o', label='Class A')
+plt.scatter(X_B_proj, np.zeros_like(X_B_proj) + y_offset_B, s=100, color='red', marker='x', label='Class B')
 
 # Calculate and plot the projected means
 mu_A_proj = np.dot(mu_A.flatten(), w_unit)
 mu_B_proj = np.dot(mu_B.flatten(), w_unit)
-plt.scatter(mu_A_proj, 0.3, s=200, color='blue', marker='*', label='Mean of Class A')
-plt.scatter(mu_B_proj, 0.3, s=200, color='red', marker='*', label='Mean of Class B')
+plt.scatter(mu_A_proj, y_offset_A + 0.15, s=200, color='blue', marker='*', label='Mean of Class A')
+plt.scatter(mu_B_proj, y_offset_B + 0.15, s=200, color='red', marker='*', label='Mean of Class B')
+
+# Add vertical projection lines to show the projection process
+plt.plot([mu_A_proj, mu_A_proj], [0, y_offset_A + 0.15], 'b--', alpha=0.6)
+plt.plot([mu_B_proj, mu_B_proj], [0, y_offset_B + 0.15], 'r--', alpha=0.6)
+
+# Draw projection lines for all points
+for i in range(len(X_A_proj)):
+    plt.plot([X_A_proj[i], X_A_proj[i]], [0, y_offset_A], 'b--', alpha=0.4)
+for i in range(len(X_B_proj)):
+    plt.plot([X_B_proj[i], X_B_proj[i]], [0, y_offset_B], 'r--', alpha=0.4)
 
 # Add annotations
 for i in range(len(X_A_proj)):
-    plt.annotate(f'$x_{i+1}^{{(A)}}$', (X_A_proj[i], 0.1), 
-                 xytext=(0, 10), textcoords='offset points', fontsize=12, ha='center')
+    plt.annotate(f'$x_{i+1}^{{(A)}}$', (X_A_proj[i], y_offset_A), 
+                 xytext=(0, 5), textcoords='offset points', fontsize=12, ha='center')
 for i in range(len(X_B_proj)):
-    plt.annotate(f'$x_{i+1}^{{(B)}}$', (X_B_proj[i], 0.1), 
-                 xytext=(0, 10), textcoords='offset points', fontsize=12, ha='center')
+    plt.annotate(f'$x_{i+1}^{{(B)}}$', (X_B_proj[i], y_offset_B), 
+                 xytext=(0, 5), textcoords='offset points', fontsize=12, ha='center')
 
-plt.annotate('$\\mu_A$', (mu_A_proj, 0.3), 
-             xytext=(0, 10), textcoords='offset points', fontsize=14, ha='center')
-plt.annotate('$\\mu_B$', (mu_B_proj, 0.3), 
-             xytext=(0, 10), textcoords='offset points', fontsize=14, ha='center')
+plt.annotate('$\\mu_A$', (mu_A_proj, y_offset_A + 0.15), 
+             xytext=(0, 5), textcoords='offset points', fontsize=14, ha='center')
+plt.annotate('$\\mu_B$', (mu_B_proj, y_offset_B + 0.15), 
+             xytext=(0, 5), textcoords='offset points', fontsize=14, ha='center')
 
-# Calculate the optimal threshold for classification
+# Calculate the optimal threshold for classification and mark it clearly
 threshold = (mu_A_proj + mu_B_proj) / 2
-plt.axvline(x=threshold, color='g', linestyle='--', label=f'Threshold: {threshold:.2f}')
+plt.axvline(x=threshold, color='g', linestyle='--', linewidth=2, label=f'Decision Threshold: {threshold:.2f}')
+plt.scatter(threshold, 0, color='g', s=100, marker='|', zorder=10)
+plt.annotate(f'Threshold = {threshold:.2f}', (threshold, 0.35), fontsize=12, ha='center')
+
+# Add LDA direction arrows along the axis for better understanding
+arrow_length = (x_max - x_min) / 10
+plt.arrow(threshold - arrow_length, 0, arrow_length * 0.8, 0, 
+          head_width=0.03, head_length=arrow_length * 0.2, fc='purple', ec='purple')
+plt.arrow(threshold + arrow_length, 0, -arrow_length * 0.8, 0, 
+          head_width=0.03, head_length=arrow_length * 0.2, fc='green', ec='green')
+
+# Add shaded regions for each class
+plt.axvspan(x_min, threshold, alpha=0.1, color='blue', label='Class A Region')
+plt.axvspan(threshold, x_max, alpha=0.1, color='red', label='Class B Region')
 
 plt.title('Projection of Data Points onto LDA Direction', fontsize=16)
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
-plt.xlabel('Projection Value', fontsize=14)
-plt.yticks([])  # Hide y-axis ticks as they're not meaningful here
+plt.xlabel('Projection Value along LDA Direction', fontsize=14)
+plt.yticks([])  # Hide y-axis ticks
 plt.grid(True, alpha=0.3)
+
+# Place legend in a better position without overlapping
 plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), ncol=3, fontsize=10)
 plt.tight_layout()
 
-# Save the projection visualization
+# Save the improved projection visualization
 plt.savefig(os.path.join(save_dir, "lda_projection_1d.png"), dpi=300, bbox_inches='tight')
 
 # ---------------- VISUALIZATION 2: Between-class and Within-class Scatter ----------------

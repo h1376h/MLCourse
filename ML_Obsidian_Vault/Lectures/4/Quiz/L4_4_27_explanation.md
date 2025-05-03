@@ -120,16 +120,26 @@ Both approaches yield the same normalized direction vector. This makes intuitive
 ### Data Points and LDA Direction
 ![LDA Projection](../Images/L4_4_Quiz_27/lda_projection.png)
 
-This visualization shows the original data points for both classes (Class A in blue, Class B in red). The class means are marked with stars. The green arrow represents the LDA projection direction $\mathbf{w}^*$ (scaled for visibility), and the purple arrow shows the normalized direction $\mathbf{w}^*_{\text{norm}}$.
+This visualization shows the original data points for both classes (Class A in blue circles, Class B in red crosses). The class means are marked with stars. The visualization includes:
 
-The key observation is that the optimal projection direction is proportional to the difference between class means. In this special case where the scatter matrix is singular, the direction coincides exactly with the line connecting the class means.
+1. The optimal LDA projection direction (green arrow) starting from the midpoint between class means
+2. The opposite direction (purple arrow) to illustrate the full projection axis
+3. The decision boundary (green dashed line) which is perpendicular to the projection direction
+
+The key observation is that the optimal projection direction is aligned with the difference between class means. In this special case with a singular scatter matrix, the direction coincides exactly with the line connecting the class means.
 
 ### Projection onto the LDA Direction
 ![LDA Projection in 1D](../Images/L4_4_Quiz_27/lda_projection_1d.png)
 
-This visualization demonstrates how the data points are projected onto the LDA direction. The horizontal line represents the 1D subspace defined by the LDA direction. The projected points show clear separation between the two classes, with a decision threshold (green dashed line) at the midpoint between the projected class means.
+This visualization demonstrates how the data points are projected onto the LDA direction. Key elements include:
 
-After projection, we can see that all points from Class A are on one side of the threshold and all points from Class B are on the other side, demonstrating perfect class separation.
+1. The horizontal line representing the 1D projection axis
+2. Vertical projection lines showing how each point maps to the projection axis
+3. Clear separation between Class A (blue circles) and Class B (red crosses)
+4. The decision threshold (green vertical line) at the midpoint between projected means
+5. Shaded regions showing the classification areas for each class
+
+The projection demonstrates perfect class separation, with all Class A points projected to one side of the threshold and all Class B points to the other. This is the fundamental goal of LDA - finding a projection that maximizes between-class separation while minimizing within-class variance.
 
 ### Between-class and Within-class Scatter Analysis
 ![LDA Scatter Analysis](../Images/L4_4_Quiz_27/lda_scatter_analysis.png)
@@ -140,6 +150,8 @@ This comprehensive visualization illustrates several aspects of the LDA analysis
 2. **Top-right**: Within-class scatter for Class A, showing the distances from each point to its class mean
 3. **Bottom-left**: Within-class scatter for Class B, showing the distances from each point to its class mean
 4. **Bottom-right**: The LDA direction and the perpendicular decision boundary
+
+This analysis helps visualize how the within-class scatter (variability within each class) and between-class scatter (distance between class means) affect the optimal projection direction. The scatter plots reveal the perfect negative correlation within each class and show why the pooled scatter matrix becomes singular in this special case.
 
 ## Key Insights
 
