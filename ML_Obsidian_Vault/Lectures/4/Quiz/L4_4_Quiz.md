@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 20 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 21 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -332,4 +332,36 @@ Assume that the feature vectors in each class follow a multivariate Gaussian dis
 5. Assuming equal prior probabilities, calculate the threshold for classification in the projected space
 6. Using LDA, classify the new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 4 \\ 3 \end{bmatrix}$ and explain how the decision boundary relates to linear separability
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 20: LDA with Scatter Matrices](L4_4_20_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 20: LDA with Scatter Matrices](L4_4_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+Consider a binary classification problem with the following dataset:
+
+| A    | B    | Class |
+|------|------|-------|
+| 3.5  | 4.0  | 1     |
+| 2.0  | 4.0  | 1     |
+| 2.0  | 6.0  | 1     |
+| 1.5  | 7.0  | 1     |
+| 7.0  | 6.5  | 1     |
+| 2.1  | 2.5  | 0     |
+| 8.0  | 4.0  | 0     |
+| 9.1  | 4.5  | 0     |
+
+An LDA model has been developed for this dataset with the following statistics:
+- Sample means: $\boldsymbol{\mu}_1 = [3.2, 5.5]^T$ for Class 1 and $\boldsymbol{\mu}_0 = [6.4, 3.7]^T$ for Class 0
+- Covariance matrices: 
+$$\Sigma_1 = \begin{bmatrix} 5.08 & 0.5 \\ 0.5 & 2 \end{bmatrix}$$ 
+for Class 1, and 
+$$\Sigma_0 = \begin{bmatrix} 14.7 & 3.9 \\ 3.9 & 1.08 \end{bmatrix}$$ 
+for Class 0
+
+#### Task
+1. Explain how having different covariance matrices for each class affects the LDA assumptions
+2. Using the discriminant function approach, calculate the posterior probabilities for the new data point $\mathbf{x}_{\text{new}} = [4, 5]^T$
+3. Determine the predicted class for the new data point $\mathbf{x}_{\text{new}} = [4, 5]^T$
+4. Describe how the decision boundary would be different if we used a pooled covariance matrix (standard LDA)
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 21: LDA Prediction](L4_4_21_explanation.md). 
