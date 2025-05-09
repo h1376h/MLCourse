@@ -261,7 +261,7 @@ Consider a linear classifier being trained on a dataset with the following prope
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Robust Classification](L4_4_17_explanation.md).
 
-## Question 18
+## [⭐] Question 18
 
 ### Problem Statement
 Consider a medical dataset with tumor features and diagnostic outcomes. Each patient has data on age (years) and tumor size (mm), with the target variable $y$ indicating whether the tumor is malignant (1) or benign (0).
