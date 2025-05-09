@@ -473,42 +473,70 @@ new_patient_tumor_size = 30
 new_patient = np.array([1, new_patient_age, new_patient_tumor_size])  # Age=50, Tumor_Size=30 with intercept term
 print(f"New patient data: [intercept, Age, Tumor_Size] = {new_patient}")
 
+# Detailed calculation of the linear combination
 print("\nStep-by-step prediction calculation:")
-print("1. Compute z = θᵀx:")
-print(f"   z = θ₀*1 + θ₁*Age + θ₂*Tumor_Size")
-print(f"   z = {final_theta[0]:.2f}*1 + {final_theta[1]:.2f}*{new_patient[1]} + {final_theta[2]:.2f}*{new_patient[2]}")
-print(f"   z = {final_theta[0]:.2f} + {final_theta[1]*new_patient[1]:.2f} + {final_theta[2]*new_patient[2]:.2f}")
+print("1. Compute the linear combination z = θᵀx:")
+print(f"   z = θ₀ + θ₁ × Age + θ₂ × Tumor_Size")
+print(f"   z = {final_theta[0]:.2f} + {final_theta[1]:.2f} × {new_patient_age} + {final_theta[2]:.2f} × {new_patient_tumor_size}")
+print(f"   Substituting the values:")
+print(f"   z = {final_theta[0]:.2f} + {final_theta[1]:.2f} × {new_patient_age} + {final_theta[2]:.2f} × {new_patient_tumor_size}")
+print(f"   Term 1: θ₀ = {final_theta[0]:.2f}")
+print(f"   Term 2: θ₁ × Age = {final_theta[1]:.2f} × {new_patient_age} = {final_theta[1]*new_patient_age:.2f}")
+print(f"   Term 3: θ₂ × Tumor_Size = {final_theta[2]:.2f} × {new_patient_tumor_size} = {final_theta[2]*new_patient_tumor_size:.2f}")
+print(f"   Sum of terms: z = {final_theta[0]:.2f} + {final_theta[1]*new_patient_age:.2f} + {final_theta[2]*new_patient_tumor_size:.2f} = {final_theta[0] + final_theta[1]*new_patient_age + final_theta[2]*new_patient_tumor_size:.2f}")
 new_z = new_patient @ final_theta
-print(f"   z = {new_z:.4f}")
+print(f"   Final value: z = {new_z:.4f}")
 
-print("\n2. Compute probability P(y=1|x) = g(z):")
+# Decision boundary interpretation
+print("\n1.1. Decision boundary interpretation:")
+print(f"   The decision boundary is given by z = 0, which is where P(y=1|x) = 0.5")
+print(f"   For our patient, z = {new_z:.4f} < 0, which means P(y=1|x) < 0.5")
+print(f"   Given the patient's age ({new_patient_age}), the tumor size threshold for malignancy is:")
+print(f"   Tumor_Size = 62.25 - 0.5 × {new_patient_age} = {62.25 - 0.5*new_patient_age:.2f} mm")
+print(f"   Since the patient's tumor size ({new_patient_tumor_size} mm) is less than {62.25 - 0.5*new_patient_age:.2f} mm,")
+print(f"   we predict the tumor is benign.")
+
+print("\n2. Compute probability P(y=1|x) = g(z) using the sigmoid function:")
 print(f"   P(y=1|x) = 1 / (1 + e^(-z))")
 print(f"   P(y=1|x) = 1 / (1 + e^(-({new_z:.4f})))")
 
 # Calculate the exponent term in detail
 neg_z = -new_z
-print(f"   Let's compute e^(-z) = e^({neg_z:.4f}):")
+print(f"\n   Step 2.1: Compute e^(-z) = e^({neg_z:.4f}):")
+print(f"   e^({neg_z:.4f}) is a very large number since {neg_z:.4f} is positive and large.")
+print(f"   We can compute this as:")
+# Using the properties of exponents for numerical stability
+powers_of_ten = int(neg_z // 1)
+remainder = neg_z - powers_of_ten
+exp_remainder = np.exp(remainder)
 exp_neg_z = np.exp(neg_z)
-print(f"   e^({neg_z:.4f}) ≈ {exp_neg_z:.6e}")
+
+print(f"   e^({neg_z:.4f}) = e^({powers_of_ten} + {remainder:.4f}) = e^{powers_of_ten} × e^{remainder:.4f}")
+print(f"   e^{powers_of_ten} ≈ {10**powers_of_ten:.6e}") 
+print(f"   e^{remainder:.4f} ≈ {exp_remainder:.6f}")
+print(f"   Therefore, e^({neg_z:.4f}) ≈ {10**powers_of_ten:.6e} × {exp_remainder:.6f} ≈ {exp_neg_z:.6e}")
 
 # Show the full calculation
-print(f"\n   P(y=1|x) = 1 / (1 + {exp_neg_z:.6e})")
-print(f"   P(y=1|x) = 1 / {1 + exp_neg_z:.6e}")
-new_probability = 1 / (1 + exp_neg_z)
-print(f"   P(y=1|x) ≈ {new_probability:.8f}")
+denominator = 1 + exp_neg_z
+print(f"\n   Step 2.2: Compute the sigmoid function:")
+print(f"   g(z) = 1 / (1 + e^(-z)) = 1 / (1 + {exp_neg_z:.6e}) = 1 / {denominator:.6e}")
+print(f"   Since the denominator is very large, we can approximate: 1 / {denominator:.6e} ≈ {1/denominator:.10f}")
+new_probability = 1 / denominator
+print(f"   P(y=1|x) ≈ {new_probability:.10f}")
 
 # Alternative notation to match the image
 print("\n   Using the notation from the image:")
-print(f"   h(x) = \\frac{{1}}{{1 + e^{{-({new_z:.2f})}}}} ≈ {new_probability:.8f} ≈ 0")
+print(f"   h(x) = \\frac{{1}}{{1 + e^{{-({new_z:.2f})}}}} ≈ {new_probability:.10f} ≈ 0")
 
 print("\n   We can also write this out more explicitly:")
-print(f"   h(x) = \\frac{{1}}{{1 + e^{{-(-{final_theta[0]:.2f} + {final_theta[1]:.2f}*{new_patient_age} + {final_theta[2]:.2f}*{new_patient_tumor_size})}}}} ≈ {new_probability:.8f}")
+print(f"   h(x) = \\frac{{1}}{{1 + e^{{-(-{final_theta[0]:.2f} + {final_theta[1]:.2f}*{new_patient_age} + {final_theta[2]:.2f}*{new_patient_tumor_size})}}}} ≈ {new_probability:.10f}")
 
 print("\n3. Make classification decision:")
-print(f"   Threshold = 0.5")
-print(f"   Since P(y=1|x) = {new_probability:.8f} {'>' if new_probability > 0.5 else '<'} 0.5")
+print(f"   Classification threshold = 0.5")
+print(f"   Since P(y=1|x) = {new_probability:.10f} {'>' if new_probability > 0.5 else '<'} 0.5")
 new_prediction = 1 if new_probability >= 0.5 else 0
 print(f"   Classification: {'Malignant (y=1)' if new_prediction == 1 else 'Benign (y=0)'}")
+print(f"   Confidence in prediction: {max(new_probability, 1-new_probability):.10f} = {max(new_probability, 1-new_probability)*100:.8f}%")
 print("\n")
 
 # Create a visual explanation of the prediction
@@ -529,6 +557,46 @@ plt.title('Sigmoid Function and New Patient Prediction')
 plt.grid(True)
 plt.legend()
 plt.savefig(os.path.join(save_dir, 'new_patient_prediction.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
+# Create a visualization of the logistic function over a range of values
+plt.figure(figsize=(12, 5))
+
+# Create a meshgrid of age and tumor size values
+age_range = np.linspace(10, 100, 100)
+tumor_range = np.linspace(10, 80, 100)
+age_grid, tumor_grid = np.meshgrid(age_range, tumor_range)
+
+# Calculate the probability for each point in the grid
+z_grid = final_theta[0] + final_theta[1] * age_grid + final_theta[2] * tumor_grid
+prob_grid = sigmoid(z_grid)
+
+# Create a contour plot of probabilities
+plt.subplot(1, 2, 1)
+contour = plt.contourf(age_grid, tumor_grid, prob_grid, 20, cmap='viridis', alpha=0.8)
+plt.colorbar(contour, label='P(malignant)')
+plt.contour(age_grid, tumor_grid, prob_grid, levels=[0.5], colors='red', linestyles='dashed', linewidths=2)
+plt.xlabel('Age (years)')
+plt.ylabel('Tumor Size (mm)')
+plt.title('Probability of Malignancy')
+plt.scatter(X[y==0, 0], X[y==0, 1], c='blue', marker='o', label='Benign', edgecolors='k')
+plt.scatter(X[y==1, 0], X[y==1, 1], c='red', marker='x', label='Malignant', s=80)
+plt.scatter(new_patient_age, new_patient_tumor_size, c='green', marker='*', s=200, label='New Patient')
+plt.legend(loc='upper right')
+plt.grid(True)
+
+# Add a 3D visualization
+ax = plt.subplot(1, 2, 2, projection='3d')
+surf = ax.plot_surface(age_grid, tumor_grid, prob_grid, cmap='viridis', alpha=0.8)
+plt.colorbar(surf, ax=ax, shrink=0.5, aspect=5, label='P(malignant)')
+ax.set_xlabel('Age (years)')
+ax.set_ylabel('Tumor Size (mm)')
+ax.set_zlabel('Probability')
+ax.set_title('3D Probability Surface')
+ax.view_init(30, 45)
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'probability_visualization.png'), dpi=300, bbox_inches='tight')
 plt.close()
 
 # ====================================================================================================

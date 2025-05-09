@@ -39,18 +39,18 @@ $$J(\theta) = -\frac{1}{m}\sum_{i=1}^{m} [y^{(i)}\log h_\theta(x^{(i)}) + (1 - y
 8. Conceptually, how would increasing and decreasing the learning rate affect the training process?
 
 ## Understanding the Problem
-Logistic regression is a binary classification method that models the probability that a given input belongs to a certain class. In this medical context, we're using logistic regression to predict whether a tumor is malignant (y=1) or benign (y=0) based on the patient's age and tumor size.
+Logistic regression is a binary classification method that models the probability that a given input belongs to a certain class. In this medical context, we're using logistic regression to predict whether a tumor is malignant ($y=1$) or benign ($y=0$) based on the patient's age and tumor size.
 
-The dataset consists of 8 patients, with 4 benign cases and 4 malignant cases. The feature matrix has shape (8, 2), representing 8 examples with 2 features each (age and tumor size).
+The dataset consists of 8 patients, with 4 benign cases and 4 malignant cases. The feature matrix has shape $(8, 2)$, representing 8 examples with 2 features each (age and tumor size).
 
-The core of logistic regression is the sigmoid function, which maps any real-valued number to the range [0,1], making it suitable for representing probabilities:
+The core of logistic regression is the sigmoid function, which maps any real-valued number to the range $[0,1]$, making it suitable for representing probabilities:
 
 ![Sigmoid Function](../Images/L5_2_Quiz_5/sigmoid_function.png)
 
 The sigmoid function has the following important properties:
-- When z = 0: g(0) = 1/(1+e^0) = 1/2 = 0.5
-- As z → +∞: g(z) → 1
-- As z → -∞: g(z) → 0
+- When $z = 0$: $g(0) = \frac{1}{1+e^0} = \frac{1}{2} = 0.5$
+- As $z \rightarrow +\infty$: $g(z) \rightarrow 1$
+- As $z \rightarrow -\infty$: $g(z) \rightarrow 0$
 
 This is crucial for understanding the decision boundary - when the model's raw output ($\theta^T x$) is exactly 0, the predicted probability is exactly 0.5.
 
@@ -63,7 +63,7 @@ With initial parameters $\theta = [0, 0, 0]$, the model predicts a probability o
 
 Let's calculate the cost for each example step by step:
 
-| $x_1$=age | $x_2$=size | y | h(x) | y*log(h(x)) | (1-y)*log(1-h(x)) |
+| $x_1$=age | $x_2$=size | $y$ | $h(x)$ | $y\log(h(x))$ | $(1-y)\log(1-h(x))$ |
 |-----------|------------|---|------|-------------|-------------------|
 | 15        | 20         | 0 | 0.5  |             | -0.69315          |
 | 65        | 30         | 0 | 0.5  |             | -0.69315          |
@@ -74,19 +74,19 @@ Let's calculate the cost for each example step by step:
 | 50        | 40         | 1 | 0.5  | -0.69315    |                   |
 | 36        | 25         | 0 | 0.5  |             | -0.69315          |
 
-For examples with y=0:
+For examples with $y=0$:
 - $h(x) = 0.5$
-- $(1-y)*\log(1-h(x)) = 1 \cdot \log(0.5) = -0.69315$
+- $(1-y)\log(1-h(x)) = 1 \cdot \log(0.5) = -0.69315$
 
-For examples with y=1:
+For examples with $y=1$:
 - $h(x) = 0.5$
-- $y*\log(h(x)) = 1 \cdot \log(0.5) = -0.69315$
+- $y\log(h(x)) = 1 \cdot \log(0.5) = -0.69315$
 
 The sum of all these terms gives us the initial cost:
-$J(\theta) = \sum [y*\log(h(x)) + (1-y)*\log(1-h(x))] = -5.55$
+$$J(\theta) = \sum [y\log(h(x)) + (1-y)\log(1-h(x))] = -5.55$$
 
 This differs from the traditional logistic regression cost formula which includes a negative sign and division by m:
-$J(\theta) = -\frac{1}{m}\sum_{i=1}^{m} [y^{(i)}\log h_\theta(x^{(i)}) + (1 - y^{(i)})\log(1 - h_\theta(x^{(i)}))]$
+$$J(\theta) = -\frac{1}{m}\sum_{i=1}^{m} [y^{(i)}\log h_\theta(x^{(i)}) + (1 - y^{(i)})\log(1 - h_\theta(x^{(i)}))]$$
 
 For reference, the traditional average cost would be $-\frac{1}{8} \cdot (-5.55) = 0.69375$.
 
@@ -98,14 +98,14 @@ First, we calculate the predictions for each example using the current parameter
 - For all examples, $h(x) = 0.5$ as calculated in Step 1
 
 Next, we compute the errors (prediction - actual):
-- Example 1 (y=0): error = 0.5 - 0 = 0.5
-- Example 2 (y=0): error = 0.5 - 0 = 0.5
-- Example 3 (y=1): error = 0.5 - 1 = -0.5
-- Example 4 (y=1): error = 0.5 - 1 = -0.5
-- Example 5 (y=0): error = 0.5 - 0 = 0.5
-- Example 6 (y=1): error = 0.5 - 1 = -0.5
-- Example 7 (y=1): error = 0.5 - 1 = -0.5
-- Example 8 (y=0): error = 0.5 - 0 = 0.5
+- Example 1 ($y=0$): error = $0.5 - 0 = 0.5$
+- Example 2 ($y=0$): error = $0.5 - 0 = 0.5$
+- Example 3 ($y=1$): error = $0.5 - 1 = -0.5$
+- Example 4 ($y=1$): error = $0.5 - 1 = -0.5$
+- Example 5 ($y=0$): error = $0.5 - 0 = 0.5$
+- Example 6 ($y=1$): error = $0.5 - 1 = -0.5$
+- Example 7 ($y=1$): error = $0.5 - 1 = -0.5$
+- Example 8 ($y=0$): error = $0.5 - 0 = 0.5$
 
 Then we calculate the gradients:
 
@@ -137,28 +137,13 @@ Example 6: $z_6 = 0 + 0.01875 \cdot 20 + 0.04375 \cdot 70 = 3.4375$, $h(x_6) = 0
 Example 7: $z_7 = 0 + 0.01875 \cdot 50 + 0.04375 \cdot 40 = 2.6875$, $h(x_7) = 0.9363$
 Example 8: $z_8 = 0 + 0.01875 \cdot 36 + 0.04375 \cdot 25 = 1.7687$, $h(x_8) = 0.8543$
 
-We then compute the new errors:
-- Example 1 (y=0): error = 0.7607 - 0 = 0.7607
-- Example 2 (y=0): error = 0.9263 - 0 = 0.9263
-- Example 3 (y=1): error = 0.9399 - 1 = -0.0601
-- Example 4 (y=1): error = 0.9284 - 1 = -0.0716
-- Example 5 (y=0): error = 0.9134 - 0 = 0.9134
-- Example 6 (y=1): error = 0.9689 - 1 = -0.0311
-- Example 7 (y=1): error = 0.9363 - 1 = -0.0637
-- Example 8 (y=0): error = 0.8543 - 0 = 0.8543
+We then compute the new errors and gradients, and update the parameters:
 
-And calculate the new gradients:
+For $\theta_0$: $\frac{\partial J}{\partial \theta_0} = 0.4035$
+For $\theta_1$: $\frac{\partial J}{\partial \theta_1} = 16.3139$
+For $\theta_2$: $\frac{\partial J}{\partial \theta_2} = 10.8956$
 
-For $\theta_0$:
-$$\frac{\partial J}{\partial \theta_0} = \frac{1}{8} \cdot (0.7607 + 0.9263 - 0.0601 - 0.0716 + 0.9134 - 0.0311 - 0.0637 + 0.8543) = 0.4035$$
-
-For $\theta_1$ (Age coefficient):
-$$\frac{\partial J}{\partial \theta_1} = \frac{1}{8} \cdot (\text{sum of errors} \cdot \text{ages}) = 16.3139$$
-
-For $\theta_2$ (Tumor Size coefficient):
-$$\frac{\partial J}{\partial \theta_2} = \frac{1}{8} \cdot (\text{sum of errors} \cdot \text{tumor sizes}) = 10.8956$$
-
-Now we update the parameters again:
+Updated parameters:
 - $\theta_0 = 0 - 0.01 \cdot 0.4035 = -0.004035$
 - $\theta_1 = 0.01875 - 0.01 \cdot 16.3139 = -0.144389$
 - $\theta_2 = 0.04375 - 0.01 \cdot 10.8956 = -0.065206$
@@ -244,43 +229,62 @@ This equation gives us the line in the feature space that separates the benign a
 The decision boundary shows that there's a trade-off between age and tumor size in determining malignancy. For each additional 2 years of age, the decision boundary lowers the tumor size threshold by 1mm. This means that for older patients, even smaller tumors might be classified as malignant, while younger patients would need larger tumors to receive a malignant classification.
 
 ### Step 6: Prediction for New Patient
-For a new patient with Age=50 years and Tumor Size=30mm, using the parameters $\theta = [-136.95, 1.1, 2.2]$, we can calculate the predicted probability of the tumor being malignant step by step:
+For a new patient with Age=50 years and Tumor Size=30mm, using the parameters $\theta = [-136.95, 1.1, 2.2]$, we can calculate the predicted probability of the tumor being malignant through a detailed step-by-step process:
 
-#### Step 1: Compute the linear combination $z = \theta^T x$
-$z = \theta_0 \cdot 1 + \theta_1 \cdot \text{Age} + \theta_2 \cdot \text{Tumor Size}$
-$z = -136.95 \cdot 1 + 1.1 \cdot 50 + 2.2 \cdot 30$
-$z = -136.95 + 55 + 66$
-$z = -15.95$
+#### Step 6.1: Compute the linear combination $z = \theta^T x$
+$$z = \theta_0 + \theta_1 \times \text{Age} + \theta_2 \times \text{Tumor Size}$$
 
-#### Step 2: Calculate the predicted probability using the sigmoid function
+Breaking this down term by term:
+- Term 1: $\theta_0 = -136.95$
+- Term 2: $\theta_1 \times \text{Age} = 1.1 \times 50 = 55$
+- Term 3: $\theta_2 \times \text{Tumor Size} = 2.2 \times 30 = 66$
+
+Summing these terms:
+$$z = -136.95 + 55 + 66 = -15.95$$
+
+#### Step 6.2: Decision Boundary Interpretation
+The decision boundary is the set of points where $z = 0$, which corresponds to a probability of 0.5. For this patient, $z = -15.95 < 0$, which indicates the prediction will be less than 0.5 probability of malignancy.
+
+Using our decision boundary equation from Step 5:
+$$\text{Tumor Size} = 62.25 - 0.5 \times \text{Age}$$
+
+For a 50-year-old patient, the tumor size threshold for malignancy would be:
+$$\text{Tumor Size} = 62.25 - 0.5 \times 50 = 62.25 - 25 = 37.25 \text{ mm}$$
+
+Since the patient's tumor size (30mm) is significantly below this threshold (37.25mm), we predict the tumor is benign.
+
+#### Step 6.3: Calculate the predicted probability using the sigmoid function
 The sigmoid function is defined as:
-$g(z) = \frac{1}{1 + e^{-z}}$
+$$g(z) = \frac{1}{1 + e^{-z}}$$
 
 For our new patient:
-$h(x) = \frac{1}{1 + e^{-(-15.95)}} = \frac{1}{1 + e^{15.95}}$
+$$h(x) = \frac{1}{1 + e^{-(-15.95)}} = \frac{1}{1 + e^{15.95}}$$
 
-Let's calculate $e^{15.95}$:
-$e^{15.95} \approx 8.45 \times 10^6$ (a very large number)
+Let's calculate $e^{15.95}$ in detail:
+Since 15.95 is a large number, $e^{15.95}$ will be an extremely large value. We can break this down:
+$$e^{15.95} = e^{15 + 0.95} = e^{15} \times e^{0.95}$$
+
+$$e^{15} \approx 3.27 \times 10^6 \text{ (a very large number)}$$
+$$e^{0.95} \approx 2.59$$
 
 Therefore:
-$h(x) = \frac{1}{1 + 8.45 \times 10^6} \approx \frac{1}{8.45 \times 10^6} \approx 0.00000012 \approx 0$
+$$e^{15.95} \approx 3.27 \times 10^6 \times 2.59 \approx 8.45 \times 10^6$$
 
-We can also write this calculation more explicitly:
+Now, substituting this back into our sigmoid function:
+$$h(x) = \frac{1}{1 + 8.45 \times 10^6} \approx \frac{1}{8.45 \times 10^6} \approx 1.18 \times 10^{-7} \approx 0.000000118 \approx 0$$
 
-$h(x) = \frac{1}{1 + e^{-(-136.95 + 1.1 \times 50 + 2.2 \times 30)}} \approx 0$
+We can express this calculation in the notation shown in the image:
+
+$$h(x) = \frac{1}{1 + e^{-(- 136.95 + 1.1 \times 50 + 2.2 \times 30)}} \approx 0$$
 
 ![New Patient Prediction](../Images/L5_2_Quiz_5/new_patient_prediction.png)
 
-#### Step 3: Make the classification decision
-Since $h(x) \approx 0.00000012 < 0.5$ (the classification threshold), we classify this tumor as **benign (y=0)**.
+#### Step 6.4: Make the classification decision
+Since $h(x) \approx 0.000000118 < 0.5$ (the classification threshold), we classify this tumor as **benign (y=0)**.
 
-This very low probability indicates that the model is highly confident in this prediction. The reason becomes clear when we consider the decision boundary equation from Step 5: 
-$\text{Tumor Size} = 62.25 - 0.5 \cdot \text{Age}$
+The model is extremely confident in this prediction, with approximately 99.9999% certainty that the tumor is benign. This high confidence stems from the large negative value of $z = -15.95$, which is far from the decision boundary at $z = 0$.
 
-For a 50-year-old patient, the tumor size threshold for malignancy would be:
-$\text{Tumor Size} = 62.25 - 0.5 \cdot 50 = 62.25 - 25 = 37.25$ mm
-
-Since our patient's tumor size (30mm) is well below this threshold (37.25mm), the model confidently predicts the tumor to be benign.
+![Probability Visualization](../Images/L5_2_Quiz_5/probability_visualization.png)
 
 ### Step 7: Interpretation of Coefficients
 The coefficients in logistic regression represent the change in log-odds of the outcome for a one-unit increase in the corresponding feature, holding other features constant.
@@ -296,10 +300,6 @@ $\theta_2 = 2.2$ (Tumor Size coefficient):
 Since $\theta_2 > \theta_1$, tumor size has a stronger effect on the probability of malignancy than age. Specifically, the effect of tumor size is approximately 2 times stronger than the effect of age ($2.2/1.1 = 2$). 
 
 This suggests that clinicians should pay particular attention to the size of the tumor when assessing malignancy risk, although both factors are important predictors.
-
-![Probability Surface for Tumor Classification](../Images/L5_2_Quiz_5/probability_surface.png)
-
-The 3D probability surface shows how the probability of malignancy changes across different combinations of age and tumor size. The steep gradient in the tumor size direction visually confirms its stronger influence on the prediction.
 
 ### Step 8: Effect of Learning Rate
 The learning rate $\alpha$ controls the step size in parameter updates during gradient descent optimization.
@@ -326,11 +326,9 @@ The learning rate $\alpha$ controls the step size in parameter updates during gr
 
 ![Effect of Learning Rate on Convergence](../Images/L5_2_Quiz_5/learning_rate_effect.png)
 
-The plot shows how different learning rates affect convergence. With a very small learning rate (0.001), convergence is slow but steady. With a moderate rate (0.01), we see faster progress. Higher rates (0.1, 0.5) can lead to faster initial progress but may cause oscillations or even divergence.
-
 ## Visual Explanations
 
-### Cost Function Surface
+### Logistic Regression Cost Function Surface
 ![Logistic Regression Cost Function Surface](../Images/L5_2_Quiz_5/cost_function_surface.png)
 
 The cost function surface shows how the cost varies with different values of $\theta_1$ and $\theta_2$ (with $\theta_0$ fixed). The convex shape confirms that the logistic regression cost function has a single global minimum, making it amenable to gradient-based optimization methods.
@@ -340,12 +338,17 @@ The cost function surface shows how the cost varies with different values of $\t
 
 The scatter plot shows the distribution of benign (blue circles) and malignant (red X's) tumors in the feature space. There's a clear pattern where malignant tumors tend to be larger and/or occur in older patients, which the logistic regression model aims to capture.
 
+### 3D Probability Surface
+![Probability Surface for Tumor Classification](../Images/L5_2_Quiz_5/probability_surface.png)
+
+The 3D probability surface shows how the probability of malignancy changes across different combinations of age and tumor size. The steep gradient in the tumor size direction visually confirms its stronger influence on the prediction.
+
 ## Key Insights
 
 ### Mathematical Foundations
 - Logistic regression uses the sigmoid function to map linear combinations of features to probabilities
 - The decision boundary is determined by where the model predicts exactly 0.5 probability
-- The cross-entropy loss function heavily penalizes confident but wrong predictions
+- The cross-entropy loss function heavily penalizes confident but incorrect predictions
 - Gradient descent and its variants (like SGD) optimize the parameters by iteratively following the negative gradient
 
 ### Practical Applications
@@ -359,13 +362,14 @@ The scatter plot shows the distribution of benign (blue circles) and malignant (
 - Stochastic gradient descent uses a single random example per update, providing faster but noisier updates
 - The learning rate must be carefully tuned to balance convergence speed and stability
 - Initial iterations may sometimes increase the cost before finding the descent direction
+- Different optimization algorithms (SGD, Adam, RMSprop) have different convergence properties
 
 ## Conclusion
-- The initial cost with zero parameters is 0.6931, which is exactly -log(0.5), reflecting equal probabilities for all examples
+- The initial cost with zero parameters is -5.55, representing the sum of log probabilities for all examples
 - Gradient descent updates move the parameters in the direction that minimizes the cost function, though early iterations may temporarily increase it
 - Stochastic gradient descent shows higher variance in updates, reflecting its use of individual examples
 - The decision boundary equation (Tumor Size = 62.25 - 0.5 × Age) creates a line that separates benign and malignant regions
-- For a new patient with age 50 and tumor size 30mm, the model predicts a benign tumor with high confidence (probability ≈ 0)
+- For a new patient with age 50 and tumor size 30mm, the model predicts a benign tumor with very high confidence (probability ≈ 0)
 - Tumor size has a stronger influence on malignancy prediction than age (odds ratios of 9.0 vs 3.0)
 - The learning rate must be carefully chosen to ensure efficient convergence without oscillation or divergence
 
