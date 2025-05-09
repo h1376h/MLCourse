@@ -62,16 +62,20 @@ $$S_W = \sum_{i \in C_1} (x^{(i)} - \mu_1)(x^{(i)} - \mu_1)^T + \sum_{i \in C_2}
 
 For the malignant class ($y=1$), we first calculate the scatter matrix $S_1$:
 
-For data point 1 $(30, 50) - (47.5, 45.0) = (-17.5, 5.0)$:
+For data point 1:
+$$(30, 50) - (47.5, 45.0) = (-17.5, 5.0)$$
 $$(-17.5, 5.0)(-17.5, 5.0)^T = \begin{bmatrix} 306.25 & -87.5 \\ -87.5 & 25.0 \end{bmatrix}$$
 
-For data point 2 $(90, 20) - (47.5, 45.0) = (42.5, -25.0)$:
+For data point 2:
+$$(90, 20) - (47.5, 45.0) = (42.5, -25.0)$$
 $$(42.5, -25.0)(42.5, -25.0)^T = \begin{bmatrix} 1806.25 & -1062.5 \\ -1062.5 & 625.0 \end{bmatrix}$$
 
-For data point 3 $(20, 70) - (47.5, 45.0) = (-27.5, 25.0)$:
+For data point 3:
+$$(20, 70) - (47.5, 45.0) = (-27.5, 25.0)$$
 $$(-27.5, 25.0)(-27.5, 25.0)^T = \begin{bmatrix} 756.25 & -687.5 \\ -687.5 & 625.0 \end{bmatrix}$$
 
-For data point 4 $(50, 40) - (47.5, 45.0) = (2.5, -5.0)$:
+For data point 4:
+$$(50, 40) - (47.5, 45.0) = (2.5, -5.0)$$
 $$(2.5, -5.0)(2.5, -5.0)^T = \begin{bmatrix} 6.25 & -12.5 \\ -12.5 & 25.0 \end{bmatrix}$$
 
 Adding these up, we get the scatter matrix for the malignant class:
@@ -79,16 +83,20 @@ $$S_1 = \begin{bmatrix} 2875.0 & -1850.0 \\ -1850.0 & 1300.0 \end{bmatrix}$$
 
 For the benign class ($y=0$), we calculate the scatter matrix $S_2$:
 
-For data point 1 $(15, 20) - (40.0, 27.5) = (-25.0, -7.5)$:
+For data point 1:
+$$(15, 20) - (40.0, 27.5) = (-25.0, -7.5)$$
 $$(-25.0, -7.5)(-25.0, -7.5)^T = \begin{bmatrix} 625.0 & 187.5 \\ 187.5 & 56.25 \end{bmatrix}$$
 
-For data point 2 $(65, 30) - (40.0, 27.5) = (25.0, 2.5)$:
+For data point 2:
+$$(65, 30) - (40.0, 27.5) = (25.0, 2.5)$$
 $$(25.0, 2.5)(25.0, 2.5)^T = \begin{bmatrix} 625.0 & 62.5 \\ 62.5 & 6.25 \end{bmatrix}$$
 
-For data point 3 $(44, 35) - (40.0, 27.5) = (4.0, 7.5)$:
+For data point 3:
+$$(44, 35) - (40.0, 27.5) = (4.0, 7.5)$$
 $$(4.0, 7.5)(4.0, 7.5)^T = \begin{bmatrix} 16.0 & 30.0 \\ 30.0 & 56.25 \end{bmatrix}$$
 
-For data point 4 $(36, 25) - (40.0, 27.5) = (-4.0, -2.5)$:
+For data point 4:
+$$(36, 25) - (40.0, 27.5) = (-4.0, -2.5)$$
 $$(-4.0, -2.5)(-4.0, -2.5)^T = \begin{bmatrix} 16.0 & 10.0 \\ 10.0 & 6.25 \end{bmatrix}$$
 
 Adding these up, we get the scatter matrix for the benign class:
