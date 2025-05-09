@@ -264,27 +264,37 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ## Question 18
 
 ### Problem Statement
-Consider a medical dataset with tumor features and diagnostic outcomes. Each patient has data on tumor size (mm) and age (years), with the target variable y indicating whether the tumor is malignant (1) or benign (0).
+Consider a medical dataset with tumor features and diagnostic outcomes. Each patient has data on age (years) and tumor size (mm), with the target variable $y$ indicating whether the tumor is malignant (1) or benign (0).
 
-| Tumor Size (mm) | Age (years) | y (Malignant) |
-|-----------------|-------------|---------------|
-| 15              | 20          | 0             |
-| 65              | 30          | 0             |
-| 30              | 50          | 1             |
-| 90              | 20          | 1             |
-| 44              | 35          | 0             |
-| 20              | 70          | 1             |
-| 50              | 40          | 1             |
-| 36              | 25          | 0             |
+| Age (years) | Tumor Size (mm) | $y$ (Malignant) |
+|-------------|-----------------|-----------------|
+| 15          | 20              | 0               |
+| 65          | 30              | 0               |
+| 30          | 50              | 1               |
+| 90          | 20              | 1               |
+| 44          | 35              | 0               |
+| 20          | 70              | 1               |
+| 50          | 40              | 1               |
+| 36          | 25              | 0               |
 
 #### Task
 1. Calculate the mean vectors for each class (malignant and benign)
 2. Calculate the shared covariance matrix assuming equal covariance for both classes
-3. Determine the LDA projection direction $w = \Sigma^{-1}(\mu_1 - \mu_2)$ where $\mu_1$ is the mean for class y=1 and $\mu_2$ is the mean for class y=0
+3. Determine the LDA projection direction $w = \Sigma^{-1}(\mu_1 - \mu_2)$ where $\mu_1$ is the mean for class $y=1$ and $\mu_2$ is the mean for class $y=0$
 4. Calculate the threshold value for classification in the projected space, assuming equal prior probabilities
-5. For a new patient with tumor size 40mm and age 45 years, which diagnosis would LDA predict?
+5. For a new patient with age 50 years and tumor size 30mm, which diagnosis would LDA predict?
+6. For another patient with age 60 years and tumor size 30mm, which diagnosis would LDA predict?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: LDA for Medical Diagnosis](L4_4_18_explanation.md).
+
+#### Solution Approaches
+This problem can be tackled using multiple approaches:
+
+For a detailed explanation using the shared covariance matrix formula, which provides a standard LDA implementation, see [Question 18: LDA for Medical Diagnosis](L4_4_18_explanation.md).
+
+For an alternative approach using the within-class scatter matrix formulation, which was used in our class lectures, see [Alternative Solution: Within-Class Scatter Approach](L4_4_18_explanation_alternative.md).
+
+Note that while the numerical values differ slightly between these approaches, the fundamental concepts and final classification decisions remain the same, as the relative relationships between variables are preserved.
 
 ## Question 19
 
