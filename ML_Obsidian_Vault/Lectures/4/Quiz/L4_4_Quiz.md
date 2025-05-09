@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 27 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 28 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -499,3 +499,24 @@ $$\mathbf{w}^* = (\Sigma_A + \Sigma_B)^{-1}(\mu_A - \mu_B)$$
 3. Find the optimal $\mathbf{w}^*$ with unit length.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 27: Linear Discriminant Analysis with Singular Scatter Matrix](L4_4_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+You are a fruit vendor trying to automatically sort fruits. You have data for two types of fruits, "SweetApples" (label +1) and "SourOranges" (label -1), based on two features: "Sweetness" ($x_1$, scale 1-10) and "Sourness" ($x_2$, scale 1-10).
+
+| Fruit ID     | Sweetness ($x_1$) | Sourness ($x_2$) | Class ($y$) |
+|--------------|-------------------|------------------|-------------|
+| SA1          | 8                 | 2                | +1          |
+| SA2          | 7                 | 3                | +1          |
+| SO1          | 3                 | 8                | -1          |
+| SO2          | 2                 | 7                | -1          |
+
+#### Task
+1. Sketch these points in a 2D coordinate system (Sweetness as x-axis, Sourness as y-axis), labeling each point with its Fruit ID and class.
+2. Draw a linear decision boundary that separates these two classes and write its equation in the form $w_1x_1 + w_2x_2 + b = 0$.
+3. Consider a Perceptron algorithm with learning rate $\eta = 1$ and initial weights $w_1=0, w_2=0, b=0$. The Perceptron updates its weights if $y \cdot (w_1x_1 + w_2x_2 + b) \le 0$. If the points are processed in the order SA1, SA2, SO1, SO2, what are the weights $(w_1, w_2, b)$ after the *first* update? Show your calculation for the first point processed.
+4. Is this dataset linearly separable? Explain why or why not in one sentence.
+5. Apply Fisher's Linear Discriminant Analysis (LDA) to find the optimal projection direction for this dataset.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 28: Fruit Classification with Perceptron and Fisher's LDA](L4_4_28_explanation.md).
