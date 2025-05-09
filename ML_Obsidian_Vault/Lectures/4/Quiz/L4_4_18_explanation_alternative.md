@@ -53,7 +53,7 @@ $$\mu_2 = \frac{1}{4} (160, 110) = (40.0, 27.5)$$
 
 These mean vectors tell us that, on average, malignant tumors in our dataset appear in older patients (47.5 years vs 40.0 years) and are larger (45.0mm vs 27.5mm) compared to benign tumors.
 
-![Tumor Data with Class Means](../Images/L4_4_Quiz_18/tumor_data_plot.png)
+![Tumor Data with Class Means](../Images/L4_4_Quiz_18/tumor_data_plot_alt.png)
 
 ### Step 2: Calculate the within-class scatter matrix $S_W$
 The within-class scatter matrix is calculated as the sum of the scatter matrices for each class:
@@ -151,7 +151,7 @@ $$\theta^T \mu_2 = [0.41, 0.91] \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = 0.4
 Assuming equal prior probabilities, the threshold is:
 $$c = \theta^T \frac{\mu_1 + \mu_2}{2} = [0.41, 0.91] \begin{bmatrix} \frac{47.5 + 40.0}{2} \\ \frac{45.0 + 27.5}{2} \end{bmatrix} = [0.41, 0.91] \begin{bmatrix} 43.75 \\ 36.25 \end{bmatrix} = 17.94 + 32.99 = 50.93$$
 
-![LDA Decision Boundary for Tumor Classification](../Images/L4_4_Quiz_18/lda_decision_boundary.png)
+![LDA Decision Boundary for Tumor Classification](../Images/L4_4_Quiz_18/lda_decision_boundary_alt.png)
 
 ### Step 5: Classify the new patient
 For the new patient with age 50 years and tumor size 30 mm, we:
@@ -168,7 +168,7 @@ For the new patient with age 50 years and tumor size 30 mm, we:
 
 5. The probability of being benign is approximately 62%.
 
-![Projections of Data Points onto LDA Direction](../Images/L4_4_Quiz_18/lda_projections.png)
+![Projections of Data Points onto LDA Direction](../Images/L4_4_Quiz_18/lda_projections_alt.png)
 
 ## Key Insights
 
