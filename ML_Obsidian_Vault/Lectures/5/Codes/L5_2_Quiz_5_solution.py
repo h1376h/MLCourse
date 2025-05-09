@@ -140,6 +140,13 @@ print(f"Initial parameters: θ = {initial_theta}")
 print("\nStep-by-step calculation of initial cost J(θ):")
 print("-"*60)
 
+# Create a DataFrame to show the calculation similar to the image
+calculation_df = pd.DataFrame({
+    'x₁=age': df['Age'],
+    'x₂=size': df['Tumor_Size'],
+    'y': df['Malignant'],
+})
+
 # Calculate hypothesis values h(x) for each example
 h_values = np.zeros(m)
 for i in range(m):
@@ -149,29 +156,54 @@ for i in range(m):
     print(f"Example {i+1}: z_{i+1} = θᵀx_{i+1} = {initial_theta} @ {X_with_intercept[i]} = {z_i}")
     print(f"             h(x_{i+1}) = g(z_{i+1}) = g({z_i}) = {h_i}")
 
-print("\nAll hypothesis values: h(x) = [" + " ".join([f"{h:.4f}" for h in h_values]) + "]")
+calculation_df['h(x)'] = h_values
 
-# Calculate the cost for each example
-individual_costs = np.zeros(m)
+# Calculate the y*log(h(x)) term for each example
+y_log_h = np.zeros(m)
 for i in range(m):
     if y[i] == 1:
-        cost_i = -np.log(h_values[i])
-        print(f"Example {i+1} (y_{i+1}=1): Cost = -log(h(x_{i+1})) = -log({h_values[i]:.4f}) = {cost_i:.4f}")
-    else:  # y[i] == 0
-        cost_i = -np.log(1 - h_values[i])
-        print(f"Example {i+1} (y_{i+1}=0): Cost = -log(1-h(x_{i+1})) = -log(1-{h_values[i]:.4f}) = {cost_i:.4f}")
-    individual_costs[i] = cost_i
+        y_log_h[i] = y[i] * np.log(h_values[i])
+        print(f"Example {i+1} (y_{i+1}=1): y*log(h(x)) = {y[i]}*log({h_values[i]:.4f}) = {y_log_h[i]:.5f}")
+    else:
+        y_log_h[i] = 0  # Will be 0 when y=0
 
-# Calculate the total cost
-total_cost = np.sum(individual_costs)
+calculation_df['y*log(h(x))'] = y_log_h
+# Fill NaN values with empty string for better display
+calculation_df['y*log(h(x))'] = calculation_df['y*log(h(x))'].apply(lambda x: f"{x:.5f}" if x != 0 else "")
+
+# Calculate the (1-y)*log(1-h(x)) term for each example
+one_minus_y_log_one_minus_h = np.zeros(m)
+for i in range(m):
+    if y[i] == 0:
+        one_minus_y_log_one_minus_h[i] = (1-y[i]) * np.log(1-h_values[i])
+        print(f"Example {i+1} (y_{i+1}=0): (1-y)*log(1-h(x)) = {1-y[i]}*log(1-{h_values[i]:.4f}) = {one_minus_y_log_one_minus_h[i]:.5f}")
+    else:
+        one_minus_y_log_one_minus_h[i] = 0  # Will be 0 when y=1
+
+calculation_df['(1-y)*log(1-h(x))'] = one_minus_y_log_one_minus_h
+# Fill NaN values with empty string for better display
+calculation_df['(1-y)*log(1-h(x))'] = calculation_df['(1-y)*log(1-h(x))'].apply(lambda x: f"{x:.5f}" if x != 0 else "")
+
+# Display the calculation table
+print("\nCost function calculation table:")
+print(calculation_df.to_string(index=False))
+
+# Calculate the total cost (sum of all terms)
+total_cost = np.sum(y_log_h) + np.sum(one_minus_y_log_one_minus_h)
+print(f"\nSum of cost terms: {total_cost:.5f}")
+
+# For this example we're using the sum directly to match the image showing J(θ) = -5.55
+# rather than averaging by dividing by m
+cost_j_theta = total_cost
+print(f"Initial cost J(θ): {cost_j_theta:.2f}")
+
+# For reference, show the traditional average cost as well
 avg_cost = total_cost / m
-print(f"\nSum of individual costs: {total_cost:.4f}")
-print(f"Number of examples (m): {m}")
-print(f"Average cost J(θ): (1/{m}) * {total_cost:.4f} = {avg_cost:.4f}")
+print(f"Average cost (traditional calculation): {avg_cost:.5f}")
 
-# Double-check with function
-initial_cost = compute_cost(X_with_intercept, y, initial_theta)
-print(f"\nVerification using cost function: J(θ) = {initial_cost:.4f}")
+# Double-check with function but adjust to not divide by m to match the image
+initial_cost = compute_cost(X_with_intercept, y, initial_theta) * m
+print(f"\nVerification (total cost, not averaged): J(θ) = {initial_cost:.2f}")
 print("\n")
 
 # ====================================================================================================

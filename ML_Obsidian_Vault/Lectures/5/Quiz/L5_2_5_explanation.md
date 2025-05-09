@@ -63,25 +63,32 @@ With initial parameters $\theta = [0, 0, 0]$, the model predicts a probability o
 
 Let's calculate the cost for each example step by step:
 
-For example 1 (y=0):
-- $z_1 = \theta^T x_1 = 0 \cdot 1 + 0 \cdot 15 + 0 \cdot 20 = 0$
-- $h(x_1) = g(z_1) = g(0) = 0.5$
-- Cost = $-\log(1-h(x_1)) = -\log(0.5) = 0.6931$
+| $x_1$=age | $x_2$=size | y | h(x) | y*log(h(x)) | (1-y)*log(1-h(x)) |
+|-----------|------------|---|------|-------------|-------------------|
+| 15        | 20         | 0 | 0.5  |             | -0.69315          |
+| 65        | 30         | 0 | 0.5  |             | -0.69315          |
+| 30        | 50         | 1 | 0.5  | -0.69315    |                   |
+| 90        | 20         | 1 | 0.5  | -0.69315    |                   |
+| 44        | 35         | 0 | 0.5  |             | -0.69315          |
+| 20        | 70         | 1 | 0.5  | -0.69315    |                   |
+| 50        | 40         | 1 | 0.5  | -0.69315    |                   |
+| 36        | 25         | 0 | 0.5  |             | -0.69315          |
 
-Similarly, for all examples:
-- Example 1 (y=0): Cost = 0.6931
-- Example 2 (y=0): Cost = 0.6931
-- Example 3 (y=1): Cost = 0.6931
-- Example 4 (y=1): Cost = 0.6931
-- Example 5 (y=0): Cost = 0.6931
-- Example 6 (y=1): Cost = 0.6931
-- Example 7 (y=1): Cost = 0.6931
-- Example 8 (y=0): Cost = 0.6931
+For examples with y=0:
+- $h(x) = 0.5$
+- $(1-y)*\log(1-h(x)) = 1 \cdot \log(0.5) = -0.69315$
 
-The sum of individual costs is 5.5452, and with 8 examples, the average cost is:
-$J(\theta) = \frac{1}{8} \cdot 5.5452 = 0.6931$
+For examples with y=1:
+- $h(x) = 0.5$
+- $y*\log(h(x)) = 1 \cdot \log(0.5) = -0.69315$
 
-This initial cost of 0.6931 (which equals $-\log(0.5)$) makes intuitive sense because the model is giving a 50% probability to each class, and we have a balanced dataset with equal numbers of positive and negative examples.
+The sum of all these terms gives us the initial cost:
+$J(\theta) = \sum [y*\log(h(x)) + (1-y)*\log(1-h(x))] = -5.55$
+
+This differs from the traditional logistic regression cost formula which includes a negative sign and division by m:
+$J(\theta) = -\frac{1}{m}\sum_{i=1}^{m} [y^{(i)}\log h_\theta(x^{(i)}) + (1 - y^{(i)})\log(1 - h_\theta(x^{(i)}))]$
+
+For reference, the traditional average cost would be $-\frac{1}{8} \cdot (-5.55) = 0.69375$.
 
 ### Step 2: Gradient Descent Iterations
 Gradient descent works by iteratively updating the parameters in the direction of steepest descent of the cost function.
