@@ -33,24 +33,24 @@ LDA works by projecting data onto a direction that maximizes the separation betw
 First, we need to calculate the mean vectors for each class. These vectors represent the center of each class in the feature space.
 
 For the malignant class ($y=1$), we have the following data points:
-- $(30, 50)$
-- $(90, 20)$
-- $(20, 70)$
-- $(50, 40)$
+- $\begin{bmatrix} 30 \\ 50 \end{bmatrix}$
+- $\begin{bmatrix} 90 \\ 20 \end{bmatrix}$
+- $\begin{bmatrix} 20 \\ 70 \end{bmatrix}$
+- $\begin{bmatrix} 50 \\ 40 \end{bmatrix}$
 
 The mean is calculated by summing all points and dividing by the number of points:
-$$\mu_1 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left[ (30, 50) + (90, 20) + (20, 70) + (50, 40) \right]$$
-$$\mu_1 = \frac{1}{4} (190, 180) = (47.5, 45.0)$$
+$$\mu_1 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left( \begin{bmatrix} 30 \\ 50 \end{bmatrix} + \begin{bmatrix} 90 \\ 20 \end{bmatrix} + \begin{bmatrix} 20 \\ 70 \end{bmatrix} + \begin{bmatrix} 50 \\ 40 \end{bmatrix} \right)$$
+$$\mu_1 = \frac{1}{4} \begin{bmatrix} 190 \\ 180 \end{bmatrix} = \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix}$$
 
 For the benign class ($y=0$), we have:
-- $(15, 20)$
-- $(65, 30)$
-- $(44, 35)$
-- $(36, 25)$
+- $\begin{bmatrix} 15 \\ 20 \end{bmatrix}$
+- $\begin{bmatrix} 65 \\ 30 \end{bmatrix}$
+- $\begin{bmatrix} 44 \\ 35 \end{bmatrix}$
+- $\begin{bmatrix} 36 \\ 25 \end{bmatrix}$
 
 Similarly, the mean calculation is:
-$$\mu_2 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left[ (15, 20) + (65, 30) + (44, 35) + (36, 25) \right]$$
-$$\mu_2 = \frac{1}{4} (160, 110) = (40.0, 27.5)$$
+$$\mu_2 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left( \begin{bmatrix} 15 \\ 20 \end{bmatrix} + \begin{bmatrix} 65 \\ 30 \end{bmatrix} + \begin{bmatrix} 44 \\ 35 \end{bmatrix} + \begin{bmatrix} 36 \\ 25 \end{bmatrix} \right)$$
+$$\mu_2 = \frac{1}{4} \begin{bmatrix} 160 \\ 110 \end{bmatrix} = \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix}$$
 
 These mean vectors tell us that, on average, malignant tumors in our dataset appear in older patients (47.5 years vs 40.0 years) and are larger (45.0mm vs 27.5mm) compared to benign tumors.
 
@@ -64,20 +64,20 @@ $$S_W = \sum_{i \in C_1} (x^{(i)} - \mu_1)(x^{(i)} - \mu_1)^T + \sum_{i \in C_2}
 For the malignant class ($y=1$), we first calculate the scatter matrix $S_1$:
 
 For data point 1:
-$$(30, 50) - (47.5, 45.0) = (-17.5, 5.0)$$
-$$(-17.5, 5.0)(-17.5, 5.0)^T = \begin{bmatrix} 306.25 & -87.5 \\ -87.5 & 25.0 \end{bmatrix}$$
+$$\begin{bmatrix} 30 \\ 50 \end{bmatrix} - \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = \begin{bmatrix} -17.5 \\ 5.0 \end{bmatrix}$$
+$$\begin{bmatrix} -17.5 & 5.0 \end{bmatrix}\begin{bmatrix} -17.5 \\ 5.0 \end{bmatrix} = \begin{bmatrix} 306.25 & -87.5 \\ -87.5 & 25.0 \end{bmatrix}$$
 
 For data point 2:
-$$(90, 20) - (47.5, 45.0) = (42.5, -25.0)$$
-$$(42.5, -25.0)(42.5, -25.0)^T = \begin{bmatrix} 1806.25 & -1062.5 \\ -1062.5 & 625.0 \end{bmatrix}$$
+$$\begin{bmatrix} 90 \\ 20 \end{bmatrix} - \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = \begin{bmatrix} 42.5 \\ -25.0 \end{bmatrix}$$
+$$\begin{bmatrix} 42.5 & -25.0 \end{bmatrix}\begin{bmatrix} 42.5 \\ -25.0 \end{bmatrix} = \begin{bmatrix} 1806.25 & -1062.5 \\ -1062.5 & 625.0 \end{bmatrix}$$
 
 For data point 3:
-$$(20, 70) - (47.5, 45.0) = (-27.5, 25.0)$$
-$$(-27.5, 25.0)(-27.5, 25.0)^T = \begin{bmatrix} 756.25 & -687.5 \\ -687.5 & 625.0 \end{bmatrix}$$
+$$\begin{bmatrix} 20 \\ 70 \end{bmatrix} - \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = \begin{bmatrix} -27.5 \\ 25.0 \end{bmatrix}$$
+$$\begin{bmatrix} -27.5 & 25.0 \end{bmatrix}\begin{bmatrix} -27.5 \\ 25.0 \end{bmatrix} = \begin{bmatrix} 756.25 & -687.5 \\ -687.5 & 625.0 \end{bmatrix}$$
 
 For data point 4:
-$$(50, 40) - (47.5, 45.0) = (2.5, -5.0)$$
-$$(2.5, -5.0)(2.5, -5.0)^T = \begin{bmatrix} 6.25 & -12.5 \\ -12.5 & 25.0 \end{bmatrix}$$
+$$\begin{bmatrix} 50 \\ 40 \end{bmatrix} - \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = \begin{bmatrix} 2.5 \\ -5.0 \end{bmatrix}$$
+$$\begin{bmatrix} 2.5 & -5.0 \end{bmatrix}\begin{bmatrix} 2.5 \\ -5.0 \end{bmatrix} = \begin{bmatrix} 6.25 & -12.5 \\ -12.5 & 25.0 \end{bmatrix}$$
 
 Adding these up, we get the scatter matrix for the malignant class:
 $$S_1 = \begin{bmatrix} 2875.0 & -1850.0 \\ -1850.0 & 1300.0 \end{bmatrix}$$
@@ -85,20 +85,20 @@ $$S_1 = \begin{bmatrix} 2875.0 & -1850.0 \\ -1850.0 & 1300.0 \end{bmatrix}$$
 For the benign class ($y=0$), we calculate the scatter matrix $S_2$:
 
 For data point 1:
-$$(15, 20) - (40.0, 27.5) = (-25.0, -7.5)$$
-$$(-25.0, -7.5)(-25.0, -7.5)^T = \begin{bmatrix} 625.0 & 187.5 \\ 187.5 & 56.25 \end{bmatrix}$$
+$$\begin{bmatrix} 15 \\ 20 \end{bmatrix} - \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = \begin{bmatrix} -25.0 \\ -7.5 \end{bmatrix}$$
+$$\begin{bmatrix} -25.0 & -7.5 \end{bmatrix}\begin{bmatrix} -25.0 \\ -7.5 \end{bmatrix} = \begin{bmatrix} 625.0 & 187.5 \\ 187.5 & 56.25 \end{bmatrix}$$
 
 For data point 2:
-$$(65, 30) - (40.0, 27.5) = (25.0, 2.5)$$
-$$(25.0, 2.5)(25.0, 2.5)^T = \begin{bmatrix} 625.0 & 62.5 \\ 62.5 & 6.25 \end{bmatrix}$$
+$$\begin{bmatrix} 65 \\ 30 \end{bmatrix} - \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = \begin{bmatrix} 25.0 \\ 2.5 \end{bmatrix}$$
+$$\begin{bmatrix} 25.0 & 2.5 \end{bmatrix}\begin{bmatrix} 25.0 \\ 2.5 \end{bmatrix} = \begin{bmatrix} 625.0 & 62.5 \\ 62.5 & 6.25 \end{bmatrix}$$
 
 For data point 3:
-$$(44, 35) - (40.0, 27.5) = (4.0, 7.5)$$
-$$(4.0, 7.5)(4.0, 7.5)^T = \begin{bmatrix} 16.0 & 30.0 \\ 30.0 & 56.25 \end{bmatrix}$$
+$$\begin{bmatrix} 44 \\ 35 \end{bmatrix} - \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = \begin{bmatrix} 4.0 \\ 7.5 \end{bmatrix}$$
+$$\begin{bmatrix} 4.0 & 7.5 \end{bmatrix}\begin{bmatrix} 4.0 \\ 7.5 \end{bmatrix} = \begin{bmatrix} 16.0 & 30.0 \\ 30.0 & 56.25 \end{bmatrix}$$
 
 For data point 4:
-$$(36, 25) - (40.0, 27.5) = (-4.0, -2.5)$$
-$$(-4.0, -2.5)(-4.0, -2.5)^T = \begin{bmatrix} 16.0 & 10.0 \\ 10.0 & 6.25 \end{bmatrix}$$
+$$\begin{bmatrix} 36 \\ 25 \end{bmatrix} - \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = \begin{bmatrix} -4.0 \\ -2.5 \end{bmatrix}$$
+$$\begin{bmatrix} -4.0 & -2.5 \end{bmatrix}\begin{bmatrix} -4.0 \\ -2.5 \end{bmatrix} = \begin{bmatrix} 16.0 & 10.0 \\ 10.0 & 6.25 \end{bmatrix}$$
 
 Adding these up, we get the scatter matrix for the benign class:
 $$S_2 = \begin{bmatrix} 1282.0 & 290.0 \\ 290.0 & 125.0 \end{bmatrix}$$
@@ -111,7 +111,7 @@ The LDA projection direction is calculated as:
 $$\theta \propto S_W^{-1}(\mu_2 - \mu_1)$$
 
 First, we calculate the difference between class means:
-$$\mu_2 - \mu_1 = (40.0, 27.5) - (47.5, 45.0) = (-7.5, -17.5)$$
+$$\mu_2 - \mu_1 = \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} - \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = \begin{bmatrix} -7.5 \\ -17.5 \end{bmatrix}$$
 
 To compute $S_W^{-1}$, we need to find the inverse of the within-class scatter matrix:
 
@@ -141,24 +141,24 @@ $$\theta_{\text{unnormalized}}[0] = 0.000408 \times (-7.5) + 0.000447 \times (-1
 $$\theta_{\text{unnormalized}}[1] = 0.000447 \times (-7.5) + 0.001191 \times (-17.5) = -0.024196$$
 
 Since we're only interested in the direction (not the magnitude), and the signs are negative, we can flip the signs:
-$$\theta_{\text{unnormalized}} = [0.010884, 0.024196]$$
+$$\theta_{\text{unnormalized}} = \begin{bmatrix} 0.010884 \\ 0.024196 \end{bmatrix}$$
 
 Now we normalize to get a unit vector:
 $$||\theta_{\text{unnormalized}}|| = \sqrt{0.010884^2 + 0.024196^2} = \sqrt{0.000118 + 0.000585} = 0.026531$$
 
-$$\theta = \frac{\theta_{\text{unnormalized}}}{||\theta_{\text{unnormalized}}||} = \frac{[0.010884, 0.024196]}{0.026531} = [0.41, 0.91]$$
+$$\theta = \frac{\theta_{\text{unnormalized}}}{||\theta_{\text{unnormalized}}||} = \frac{1}{0.026531} \begin{bmatrix} 0.010884 \\ 0.024196 \end{bmatrix} = \begin{bmatrix} 0.41 \\ 0.91 \end{bmatrix}$$
 
 ### Step 4: Calculate the threshold value for classification
 For classification, we project the class means onto the LDA direction and find the midpoint:
 
 Projection of malignant mean:
-$$\theta^T \mu_1 = [0.41, 0.91] \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = 0.41 \times 47.5 + 0.91 \times 45.0 = 19.48 + 40.95 = 60.43$$
+$$\theta^T \mu_1 = \begin{bmatrix} 0.41 & 0.91 \end{bmatrix} \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = 0.41 \times 47.5 + 0.91 \times 45.0 = 19.48 + 40.95 = 60.43$$
 
 Projection of benign mean:
-$$\theta^T \mu_2 = [0.41, 0.91] \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = 0.41 \times 40.0 + 0.91 \times 27.5 = 16.40 + 25.03 = 41.43$$
+$$\theta^T \mu_2 = \begin{bmatrix} 0.41 & 0.91 \end{bmatrix} \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = 0.41 \times 40.0 + 0.91 \times 27.5 = 16.40 + 25.03 = 41.43$$
 
 Assuming equal prior probabilities, the threshold is:
-$$c = \theta^T \frac{\mu_1 + \mu_2}{2} = [0.41, 0.91] \begin{bmatrix} \frac{47.5 + 40.0}{2} \\ \frac{45.0 + 27.5}{2} \end{bmatrix} = [0.41, 0.91] \begin{bmatrix} 43.75 \\ 36.25 \end{bmatrix} = 17.94 + 32.99 = 50.93$$
+$$c = \theta^T \frac{\mu_1 + \mu_2}{2} = \begin{bmatrix} 0.41 & 0.91 \end{bmatrix} \begin{bmatrix} \frac{47.5 + 40.0}{2} \\ \frac{45.0 + 27.5}{2} \end{bmatrix} = \begin{bmatrix} 0.41 & 0.91 \end{bmatrix} \begin{bmatrix} 43.75 \\ 36.25 \end{bmatrix} = 17.94 + 32.99 = 50.93$$
 
 ![LDA Decision Boundary for Tumor Classification](../Images/L4_4_Quiz_18/lda_decision_boundary_alt.png)
 
@@ -166,7 +166,7 @@ $$c = \theta^T \frac{\mu_1 + \mu_2}{2} = [0.41, 0.91] \begin{bmatrix} \frac{47.5
 For the new patient with age 50 years and tumor size 30 mm, we:
 
 1. Calculate the projection onto the LDA direction:
-   $$x_{\text{new}} \cdot \theta = [50, 30] \cdot [0.41, 0.91] = 50 \times 0.41 + 30 \times 0.91 = 20.5 + 27.3 = 47.8$$
+   $$x_{\text{new}} \cdot \theta = \begin{bmatrix} 50 & 30 \end{bmatrix} \begin{bmatrix} 0.41 \\ 0.91 \end{bmatrix} = 50 \times 0.41 + 30 \times 0.91 = 20.5 + 27.3 = 47.8$$
 
 2. Compare with the threshold:
    $$47.8 < 50.93$$
@@ -181,7 +181,7 @@ For the new patient with age 50 years and tumor size 30 mm, we:
 For another patient with age 60 years and tumor size 30 mm, we:
 
 1. Calculate the projection onto the LDA direction:
-   $$x_{\text{another}} \cdot \theta = [60, 30] \cdot [0.41, 0.91] = 60 \times 0.41 + 30 \times 0.91 = 24.6 + 27.3 = 52.0$$
+   $$x_{\text{another}} \cdot \theta = \begin{bmatrix} 60 & 30 \end{bmatrix} \begin{bmatrix} 0.41 \\ 0.91 \end{bmatrix} = 60 \times 0.41 + 30 \times 0.91 = 24.6 + 27.3 = 52.0$$
 
 2. Compare with the threshold:
    $$52.0 > 50.93$$
@@ -217,9 +217,9 @@ This case demonstrates how a change in age from 50 to 60 years, with the same tu
 - The projection threshold is derived from the projected class means and prior probabilities
 
 ## Conclusion
-- The mean vectors for malignant and benign classes are $[47.50, 45.00]$ and $[40.00, 27.50]$ respectively, showing clear differences between classes
+- The mean vectors for malignant and benign classes are $\begin{bmatrix} 47.50 \\ 45.00 \end{bmatrix}$ and $\begin{bmatrix} 40.00 \\ 27.50 \end{bmatrix}$ respectively, showing clear differences between classes
 - The within-class scatter matrix captures the covariance structure, helping us account for correlations between features
-- The LDA projection direction $[0.41, 0.91]$ indicates that tumor size has approximately twice the impact of age on classification
+- The LDA projection direction $\begin{bmatrix} 0.41 \\ 0.91 \end{bmatrix}$ indicates that tumor size has approximately twice the impact of age on classification
 - The classification threshold is 50.93
 - For the new patient with age 50 years and tumor size 30 mm, LDA predicts a benign tumor with 62% probability
 - For another patient with age 60 years and tumor size 30 mm, LDA predicts a malignant tumor with 54% probability, illustrating how a relatively small change in a feature value can alter the classification outcome

@@ -33,26 +33,26 @@ LDA works by projecting data onto a direction that maximizes the separation betw
 First, we need to calculate the mean vectors for each class. These vectors represent the center of each class in the feature space.
 
 For the malignant class ($y=1$), we have the following data points:
-- $(30, 50)$
-- $(90, 20)$
-- $(20, 70)$
-- $(50, 40)$
+- $\begin{bmatrix} 30 \\ 50 \end{bmatrix}$
+- $\begin{bmatrix} 90 \\ 20 \end{bmatrix}$
+- $\begin{bmatrix} 20 \\ 70 \end{bmatrix}$
+- $\begin{bmatrix} 50 \\ 40 \end{bmatrix}$
 
 The mean is calculated by summing all points and dividing by the number of points:
-$$\mu_1 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left[ (30, 50) + (90, 20) + (20, 70) + (50, 40) \right]$$
-$$\mu_1 = \frac{1}{4} (190, 180) = (47.5, 45.0)$$
+$$\mu_1 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left( \begin{bmatrix} 30 \\ 50 \end{bmatrix} + \begin{bmatrix} 90 \\ 20 \end{bmatrix} + \begin{bmatrix} 20 \\ 70 \end{bmatrix} + \begin{bmatrix} 50 \\ 40 \end{bmatrix} \right)$$
+$$\mu_1 = \frac{1}{4} \begin{bmatrix} 190 \\ 180 \end{bmatrix} = \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix}$$
 
 For the benign class ($y=0$), we have:
-- $(15, 20)$
-- $(65, 30)$
-- $(44, 35)$
-- $(25, 36)$
+- $\begin{bmatrix} 15 \\ 20 \end{bmatrix}$
+- $\begin{bmatrix} 65 \\ 30 \end{bmatrix}$
+- $\begin{bmatrix} 44 \\ 35 \end{bmatrix}$
+- $\begin{bmatrix} 36 \\ 25 \end{bmatrix}$
 
 Similarly, the mean calculation is:
-$$\mu_0 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left[ (15, 20) + (65, 30) + (44, 35) + (25, 36) \right]$$
-$$\mu_0 = \frac{1}{4} (149, 126) = (37.25, 31.5)$$
+$$\mu_0 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left( \begin{bmatrix} 15 \\ 20 \end{bmatrix} + \begin{bmatrix} 65 \\ 30 \end{bmatrix} + \begin{bmatrix} 44 \\ 35 \end{bmatrix} + \begin{bmatrix} 36 \\ 25 \end{bmatrix} \right)$$
+$$\mu_0 = \frac{1}{4} \begin{bmatrix} 160 \\ 110 \end{bmatrix} = \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix}$$
 
-These mean vectors tell us that, on average, malignant tumors in our dataset appear in older patients (47.5 years vs 37.25 years) and are larger (45.0mm vs 31.5mm) compared to benign tumors.
+These mean vectors tell us that, on average, malignant tumors in our dataset appear in older patients (47.5 years vs 40.0 years) and are larger (45.0mm vs 27.5mm) compared to benign tumors.
 
 ![Tumor Data with Class Means and Confidence Ellipses](../Images/L4_4_Quiz_18/tumor_data_plot.png)
 
@@ -62,10 +62,10 @@ The plot shows the original data points, the class means (marked with stars), an
 Next, we calculate the covariance matrices for each class separately, then combine them into a shared (pooled) covariance matrix.
 
 For the malignant class, we first center the data by subtracting the mean:
-- $(30, 50) - (47.5, 45.0) = (-17.5, 5.0)$
-- $(90, 20) - (47.5, 45.0) = (42.5, -25.0)$
-- $(20, 70) - (47.5, 45.0) = (-27.5, 25.0)$
-- $(50, 40) - (47.5, 45.0) = (2.5, -5.0)$
+- $\begin{bmatrix} 30 \\ 50 \end{bmatrix} - \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = \begin{bmatrix} -17.5 \\ 5.0 \end{bmatrix}$
+- $\begin{bmatrix} 90 \\ 20 \end{bmatrix} - \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = \begin{bmatrix} 42.5 \\ -25.0 \end{bmatrix}$
+- $\begin{bmatrix} 20 \\ 70 \end{bmatrix} - \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = \begin{bmatrix} -27.5 \\ 25.0 \end{bmatrix}$
+- $\begin{bmatrix} 50 \\ 40 \end{bmatrix} - \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} = \begin{bmatrix} 2.5 \\ -5.0 \end{bmatrix}$
 
 The covariance matrix is then calculated as:
 $$\Sigma_1 = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \mu_1)(x_i - \mu_1)^T$$
@@ -82,15 +82,15 @@ $$\Sigma_1 = \begin{bmatrix}
 \end{bmatrix}$$
 
 Similarly for the benign class, after centering the data:
-- $(15, 20) - (37.25, 31.5) = (-22.25, -11.5)$
-- $(65, 30) - (37.25, 31.5) = (27.75, -1.5)$
-- $(44, 35) - (37.25, 31.5) = (6.75, 3.5)$
-- $(25, 36) - (37.25, 31.5) = (-12.25, 4.5)$
+- $\begin{bmatrix} 15 \\ 20 \end{bmatrix} - \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = \begin{bmatrix} -25.0 \\ -7.5 \end{bmatrix}$
+- $\begin{bmatrix} 65 \\ 30 \end{bmatrix} - \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = \begin{bmatrix} 25.0 \\ 2.5 \end{bmatrix}$
+- $\begin{bmatrix} 44 \\ 35 \end{bmatrix} - \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = \begin{bmatrix} 4.0 \\ 7.5 \end{bmatrix}$
+- $\begin{bmatrix} 36 \\ 25 \end{bmatrix} - \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = \begin{bmatrix} -4.0 \\ -2.5 \end{bmatrix}$
 
 We calculate:
-$$\Sigma_0[0,0] = \frac{1}{3}[(-22.25)^2 + (27.75)^2 + (6.75)^2 + (-12.25)^2] = \frac{1}{3}(1282) = 427.33$$
-$$\Sigma_0[0,1] = \Sigma_0[1,0] = \frac{1}{3}[(-22.25 \times -11.5) + (27.75 \times -1.5) + (6.75 \times 3.5) + (-12.25 \times 4.5)] = \frac{1}{3}(290) = 96.67$$
-$$\Sigma_0[1,1] = \frac{1}{3}[(-11.5)^2 + (-1.5)^2 + (3.5)^2 + (4.5)^2] = \frac{1}{3}(125) = 41.67$$
+$$\Sigma_0[0,0] = \frac{1}{3}[(-25.0)^2 + (25.0)^2 + (4.0)^2 + (-4.0)^2] = \frac{1}{3}(1282) = 427.33$$
+$$\Sigma_0[0,1] = \Sigma_0[1,0] = \frac{1}{3}[(-25.0 \times -7.5) + (25.0 \times 2.5) + (4.0 \times 7.5) + (-4.0 \times -2.5)] = \frac{1}{3}(290) = 96.67$$
+$$\Sigma_0[1,1] = \frac{1}{3}[(-7.5)^2 + (2.5)^2 + (7.5)^2 + (-2.5)^2] = \frac{1}{3}(125) = 41.67$$
 
 This gives us:
 $$\Sigma_0 = \begin{bmatrix} 
@@ -121,7 +121,7 @@ The LDA projection direction is calculated as:
 $$w = \Sigma^{-1}(\mu_1 - \mu_0)$$
 
 First, we calculate the difference between class means:
-$$\mu_1 - \mu_0 = (47.5, 45.0) - (40.0, 27.5) = (7.5, 17.5)$$
+$$\mu_1 - \mu_0 = \begin{bmatrix} 47.5 \\ 45.0 \end{bmatrix} - \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = \begin{bmatrix} 7.5 \\ 17.5 \end{bmatrix}$$
 
 Next, we calculate the inverse of the shared covariance matrix. For a $2×2$ matrix, the inverse is:
 $$\Sigma^{-1} = \frac{1}{\det(\Sigma)} \begin{bmatrix} 
@@ -171,10 +171,10 @@ The above plot shows Fisher's criterion (class separation relative to within-cla
 To classify new data points, we need a threshold in the projected space. We project the class means onto the LDA direction:
 
 Projection of malignant mean: 
-$$\mu_1 \cdot w = 47.5 \times 0.0653 + 45.0 \times 0.1452 = 3.10 + 6.53 = 9.63$$
+$$\mu_1 \cdot w = \begin{bmatrix} 47.5 & 45.0 \end{bmatrix} \begin{bmatrix} 0.0653 \\ 0.1452 \end{bmatrix} = 47.5 \times 0.0653 + 45.0 \times 0.1452 = 3.10 + 6.53 = 9.63$$
 
 Projection of benign mean: 
-$$\mu_0 \cdot w = 40.0 \times 0.0653 + 27.5 \times 0.1452 = 2.61 + 3.99 = 6.60$$
+$$\mu_0 \cdot w = \begin{bmatrix} 40.0 & 27.5 \end{bmatrix} \begin{bmatrix} 0.0653 \\ 0.1452 \end{bmatrix} = 40.0 \times 0.0653 + 27.5 \times 0.1452 = 2.61 + 3.99 = 6.60$$
 
 Assuming equal prior probabilities for both classes, the threshold is the midpoint of these projections:
 $$\text{threshold} = \frac{\mu_1 \cdot w + \mu_0 \cdot w}{2} = \frac{9.63 + 6.60}{2} = 8.12$$
@@ -188,7 +188,7 @@ The improved projection visualization clearly shows how LDA separates the classe
 ### Step 5: Classify a new patient
 Now we can classify a new patient with age 50 years and tumor size 30mm. We project this data point onto our LDA direction:
 
-$$\text{projection} = [50, 30] \cdot [0.0653, 0.1452] = 50 \times 0.0653 + 30 \times 0.1452 = 3.27 + 4.36 = 7.62$$
+$$\text{projection} = \begin{bmatrix} 50 & 30 \end{bmatrix} \begin{bmatrix} 0.0653 \\ 0.1452 \end{bmatrix} = 50 \times 0.0653 + 30 \times 0.1452 = 3.27 + 4.36 = 7.62$$
 
 Since $7.62 < 8.12$ (our threshold), we classify this patient's tumor as benign ($y=0$).
 
@@ -197,7 +197,7 @@ The distance from the threshold is $|7.62 - 8.12| = 0.50$, which suggests that t
 ### Step 6: Classify another patient
 Let's classify another patient with age 60 years and tumor size 30mm. We project this data point onto our LDA direction:
 
-$$\text{projection} = [60, 30] \cdot [0.0653, 0.1452] = 60 \times 0.0653 + 30 \times 0.1452 = 3.92 + 4.36 = 8.27$$
+$$\text{projection} = \begin{bmatrix} 60 & 30 \end{bmatrix} \begin{bmatrix} 0.0653 \\ 0.1452 \end{bmatrix} = 60 \times 0.0653 + 30 \times 0.1452 = 3.92 + 4.36 = 8.27$$
 
 Since $8.27 > 8.12$ (our threshold), we classify this patient's tumor as malignant ($y=1$).
 
@@ -234,9 +234,9 @@ The 3D visualization provides a more intuitive understanding of how the projecti
 - The projection threshold is derived from the projected class means and prior probabilities
 
 ## Conclusion
-- The mean vectors for the malignant and benign classes are $[47.50, 45.00]$ and $[40.00, 27.50]$ respectively, showing clear differences in both patient age and tumor size between classes
+- The mean vectors for the malignant and benign classes are $\begin{bmatrix} 47.50 \\ 45.00 \end{bmatrix}$ and $\begin{bmatrix} 40.00 \\ 27.50 \end{bmatrix}$ respectively, showing clear differences in both patient age and tumor size between classes
 - The shared covariance matrix captures the correlation structure of the features, with a notable negative correlation between age and tumor size
-- The LDA projection direction $[0.0653, 0.1452]$ indicates that tumor size is approximately twice as important as age for discriminating between malignant and benign tumors in this dataset
+- The LDA projection direction $\begin{bmatrix} 0.0653 \\ 0.1452 \end{bmatrix}$ indicates that tumor size is approximately twice as important as age for discriminating between malignant and benign tumors in this dataset
 - The classification threshold in the projected space is 8.12
 - For a new patient with age 50 years and tumor size 30mm, LDA predicts a benign tumor with a probability of 62.2%
 - For another patient with age 60 years and tumor size 30mm, LDA predicts a malignant tumor with a probability of 53.8%, demonstrating how a small change in feature values can lead to a different classification when near the decision boundary
