@@ -244,25 +244,43 @@ This equation gives us the line in the feature space that separates the benign a
 The decision boundary shows that there's a trade-off between age and tumor size in determining malignancy. For each additional 2 years of age, the decision boundary lowers the tumor size threshold by 1mm. This means that for older patients, even smaller tumors might be classified as malignant, while younger patients would need larger tumors to receive a malignant classification.
 
 ### Step 6: Prediction for New Patient
-For a new patient with Age=50 years and Tumor Size=30mm, using the parameters $\theta = [-136.95, 1.1, 2.2]$, we can calculate:
+For a new patient with Age=50 years and Tumor Size=30mm, using the parameters $\theta = [-136.95, 1.1, 2.2]$, we can calculate the predicted probability of the tumor being malignant step by step:
 
-1. Compute $z = \theta^T x$:
-   * $z = \theta_0 \cdot 1 + \theta_1 \cdot \text{Age} + \theta_2 \cdot \text{Tumor Size}$
-   * $z = -136.95 \cdot 1 + 1.1 \cdot 50 + 2.2 \cdot 30$
-   * $z = -136.95 + 55 + 66$
-   * $z = -15.95$
+#### Step 1: Compute the linear combination $z = \theta^T x$
+$z = \theta_0 \cdot 1 + \theta_1 \cdot \text{Age} + \theta_2 \cdot \text{Tumor Size}$
+$z = -136.95 \cdot 1 + 1.1 \cdot 50 + 2.2 \cdot 30$
+$z = -136.95 + 55 + 66$
+$z = -15.95$
 
-2. Compute probability $P(y=1|x) = g(z)$:
-   * $P(y=1|x) = 1 / (1 + e^{-z})$
-   * $P(y=1|x) = 1 / (1 + e^{-(-15.95)})$
-   * $P(y=1|x) = 1 / (1 + e^{15.95})$
-   * $P(y=1|x) = 1 / (1 + 8.45 \times 10^6)$
-   * $P(y=1|x) \approx 0.00000012$ (extremely close to 0)
+#### Step 2: Calculate the predicted probability using the sigmoid function
+The sigmoid function is defined as:
+$g(z) = \frac{1}{1 + e^{-z}}$
 
-3. Make classification decision:
-   * Since $P(y=1|x) = 0.00000012 < 0.5$, we classify this tumor as benign (y=0).
+For our new patient:
+$h(x) = \frac{1}{1 + e^{-(-15.95)}} = \frac{1}{1 + e^{15.95}}$
 
-The very low probability indicates high confidence in this prediction. This is because the point (Age=50, Tumor Size=30) is far below the decision boundary line in the feature space, which requires a tumor size of $62.25 - 0.5 \cdot 50 = 37.25$ mm for a 50-year-old patient to be classified as malignant.
+Let's calculate $e^{15.95}$:
+$e^{15.95} \approx 8.45 \times 10^6$ (a very large number)
+
+Therefore:
+$h(x) = \frac{1}{1 + 8.45 \times 10^6} \approx \frac{1}{8.45 \times 10^6} \approx 0.00000012 \approx 0$
+
+We can also write this calculation more explicitly:
+
+$h(x) = \frac{1}{1 + e^{-(-136.95 + 1.1 \times 50 + 2.2 \times 30)}} \approx 0$
+
+![New Patient Prediction](../Images/L5_2_Quiz_5/new_patient_prediction.png)
+
+#### Step 3: Make the classification decision
+Since $h(x) \approx 0.00000012 < 0.5$ (the classification threshold), we classify this tumor as **benign (y=0)**.
+
+This very low probability indicates that the model is highly confident in this prediction. The reason becomes clear when we consider the decision boundary equation from Step 5: 
+$\text{Tumor Size} = 62.25 - 0.5 \cdot \text{Age}$
+
+For a 50-year-old patient, the tumor size threshold for malignancy would be:
+$\text{Tumor Size} = 62.25 - 0.5 \cdot 50 = 62.25 - 25 = 37.25$ mm
+
+Since our patient's tumor size (30mm) is well below this threshold (37.25mm), the model confidently predicts the tumor to be benign.
 
 ### Step 7: Interpretation of Coefficients
 The coefficients in logistic regression represent the change in log-odds of the outcome for a one-unit increase in the corresponding feature, holding other features constant.

@@ -468,7 +468,9 @@ plt.close()
 print("="*80)
 print("TASK 6: PREDICTION FOR NEW PATIENT")
 print("="*80)
-new_patient = np.array([1, 50, 30])  # Age=50, Tumor_Size=30 with intercept term
+new_patient_age = 50
+new_patient_tumor_size = 30
+new_patient = np.array([1, new_patient_age, new_patient_tumor_size])  # Age=50, Tumor_Size=30 with intercept term
 print(f"New patient data: [intercept, Age, Tumor_Size] = {new_patient}")
 
 print("\nStep-by-step prediction calculation:")
@@ -482,10 +484,25 @@ print(f"   z = {new_z:.4f}")
 print("\n2. Compute probability P(y=1|x) = g(z):")
 print(f"   P(y=1|x) = 1 / (1 + e^(-z))")
 print(f"   P(y=1|x) = 1 / (1 + e^(-({new_z:.4f})))")
-print(f"   P(y=1|x) = 1 / (1 + e^({-new_z:.4f}))")
-print(f"   P(y=1|x) = 1 / (1 + {np.exp(-new_z):.4e})")
-new_probability = sigmoid(new_z)
-print(f"   P(y=1|x) = {new_probability:.8f}")
+
+# Calculate the exponent term in detail
+neg_z = -new_z
+print(f"   Let's compute e^(-z) = e^({neg_z:.4f}):")
+exp_neg_z = np.exp(neg_z)
+print(f"   e^({neg_z:.4f}) ≈ {exp_neg_z:.6e}")
+
+# Show the full calculation
+print(f"\n   P(y=1|x) = 1 / (1 + {exp_neg_z:.6e})")
+print(f"   P(y=1|x) = 1 / {1 + exp_neg_z:.6e}")
+new_probability = 1 / (1 + exp_neg_z)
+print(f"   P(y=1|x) ≈ {new_probability:.8f}")
+
+# Alternative notation to match the image
+print("\n   Using the notation from the image:")
+print(f"   h(x) = \\frac{{1}}{{1 + e^{{-({new_z:.2f})}}}} ≈ {new_probability:.8f} ≈ 0")
+
+print("\n   We can also write this out more explicitly:")
+print(f"   h(x) = \\frac{{1}}{{1 + e^{{-(-{final_theta[0]:.2f} + {final_theta[1]:.2f}*{new_patient_age} + {final_theta[2]:.2f}*{new_patient_tumor_size})}}}} ≈ {new_probability:.8f}")
 
 print("\n3. Make classification decision:")
 print(f"   Threshold = 0.5")
@@ -493,6 +510,26 @@ print(f"   Since P(y=1|x) = {new_probability:.8f} {'>' if new_probability > 0.5 
 new_prediction = 1 if new_probability >= 0.5 else 0
 print(f"   Classification: {'Malignant (y=1)' if new_prediction == 1 else 'Benign (y=0)'}")
 print("\n")
+
+# Create a visual explanation of the prediction
+plt.figure(figsize=(10, 6))
+# Plot the sigmoid function
+z_range = np.linspace(-10, 10, 1000)
+sig_values = sigmoid(z_range)
+plt.plot(z_range, sig_values, 'b-', linewidth=2)
+plt.axhline(y=0.5, color='r', linestyle='--', label='Threshold (0.5)')
+plt.axvline(x=0, color='g', linestyle='--', label='Decision Boundary (z=0)')
+
+# Mark our calculated z value
+plt.scatter([new_z], [sigmoid(new_z)], color='red', s=100, zorder=5, label=f'New Patient (z={new_z:.2f})')
+
+plt.xlabel('z = θᵀx')
+plt.ylabel('P(y=1|x) = g(z)')
+plt.title('Sigmoid Function and New Patient Prediction')
+plt.grid(True)
+plt.legend()
+plt.savefig(os.path.join(save_dir, 'new_patient_prediction.png'), dpi=300, bbox_inches='tight')
+plt.close()
 
 # ====================================================================================================
 # Task 7: Interpretation of coefficients
