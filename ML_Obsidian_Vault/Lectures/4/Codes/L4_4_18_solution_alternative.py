@@ -228,9 +228,9 @@ print(f"  Threshold c = θᵀ * (m1 + m2)/2 = {threshold:.2f}")
 print("\nStep 5: Classify a new patient")
 print("---------------------------")
 
-# New patient data: tumor size = 30mm, age = 50 years
-new_patient = np.array([30, 50])
-print(f"New patient data - Tumor size: {new_patient[0]}mm, Age: {new_patient[1]} years")
+# New patient data: age = 50 years, tumor size = 30mm
+new_patient = np.array([50, 30])
+print(f"New patient data - Age: {new_patient[0]} years, Tumor size: {new_patient[1]}mm")
 
 # Project the new patient's data onto theta
 print("\nCalculating projection of new patient data onto θ:")
@@ -379,4 +379,4 @@ print(f"   [{Sw[0,0]:.2f}, {Sw[0,1]:.2f}]")
 print(f"   [{Sw[1,0]:.2f}, {Sw[1,1]:.2f}]")
 print(f"4. LDA projection direction θ: [{theta[0]:.2f}, {theta[1]:.2f}]")
 print(f"5. Classification threshold (equal priors): {threshold:.2f}")
-print(f"6. Prediction for new patient (tumor size = 30mm, age = 50 years): {prediction}")
+print(f"6. Prediction for new patient (age = 50 years, tumor size = 30mm): {prediction}")

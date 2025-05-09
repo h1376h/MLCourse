@@ -174,7 +174,7 @@ print("Question 18: LDA for Medical Diagnosis")
 print("======================================")
 
 # Given data
-# Tumor Size (mm), Age (years), y (Malignant: 1 = malignant, 0 = benign)
+# First column: Age (years), Second column: Tumor Size (mm), y (Malignant: 1 = malignant, 0 = benign)
 data = np.array([
     [15, 20, 0],
     [65, 30, 0],
@@ -215,7 +215,7 @@ for i, point in enumerate(X_malignant):
     print(f"  Adding point {i+1}: {point} → Running sum: {sum_malignant}")
 
 mean_malignant = sum_malignant / n_malignant
-print(f"  Mean = Sum / {n_malignant} = {sum_malignant} / {n_malignant} = [{mean_malignant[0]:.2f}, {mean_malignant[1]:.2f}]")
+print(f"  Mean = Sum / {n_malignant} = {sum_malignant} / {n_malignant} = [{mean_malignant[0]:.2f} (Age), {mean_malignant[1]:.2f} (Tumor Size)]")
 
 # Calculate mean for benign class (class 0) step by step
 print("\nCalculating mean vector for benign class (y=0):")
@@ -226,7 +226,7 @@ for i, point in enumerate(X_benign):
     print(f"  Adding point {i+1}: {point} → Running sum: {sum_benign}")
 
 mean_benign = sum_benign / n_benign
-print(f"  Mean = Sum / {n_benign} = {sum_benign} / {n_benign} = [{mean_benign[0]:.2f}, {mean_benign[1]:.2f}]")
+print(f"  Mean = Sum / {n_benign} = {sum_benign} / {n_benign} = [{mean_benign[0]:.2f} (Age), {mean_benign[1]:.2f} (Tumor Size)]")
 
 print("\nStep 2: Calculate the shared covariance matrix")
 print("--------------------------------------------")
@@ -272,7 +272,7 @@ for i in range(2):
     mean_diff[i] = mean_malignant[i] - mean_benign[i]
     print(f"  μ₁[{i}] - μ₀[{i}] = {mean_malignant[i]:.4f} - {mean_benign[i]:.4f} = {mean_diff[i]:.4f}")
 
-print(f"  Mean difference vector (μ₁ - μ₀): [{mean_diff[0]:.2f}, {mean_diff[1]:.2f}]")
+print(f"  Mean difference vector (μ₁ - μ₀): [{mean_diff[0]:.2f} (Age), {mean_diff[1]:.2f} (Tumor Size)]")
 
 # Calculate the inverse of the shared covariance matrix step by step
 shared_cov_inv = invert_2x2_matrix(shared_cov, "Σ")
@@ -282,14 +282,14 @@ print_matrix("Σ⁻¹", shared_cov_inv)
 # Calculate the LDA projection direction step by step
 print("\nCalculating LDA projection direction w = Σ⁻¹(μ₁ - μ₀):")
 w = matrix_multiply(shared_cov_inv, mean_diff, "Σ⁻¹", "μ₁ - μ₀", "w")
-print(f"LDA projection direction w = Σ⁻¹(μ₁ - μ₀): [{w[0]:.6f}, {w[1]:.6f}]")
+print(f"LDA projection direction w = Σ⁻¹(μ₁ - μ₀): [{w[0]:.6f} (Age), {w[1]:.6f} (Tumor Size)]")
 
 # Normalize the projection direction to unit length for visualization
 w_norm_factor = np.linalg.norm(w)
 print(f"\nNormalizing w to unit length:")
 print(f"  ||w|| = sqrt({w[0]:.6f}² + {w[1]:.6f}²) = sqrt({w[0]**2:.6f} + {w[1]**2:.6f}) = {w_norm_factor:.6f}")
 w_norm = w / w_norm_factor
-print(f"  w_normalized = w / ||w|| = [{w[0]:.6f}, {w[1]:.6f}] / {w_norm_factor:.6f} = [{w_norm[0]:.6f}, {w_norm[1]:.6f}]")
+print(f"  w_normalized = w / ||w|| = [{w[0]:.6f} (Age), {w[1]:.6f} (Tumor Size)] / {w_norm_factor:.6f} = [{w_norm[0]:.6f} (Age), {w_norm[1]:.6f} (Tumor Size)]")
 
 print("\nStep 4: Calculate the threshold value for classification")
 print("---------------------------------------------------")
@@ -307,9 +307,10 @@ print(f"  threshold = (μ₁·w + μ₀·w) / 2 = ({proj_malignant:.6f} + {proj_
 print("\nStep 5: Classify a new patient")
 print("---------------------------")
 
-# New patient data: tumor size = 40mm, age = 45 years
-new_patient = np.array([40, 45])
-print(f"New patient data - Tumor size: {new_patient[0]}mm, Age: {new_patient[1]} years")
+# New patient data: age = 50 years, tumor size = 30mm
+# (Note: In the data array, first column is age, second is tumor size)
+new_patient = np.array([50, 30])
+print(f"New patient data - Age: {new_patient[0]} years, Tumor size: {new_patient[1]}mm")
 
 # Project the new patient's data onto w step by step
 print("\nCalculating projection of new patient data onto w:")
@@ -365,8 +366,8 @@ for i in range(len(X)):
 plt.annotate(f"New({new_patient[0]}, {new_patient[1]})", (new_patient[0], new_patient[1]),
              xytext=(7, 0), textcoords='offset points', fontsize=10)
 
-plt.xlabel('Tumor Size (mm)', fontsize=14)
-plt.ylabel('Age (years)', fontsize=14)
+plt.xlabel('Age (years)', fontsize=14)
+plt.ylabel('Tumor Size (mm)', fontsize=14)
 plt.title('Tumor Data with Class Means and 95% Confidence Ellipses', fontsize=16)
 plt.legend(fontsize=12)
 plt.grid(True, alpha=0.3)
@@ -415,7 +416,7 @@ boundary_points = np.vstack([centroid[0] - t * w_norm[1], centroid[1] + t * w_no
 plt.plot(boundary_points[:, 0], boundary_points[:, 1], 'k--', lw=3, label='Decision Boundary', zorder=8)
 
 # Add the equation of the decision boundary in a better position with clearer text
-boundary_eq = f"LDA Equation: {w[0]:.4f}×Tumor Size + {w[1]:.4f}×Age"
+boundary_eq = f"LDA Equation: {w[0]:.4f}×Age + {w[1]:.4f}×Tumor Size"
 plt.annotate(boundary_eq, xy=(0.02, 0.95), xycoords='axes fraction', 
              fontsize=14, bbox=dict(facecolor='white', alpha=0.9, edgecolor='black', boxstyle='round,pad=0.5'))
 
@@ -436,8 +437,8 @@ plt.grid(True, alpha=0.3, linestyle='--')
 plt.tick_params(axis='both', which='major', labelsize=12)
 
 # Improved labels and title
-plt.xlabel('Tumor Size (mm)', fontsize=16, fontweight='bold')
-plt.ylabel('Age (years)', fontsize=16, fontweight='bold')
+plt.xlabel('Age (years)', fontsize=16, fontweight='bold')
+plt.ylabel('Tumor Size (mm)', fontsize=16, fontweight='bold')
 plt.title('LDA Decision Boundary for Tumor Classification', fontsize=18, fontweight='bold', pad=15)
 
 # Create a more readable and organized legend
@@ -521,7 +522,7 @@ plt.text(threshold + (max_proj - threshold)/2, 0.75, "Malignant Region",
 
 # Add a title showing the LDA projection formula with improved clarity
 plt.text(0.5, 0.95, 
-         f"LDA Projection: {w[0]:.4f} × Tumor Size + {w[1]:.4f} × Age", 
+         f"LDA Projection: {w[0]:.4f} × Age + {w[1]:.4f} × Tumor Size", 
          transform=plt.gca().transAxes, 
          ha='center', fontsize=18, weight='bold',
          bbox=dict(boxstyle="round,pad=0.5", fc="lightyellow", ec="orange", alpha=0.9),
@@ -624,8 +625,8 @@ zz = np.ones_like(xx) * threshold
 ax.plot_surface(xx, yy, zz, alpha=0.3, color='purple', label='Decision Boundary')
 
 # Add labels
-ax.set_xlabel('Tumor Size (mm)', fontsize=14)
-ax.set_ylabel('Age (years)', fontsize=14)
+ax.set_xlabel('Age (years)', fontsize=14)
+ax.set_ylabel('Tumor Size (mm)', fontsize=14)
 ax.set_zlabel('LDA Projection', fontsize=14)
 ax.set_title('3D Visualization of LDA Projection', fontsize=16)
 ax.legend(fontsize=12)
@@ -636,9 +637,9 @@ plt.savefig(os.path.join(save_dir, "lda_3d_visualization.png"), dpi=300, bbox_in
 
 print("\nSummary:")
 print("---------")
-print(f"1. Mean vector for malignant class (y=1): [{mean_malignant[0]:.2f}, {mean_malignant[1]:.2f}]")
-print(f"2. Mean vector for benign class (y=0): [{mean_benign[0]:.2f}, {mean_benign[1]:.2f}]")
+print(f"1. Mean vector for malignant class (y=1): [{mean_malignant[0]:.2f} (Age), {mean_malignant[1]:.2f} (Tumor Size)]")
+print(f"2. Mean vector for benign class (y=0): [{mean_benign[0]:.2f} (Age), {mean_benign[1]:.2f} (Tumor Size)]")
 print(f"3. Shared covariance matrix:\n{shared_cov}")
-print(f"4. LDA projection direction w = Σ⁻¹(μ₁ - μ₀): [{w[0]:.6f}, {w[1]:.6f}]")
+print(f"4. LDA projection direction w = Σ⁻¹(μ₁ - μ₀): [{w[0]:.6f} (Age), {w[1]:.6f} (Tumor Size)]")
 print(f"5. Classification threshold (equal priors): {threshold:.6f}")
-print(f"6. Prediction for new patient (tumor size = 40mm, age = 45 years): {prediction}") 
+print(f"6. Prediction for new patient (age = 50 years, tumor size = 30mm): {prediction}") 
