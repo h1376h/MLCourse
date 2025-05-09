@@ -8,7 +8,7 @@ import matplotlib.transforms as transforms
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
 images_dir = os.path.join(os.path.dirname(script_dir), "Images")
-save_dir = os.path.join(images_dir, "L4_4_Quiz_18")
+save_dir = os.path.join(images_dir, "L4_4_Quiz_18_Alt")
 os.makedirs(save_dir, exist_ok=True)
 
 # Set a nice style for the plots
@@ -275,7 +275,7 @@ plt.ylabel('Age (years)', fontsize=14)
 plt.title('Tumor Data with Class Means', fontsize=16)
 plt.legend(fontsize=12)
 plt.grid(True, alpha=0.3)
-plt.savefig(os.path.join(save_dir, "tumor_data_plot.png"), dpi=300, bbox_inches='tight')
+plt.savefig(os.path.join(save_dir, "tumor_data_plot_alt.png"), dpi=300, bbox_inches='tight')
 
 # 2. Decision boundary visualization
 plt.figure(figsize=(12, 10))
@@ -339,7 +339,7 @@ leg.get_frame().set_boxstyle('round,pad=0.5')
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
 
-plt.savefig(os.path.join(save_dir, "lda_decision_boundary.png"), dpi=300, bbox_inches='tight', facecolor='white')
+plt.savefig(os.path.join(save_dir, "lda_decision_boundary_alt.png"), dpi=300, bbox_inches='tight', facecolor='white')
 
 # 3. Projection visualization 
 plt.figure(figsize=(16, 9), facecolor='white')
@@ -368,7 +368,7 @@ plt.title('Projections of Data Points onto LDA Direction', fontsize=18, fontweig
 plt.legend(fontsize=14, loc='upper left')
 plt.grid(True, alpha=0.3, axis='x')
 
-plt.savefig(os.path.join(save_dir, "lda_projections.png"), dpi=300, bbox_inches='tight', facecolor='white')
+plt.savefig(os.path.join(save_dir, "lda_projections_alt.png"), dpi=300, bbox_inches='tight', facecolor='white')
 
 print("\nSummary:")
 print("---------")
