@@ -20,6 +20,7 @@ Consider a medical dataset with tumor features and diagnostic outcomes. Each pat
 3. Determine the LDA projection direction $\theta \propto S_W^{-1}(\mu_2 - \mu_1)$ where $\mu_1$ is the mean for class $y=1$ and $\mu_2$ is the mean for class $y=0$
 4. Calculate the threshold value for classification in the projected space, assuming equal prior probabilities
 5. For a new patient with age 50 years and tumor size 30mm, which diagnosis would LDA predict?
+6. For another patient with age 60 years and tumor size 30mm, which diagnosis would LDA predict?
 
 ## Understanding the Problem
 Linear Discriminant Analysis (LDA) is a classic statistical approach for classification that finds a linear combination of features that best separates different classes. In this medical context, we're using LDA to classify tumors as either malignant or benign based on patient age and tumor size.
@@ -176,6 +177,23 @@ For the new patient with age 50 years and tumor size 30 mm, we:
 
 5. The probability of being benign is approximately 62%.
 
+### Step 6: Classify another patient
+For another patient with age 60 years and tumor size 30 mm, we:
+
+1. Calculate the projection onto the LDA direction:
+   $$x_{\text{another}} \cdot \theta = [60, 30] \cdot [0.41, 0.91] = 60 \times 0.41 + 30 \times 0.91 = 24.6 + 27.3 = 52.0$$
+
+2. Compare with the threshold:
+   $$52.0 > 50.93$$
+
+3. Since the projection is greater than the threshold, we classify the tumor as malignant ($y=1$).
+
+4. The distance from the threshold is $|52.0 - 50.93| = 1.07$.
+
+5. The probability of being malignant is approximately 54%.
+
+This case demonstrates how a change in age from 50 to 60 years, with the same tumor size, can shift the classification from benign to malignant when using LDA.
+
 ![Projections of Data Points onto LDA Direction](../Images/L4_4_Quiz_18/lda_projections_alt.png)
 
 ## Key Insights
@@ -204,5 +222,6 @@ For the new patient with age 50 years and tumor size 30 mm, we:
 - The LDA projection direction $[0.41, 0.91]$ indicates that tumor size has approximately twice the impact of age on classification
 - The classification threshold is 50.93
 - For the new patient with age 50 years and tumor size 30 mm, LDA predicts a benign tumor with 62% probability
+- For another patient with age 60 years and tumor size 30 mm, LDA predicts a malignant tumor with 54% probability, illustrating how a relatively small change in a feature value can alter the classification outcome
 
 This application of LDA demonstrates how statistical approaches can be used for medical diagnosis problems, providing not just a classification but also insights into the relative importance of different clinical measurements. 

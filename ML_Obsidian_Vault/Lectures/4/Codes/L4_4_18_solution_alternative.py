@@ -250,6 +250,28 @@ else:
 distance_from_threshold = abs(new_patient_proj - threshold)
 print(f"  Distance from the threshold: |{new_patient_proj:.2f} - {threshold:.2f}| = {distance_from_threshold:.2f}")
 
+# Add another patient data: age = 60 years, tumor size = 30mm
+another_patient = np.array([60, 30])
+print(f"\nAnother patient data - Age: {another_patient[0]} years, Tumor size: {another_patient[1]}mm")
+
+# Project the another patient's data onto theta
+print("\nCalculating projection of another patient data onto θ:")
+another_patient_proj = dot_product(another_patient, theta, "x_another", "θ")
+
+# Classify the another patient
+print("\nClassifying the another patient:")
+print(f"  Comparing projection {another_patient_proj:.2f} with threshold {threshold:.2f}")
+if another_patient_proj > threshold:
+    another_prediction = "Malignant (y=1)"
+    print(f"  {another_patient_proj:.2f} > {threshold:.2f}, so prediction is Malignant (y=1)")
+else:
+    another_prediction = "Benign (y=0)"
+    print(f"  {another_patient_proj:.2f} < {threshold:.2f}, so prediction is Benign (y=0)")
+
+# Distance from the threshold
+another_distance_from_threshold = abs(another_patient_proj - threshold)
+print(f"  Distance from the threshold: |{another_patient_proj:.2f} - {threshold:.2f}| = {another_distance_from_threshold:.2f}")
+
 # Visualizations
 print("\nCreating visualizations:")
 
@@ -259,16 +281,14 @@ plt.scatter(X_benign[:, 0], X_benign[:, 1], color='blue', marker='o', s=100, lab
 plt.scatter(X_malignant[:, 0], X_malignant[:, 1], color='red', marker='x', s=100, label='Malignant (y=1)')
 plt.scatter(m2[0], m2[1], color='blue', marker='*', s=300, edgecolor='k', label='Mean Benign (m2)')
 plt.scatter(m1[0], m1[1], color='red', marker='*', s=300, edgecolor='k', label='Mean Malignant (m1)')
-plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='k', label='New Patient')
+plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='k', label='New Patient (Age 50)')
+plt.scatter(another_patient[0], another_patient[1], color='purple', marker='D', s=200, edgecolor='k', label='Another Patient (Age 60)')
 
 # Add labels for each data point
 for i in range(len(X)):
     label = 'M' if y[i] == 1 else 'B'
     plt.annotate(f"{label}({X[i][0]}, {X[i][1]})", (X[i][0], X[i][1]), 
                  xytext=(7, 0), textcoords='offset points', fontsize=10)
-
-plt.annotate(f"New({new_patient[0]}, {new_patient[1]})", (new_patient[0], new_patient[1]),
-             xytext=(7, 0), textcoords='offset points', fontsize=10)
 
 plt.xlabel('Tumor Size (mm)', fontsize=14)
 plt.ylabel('Age (years)', fontsize=14)
@@ -298,7 +318,8 @@ plt.scatter(X_benign[:, 0], X_benign[:, 1], color='blue', marker='o', s=120, lab
 plt.scatter(X_malignant[:, 0], X_malignant[:, 1], color='red', marker='x', s=120, linewidth=2, label='Malignant (y=1)', zorder=5)
 plt.scatter(m2[0], m2[1], color='blue', marker='*', s=350, edgecolor='black', linewidth=1.5, label='Mean Benign (m2)', zorder=6)
 plt.scatter(m1[0], m1[1], color='red', marker='*', s=350, edgecolor='black', linewidth=1.5, label='Mean Malignant (m1)', zorder=6)
-plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='black', linewidth=1.5, label='New Patient', zorder=7)
+plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='black', linewidth=1.5, label='New Patient (Age 50)', zorder=7)
+plt.scatter(another_patient[0], another_patient[1], color='purple', marker='D', s=200, edgecolor='black', linewidth=1.5, label='Another Patient (Age 60)', zorder=7)
 
 # Calculate and plot the LDA direction as a vector from the centroid
 centroid = (m1 + m2) / 2
@@ -318,10 +339,6 @@ for i in range(len(X)):
                  xytext=(8, 0), textcoords='offset points', 
                  **font_props)
 
-plt.annotate("New", (new_patient[0], new_patient[1]),
-             xytext=(8, 0), textcoords='offset points', 
-             color='green', **font_props)
-
 # Improved formatting
 plt.grid(True, alpha=0.3, linestyle='--')
 plt.tick_params(axis='both', which='major', labelsize=12)
@@ -332,7 +349,7 @@ plt.ylabel('Age (years)', fontsize=16, fontweight='bold')
 plt.title('LDA Decision Boundary for Tumor Classification', fontsize=18, fontweight='bold', pad=15)
 
 # Create a more readable and organized legend
-leg = plt.legend(fontsize=14, loc='upper left', framealpha=0.9, edgecolor='black')
+leg = plt.legend(fontsize=14, loc='upper right', framealpha=0.9, edgecolor='black')
 leg.get_frame().set_boxstyle('round,pad=0.5')
 
 # Set plot limits with some padding
@@ -352,7 +369,8 @@ projections_malignant = np.dot(X_malignant, theta)
 plt.axhline(y=0, color='k', linestyle='-', alpha=0.7, linewidth=2)
 plt.scatter(projections_benign, np.zeros_like(projections_benign), color='blue', s=120, marker='o', label='Benign Projections', edgecolor='black')
 plt.scatter(projections_malignant, np.zeros_like(projections_malignant), color='red', s=120, marker='x', linewidth=2, label='Malignant Projections')
-plt.scatter(new_patient_proj, 0, color='green', s=180, marker='D', label='New Patient Projection', edgecolor='black')
+plt.scatter(new_patient_proj, 0, color='green', s=180, marker='D', label='New Patient (Age 50) Projection', edgecolor='black')
+plt.scatter(another_patient_proj, 0, color='purple', s=180, marker='D', label='Another Patient (Age 60) Projection', edgecolor='black')
 plt.axvline(x=threshold, color='purple', linestyle='--', linewidth=2.5, label='Decision Threshold')
 
 # Add a title showing the LDA projection formula
@@ -380,3 +398,4 @@ print(f"   [{Sw[1,0]:.2f}, {Sw[1,1]:.2f}]")
 print(f"4. LDA projection direction θ: [{theta[0]:.2f}, {theta[1]:.2f}]")
 print(f"5. Classification threshold (equal priors): {threshold:.2f}")
 print(f"6. Prediction for new patient (age = 50 years, tumor size = 30mm): {prediction}")
+print(f"7. Prediction for another patient (age = 60 years, tumor size = 30mm): {another_prediction}")

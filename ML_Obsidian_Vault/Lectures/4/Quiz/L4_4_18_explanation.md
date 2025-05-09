@@ -20,6 +20,7 @@ Consider a medical dataset with tumor features and diagnostic outcomes. Each pat
 3. Determine the LDA projection direction $w = \Sigma^{-1}(\mu_1 - \mu_2)$ where $\mu_1$ is the mean for class $y=1$ and $\mu_2$ is the mean for class $y=0$
 4. Calculate the threshold value for classification in the projected space, assuming equal prior probabilities
 5. For a new patient with age 50 years and tumor size 30mm, which diagnosis would LDA predict?
+6. For another patient with age 60 years and tumor size 30mm, which diagnosis would LDA predict?
 
 ## Understanding the Problem
 Linear Discriminant Analysis (LDA) is a classic statistical approach for classification that finds a linear combination of features that best separates different classes. In this medical context, we're using LDA to classify tumors as either malignant or benign based on patient age and tumor size.
@@ -193,6 +194,17 @@ Since $7.62 < 8.12$ (our threshold), we classify this patient's tumor as benign 
 
 The distance from the threshold is $|7.62 - 8.12| = 0.50$, which suggests that the prediction is somewhat close to the boundary. Using scikit-learn's implementation, which provides probability estimates, we get a 62.2% probability of being benign.
 
+### Step 6: Classify another patient
+Let's classify another patient with age 60 years and tumor size 30mm. We project this data point onto our LDA direction:
+
+$$\text{projection} = [60, 30] \cdot [0.0653, 0.1452] = 60 \times 0.0653 + 30 \times 0.1452 = 3.92 + 4.36 = 8.27$$
+
+Since $8.27 > 8.12$ (our threshold), we classify this patient's tumor as malignant ($y=1$).
+
+The distance from the threshold is $|8.27 - 8.12| = 0.15$, which suggests that the prediction is very close to the boundary. Using scikit-learn's implementation, we get a 53.8% probability of being malignant.
+
+This example illustrates how a small difference in patient characteristics (in this case, age 50 vs. age 60) can change the classification result when the data point is near the decision boundary.
+
 ![LDA Decision Boundary for Tumor Classification](../Images/L4_4_Quiz_18/lda_decision_boundary.png)
 
 The enhanced decision boundary visualization shows how LDA divides the feature space into two distinct regions (blue for benign and red for malignant). The boundary line (black dashed line) is perpendicular to the LDA direction vector and passes through the midpoint between the class means. The decision boundary equation is displayed in the top-left corner, providing a clear mathematical representation of the classification rule.
@@ -227,5 +239,6 @@ The 3D visualization provides a more intuitive understanding of how the projecti
 - The LDA projection direction $[0.0653, 0.1452]$ indicates that tumor size is approximately twice as important as age for discriminating between malignant and benign tumors in this dataset
 - The classification threshold in the projected space is 8.12
 - For a new patient with age 50 years and tumor size 30mm, LDA predicts a benign tumor with a probability of 62.2%
+- For another patient with age 60 years and tumor size 30mm, LDA predicts a malignant tumor with a probability of 53.8%, demonstrating how a small change in feature values can lead to a different classification when near the decision boundary
 
 This application of LDA demonstrates how statistical approaches can be used for medical diagnosis problems, providing not just a classification but also insights into the relative importance of different clinical measurements. The visualizations help to understand the geometric interpretation of LDA and how it achieves optimal class separation. 

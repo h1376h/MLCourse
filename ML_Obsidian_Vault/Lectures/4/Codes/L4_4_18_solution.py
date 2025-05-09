@@ -330,6 +330,28 @@ else:
 distance_from_threshold = abs(new_patient_proj - threshold)
 print(f"  Distance from the threshold: |{new_patient_proj:.6f} - {threshold:.6f}| = {distance_from_threshold:.6f}")
 
+# Add another patient data: age = 60 years, tumor size = 30mm
+another_patient = np.array([60, 30])
+print(f"\nAnother patient data - Age: {another_patient[0]} years, Tumor size: {another_patient[1]}mm")
+
+# Project the another patient's data onto w step by step
+print("\nCalculating projection of another patient data onto w:")
+another_patient_proj = dot_product(another_patient, w, "x_another", "w")
+
+# Classify the another patient
+print("\nClassifying the another patient:")
+print(f"  Comparing projection {another_patient_proj:.6f} with threshold {threshold:.6f}")
+if another_patient_proj > threshold:
+    another_prediction = "Malignant (y=1)"
+    print(f"  {another_patient_proj:.6f} > {threshold:.6f}, so prediction is Malignant (y=1)")
+else:
+    another_prediction = "Benign (y=0)"
+    print(f"  {another_patient_proj:.6f} < {threshold:.6f}, so prediction is Benign (y=0)")
+
+# Distance from the threshold
+another_distance_from_threshold = abs(another_patient_proj - threshold)
+print(f"  Distance from the threshold: |{another_patient_proj:.6f} - {threshold:.6f}| = {another_distance_from_threshold:.6f}")
+
 # Verify our results using scikit-learn
 print("\nVerification using scikit-learn's LDA implementation:")
 lda = LinearDiscriminantAnalysis(store_covariance=True)
@@ -337,8 +359,15 @@ lda.fit(X, y)
 sklearn_prediction = lda.predict([new_patient])[0]
 sklearn_pred_proba = lda.predict_proba([new_patient])[0]
 
-print(f"scikit-learn LDA prediction: {'Malignant (y=1)' if sklearn_prediction == 1 else 'Benign (y=0)'}")
+print(f"scikit-learn LDA prediction for first patient: {'Malignant (y=1)' if sklearn_prediction == 1 else 'Benign (y=0)'}")
 print(f"Prediction probabilities - Benign: {sklearn_pred_proba[0]:.4f}, Malignant: {sklearn_pred_proba[1]:.4f}")
+
+# Predict for another patient using sklearn
+another_sklearn_prediction = lda.predict([another_patient])[0]
+another_sklearn_pred_proba = lda.predict_proba([another_patient])[0]
+
+print(f"scikit-learn LDA prediction for another patient: {'Malignant (y=1)' if another_sklearn_prediction == 1 else 'Benign (y=0)'}")
+print(f"Prediction probabilities - Benign: {another_sklearn_pred_proba[0]:.4f}, Malignant: {another_sklearn_pred_proba[1]:.4f}")
 
 # Visualizations
 print("\nCreating visualizations:")
@@ -349,7 +378,8 @@ plt.scatter(X_benign[:, 0], X_benign[:, 1], color='blue', marker='o', s=100, lab
 plt.scatter(X_malignant[:, 0], X_malignant[:, 1], color='red', marker='x', s=100, label='Malignant (y=1)')
 plt.scatter(mean_benign[0], mean_benign[1], color='blue', marker='*', s=300, edgecolor='k', label='Mean Benign')
 plt.scatter(mean_malignant[0], mean_malignant[1], color='red', marker='*', s=300, edgecolor='k', label='Mean Malignant')
-plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='k', label='New Patient')
+plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='k', label='New Patient (Age 50)')
+plt.scatter(another_patient[0], another_patient[1], color='purple', marker='D', s=200, edgecolor='k', label='Another Patient (Age 60)')
 
 # Add confidence ellipses for each class
 confidence_ellipse(X_benign[:, 0], X_benign[:, 1], plt.gca(), n_std=2.0, 
@@ -362,9 +392,6 @@ for i in range(len(X)):
     label = 'M' if y[i] == 1 else 'B'
     plt.annotate(f"{label}({X[i][0]}, {X[i][1]})", (X[i][0], X[i][1]), 
                  xytext=(7, 0), textcoords='offset points', fontsize=10)
-
-plt.annotate(f"New({new_patient[0]}, {new_patient[1]})", (new_patient[0], new_patient[1]),
-             xytext=(7, 0), textcoords='offset points', fontsize=10)
 
 plt.xlabel('Age (years)', fontsize=14)
 plt.ylabel('Tumor Size (mm)', fontsize=14)
@@ -397,7 +424,8 @@ plt.scatter(X_benign[:, 0], X_benign[:, 1], color='blue', marker='o', s=120, lab
 plt.scatter(X_malignant[:, 0], X_malignant[:, 1], color='red', marker='x', s=120, linewidth=2, label='Malignant (y=1)', zorder=5)
 plt.scatter(mean_benign[0], mean_benign[1], color='blue', marker='*', s=350, edgecolor='black', linewidth=1.5, label='Mean Benign', zorder=6)
 plt.scatter(mean_malignant[0], mean_malignant[1], color='red', marker='*', s=350, edgecolor='black', linewidth=1.5, label='Mean Malignant', zorder=6)
-plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='black', linewidth=1.5, label='New Patient', zorder=7)
+plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='black', linewidth=1.5, label='New Patient (Age 50)', zorder=7)
+plt.scatter(another_patient[0], another_patient[1], color='purple', marker='D', s=200, edgecolor='black', linewidth=1.5, label='Another Patient (Age 60)', zorder=7)
 
 # Add confidence ellipses for each class
 confidence_ellipse(X_benign[:, 0], X_benign[:, 1], plt.gca(), n_std=2.0, 
@@ -428,10 +456,6 @@ for i in range(len(X)):
                  xytext=(8, 0), textcoords='offset points', 
                  **font_props)
 
-plt.annotate("New", (new_patient[0], new_patient[1]),
-             xytext=(8, 0), textcoords='offset points', 
-             color='green', **font_props)
-
 # Improved formatting
 plt.grid(True, alpha=0.3, linestyle='--')
 plt.tick_params(axis='both', which='major', labelsize=12)
@@ -442,7 +466,7 @@ plt.ylabel('Tumor Size (mm)', fontsize=16, fontweight='bold')
 plt.title('LDA Decision Boundary for Tumor Classification', fontsize=18, fontweight='bold', pad=15)
 
 # Create a more readable and organized legend
-leg = plt.legend(fontsize=14, loc='upper left', framealpha=0.9, edgecolor='black')
+leg = plt.legend(fontsize=14, loc='upper right', framealpha=0.9, edgecolor='black')
 leg.get_frame().set_boxstyle('round,pad=0.5')
 
 # Set plot limits with some padding
@@ -459,9 +483,10 @@ projections = np.dot(X, w)
 projections_benign = np.dot(X_benign, w)
 projections_malignant = np.dot(X_malignant, w)
 new_projection = np.dot(new_patient, w)
+another_projection = np.dot(another_patient, w)
 
 # Create a cleaner background for the number line
-min_proj, max_proj = min(projections.min(), new_projection) - 5, max(projections.max(), new_projection) + 5
+min_proj, max_proj = min(projections.min(), new_projection, another_projection) - 5, max(projections.max(), new_projection, another_projection) + 5
 plt.fill_between([min_proj, threshold], [-1.5, -1.5], [1.5, 1.5], color='#E6F0FF', alpha=0.7, zorder=1)  # Light blue for benign
 plt.fill_between([threshold, max_proj], [-1.5, -1.5], [1.5, 1.5], color='#FFE6E6', alpha=0.7, zorder=1)  # Light red for malignant
 
@@ -469,7 +494,8 @@ plt.fill_between([threshold, max_proj], [-1.5, -1.5], [1.5, 1.5], color='#FFE6E6
 plt.axhline(y=0, color='k', linestyle='-', alpha=0.7, linewidth=2, zorder=2)
 plt.scatter(projections_benign, np.zeros_like(projections_benign), color='blue', s=120, marker='o', label='Benign Projections', edgecolor='black', zorder=3)
 plt.scatter(projections_malignant, np.zeros_like(projections_malignant), color='red', s=120, marker='x', linewidth=2, label='Malignant Projections', zorder=3)
-plt.scatter(new_projection, 0, color='green', s=180, marker='D', label='New Patient Projection', edgecolor='black', zorder=4)
+plt.scatter(new_projection, 0, color='green', s=180, marker='D', label='New Patient (Age 50) Projection', edgecolor='black', zorder=4)
+plt.scatter(another_projection, 0, color='purple', s=180, marker='D', label='Another Patient (Age 60) Projection', edgecolor='black', zorder=4)
 plt.axvline(x=threshold, color='purple', linestyle='--', linewidth=2.5, label='Decision Threshold', zorder=3)
 
 # Add clear labels for benign projections with improved spacing
@@ -502,8 +528,8 @@ plt.annotate(f"New Patient: {new_projection:.2f}", (new_projection, 0),
              arrowprops=dict(arrowstyle="->", color="green", linewidth=2),
              zorder=5)
 
-# Add label for the threshold with improved visibility
-plt.annotate(f"Threshold: {threshold:.2f}", (threshold, 0),
+# Add label for another patient
+plt.annotate(f"Another Patient: {another_projection:.2f}", (another_projection, 0),
              xytext=(0, 150), textcoords='offset points',
              ha='center', fontsize=14, weight='bold', color='purple',
              bbox=dict(boxstyle="round,pad=0.5", fc="white", ec="purple", alpha=0.9),
@@ -617,7 +643,11 @@ ax.scatter(X_malignant[:, 0], X_malignant[:, 1], np.dot(X_malignant, w),
 
 # Plot new patient point
 ax.scatter(new_patient[0], new_patient[1], np.dot(new_patient, w), 
-           color='green', marker='D', s=200, label='New Patient')
+           color='green', marker='D', s=200, label='New Patient (Age 50)')
+
+# Plot another patient point
+ax.scatter(another_patient[0], another_patient[1], np.dot(another_patient, w), 
+           color='purple', marker='D', s=200, label='Another Patient (Age 60)')
 
 # Add the decision boundary plane
 xx, yy = np.meshgrid(np.linspace(x_min, x_max, 10), np.linspace(y_min, y_max, 10))
@@ -642,4 +672,5 @@ print(f"2. Mean vector for benign class (y=0): [{mean_benign[0]:.2f} (Age), {mea
 print(f"3. Shared covariance matrix:\n{shared_cov}")
 print(f"4. LDA projection direction w = Σ⁻¹(μ₁ - μ₀): [{w[0]:.6f} (Age), {w[1]:.6f} (Tumor Size)]")
 print(f"5. Classification threshold (equal priors): {threshold:.6f}")
-print(f"6. Prediction for new patient (age = 50 years, tumor size = 30mm): {prediction}") 
+print(f"6. Prediction for new patient (age = 50 years, tumor size = 30mm): {prediction}")
+print(f"7. Prediction for another patient (age = 60 years, tumor size = 30mm): {another_prediction}") 
