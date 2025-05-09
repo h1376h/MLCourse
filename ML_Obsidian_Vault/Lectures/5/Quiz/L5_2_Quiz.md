@@ -1,7 +1,7 @@
 # Lecture 5.2: Maximum Likelihood for Logistic Regression Quiz
 
 ## Overview
-This quiz contains 4 questions from different topics covered in section 5.2 of the lectures on Maximum Likelihood for Logistic Regression.
+This quiz contains 5 questions from different topics covered in section 5.2 of the lectures on Maximum Likelihood for Logistic Regression.
 
 ## Question 1
 
@@ -96,4 +96,46 @@ In this problem:
 3. Compare gradient descent and Newton's method for finding the MLE in logistic regression.
 4. If the researcher finds that $\theta_0 = -3.5$, $\theta_1 = 0.8$, and $\theta_2 = 2.1$, interpret these coefficients in context.
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: MLE Optimization Techniques](L5_2_4_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: MLE Optimization Techniques](L5_2_4_explanation.md).
+
+## Question 5
+
+### Problem Statement
+Consider a medical dataset with tumor features and diagnostic outcomes. Each patient has data on age (years) and tumor size (mm), with the target variable $y$ indicating whether the tumor is malignant (1) or benign (0).
+
+| Age (years) | Tumor Size (mm) | $y$ (Malignant) |
+|-------------|-----------------|-----------------|
+| 15          | 20              | 0               |
+| 65          | 30              | 0               |
+| 30          | 50              | 1               |
+| 90          | 20              | 1               |
+| 44          | 35              | 0               |
+| 20          | 70              | 1               |
+| 50          | 40              | 1               |
+| 36          | 25              | 0               |
+
+A logistic regression model is being trained on this dataset to predict whether tumors are malignant or benign based on age and tumor size.
+
+The model uses the sigmoid function:
+$$g(z) = \frac{1}{1+e^{-z}}$$
+
+And the hypothesis function:
+$$h_\theta(x) = g(\theta^T x)$$
+
+The cost function used for training is:
+$$J(\theta) = -\frac{1}{m}\sum_{i=1}^{m} [y^{(i)}\log h_\theta(x^{(i)}) + (1 - y^{(i)})\log(1 - h_\theta(x^{(i)}))]$$
+
+#### Task
+1. Starting with initial parameters $\theta_0 = 0$, $\theta_1 = 0$, and $\theta_2 = 0$, calculate the initial cost $J(\theta)$ for this dataset.
+2. Calculate the first two iterations of gradient descent using the following update rule and a learning rate $\alpha = 0.01$:
+   $$\theta_j := \theta_j - \alpha \frac{\partial J(\theta)}{\partial \theta_j}$$
+   Where:
+   $$\frac{\partial J(\theta)}{\partial \theta_j} = \frac{1}{m}\sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})x_j^{(i)}$$
+3. For the same initial parameters, calculate the first two iterations of stochastic gradient descent using a single randomly selected training example at each step with learning rate $\alpha = 0.1$. Show all calculations.
+4. Explain the decision boundary equation $\theta^T x = 0$ in the context of logistic regression. What does it represent geometrically?
+5. Using the final optimized parameters $\theta_0 = -136.95$, $\theta_1 = 1.1$, and $\theta_2 = 2.2$, derive the equation of the decision boundary for this model.
+6. The final optimized parameters for this model are $\theta_0 = -136.95$, $\theta_1 = 1.1$, and $\theta_2 = 2.2$. For a new patient with age 50 years and tumor size 30mm, calculate the predicted probability of the tumor being malignant and provide the classification.
+7. Explain how the coefficients $\theta_1 = 1.1$ and $\theta_2 = 2.2$ can be interpreted in this medical context.
+8. Conceptually, how would increasing and decreasing the learning rate affect the training process?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: Logistic Regression for Tumor Classification](L5_2_5_explanation.md). 
