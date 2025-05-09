@@ -8,7 +8,7 @@ import matplotlib.transforms as transforms
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
 images_dir = os.path.join(os.path.dirname(script_dir), "Images")
-save_dir = os.path.join(images_dir, "L4_4_Quiz_18_Alt")
+save_dir = os.path.join(images_dir, "L4_4_Quiz_18")
 os.makedirs(save_dir, exist_ok=True)
 
 # Set a nice style for the plots
