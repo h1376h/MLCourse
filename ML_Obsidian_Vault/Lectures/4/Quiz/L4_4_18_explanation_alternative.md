@@ -16,8 +16,8 @@ Consider a medical dataset with tumor features and diagnostic outcomes. Each pat
 
 ### Task
 1. Calculate the mean vectors for each class (malignant and benign)
-2. Calculate the within-class scatter matrix Sw
-3. Determine the LDA projection direction $\theta \propto S_W^{-1}(m_2 - m_1)$ where $m_1$ is the mean for class y=1 and $m_2$ is the mean for class y=0
+2. Calculate the within-class scatter matrix $S_W$
+3. Determine the LDA projection direction $\theta \propto S_W^{-1}(\mu_2 - \mu_1)$ where $\mu_1$ is the mean for class $y=1$ and $\mu_2$ is the mean for class $y=0$
 4. Calculate the threshold value for classification in the projected space, assuming equal prior probabilities
 5. For a new patient with age 50 years and tumor size 30mm, which diagnosis would LDA predict?
 
@@ -38,8 +38,8 @@ For the malignant class (y=1), we have the following data points:
 - (50, 40)
 
 The mean is calculated by summing all points and dividing by the number of points:
-$$m_1 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left[ (30, 50) + (90, 20) + (20, 70) + (50, 40) \right]$$
-$$m_1 = \frac{1}{4} (190, 180) = (47.5, 45.0)$$
+$$\mu_1 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left[ (30, 50) + (90, 20) + (20, 70) + (50, 40) \right]$$
+$$\mu_1 = \frac{1}{4} (190, 180) = (47.5, 45.0)$$
 
 For the benign class (y=0), we have:
 - (15, 20)
@@ -48,15 +48,15 @@ For the benign class (y=0), we have:
 - (36, 25)
 
 Similarly, the mean calculation is:
-$$m_2 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left[ (15, 20) + (65, 30) + (44, 35) + (36, 25) \right]$$
-$$m_2 = \frac{1}{4} (160, 110) = (40.0, 27.5)$$
+$$\mu_2 = \frac{1}{4} \sum_{i=1}^{4} x_i = \frac{1}{4} \left[ (15, 20) + (65, 30) + (44, 35) + (36, 25) \right]$$
+$$\mu_2 = \frac{1}{4} (160, 110) = (40.0, 27.5)$$
 
 These mean vectors tell us that, on average, malignant tumors in our dataset appear in older patients (47.5 years vs 40.0 years) and are larger (45.0mm vs 27.5mm) compared to benign tumors.
 
-### Step 2: Calculate the within-class scatter matrix Sw
+### Step 2: Calculate the within-class scatter matrix $S_W$
 The within-class scatter matrix is calculated as the sum of the scatter matrices for each class:
 
-$$S_W = \sum_{i \in C_1} (x^{(i)} - m_1)(x^{(i)} - m_1)^T + \sum_{i \in C_2} (x^{(i)} - m_2)(x^{(i)} - m_2)^T$$
+$$S_W = \sum_{i \in C_1} (x^{(i)} - \mu_1)(x^{(i)} - \mu_1)^T + \sum_{i \in C_2} (x^{(i)} - \mu_2)(x^{(i)} - \mu_2)^T$$
 
 For the malignant class (y=1), we first calculate the scatter matrix S1:
 
@@ -100,22 +100,22 @@ $$(-15.0, 8.5)(-15.0, 8.5)^T = \begin{bmatrix} 225.0 & -127.5 \\ -127.5 & 72.25 
 Adding these up, we get the scatter matrix for the benign class:
 $$S_2 = \begin{bmatrix} 125 & 290 \\ 290 & 1282 \end{bmatrix}$$
 
-Now we calculate the within-class scatter matrix Sw by adding S1 and S2:
+Now we calculate the within-class scatter matrix $S_W$ by adding S1 and S2:
 $$S_W = S_1 + S_2 = \begin{bmatrix} 1300 & -1850 \\ -1850 & 2875 \end{bmatrix} + \begin{bmatrix} 125 & 290 \\ 290 & 1282 \end{bmatrix} = \begin{bmatrix} 1425 & -1560 \\ -1560 & 4157 \end{bmatrix}$$
 
 ### Step 3: Determine the LDA projection direction
 The LDA projection direction is calculated as:
-$$\theta \propto S_W^{-1}(m_2 - m_1)$$
+$$\theta \propto S_W^{-1}(\mu_2 - \mu_1)$$
 
 First, we calculate the difference between class means:
-$$m_2 - m_1 = (40.0, 27.5) - (47.5, 45.0) = (-7.5, -17.5)$$
+$$\mu_2 - \mu_1 = (40.0, 27.5) - (47.5, 45.0) = (-7.5, -17.5)$$
 
 To compute $S_W^{-1}$, we need to find the inverse of the within-class scatter matrix:
 
-The determinant of Sw:
+The determinant of $S_W$:
 $$\det(S_W) = 1425 \times 4157 - (-1560)^2 = 5,923,725 - 2,433,600 = 3,490,125$$
 
-The inverse of Sw:
+The inverse of $S_W$:
 $$S_W^{-1} = \frac{1}{3,490,125} \begin{bmatrix} 
 4157 & 1560 \\
 1560 & 1425
@@ -124,8 +124,8 @@ $$S_W^{-1} = \frac{1}{3,490,125} \begin{bmatrix}
 0.000447 & 0.000408
 \end{bmatrix}$$
 
-Now we multiply $S_W^{-1}$ by $(m_2 - m_1)$:
-$$\theta_{unnormalized} = S_W^{-1}(m_2 - m_1) = \begin{bmatrix} 
+Now we multiply $S_W^{-1}$ by $(\mu_2 - \mu_1)$:
+$$\theta_{unnormalized} = S_W^{-1}(\mu_2 - \mu_1) = \begin{bmatrix} 
 0.001191 & 0.000447 \\
 0.000447 & 0.000408
 \end{bmatrix} \times \begin{bmatrix} 
@@ -149,13 +149,13 @@ $$\theta = \frac{\theta_{unnormalized}}{||\theta_{unnormalized}||} = \frac{[0.01
 For classification, we project the class means onto the LDA direction and find the midpoint:
 
 Projection of malignant mean:
-$$\theta^T m_1 = [0.41 \quad 0.91] \begin{bmatrix} 45.0 \\ 47.5 \end{bmatrix} = 0.41 \times 45.0 + 0.91 \times 47.5 = 18.45 + 43.23 = 61.68$$
+$$\theta^T \mu_1 = [0.41 \quad 0.91] \begin{bmatrix} 45.0 \\ 47.5 \end{bmatrix} = 0.41 \times 45.0 + 0.91 \times 47.5 = 18.45 + 43.23 = 61.68$$
 
 Projection of benign mean:
-$$\theta^T m_2 = [0.41 \quad 0.91] \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = 0.41 \times 40.0 + 0.91 \times 27.5 = 16.41 + 24.93 = 41.34$$
+$$\theta^T \mu_2 = [0.41 \quad 0.91] \begin{bmatrix} 40.0 \\ 27.5 \end{bmatrix} = 0.41 \times 40.0 + 0.91 \times 27.5 = 16.41 + 24.93 = 41.34$$
 
 Assuming equal prior probabilities, the threshold is:
-$$c = \theta^T \frac{m_1 + m_2}{2} = [0.41 \quad 0.91] \begin{bmatrix} \frac{45.0 + 40.0}{2} \\ \frac{47.5 + 27.5}{2} \end{bmatrix} = [0.41 \quad 0.91] \begin{bmatrix} 42.5 \\ 37.5 \end{bmatrix} = 17.44 + 34.88 = 52.32$$
+$$c = \theta^T \frac{\mu_1 + \mu_2}{2} = [0.41 \quad 0.91] \begin{bmatrix} \frac{45.0 + 40.0}{2} \\ \frac{47.5 + 27.5}{2} \end{bmatrix} = [0.41 \quad 0.91] \begin{bmatrix} 42.5 \\ 37.5 \end{bmatrix} = 17.44 + 34.88 = 52.32$$
 
 ### Step 5: Classify the new patient
 For the new patient with age 50 years and tumor size 30 mm, we:

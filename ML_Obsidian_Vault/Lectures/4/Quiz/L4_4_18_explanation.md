@@ -17,7 +17,7 @@ Consider a medical dataset with tumor features and diagnostic outcomes. Each pat
 ### Task
 1. Calculate the mean vectors for each class (malignant and benign)
 2. Calculate the shared covariance matrix assuming equal covariance for both classes
-3. Determine the LDA projection direction $w = \Sigma^{-1}(\mu_1 - \mu_2)$ where $\mu_1$ is the mean for class y=1 and $\mu_2$ is the mean for class y=0
+3. Determine the LDA projection direction $w = \Sigma^{-1}(\mu_1 - \mu_2)$ where $\mu_1$ is the mean for class $y=1$ and $\mu_2$ is the mean for class $y=0$
 4. Calculate the threshold value for classification in the projected space, assuming equal prior probabilities
 5. For a new patient with age 50 years and tumor size 30mm, which diagnosis would LDA predict?
 
