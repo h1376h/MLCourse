@@ -98,7 +98,7 @@ You can assume a learning rate of 0.1 for this whole problem.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: Logistic Regression for Tumor Classification](L5_2_4_explanation.md).
 
-## Question 5
+## [⭐] Question 5
 
 ### Problem Statement
 Consider a medical dataset with tumor features and diagnostic outcomes. Each patient has data on age (years) and tumor size (mm), with the target variable $y$ indicating whether the tumor is malignant (1) or benign (0).
@@ -138,4 +138,11 @@ $$J(\theta) = -\frac{1}{m}\sum_{i=1}^{m} [y^{(i)}\log h_\theta(x^{(i)}) + (1 - y
 7. Explain how the coefficients $\theta_1 = 1.1$ and $\theta_2 = 2.2$ can be interpreted in this medical context.
 8. Conceptually, how would increasing and decreasing the learning rate affect the training process?
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: Logistic Regression for Tumor Classification](L5_2_5_explanation.md). 
+#### Solution Approaches
+This problem can be tackled using multiple approaches:
+
+For a detailed standard explanation, see [Question 5: Logistic Regression for Tumor Classification](L5_2_5_explanation.md).
+
+For an alternative approach that was used in our class lectures, see [Alternative Solution: Class-based Approach](L5_2_5_explanation_alternative.md).
+
+While both solutions address the same core concepts, they may differ in some numerical calculations or specific methodologies. The fundamental principles of logistic regression and gradient descent remain consistent across both approaches. 
