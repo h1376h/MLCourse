@@ -1,7 +1,7 @@
 # Lecture 4.4: Linear Separability and Loss Functions Quiz
 
 ## Overview
-This quiz contains 27 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
+This quiz contains 28 questions from different topics covered in section 4.4 of the lectures on Linear Separability and Loss Functions.
 
 ## Question 1
 
@@ -261,30 +261,40 @@ Consider a linear classifier being trained on a dataset with the following prope
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Robust Classification](L4_4_17_explanation.md).
 
-## Question 18
+## [⭐] Question 18
 
 ### Problem Statement
-Consider a medical dataset with tumor features and diagnostic outcomes. Each patient has data on tumor size (mm) and age (years), with the target variable y indicating whether the tumor is malignant (1) or benign (0).
+Consider a medical dataset with tumor features and diagnostic outcomes. Each patient has data on age (years) and tumor size (mm), with the target variable $y$ indicating whether the tumor is malignant (1) or benign (0).
 
-| Tumor Size (mm) | Age (years) | y (Malignant) |
-|-----------------|-------------|---------------|
-| 15              | 20          | 0             |
-| 65              | 30          | 0             |
-| 30              | 50          | 1             |
-| 90              | 20          | 1             |
-| 44              | 35          | 0             |
-| 20              | 70          | 1             |
-| 50              | 40          | 1             |
-| 36              | 25          | 0             |
+| Age (years) | Tumor Size (mm) | $y$ (Malignant) |
+|-------------|-----------------|-----------------|
+| 15          | 20              | 0               |
+| 65          | 30              | 0               |
+| 30          | 50              | 1               |
+| 90          | 20              | 1               |
+| 44          | 35              | 0               |
+| 20          | 70              | 1               |
+| 50          | 40              | 1               |
+| 36          | 25              | 0               |
 
 #### Task
 1. Calculate the mean vectors for each class (malignant and benign)
 2. Calculate the shared covariance matrix assuming equal covariance for both classes
-3. Determine the LDA projection direction $w = \Sigma^{-1}(\mu_1 - \mu_2)$ where $\mu_1$ is the mean for class y=1 and $\mu_2$ is the mean for class y=0
+3. Determine the LDA projection direction $w = \Sigma^{-1}(\mu_1 - \mu_2)$ where $\mu_1$ is the mean for class $y=1$ and $\mu_2$ is the mean for class $y=0$
 4. Calculate the threshold value for classification in the projected space, assuming equal prior probabilities
-5. For a new patient with tumor size 40mm and age 45 years, which diagnosis would LDA predict?
+5. For a new patient with age 50 years and tumor size 30mm, which diagnosis would LDA predict?
+6. For another patient with age 60 years and tumor size 30mm, which diagnosis would LDA predict?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: LDA for Medical Diagnosis](L4_4_18_explanation.md).
+
+#### Solution Approaches
+This problem can be tackled using multiple approaches:
+
+For a detailed explanation using the shared covariance matrix formula, which provides a standard LDA implementation, see [Question 18: LDA for Medical Diagnosis](L4_4_18_explanation.md).
+
+For an alternative approach using the within-class scatter matrix formulation, which was used in our class lectures, see [Alternative Solution: Within-Class Scatter Approach](L4_4_18_explanation_alternative.md).
+
+Note that while the numerical values differ slightly between these approaches, the fundamental concepts and final classification decisions remain the same, as the relative relationships between variables are preserved.
 
 ## Question 19
 
@@ -489,3 +499,24 @@ $$\mathbf{w}^* = (\Sigma_A + \Sigma_B)^{-1}(\mu_A - \mu_B)$$
 3. Find the optimal $\mathbf{w}^*$ with unit length.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 27: Linear Discriminant Analysis with Singular Scatter Matrix](L4_4_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+You are a fruit vendor trying to automatically sort fruits. You have data for two types of fruits, "SweetApples" (label +1) and "SourOranges" (label -1), based on two features: "Sweetness" ($x_1$, scale 1-10) and "Sourness" ($x_2$, scale 1-10).
+
+| Fruit ID     | Sweetness ($x_1$) | Sourness ($x_2$) | Class ($y$) |
+|--------------|-------------------|------------------|-------------|
+| SA1          | 8                 | 2                | +1          |
+| SA2          | 7                 | 3                | +1          |
+| SO1          | 3                 | 8                | -1          |
+| SO2          | 2                 | 7                | -1          |
+
+#### Task
+1. Sketch these points in a 2D coordinate system (Sweetness as x-axis, Sourness as y-axis), labeling each point with its Fruit ID and class.
+2. Draw a linear decision boundary that separates these two classes and write its equation in the form $w_1x_1 + w_2x_2 + b = 0$.
+3. Consider a Perceptron algorithm with learning rate $\eta = 1$ and initial weights $w_1=0, w_2=0, b=0$. The Perceptron updates its weights if $y \cdot (w_1x_1 + w_2x_2 + b) \leq 0$. If the points are processed in the order SA1, SA2, SO1, SO2, what are the weights $(w_1, w_2, b)$ after the *first* update? Show your calculation for the first point processed.
+4. Is this dataset linearly separable? Explain why or why not in one sentence.
+5. Apply Fisher's Linear Discriminant Analysis (LDA) to find the optimal projection direction for this dataset.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 28: Fruit Classification with Perceptron and Fisher's LDA](L4_4_28_explanation.md).

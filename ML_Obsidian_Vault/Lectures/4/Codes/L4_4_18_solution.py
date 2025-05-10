@@ -174,7 +174,7 @@ print("Question 18: LDA for Medical Diagnosis")
 print("======================================")
 
 # Given data
-# Tumor Size (mm), Age (years), y (Malignant: 1 = malignant, 0 = benign)
+# First column: Age (years), Second column: Tumor Size (mm), y (Malignant: 1 = malignant, 0 = benign)
 data = np.array([
     [15, 20, 0],
     [65, 30, 0],
@@ -215,7 +215,7 @@ for i, point in enumerate(X_malignant):
     print(f"  Adding point {i+1}: {point} → Running sum: {sum_malignant}")
 
 mean_malignant = sum_malignant / n_malignant
-print(f"  Mean = Sum / {n_malignant} = {sum_malignant} / {n_malignant} = [{mean_malignant[0]:.2f}, {mean_malignant[1]:.2f}]")
+print(f"  Mean = Sum / {n_malignant} = {sum_malignant} / {n_malignant} = [{mean_malignant[0]:.2f} (Age), {mean_malignant[1]:.2f} (Tumor Size)]")
 
 # Calculate mean for benign class (class 0) step by step
 print("\nCalculating mean vector for benign class (y=0):")
@@ -226,7 +226,7 @@ for i, point in enumerate(X_benign):
     print(f"  Adding point {i+1}: {point} → Running sum: {sum_benign}")
 
 mean_benign = sum_benign / n_benign
-print(f"  Mean = Sum / {n_benign} = {sum_benign} / {n_benign} = [{mean_benign[0]:.2f}, {mean_benign[1]:.2f}]")
+print(f"  Mean = Sum / {n_benign} = {sum_benign} / {n_benign} = [{mean_benign[0]:.2f} (Age), {mean_benign[1]:.2f} (Tumor Size)]")
 
 print("\nStep 2: Calculate the shared covariance matrix")
 print("--------------------------------------------")
@@ -272,7 +272,7 @@ for i in range(2):
     mean_diff[i] = mean_malignant[i] - mean_benign[i]
     print(f"  μ₁[{i}] - μ₀[{i}] = {mean_malignant[i]:.4f} - {mean_benign[i]:.4f} = {mean_diff[i]:.4f}")
 
-print(f"  Mean difference vector (μ₁ - μ₀): [{mean_diff[0]:.2f}, {mean_diff[1]:.2f}]")
+print(f"  Mean difference vector (μ₁ - μ₀): [{mean_diff[0]:.2f} (Age), {mean_diff[1]:.2f} (Tumor Size)]")
 
 # Calculate the inverse of the shared covariance matrix step by step
 shared_cov_inv = invert_2x2_matrix(shared_cov, "Σ")
@@ -282,14 +282,14 @@ print_matrix("Σ⁻¹", shared_cov_inv)
 # Calculate the LDA projection direction step by step
 print("\nCalculating LDA projection direction w = Σ⁻¹(μ₁ - μ₀):")
 w = matrix_multiply(shared_cov_inv, mean_diff, "Σ⁻¹", "μ₁ - μ₀", "w")
-print(f"LDA projection direction w = Σ⁻¹(μ₁ - μ₀): [{w[0]:.6f}, {w[1]:.6f}]")
+print(f"LDA projection direction w = Σ⁻¹(μ₁ - μ₀): [{w[0]:.6f} (Age), {w[1]:.6f} (Tumor Size)]")
 
 # Normalize the projection direction to unit length for visualization
 w_norm_factor = np.linalg.norm(w)
 print(f"\nNormalizing w to unit length:")
 print(f"  ||w|| = sqrt({w[0]:.6f}² + {w[1]:.6f}²) = sqrt({w[0]**2:.6f} + {w[1]**2:.6f}) = {w_norm_factor:.6f}")
 w_norm = w / w_norm_factor
-print(f"  w_normalized = w / ||w|| = [{w[0]:.6f}, {w[1]:.6f}] / {w_norm_factor:.6f} = [{w_norm[0]:.6f}, {w_norm[1]:.6f}]")
+print(f"  w_normalized = w / ||w|| = [{w[0]:.6f} (Age), {w[1]:.6f} (Tumor Size)] / {w_norm_factor:.6f} = [{w_norm[0]:.6f} (Age), {w_norm[1]:.6f} (Tumor Size)]")
 
 print("\nStep 4: Calculate the threshold value for classification")
 print("---------------------------------------------------")
@@ -307,9 +307,10 @@ print(f"  threshold = (μ₁·w + μ₀·w) / 2 = ({proj_malignant:.6f} + {proj_
 print("\nStep 5: Classify a new patient")
 print("---------------------------")
 
-# New patient data: tumor size = 40mm, age = 45 years
-new_patient = np.array([40, 45])
-print(f"New patient data - Tumor size: {new_patient[0]}mm, Age: {new_patient[1]} years")
+# New patient data: age = 50 years, tumor size = 30mm
+# (Note: In the data array, first column is age, second is tumor size)
+new_patient = np.array([50, 30])
+print(f"New patient data - Age: {new_patient[0]} years, Tumor size: {new_patient[1]}mm")
 
 # Project the new patient's data onto w step by step
 print("\nCalculating projection of new patient data onto w:")
@@ -329,6 +330,28 @@ else:
 distance_from_threshold = abs(new_patient_proj - threshold)
 print(f"  Distance from the threshold: |{new_patient_proj:.6f} - {threshold:.6f}| = {distance_from_threshold:.6f}")
 
+# Add another patient data: age = 60 years, tumor size = 30mm
+another_patient = np.array([60, 30])
+print(f"\nAnother patient data - Age: {another_patient[0]} years, Tumor size: {another_patient[1]}mm")
+
+# Project the another patient's data onto w step by step
+print("\nCalculating projection of another patient data onto w:")
+another_patient_proj = dot_product(another_patient, w, "x_another", "w")
+
+# Classify the another patient
+print("\nClassifying the another patient:")
+print(f"  Comparing projection {another_patient_proj:.6f} with threshold {threshold:.6f}")
+if another_patient_proj > threshold:
+    another_prediction = "Malignant (y=1)"
+    print(f"  {another_patient_proj:.6f} > {threshold:.6f}, so prediction is Malignant (y=1)")
+else:
+    another_prediction = "Benign (y=0)"
+    print(f"  {another_patient_proj:.6f} < {threshold:.6f}, so prediction is Benign (y=0)")
+
+# Distance from the threshold
+another_distance_from_threshold = abs(another_patient_proj - threshold)
+print(f"  Distance from the threshold: |{another_patient_proj:.6f} - {threshold:.6f}| = {another_distance_from_threshold:.6f}")
+
 # Verify our results using scikit-learn
 print("\nVerification using scikit-learn's LDA implementation:")
 lda = LinearDiscriminantAnalysis(store_covariance=True)
@@ -336,8 +359,15 @@ lda.fit(X, y)
 sklearn_prediction = lda.predict([new_patient])[0]
 sklearn_pred_proba = lda.predict_proba([new_patient])[0]
 
-print(f"scikit-learn LDA prediction: {'Malignant (y=1)' if sklearn_prediction == 1 else 'Benign (y=0)'}")
+print(f"scikit-learn LDA prediction for first patient: {'Malignant (y=1)' if sklearn_prediction == 1 else 'Benign (y=0)'}")
 print(f"Prediction probabilities - Benign: {sklearn_pred_proba[0]:.4f}, Malignant: {sklearn_pred_proba[1]:.4f}")
+
+# Predict for another patient using sklearn
+another_sklearn_prediction = lda.predict([another_patient])[0]
+another_sklearn_pred_proba = lda.predict_proba([another_patient])[0]
+
+print(f"scikit-learn LDA prediction for another patient: {'Malignant (y=1)' if another_sklearn_prediction == 1 else 'Benign (y=0)'}")
+print(f"Prediction probabilities - Benign: {another_sklearn_pred_proba[0]:.4f}, Malignant: {another_sklearn_pred_proba[1]:.4f}")
 
 # Visualizations
 print("\nCreating visualizations:")
@@ -348,7 +378,8 @@ plt.scatter(X_benign[:, 0], X_benign[:, 1], color='blue', marker='o', s=100, lab
 plt.scatter(X_malignant[:, 0], X_malignant[:, 1], color='red', marker='x', s=100, label='Malignant (y=1)')
 plt.scatter(mean_benign[0], mean_benign[1], color='blue', marker='*', s=300, edgecolor='k', label='Mean Benign')
 plt.scatter(mean_malignant[0], mean_malignant[1], color='red', marker='*', s=300, edgecolor='k', label='Mean Malignant')
-plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='k', label='New Patient')
+plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='k', label='New Patient (Age 50)')
+plt.scatter(another_patient[0], another_patient[1], color='purple', marker='D', s=200, edgecolor='k', label='Another Patient (Age 60)')
 
 # Add confidence ellipses for each class
 confidence_ellipse(X_benign[:, 0], X_benign[:, 1], plt.gca(), n_std=2.0, 
@@ -362,11 +393,8 @@ for i in range(len(X)):
     plt.annotate(f"{label}({X[i][0]}, {X[i][1]})", (X[i][0], X[i][1]), 
                  xytext=(7, 0), textcoords='offset points', fontsize=10)
 
-plt.annotate(f"New({new_patient[0]}, {new_patient[1]})", (new_patient[0], new_patient[1]),
-             xytext=(7, 0), textcoords='offset points', fontsize=10)
-
-plt.xlabel('Tumor Size (mm)', fontsize=14)
-plt.ylabel('Age (years)', fontsize=14)
+plt.xlabel('Age (years)', fontsize=14)
+plt.ylabel('Tumor Size (mm)', fontsize=14)
 plt.title('Tumor Data with Class Means and 95% Confidence Ellipses', fontsize=16)
 plt.legend(fontsize=12)
 plt.grid(True, alpha=0.3)
@@ -396,7 +424,8 @@ plt.scatter(X_benign[:, 0], X_benign[:, 1], color='blue', marker='o', s=120, lab
 plt.scatter(X_malignant[:, 0], X_malignant[:, 1], color='red', marker='x', s=120, linewidth=2, label='Malignant (y=1)', zorder=5)
 plt.scatter(mean_benign[0], mean_benign[1], color='blue', marker='*', s=350, edgecolor='black', linewidth=1.5, label='Mean Benign', zorder=6)
 plt.scatter(mean_malignant[0], mean_malignant[1], color='red', marker='*', s=350, edgecolor='black', linewidth=1.5, label='Mean Malignant', zorder=6)
-plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='black', linewidth=1.5, label='New Patient', zorder=7)
+plt.scatter(new_patient[0], new_patient[1], color='green', marker='D', s=200, edgecolor='black', linewidth=1.5, label='New Patient (Age 50)', zorder=7)
+plt.scatter(another_patient[0], another_patient[1], color='purple', marker='D', s=200, edgecolor='black', linewidth=1.5, label='Another Patient (Age 60)', zorder=7)
 
 # Add confidence ellipses for each class
 confidence_ellipse(X_benign[:, 0], X_benign[:, 1], plt.gca(), n_std=2.0, 
@@ -415,7 +444,7 @@ boundary_points = np.vstack([centroid[0] - t * w_norm[1], centroid[1] + t * w_no
 plt.plot(boundary_points[:, 0], boundary_points[:, 1], 'k--', lw=3, label='Decision Boundary', zorder=8)
 
 # Add the equation of the decision boundary in a better position with clearer text
-boundary_eq = f"LDA Equation: {w[0]:.4f}×Tumor Size + {w[1]:.4f}×Age"
+boundary_eq = f"LDA Equation: {w[0]:.4f}×Age + {w[1]:.4f}×Tumor Size"
 plt.annotate(boundary_eq, xy=(0.02, 0.95), xycoords='axes fraction', 
              fontsize=14, bbox=dict(facecolor='white', alpha=0.9, edgecolor='black', boxstyle='round,pad=0.5'))
 
@@ -427,21 +456,17 @@ for i in range(len(X)):
                  xytext=(8, 0), textcoords='offset points', 
                  **font_props)
 
-plt.annotate("New", (new_patient[0], new_patient[1]),
-             xytext=(8, 0), textcoords='offset points', 
-             color='green', **font_props)
-
 # Improved formatting
 plt.grid(True, alpha=0.3, linestyle='--')
 plt.tick_params(axis='both', which='major', labelsize=12)
 
 # Improved labels and title
-plt.xlabel('Tumor Size (mm)', fontsize=16, fontweight='bold')
-plt.ylabel('Age (years)', fontsize=16, fontweight='bold')
+plt.xlabel('Age (years)', fontsize=16, fontweight='bold')
+plt.ylabel('Tumor Size (mm)', fontsize=16, fontweight='bold')
 plt.title('LDA Decision Boundary for Tumor Classification', fontsize=18, fontweight='bold', pad=15)
 
 # Create a more readable and organized legend
-leg = plt.legend(fontsize=14, loc='upper left', framealpha=0.9, edgecolor='black')
+leg = plt.legend(fontsize=14, loc='upper right', framealpha=0.9, edgecolor='black')
 leg.get_frame().set_boxstyle('round,pad=0.5')
 
 # Set plot limits with some padding
@@ -458,9 +483,10 @@ projections = np.dot(X, w)
 projections_benign = np.dot(X_benign, w)
 projections_malignant = np.dot(X_malignant, w)
 new_projection = np.dot(new_patient, w)
+another_projection = np.dot(another_patient, w)
 
 # Create a cleaner background for the number line
-min_proj, max_proj = min(projections.min(), new_projection) - 5, max(projections.max(), new_projection) + 5
+min_proj, max_proj = min(projections.min(), new_projection, another_projection) - 5, max(projections.max(), new_projection, another_projection) + 5
 plt.fill_between([min_proj, threshold], [-1.5, -1.5], [1.5, 1.5], color='#E6F0FF', alpha=0.7, zorder=1)  # Light blue for benign
 plt.fill_between([threshold, max_proj], [-1.5, -1.5], [1.5, 1.5], color='#FFE6E6', alpha=0.7, zorder=1)  # Light red for malignant
 
@@ -468,7 +494,8 @@ plt.fill_between([threshold, max_proj], [-1.5, -1.5], [1.5, 1.5], color='#FFE6E6
 plt.axhline(y=0, color='k', linestyle='-', alpha=0.7, linewidth=2, zorder=2)
 plt.scatter(projections_benign, np.zeros_like(projections_benign), color='blue', s=120, marker='o', label='Benign Projections', edgecolor='black', zorder=3)
 plt.scatter(projections_malignant, np.zeros_like(projections_malignant), color='red', s=120, marker='x', linewidth=2, label='Malignant Projections', zorder=3)
-plt.scatter(new_projection, 0, color='green', s=180, marker='D', label='New Patient Projection', edgecolor='black', zorder=4)
+plt.scatter(new_projection, 0, color='green', s=180, marker='D', label='New Patient (Age 50) Projection', edgecolor='black', zorder=4)
+plt.scatter(another_projection, 0, color='purple', s=180, marker='D', label='Another Patient (Age 60) Projection', edgecolor='black', zorder=4)
 plt.axvline(x=threshold, color='purple', linestyle='--', linewidth=2.5, label='Decision Threshold', zorder=3)
 
 # Add clear labels for benign projections with improved spacing
@@ -501,8 +528,8 @@ plt.annotate(f"New Patient: {new_projection:.2f}", (new_projection, 0),
              arrowprops=dict(arrowstyle="->", color="green", linewidth=2),
              zorder=5)
 
-# Add label for the threshold with improved visibility
-plt.annotate(f"Threshold: {threshold:.2f}", (threshold, 0),
+# Add label for another patient
+plt.annotate(f"Another Patient: {another_projection:.2f}", (another_projection, 0),
              xytext=(0, 150), textcoords='offset points',
              ha='center', fontsize=14, weight='bold', color='purple',
              bbox=dict(boxstyle="round,pad=0.5", fc="white", ec="purple", alpha=0.9),
@@ -521,7 +548,7 @@ plt.text(threshold + (max_proj - threshold)/2, 0.75, "Malignant Region",
 
 # Add a title showing the LDA projection formula with improved clarity
 plt.text(0.5, 0.95, 
-         f"LDA Projection: {w[0]:.4f} × Tumor Size + {w[1]:.4f} × Age", 
+         f"LDA Projection: {w[0]:.4f} × Age + {w[1]:.4f} × Tumor Size", 
          transform=plt.gca().transAxes, 
          ha='center', fontsize=18, weight='bold',
          bbox=dict(boxstyle="round,pad=0.5", fc="lightyellow", ec="orange", alpha=0.9),
@@ -616,7 +643,11 @@ ax.scatter(X_malignant[:, 0], X_malignant[:, 1], np.dot(X_malignant, w),
 
 # Plot new patient point
 ax.scatter(new_patient[0], new_patient[1], np.dot(new_patient, w), 
-           color='green', marker='D', s=200, label='New Patient')
+           color='green', marker='D', s=200, label='New Patient (Age 50)')
+
+# Plot another patient point
+ax.scatter(another_patient[0], another_patient[1], np.dot(another_patient, w), 
+           color='purple', marker='D', s=200, label='Another Patient (Age 60)')
 
 # Add the decision boundary plane
 xx, yy = np.meshgrid(np.linspace(x_min, x_max, 10), np.linspace(y_min, y_max, 10))
@@ -624,8 +655,8 @@ zz = np.ones_like(xx) * threshold
 ax.plot_surface(xx, yy, zz, alpha=0.3, color='purple', label='Decision Boundary')
 
 # Add labels
-ax.set_xlabel('Tumor Size (mm)', fontsize=14)
-ax.set_ylabel('Age (years)', fontsize=14)
+ax.set_xlabel('Age (years)', fontsize=14)
+ax.set_ylabel('Tumor Size (mm)', fontsize=14)
 ax.set_zlabel('LDA Projection', fontsize=14)
 ax.set_title('3D Visualization of LDA Projection', fontsize=16)
 ax.legend(fontsize=12)
@@ -636,9 +667,10 @@ plt.savefig(os.path.join(save_dir, "lda_3d_visualization.png"), dpi=300, bbox_in
 
 print("\nSummary:")
 print("---------")
-print(f"1. Mean vector for malignant class (y=1): [{mean_malignant[0]:.2f}, {mean_malignant[1]:.2f}]")
-print(f"2. Mean vector for benign class (y=0): [{mean_benign[0]:.2f}, {mean_benign[1]:.2f}]")
+print(f"1. Mean vector for malignant class (y=1): [{mean_malignant[0]:.2f} (Age), {mean_malignant[1]:.2f} (Tumor Size)]")
+print(f"2. Mean vector for benign class (y=0): [{mean_benign[0]:.2f} (Age), {mean_benign[1]:.2f} (Tumor Size)]")
 print(f"3. Shared covariance matrix:\n{shared_cov}")
-print(f"4. LDA projection direction w = Σ⁻¹(μ₁ - μ₀): [{w[0]:.6f}, {w[1]:.6f}]")
+print(f"4. LDA projection direction w = Σ⁻¹(μ₁ - μ₀): [{w[0]:.6f} (Age), {w[1]:.6f} (Tumor Size)]")
 print(f"5. Classification threshold (equal priors): {threshold:.6f}")
-print(f"6. Prediction for new patient (tumor size = 40mm, age = 45 years): {prediction}") 
+print(f"6. Prediction for new patient (age = 50 years, tumor size = 30mm): {prediction}")
+print(f"7. Prediction for another patient (age = 60 years, tumor size = 30mm): {another_prediction}") 
