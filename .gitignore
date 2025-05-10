@@ -5,6 +5,9 @@ ml_env/
 media/
 **/media/
 
+# Print files
+*_print.md
+
 # NLTK data
 nltk_data/
 
