@@ -285,8 +285,6 @@ Consider a medical dataset with tumor features and diagnostic outcomes. Each pat
 5. For a new patient with age 50 years and tumor size 30mm, which diagnosis would LDA predict?
 6. For another patient with age 60 years and tumor size 30mm, which diagnosis would LDA predict?
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: LDA for Medical Diagnosis](L4_4_18_explanation.md).
-
 #### Solution Approaches
 This problem can be tackled using multiple approaches:
 
