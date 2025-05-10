@@ -106,7 +106,7 @@ def plot_sigmoid_function(save_dir):
     plt.ylabel('g(z)')
     plt.title('Sigmoid Function')
     plt.grid(True)
-    plt.savefig(os.path.join(save_dir, 'sigmoid_function.png'), dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(save_dir, 'sigmoid_function_alt.png'), dpi=300, bbox_inches='tight')
     plt.close()
 
 def perform_gradient_descent(X, y, initial_theta, learning_rate, num_iterations):
@@ -549,7 +549,7 @@ def main():
     # Visualize the dataset
     plot_dataset_visualization(
         X, y,
-        os.path.join(save_dir, 'dataset_visualization.png')
+        os.path.join(save_dir, 'dataset_visualization_alt.png')
     )
     
     # Task 1: Calculate the initial cost
@@ -641,7 +641,7 @@ def main():
     # Plot cost over iterations
     plot_cost_history(
         cost_history, 
-        os.path.join(save_dir, 'gradient_descent_cost.png')
+        os.path.join(save_dir, 'gradient_descent_cost_alt.png')
     )
     
     # Task 3: Stochastic Gradient Descent
@@ -708,14 +708,14 @@ def main():
     # Plot the sigmoid function with new patient's z value
     plot_new_patient_prediction(
         new_z,
-        os.path.join(save_dir, 'new_patient_prediction.png')
+        os.path.join(save_dir, 'new_patient_prediction_alt.png')
     )
     
     # Plot probability visualization (contour and 3D)
     plot_probability_visualization(
         X, y, final_theta,
         [new_patient_age, new_patient_tumor_size],
-        os.path.join(save_dir, 'probability_visualization.png')
+        os.path.join(save_dir, 'probability_visualization_alt.png')
     )
     
     # Plot 3D probability surface with training points
@@ -723,20 +723,20 @@ def main():
         X, y, final_theta,
         [new_patient_age, new_patient_tumor_size], 
         new_probability,
-        os.path.join(save_dir, 'probability_surface.png')
+        os.path.join(save_dir, 'probability_surface_alt.png')
     )
     
     # Plot decision boundary with new patient
     plot_decision_boundary(
         X, y, final_theta, 
         [new_patient_age, new_patient_tumor_size],
-        os.path.join(save_dir, 'decision_boundary.png')
+        os.path.join(save_dir, 'decision_boundary_alt.png')
     )
     
     # Add the new visualization showing decision regions with confidence levels
     plot_decision_regions_with_confidence(
         X, y, final_theta,
-        os.path.join(save_dir, 'decision_regions_confidence.png')
+        os.path.join(save_dir, 'decision_regions_confidence_alt.png')
     )
     
     # Task 7: Interpretation of coefficients
@@ -795,7 +795,7 @@ def main():
     learning_rates = [0.001, 0.005, 0.01, 0.05]
     plot_learning_rate_effect(
         X_with_intercept, y, initial_theta,
-        os.path.join(save_dir, 'learning_rate_effect.png'),
+        os.path.join(save_dir, 'learning_rate_effect_alt.png'),
         learning_rates=learning_rates,
         num_iterations=50
     )
@@ -803,7 +803,7 @@ def main():
     # Plot cost function surface
     plot_cost_function_surface(
         X_with_intercept, y, -10,  # Fix theta0 at -10 for visualization
-        os.path.join(save_dir, 'cost_function_surface.png')
+        os.path.join(save_dir, 'cost_function_surface_alt.png')
     )
     
     print("\nAll visualizations and calculations completed. Images saved to:", save_dir)
