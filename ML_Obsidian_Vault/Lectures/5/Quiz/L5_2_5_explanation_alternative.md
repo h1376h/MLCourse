@@ -99,62 +99,197 @@ The cost function in the original problem statement omitted the negative sign an
 ### Step 2: Gradient Descent Iterations
 Gradient descent works by iteratively updating the parameters in the direction of steepest descent of the cost function.
 
+The general parameter update formula is:
+$$w^{(t+1)} = w^{(t)} - \alpha \nabla J(w^{(t)})$$
+
+Where:
+- $w^{(t)}$ represents the parameter vector at iteration $t$
+- $\alpha$ is the learning rate (0.01 in our case)
+- $\nabla J(w^{(t)})$ is the gradient of the cost function with respect to the parameters
+
+For logistic regression, we calculate the gradient for each parameter using the column-wise approach:
+$$\frac{\partial J}{\partial \theta_j} = \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) \cdot x_j^{(i)}$$
+
+Where $x_j^{(i)}$ is the $j$-th feature of the $i$-th example (the $j$-th column of $X$).
+
 #### Iteration 1:
-First, we calculate the predictions for each example using the current parameters $\theta = [0, 0, 0]$:
+First, let's represent our data in column matrices. The feature matrix $X$ (with intercept), the target vector $y$, and the initial parameter vector $\theta^{(0)}$ are:
+
+$$X = \begin{bmatrix} 
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+15 & 65 & 30 & 90 & 44 & 20 & 50 & 36 \\
+20 & 30 & 50 & 20 & 35 & 70 & 40 & 25
+\end{bmatrix}, \quad
+y = \begin{bmatrix} 
+0 \\
+0 \\
+1 \\
+1 \\
+0 \\
+1 \\
+1 \\
+0
+\end{bmatrix}, \quad
+\theta^{(0)} = \begin{bmatrix} 
+0 \\
+0 \\
+0
+\end{bmatrix}$$
+
+Now we calculate the predictions for each example using the current parameters $\theta^{(0)} = [0, 0, 0]$:
 - For all examples, $h(x) = 0.5$ as calculated in Step 1
 
-Next, we compute the errors (prediction - actual):
-- Example 1 ($y=0$): error = $0.5 - 0 = 0.5$
-- Example 2 ($y=0$): error = $0.5 - 0 = 0.5$
-- Example 3 ($y=1$): error = $0.5 - 1 = -0.5$
-- Example 4 ($y=1$): error = $0.5 - 1 = -0.5$
-- Example 5 ($y=0$): error = $0.5 - 0 = 0.5$
-- Example 6 ($y=1$): error = $0.5 - 1 = -0.5$
-- Example 7 ($y=1$): error = $0.5 - 1 = -0.5$
-- Example 8 ($y=0$): error = $0.5 - 0 = 0.5$
+So our prediction vector is:
+$$h(x) = \begin{bmatrix} 
+0.5 \\
+0.5 \\
+0.5 \\
+0.5 \\
+0.5 \\
+0.5 \\
+0.5 \\
+0.5
+\end{bmatrix}$$
 
-Then we calculate the gradients:
+And the error vector (prediction - actual) is:
+$$h(x) - y = \begin{bmatrix} 
+0.5 - 0 \\
+0.5 - 0 \\
+0.5 - 1 \\
+0.5 - 1 \\
+0.5 - 0 \\
+0.5 - 1 \\
+0.5 - 1 \\
+0.5 - 0
+\end{bmatrix} = \begin{bmatrix} 
+0.5 \\
+0.5 \\
+-0.5 \\
+-0.5 \\
+0.5 \\
+-0.5 \\
+-0.5 \\
+0.5
+\end{bmatrix}$$
 
-For $\theta_0$:
-$$\frac{\partial J}{\partial \theta_0} = \frac{1}{8} \cdot (0.5 + 0.5 - 0.5 - 0.5 + 0.5 - 0.5 - 0.5 + 0.5) = \frac{1}{8} \cdot 0 = 0$$
+Next, we compute the gradients using the column-wise approach. Each column of $X$ is multiplied element-wise with the error vector, and then summed:
+
+For $\theta_0$ (bias term):
+$$\frac{\partial J}{\partial \theta_0} = \frac{1}{8} \cdot \sum_{i=1}^{8} (h(x^{(i)}) - y^{(i)}) \cdot x_0^{(i)} = \frac{1}{8} \cdot (0.5 \cdot 1 + 0.5 \cdot 1 - 0.5 \cdot 1 - 0.5 \cdot 1 + 0.5 \cdot 1 - 0.5 \cdot 1 - 0.5 \cdot 1 + 0.5 \cdot 1) = \frac{1}{8} \cdot 0 = 0$$
 
 For $\theta_1$ (Age coefficient):
-$$\frac{\partial J}{\partial \theta_1} = \frac{1}{8} \cdot (0.5 \cdot 15 + 0.5 \cdot 65 - 0.5 \cdot 30 - 0.5 \cdot 90 + 0.5 \cdot 44 - 0.5 \cdot 20 - 0.5 \cdot 50 + 0.5 \cdot 36) = \frac{1}{8} \cdot (-15) = -1.875$$
+$$\frac{\partial J}{\partial \theta_1} = \frac{1}{8} \cdot \sum_{i=1}^{8} (h(x^{(i)}) - y^{(i)}) \cdot x_1^{(i)} = \frac{1}{8} \cdot (0.5 \cdot 15 + 0.5 \cdot 65 - 0.5 \cdot 30 - 0.5 \cdot 90 + 0.5 \cdot 44 - 0.5 \cdot 20 - 0.5 \cdot 50 + 0.5 \cdot 36) = \frac{1}{8} \cdot (-15) = -1.875$$
 
 For $\theta_2$ (Tumor Size coefficient):
-$$\frac{\partial J}{\partial \theta_2} = \frac{1}{8} \cdot (0.5 \cdot 20 + 0.5 \cdot 30 - 0.5 \cdot 50 - 0.5 \cdot 20 + 0.5 \cdot 35 - 0.5 \cdot 70 - 0.5 \cdot 40 + 0.5 \cdot 25) = \frac{1}{8} \cdot (-35) = -4.375$$
+$$\frac{\partial J}{\partial \theta_2} = \frac{1}{8} \cdot \sum_{i=1}^{8} (h(x^{(i)}) - y^{(i)}) \cdot x_2^{(i)} = \frac{1}{8} \cdot (0.5 \cdot 20 + 0.5 \cdot 30 - 0.5 \cdot 50 - 0.5 \cdot 20 + 0.5 \cdot 35 - 0.5 \cdot 70 - 0.5 \cdot 40 + 0.5 \cdot 25) = \frac{1}{8} \cdot (-35) = -4.375$$
+
+The gradient vector is thus:
+$$\nabla J(\theta^{(0)}) = \begin{bmatrix} 
+0 \\
+-1.875 \\
+-4.375
+\end{bmatrix}$$
 
 Now we update the parameters using the learning rate $\alpha = 0.01$:
-- $\theta_0 = 0 - 0.01 \cdot 0 = 0$
-- $\theta_1 = 0 - 0.01 \cdot (-1.875) = 0.01875$
-- $\theta_2 = 0 - 0.01 \cdot (-4.375) = 0.04375$
 
-After the first iteration, the new parameters are $\theta = [0, 0.01875, 0.04375]$ and the new cost is $J(\theta) = -8.64$.
+$$\theta^{(1)} = \theta^{(0)} - \alpha \nabla J(\theta^{(0)})$$
+
+$$\theta^{(1)} = \begin{bmatrix} 
+0 \\
+0 \\
+0
+\end{bmatrix} - 0.01 \cdot \begin{bmatrix} 
+0 \\
+-1.875 \\
+-4.375
+\end{bmatrix} = \begin{bmatrix} 
+0 \\
+0.01875 \\
+0.04375
+\end{bmatrix}$$
+
+After the first iteration, the new parameters are $\theta^{(1)} = [0, 0.01875, 0.04375]$ and the new cost is $J(\theta^{(1)}) = 1.0805$.
 
 #### Iteration 2:
-With updated parameters $\theta = [0, 0.01875, 0.04375]$, we calculate new predictions:
+Starting with our updated parameters from the first iteration:
 
-Example 1: $z_1 = 0 + 0.01875 \cdot 15 + 0.04375 \cdot 20 = 1.1562$, $h(x_1) = 0.7607$
-Example 2: $z_2 = 0 + 0.01875 \cdot 65 + 0.04375 \cdot 30 = 2.5312$, $h(x_2) = 0.9263$
-Example 3: $z_3 = 0 + 0.01875 \cdot 30 + 0.04375 \cdot 50 = 2.7500$, $h(x_3) = 0.9399$
-Example 4: $z_4 = 0 + 0.01875 \cdot 90 + 0.04375 \cdot 20 = 2.5625$, $h(x_4) = 0.9284$
-Example 5: $z_5 = 0 + 0.01875 \cdot 44 + 0.04375 \cdot 35 = 2.3563$, $h(x_5) = 0.9134$
-Example 6: $z_6 = 0 + 0.01875 \cdot 20 + 0.04375 \cdot 70 = 3.4375$, $h(x_6) = 0.9689$
-Example 7: $z_7 = 0 + 0.01875 \cdot 50 + 0.04375 \cdot 40 = 2.6875$, $h(x_7) = 0.9363$
-Example 8: $z_8 = 0 + 0.01875 \cdot 36 + 0.04375 \cdot 25 = 1.7687$, $h(x_8) = 0.8543$
+$$\theta^{(1)} = \begin{bmatrix} 
+0 \\
+0.01875 \\
+0.04375
+\end{bmatrix}$$
 
-We then compute the new errors and gradients, and update the parameters:
+With these parameters, we recalculate predictions for each example. First, we compute the linear combinations:
 
-For $\theta_0$: $\frac{\partial J}{\partial \theta_0} = 0.4035$
-For $\theta_1$: $\frac{\partial J}{\partial \theta_1} = 16.3139$
-For $\theta_2$: $\frac{\partial J}{\partial \theta_2} = 10.8956$
+$$z = X^T\theta^{(1)} = \begin{bmatrix} 
+1.15625 \\
+2.53125 \\
+2.75 \\
+2.5625 \\
+2.35625 \\
+3.4375 \\
+2.6875 \\
+1.76875
+\end{bmatrix}$$
 
-Updated parameters:
-- $\theta_0 = 0 - 0.01 \cdot 0.4035 = -0.004035$
-- $\theta_1 = 0.01875 - 0.01 \cdot 16.3139 = -0.144389$
-- $\theta_2 = 0.04375 - 0.01 \cdot 10.8956 = -0.065206$
+Applying the sigmoid function to these values:
 
-After the second iteration, the parameters are $\theta = [-0.004035, -0.144389, -0.065206]$ and the cost is $J(\theta) = -39.22$.
+$$h(x) = \begin{bmatrix} 
+0.76065065 \\
+0.92630373 \\
+0.93991335 \\
+0.9284088 \\
+0.91342973 \\
+0.96885617 \\
+0.93628501 \\
+0.85430215
+\end{bmatrix}$$
+
+The error vector for this iteration is:
+
+$$h(x) - y = \begin{bmatrix} 
+0.76065065 \\
+0.92630373 \\
+-0.06008665 \\
+-0.0715912 \\
+0.91342973 \\
+-0.03114383 \\
+-0.06371499 \\
+0.85430215
+\end{bmatrix}$$
+
+Using these errors, we calculate the new gradients:
+
+For $\theta_0$: $\frac{\partial J}{\partial \theta_0} = 0.4035187$
+For $\theta_1$: $\frac{\partial J}{\partial \theta_1} = 16.31385676$
+For $\theta_2$: $\frac{\partial J}{\partial \theta_2} = 10.89561187$
+
+So the gradient vector is:
+$$\nabla J(\theta^{(1)}) = \begin{bmatrix} 
+0.4035187 \\
+16.31385676 \\
+10.89561187
+\end{bmatrix}$$
+
+We then update the parameters again:
+
+$$\theta^{(2)} = \theta^{(1)} - \alpha \nabla J(\theta^{(1)})$$
+
+$$\theta^{(2)} = \begin{bmatrix} 
+0 \\
+0.01875 \\
+0.04375
+\end{bmatrix} - 0.01 \cdot \begin{bmatrix} 
+0.4035187 \\
+16.31385676 \\
+10.89561187
+\end{bmatrix} = \begin{bmatrix} 
+-0.00403519 \\
+-0.14438857 \\
+-0.06520612
+\end{bmatrix}$$
+
+After the second iteration, the parameters are $\theta^{(2)} = [-0.00403519, -0.14438857, -0.06520612]$ and the cost is $J(\theta^{(2)}) = 4.9025$.
 
 ![Cost Function over Gradient Descent Iterations](../Images/L5_2_Quiz_5/gradient_descent_cost_alt.png)
 

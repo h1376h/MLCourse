@@ -94,22 +94,40 @@ def compute_gradient(X, y, theta):
     grad = X.T @ (h - y) / m
     return grad
 
-def plot_sigmoid_function(save_dir):
-    """Plot the sigmoid function"""
-    plt.figure(figsize=(10, 6))
-    z = np.linspace(-10, 10, 100)
-    sig = sigmoid(z)
-    plt.plot(z, sig, 'b-', linewidth=2)
-    plt.axhline(y=0.5, color='r', linestyle='--', alpha=0.3)
-    plt.axvline(x=0, color='r', linestyle='--', alpha=0.3)
-    plt.xlabel('z')
-    plt.ylabel('g(z)')
-    plt.title('Sigmoid Function')
-    plt.grid(True)
-    plt.savefig(os.path.join(save_dir, 'sigmoid_function_alt.png'), dpi=300, bbox_inches='tight')
-    plt.close()
+def compute_gradient_columnwise(X, y, theta):
+    """
+    Compute the gradient of the logistic regression cost function using explicit column-wise calculations
+    
+    Parameters:
+    X (ndarray): Feature matrix with intercept (m x (n+1))
+    y (ndarray): Target vector (m x 1)
+    theta (ndarray): Parameter vector ((n+1) x 1)
+    
+    Returns:
+    ndarray: The gradient vector ((n+1) x 1)
+    """
+    m = len(y)
+    n = theta.shape[0]  # Number of parameters (including bias)
+    
+    # Calculate predictions
+    h = sigmoid(X @ theta)
+    
+    # Calculate errors
+    errors = h - y
+    
+    # Initialize gradient vector
+    grad = np.zeros(n)
+    
+    # Calculate gradient for each parameter (column-wise)
+    for j in range(n):
+        # Extract the j-th column of X
+        X_j = X[:, j]
+        # Calculate gradient for j-th parameter: (1/m) * sum(error * x_j)
+        grad[j] = (1/m) * np.sum(errors * X_j)
+        
+    return grad
 
-def perform_gradient_descent(X, y, initial_theta, learning_rate, num_iterations):
+def perform_gradient_descent(X, y, initial_theta, learning_rate, num_iterations, use_columnwise=False):
     """
     Perform gradient descent to optimize the parameters
     
@@ -119,6 +137,7 @@ def perform_gradient_descent(X, y, initial_theta, learning_rate, num_iterations)
     initial_theta (ndarray): Initial parameter values
     learning_rate (float): Step size for parameter updates
     num_iterations (int): Number of iterations to perform
+    use_columnwise (bool): Whether to use explicit column-wise gradient calculation
     
     Returns:
     tuple: (optimized_theta, cost_history)
@@ -128,8 +147,15 @@ def perform_gradient_descent(X, y, initial_theta, learning_rate, num_iterations)
     theta_history = [theta.copy()]
     
     for i in range(num_iterations):
-        gradients = compute_gradient(X, y, theta)
+        # Calculate gradient using either method
+        if use_columnwise:
+            gradients = compute_gradient_columnwise(X, y, theta)
+        else:
+            gradients = compute_gradient(X, y, theta)
+        
+        # Update parameters: w^(t+1) = w^t - alpha * derivative of J(w^t)
         theta = theta - learning_rate * gradients
+        
         cost_history.append(compute_cost(X, y, theta))
         theta_history.append(theta.copy())
         
@@ -502,6 +528,21 @@ def plot_dataset_visualization(X, y, save_path):
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.close()
 
+def plot_sigmoid_function(save_dir):
+    """Plot the sigmoid function"""
+    plt.figure(figsize=(10, 6))
+    z = np.linspace(-10, 10, 100)
+    sig = sigmoid(z)
+    plt.plot(z, sig, 'b-', linewidth=2)
+    plt.axhline(y=0.5, color='r', linestyle='--', alpha=0.3)
+    plt.axvline(x=0, color='r', linestyle='--', alpha=0.3)
+    plt.xlabel('z')
+    plt.ylabel('g(z)')
+    plt.title('Sigmoid Function')
+    plt.grid(True)
+    plt.savefig(os.path.join(save_dir, 'sigmoid_function.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+
 def main():
     # Create output directory
     save_dir = create_output_dir()
@@ -549,7 +590,7 @@ def main():
     # Visualize the dataset
     plot_dataset_visualization(
         X, y,
-        os.path.join(save_dir, 'dataset_visualization_alt.png')
+        os.path.join(save_dir, 'dataset_visualization.png')
     )
     
     # Task 1: Calculate the initial cost
@@ -634,14 +675,120 @@ def main():
     print(f"Initial parameters θ: {initial_theta}")
     print(f"Initial cost J(θ): {initial_cost:.4f}")
     
+    # Using the column-wise implementation for gradient descent
+    print("\nPerforming gradient descent with column-wise implementation (augmented columns):")
+    print("Using the formula: w^(t+1) = w^t - α * ∇J(w^t)")
     theta, theta_history, cost_history = perform_gradient_descent(
-        X_with_intercept, y, initial_theta, learning_rate, num_iterations
+        X_with_intercept, y, initial_theta, learning_rate, num_iterations, 
+        use_columnwise=True  # Use the column-wise implementation
     )
+    
+    # Print detailed steps of the first two iterations
+    print("\nDetailed steps for the first two iterations:")
+    for t in range(2):
+        print(f"\nIteration {t+1}:")
+        print(f"  Current parameters: θ^{t} = {theta_history[t]}")
+        
+        # Calculate gradients using the column-wise approach for clarity
+        gradients = compute_gradient_columnwise(X_with_intercept, y, theta_history[t])
+        print(f"  Gradients: ∇J(θ^{t}) = {gradients}")
+        
+        # Show the parameter update formula explicitly
+        print(f"  Update: θ^{t+1} = θ^{t} - α * ∇J(θ^{t})")
+        print(f"         = {theta_history[t]} - {learning_rate} * {gradients}")
+        print(f"         = {theta_history[t+1]}")
+        
+        print(f"  New cost: J(θ^{t+1}) = {cost_history[t+1]:.4f}")
+    
+    # Add detailed matrix calculations for gradient descent
+    print("\n" + "="*80)
+    print("DETAILED MATRIX CALCULATIONS FOR GRADIENT DESCENT")
+    print("="*80)
+    
+    # Display the feature matrix, target vector, and initial parameter vector
+    print("\nFeature Matrix X (with intercept):")
+    print(X_with_intercept)
+    
+    print("\nTarget Vector y:")
+    print(y)
+    
+    print("\nInitial Parameter Vector θ^(0):")
+    print(initial_theta)
+    
+    # ITERATION 1
+    print("\n" + "-"*40)
+    print("ITERATION 1 - MATRIX CALCULATIONS")
+    print("-"*40)
+    
+    # Initial predictions
+    initial_z = X_with_intercept @ initial_theta
+    initial_h = sigmoid(initial_z)
+    
+    print("\nPrediction Vector h(x) for θ^(0):")
+    print(initial_h)
+    
+    # Calculate errors
+    initial_errors = initial_h - y
+    
+    print("\nError Vector (h(x) - y) for θ^(0):")
+    print(initial_errors)
+    
+    # Calculate gradients
+    initial_gradients = np.zeros(3)
+    for j in range(3):
+        X_j = X_with_intercept[:, j]
+        initial_gradients[j] = (1/m) * np.sum(initial_errors * X_j)
+    
+    print("\nGradient Vector ∇J(θ^(0)):")
+    print(initial_gradients)
+    
+    # Calculate parameter update
+    theta1 = initial_theta - learning_rate * initial_gradients
+    
+    print("\nUpdated Parameter Vector θ^(1):")
+    print(theta1)
+    
+    # ITERATION 2
+    print("\n" + "-"*40)
+    print("ITERATION 2 - MATRIX CALCULATIONS")
+    print("-"*40)
+    
+    # Predictions with updated parameters
+    z1 = X_with_intercept @ theta1
+    
+    print("\nLinear Combination z = X^T·θ^(1):")
+    print(z1)
+    
+    h1 = sigmoid(z1)
+    
+    print("\nPrediction Vector h(x) for θ^(1):")
+    print(h1)
+    
+    # Calculate errors
+    errors1 = h1 - y
+    
+    print("\nError Vector (h(x) - y) for θ^(1):")
+    print(errors1)
+    
+    # Calculate gradients
+    gradients1 = np.zeros(3)
+    for j in range(3):
+        X_j = X_with_intercept[:, j]
+        gradients1[j] = (1/m) * np.sum(errors1 * X_j)
+    
+    print("\nGradient Vector ∇J(θ^(1)):")
+    print(gradients1)
+    
+    # Calculate parameter update
+    theta2 = theta1 - learning_rate * gradients1
+    
+    print("\nUpdated Parameter Vector θ^(2):")
+    print(theta2)
     
     # Plot cost over iterations
     plot_cost_history(
         cost_history, 
-        os.path.join(save_dir, 'gradient_descent_cost_alt.png')
+        os.path.join(save_dir, 'gradient_descent_cost.png')
     )
     
     # Task 3: Stochastic Gradient Descent
@@ -708,14 +855,14 @@ def main():
     # Plot the sigmoid function with new patient's z value
     plot_new_patient_prediction(
         new_z,
-        os.path.join(save_dir, 'new_patient_prediction_alt.png')
+        os.path.join(save_dir, 'new_patient_prediction.png')
     )
     
     # Plot probability visualization (contour and 3D)
     plot_probability_visualization(
         X, y, final_theta,
         [new_patient_age, new_patient_tumor_size],
-        os.path.join(save_dir, 'probability_visualization_alt.png')
+        os.path.join(save_dir, 'probability_visualization.png')
     )
     
     # Plot 3D probability surface with training points
@@ -723,20 +870,20 @@ def main():
         X, y, final_theta,
         [new_patient_age, new_patient_tumor_size], 
         new_probability,
-        os.path.join(save_dir, 'probability_surface_alt.png')
+        os.path.join(save_dir, 'probability_surface.png')
     )
     
     # Plot decision boundary with new patient
     plot_decision_boundary(
         X, y, final_theta, 
         [new_patient_age, new_patient_tumor_size],
-        os.path.join(save_dir, 'decision_boundary_alt.png')
+        os.path.join(save_dir, 'decision_boundary.png')
     )
     
     # Add the new visualization showing decision regions with confidence levels
     plot_decision_regions_with_confidence(
         X, y, final_theta,
-        os.path.join(save_dir, 'decision_regions_confidence_alt.png')
+        os.path.join(save_dir, 'decision_regions_confidence.png')
     )
     
     # Task 7: Interpretation of coefficients
@@ -795,7 +942,7 @@ def main():
     learning_rates = [0.001, 0.005, 0.01, 0.05]
     plot_learning_rate_effect(
         X_with_intercept, y, initial_theta,
-        os.path.join(save_dir, 'learning_rate_effect_alt.png'),
+        os.path.join(save_dir, 'learning_rate_effect.png'),
         learning_rates=learning_rates,
         num_iterations=50
     )
@@ -803,7 +950,7 @@ def main():
     # Plot cost function surface
     plot_cost_function_surface(
         X_with_intercept, y, -10,  # Fix theta0 at -10 for visualization
-        os.path.join(save_dir, 'cost_function_surface_alt.png')
+        os.path.join(save_dir, 'cost_function_surface.png')
     )
     
     print("\nAll visualizations and calculations completed. Images saved to:", save_dir)
