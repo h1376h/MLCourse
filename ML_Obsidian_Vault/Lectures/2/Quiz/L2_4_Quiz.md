@@ -397,13 +397,10 @@ Provide a detailed mathematical proof for each of the following maximum likeliho
 
 1. For a sample of $N$ independent Bernoulli trials with $m$ successes, prove that the MLE for the success probability $\theta$ is:
    $$\hat{\theta}_{MLE} = \frac{m}{N}$$
-
 2. For a multinomial distribution with $K$ categories and counts $N_1, N_2, \ldots, N_K$ (where $\sum_{k=1}^{K} N_k = N$), prove that the MLE for probability $\theta_k$ of category $k$ is:
    $$\hat{\theta}_{k,MLE} = \frac{N_k}{N}$$
-
 3. For a sample of $N$ independent observations from a Gaussian distribution with unknown mean $\mu$ and known variance $\sigma^2$, prove that the MLE for $\mu$ is:
    $$\hat{\mu}_{MLE} = \frac{1}{N}\sum_{i=1}^{N}x^{(i)}$$
-
 4. For a sample of $N$ independent observations from a Gaussian distribution with unknown mean $\mu$ and unknown variance $\sigma^2$, prove that the MLE for $\sigma^2$ is:
    $$\hat{\sigma}^2_{MLE} = \frac{1}{N}\sum_{i=1}^{N}(x^{(i)}-\hat{\mu}_{MLE})^2$$
 
@@ -473,9 +470,7 @@ The true labels are: Sample 1: Cat, Sample 2: Dog, Sample 3: Bird, Sample 4: Cat
 1. Write down the log-likelihood of the observed data given the model's predictions. If $y_i$ represents the true label and $\hat{y}_i$ represents the predicted probabilities, the log-likelihood can be written as:
    $$\log L = \sum_{i=1}^{n} \log(\hat{y}_{i,c_i})$$
    where $c_i$ is the correct class index for sample $i$
-
 2. Using MLE principles, what threshold would you set for classification to maximize the likelihood of the observed data?
-
 3. If you had to pick one fixed probability threshold ($p > \text{threshold} \rightarrow$ classify as that class), what value would maximize accuracy on this dataset?
 
 For a detailed explanation, see [Question 28: One-Hot Encoding and Maximum Likelihood Estimation](L2_4_28_explanation.md).
@@ -499,17 +494,12 @@ Two encoding schemes are proposed for representing these categories:
 
 #### Task
 1. Derive the maximum likelihood estimator (MLE) for the probability distribution of the three categories based on the given data. Show your work.
-
 2. Calculate the entropy of the MLE distribution in bits using:
    $$H(X) = -\sum_{i} P(x_i) \log_2 P(x_i)$$
-
 3. If we were to sample a new set of 100 examples from this MLE distribution, how many bits would be required to store the entire dataset using Scheme 1 vs. Scheme 2?
-
 4. Which encoding is more efficient, and by how much? Calculate the percentage reduction in bits:
    $$\text{Reduction} = \frac{\text{Bits}_{\text{Scheme 1}} - \text{Bits}_{\text{Scheme 2}}}{\text{Bits}_{\text{Scheme 1}}} \times 100\%$$
-
 5. Explain how MLE relates to the concept of cross-entropy minimization. How would you express the likelihood function for this categorical distribution in terms of cross-entropy?
-
 6. Discuss how properties of MLE (consistency, asymptotic normality) relate to this example as we increase the sample size.
 
 For a detailed explanation, see [Question 29: Maximum Likelihood Estimation for Categorical Data](L2_4_29_explanation.md).
