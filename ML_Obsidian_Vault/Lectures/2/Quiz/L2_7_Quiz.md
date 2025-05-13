@@ -9,10 +9,10 @@ This quiz contains 32 questions covering various topics from Lecture 2.7 on Maxi
 Consider a binomial likelihood with parameter $\theta$ representing the probability of success. We observe data $D = 8$ successes out of $n = 20$ trials.
 
 #### Task
-1. Using a $\text{Beta}(2, 2)$ prior for $\theta$, derive the posterior distribution
-2. Calculate the Maximum A Posteriori (MAP) estimate for $\theta$
-3. Calculate the Maximum Likelihood Estimate (MLE) for $\theta$
-4. Compare the MAP and MLE estimates and explain why they differ
+1. [📚] Using a $\text{Beta}(2, 2)$ prior for $\theta$, derive the posterior distribution
+2. [📚] Calculate the Maximum A Posteriori (MAP) estimate for $\theta$
+3. [📚] Calculate the Maximum Likelihood Estimate (MLE) for $\theta$
+4. [📚] Compare the MAP and MLE estimates and explain why they differ
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: MAP vs MLE for Binomial Data](L2_7_1_explanation.md).
 
@@ -43,8 +43,8 @@ We use the following priors:
 We observe data $X = \{1.5, 2.3, 1.8, 2.5, 1.9\}$.
 
 #### Task
-1. Calculate the posterior distribution for $\mu_1$ under Model 1
-2. Calculate the posterior distribution for $\mu_2$ under Model 2
+1. [📚] Calculate the posterior distribution for $\mu_1$ under Model 1
+2. [📚] Calculate the posterior distribution for $\mu_2$ under Model 2
 3. Calculate the marginal likelihood (evidence) for each model
 4. Calculate the Bayes factor and interpret the result for model comparison
 
@@ -57,9 +57,9 @@ Consider a linear regression model $y = \beta x + \varepsilon$ where $\varepsilo
 $\{(1, 2.1), (2, 3.8), (3, 5.2), (4, 6.9), (5, 8.3)\}$
 
 #### Task
-1. If we use a normal prior $\beta \sim N(1, 0.5)$ for the slope parameter, derive the posterior distribution
-2. Calculate the MAP estimate for $\beta$
-3. Calculate the MLE for $\beta$
+1. [📚] If we use a normal prior $\beta \sim N(1, 0.5)$ for the slope parameter, derive the posterior distribution
+2. [📚] Calculate the MAP estimate for $\beta$
+3. [📚] Calculate the MLE for $\beta$
 4. Derive the posterior predictive distribution for a new observation $y_{new}$ given $x_{new} = 6$
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: Bayesian Linear Regression](L2_7_4_explanation.md).
@@ -70,9 +70,9 @@ For a detailed explanation of this problem, including step-by-step solutions and
 True or False: When using a uniform prior (e.g., $\text{Beta}(1,1)$ for a probability parameter), the MAP estimate is identical to the MLE.
 
 #### Task
-1. Determine whether the statement is true or false
-2. Explain your reasoning mathematically
-3. Provide a simple example that illustrates your answer
+1. [📚] Determine whether the statement is true or false
+2. [📚] Explain your reasoning mathematically
+3. [📚] Provide a simple example that illustrates your answer
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: MAP and MLE Relationship](L2_7_5_explanation.md).
 
@@ -303,9 +303,9 @@ The graphs below illustrate various functions derived from the (not given) joint
 #### Task
 Using only the information provided in these graphs (i.e., without any extra computation), determine:
 
-1. The maximum likelihood (ML) estimate of $Y$ given that $X=1$
-2. The maximum a posteriori (MAP) estimate of $Y$ given that $X=1$
-3. The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=1$
+1. [📚] The maximum likelihood (ML) estimate of $Y$ given that $X=1$
+2. [📚] The maximum a posteriori (MAP) estimate of $Y$ given that $X=1$
+3. [📚] The minimum mean-squared error (MMSE) estimate of $Y$ given that $X=1$
 4. Explain the relationship between these three estimates and why they might differ in this case.
 
 For a detailed explanation of this problem, including analysis of joint PDFs, marginal distributions, and the relationship between different estimators, see [Question 20: Joint PDF and Bayesian Estimation](L2_7_20_explanation.md).
@@ -452,7 +452,7 @@ Below are several visualizations to help you understand how different prior dist
 #### Task
 Using only the information provided in these figures:
 
-1. Identify the Maximum Likelihood Estimate (MLE) for θ based on the observed data.
+1. [📚] Identify the Maximum Likelihood Estimate (MLE) for θ based on the observed data.
 2. For each of the four priors (Uniform, Tails-Biased, Heads-Biased, and Fair Coin), determine the MAP estimate for θ.
 3. Explain how the choice of prior affects the MAP estimate relative to the MLE.
 4. Based on Figure 11 (Evolution of Posterior), explain what happens to the MAP estimate as more data is collected (while maintaining the same ratio of heads to total flips). The figure shows MAP estimates for the following data points:
@@ -495,10 +495,10 @@ You are given data from two classes with the following 2-dimensional feature vec
 Assume that the feature vectors in each class follow a multivariate Gaussian distribution.
 
 #### Task
-1. Calculate the mean vector and covariance matrix for each class
-2. Assume we have a new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 4 \end{bmatrix}$
-3. Using MAP estimation with prior probabilities $P(\text{class }0) = 0.7$ and $P(\text{class }1) = 0.3$, determine which class the new point belongs to
-4. If you were designing a real-time system that needs to classify thousands of points per second, describe a simple pre-computation strategy using the MAP framework that would make classification significantly faster. How would the decision boundary change if the prior probabilities were adjusted to $P(\text{class }0) = 0.3$ and $P(\text{class }1) = 0.7$?
+1. [📚] Calculate the mean vector and covariance matrix for each class
+2. [📚] Assume we have a new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 4 \end{bmatrix}$
+3. [📚] Using MAP estimation with prior probabilities $P(\text{class }0) = 0.7$ and $P(\text{class }1) = 0.3$, determine which class the new point belongs to
+4. [📚] If you were designing a real-time system that needs to classify thousands of points per second, describe a simple pre-computation strategy using the MAP framework that would make classification significantly faster. How would the decision boundary change if the prior probabilities were adjusted to $P(\text{class }0) = 0.3$ and $P(\text{class }1) = 0.7$?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 27: Multivariate Gaussian Classification with MAP Estimation](L2_7_27_explanation.md).
 

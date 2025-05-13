@@ -34,8 +34,8 @@ Consider a dataset of n independent observations $X_1, X_2, \ldots, X_n$ from a 
 $$f(x|\mu) = \frac{1}{2\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{8}}$$
 
 #### Task
-1. Write down the likelihood function $L(\mu)$ for the given observations
-2. Find the maximum likelihood estimator $\hat{\mu}_{MLE}$ for $\mu$
+1. [📚] Write down the likelihood function $L(\mu)$ for the given observations
+2. [📚] Find the maximum likelihood estimator $\hat{\mu}_{MLE}$ for $\mu$
 3. Show that this estimator is unbiased
 
 For a detailed explanation, see [Question 2: MLE for Normal Distribution](L2_4_2_explanation.md).
@@ -48,7 +48,7 @@ You are given a dataset of n independent Bernoulli trials $X_1, X_2, \ldots, X_n
 $$f(x|p) = p^x(1-p)^{1-x}$$
 
 #### Task
-1. Derive the maximum likelihood estimator $\hat{p}_{MLE}$ for the probability p
+1. [📚] Derive the maximum likelihood estimator $\hat{p}_{MLE}$ for the probability p
 2. Calculate the Fisher information $I(p)$ for this model
 3. What is the asymptotic variance of $\hat{p}_{MLE}$?
 
@@ -62,7 +62,7 @@ Consider a dataset of n independent observations from an exponential distributio
 $$f(x|\lambda) = \lambda e^{-\lambda x} \text{ for } x \geq 0$$
 
 #### Task
-1. Find the maximum likelihood estimator $\hat{\lambda}_{MLE}$ for $\lambda$
+1. [📚] Find the maximum likelihood estimator $\hat{\lambda}_{MLE}$ for $\lambda$
 2. Show that this estimator is consistent
 3. Calculate the mean squared error (MSE) of $\hat{\lambda}_{MLE}$
 
@@ -76,7 +76,7 @@ Consider a dataset of n independent observations $X_1, X_2, \ldots, X_n$ from a 
 $$f(x|\lambda) = \frac{\lambda^x e^{-\lambda}}{x!} \text{ for } x = 0, 1, 2, \ldots$$
 
 #### Task
-1. Derive the maximum likelihood estimator $\hat{\lambda}_{MLE}$ for $\lambda$
+1. [📚] Derive the maximum likelihood estimator $\hat{\lambda}_{MLE}$ for $\lambda$
 2. Show that this estimator is efficient
 3. Calculate the asymptotic distribution of $\hat{\lambda}_{MLE}$
 
@@ -347,8 +347,8 @@ For a detailed explanation, see [Question 21: Visual Analysis of Maximum Likelih
 Suppose we have samples $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ from a Bernoulli distribution with unknown parameter $\theta$, where $\theta \in (0, 1)$.
 
 #### Task
-1. Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
-2. Suppose you are asked to select $\theta$ from the set $\{0.2, 0.5, 0.7\}$. Which value would be chosen according to the MLE principle?
+1. [📚] Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
+2. [📚] Suppose you are asked to select $\theta$ from the set $\{0.2, 0.5, 0.7\}$. Which value would be chosen according to the MLE principle?
 
 For a detailed explanation, see [Question 22: MLE for Bernoulli Distribution with Small Sample](L2_4_22_explanation.md).
 
@@ -360,7 +360,7 @@ A random sample of size $8$ — $X_1 = 1$, $X_2 = 0$, $X_3 = 1$, $X_4 = 1$, $X_5
 $$p_X(k; \theta) = \theta^k (1-\theta)^{1-k}, \quad k = 0, 1; \quad 0 < \theta < 1$$
 
 #### Task
-Find the maximum likelihood estimate for $\theta$.
+[📚] Find the maximum likelihood estimate for $\theta$.
 
 For a detailed explanation, see [Question 23: MLE for Bernoulli Distribution](L2_4_23_explanation.md).
 
@@ -383,7 +383,7 @@ Let $X_1, ..., X_n$ be iid from the distribution with the following probability 
 $$f(x) = \frac{3x^2}{\theta^3}, \quad 0 \leq x \leq \theta.$$
 
 #### Task
-Find the MLE of $\theta$.
+[📚] Find the MLE of $\theta$.
 
 For a detailed explanation, see [Question 25: MLE for Power Distribution](L2_4_25_explanation.md).
 
