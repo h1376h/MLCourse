@@ -2,6 +2,20 @@
 
 This Obsidian vault contains machine learning examples and notes organized by topics for easy reference and study.
 
+## Quiz Symbols in This Vault
+
+- ⭐ **Solved in class**: Core questions covered in lectures—be sure you can solve these.
+- 📕 **Hard questions**: Advanced, for deeper study or challenge.
+- 📚 **Good to solve**: Practice problems—try to solve most of these.
+- 🔍 **Analyze this task**: Focus on these to learn key concepts by working through them.
+
+## How to Use the Quiz Files
+
+- Begin with ⭐ questions for foundational understanding.
+- Work through 📚 and 🔍 tasks to reinforce and deepen your knowledge.
+- Attempt 📕 questions for extra challenge or exam prep.
+- Use the quiz files as interactive notebooks: write your answers, check explanations, and revisit as needed.
+
 ## How to Open in Obsidian
 
 1. **Install Obsidian**:

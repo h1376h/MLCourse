@@ -4,6 +4,20 @@
 - **Instructor**: Dr. Zahra Rahimi
 - **Course Index**: [[index|Main Course Index]]
 
+## Quiz Symbol Legend
+
+- ⭐ **Solved in class**: Core questions covered in lectures—make sure you can solve these!
+- 📕 **Hard questions**: Advanced/challenging—read for deeper understanding or extra challenge.
+- 📚 **Good to solve**: Practice tasks—try to solve most of these for solid learning.
+- 🔍 **Analyze this task**: Focus on these to discover and understand key concepts.
+
+## How to Use the Quiz Files
+
+- ⭐ Start with these for essential skills—they are the foundation.
+- 📚 and 🔍 Prioritize these tasks to reinforce and deepen your understanding.
+- 📕 Attempt these for extra challenge or when preparing for exams.
+- Use the quiz files as active workbooks: write out your solutions, check explanations, and revisit as needed.
+
 ## Legend
 - ⭐ Required materials
 - 📚 Optional materials
