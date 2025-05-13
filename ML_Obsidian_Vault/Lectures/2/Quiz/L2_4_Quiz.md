@@ -34,8 +34,8 @@ Consider a dataset of n independent observations $X_1, X_2, \ldots, X_n$ from a 
 $$f(x|\mu) = \frac{1}{2\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{8}}$$
 
 #### Task
-1. Write down the likelihood function $L(\mu)$ for the given observations
-2. Find the maximum likelihood estimator $\hat{\mu}_{MLE}$ for $\mu$
+1. [📚] Write down the likelihood function $L(\mu)$ for the given observations
+2. [📚] Find the maximum likelihood estimator $\hat{\mu}_{MLE}$ for $\mu$
 3. Show that this estimator is unbiased
 
 For a detailed explanation, see [Question 2: MLE for Normal Distribution](L2_4_2_explanation.md).
@@ -48,7 +48,7 @@ You are given a dataset of n independent Bernoulli trials $X_1, X_2, \ldots, X_n
 $$f(x|p) = p^x(1-p)^{1-x}$$
 
 #### Task
-1. Derive the maximum likelihood estimator $\hat{p}_{MLE}$ for the probability p
+1. [📚] Derive the maximum likelihood estimator $\hat{p}_{MLE}$ for the probability p
 2. Calculate the Fisher information $I(p)$ for this model
 3. What is the asymptotic variance of $\hat{p}_{MLE}$?
 
@@ -62,7 +62,7 @@ Consider a dataset of n independent observations from an exponential distributio
 $$f(x|\lambda) = \lambda e^{-\lambda x} \text{ for } x \geq 0$$
 
 #### Task
-1. Find the maximum likelihood estimator $\hat{\lambda}_{MLE}$ for $\lambda$
+1. [📚] Find the maximum likelihood estimator $\hat{\lambda}_{MLE}$ for $\lambda$
 2. Show that this estimator is consistent
 3. Calculate the mean squared error (MSE) of $\hat{\lambda}_{MLE}$
 
@@ -76,7 +76,7 @@ Consider a dataset of n independent observations $X_1, X_2, \ldots, X_n$ from a 
 $$f(x|\lambda) = \frac{\lambda^x e^{-\lambda}}{x!} \text{ for } x = 0, 1, 2, \ldots$$
 
 #### Task
-1. Derive the maximum likelihood estimator $\hat{\lambda}_{MLE}$ for $\lambda$
+1. [📚] Derive the maximum likelihood estimator $\hat{\lambda}_{MLE}$ for $\lambda$
 2. Show that this estimator is efficient
 3. Calculate the asymptotic distribution of $\hat{\lambda}_{MLE}$
 
@@ -347,8 +347,8 @@ For a detailed explanation, see [Question 21: Visual Analysis of Maximum Likelih
 Suppose we have samples $x_1=0$, $x_2=0$, $x_3=1$, $x_4=1$, $x_5=0$ from a Bernoulli distribution with unknown parameter $\theta$, where $\theta \in (0, 1)$.
 
 #### Task
-1. Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
-2. Suppose you are asked to select $\theta$ from the set $\{0.2, 0.5, 0.7\}$. Which value would be chosen according to the MLE principle?
+1. [📚] Find the maximum likelihood estimator $\hat{\theta}_{MLE}$ for the parameter $\theta$.
+2. [📚] Suppose you are asked to select $\theta$ from the set $\{0.2, 0.5, 0.7\}$. Which value would be chosen according to the MLE principle?
 
 For a detailed explanation, see [Question 22: MLE for Bernoulli Distribution with Small Sample](L2_4_22_explanation.md).
 
@@ -360,7 +360,7 @@ A random sample of size $8$ — $X_1 = 1$, $X_2 = 0$, $X_3 = 1$, $X_4 = 1$, $X_5
 $$p_X(k; \theta) = \theta^k (1-\theta)^{1-k}, \quad k = 0, 1; \quad 0 < \theta < 1$$
 
 #### Task
-Find the maximum likelihood estimate for $\theta$.
+[📚] Find the maximum likelihood estimate for $\theta$.
 
 For a detailed explanation, see [Question 23: MLE for Bernoulli Distribution](L2_4_23_explanation.md).
 
@@ -383,7 +383,7 @@ Let $X_1, ..., X_n$ be iid from the distribution with the following probability 
 $$f(x) = \frac{3x^2}{\theta^3}, \quad 0 \leq x \leq \theta.$$
 
 #### Task
-Find the MLE of $\theta$.
+[📚] Find the MLE of $\theta$.
 
 For a detailed explanation, see [Question 25: MLE for Power Distribution](L2_4_25_explanation.md).
 
@@ -397,13 +397,10 @@ Provide a detailed mathematical proof for each of the following maximum likeliho
 
 1. For a sample of $N$ independent Bernoulli trials with $m$ successes, prove that the MLE for the success probability $\theta$ is:
    $$\hat{\theta}_{MLE} = \frac{m}{N}$$
-
 2. For a multinomial distribution with $K$ categories and counts $N_1, N_2, \ldots, N_K$ (where $\sum_{k=1}^{K} N_k = N$), prove that the MLE for probability $\theta_k$ of category $k$ is:
    $$\hat{\theta}_{k,MLE} = \frac{N_k}{N}$$
-
 3. For a sample of $N$ independent observations from a Gaussian distribution with unknown mean $\mu$ and known variance $\sigma^2$, prove that the MLE for $\mu$ is:
    $$\hat{\mu}_{MLE} = \frac{1}{N}\sum_{i=1}^{N}x^{(i)}$$
-
 4. For a sample of $N$ independent observations from a Gaussian distribution with unknown mean $\mu$ and unknown variance $\sigma^2$, prove that the MLE for $\sigma^2$ is:
    $$\hat{\sigma}^2_{MLE} = \frac{1}{N}\sum_{i=1}^{N}(x^{(i)}-\hat{\mu}_{MLE})^2$$
 
@@ -473,9 +470,7 @@ The true labels are: Sample 1: Cat, Sample 2: Dog, Sample 3: Bird, Sample 4: Cat
 1. Write down the log-likelihood of the observed data given the model's predictions. If $y_i$ represents the true label and $\hat{y}_i$ represents the predicted probabilities, the log-likelihood can be written as:
    $$\log L = \sum_{i=1}^{n} \log(\hat{y}_{i,c_i})$$
    where $c_i$ is the correct class index for sample $i$
-
 2. Using MLE principles, what threshold would you set for classification to maximize the likelihood of the observed data?
-
 3. If you had to pick one fixed probability threshold ($p > \text{threshold} \rightarrow$ classify as that class), what value would maximize accuracy on this dataset?
 
 For a detailed explanation, see [Question 28: One-Hot Encoding and Maximum Likelihood Estimation](L2_4_28_explanation.md).
@@ -499,17 +494,12 @@ Two encoding schemes are proposed for representing these categories:
 
 #### Task
 1. Derive the maximum likelihood estimator (MLE) for the probability distribution of the three categories based on the given data. Show your work.
-
 2. Calculate the entropy of the MLE distribution in bits using:
    $$H(X) = -\sum_{i} P(x_i) \log_2 P(x_i)$$
-
 3. If we were to sample a new set of 100 examples from this MLE distribution, how many bits would be required to store the entire dataset using Scheme 1 vs. Scheme 2?
-
 4. Which encoding is more efficient, and by how much? Calculate the percentage reduction in bits:
    $$\text{Reduction} = \frac{\text{Bits}_{\text{Scheme 1}} - \text{Bits}_{\text{Scheme 2}}}{\text{Bits}_{\text{Scheme 1}}} \times 100\%$$
-
 5. Explain how MLE relates to the concept of cross-entropy minimization. How would you express the likelihood function for this categorical distribution in terms of cross-entropy?
-
 6. Discuss how properties of MLE (consistency, asymptotic normality) relate to this example as we increase the sample size.
 
 For a detailed explanation, see [Question 29: Maximum Likelihood Estimation for Categorical Data](L2_4_29_explanation.md).

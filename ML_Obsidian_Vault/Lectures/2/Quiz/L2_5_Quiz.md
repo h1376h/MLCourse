@@ -12,8 +12,8 @@ Suppose we have a coin with an unknown probability $\theta$ of landing heads. We
 2. We toss the coin 10 times and observe 7 heads and 3 tails
 
 #### Task
-1. Write down the likelihood function for the observed data
-2. Calculate the posterior distribution for $\theta$
+1. [📚] Write down the likelihood function for the observed data
+2. [📚] Calculate the posterior distribution for $\theta$
 3. Find the posterior mean, mode, and variance of $\theta$
 4. Calculate the 95% credible interval for $\theta$
 
@@ -25,8 +25,8 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider a diagnostic test for a disease that affects 1% of the population. The test has a true positive rate (sensitivity) of 95% and a true negative rate (specificity) of 90%.
 
 #### Task
-1. Using Bayes' theorem, calculate the probability that a person has the disease given a positive test result
-2. If we repeat the test on the same person and it comes back positive again, what is the updated probability that the person has the disease?
+1. [📚] Using Bayes' theorem, calculate the probability that a person has the disease given a positive test result
+2. [📚] If we repeat the test on the same person and it comes back positive again, what is the updated probability that the person has the disease?
 3. How many consecutive positive test results would be needed to have at least a 95% probability that the person has the disease?
 4. Discuss how the prevalence of the disease affects the interpretation of test results
 
@@ -51,8 +51,8 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the problem of estimating the mean $\mu$ of a normal distribution with known variance $\sigma^2 = 4$. We observe data $X = \{10.2, 8.7, 9.5, 11.3, 10.8\}$.
 
 #### Task
-1. If we use a normal prior $N(9, 1)$ for $\mu$, derive the posterior distribution
-2. Calculate the posterior mean and variance
+1. [📚] If we use a normal prior $N(9, 1)$ for $\mu$, derive the posterior distribution
+2. [📚] Calculate the posterior mean and variance
 3. Find the 90% credible interval for $\mu$
 4. Compare the Bayesian estimate with the maximum likelihood estimate (MLE) and discuss the differences between the two approaches
 
@@ -77,10 +77,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 #### Task
-1. In Bayesian statistics, the posterior distribution represents our updated belief about a parameter after observing data.
-2. Conjugate priors always lead to the most accurate Bayesian inference results.
-3. Bayesian credible intervals and frequentist confidence intervals have identical interpretations.
-4. The posterior predictive distribution incorporates both the uncertainty in the parameter estimates and the inherent randomness in generating new data.
+1. [📚] In Bayesian statistics, the posterior distribution represents our updated belief about a parameter after observing data.
+2. [📚] Conjugate priors always lead to the most accurate Bayesian inference results.
+3. [📚] Bayesian credible intervals and frequentist confidence intervals have identical interpretations.
+4. [📚] The posterior predictive distribution incorporates both the uncertainty in the parameter estimates and the inherent randomness in generating new data.
 5. Hierarchical Bayesian models are useful only when we have a large amount of data.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 6: Bayesian Statistics Concepts](L2_5_6_explanation.md).
@@ -91,7 +91,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider a scenario where we are modeling the number of defects in a manufacturing process using a Poisson distribution with parameter $\lambda$.
 
 #### Task
-1. What is the conjugate prior for a Poisson likelihood?
+1. [📚] What is the conjugate prior for a Poisson likelihood?
 2. If our prior for $\lambda$ is $\text{Gamma}(3, 2)$ and we observe the following defect counts in 5 batches: $\{1, 0, 2, 1, 1\}$, what is the resulting posterior distribution?
 3. Calculate the posterior mean of $\lambda$.
 4. What is the advantage of using a conjugate prior in this specific scenario?
@@ -104,7 +104,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider a Bayesian inference problem where we want to determine if a coin is fair.
 
 #### Task
-1. If our prior belief is represented by a $\text{Beta}(3,3)$ distribution and we observe 5 heads out of 8 coin flips, what is the posterior distribution?
+1. [📚] If our prior belief is represented by a $\text{Beta}(3,3)$ distribution and we observe 5 heads out of 8 coin flips, what is the posterior distribution?
 2. What is the posterior mean probability of the coin showing heads?
 3. How does this posterior mean compare to the maximum likelihood estimate $(5/8)$?
 
@@ -116,9 +116,9 @@ For a detailed explanation of this problem, including step-by-step solutions and
 For each of the following likelihoods, identify the corresponding conjugate prior:
 
 #### Task
-1. Bernoulli likelihood (for binary outcomes)
-2. Normal likelihood with known variance (for the mean parameter)
-3. Poisson likelihood (for the rate parameter)
+1. [📚] Bernoulli likelihood (for binary outcomes)
+2. [📚] Normal likelihood with known variance (for the mean parameter)
+3. [📚] Poisson likelihood (for the rate parameter)
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: Conjugate Prior Identification](L2_5_9_explanation.md).
 
@@ -140,8 +140,8 @@ For a detailed explanation of this problem, including step-by-step solutions and
 A soil scientist is developing a Bayesian model to predict soil nutrient content. Based on previous studies at similar sites, the nutrient concentration follows a normal distribution with unknown mean $\mu$.
 
 #### Task
-1. If the scientist uses a normal prior for $\mu$ with mean 25 ppm and variance 4, and then collects 6 samples with measurements $\{22, 27, 24, 23, 26, 25\}$ ppm and known measurement variance $\sigma^2 = 9$, what is the posterior distribution for $\mu$?
-2. Calculate the posterior mean and variance.
+1. [📚] If the scientist uses a normal prior for $\mu$ with mean 25 ppm and variance 4, and then collects 6 samples with measurements $\{22, 27, 24, 23, 26, 25\}$ ppm and known measurement variance $\sigma^2 = 9$, what is the posterior distribution for $\mu$?
+2. [📚] Calculate the posterior mean and variance.
 3. Compare how the posterior would differ if an uninformative prior had been used instead.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Informative vs Noninformative Priors](L2_5_11_explanation.md).
