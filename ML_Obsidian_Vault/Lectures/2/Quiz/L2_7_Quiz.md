@@ -251,7 +251,7 @@ You have a neural network with weights $\mathbf{w}$ and a dataset $\mathcal{D}$.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Laplace Approximation](L2_7_17_explanation.md).
 
-## Question 18
+## [📕] Question 18
 
 ### Problem Statement
 You are given N, I.I.D samples for the books "standard problem":
@@ -513,11 +513,11 @@ You are given data from two classes with the following 2-dimensional feature vec
 Assume that the feature vectors in each class follow a multivariate Gaussian distribution.
 
 #### Task
-1. Calculate the mean vector and covariance matrix for each class. Verify that the covariance matrices are non-singular by computing their determinants.
-2. Assume we have a new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 3 \end{bmatrix}$
-3. Using MAP estimation with prior probabilities $P(\text{class }0) = 0.6$ and $P(\text{class }1) = 0.4$, determine which class the new point belongs to.
-4. Derive the quadratic discriminant function for this problem and explain how the decision boundary would change if the prior probabilities were adjusted to $P(\text{class }0) = 0.4$ and $P(\text{class }1) = 0.6$.
-5. How does having non-singular covariance matrices affect the classification?
+1. [📚] Calculate the mean vector and covariance matrix for each class. Verify that the covariance matrices are non-singular by computing their determinants.
+2. [📚] Assume we have a new data point $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 3 \end{bmatrix}$
+3. [📚] Using MAP estimation with prior probabilities $P(\text{class }0) = 0.6$ and $P(\text{class }1) = 0.4$, determine which class the new point belongs to.
+4. [📚] Derive the quadratic discriminant function for this problem and explain how the decision boundary would change if the prior probabilities were adjusted to $P(\text{class }0) = 0.4$ and $P(\text{class }1) = 0.6$.
+5. [📚] How does having non-singular covariance matrices affect the classification?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 28: Multivariate Gaussian Classification with Non-Singular Covariance Matrices](L2_7_28_explanation.md).
 
@@ -555,15 +555,15 @@ The loss function for each combination of true state and action is given by the 
 | Major defect ($\theta = 2$) | 100 | 60 | 20 |
 
 #### Task
-1. Calculate the expected loss (Bayes risk) for each possible action.
-2. Determine which action minimizes the Bayes risk.
-3. How would your decision change if the probability distribution changes to $P(\theta = 0) = 0.5$, $P(\theta = 1) = 0.3$, and $P(\theta = 2) = 0.2$?
+1. [📚] Calculate the expected loss (Bayes risk) for each possible action.
+2. [📚] Determine which action minimizes the Bayes risk.
+3. [📚] How would your decision change if the probability distribution changes to $P(\theta = 0) = 0.5$, $P(\theta = 1) = 0.3$, and $P(\theta = 2) = 0.2$?
 4. For what range of values of $P(\theta = 0)$ would "ship the component" be the optimal decision, assuming that $P(\theta = 1) = P(\theta = 2) = \frac{1-P(\theta = 0)}{2}$?
 5. Formulate a MAP (Maximum A Posteriori) estimation approach to determine the most likely state of a component. Assuming a uniform prior over the states, calculate the MAP estimate for both probability distributions. How does the MAP estimate relate to the optimal decision under 0-1 loss?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 30: Bayes Risk in Manufacturing Decisions](L2_7_30_explanation.md).
 
-## Question 31
+## [📕] Question 31
 
 ### Problem Statement
 In oncology, physicians must make treatment decisions based on imperfect diagnostic information. Consider a cancer diagnosis problem where a patient's tumor must be classified into one of three categories based on test results, and an appropriate treatment must be selected.
@@ -612,7 +612,7 @@ Where higher values represent worse outcomes (e.g., unnecessary treatment side e
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 31: Bayes Risk in Medical Decision Making](L2_7_31_explanation.md).
 
-## Question 32
+## [📕] Question 32
 
 ### Problem Statement
 A hospital is implementing an automated cancer screening system to classify patient biopsies as either benign or malignant. The system uses machine learning to produce posterior probabilities based on various features extracted from biopsy images.
