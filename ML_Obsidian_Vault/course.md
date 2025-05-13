@@ -53,13 +53,13 @@
 - 2.2: Information Theory and Entropy
   - 📚 Quiz: [[L2_2_Quiz]]
 - 2.3: Statistical Estimation Basics
-  - ⭐ Quiz: [[L2_3_Quiz]]
+  - 📚 Quiz: [[L2_3_Quiz]]
   - 📚 Examples: [[L2_3_Likelihood_Examples|Likelihood Examples]]
   - 📚 Examples: [[L2_3_Probability_vs_Likelihood_Examples|Probability vs Likelihood Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.4: Maximum Likelihood Estimation
   - ⭐ Quiz: [[L2_4_Quiz]]
-  - ⭐ Examples: [[L2_4_MLE_Examples|MLE Examples]]
+  - 📚 Examples: [[L2_4_MLE_Examples|MLE Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.5: Bayesian Approach to ML
   - ⭐ Quiz: [[L2_5_Quiz]]
@@ -71,8 +71,8 @@
   - 🚫 Special Examples (Slides): Coming Soon
 - 2.7: Maximum A Posteriori and Full Bayesian Inference
   - ⭐ Quiz: [[L2_7_Quiz]]
-  - ⭐ Examples: [[L2_7_MAP_Examples|MAP Examples]]
-  - ⭐ Examples: [[L2_7_Full_Bayesian_Inference|Full Bayesian Inference Examples]]
+  - 📚 Examples: [[L2_7_MAP_Examples|MAP Examples]]
+  - 📚 Examples: [[L2_7_Full_Bayesian_Inference|Full Bayesian Inference Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.8: Statistical Hypothesis Testing for ML
   - 🚫 Quiz: L2_8_Quiz
