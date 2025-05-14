@@ -6,7 +6,7 @@ This quiz contains 18 questions from different topics covered in section 3.5 of 
 ## Question 1
 
 ### Problem Statement
-Consider a linear regression model with the cost function $J(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|^2$. You want to implement batch gradient descent to find the optimal parameters.
+Consider a linear regression model with the cost function $$J(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|^2$$. You want to implement batch gradient descent to find the optimal parameters.
 
 In this problem:
 - The training data consists of 5 examples
@@ -35,7 +35,7 @@ You are implementing stochastic gradient descent (SGD) for linear regression wit
 | 4     | 2     | 8   |
 
 In this problem:
-- The model is $h(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + w_2 x_2$
+- The model is $$h(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + w_2 x_2$$
 - Your initial parameters are $\boldsymbol{w}^{(0)} = [0, 0, 0]^T$
 - The learning rate is $\alpha = 0.1$
 
@@ -111,7 +111,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the convergence properties of gradient descent for linear regression when the cost function is the squared error.
 
 In this problem:
-- The squared error cost function $J(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|^2$ is used
+- The squared error cost function $$J(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|^2$$ is used
 - The learning rate is a critical parameter for convergence
 - You know that the eigenvalues of $\boldsymbol{X}^T\boldsymbol{X}$ range from $\lambda_{\min} = 0.1$ to $\lambda_{\max} = 10$
 
@@ -131,7 +131,7 @@ You're implementing the Least Mean Squares (LMS) algorithm for an online learnin
 In this problem:
 - New training examples arrive one at a time
 - You need to update your model parameters after seeing each example
-- The model is a linear regression model $h(\boldsymbol{x}; \boldsymbol{w}) = \boldsymbol{w}^T\boldsymbol{x}$
+- The model is a linear regression model $$h(\boldsymbol{x}; \boldsymbol{w}) = \boldsymbol{w}^T\boldsymbol{x}$$
 - You're using a fixed learning rate $\alpha = 0.1$
 
 #### Task
@@ -166,7 +166,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider a univariate linear regression problem with the following three data points: (1,2), (2,4), (3,5).
 
 In this problem:
-- You want to fit a simple linear model $h(x) = w_0 + w_1x$
+- You want to fit a simple linear model $$h(x) = w_0 + w_1x$$
 - You'll use stochastic gradient descent with learning rate $\alpha = 0.1$
 - Initial parameters are $w_0 = 0, w_1 = 0$
 
@@ -190,8 +190,8 @@ In this problem:
 
 #### Task
 1. Calculate the learning rate at $t = 10$ for a step decay schedule where the learning rate is halved every 5 iterations
-2. Calculate the learning rate at $t = 10$ for an exponential decay schedule with $\alpha_t = \alpha_0 \cdot e^{-0.1t}$
-3. Calculate the learning rate at $t = 10$ for a $1/t$ decay schedule with $\alpha_t = \alpha_0 / (1 + t)$
+2. Calculate the learning rate at $t = 10$ for an exponential decay schedule with $$\alpha_t = \alpha_0 \cdot e^{-0.1t}$$
+3. Calculate the learning rate at $t = 10$ for a $1/t$ decay schedule with $$\alpha_t = \frac{\alpha_0}{1 + t}$$
 4. Which schedule would you recommend for a problem where the cost function is highly non-uniform with steep valleys?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Learning Rate Schedules](L3_5_10_explanation.md).
@@ -227,7 +227,7 @@ In this problem:
 
 #### Task
 1. Write down the LMS update rule that you would use for online learning
-2. A new data point $(x=3, y=7)$ arrives. If your current model is $h(x) = 1 + 1.5x$, calculate the prediction error
+2. A new data point $(x=3, y=7)$ arrives. If your current model is $$h(x) = 1 + 1.5x$$, calculate the prediction error
 3. If you use learning rate $\alpha = 0.1$, calculate the updated parameters after seeing this data point
 4. Compare this online learning approach with batch retraining in terms of computational efficiency and model quality
 
@@ -239,7 +239,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 #### Task
-1. The computational complexity of solving linear regression using normal equations is O(n³), where n is the number of features.
+1. The computational complexity of solving linear regression using normal equations is O($n^3$), where $n$ is the number of features.
 
 2. Stochastic gradient descent uses all training examples to compute the gradient in each iteration.
 
@@ -262,16 +262,19 @@ For each question, choose the best answer among the given options.
    - B) Batch gradient descent
    - C) Mini-batch gradient descent
    - D) Analytical solution with matrix inversion
-2. If the gradient of the cost function is calculated as $\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = -2\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$, what is the gradient descent update rule?
-   - A) $\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \alpha \boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}^t)$
-   - B) $\boldsymbol{w}^{t+1} = \boldsymbol{w}^t + \alpha \boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}^t)$
-   - C) $\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - 2\alpha \boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}^t)$
-   - D) $\boldsymbol{w}^{t+1} = \boldsymbol{w}^t + 2\alpha \boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}^t)$
+   
+2. If the gradient of the cost function is calculated as $$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = -2\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$$, what is the gradient descent update rule?
+   - A) $$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \alpha \boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}^t)$$
+   - B) $$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t + \alpha \boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}^t)$$
+   - C) $$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - 2\alpha \boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}^t)$$
+   - D) $$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t + 2\alpha \boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}^t)$$
+   
 3. When features have very different scales, which of the following is likely to happen during gradient descent?
    - A) The algorithm will converge faster
    - B) The cost function becomes non-convex
    - C) The algorithm will take a zigzag path toward the minimum
    - D) The normal equations solution becomes invalid
+   
 4. Which of the following optimizers adds a fraction of the previous update to the current update to accelerate convergence?
    - A) RMSprop
    - B) Momentum
@@ -286,10 +289,10 @@ For detailed explanations and solutions, see [Question 14: Multiple Choice Quest
 Complete each statement with the appropriate term or mathematical expression.
 
 #### Task
-1. In the Least Mean Squares (LMS) algorithm, the update rule is $\boldsymbol{w} := \boldsymbol{w} + \alpha \times \_\_\_\_\_\_\_\_\_$ (fill in the expression).
-2. For gradient descent to converge in linear regression, the learning rate must satisfy $0 < \alpha < \_\_\_\_\_\_\_\_\_$ (fill in the bound in terms of eigenvalues).
-3. The computational complexity of one iteration of batch gradient descent is $\_\_\_\_\_\_\_\_\_$ (fill in the big-O notation in terms of n and d).
-4. In online learning, parameters are updated after \_\_\_\_\_\_\_\_\_ new training example(s).
+1. In the Least Mean Squares (LMS) algorithm, the update rule is $$\boldsymbol{w} := \boldsymbol{w} + \alpha \times \_\_\_\_\_\_\_\_\_$$ (fill in the expression).
+2. For gradient descent to converge in linear regression, the learning rate must satisfy $$0 < \alpha < \_\_\_\_\_\_\_\_\_$$ (fill in the bound in terms of eigenvalues).
+3. The computational complexity of one iteration of batch gradient descent is $\_\_\_\_\_\_\_\_\_$ (fill in the big-O notation in terms of $n$ and $d$).
+4. In online learning, parameters are updated after $\_\_\_\_\_\_\_\_\_ new training example(s).
 
 For detailed explanations and solutions, see [Question 15: Fill in the Blank Questions](L3_5_15_explanation.md).
 
@@ -300,11 +303,20 @@ Match each optimization technique on the left with its most appropriate characte
 
 #### Task
 Match the following:
-1. Batch Gradient Descent    a) Updates parameters using one randomly selected example
-2. Stochastic Gradient Descent    b) Adapts learning rates for each parameter individually
-3. Normal Equations    c) Uses small batches of examples for each update
-4. Mini-batch Gradient Descent    d) Computes exact solution in one step
-5. RMSprop    e) Uses all examples for each parameter update
+
+**Column A:**
+1. Batch Gradient Descent
+2. Stochastic Gradient Descent
+3. Normal Equations
+4. Mini-batch Gradient Descent
+5. RMSprop
+
+**Column B:**
+a) Updates parameters using one randomly selected example
+b) Adapts learning rates for each parameter individually
+c) Uses small batches of examples for each update
+d) Computes exact solution in one step
+e) Uses all examples for each parameter update
 
 For detailed explanations and solutions, see [Question 16: Matching Questions](L3_5_16_explanation.md).
 
@@ -327,7 +339,7 @@ For detailed explanations and solutions, see [Question 17: Short Answer Question
 Consider a simple one-dimensional linear regression problem with squared error loss.
 
 In this problem:
-- The model is $h(x; w) = wx$ (no bias term for simplicity)
+- The model is $$h(x; w) = wx$$ (no bias term for simplicity)
 - The initial parameter value is $w^{(0)} = 1$
 - There are two training examples: $(x^{(1)}=2, y^{(1)}=5)$ and $(x^{(2)}=3, y^{(2)}=6)$
 - The learning rate is $\alpha = 0.02$
