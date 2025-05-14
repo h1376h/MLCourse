@@ -1,7 +1,7 @@
 # Lecture 3.2: Simple Linear Regression Quiz
 
 ## Overview
-This quiz contains 33 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
+This quiz contains 34 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
 
 ## Question 1
 
@@ -569,3 +569,23 @@ $$J(w_0, w_1) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
 4. [📚] Show that the intercept parameter $w_0$ ensures that the regression line passes through the point $(\bar{x}, \bar{y})$, where $\bar{x}$ and $\bar{y}$ are the means of the features and target values, respectively
 
 For a detailed explanation of this problem, including step-by-step derivation of the normal equations, see [Question 33: Deriving Normal Equations](L3_2_33_explanation.md).
+
+## Question 34
+
+### Problem Statement
+In linear regression, the projection matrix $\boldsymbol{P} = \boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$ plays a crucial role in understanding the geometric interpretation of the model.
+
+#### Task
+1. [📚] Prove that the projection matrix $\boldsymbol{P}$ is both symmetric and idempotent
+2. [📚] For a simple dataset with $n = 3$ observations and $d = 1$ feature (plus intercept), calculate the projection matrix $\boldsymbol{P}$ given:
+
+   $$\boldsymbol{X} = \begin{bmatrix} 
+   1 & 1 \\
+   1 & 2 \\
+   1 & 3
+   \end{bmatrix}$$
+
+3. [📚] If the response vector is $\boldsymbol{y} = [2, 3, 5]^T$, calculate the projected vector $\hat{\boldsymbol{y}} = \boldsymbol{P}\boldsymbol{y}$
+4. [📚] Explain geometrically what it means when we say the residual vector $\boldsymbol{e} = \boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
+
+For a detailed explanation of this problem, including step-by-step solutions and geometric interpretations, see [Question 34: Projection Matrix in Linear Regression](L3_2_34_explanation.md).
