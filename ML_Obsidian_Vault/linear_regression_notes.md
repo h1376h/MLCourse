@@ -295,6 +295,37 @@ In this example, despite having lower bias, the linear model $\mathcal{H}_1$ has
 
 This illustrates an important lesson: match the model complexity to the available data, not to the complexity of the target function. With very limited data, simpler models often perform better due to their lower variance, even if they have higher bias.
 
+## Expected training and true error curves
+
+Errors vary with the number of training samples:
+
+### Simple Model (Left graph):
+- $E_{true}$ (red curve): Starts high and gradually decreases with more data points $N$
+- $E_{train}$ (blue curve): Starts low and gradually increases with more data points $N$
+- The two curves approach each other as the number of data points increases
+- Both eventually converge to a value above zero (limited by model bias)
+
+### Complex Model (Right graph):
+- $E_{true}$ (red curve): Starts very high and decreases more dramatically with more data points $N$
+- $E_{train}$ (blue curve): Remains low throughout
+- The gap between training and true error is much larger
+- With enough data, true error can potentially reach lower values than the simple model
+
+The mathematical definitions:
+- Expected true error: $\mathbb{E}_{\mathcal{D}}[E_{true}(f_{\mathcal{D}}(\boldsymbol{x}))]$
+- Expected training error: $\mathbb{E}_{\mathcal{D}}[E_{train}(f_{\mathcal{D}}(\boldsymbol{x}))]$
+
+This illustrates that:
+1. Complex models need more data to generalize well
+2. Simple models converge faster but may have higher asymptotic error
+3. Training error is typically an optimistic estimate of true error, especially for complex models
+
+## Lesson
+
+Match the model complexity to the data sources, not to the complexity of the target function.
+
+This is a fundamental principle in machine learning that emphasizes the importance of considering the amount of training data available when selecting model complexity. Even if the true underlying function is complex (like a sine wave), with limited data we should prefer simpler models that generalize better.
+
 ## Recall: Linear regression (squared loss)
 
 ### Linear regression functions
