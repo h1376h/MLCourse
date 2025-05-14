@@ -22,7 +22,14 @@ Consider a simple linear regression model for predicting house prices based on h
 3. Calculate the prediction for a house with 1800 square feet
 4. Calculate the residuals for each data point and the residual sum of squares (RSS)
 
-For a detailed explanation of this problem, including step-by-step calculations and interpretations, see [Question 1: Simple Linear Regression for House Prices](L3_2_1_explanation.md).
+#### Solution Approaches
+This problem can be tackled using multiple approaches:
+
+For a detailed explanation using the standard formula approach with covariance and variance calculations, see [Question 1: Simple Linear Regression for House Prices](L3_2_1_explanation.md).
+
+For an alternative approach using matrix algebra and the normal equations, see [Alternative Solution: Matrix-Based Approach](L3_2_1_explanation_alternative.md).
+
+Both approaches yield the same final result, but the matrix-based method provides a foundation for understanding more complex regression models with multiple predictors.
 
 ## Question 2
 
