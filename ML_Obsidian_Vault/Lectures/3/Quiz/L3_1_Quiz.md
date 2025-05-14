@@ -70,7 +70,7 @@ Consider the statistical properties of linear regression estimators. You are giv
 
 #### Task
 1. [📚] What is the standard error of the error term?
-2. [📚] How does the variance of the error term affect the variance of the coefficient estimators?
+2. How does the variance of the error term affect the variance of the coefficient estimators?
 3. Explain why we want estimators with minimum variance.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 6: Statistical Properties of Estimators](L3_1_6_explanation.md).
