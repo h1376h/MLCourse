@@ -9,7 +9,7 @@ This quiz contains 20 questions covering different topics from section 3.7 of th
 Consider a 9th degree polynomial model fitting a dataset with just 10 data points. The model has extremely large coefficient values and fits the training data perfectly.
 
 In this problem:
-- The polynomial model is $f(x) = w_0 + w_1x + w_2x^2 + ... + w_9x^9$
+- The polynomial model is $$f(x) = w_0 + w_1x + w_2x^2 + \ldots + w_9x^9$$
 - The coefficients have very large magnitudes (e.g., $w_5 = 640042.26$, $w_9 = 125201.43$)
 - The training error is nearly zero
 
@@ -31,7 +31,7 @@ In this problem:
 - A linear model with regularization has bias = 0.23, variance = 0.33
 
 #### Task
-1. Calculate the total expected error (bias² + variance) for both models
+1. Calculate the total expected error (bias$^2$ + variance) for both models
 2. Explain why regularization increased the bias but decreased the variance
 3. Describe the geometric interpretation of the regularization effect on the parameter space
 4. Explain why, despite having higher bias, the regularized model has better overall performance
@@ -187,12 +187,12 @@ For a detailed explanation of this problem, including feature selection strategy
 ### Problem Statement
 Consider the following regularized cost functions with parameter $\lambda = 2$:
 
-Model A: $J_A(w) = \sum_{i=1}^{n} (y^{(i)} - w^T x^{(i)})^2 + 2\|w\|_2^2$
+$$J_A(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - \boldsymbol{w}^T \boldsymbol{x}^{(i)})^2 + 2\|\boldsymbol{w}\|_2^2$$
 
-Model B: $J_B(w) = \sum_{i=1}^{n} (y^{(i)} - w^T x^{(i)})^2 + 2\|w\|_1$
+$$J_B(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - \boldsymbol{w}^T \boldsymbol{x}^{(i)})^2 + 2\|\boldsymbol{w}\|_1$$
 
 #### Task
-1. If we have a weight vector $w = [0.5, -1.5, 2.0]$, calculate the penalty term for both Models A and B
+1. If we have a weight vector $\boldsymbol{w} = [0.5, -1.5, 2.0]$, calculate the penalty term for both Models A and B
 2. Which model would likely produce more zero coefficients and why?
 3. Describe one advantage of Model A over Model B
 4. If we double $\lambda$ to 4, how would the penalty terms change for both models?
@@ -252,16 +252,19 @@ Select the best answer for each question:
    b) L2 norm penalty (Ridge)
    c) L0 norm penalty
    d) Elastic Net
+   
 2. As the regularization parameter in ridge regression increases, what happens to the model?
    a) Bias decreases, variance increases
    b) Bias increases, variance decreases
    c) Both bias and variance increase
    d) Both bias and variance decrease
+   
 3. Which regularization method is most likely to produce exactly zero coefficients?
    a) Ridge regression
    b) Lasso regression
    c) Both produce the same number of zero coefficients
    d) Neither produces exactly zero coefficients
+   
 4. From a Bayesian perspective, ridge regression can be interpreted as imposing what type of prior on the model parameters?
    a) Uniform prior
    b) Laplace prior
@@ -278,14 +281,14 @@ Match each concept in Column A with the most appropriate description in Column B
 #### Task
 Match the items in Column A with the correct description in Column B:
 
-Column A:
+**Column A:**
 1. Elastic Net
 2. Regularization Path
 3. Early Stopping
 4. Cross-Validation
 5. Ridge Regression
 
-Column B:
+**Column B:**
 a) A visualization showing how coefficient values change as the regularization parameter varies
 b) A technique that combines L1 and L2 penalties to get the best of both approaches
 c) A method that adds the sum of squared weights to the cost function

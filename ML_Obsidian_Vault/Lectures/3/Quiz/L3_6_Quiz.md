@@ -13,7 +13,7 @@ You have trained a linear regression model on a dataset with 200 samples. To eva
 | MSE    | 15.2         | 22.8      |
 | MAE    | 3.1          | 3.9       |
 | RMSE   | 3.9          | 4.8       |
-| R²     | 0.82         | 0.73      |
+| $R^2$  | 0.82         | 0.73      |
 
 #### Task
 1. Explain what each of these metrics measures and how they're calculated
@@ -147,7 +147,7 @@ You have the following predictions and actual values for 5 test samples:
 1. Calculate the Mean Absolute Error (MAE)
 2. Calculate the Mean Squared Error (MSE)
 3. Calculate the Root Mean Squared Error (RMSE)
-4. If the variance of the actual values is 21.7, calculate the R-squared (coefficient of determination) value
+4. If the variance of the actual values is 21.7, calculate the $R^2$ (coefficient of determination) value
 
 For a detailed explanation of this problem, including step-by-step calculations, see [Question 9: Basic Error Calculations](L3_6_9_explanation.md).
 
@@ -174,7 +174,7 @@ Consider a simple linear regression model that predicts house prices based on sq
 
 #### Task
 1. Calculate the Mean Squared Error (MSE)
-2. Calculate the R-squared (coefficient of determination)
+2. Calculate the $R^2$ (coefficient of determination)
 3. Calculate the Root Mean Squared Error (RMSE)
 4. Would you consider this model to be performing well? Explain your reasoning based on these metrics
 
@@ -211,8 +211,8 @@ Model B:
 - Number of parameters: 12
 
 #### Task
-1. Calculate the AIC for both models using the formula AIC = n·ln(MSE) + 2p, where n is the number of samples (assume n=100) and p is the number of parameters
-2. Calculate the BIC for both models using the formula BIC = n·ln(MSE) + p·ln(n)
+1. Calculate the AIC for both models using the formula $\text{AIC} = n \cdot \ln(\text{MSE}) + 2p$, where $n$ is the number of samples (assume $n=100$) and $p$ is the number of parameters
+2. Calculate the BIC for both models using the formula $\text{BIC} = n \cdot \ln(\text{MSE}) + p \cdot \ln(n)$
 3. Based on the test error, AIC, and BIC, which model would you choose? Explain your reasoning
 4. What does this example tell you about the relationship between model complexity and generalization?
 
@@ -224,10 +224,10 @@ For a detailed explanation of this problem, including step-by-step calculations,
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 #### Task
-1. K-fold cross-validation with K=n (where n is the number of samples) is equivalent to leave-one-out cross-validation.
+1. K-fold cross-validation with $K=n$ (where $n$ is the number of samples) is equivalent to leave-one-out cross-validation.
 2. When comparing models using information criteria, the model with the highest AIC value should be selected.
 3. A model with high bias will typically show a large gap between training and test error.
-4. The R-squared (coefficient of determination) metric can be negative for poorly performing models.
+4. The $R^2$ (coefficient of determination) metric can be negative for poorly performing models.
 5. In residual analysis, randomly distributed residuals around zero suggest that the linear regression assumptions are violated.
 6. Cross-validation is primarily used to prevent overfitting during model training.
 7. The Mean Absolute Error (MAE) is more sensitive to outliers than the Mean Squared Error (MSE).
@@ -241,6 +241,8 @@ For a detailed explanation of these true/false questions, see [Question 14: TRUE
 Fill in the blanks with the appropriate terms related to model evaluation and validation.
 
 #### Task
+Fill in each blank with the most appropriate term:
+
 1. The process of dividing data into training and test sets is commonly known as $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 2. The metric that measures the proportion of variance in the dependent variable that is predictable from the independent variables is called $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 3. $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ measures the average absolute difference between predicted and actual values.
@@ -264,7 +266,7 @@ For each question, select the BEST answer.
    a) Mean Squared Error (MSE)
    b) Mean Absolute Error (MAE)
    c) Root Mean Squared Error (RMSE)
-   d) R-squared (coefficient of determination)
+   d) $R^2$ (coefficient of determination)
 
 2. When using K-fold cross-validation, increasing the value of K typically:
    a) Decreases bias but increases variance in the estimation of model performance
@@ -300,19 +302,19 @@ Match each concept in Column A with the most appropriate description in Column B
 #### Task
 Match the items in Column A with the correct item in Column B.
 
-Column A:
+**Column A:**
 1. Residual Analysis
 2. AIC (Akaike Information Criterion)
 3. BIC (Bayesian Information Criterion)
 4. Learning Curves
 5. Cross-Validation
 
-Column B:
+**Column B:**
 a) A measure that balances model fit and complexity with a stronger penalty for complexity than AIC
 b) A technique for visualizing model performance as training set size increases
 c) A statistical approach for examining the differences between predicted and actual values
 d) A method that splits the data into multiple subsets to validate model performance
-e) A measure that balances model fit and complexity with a penalty term of 2p, where p is the number of parameters
+e) A measure that balances model fit and complexity with a penalty term of $2p$, where $p$ is the number of parameters
 
 For a detailed explanation of this matching exercise, see [Question 17: Matching Evaluation Concepts](L3_6_17_explanation.md).
 
