@@ -523,8 +523,3 @@ The expected error consists of:
 Total expected error = Bias² + Variance + Noise
 
 This decomposition highlights why the bias-variance tradeoff is central to machine learning: minimizing total error requires balancing bias and variance.
-
-## References
-
-- C. Bishop, "Pattern Recognition and Machine Learning", Chapter 1.1, 1.3, 3.1, 3.2.
-- Yaser S. Abu-Mostafa, Malik Maghdon-Ismail, and Hsuan Tien Lin, "Learning from Data", Chapter 2.3, 3.2, 3.4.
