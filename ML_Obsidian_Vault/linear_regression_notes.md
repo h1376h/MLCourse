@@ -1,3 +1,55 @@
+# Learning from a training set
+
+## Learning from a training set
+
+The image shows two different hypothesis models, $\mathcal{H}_0$ and $\mathcal{H}_1$, that learn from a training set:
+
+### $\mathcal{H}_0$: Constant model
+- Left graph shows a constant model (horizontal line) with $f(x) = b$
+- The green horizontal line represents the model's prediction
+- Two blue data points are shown that the model attempts to fit
+- The model produces the same prediction value regardless of input
+
+### $\mathcal{H}_1$: Linear model
+- Right graph shows a linear model with $f(x) = ax + b$
+- The red sloped line represents the model's prediction
+- The same two blue data points appear as in the left graph
+- This model can capture the trend in the data
+
+Both models are fit to the same training set (two blue data points), demonstrating different levels of complexity in model fitting.
+
+# Bias-variance trade-off
+
+The bias-variance trade-off is a fundamental concept in machine learning:
+
+$$\text{var} = \mathbb{E}_{\boldsymbol{x}} \left[ \mathbb{E}_{\mathcal{D}} \left[ \left( f_{\mathcal{D}}(\boldsymbol{x}) - \bar{f}(\boldsymbol{x}) \right)^2 \right] \right]$$
+
+$$\text{bias} = \mathbb{E}_{\boldsymbol{x}}[\bar{f}(\boldsymbol{x}) - h(\boldsymbol{x})]$$
+
+The illustration shows:
+- Left side: A simple hypothesis space $\mathcal{H}$ with lower variance but higher bias
+- Right side: A more complex hypothesis space $\mathcal{H}$ with lower bias but higher variance
+- The red region represents higher variance in predictions
+- The blue point $h$ represents the true hypothesis we're trying to learn
+
+The key insight is:
+- More complex hypothesis spaces $\mathcal{H}$ → lower bias but higher variance
+- This creates a fundamental trade-off in model selection
+
+# Example: sin target
+
+- Only two training examples $N = 2$
+
+- Two models used for learning:
+  - $\mathcal{H}_0: f(x) = b$ (constant function)
+  - $\mathcal{H}_1: f(x) = ax + b$ (linear function)
+
+- The target function is a sine curve as shown in the right image
+  
+- Which is better $\mathcal{H}_0$ or $\mathcal{H}_1$?
+  - This depends on the bias-variance trade-off
+  - With only two data points, the simpler model might generalize better despite higher bias
+
 # Linear Regression Notes
 
 ## Formal discussion on bias, variance, and noise
@@ -26,6 +78,25 @@ $$\Rightarrow h^*(\boldsymbol{x}) = \mathbb{E}_{y|\boldsymbol{x}}[y]$$
 ### Noise
 
 ### Bias and variance
+
+The expected squared error between the model $f_{\mathcal{D}}(\boldsymbol{x})$ and the true function $h(\boldsymbol{x})$ can be decomposed as:
+
+$$\mathbb{E}_{\mathcal{D}} \left[ \left(f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x})\right)^2 \right] = \mathbb{E}_{\mathcal{D}} \left[ \left(f_{\mathcal{D}}(\boldsymbol{x}) - \bar{f}(\boldsymbol{x})\right)^2 \right] + \left(\bar{f}(\boldsymbol{x}) - h(\boldsymbol{x})\right)^2$$
+
+We identify:
+$$\text{var}(\boldsymbol{x}) = \mathbb{E}_{\mathcal{D}} \left[ \left(f_{\mathcal{D}}(\boldsymbol{x}) - \bar{f}(\boldsymbol{x})\right)^2 \right]$$
+
+$$\text{bias}(\boldsymbol{x}) = \left(\bar{f}(\boldsymbol{x}) - h(\boldsymbol{x})\right)^2$$
+
+Taking the expectation over all possible inputs $\boldsymbol{x}$:
+
+$$\mathbb{E}_{\boldsymbol{x}} \left[ \mathbb{E}_{\mathcal{D}} \left[ \left(f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x})\right)^2 \right] \right] = \mathbb{E}_{\boldsymbol{x}}[\text{var}(\boldsymbol{x}) + \text{bias}(\boldsymbol{x})]$$
+
+$$= \text{var} + \text{bias}$$
+
+This is the bias-variance decomposition, showing that the expected squared error can be separated into:
+- Variance: How much predictions from models trained on different datasets vary
+- Bias: How much the average prediction differs from the true function
 
 ## Expectation of true error
 
@@ -174,6 +245,55 @@ Regularization provides another way to control model complexity, often more smoo
 $$f(x;w) = w_0 + w_1x + \cdots w_{10}x^{10}$$
 
 For more complex models, getting more training data is usually helps. As the training set size increases, the gap between $J_v$ and $J_{train}$ shrinks, allowing the model to better generalize.
+
+## Variance $\mathcal{H}_0$
+
+For the constant model $\mathcal{H}_0$ where $f(x) = b$:
+
+- The left image shows multiple possible realizations of the model when trained on different datasets
+- Each horizontal line represents a different model obtained from a different training set
+- The blue sine curve represents the true underlying function $\sin(x)$
+  
+- The right image shows:
+  - The blue sine curve as the true target function $\sin(x)$
+  - The green horizontal line as the average prediction $f(x)$ across all possible models
+  - The gray band represents the variance - the spread of predictions around the average model
+  
+This model has relatively low variance but high bias, as the horizontal line cannot capture the sinusoidal nature of the true function.
+
+## Variance $\mathcal{H}_1$
+
+For the linear model $\mathcal{H}_1$ where $f(x) = ax + b$:
+
+- The left image shows multiple possible realizations of the model when trained on different datasets
+- Each sloped line represents a different linear model obtained from a different training set
+- The blue sine curve represents the true underlying function $\sin(x)$
+- Notice the high variability in the slopes of the lines, especially at the extremes of the domain
+  
+- The right image shows:
+  - The blue sine curve as the true target function $\sin(x)$
+  - The red line as the average prediction $\bar{f}(x)$ across all possible models
+  - The wider gray band represents the higher variance - the spread of predictions around the average model
+  
+This model has higher variance than $\mathcal{H}_0$ but lower bias, as the linear function can better approximate the trend of the sine function in certain regions. The variance is especially high at the edges of the input range where the model extrapolates.
+
+## Which is better?
+
+Comparing the two models $\mathcal{H}_0$ and $\mathcal{H}_1$ directly:
+
+### $\mathcal{H}_0$ (Constant model):
+- bias = 0.50
+- var = 0.25
+- total error = 0.75
+
+### $\mathcal{H}_1$ (Linear model):
+- bias = 0.21
+- var = 1.69
+- total error = 1.90
+
+In this example, despite having lower bias, the linear model $\mathcal{H}_1$ has significantly higher variance, resulting in a higher total error. Therefore, the simpler constant model $\mathcal{H}_0$ is actually better for this problem with the given limited training data (N = 2).
+
+This illustrates an important lesson: match the model complexity to the available data, not to the complexity of the target function. With very limited data, simpler models often perform better due to their lower variance, even if they have higher bias.
 
 ## Recall: Linear regression (squared loss)
 
