@@ -328,11 +328,9 @@ For a simplified, exam-friendly approach with computational shortcuts, see [Alte
 ## Question 16
 
 ### Problem Statement
-Understanding the fundamental properties of simple linear regression is essential for correctly applying and interpreting regression models.
-
-#### Task
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
+#### Task
 1. In simple linear regression, the residuals always sum to zero when the model includes an intercept term.
 2. The least squares method minimizes the sum of absolute differences between predicted and actual values.
 3. Increasing the number of data points always leads to a better fit in simple linear regression.
@@ -401,11 +399,9 @@ For a detailed explanation of this problem, including step-by-step calculations,
 ## Question 21
 
 ### Problem Statement
-The mathematical properties of linear regression help us understand the behavior of the model and its underlying assumptions.
-
-#### Task
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
+#### Task
 1. The prediction $\hat{y} = Xw$ is the orthogonal projection of $y$ onto the column space of $X$.
 2. If there's perfect multicollinearity in a dataset, the normal equations have a unique solution.
 3. For a simple linear regression model with an intercept, the sum of residuals is always zero.
