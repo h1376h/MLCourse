@@ -1,5 +1,91 @@
 # Linear Regression Notes
 
+## Formal discussion on bias, variance, and noise
+
+### Best unrestricted regression function
+
+- If we know the joint distribution $P(\boldsymbol{x},y)$ and no constraints on the regression function?
+  - cost function: mean squared error
+
+$$h^* = \underset{h:\mathbb{R}^d\rightarrow\mathbb{R}}{\operatorname{argmin}} \mathbb{E}_{\boldsymbol{x},y} \left[ (y - h(\boldsymbol{x}))^2 \right]$$
+
+$$h^*(\boldsymbol{x}) = \mathbb{E}_{y|\boldsymbol{x}}[y]$$
+
+### Best unrestricted regression function: Proof
+
+$$\mathbb{E}_{\boldsymbol{x},y} \left[ (y - h(\boldsymbol{x}))^2 \right] = \iint (y - h(\boldsymbol{x}))^2 p(\boldsymbol{x}, y) d\boldsymbol{x}dy$$
+
+- For each $\boldsymbol{x}$ separately minimize loss since $h(\boldsymbol{x})$ can be chosen independently for each different $\boldsymbol{x}$:
+
+$$\frac{\delta\mathbb{E}_{\boldsymbol{x},y} \left[ (y - h(\boldsymbol{x}))^2 \right]}{\delta h(\boldsymbol{x})} = \int 2(y - h(\boldsymbol{x}))p(\boldsymbol{x}, y)dy = 0$$
+
+$$\Rightarrow h(\boldsymbol{x}) = \frac{\int yp(\boldsymbol{x}, y)dy}{\int p(\boldsymbol{x}, y)dy} = \frac{\int yp(\boldsymbol{x}, y)dy}{p(\boldsymbol{x})} = \int yp(y|\boldsymbol{x})dy = \mathbb{E}_{y|\boldsymbol{x}} [y]$$
+
+$$\Rightarrow h^*(\boldsymbol{x}) = \mathbb{E}_{y|\boldsymbol{x}}[y]$$
+
+### Noise
+
+### Bias and variance
+
+## Expectation of true error
+
+$$E_{true}(f_{\mathcal{D}}(\boldsymbol{x})) = \mathbb{E}_{\boldsymbol{x},y}[(f_{\mathcal{D}}(\boldsymbol{x}) - y)^2]$$
+$$= \mathbb{E}_{\boldsymbol{x}} \left[ (f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x}))^2 \right] + noise$$
+
+$$\mathbb{E}_{\mathcal{D}} \left[ \mathbb{E}_{\boldsymbol{x}} \left[ (f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x}))^2 \right] \right]$$
+$$= \mathbb{E}_{\boldsymbol{x}} \left[ \mathbb{E}_{\mathcal{D}} \left[ (f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x}))^2 \right] \right]$$
+
+We now want to focus on $\mathbb{E}_{\mathcal{D}} \left[ (f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x}))^2 \right]$.
+
+## Using the average hypothesis
+
+$$\mathbb{E}_{\mathcal{D}} \left[ \left( f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x}) \right)^2 \right]$$
+
+$$= \mathbb{E}_{\mathcal{D}} \left[ \left( f_{\mathcal{D}}(\boldsymbol{x}) - \bar{f}(\boldsymbol{x}) + \bar{f}(\boldsymbol{x}) - h(\boldsymbol{x}) \right)^2 \right]$$
+
+$$= \mathbb{E}_{\mathcal{D}} \left[ \left( f_{\mathcal{D}}(\boldsymbol{x}) - \bar{f}(\boldsymbol{x}) \right)^2 + \left( \bar{f}(\boldsymbol{x}) - h(\boldsymbol{x}) \right)^2 \right]$$
+
+## The average hypothesis
+
+$$\bar{f}(\boldsymbol{x}) \equiv E_{\mathcal{D}}[f_{\mathcal{D}}(\boldsymbol{x})]$$
+
+$$\bar{f}(\boldsymbol{x}) \approx \frac{1}{K} \sum_{k=1}^{K} f_{\mathcal{D}^{(k)}}(\boldsymbol{x})$$
+
+$K$ training sets (of size $N$) sampled from $P(\boldsymbol{x}, y)$:
+$\mathcal{D}^{(1)}, \mathcal{D}^{(2)}, ..., \mathcal{D}^{(K)}$
+
+## Error decomposition
+
+$(\boldsymbol{x}, y) \sim P$
+
+$h(\boldsymbol{x})$: minimizes the expected loss
+
+$$E_{true}(f_{\mathcal{D}}(\boldsymbol{x})) = \mathbb{E}_{\boldsymbol{x},y}[(f_{\mathcal{D}}(\boldsymbol{x}) - y)^2]$$
+
+$$= \mathbb{E}_{\boldsymbol{x},y} [(f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x}) + h(\boldsymbol{x}) - y)^2]$$
+
+$$= \mathbb{E}_{\boldsymbol{x}} \left[ (f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x}))^2 \right] + \mathbb{E}_{\boldsymbol{x},y}[(h(\boldsymbol{x}) - y)^2] + 2\mathbb{E}_{\boldsymbol{x},y}[(f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x}))(h(\boldsymbol{x}) - y)]$$
+
+$$= \mathbb{E}_{\boldsymbol{x}} \left[ (f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x}))^2 \right] + \mathbb{E}_{\boldsymbol{x},y}[(h(\boldsymbol{x}) - y)^2] + \mathbb{E}_{\boldsymbol{x}} [(f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x}))\mathbb{E}_{y|\boldsymbol{x}}[(h(\boldsymbol{x}) - y)]]$$
+
+$$\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \ 0$$
+
+- Noise shows the irreducible minimum value of the loss function
+
+## The learning diagram: deterministic target
+
+![Learning diagram showing unknown target function h(x) mapping to y, with training examples (x¹,y¹)...(xⁿ,yⁿ) coming from a probability distribution P on X. These feed into a learning algorithm with hypothesis set H, producing a final hypothesis f:x→y]
+
+[Y.S. Abu Mostafa, et. al]
+
+## The learning diagram including noisy target
+
+- Type: Unknown target distribution P(y|x) with target function h:ℳ→y plus noise
+
+![Learning diagram showing unknown target distribution P(y|x) with target function h and noise, training examples, probability distribution P on X, and learning algorithm. The final hypothesis has f(x)=h(x). The joint probability is shown as P(x,y)=P(x)P(y|x) with distribution on features and target distribution.]
+
+[Y.S. Abu Mostafa, et. al]
+
 ## Topics
 
 - Linear regression
