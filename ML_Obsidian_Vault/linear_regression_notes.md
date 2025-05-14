@@ -135,6 +135,24 @@ We want to find the best regression function $f(\boldsymbol{x}^{(i)}; \boldsymbo
 Minimize $J(\boldsymbol{w})$
 - Find optimal $\hat{f}(\boldsymbol{x}) = f(\boldsymbol{x}; \hat{\boldsymbol{w}})$ where $\hat{\boldsymbol{w}} = \underset{\boldsymbol{w}}{\operatorname{argmin}}J(\boldsymbol{w})$
 
+## Minimizing the empirical squared loss
+
+The goal is to minimize the empirical squared loss:
+
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2$$
+
+Where our linear model is:
+
+$$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + \ldots w_d x_d$$
+
+And our parameter vector is:
+
+$$\boldsymbol{w} = [w_0, w_1, \ldots, w_d]^T$$
+
+We aim to find the optimal parameters:
+
+$$\hat{\boldsymbol{w}} = \underset{\boldsymbol{w} \in \mathbb{R}^{d+1}}{\operatorname{argmin}}J(\boldsymbol{w})$$
+
 ## Cost function: univariate example
 
 $f(x; w_0, w_1) = w_0 + w_1 x$
@@ -292,6 +310,29 @@ $$\boldsymbol{X}^T\boldsymbol{X}\boldsymbol{w} = \boldsymbol{X}^T\boldsymbol{y}$
 
 These are called the normal equations.
 
+## Cost function: matrix notation
+
+The cost function can be expressed in matrix notation:
+
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2 = $$
+
+$$= \sum_{i=1}^{n} (y^{(i)} - \boldsymbol{w}^T\boldsymbol{x}^{(i)})^2$$
+
+We can define the vectors and matrices:
+
+$$\boldsymbol{y} = \begin{bmatrix} y^{(1)} \\ \vdots \\ y^{(n)} \end{bmatrix}, 
+\boldsymbol{X} = \begin{bmatrix} 
+1 & x_1^{(1)} & \cdots & x_d^{(1)} \\
+1 & x_1^{(2)} & \cdots & x_d^{(2)} \\
+\vdots & \vdots & \ddots & \vdots \\
+1 & x_1^{(n)} & \cdots & x_d^{(n)}
+\end{bmatrix}, 
+\boldsymbol{w} = \begin{bmatrix} w_0 \\ w_1 \\ \vdots \\ w_d \end{bmatrix}$$
+
+This allows us to write the cost function as:
+
+$$J(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|^2$$
+
 ## Normal equations: solution
 
 Assuming $\boldsymbol{X}^T\boldsymbol{X}$ is invertible, the solution is:
@@ -310,6 +351,22 @@ If $\boldsymbol{X}^T\boldsymbol{X}$ is not invertible:
 - More features than training examples ($d > n$)
 
 Solutions: regularization, feature selection, etc.
+
+## Cost function and optimal linear model
+
+![Cost Function and Optimal Linear Model](Codes/plots/cost_function_3d_model.png)
+
+In this visualization, we see:
+- A 3D plot showing feature space ($x_1$ and $x_2$) and target values ($y$)
+- Training data points (circles)
+- The optimal linear model (blue plane) that minimizes the sum of squared errors
+- Red lines representing the residuals (prediction errors)
+
+The necessary conditions for the "optimal" parameter values:
+
+$$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = \boldsymbol{0}$$
+
+This gives us a system of $d + 1$ linear equations that we can solve to find the optimal parameters.
 
 ## Example: simple linear regression
 
@@ -510,6 +567,97 @@ $\boldsymbol{w} := \boldsymbol{w} + 2\alpha\boldsymbol{X}^T(\boldsymbol{y} - \bo
 
 ![Gradient Descent](Codes/plots/gradient_descent.png)
 ![Gradient Descent Fitting](Codes/plots/gradient_descent_fitting.png)
+
+## Review: Iterative optimization of cost function
+
+### Cost function: $J(\boldsymbol{w})$
+
+### Optimization problem: $\hat{\boldsymbol{w}} = \underset{\boldsymbol{w}}{\operatorname{argmin}} J(\boldsymbol{w})$
+
+### Steps:
+- Start from $\boldsymbol{w}^0$
+- Repeat:
+  - Update $\boldsymbol{w}^t$ to $\boldsymbol{w}^{t+1}$ in order to reduce $J$
+  - $t \leftarrow t + 1$
+- Until we hopefully end up at a minimum
+
+The key idea is to iteratively refine our parameter estimates in a way that consistently decreases the cost function, eventually leading to parameters that minimize it.
+
+## Review: Gradient descent
+
+### Minimize $J(\boldsymbol{w})$
+
+$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \eta\nabla_{\boldsymbol{w}}J(\boldsymbol{w}^t)$$
+
+Where $\eta$ is the step size (learning rate parameter) and the gradient is:
+
+$$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = \left[\frac{\partial J(\boldsymbol{w})}{\partial w_1}, \frac{\partial J(\boldsymbol{w})}{\partial w_2}, ..., \frac{\partial J(\boldsymbol{w})}{\partial w_d}\right]$$
+
+### If $\eta$ is small enough, then $J(\boldsymbol{w}^{t+1}) \leq J(\boldsymbol{w}^{t})$.
+
+### $\eta$ can be allowed to change at every iteration as $\eta_t$.
+
+### First-order optimization algorithm to find $\boldsymbol{w}^* = \underset{\boldsymbol{w}}{\operatorname{argmin}} J(\boldsymbol{w})$
+
+- Also known as "steepest descent"
+
+### In each step, takes steps proportional to the negative of the gradient vector of the function at the current point $\boldsymbol{w}^t$:
+
+$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \gamma_t \nabla J(\boldsymbol{w}^t)$$
+
+- $J(\boldsymbol{w})$ decreases fastest if one goes from $\boldsymbol{w}^t$ in the direction of $-\nabla J(\boldsymbol{w}^t)$
+- Assumption: $J(\boldsymbol{w})$ is defined and differentiable in a neighborhood of a point $\boldsymbol{w}^t$
+
+Gradient ascent takes steps proportional to (the positive of) the gradient to find a local maximum of the function.
+
+## Review: Gradient descent disadvantages
+
+### Local minima problem
+
+### However, when $J$ is convex, all local minima are also global minima ⇒ gradient descent can converge to the global solution.
+
+## Minimizing cost function
+
+### Optimal linear weight vector (for SSE cost function):
+
+$$J(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|^2$$
+
+Taking the gradient with respect to the parameters:
+
+$$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = -2\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$$
+
+Setting the gradient to zero to find the optimum:
+
+$$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = \boldsymbol{0} \Rightarrow \boldsymbol{X}^T\boldsymbol{X}\boldsymbol{w} = \boldsymbol{X}^T\boldsymbol{y}$$
+
+Solving for the optimal parameters:
+
+$$\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1} \boldsymbol{X}^T\boldsymbol{y}$$
+
+This can also be written using the pseudo-inverse notation:
+
+$$\boldsymbol{w} = \boldsymbol{X}^\dagger\boldsymbol{y}$$
+
+Where the pseudo-inverse is defined as:
+
+$$\boldsymbol{X}^\dagger = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$$
+
+The pseudo-inverse $\boldsymbol{X}^\dagger$ is a generalization of the inverse matrix and exists even when $\boldsymbol{X}$ is not square.
+
+## Another approach for optimizing the sum squared error
+
+The closed-form solution with the normal equations provides the exact optimum in one step. However, there are scenarios where an iterative approach may be preferred:
+
+### Iterative approach for solving the optimization problem:
+
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2$$
+
+Iterative methods are particularly useful when:
+- The dataset is very large, and computing the inverse is expensive
+- The dataset doesn't fit in memory, requiring incremental updates
+- The matrix $\boldsymbol{X}^T\boldsymbol{X}$ is ill-conditioned or singular
+
+The primary iterative approach used is gradient descent, which we'll explore in more detail.
 
 ## Cost function: 3D visualization
 
