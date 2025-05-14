@@ -1,7 +1,7 @@
 # Lecture 3.1: Linear Modeling Fundamentals Quiz
 
 ## Overview
-This quiz contains 8 questions covering different topics from section 3.1 of the lectures on Linear Model Theory, Matrix Properties, Gauss-Markov Theorem, and Statistical Properties.
+This quiz contains 10 questions covering different topics from section 3.1 of the lectures on Linear Model Theory, Matrix Properties, Gauss-Markov Theorem, and Statistical Properties.
 
 ## Question 1
 
@@ -102,4 +102,53 @@ Consider the bias-variance decomposition in the context of model complexity. You
 4. In which scenarios might you prefer a model with higher bias but lower variance?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Bias-Variance Trade-off](L3_1_8_explanation.md).
+
+## Question 9
+
+### Problem Statement
+Consider the following visualization from the lecture showing two model families applied to the same dataset:
+
+- Model Family A: A constant model $f(x) = b$ (horizontal line)
+- Model Family B: A linear model $f(x) = ax + b$ (sloped line)
+
+The true underlying function is a sine curve, and we have a limited number of training examples.
+
+#### Task
+1. [📚] If you have only 2 training examples, explain why the simpler constant model might generalize better despite having higher bias
+2. [📚] As the number of training examples increases, how would you expect the relative performance of the two model families to change? Explain your reasoning.
+3. [📚] Sketch how you would expect the training error and test error curves to behave as a function of the number of training examples for both model families
+4. [📚] How does regularization help address the bias-variance trade-off without changing the model family? Provide an example.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: Model Complexity and Sample Size](L3_1_9_explanation.md).
+
+## Question 10
+
+### Problem Statement
+Consider the bias-variance tradeoff in the context of model complexity. You are given two models:
+
+1. A constant model $\mathcal{H}_0: f(x) = b$ with bias = 0.50 and variance = 0.25
+2. A linear model $\mathcal{H}_1: f(x) = ax + b$ with bias = 0.21 and variance = 1.69
+
+Both models are being used to approximate a sine function with a limited training dataset.
+
+#### Task
+1. Calculate the total expected error (bias² + variance) for both models
+2. Which model would perform better in terms of overall error?
+3. If you were to apply regularization to the linear model, resulting in a model with bias = 0.23 and variance = 0.33, what would be the new total expected error?
+4. Explain why the regularized linear model performs better than both the unregularized constant and linear models, despite having slightly higher bias than the unregularized linear model
+
+For a detailed explanation of this problem, including step-by-step calculations and analysis of the bias-variance tradeoff, see [Question 10: Bias-Variance Tradeoff](L3_1_10_explanation.md).
+
+## Question 11
+
+### Problem Statement
+Consider the geometric interpretation of linear regression, where we project the target vector $\boldsymbol{y}$ onto the column space of the design matrix $\boldsymbol{X}$.
+
+#### Task
+1. [📚] Write down the formula for the projection matrix $\boldsymbol{P}$ in terms of the design matrix $\boldsymbol{X}$
+2. [📚] Prove that the projection matrix $\boldsymbol{P}$ is symmetric (i.e., $\boldsymbol{P}^T = \boldsymbol{P}$)
+3. [📚] Prove that the projection matrix $\boldsymbol{P}$ is idempotent (i.e., $\boldsymbol{P}^2 = \boldsymbol{P}$)
+4. [📚] If $\hat{\boldsymbol{y}} = \boldsymbol{P}\boldsymbol{y}$ is the projection of $\boldsymbol{y}$ onto the column space of $\boldsymbol{X}$, show that the residual vector $\boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
+
+For a detailed explanation of this problem, including step-by-step proofs and geometric intuition, see [Question 11: Projection Matrix Properties](L3_1_11_explanation.md).
 

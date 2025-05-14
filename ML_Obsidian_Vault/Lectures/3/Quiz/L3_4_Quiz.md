@@ -1,7 +1,7 @@
 # Lecture 3.4: Multiple Linear Regression Quiz
 
 ## Overview
-This quiz contains 17 questions covering different topics from section 3.4 of the lectures on Multiple Linear Regression. These questions test your understanding of extending linear regression to multiple variables, matrix formulations, feature engineering, categorical variables, and nonlinear relationships.
+This quiz contains 18 questions covering different topics from section 3.4 of the lectures on Multiple Linear Regression. These questions test your understanding of extending linear regression to multiple variables, matrix formulations, feature engineering, categorical variables, and nonlinear relationships.
 
 ## Question 1
 
@@ -339,7 +339,7 @@ Select the best answer for each of the following questions.
 #### Task
 For each question, select the single best answer from the given options:
 
-1. Which of the following is NOT a valid way to address multicollinearity in a regression model?
+1. [📚] Which of the following is NOT a valid way to address multicollinearity in a regression model?
    A. Remove one of the correlated variables
    B. Combine the correlated variables into a single feature
    C. Add more training examples
@@ -353,14 +353,14 @@ For each question, select the single best answer from the given options:
    D. 4
    E. 5
    
-3. What does the interaction term $x_1 \times x_2$ in a regression model capture?
+3. [📚] What does the interaction term $x_1 \times x_2$ in a regression model capture?
    A. The sum of the effects of $x_1$ and $x_2$
    B. How the effect of $x_1$ changes based on the value of $x_2$
    C. The average effect of $x_1$ and $x_2$
    D. The direct causal relationship between $x_1$ and $x_2$
    E. The correlation between $x_1$ and $x_2$
    
-4. Which of the following is a key advantage of polynomial regression over standard linear regression?
+4. [📚] Which of the following is a key advantage of polynomial regression over standard linear regression?
    A. Always produces models with lower test error
    B. Always requires fewer training examples
    C. Can capture nonlinear relationships in the data
@@ -374,7 +374,7 @@ For each question, select the single best answer from the given options:
    D. To ensure all features have equal importance
    E. To guarantee a closed-form solution exists
    
-6. As the degree of a polynomial regression model increases:
+6. [📚] As the degree of a polynomial regression model increases:
    A. Training error always decreases
    B. Test error always decreases
    C. The coefficients always become smaller
@@ -407,12 +407,30 @@ $$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 \phi_1(\boldsymbol{x}) + \ldots 
 Where $\{\phi_1(\boldsymbol{x}), \ldots, \phi_m(\boldsymbol{x})\}$ is a set of basis functions.
 
 #### Task
-1. Define what basis functions are and explain their role in extending linear regression to capture non-linear relationships
-2. For each of the following basis function types, write down their mathematical formulation and describe a scenario where they would be particularly useful:
+1. [📚] Define what basis functions are and explain their role in extending linear regression to capture non-linear relationships
+2. [📚] For each of the following basis function types, write down their mathematical formulation and describe a scenario where they would be particularly useful:
    a. Polynomial basis functions
    b. Gaussian radial basis functions
    c. Sigmoid basis functions
-3. If you have a dataset with input features $\boldsymbol{x} \in \mathbb{R}^2$ and want to fit a quadratic model, write down all the basis functions you would need
-4. Explain how the choice of basis functions affects the bias-variance tradeoff in your model
+3. [📚] If you have a dataset with input features $\boldsymbol{x} \in \mathbb{R}^2$ and want to fit a quadratic model, write down all the basis functions you would need
+4. [📚] Explain how the choice of basis functions affects the bias-variance tradeoff in your model
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Basis Functions in Generalized Linear Models](L3_4_17_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Basis Functions in Generalized Linear Models](L3_4_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+Consider a multiple linear regression problem with $n$ observations and $d$ features. We want to fit the model:
+
+$$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + w_2 x_2 + \cdots + w_d x_d$$
+
+using matrix operations.
+
+#### Task
+1. [📚] Write down the design matrix $\boldsymbol{X}$ and show how to incorporate the intercept term $w_0$ in this matrix
+2. [📚] Express the prediction of the model in matrix form using $\boldsymbol{X}$ and $\boldsymbol{w}$
+3. [📚] Write down the cost function (sum of squared errors) in matrix notation
+4. [📚] Derive the gradient of the cost function with respect to $\boldsymbol{w}$ in matrix form
+5. [📚] By setting the gradient to zero, derive the normal equations and the closed-form solution for the optimal weights $\boldsymbol{w}$
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Matrix Formulation of Multiple Linear Regression](L3_4_18_explanation.md). 

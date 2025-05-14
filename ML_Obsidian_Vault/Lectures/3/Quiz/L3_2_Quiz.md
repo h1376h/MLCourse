@@ -1,7 +1,7 @@
 # Lecture 3.2: Simple Linear Regression Quiz
 
 ## Overview
-This quiz contains 31 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
+This quiz contains 32 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
 
 ## Question 1
 
@@ -534,9 +534,38 @@ For a detailed explanation of this problem, including model complexity considera
 Consider the geometric interpretation of least squares in linear regression, where $\hat{\mathbf{y}} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y} = \mathbf{P}\mathbf{y}$.
 
 #### Task
-1. Explain what the projection matrix $\mathbf{P} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ represents geometrically
-2. If we define the residual vector as $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$, prove that $\mathbf{e}$ is orthogonal to the column space of $\mathbf{X}$
-3. List two key properties of the projection matrix $\mathbf{P}$ and explain their significance
-4. Draw a simple diagram showing the geometric relationship between $\mathbf{y}$, $\hat{\mathbf{y}}$, and $\mathbf{e}$ in a 2D case
+1. [📚] Explain what the projection matrix $\mathbf{P} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ represents geometrically
+2. [📚] If we define the residual vector as $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$, prove that $\mathbf{e}$ is orthogonal to the column space of $\mathbf{X}$
+3. [📚] List two key properties of the projection matrix $\mathbf{P}$ and explain their significance
+4. [📚] Draw a simple diagram showing the geometric relationship between $\mathbf{y}$, $\hat{\mathbf{y}}$, and $\mathbf{e}$ in a 2D case
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 31: Geometric Interpretation of Least Squares](L3_2_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
+Consider the geometric interpretation of linear regression in an n-dimensional space, where n is the number of observations.
+
+#### Task
+1. [📚] In linear regression, the column space of the design matrix $\mathbf{X}$ forms a subspace in $\mathbb{R}^n$. Explain what this subspace represents geometrically.
+2. [📚] Explain why the least squares solution can be described as finding the point in this subspace that is closest to the response vector $\mathbf{y}$.
+3. [📚] Why is the residual vector $\mathbf{e} = \mathbf{y} - \mathbf{X}\mathbf{\hat{w}}$ orthogonal to every column of $\mathbf{X}$? Prove this mathematically.
+4. [📚] How does this geometric perspective help us understand the concept of "fitting" a linear model to data?
+5. [📚] If we were to add another feature to our model (an additional column to $\mathbf{X}$), how would this change the subspace and potentially improve the fit? Explain geometrically.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 32: Geometric Interpretation in n-Dimensions](L3_2_32_explanation.md).
+
+## Question 33
+
+### Problem Statement
+Consider a simple linear regression problem where we want to minimize the sum of squared errors (SSE) cost function:
+
+$$J(w_0, w_1) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
+
+#### Task
+1. [📚] Take the partial derivative of the cost function with respect to $w_0$
+2. [📚] Take the partial derivative with respect to $w_1$ 
+3. [📚] Set both derivatives equal to zero and solve for $w_0$ and $w_1$ to derive the normal equations
+4. [📚] Show that the intercept parameter $w_0$ ensures that the regression line passes through the point $(\bar{x}, \bar{y})$, where $\bar{x}$ and $\bar{y}$ are the means of the features and target values, respectively
+
+For a detailed explanation of this problem, including step-by-step derivation of the normal equations, see [Question 33: Deriving Normal Equations](L3_2_33_explanation.md).

@@ -1,7 +1,7 @@
 # Lecture 3.7: Regularization in Linear Models Quiz
 
 ## Overview
-This quiz contains 21 questions covering different topics from section 3.7 of the lectures on Regularization in Linear Models, including bias-variance tradeoff, ridge regression, lasso regression, elastic net, and methods for selecting regularization parameters.
+This quiz contains 22 questions covering different topics from section 3.7 of the lectures on Regularization in Linear Models, including bias-variance tradeoff, ridge regression, lasso regression, elastic net, and methods for selecting regularization parameters.
 
 ## Question 1
 
@@ -322,11 +322,11 @@ Short Answer Questions on Regularization Methods.
 #### Task
 Provide brief answers (1-3 sentences) to each of the following questions:
 
-1. Why might you choose Elastic Net over pure Lasso or Ridge regression?
-2. How does early stopping in gradient descent function as a form of regularization?
-3. What is the relationship between the regularization parameter and the variance of the prior distribution in the Bayesian interpretation?
-4. Why does L1 regularization (Lasso) tend to produce sparse coefficients while L2 regularization (Ridge) does not?
-5. How would you use cross-validation to select the optimal regularization parameter?
+1. [📚] Why might you choose Elastic Net over pure Lasso or Ridge regression?
+2. [📚] How does early stopping in gradient descent function as a form of regularization?
+3. [📚] What is the relationship between the regularization parameter and the variance of the prior distribution in the Bayesian interpretation?
+4. [📚] Why does L1 regularization (Lasso) tend to produce sparse coefficients while L2 regularization (Ridge) does not?
+5. [📚] How would you use cross-validation to select the optimal regularization parameter?
 
 For detailed answers to these questions, see [Question 20: Short Answer Questions](L3_7_20_explanation.md).
 
@@ -340,10 +340,26 @@ Consider a linear regression problem where you suspect many features might be ir
 3. Elastic Net: $J_{\text{elastic}}(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda_1\|\boldsymbol{w}\|_1 + \lambda_2\|\boldsymbol{w}\|_2^2$
 
 #### Task
-1. Compare and contrast how these three regularization methods would handle irrelevant features
-2. Explain which method would be most effective for dealing with the highly correlated features and why
-3. For a dataset with 1000 features where only about 100 are relevant, which method would likely produce the most interpretable model?
-4. Draw a simple 2D diagram showing the constraint regions imposed by L1 and L2 regularization, and explain geometrically why L1 regularization promotes sparsity
-5. If computational efficiency is a concern, which method might present the most challenges and why?
+1. [📚] Compare and contrast how these three regularization methods would handle irrelevant features
+2. [📚] Explain which method would be most effective for dealing with the highly correlated features and why
+3. [📚] For a dataset with 1000 features where only about 100 are relevant, which method would likely produce the most interpretable model?
+4. [📚] Draw a simple 2D diagram showing the constraint regions imposed by L1 and L2 regularization, and explain geometrically why L1 regularization promotes sparsity
+5. [📚] If computational efficiency is a concern, which method might present the most challenges and why?
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 21: Comparing Regularization Methods](L3_7_21_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 21: Comparing Regularization Methods](L3_7_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+In ridge regression, we modify the standard linear regression cost function by adding a penalty term proportional to the squared norm of the weights. Consider the ridge regression cost function:
+
+$$J_{\text{ridge}}(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda\|\boldsymbol{w}\|_2^2$$
+
+#### Task
+1. [📚] Write down the closed-form solution for the ridge regression parameters $\boldsymbol{w}_{\text{ridge}}$
+2. [📚] Explain why the matrix $(\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I})$ is always invertible, even when $\boldsymbol{X}^T\boldsymbol{X}$ is not
+3. [📚] For a dataset with highly correlated features, describe mathematically how ridge regression helps address the multicollinearity problem
+4. [📚] As $\lambda \rightarrow \infty$, what happens to the ridge regression parameters $\boldsymbol{w}_{\text{ridge}}$? Provide a mathematical explanation for this behavior
+5. [📚] In terms of eigenvalues and eigenvectors of $\boldsymbol{X}^T\boldsymbol{X}$, explain why ridge regression has a stronger effect on directions with smaller eigenvalues
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 22: Ridge Regression Mathematics](L3_7_22_explanation.md). 
