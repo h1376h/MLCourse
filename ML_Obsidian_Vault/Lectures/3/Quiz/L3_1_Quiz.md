@@ -1,7 +1,7 @@
 # Lecture 3.1: Linear Modeling Fundamentals Quiz
 
 ## Overview
-This quiz contains 7 questions covering different topics from section 3.1 of the lectures on Linear Model Theory, Matrix Properties, Gauss-Markov Theorem, and Statistical Properties.
+This quiz contains 8 questions covering different topics from section 3.1 of the lectures on Linear Model Theory, Matrix Properties, Gauss-Markov Theorem, and Statistical Properties.
 
 ## Question 1
 
@@ -86,4 +86,20 @@ Linear algebra concepts form the foundation of linear models. In this problem, y
 3. [📚] How can we geometrically interpret the projection of vector $\mathbf{y}$ onto the column space of $\mathbf{X}$ in a linear regression context?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 7: Vector Spaces in Regression](L3_1_7_explanation.md).
+
+## Question 8
+
+### Problem Statement
+Consider the bias-variance decomposition in the context of model complexity. You have two models:
+
+- Model A: A simple model with bias = 0.50 and variance = 0.25
+- Model B: A more complex model with bias = 0.21 and variance = 1.69
+
+#### Task
+1. Calculate the total expected error (bias² + variance) for both models
+2. Which model would you select based on total expected error?
+3. Explain the bias-variance trade-off and why increasing model complexity can lead to higher variance
+4. In which scenarios might you prefer a model with higher bias but lower variance?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Bias-Variance Trade-off](L3_1_8_explanation.md).
 

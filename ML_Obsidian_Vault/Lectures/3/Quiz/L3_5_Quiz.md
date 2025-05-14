@@ -1,7 +1,7 @@
 # Lecture 3.5: Optimization Techniques for Linear Regression Quiz
 
 ## Overview
-This quiz contains 18 questions from different topics covered in section 3.5 of the lectures on Optimization Techniques for Linear Regression.
+This quiz contains 19 questions from different topics covered in section 3.5 of the lectures on Optimization Techniques for Linear Regression.
 
 ## Question 1
 
@@ -350,4 +350,23 @@ In this problem:
 3. Calculate the gradient using only the first training example
 4. Update the parameter using stochastic gradient descent with the first example
 
-For detailed explanations and solutions, see [Question 18: Numerical Calculation](L3_5_18_explanation.md). 
+For detailed explanations and solutions, see [Question 18: Numerical Calculation](L3_5_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+You need to decide whether to use the normal equations or gradient descent for a linear regression problem with the following characteristics:
+
+- The training set has $n = 10,000$ examples
+- You have $d = 1,000$ features after one-hot encoding categorical variables
+- The matrix $\boldsymbol{X}^T\boldsymbol{X}$ is non-singular
+- Your computational resources are limited
+
+#### Task
+1. Write down the closed-form solution for linear regression using normal equations
+2. Write down the update rule for batch gradient descent in linear regression
+3. Compare the computational complexity of both methods in terms of $n$ and $d$
+4. Based on the given problem characteristics, which method would you recommend and why?
+5. How would your recommendation change if $n = 10$ million and $d = 100$?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: Normal Equations vs. Gradient Descent Tradeoffs](L3_5_19_explanation.md). 

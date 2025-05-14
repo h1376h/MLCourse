@@ -1,7 +1,7 @@
 # Lecture 3.4: Multiple Linear Regression Quiz
 
 ## Overview
-This quiz contains 16 questions covering different topics from section 3.4 of the lectures on Multiple Linear Regression. These questions test your understanding of extending linear regression to multiple variables, matrix formulations, feature engineering, categorical variables, and nonlinear relationships.
+This quiz contains 17 questions covering different topics from section 3.4 of the lectures on Multiple Linear Regression. These questions test your understanding of extending linear regression to multiple variables, matrix formulations, feature engineering, categorical variables, and nonlinear relationships.
 
 ## Question 1
 
@@ -395,4 +395,24 @@ For each question, select the single best answer from the given options:
    D. Using polynomial features eliminates the curse of dimensionality
    E. The curse of dimensionality refers to the difficulty of visualizing high-dimensional data
 
-For a detailed explanation of these multiple-choice questions, see [Question 16: Multiple Choice on Multiple Regression](L3_4_16_explanation.md). 
+For a detailed explanation of these multiple-choice questions, see [Question 16: Multiple Choice on Multiple Regression](L3_4_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+Consider the generalized linear model approach where we use basis functions to transform the input data:
+
+$$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 \phi_1(\boldsymbol{x}) + \ldots w_m \phi_m(\boldsymbol{x})$$
+
+Where $\{\phi_1(\boldsymbol{x}), \ldots, \phi_m(\boldsymbol{x})\}$ is a set of basis functions.
+
+#### Task
+1. Define what basis functions are and explain their role in extending linear regression to capture non-linear relationships
+2. For each of the following basis function types, write down their mathematical formulation and describe a scenario where they would be particularly useful:
+   a. Polynomial basis functions
+   b. Gaussian radial basis functions
+   c. Sigmoid basis functions
+3. If you have a dataset with input features $\boldsymbol{x} \in \mathbb{R}^2$ and want to fit a quadratic model, write down all the basis functions you would need
+4. Explain how the choice of basis functions affects the bias-variance tradeoff in your model
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Basis Functions in Generalized Linear Models](L3_4_17_explanation.md). 

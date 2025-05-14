@@ -1,7 +1,7 @@
 # Lecture 3.2: Simple Linear Regression Quiz
 
 ## Overview
-This quiz contains 30 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
+This quiz contains 31 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
 
 ## Question 1
 
@@ -527,3 +527,16 @@ Your friend claims that if they have 10 data points, they need at least a 9th-de
 4. Why is perfectly fitting training data usually not desirable in machine learning?
 
 For a detailed explanation of this problem, including model complexity considerations, see [Question 30: Model Complexity and Overfitting](L3_2_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+Consider the geometric interpretation of least squares in linear regression, where $\hat{\mathbf{y}} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y} = \mathbf{P}\mathbf{y}$.
+
+#### Task
+1. Explain what the projection matrix $\mathbf{P} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ represents geometrically
+2. If we define the residual vector as $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$, prove that $\mathbf{e}$ is orthogonal to the column space of $\mathbf{X}$
+3. List two key properties of the projection matrix $\mathbf{P}$ and explain their significance
+4. Draw a simple diagram showing the geometric relationship between $\mathbf{y}$, $\hat{\mathbf{y}}$, and $\mathbf{e}$ in a 2D case
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 31: Geometric Interpretation of Least Squares](L3_2_31_explanation.md).

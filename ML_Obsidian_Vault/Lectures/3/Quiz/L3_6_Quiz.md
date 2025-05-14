@@ -1,7 +1,7 @@
 # Lecture 3.6: Model Evaluation and Validation Quiz
 
 ## Overview
-This quiz contains 18 questions covering different topics from section 3.6 of the lectures on Model Evaluation and Validation in linear regression.
+This quiz contains 19 questions covering different topics from section 3.6 of the lectures on Model Evaluation and Validation in linear regression.
 
 ## Question 1
 
@@ -335,4 +335,19 @@ You are building a linear regression model to predict house prices. After traini
 3. Which evaluation technique would be most appropriate to assess if your strategies have improved the model? Explain your choice.
 4. If you had to choose between collecting more training data or adding more features to your model in this scenario, which would you recommend? Justify your answer.
 
-For a detailed explanation of this scenario-based question, see [Question 18: Regression Model Diagnostics](L3_6_18_explanation.md). 
+For a detailed explanation of this scenario-based question, see [Question 18: Regression Model Diagnostics](L3_6_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Consider how expected training error and expected test error behave as a function of the number of training examples for models of different complexity.
+
+#### Task
+1. Sketch by hand the expected training error curve and expected test error curve as functions of the number of training examples $N$ for:
+   a. A simple model with high bias
+   b. A complex model with high variance
+2. Explain why the training error curve and test error curve converge as $N$ increases, and identify what value they converge to
+3. Why does the training error typically increase with more training samples while the test error decreases?
+4. Which model (simple or complex) requires more training data to achieve good generalization, and why?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: Error Curves and Sample Size](L3_6_19_explanation.md). 

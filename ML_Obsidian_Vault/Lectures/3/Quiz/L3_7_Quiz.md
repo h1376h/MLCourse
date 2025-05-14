@@ -1,7 +1,7 @@
 # Lecture 3.7: Regularization in Linear Models Quiz
 
 ## Overview
-This quiz contains 20 questions covering different topics from section 3.7 of the lectures on Regularization in Linear Models, including bias-variance tradeoff, ridge regression, lasso regression, elastic net, and methods for selecting regularization parameters.
+This quiz contains 21 questions covering different topics from section 3.7 of the lectures on Regularization in Linear Models, including bias-variance tradeoff, ridge regression, lasso regression, elastic net, and methods for selecting regularization parameters.
 
 ## Question 1
 
@@ -328,4 +328,22 @@ Provide brief answers (1-3 sentences) to each of the following questions:
 4. Why does L1 regularization (Lasso) tend to produce sparse coefficients while L2 regularization (Ridge) does not?
 5. How would you use cross-validation to select the optimal regularization parameter?
 
-For detailed answers to these questions, see [Question 20: Short Answer Questions](L3_7_20_explanation.md). 
+For detailed answers to these questions, see [Question 20: Short Answer Questions](L3_7_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+Consider a linear regression problem where you suspect many features might be irrelevant, and some of the relevant features are highly correlated with each other. You're deciding between three regularization approaches:
+
+1. Ridge Regression: $J_{\text{ridge}}(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda\|\boldsymbol{w}\|_2^2$
+2. Lasso Regression: $J_{\text{lasso}}(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda\|\boldsymbol{w}\|_1$
+3. Elastic Net: $J_{\text{elastic}}(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda_1\|\boldsymbol{w}\|_1 + \lambda_2\|\boldsymbol{w}\|_2^2$
+
+#### Task
+1. Compare and contrast how these three regularization methods would handle irrelevant features
+2. Explain which method would be most effective for dealing with the highly correlated features and why
+3. For a dataset with 1000 features where only about 100 are relevant, which method would likely produce the most interpretable model?
+4. Draw a simple 2D diagram showing the constraint regions imposed by L1 and L2 regularization, and explain geometrically why L1 regularization promotes sparsity
+5. If computational efficiency is a concern, which method might present the most challenges and why?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 21: Comparing Regularization Methods](L3_7_21_explanation.md). 

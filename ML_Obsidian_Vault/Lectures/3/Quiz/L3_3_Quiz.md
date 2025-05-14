@@ -1,7 +1,7 @@
 # Lecture 3.3: Probabilistic View of Linear Regression Quiz
 
 ## Overview
-This quiz contains 10 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
+This quiz contains 11 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
 
 ## Question 1
 
@@ -161,4 +161,23 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 3. If we use maximum likelihood estimation, increasing the noise variance $\sigma^2$ will always increase the log-likelihood.
 4. The log-likelihood function for linear regression with Gaussian noise is always concave with respect to the parameters $\boldsymbol{w}$.
 
-For a detailed explanation of this problem, including proofs for each statement, see [Question 10: Log-Likelihood Optimization Properties](L3_3_10_explanation.md). 
+For a detailed explanation of this problem, including proofs for each statement, see [Question 10: Log-Likelihood Optimization Properties](L3_3_10_explanation.md).
+
+## Question 11
+
+### Problem Statement
+Consider the error decomposition in linear regression. Given:
+
+- $\boldsymbol{w}^*$ is the optimal parameter vector with infinite training data
+- $\hat{\boldsymbol{w}}$ is the parameter vector estimated from a finite training set
+- $\boldsymbol{y}$ is the vector of true target values
+- $\boldsymbol{x}$ is the feature vector
+
+#### Task
+1. Write down the mathematical expression for the structural error in linear regression
+2. Write down the mathematical expression for the approximation error in linear regression
+3. Prove that the expected error can be decomposed into the sum of structural and approximation errors:
+   $$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\boldsymbol{x},y}[(y - \boldsymbol{w}^{*T} \boldsymbol{x})^2] + E_{\boldsymbol{x}}[(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2]$$
+4. Explain the practical significance of this error decomposition for model selection
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Error Decomposition in Linear Regression](L3_3_11_explanation.md). 
