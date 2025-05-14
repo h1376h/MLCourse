@@ -1,7 +1,7 @@
 # Lecture 3.2: Simple Linear Regression Quiz
 
 ## Overview
-This quiz contains 30 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
+This quiz contains 36 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
 
 ## Question 1
 
@@ -22,7 +22,14 @@ Consider a simple linear regression model for predicting house prices based on h
 3. Calculate the prediction for a house with 1800 square feet
 4. Calculate the residuals for each data point and the residual sum of squares (RSS)
 
-For a detailed explanation of this problem, including step-by-step calculations and interpretations, see [Question 1: Simple Linear Regression for House Prices](L3_2_1_explanation.md).
+#### Solution Approaches
+This problem can be tackled using multiple approaches:
+
+For a detailed explanation using the standard formula approach with covariance and variance calculations, see [Question 1: Simple Linear Regression for House Prices](L3_2_1_explanation.md).
+
+For an alternative approach using matrix algebra and the normal equations, see [Alternative Solution: Matrix-Based Approach](L3_2_1_explanation_alternative.md).
+
+Both approaches yield the same final result, but the matrix-based method provides a foundation for understanding more complex regression models with multiple predictors.
 
 ## Question 2
 
@@ -527,3 +534,110 @@ Your friend claims that if they have 10 data points, they need at least a 9th-de
 4. Why is perfectly fitting training data usually not desirable in machine learning?
 
 For a detailed explanation of this problem, including model complexity considerations, see [Question 30: Model Complexity and Overfitting](L3_2_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+Consider the geometric interpretation of least squares in linear regression, where $\hat{\mathbf{y}} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y} = \mathbf{P}\mathbf{y}$.
+
+#### Task
+1. [📚] Explain what the projection matrix $\mathbf{P} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ represents geometrically
+2. [📚] If we define the residual vector as $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$, prove that $\mathbf{e}$ is orthogonal to the column space of $\mathbf{X}$
+3. [📚] List two key properties of the projection matrix $\mathbf{P}$ and explain their significance
+4. [📚] Draw a simple diagram showing the geometric relationship between $\mathbf{y}$, $\hat{\mathbf{y}}$, and $\mathbf{e}$ in a 2D case
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 31: Geometric Interpretation of Least Squares](L3_2_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
+Consider the geometric interpretation of linear regression in an n-dimensional space, where n is the number of observations.
+
+#### Task
+1. [📚] In linear regression, the column space of the design matrix $\mathbf{X}$ forms a subspace in $\mathbb{R}^n$. Explain what this subspace represents geometrically.
+2. [📚] Explain why the least squares solution can be described as finding the point in this subspace that is closest to the response vector $\mathbf{y}$.
+3. [📚] Why is the residual vector $\mathbf{e} = \mathbf{y} - \mathbf{X}\mathbf{\hat{w}}$ orthogonal to every column of $\mathbf{X}$? Prove this mathematically.
+4. [📚] How does this geometric perspective help us understand the concept of "fitting" a linear model to data?
+5. [📚] If we were to add another feature to our model (an additional column to $\mathbf{X}$), how would this change the subspace and potentially improve the fit? Explain geometrically.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 32: Geometric Interpretation in n-Dimensions](L3_2_32_explanation.md).
+
+## Question 33
+
+### Problem Statement
+Consider a simple linear regression problem where we want to minimize the sum of squared errors (SSE) cost function:
+
+$$J(w_0, w_1) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
+
+#### Task
+1. [📚] Take the partial derivative of the cost function with respect to $w_0$
+2. [📚] Take the partial derivative with respect to $w_1$ 
+3. [📚] Set both derivatives equal to zero and solve for $w_0$ and $w_1$ to derive the normal equations
+4. [📚] Show that the intercept parameter $w_0$ ensures that the regression line passes through the point $(\bar{x}, \bar{y})$, where $\bar{x}$ and $\bar{y}$ are the means of the features and target values, respectively
+
+For a detailed explanation of this problem, including step-by-step derivation of the normal equations, see [Question 33: Deriving Normal Equations](L3_2_33_explanation.md).
+
+## Question 34
+
+### Problem Statement
+In linear regression, the projection matrix $\boldsymbol{P} = \boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$ plays a crucial role in understanding the geometric interpretation of the model.
+
+#### Task
+1. [📚] Prove that the projection matrix $\boldsymbol{P}$ is both symmetric and idempotent
+2. [📚] For a simple dataset with $n = 3$ observations and $d = 1$ feature (plus intercept), calculate the projection matrix $\boldsymbol{P}$ given:
+
+   $$\boldsymbol{X} = \begin{bmatrix} 
+   1 & 1 \\
+   1 & 2 \\
+   1 & 3
+   \end{bmatrix}$$
+
+3. [📚] If the response vector is $\boldsymbol{y} = [2, 3, 5]^T$, calculate the projected vector $\hat{\boldsymbol{y}} = \boldsymbol{P}\boldsymbol{y}$
+4. [📚] Explain geometrically what it means when we say the residual vector $\boldsymbol{e} = \boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
+
+For a detailed explanation of this problem, including step-by-step solutions and geometric interpretations, see [Question 34: Projection Matrix in Linear Regression](L3_2_34_explanation.md).
+
+## Question 35
+
+### Problem Statement
+A marketing analyst wants to understand the relationship between a company's advertising budget (in thousands of dollars) and its monthly sales (in units). The following data was collected over 6 months:
+
+| Month | Advertising Budget (x) in $1000s | Monthly Sales (y) in units |
+|-------|----------------------------------|----------------------------|
+| 1     | 5                                | 120                        |
+| 2     | 8                                | 170                        |
+| 3     | 12                               | 220                        |
+| 4     | 15                               | 250                        |
+| 5     | 20                               | 300                        |
+| 6     | 25                               | 350                        |
+
+#### Task
+1. Calculate the least squares estimates for the slope ($\beta_1$) and intercept ($\beta_0$) of the linear regression model
+2. Interpret the meaning of the slope coefficient in the context of this problem
+3. For each additional $1000 spent on advertising, how many additional units can the company expect to sell?
+4. If the company plans to spend $18,000 on advertising next month, what would be the predicted number of sales units?
+5. Calculate the coefficient of determination ($R^2$) and explain what proportion of the variation in sales can be attributed to the advertising budget
+
+For a detailed explanation of this problem, including regression analysis and business interpretation, see [Question 35: Advertising Budget and Sales Analysis](L3_2_35_explanation.md).
+
+## Question 36
+
+### Problem Statement
+Given the following data:
+
+| Subject | Age ($x$) | Glucose level ($y$) | $xy$ | $x^2$ | $y^2$ |
+|---------|---------|-------------------|-----|-----|-----|
+| 1 | 43 | 99 | 4257 | 1849 | 9801 |
+| 2 | 21 | 65 | 1365 | 441 | 4225 |
+| 3 | 25 | 79 | 1975 | 625 | 6241 |
+| 4 | 42 | 75 | 3150 | 1764 | 5625 |
+| 5 | 57 | 87 | 4959 | 3249 | 7569 |
+| 6 | 59 | 81 | 4779 | 3481 | 6561 |
+| Σ | 247 | 486 | 20485 | 11409 | 40022 |
+
+#### Task
+1. [📚] Find the corresponding linear regression equation, and $R^2$. 
+2. [📚] What is your prediction for age 35, and 78?
+3. [📚] Are they appropriate predictions?
+
+For a detailed explanation of this problem, including regression analysis and prediction evaluation, see [Question 36: Age and Glucose Level Prediction](L3_2_36_explanation.md).

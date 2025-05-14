@@ -1,7 +1,7 @@
 # Lecture 3.6: Model Evaluation and Validation Quiz
 
 ## Overview
-This quiz contains 18 questions covering different topics from section 3.6 of the lectures on Model Evaluation and Validation in linear regression.
+This quiz contains 21 questions covering different topics from section 3.6 of the lectures on Model Evaluation and Validation in linear regression.
 
 ## Question 1
 
@@ -330,9 +330,57 @@ You are building a linear regression model to predict house prices. After traini
 - The learning curve shows that validation error initially decreases with more training data but then plateaus
 
 #### Task
-1. What problem(s) is your model likely facing? Be specific.
-2. Describe TWO specific strategies you could use to address the identified problems.
-3. Which evaluation technique would be most appropriate to assess if your strategies have improved the model? Explain your choice.
-4. If you had to choose between collecting more training data or adding more features to your model in this scenario, which would you recommend? Justify your answer.
+1. [📚] What problem(s) is your model likely facing? Be specific.
+2. [📚] Describe TWO specific strategies you could use to address the identified problems.
+3. [📚] Which evaluation technique would be most appropriate to assess if your strategies have improved the model? Explain your choice.
+4. [📚] If you had to choose between collecting more training data or adding more features to your model in this scenario, which would you recommend? Justify your answer.
 
-For a detailed explanation of this scenario-based question, see [Question 18: Regression Model Diagnostics](L3_6_18_explanation.md). 
+For a detailed explanation of this scenario-based question, see [Question 18: Regression Model Diagnostics](L3_6_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Consider how expected training error and expected test error behave as a function of the number of training examples for models of different complexity.
+
+#### Task
+1. [📚] Sketch by hand the expected training error curve and expected test error curve as functions of the number of training examples $N$ for:
+   a. A simple model with high bias
+   b. A complex model with high variance
+2. [📚] Explain why the training error curve and test error curve converge as $N$ increases, and identify what value they converge to
+3. [📚] Why does the training error typically increase with more training samples while the test error decreases?
+4. [📚] Which model (simple or complex) requires more training data to achieve good generalization, and why?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: Error Curves and Sample Size](L3_6_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+In linear regression, we can decompose the error into different components to better understand model performance.
+
+#### Task
+1. [📚] Define the structural error and approximation error in linear regression, and explain what each represents
+2. [📚] Write down the mathematical expressions for both types of errors in terms of the optimal parameters $\boldsymbol{w}^*$ (with infinite data) and the estimated parameters $\hat{\boldsymbol{w}}$ (with finite data)
+3. [📚] Prove that the expected error can be decomposed as:
+   $$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\boldsymbol{x},y}[(y - \boldsymbol{w}^{*T} \boldsymbol{x})^2] + E_{\boldsymbol{x}}[(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2]$$
+4. [📚] Explain how increasing the number of training examples affects each error component
+5. [📚] Describe how model complexity (e.g., polynomial degree) affects each error component
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 20: Error Decomposition in Linear Regression](L3_6_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+Learning curves provide important insights into model performance as a function of the number of training examples.
+
+#### Task
+1. [📚] Sketch (or describe) the typical shapes of learning curves (training error and test error vs. number of training examples) for:
+   a) A simple model with high bias (underfitting)
+   b) A complex model with high variance (overfitting)
+2. [📚] Mathematically explain why the training error typically increases and the test error typically decreases as the number of training examples grows
+3. [📚] Consider a linear model ($f(x) = w_0 + w_1x$) and a 10th-degree polynomial model. Which model is likely to:
+   a) Have a larger gap between training and test error with few training examples?
+   b) Have training and test errors converge with fewer training examples?
+   c) Potentially achieve lower asymptotic error with abundant training data?
+4. [📚] Based on learning curves, explain how you would diagnose whether your model has high bias, high variance, or both
+
+For a detailed explanation of this problem, including step-by-step analysis and key insights, see [Question 21: Learning Curves Analysis](L3_6_21_explanation.md). 

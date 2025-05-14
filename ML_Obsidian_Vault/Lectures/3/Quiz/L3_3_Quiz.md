@@ -1,7 +1,7 @@
 # Lecture 3.3: Probabilistic View of Linear Regression Quiz
 
 ## Overview
-This quiz contains 10 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
+This quiz contains 13 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
 
 ## Question 1
 
@@ -161,4 +161,60 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 3. If we use maximum likelihood estimation, increasing the noise variance $\sigma^2$ will always increase the log-likelihood.
 4. The log-likelihood function for linear regression with Gaussian noise is always concave with respect to the parameters $\boldsymbol{w}$.
 
-For a detailed explanation of this problem, including proofs for each statement, see [Question 10: Log-Likelihood Optimization Properties](L3_3_10_explanation.md). 
+For a detailed explanation of this problem, including proofs for each statement, see [Question 10: Log-Likelihood Optimization Properties](L3_3_10_explanation.md).
+
+## Question 11
+
+### Problem Statement
+Consider the error decomposition in linear regression. Given:
+
+- $\boldsymbol{w}^*$ is the optimal parameter vector with infinite training data
+- $\hat{\boldsymbol{w}}$ is the parameter vector estimated from a finite training set
+- $\boldsymbol{y}$ is the vector of true target values
+- $\boldsymbol{x}$ is the feature vector
+
+#### Task
+1. [📚] Write down the mathematical expression for the structural error in linear regression
+2. [📚] Write down the mathematical expression for the approximation error in linear regression
+3. [📚] Prove that the expected error can be decomposed into the sum of structural and approximation errors:
+   $$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\boldsymbol{x},y}[(y - \boldsymbol{w}^{*T} \boldsymbol{x})^2] + E_{\boldsymbol{x}}[(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2]$$
+4. [📚] Explain the practical significance of this error decomposition for model selection
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Error Decomposition in Linear Regression](L3_3_11_explanation.md).
+
+## Question 12
+
+### Problem Statement
+In linear regression, the total error can be decomposed into different components. Consider a scenario where we have:
+
+- A true underlying function generating the data: $y = f(\boldsymbol{x}) + \epsilon$ where $\epsilon$ is random noise
+- A linear model family: $\hat{y} = \boldsymbol{w}^T \boldsymbol{x}$
+- The optimal linear parameter vector $\boldsymbol{w}^*$ (with infinite data)
+- An estimated parameter vector $\hat{\boldsymbol{w}}$ from a finite training set
+
+#### Task
+1. [📚] Define structural error and explain what it represents conceptually in the context of linear regression
+2. [📚] Define approximation error and explain why it depends on the specific training dataset used
+3. [📚] For a dataset where the true underlying function is non-linear (e.g., $f(\boldsymbol{x}) = \sin(\boldsymbol{x})$), explain why the structural error cannot be eliminated even with infinite training data
+4. [📚] How does increasing the number of training examples affect structural error and approximation error? Explain with mathematical reasoning.
+5. [📚] Draw a diagram illustrating how the mean squared error (MSE) decomposes into structural error and approximation error, and how these relate to bias and variance
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: Understanding Error Components](L3_3_12_explanation.md).
+
+## Question 13
+
+### Problem Statement
+Consider a linear regression model from a probabilistic perspective:
+
+$$y = \boldsymbol{w}^T \boldsymbol{x} + \epsilon$$
+
+where $\epsilon \sim \mathcal{N}(0, \sigma^2)$ is Gaussian noise with zero mean and variance $\sigma^2$.
+
+#### Task
+1. [📚] Write down the probability density function for observing a target value $y^{(i)}$ given input $\boldsymbol{x}^{(i)}$ and parameters $\boldsymbol{w}$ and $\sigma^2$
+2. [📚] Construct the likelihood function for a dataset with $n$ observations
+3. [📚] Derive the log-likelihood function and simplify it
+4. [📚] Show mathematically that maximizing the log-likelihood is equivalent to minimizing the sum of squared errors
+5. [📚] Derive the maximum likelihood estimator for the noise variance $\sigma^2$ after finding the optimal parameters $\boldsymbol{w}$
+
+For a detailed explanation of this problem, including step-by-step derivations and key insights, see [Question 13: Maximum Likelihood in Linear Regression](L3_3_13_explanation.md). 

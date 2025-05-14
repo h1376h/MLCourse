@@ -1,7 +1,7 @@
 # Lecture 3.5: Optimization Techniques for Linear Regression Quiz
 
 ## Overview
-This quiz contains 18 questions from different topics covered in section 3.5 of the lectures on Optimization Techniques for Linear Regression.
+This quiz contains 22 questions from different topics covered in section 3.5 of the lectures on Optimization Techniques for Linear Regression.
 
 ## Question 1
 
@@ -350,4 +350,71 @@ In this problem:
 3. Calculate the gradient using only the first training example
 4. Update the parameter using stochastic gradient descent with the first example
 
-For detailed explanations and solutions, see [Question 18: Numerical Calculation](L3_5_18_explanation.md). 
+For detailed explanations and solutions, see [Question 18: Numerical Calculation](L3_5_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+You need to decide whether to use the normal equations or gradient descent for a linear regression problem with the following characteristics:
+
+- The training set has $n = 10,000$ examples
+- You have $d = 1,000$ features after one-hot encoding categorical variables
+- The matrix $\boldsymbol{X}^T\boldsymbol{X}$ is non-singular
+- Your computational resources are limited
+
+#### Task
+1. [📚] Write down the closed-form solution for linear regression using normal equations
+2. [📚] Write down the update rule for batch gradient descent in linear regression
+3. [📚] Compare the computational complexity of both methods in terms of $n$ and $d$
+4. [📚] Based on the given problem characteristics, which method would you recommend and why?
+5. [📚] How would your recommendation change if $n = 10$ million and $d = 100$?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: Normal Equations vs. Gradient Descent Tradeoffs](L3_5_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+You're developing a real-time recommendation system for an e-commerce platform where user interaction data arrives continuously, and you need to update your linear regression model as new data becomes available.
+
+#### Task
+1. [📚] Explain what online learning is and why it's particularly suitable for this scenario compared to batch learning
+2. [📚] Write down the stochastic gradient descent (SGD) update rule for linear regression with squared error loss, and explain how it enables online learning
+3. [📚] If a new data point $(x^{(new)}, y^{(new)})$ arrives, where $x^{(new)}$ is a feature vector representing user behavior and $y^{(new)}$ is a purchase amount, show the exact mathematical steps to update your model parameters
+4. [📚] Compare the computational and memory requirements of online learning with SGD versus retraining the entire model using normal equations each time new data arrives
+5. [📚] Describe a potential issue with simple SGD for online learning and suggest one technique to address this issue (such as using adaptive learning rates)
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 20: Online Learning for Real-time Systems](L3_5_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+Consider a linear regression model with the sum of squared errors (SSE) cost function:
+
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - \boldsymbol{w}^T \boldsymbol{x}^{(i)})^2$$
+
+You want to optimize this cost function using batch gradient descent.
+
+#### Task
+1. [📚] Derive the gradient of the cost function with respect to the parameter vector $\boldsymbol{w}$
+2. [📚] Write down the update rule for batch gradient descent in both mathematical notation and as a simple algorithm (pseudocode)
+3. [📚] For gradient descent to converge, the learning rate $\alpha$ must be chosen carefully. Derive a bound on $\alpha$ in terms of the eigenvalues of $\boldsymbol{X}^T\boldsymbol{X}$
+4. [📚] Explain what happens when $\alpha$ is too small and when it is too large
+5. [📚] Describe a simple learning rate scheduling strategy that can improve convergence
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 21: Batch Gradient Descent Analysis](L3_5_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+Consider a scenario where data arrives sequentially in a stream, and you need to update your linear regression model in real-time.
+
+#### Task
+1. [📚] Explain what online learning is and how it differs from batch learning
+2. [📚] Write down the Least Mean Squares (LMS) update rule for online learning of linear regression
+3. [📚] A new data point arrives with features $\boldsymbol{x}^{(new)} = [1, 2, 3]^T$ and target $y^{(new)} = 14$. If your current model parameters are $\boldsymbol{w} = [1, 2, 1]^T$ and you use a learning rate of $\alpha = 0.1$, calculate the updated parameters after processing this data point
+4. [📚] Discuss the trade-offs between:
+   a) A large learning rate vs. a small learning rate
+   b) Online learning vs. batch learning
+5. [📚] Describe a real-world scenario where online learning would be particularly valuable
+
+For a detailed explanation of this problem, including step-by-step calculations and key insights, see [Question 22: Online Learning and LMS Algorithm](L3_5_22_explanation.md). 
