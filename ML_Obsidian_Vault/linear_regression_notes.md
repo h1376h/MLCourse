@@ -724,6 +724,48 @@ $$\text{Structural error}: E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^
 
 where $\boldsymbol{w}^* = (w_0^*, \cdots, w_d^*)$ are the optimal linear regression parameters (infinite training data)
 
+## Linear regression: types of errors
+
+### Approximation error measures how close we can get to the optimal linear predictions with limited training data:
+
+$$\boldsymbol{w}^* = \text{argmin}_{\boldsymbol{w}} E_{\boldsymbol{x},y}[(y - \boldsymbol{w}^T \boldsymbol{x})^2]$$
+
+$$\hat{\boldsymbol{w}} = \text{argmin}_{\boldsymbol{w}} \sum_{i=1}^{n} (y^{(i)} - \boldsymbol{w}^T \boldsymbol{x}^{(i)})^2$$
+
+$$\text{Approximation error}: E_{\boldsymbol{x}} \left[ \left(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
+
+Where $\hat{\boldsymbol{w}}$ are the parameter estimates based on a small training set (so themselves are random variables).
+
+## Linear regression: error decomposition
+
+### The expected error can decompose into the sum of structural and approximation errors
+
+$$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right] + E_{\boldsymbol{x}} \left[ \left(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
+
+### Derivation
+
+$$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x} + \boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
+
+$$= E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right] + E_{\boldsymbol{x}} \left[ \left(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
+
+$$+ 2E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}) \right]$$
+
+## Linear regression: error decomposition
+
+### The expected error can decompose into the sum of structural and approximation errors
+
+$$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right] + E_{\boldsymbol{x}} \left[ \left(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
+
+### Derivation
+
+$$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x} + \boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
+
+$$= E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right] + E_{\boldsymbol{x}} \left[ \left(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
+
+$$+ 0$$
+
+Note: Optimality condition for $\boldsymbol{w}^*$ gives us $E_{\boldsymbol{x},y}[(y - \boldsymbol{w}^{*T} \boldsymbol{x})\boldsymbol{x}] = 0$ since $\nabla_{\boldsymbol{w}}E_{\boldsymbol{x},y}[(y - \boldsymbol{w}^T \boldsymbol{x})^2]|_{\boldsymbol{w}^*} = 0$
+
 ## Stochastic gradient descent: online learning
 
 ### Sequential learning is also appropriate for real-time applications
@@ -731,6 +773,10 @@ where $\boldsymbol{w}^* = (w_0^*, \cdots, w_d^*)$ are the optimal linear regress
 - and predictions must be made before seeing all of the data
 
 ### The value of $\eta$ needs to be chosen with care to ensure that the algorithm converges
+
+## Linear regression: number of training data
+
+![Number of Training Examples](Codes/plots/linear_regression_training_examples.png)
 
 ## Minimizing cost function
 
