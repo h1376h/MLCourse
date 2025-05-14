@@ -36,6 +36,30 @@ The key insight is:
 - More complex hypothesis spaces $\mathcal{H}$ → lower bias but higher variance
 - This creates a fundamental trade-off in model selection
 
+# Bias-variance decomposition: summary
+
+- The noise term is unavoidable.
+- The terms we are interested in are bias and variance.
+- The approximation-generalization trade-off is seen in the bias-variance decomposition.
+
+# Learning curves of bias, variance, and noise
+
+The graph illustrates how different components of error change with respect to the regularization parameter λ:
+
+- The blue curve represents $(bias)^2$ - initially very low when λ is small (left side) but increases as λ becomes larger (right side)
+- The red curve shows variance - high when λ is small and decreases as λ increases
+- The pink curve represents $(bias)^2 + variance$ - the sum of these two error components
+- The black curve shows the total test error, which is higher than the other components due to the additional noise term
+
+As the regularization parameter λ increases (moving right on the x-axis):
+- Bias increases (model becomes simpler and less flexible)
+- Variance decreases (model becomes more stable)
+- The optimal λ value lies at the point where test error is minimized
+
+This represents the classic bias-variance tradeoff, where the goal is to find the sweet spot that minimizes the total error.
+
+[Bishop]
+
 # Example: sin target
 
 - Only two training examples $N = 2$
@@ -164,6 +188,13 @@ $$\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \
   - Optimization
   - Generalization
 
+## Topics
+
+- Beyond linear regression models
+- Evaluation & model selection
+- Regularization
+- Probabilistic perspective for the regression problem
+
 ## Complexity of Hypothesis Space: Example
 
 The following shows three different hypothesis classes with increasing complexity:
@@ -234,6 +265,30 @@ The effect of different regularization strengths:
 
 Regularization provides another way to control model complexity, often more smoothly than just selecting polynomial degree.
 
+# Regularization: bias and variance
+
+The comparison between models with and without regularization demonstrates the bias-variance tradeoff:
+
+## Without regularization:
+- The unregularized model (left) shows a fit to the sine function $\sin(\pi x)$
+- The red curve represents the model fit $\bar{f}(x)$
+- The gray region surrounding the fit represents the variance in predictions
+- bias = 0.21, variance = 1.69
+- The wider spread of gray indicates higher variance in predictions
+- The total error is dominated by the variance component
+
+## With regularization:
+- The regularized model (right) applied to the same sine function
+- The red curve shows a more constrained fit
+- The gray region is much narrower, indicating reduced variance
+- bias = 0.23, variance = 0.33
+- The bias has increased slightly, but the variance reduction is substantial
+- The narrower gray region shows more consistent predictions across different training sets
+
+Regularization sacrifices a small amount of bias for a significant reduction in variance, resulting in better overall performance. This is especially valuable when dealing with limited training data.
+
+[Y.S. Abou Mostafa, et. al]
+
 ## Model complexity: Bias-variance trade-off
 
 - Least squares, can lead to severe over-fitting if complex models are trained using data sets of limited size.
@@ -294,6 +349,33 @@ Comparing the two models $\mathcal{H}_0$ and $\mathcal{H}_1$ directly:
 In this example, despite having lower bias, the linear model $\mathcal{H}_1$ has significantly higher variance, resulting in a higher total error. Therefore, the simpler constant model $\mathcal{H}_0$ is actually better for this problem with the given limited training data (N = 2).
 
 This illustrates an important lesson: match the model complexity to the available data, not to the complexity of the target function. With very limited data, simpler models often perform better due to their lower variance, even if they have higher bias.
+
+# Winner of $\mathcal{H}_0$, $\mathcal{H}_1$, and $\mathcal{H}_1$ with regularization
+
+The comparison between three different modeling approaches for the sine curve target function:
+
+## $\mathcal{H}_0$: Constant model
+- A simple horizontal line model $f(x) = b$
+- bias = 0.50, var = 0.25
+- The green line represents a constant prediction across all inputs
+- The blue sine curve is the true function
+
+## $\mathcal{H}_1$: Linear model without regularization
+- Linear model $f(x) = ax + b$
+- bias = 0.21, var = 1.69
+- The red line shows a linear fit attempting to capture the trend of the sine function
+- Higher variance but lower bias than $\mathcal{H}_0$
+
+## $\mathcal{H}_1$ with regularization
+- Linear model with regularization applied
+- bias = 0.23, var = 0.33
+- Similar bias to the unregularized linear model but with greatly reduced variance
+- The regularization constrains the slope parameter, preventing extreme values
+- The gray area represents the uncertainty/variance in predictions
+
+The regularized linear model provides the best trade-off, balancing bias and variance to achieve better overall performance than either the constant model or the unregularized linear model.
+
+[Y.S. Abou Mostafa, et. al]
 
 ## Expected training and true error curves
 
@@ -1537,3 +1619,68 @@ The graph shows how regularization affects model performance, plotting $E_{RMS}$
 3. At the optimal $\lambda$ value, test error reaches its minimum
 4. As $\lambda$ decreases further, training error continues to decrease but test error begins to increase (overfitting)
 5. When $\lambda$ is too small (left side), the gap between training and test error becomes large
+
+# Resources
+
+- C. Bishop, "Pattern Recognition and Machine Learning", Chapter 1.1, 1.3, 3.1, 3.2.
+- Yaser S. Abu-Mostafa, Malik Maghdon-Ismail, and Hsuan Tien Lin, "Learning from Data", Chapter 2.3, 3.2, 3.4.
+
+[Y.S. Abou Mostafa, et. al]
+
+# Regularization and bias/variance
+
+The effect of different regularization strengths (λ) on model fitting and the bias-variance tradeoff:
+
+## λ is large (ln λ = 2.6):
+- Left plot: Multiple fitted models (red lines) from 100 different training datasets
+- Right plot: Comparison between the true function (green) and average prediction (red)
+- Models are very simple/constrained with high bias and low variance
+- All models have similar shapes, showing little variation between datasets
+- The average model is significantly different from the true function
+
+## λ is intermediate (ln λ = -0.31):
+- Models capture more of the true function's shape
+- Balanced tradeoff between bias and variance
+- The average model more closely approximates the true function
+- Models still show consistency across different datasets
+
+## λ is small (ln λ = -2.4):
+- Models are very flexible with low bias and high variance
+- High sensitivity to training data variations, with large differences between models
+- The average model matches the true function well, but individual models vary greatly
+- Overfitting to individual training datasets is evident
+
+Experimental details:
+- L = 100 data sets were used
+- Each with n = 25 training examples 
+- Using polynomial basis functions with m = 25 degree
+
+This visualization demonstrates how regularization strength controls the bias-variance tradeoff. At high λ values, models are simple with high bias and low variance. At low λ values, models are complex with low bias but high variance. Finding the optimal λ value is key to achieving the best predictive performance.
+
+[Bishop]
+
+## Model complexity: Bias-variance trade-off
+
+[Bishop]
+
+# Regularization visualization
+
+The visual comparison of model fitting with and without regularization:
+
+## Without regularization (left plot):
+- The blue curve represents the true underlying function (sine curve)
+- The thin gray lines show many different linear fits from different training datasets
+- Notice the high variability in slopes and intercepts of these lines
+- Some lines have extremely steep slopes, trying to fit the training points exactly
+- This demonstrates high variance - small changes in training data lead to large changes in the model
+
+## With regularization (right plot):
+- The same true underlying function (blue sine curve)
+- The thin gray lines again show multiple linear fits from different training datasets
+- The regularized models show much more consistency in their slopes
+- Extreme parameter values are penalized, leading to more moderate fits
+- The variance between different models is significantly reduced
+
+The visualization clearly demonstrates how regularization constrains the model parameters, preventing extreme values that may result from overfitting to noise in the training data. While individual regularized models may have slightly higher bias, their reduced variance leads to more consistent and reliable predictions across different datasets.
+
+[Y.S. Abou Mostafa, et. al]
