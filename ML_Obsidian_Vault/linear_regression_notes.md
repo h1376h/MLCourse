@@ -683,3 +683,15 @@ $\eta$ can be allowed to change at every iteration as $\eta_t$.
 - Local minima problem
 
 - However, when $J$ is convex, all local minima are also global minima ⇒ gradient descent can converge to the global solution. 
+
+## Cost function: multivariate
+
+- We have to minimize the empirical squared loss:
+
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2$$
+
+$$f(\boldsymbol{x}, \boldsymbol{w}) = w_0 + w_1 x_1 + ... w_d x_d$$
+
+$$\boldsymbol{w} = [w_0, w_1, ..., w_d]^T$$
+
+$$\hat{\boldsymbol{w}} = \underset{\boldsymbol{w}\in\mathbb{R}^{d+1}}{\operatorname{argmin}}J(\boldsymbol{w})$$ 
