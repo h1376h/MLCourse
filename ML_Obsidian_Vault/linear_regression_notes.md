@@ -7,6 +7,88 @@
   - Optimization
   - Generalization
 
+## Complexity of Hypothesis Space: Example
+
+The following shows three different hypothesis classes with increasing complexity:
+
+- Left: $w_0 + w_1x$ (linear model)
+- Middle: $w_0 + w_1x + w_2x^2$ (quadratic model)
+- Right: $w_0 + w_1x + w_2x^2 + w_3x^3 + w_4x^4$ (4th-degree polynomial)
+
+As we move from less complex to more complex hypothesis spaces, the models can fit the data points (marked with red x's) more closely, but risk overfitting.
+
+## The approximation-generalization trade-off
+
+- Small true error shows good approximation of $f$ out of sample
+- More complex $\mathcal{H} \Rightarrow$ better chance of approximating $f$
+- Less complex $\mathcal{H} \Rightarrow$ better chance of generalization out of $f$
+
+This fundamental trade-off in machine learning balances model complexity against generalization capability.
+
+## Complexity of Hypothesis Space
+
+### Less complex $\mathcal{H}$:
+- $J_{train}(\hat{\boldsymbol{w}}) \approx J_v(\hat{\boldsymbol{w}})$ and $J_{train}(\hat{\boldsymbol{w}})$ is very high
+
+### More complex $\mathcal{H}$:
+- $J_{train}(\hat{\boldsymbol{w}}) \ll J_v(\hat{\boldsymbol{w}})$ and $J_{train}(\hat{\boldsymbol{w}})$ is low
+
+As the degree of polynomial $m$ increases, the training error $J_{train}(\hat{\boldsymbol{w}})$ decreases consistently, while the validation error $J_v(\hat{\boldsymbol{w}})$ often follows a U-shaped curve - initially decreasing but then increasing as the model begins to overfit.
+
+## Less complex $\mathcal{H}$
+
+In the case of a simple linear model: $f(x;w) = w_0 + w_1x$
+
+When the model is too simple:
+- $J_v$ and $J_{train}$ errors approach similar values (converge) 
+- Both errors remain relatively high 
+- Adding more training data won't improve performance significantly
+- The error curve as a function of training set size quickly flattens
+
+If the model is very simple, getting more training data will not (by itself) help much. This is called high bias or underfitting - the model is too simple to capture the underlying pattern in the data.
+
+## Complexity of Hypothesis Space: Example (with fitted models)
+
+The impact of model complexity can be visualized by fitting polynomials of different degrees to the same dataset:
+
+- Left: $w_0 + w_1x$ (linear model) - provides a simple fit but may miss patterns
+- Middle: $w_0 + w_1x + w_2x^2$ (quadratic model) - captures more complex relationships
+- Right: $w_0 + w_1x + w_2x^2 + w_3x^3 + w_4x^4$ (4th-degree polynomial) - highly flexible
+
+Each blue curve represents the fitted model for each hypothesis class. As we move from left to right (increasing complexity):
+1. The fitted curves match the data points (red x's) more closely
+2. The models become more flexible but potentially overfit the data
+3. Less complex models generalize better but may underfit
+
+This illustrates the trade-off between model complexity and generalization ability.
+
+## Regularization: Example
+
+Using a polynomial model: $f(x;w) = w_0 + w_1x + w_2x^2 + w_3 x^3 + w_4 x^4$
+
+With the cost function including a regularization term:
+
+$$J(w) = \frac{1}{n}\left(\sum_{i=1}^{n} \left(y^{(i)} - f(x^{(i)};w)\right)^2 + \lambda w^Tw \right)$$
+
+The effect of different regularization strengths:
+- Left: Large $\lambda$ (Prefer to more simple models) - almost constant prediction, $w_1 = w_2 \approx 0$
+- Middle: Intermediate $\lambda$ - smoother quadratic-like fit
+- Right: Small $\lambda$ (Prefer to more complex models) - highly flexible fit, $\lambda = 0$
+
+Regularization provides another way to control model complexity, often more smoothly than just selecting polynomial degree.
+
+## Model complexity: Bias-variance trade-off
+
+- Least squares, can lead to severe over-fitting if complex models are trained using data sets of limited size.
+
+- A frequentist viewpoint of the model complexity issue, known as the bias-variance trade-off.
+
+## More complex $\mathcal{H}$
+
+$$f(x;w) = w_0 + w_1x + \cdots w_{10}x^{10}$$
+
+For more complex models, getting more training data is usually helps. As the training set size increases, the gap between $J_v$ and $J_{train}$ shrinks, allowing the model to better generalize.
+
 ## Recall: Linear regression (squared loss)
 
 ### Linear regression functions
