@@ -4,7 +4,7 @@
 Given the sample data points (1, 2), (2, 4), and (3, 6):
 
 ### Task
-1. Using only these three points, calculate the means $x̄$ and $ȳ$
+1. Using only these three points, calculate the means $\bar{x}$ and $\bar{y}$
 2. Find the slope of the simple linear regression model by hand
 3. Find the intercept of the model
 4. Write down the resulting equation for predicting y from x

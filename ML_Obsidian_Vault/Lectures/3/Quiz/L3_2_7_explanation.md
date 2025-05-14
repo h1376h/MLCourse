@@ -13,7 +13,7 @@ A restaurant owner wants to understand how outdoor temperature affects ice water
 
 ### Task
 1. Sketch a scatter plot of the data points. Does a linear relationship seem appropriate?
-2. Calculate the mean of x and y values.
+2. Calculate the mean of $x$ and $y$ values.
 3. Using the least squares method, find the linear equation that best fits this data.
 4. If tomorrow's forecast is 28°C, how many liters of water should the restaurant prepare?
 5. Calculate the residual for the day when temperature was 30°C.
