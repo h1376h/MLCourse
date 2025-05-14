@@ -328,16 +328,14 @@ For a simplified, exam-friendly approach with computational shortcuts, see [Alte
 ## Question 16
 
 ### Problem Statement
-Understanding the fundamental properties of simple linear regression is essential for correctly applying and interpreting regression models.
-
-#### Task
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
-1. In simple linear regression, the residuals always sum to zero when the model includes an intercept term.
-2. The least squares method minimizes the sum of absolute differences between predicted and actual values.
-3. Increasing the number of data points always leads to a better fit in simple linear regression.
-4. The coefficient of determination ($R^2$) represents the proportion of variance in the dependent variable explained by the model.
-5. In simple linear regression, the regression line always passes through the point ($\bar{x}$, $\bar{y}$).
+#### Task
+1. [🔍] In simple linear regression, the residuals always sum to zero when the model includes an intercept term.
+2. [🔍] The least squares method minimizes the sum of absolute differences between predicted and actual values.
+3. [🔍] Increasing the number of data points always leads to a better fit in simple linear regression.
+4. [🔍] The coefficient of determination ($R^2$) represents the proportion of variance in the dependent variable explained by the model.
+5. [🔍] In simple linear regression, the regression line always passes through the point ($\bar{x}$, $\bar{y}$).
 
 For a detailed explanation of this problem, including the mathematical proofs for each statement, see [Question 16: Linear Regression Fundamentals](L3_2_16_explanation.md).
 
@@ -401,11 +399,9 @@ For a detailed explanation of this problem, including step-by-step calculations,
 ## Question 21
 
 ### Problem Statement
-The mathematical properties of linear regression help us understand the behavior of the model and its underlying assumptions.
-
-#### Task
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
+#### Task
 1. The prediction $\hat{y} = Xw$ is the orthogonal projection of $y$ onto the column space of $X$.
 2. If there's perfect multicollinearity in a dataset, the normal equations have a unique solution.
 3. For a simple linear regression model with an intercept, the sum of residuals is always zero.
@@ -535,16 +531,16 @@ Your friend claims that if they have 10 data points, they need at least a 9th-de
 
 For a detailed explanation of this problem, including model complexity considerations, see [Question 30: Model Complexity and Overfitting](L3_2_30_explanation.md).
 
-## Question 31
+## [📕] Question 31
 
 ### Problem Statement
 Consider the geometric interpretation of least squares in linear regression, where $\hat{\mathbf{y}} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y} = \mathbf{P}\mathbf{y}$.
 
 #### Task
-1. [📚] Explain what the projection matrix $\mathbf{P} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ represents geometrically
-2. [📚] If we define the residual vector as $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$, prove that $\mathbf{e}$ is orthogonal to the column space of $\mathbf{X}$
-3. [📚] List two key properties of the projection matrix $\mathbf{P}$ and explain their significance
-4. [📚] Draw a simple diagram showing the geometric relationship between $\mathbf{y}$, $\hat{\mathbf{y}}$, and $\mathbf{e}$ in a 2D case
+1. Explain what the projection matrix $\mathbf{P} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ represents geometrically
+2. If we define the residual vector as $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$, prove that $\mathbf{e}$ is orthogonal to the column space of $\mathbf{X}$
+3. List two key properties of the projection matrix $\mathbf{P}$ and explain their significance
+4. Draw a simple diagram showing the geometric relationship between $\mathbf{y}$, $\hat{\mathbf{y}}$, and $\mathbf{e}$ in a 2D case
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 31: Geometric Interpretation of Least Squares](L3_2_31_explanation.md).
 
@@ -555,8 +551,8 @@ Consider the geometric interpretation of linear regression in an n-dimensional s
 
 #### Task
 1. [📚] In linear regression, the column space of the design matrix $\mathbf{X}$ forms a subspace in $\mathbb{R}^n$. Explain what this subspace represents geometrically.
-2. [📚] Explain why the least squares solution can be described as finding the point in this subspace that is closest to the response vector $\mathbf{y}$.
-3. [📚] Why is the residual vector $\mathbf{e} = \mathbf{y} - \mathbf{X}\mathbf{\hat{w}}$ orthogonal to every column of $\mathbf{X}$? Prove this mathematically.
+2. Explain why the least squares solution can be described as finding the point in this subspace that is closest to the response vector $\mathbf{y}$.
+3. Why is the residual vector $\mathbf{e} = \mathbf{y} - \mathbf{X}\mathbf{\hat{w}}$ orthogonal to every column of $\mathbf{X}$? Prove this mathematically.
 4. [📚] How does this geometric perspective help us understand the concept of "fitting" a linear model to data?
 5. [📚] If we were to add another feature to our model (an additional column to $\mathbf{X}$), how would this change the subspace and potentially improve the fit? Explain geometrically.
 
@@ -577,14 +573,14 @@ $$J(w_0, w_1) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
 
 For a detailed explanation of this problem, including step-by-step derivation of the normal equations, see [Question 33: Deriving Normal Equations](L3_2_33_explanation.md).
 
-## Question 34
+## [📕] Question 34
 
 ### Problem Statement
 In linear regression, the projection matrix $\boldsymbol{P} = \boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$ plays a crucial role in understanding the geometric interpretation of the model.
 
 #### Task
-1. [📚] Prove that the projection matrix $\boldsymbol{P}$ is both symmetric and idempotent
-2. [📚] For a simple dataset with $n = 3$ observations and $d = 1$ feature (plus intercept), calculate the projection matrix $\boldsymbol{P}$ given:
+1. Prove that the projection matrix $\boldsymbol{P}$ is both symmetric and idempotent
+2. For a simple dataset with $n = 3$ observations and $d = 1$ feature (plus intercept), calculate the projection matrix $\boldsymbol{P}$ given:
 
    $$\boldsymbol{X} = \begin{bmatrix} 
    1 & 1 \\
@@ -592,8 +588,8 @@ In linear regression, the projection matrix $\boldsymbol{P} = \boldsymbol{X}(\bo
    1 & 3
    \end{bmatrix}$$
 
-3. [📚] If the response vector is $\boldsymbol{y} = [2, 3, 5]^T$, calculate the projected vector $\hat{\boldsymbol{y}} = \boldsymbol{P}\boldsymbol{y}$
-4. [📚] Explain geometrically what it means when we say the residual vector $\boldsymbol{e} = \boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
+3. If the response vector is $\boldsymbol{y} = [2, 3, 5]^T$, calculate the projected vector $\hat{\boldsymbol{y}} = \boldsymbol{P}\boldsymbol{y}$
+4. Explain geometrically what it means when we say the residual vector $\boldsymbol{e} = \boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
 
 For a detailed explanation of this problem, including step-by-step solutions and geometric interpretations, see [Question 34: Projection Matrix in Linear Regression](L3_2_34_explanation.md).
 
