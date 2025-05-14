@@ -34,9 +34,23 @@ Example: predicting house price from attributes
 
 Key insight: The learning algorithm aims to find a function that not only fits the training data well but also generalizes to new, unseen examples.
 
-## 2. Learning from Training Sets
+### The Learning Diagram
 
-Different hypothesis models learn patterns from training data:
+Two key perspectives on the learning process:
+
+**Deterministic Target**: 
+- An unknown target function h(x) maps inputs to outputs
+- Training examples come from this function
+- The learning algorithm with hypothesis set H produces a final hypothesis
+
+**Noisy Target**:
+- Target includes both a function h(x) and noise
+- Joint probability distribution P(x,y) = P(x)P(y|x)
+- Learning involves capturing the target distribution and handling noise
+
+This diagram helps visualize how the learning process works with both deterministic and probabilistic perspectives on the target function.
+
+## 2. Hypothesis Space and Bias-Variance Tradeoff
 
 ### Hypothesis Space Complexity
 
@@ -57,6 +71,48 @@ This principle is crucial because:
 - Even if the true underlying function is complex, without sufficient data to constrain it, a complex model will fit noise rather than signal
 - The goal is finding the right balance between underfitting (too simple) and overfitting (too complex)
 
+### Error Decomposition
+
+The expected squared error between a model and the true function can be decomposed:
+
+$$\mathbb{E}_{\mathcal{D}} \left[ \left(f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x})\right)^2 \right] = \underbrace{\mathbb{E}_{\mathcal{D}} \left[ \left(f_{\mathcal{D}}(\boldsymbol{x}) - \bar{f}(\boldsymbol{x})\right)^2 \right]}_{\text{variance}} + \underbrace{\left(\bar{f}(\boldsymbol{x}) - h(\boldsymbol{x})\right)^2}_{\text{bias}^2}$$
+
+Where:
+- $f_{\mathcal{D}}(\boldsymbol{x})$ is the model trained on dataset $\mathcal{D}$
+- $\bar{f}(\boldsymbol{x})$ is the average prediction across all possible datasets
+- $h(\boldsymbol{x})$ is the true function
+
+The total expected error includes a third component - irreducible noise:
+
+Total expected error = Bias² + Variance + Noise
+
+Where noise represents the inherent randomness in the data that cannot be modeled.
+
+### Visual Interpretation
+
+We can visualize the bias-variance tradeoff by considering models trained on different datasets:
+
+- For a constant model ($f(x) = b$):
+  - Different datasets result in different horizontal lines
+  - These lines have little variation (low variance)
+  - But they systematically miss the true pattern (high bias)
+
+- For a linear model ($f(x) = ax + b$):
+  - Different datasets result in lines with varying slopes and intercepts
+  - There's more variation between these lines (higher variance)
+  - But on average they better approximate the true function (lower bias)
+
+### Bias-Variance Tradeoff
+
+- **Bias**: How far the average prediction is from the true function
+- **Variance**: How much predictions vary across different datasets
+- **Tradeoff**: More complex models have lower bias but higher variance
+
+This tradeoff is fundamental in machine learning:
+- Simple models (e.g., constant function): high bias, low variance
+- Complex models (e.g., high-degree polynomials): low bias, high variance
+- The optimal model complexity minimizes the sum of bias squared and variance
+
 ### Example: Fitting a Sine Function with Limited Data
 
 Consider trying to learn a sine function with only two data points:
@@ -72,6 +128,37 @@ Consider trying to learn a sine function with only two data points:
 Despite having lower bias, the linear model has significantly higher total error due to its high variance. With just two training points, the simpler constant model actually generalizes better to the sine function.
 
 This illustrates why we should match model complexity to available data rather than to the complexity of the target function. With very limited data, simpler models with lower variance often perform better despite having higher bias.
+
+### Expected Training and Test Error Curves
+
+As the number of training samples increases:
+
+For a simple model:
+- Test error starts high and gradually decreases
+- Training error starts low and gradually increases
+- Both eventually converge to a value above zero (limited by model bias)
+
+For a complex model:
+- Test error starts very high but can eventually reach lower values
+- Training error remains low throughout
+- The gap between training and test error is much larger
+- Requires more data to achieve good generalization
+
+### Best Unrestricted Regression Function
+
+If we know the joint distribution $P(\boldsymbol{x},y)$ and have no constraints:
+
+$$h^*(\boldsymbol{x}) = \mathbb{E}_{y|\boldsymbol{x}}[y]$$
+
+This minimizes the expected squared error.
+
+Proof:
+$$\mathbb{E}_{\boldsymbol{x},y} \left[ (y - h(\boldsymbol{x}))^2 \right] = \iint (y - h(\boldsymbol{x}))^2 p(\boldsymbol{x}, y) d\boldsymbol{x}dy$$
+
+For each $\boldsymbol{x}$ separately minimize loss:
+$$\frac{\delta\mathbb{E}_{\boldsymbol{x},y} \left[ (y - h(\boldsymbol{x}))^2 \right]}{\delta h(\boldsymbol{x})} = \int 2(y - h(\boldsymbol{x}))p(\boldsymbol{x}, y)dy = 0$$
+
+$$\Rightarrow h^*(\boldsymbol{x}) = \mathbb{E}_{y|\boldsymbol{x}}[y]$$
 
 ## 3. Cost Function and Optimization
 
@@ -199,110 +286,7 @@ Stochastic gradient descent makes it well-suited for online learning scenarios:
 
 For real-time applications with streaming data, SGD with the LMS update rule provides an effective way to perform continuous learning as new data becomes available.
 
-## 4. Bias-Variance Tradeoff
-
-### Error Decomposition
-
-The expected squared error between a model and the true function can be decomposed:
-
-$$\mathbb{E}_{\mathcal{D}} \left[ \left(f_{\mathcal{D}}(\boldsymbol{x}) - h(\boldsymbol{x})\right)^2 \right] = \underbrace{\mathbb{E}_{\mathcal{D}} \left[ \left(f_{\mathcal{D}}(\boldsymbol{x}) - \bar{f}(\boldsymbol{x})\right)^2 \right]}_{\text{variance}} + \underbrace{\left(\bar{f}(\boldsymbol{x}) - h(\boldsymbol{x})\right)^2}_{\text{bias}^2}$$
-
-Where:
-- $f_{\mathcal{D}}(\boldsymbol{x})$ is the model trained on dataset $\mathcal{D}$
-- $\bar{f}(\boldsymbol{x})$ is the average prediction across all possible datasets
-- $h(\boldsymbol{x})$ is the true function
-
-The total expected error includes a third component - irreducible noise:
-
-Total expected error = Bias² + Variance + Noise
-
-Where noise represents the inherent randomness in the data that cannot be modeled.
-
-### Visual Interpretation
-
-We can visualize the bias-variance tradeoff by considering models trained on different datasets:
-
-- For a constant model ($f(x) = b$):
-  - Different datasets result in different horizontal lines
-  - These lines have little variation (low variance)
-  - But they systematically miss the true pattern (high bias)
-
-- For a linear model ($f(x) = ax + b$):
-  - Different datasets result in lines with varying slopes and intercepts
-  - There's more variation between these lines (higher variance)
-  - But on average they better approximate the true function (lower bias)
-
-### Bias-Variance Tradeoff
-
-- **Bias**: How far the average prediction is from the true function
-- **Variance**: How much predictions vary across different datasets
-- **Tradeoff**: More complex models have lower bias but higher variance
-
-This tradeoff is fundamental in machine learning:
-- Simple models (e.g., constant function): high bias, low variance
-- Complex models (e.g., high-degree polynomials): low bias, high variance
-- The optimal model complexity minimizes the sum of bias squared and variance
-
-### Expected Training and Test Error Curves
-
-As the number of training samples increases:
-
-For a simple model:
-- Test error starts high and gradually decreases
-- Training error starts low and gradually increases
-- Both eventually converge to a value above zero (limited by model bias)
-
-For a complex model:
-- Test error starts very high but can eventually reach lower values
-- Training error remains low throughout
-- The gap between training and test error is much larger
-- Requires more data to achieve good generalization
-
-### Best Unrestricted Regression Function
-
-If we know the joint distribution $P(\boldsymbol{x},y)$ and have no constraints:
-
-$$h^*(\boldsymbol{x}) = \mathbb{E}_{y|\boldsymbol{x}}[y]$$
-
-This minimizes the expected squared error.
-
-Proof:
-$$\mathbb{E}_{\boldsymbol{x},y} \left[ (y - h(\boldsymbol{x}))^2 \right] = \iint (y - h(\boldsymbol{x}))^2 p(\boldsymbol{x}, y) d\boldsymbol{x}dy$$
-
-For each $\boldsymbol{x}$ separately minimize loss:
-$$\frac{\delta\mathbb{E}_{\boldsymbol{x},y} \left[ (y - h(\boldsymbol{x}))^2 \right]}{\delta h(\boldsymbol{x})} = \int 2(y - h(\boldsymbol{x}))p(\boldsymbol{x}, y)dy = 0$$
-
-$$\Rightarrow h^*(\boldsymbol{x}) = \mathbb{E}_{y|\boldsymbol{x}}[y]$$
-
-### Error Types in Linear Regression
-
-1. **Structural error**: Error due to the limited function class (even with infinite training data):
-   $$\text{Structural error}: E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right]$$
-
-2. **Approximation error**: Error due to limited training data:
-   $$\text{Approximation error}: E_{\boldsymbol{x}} \left[ \left(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
-
-The expected error can be decomposed into the sum of structural and approximation errors:
-
-$$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right] + E_{\boldsymbol{x}} \left[ \left(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
-
-### The Learning Diagram
-
-Two key perspectives on the learning process:
-
-**Deterministic Target**: 
-- An unknown target function h(x) maps inputs to outputs
-- Training examples come from this function
-- The learning algorithm with hypothesis set H produces a final hypothesis
-
-**Noisy Target**:
-- Target includes both a function h(x) and noise
-- Joint probability distribution P(x,y) = P(x)P(y|x)
-- Learning involves capturing the target distribution and handling noise
-
-This diagram helps visualize how the learning process works with both deterministic and probabilistic perspectives on the target function.
-
-## 5. Beyond Linear Regression
+## 4. Beyond Linear Regression
 
 ### Generalized Linear Models
 
@@ -367,7 +351,7 @@ Other basis functions include:
 - Sigmoid: $\phi_j(\boldsymbol{x}) = \sigma\left(\frac{\|\boldsymbol{x}-\boldsymbol{c}_j\|}{\sigma_j}\right)$ where $\sigma(a) = \frac{1}{1+\exp(-a)}$
 - Gaussian: $\phi_j(\boldsymbol{x}) = \exp\left\{-\frac{(\boldsymbol{x}-\boldsymbol{c}_j)^2}{2\sigma_j^2}\right\}$
 
-## 6. Regularization
+## 5. Regularization
 
 ### Ridge Regression (L2 Regularization)
 
@@ -433,7 +417,7 @@ As the regularization parameter $\lambda$ changes:
 - With small $\lambda$: Models are flexible with low bias, high variance
 - Optimal $\lambda$ balances bias and variance for best predictive performance
 
-## 7. Model Evaluation and Selection
+## 6. Model Evaluation and Selection
 
 ### Training vs. Test Performance
 
@@ -445,6 +429,18 @@ The goal is to minimize expected (test) error, but we can only measure training 
 Assumption: Training and test examples are drawn independently at random from the same distribution.
 - Each sample $(\boldsymbol{x}, y)$ comes from the same probability distribution $P(\boldsymbol{x}, y)$
 - We minimize empirical loss on training data to find an acceptable expected loss
+
+### Error Types in Linear Regression
+
+1. **Structural error**: Error due to the limited function class (even with infinite training data):
+   $$\text{Structural error}: E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right]$$
+
+2. **Approximation error**: Error due to limited training data:
+   $$\text{Approximation error}: E_{\boldsymbol{x}} \left[ \left(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
+
+The expected error can be decomposed into the sum of structural and approximation errors:
+
+$$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right] + E_{\boldsymbol{x}} \left[ \left(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
 
 ### Simple Hold-Out Method
 
@@ -501,7 +497,7 @@ Regularization parameter ($\lambda$) selection process:
 3. Select $\lambda$ with lowest validation/CV error
 4. Retrain final model on complete training set with selected $\lambda$
 
-## 8. Overfitting and Generalization
+## 7. Overfitting and Generalization
 
 ### Causes of Overfitting
 
@@ -537,15 +533,3 @@ The overfitting problem becomes less severe as the training data size increases:
 3. **More training data**
    - Overfitting becomes less severe with more data
    - Same complex model may generalize well with sufficient data
-
-### Error Decomposition
-
-The expected error consists of:
-
-- **Structural error**: The inherent limitation of the model class
-- **Approximation error**: Error due to limited training data
-- **Noise**: Irreducible error inherent in the data
-
-Total expected error = Bias² + Variance + Noise
-
-This decomposition highlights why the bias-variance tradeoff is central to machine learning: minimizing total error requires balancing bias and variance.
