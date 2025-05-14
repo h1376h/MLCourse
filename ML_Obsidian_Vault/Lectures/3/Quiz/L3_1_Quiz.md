@@ -81,9 +81,9 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Linear algebra concepts form the foundation of linear models. In this problem, you'll explore the connection between vector spaces and linear regression.
 
 #### Task
-1. [📚] Explain what it means when we say "the column space of $\mathbf{X}$ contains the fitted values $\hat{\mathbf{y}}$."
-2. [📚] If $\mathbf{X}$ is an $n \times 2$ matrix (one column for the intercept, one for a single predictor), what is the dimension of the column space of $\mathbf{X}$? What does this tell us about the flexibility of our model?
-3. [📚] How can we geometrically interpret the projection of vector $\mathbf{y}$ onto the column space of $\mathbf{X}$ in a linear regression context?
+1. Explain what it means when we say "the column space of $\mathbf{X}$ contains the fitted values $\hat{\mathbf{y}}$."
+2. If $\mathbf{X}$ is an $n \times 2$ matrix (one column for the intercept, one for a single predictor), what is the dimension of the column space of $\mathbf{X}$? What does this tell us about the flexibility of our model?
+3. How can we geometrically interpret the projection of vector $\mathbf{y}$ onto the column space of $\mathbf{X}$ in a linear regression context?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 7: Vector Spaces in Regression](L3_1_7_explanation.md).
 
