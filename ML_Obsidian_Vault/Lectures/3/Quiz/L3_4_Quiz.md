@@ -1,7 +1,7 @@
 # Lecture 3.4: Multiple Linear Regression Quiz
 
 ## Overview
-This quiz contains 19 questions covering different topics from section 3.4 of the lectures on Multiple Linear Regression. These questions test your understanding of extending linear regression to multiple variables, matrix formulations, feature engineering, categorical variables, and nonlinear relationships.
+This quiz contains 20 questions covering different topics from section 3.4 of the lectures on Multiple Linear Regression. These questions test your understanding of extending linear regression to multiple variables, matrix formulations, feature engineering, categorical variables, and nonlinear relationships.
 
 ## Question 1
 
@@ -436,6 +436,20 @@ using matrix operations.
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Matrix Formulation of Multiple Linear Regression](L3_4_18_explanation.md).
 
 ## Question 19
+
+### Problem Statement
+In linear regression, the pseudo-inverse is an important concept, especially when dealing with singular or non-invertible matrices.
+
+#### Task
+1. [📚] Define what the pseudo-inverse is in the context of linear regression and write down its formula
+2. [📚] Explain when the pseudo-inverse becomes necessary in linear regression instead of the normal inverse
+3. [📚] What are two specific scenarios in linear regression that would lead to a non-invertible $\boldsymbol{X}^T\boldsymbol{X}$ matrix?
+4. [📚] Describe how the pseudo-inverse can be calculated using Singular Value Decomposition (SVD)
+5. [📚] Explain the relationship between ridge regression and the pseudo-inverse approach for handling non-invertible matrices
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: Pseudo-Inverse in Linear Regression](L3_4_19_explanation.md).
+
+## Question 20
 
 ### Problem Statement
 In generalized linear models, we use basis functions to transform the input data:
