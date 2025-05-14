@@ -1,7 +1,7 @@
 # Lecture 3.2: Simple Linear Regression Quiz
 
 ## Overview
-This quiz contains 35 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
+This quiz contains 36 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
 
 ## Question 1
 
@@ -612,3 +612,25 @@ A marketing analyst wants to understand the relationship between a company's adv
 5. Calculate the coefficient of determination ($R^2$) and explain what proportion of the variation in sales can be attributed to the advertising budget
 
 For a detailed explanation of this problem, including regression analysis and business interpretation, see [Question 35: Advertising Budget and Sales Analysis](L3_2_35_explanation.md).
+
+## Question 36
+
+### Problem Statement
+(Linear Regression): Given the following data:
+
+| Subject | Age (x) | Glucose level (y) | xy | x² | y² |
+|---------|---------|-------------------|-----|-----|-----|
+| 1 | 43 | 99 | 4257 | 1849 | 9801 |
+| 2 | 21 | 65 | 1365 | 441 | 4225 |
+| 3 | 25 | 79 | 1975 | 625 | 6241 |
+| 4 | 42 | 75 | 3150 | 1764 | 5625 |
+| 5 | 57 | 87 | 4959 | 3249 | 7569 |
+| 6 | 59 | 81 | 4779 | 3481 | 6561 |
+| Σ | 247 | 486 | 20485 | 11409 | 40022 |
+
+#### Task
+1. [📚] Find the corresponding linear regression equation, and $R^2$. 
+2. [📚] What is your prediction for age 35, and 78?
+3. [📚] Are they appropriate predictions?
+
+For a detailed explanation of this problem, including regression analysis and prediction evaluation, see [Question 36: Age and Glucose Level Prediction](L3_2_36_explanation.md).
