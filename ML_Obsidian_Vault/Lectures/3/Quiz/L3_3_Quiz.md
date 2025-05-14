@@ -217,4 +217,46 @@ where $\epsilon \sim \mathcal{N}(0, \sigma^2)$ is Gaussian noise with zero mean 
 4. [📚] Show mathematically that maximizing the log-likelihood is equivalent to minimizing the sum of squared errors
 5. [📚] Derive the maximum likelihood estimator for the noise variance $\sigma^2$ after finding the optimal parameters $\boldsymbol{w}$
 
-For a detailed explanation of this problem, including step-by-step derivations and key insights, see [Question 13: Maximum Likelihood in Linear Regression](L3_3_13_explanation.md). 
+For a detailed explanation of this problem, including step-by-step derivations and key insights, see [Question 13: Maximum Likelihood in Linear Regression](L3_3_13_explanation.md).
+
+## Question 14
+
+### Problem Statement
+Consider a scenario where the true underlying function is $f(x) = x^2$, but we're using a linear model $\hat{y} = w_0 + w_1x$. 
+
+Given:
+- The optimal linear model parameters (with infinite data) are $w_0^* = 2$ and $w_1^* = 2$
+- From a finite training set, we estimated $\hat{w}_0 = 1.5$ and $\hat{w}_1 = 2.5$
+- We want to evaluate the model at $x = 3$
+
+#### Task
+1. [📚] Calculate the true value $y = f(3)$
+2. [📚] Calculate the prediction from the optimal linear model $y_{opt} = w_0^* + w_1^* \cdot 3$
+3. [📚] Calculate the prediction from the estimated model $\hat{y} = \hat{w}_0 + \hat{w}_1 \cdot 3$
+4. [📚] Compute the structural error $(y - y_{opt})^2$
+5. [📚] Compute the approximation error $(y_{opt} - \hat{y})^2$
+6. [📚] Verify that the total squared error $(y - \hat{y})^2$ equals the sum of structural and approximation errors
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: Calculating Error Components](L3_3_14_explanation.md).
+
+## Question 15
+
+### Problem Statement
+Consider a simple dataset with 3 points where the true function is $f(x) = x^2$:
+
+| $x$ | True $y = x^2$ |
+|-----|----------------|
+| 1   | 1              |
+| 2   | 4              |
+| 3   | 9              |
+
+The best possible linear approximation for this data is $\hat{y} = -1 + 3x$, while an estimated model from a sample is $\hat{y} = -0.5 + 2.5x$.
+
+#### Task
+1. [📚] Calculate the predictions from both models for each $x$ value
+2. [📚] Compute the structural error for each point $(y - y_{opt})^2$ and its average
+3. [📚] Compute the approximation error for each point $(y_{opt} - \hat{y})^2$ and its average
+4. [📚] Calculate the total squared error for each point and verify it equals the sum of the corresponding structural and approximation errors
+5. [📚] What percentage of the average total error is due to structural error vs. approximation error?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 15: Error Decomposition with Multiple Points](L3_3_15_explanation.md). 
