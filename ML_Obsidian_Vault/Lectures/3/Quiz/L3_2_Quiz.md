@@ -531,16 +531,16 @@ Your friend claims that if they have 10 data points, they need at least a 9th-de
 
 For a detailed explanation of this problem, including model complexity considerations, see [Question 30: Model Complexity and Overfitting](L3_2_30_explanation.md).
 
-## Question 31
+## [📕] Question 31
 
 ### Problem Statement
 Consider the geometric interpretation of least squares in linear regression, where $\hat{\mathbf{y}} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y} = \mathbf{P}\mathbf{y}$.
 
 #### Task
-1. [📚] Explain what the projection matrix $\mathbf{P} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ represents geometrically
-2. [📚] If we define the residual vector as $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$, prove that $\mathbf{e}$ is orthogonal to the column space of $\mathbf{X}$
-3. [📚] List two key properties of the projection matrix $\mathbf{P}$ and explain their significance
-4. [📚] Draw a simple diagram showing the geometric relationship between $\mathbf{y}$, $\hat{\mathbf{y}}$, and $\mathbf{e}$ in a 2D case
+1. Explain what the projection matrix $\mathbf{P} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T$ represents geometrically
+2. If we define the residual vector as $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$, prove that $\mathbf{e}$ is orthogonal to the column space of $\mathbf{X}$
+3. List two key properties of the projection matrix $\mathbf{P}$ and explain their significance
+4. Draw a simple diagram showing the geometric relationship between $\mathbf{y}$, $\hat{\mathbf{y}}$, and $\mathbf{e}$ in a 2D case
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 31: Geometric Interpretation of Least Squares](L3_2_31_explanation.md).
 
@@ -551,8 +551,8 @@ Consider the geometric interpretation of linear regression in an n-dimensional s
 
 #### Task
 1. [📚] In linear regression, the column space of the design matrix $\mathbf{X}$ forms a subspace in $\mathbb{R}^n$. Explain what this subspace represents geometrically.
-2. [📚] Explain why the least squares solution can be described as finding the point in this subspace that is closest to the response vector $\mathbf{y}$.
-3. [📚] Why is the residual vector $\mathbf{e} = \mathbf{y} - \mathbf{X}\mathbf{\hat{w}}$ orthogonal to every column of $\mathbf{X}$? Prove this mathematically.
+2. Explain why the least squares solution can be described as finding the point in this subspace that is closest to the response vector $\mathbf{y}$.
+3. Why is the residual vector $\mathbf{e} = \mathbf{y} - \mathbf{X}\mathbf{\hat{w}}$ orthogonal to every column of $\mathbf{X}$? Prove this mathematically.
 4. [📚] How does this geometric perspective help us understand the concept of "fitting" a linear model to data?
 5. [📚] If we were to add another feature to our model (an additional column to $\mathbf{X}$), how would this change the subspace and potentially improve the fit? Explain geometrically.
 
@@ -573,14 +573,14 @@ $$J(w_0, w_1) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
 
 For a detailed explanation of this problem, including step-by-step derivation of the normal equations, see [Question 33: Deriving Normal Equations](L3_2_33_explanation.md).
 
-## Question 34
+## [📕] Question 34
 
 ### Problem Statement
 In linear regression, the projection matrix $\boldsymbol{P} = \boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$ plays a crucial role in understanding the geometric interpretation of the model.
 
 #### Task
-1. [📚] Prove that the projection matrix $\boldsymbol{P}$ is both symmetric and idempotent
-2. [📚] For a simple dataset with $n = 3$ observations and $d = 1$ feature (plus intercept), calculate the projection matrix $\boldsymbol{P}$ given:
+1. Prove that the projection matrix $\boldsymbol{P}$ is both symmetric and idempotent
+2. For a simple dataset with $n = 3$ observations and $d = 1$ feature (plus intercept), calculate the projection matrix $\boldsymbol{P}$ given:
 
    $$\boldsymbol{X} = \begin{bmatrix} 
    1 & 1 \\
@@ -588,8 +588,8 @@ In linear regression, the projection matrix $\boldsymbol{P} = \boldsymbol{X}(\bo
    1 & 3
    \end{bmatrix}$$
 
-3. [📚] If the response vector is $\boldsymbol{y} = [2, 3, 5]^T$, calculate the projected vector $\hat{\boldsymbol{y}} = \boldsymbol{P}\boldsymbol{y}$
-4. [📚] Explain geometrically what it means when we say the residual vector $\boldsymbol{e} = \boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
+3. If the response vector is $\boldsymbol{y} = [2, 3, 5]^T$, calculate the projected vector $\hat{\boldsymbol{y}} = \boldsymbol{P}\boldsymbol{y}$
+4. Explain geometrically what it means when we say the residual vector $\boldsymbol{e} = \boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
 
 For a detailed explanation of this problem, including step-by-step solutions and geometric interpretations, see [Question 34: Projection Matrix in Linear Regression](L3_2_34_explanation.md).
 
