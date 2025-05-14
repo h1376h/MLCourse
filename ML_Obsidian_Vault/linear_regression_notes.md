@@ -532,6 +532,33 @@ Comparison:
 
 ![Regularization Comparison](Codes/plots/regularization_comparison.png)
 
+## Review: Iterative optimization of cost function
+
+- Cost function: $J(\boldsymbol{w})$
+- Optimization problem:  $\hat{\boldsymbol{w}} = \underset{\boldsymbol{w}}{\operatorname{argmin}}J(\boldsymbol{w})$
+
+- Steps:
+  - Start from $\boldsymbol{w}^0$
+  - Repeat
+    - Update $\boldsymbol{w}^t$ to $\boldsymbol{w}^{t+1}$ in order to reduce $J$
+    - $t \leftarrow t + 1$
+  - until we hopefully end up at a minimum
+
+## Review: Gradient descent
+
+-  First-order optimization algorithm to find $\boldsymbol{w}^* = \underset{\boldsymbol{w}}{\operatorname{argmin}}J(\boldsymbol{w})$
+   - Also known as "steepest descent"
+
+- In each step, takes steps proportional to the negative of the gradient vector of the function at the current point $\boldsymbol{w}^t$:
+
+$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \gamma_t \nabla J(\boldsymbol{w}^t)$$
+
+- $J(\boldsymbol{w})$ decreases fastest if one goes from $\boldsymbol{w}^t$ in the direction of $-\nabla J(\boldsymbol{w}^t)$
+
+- Assumption: $J(\boldsymbol{w})$ is defined and differentiable in a neighborhood of a point $\boldsymbol{w}^t$
+
+Gradient ascent takes steps proportional to (the positive of) the gradient to find a local maximum of the function
+
 ## Gradient Descent for Linear Regression
 
 When $n$ or $d$ is large, inverting matrices becomes computationally expensive.
@@ -620,3 +647,39 @@ $$\text{Expected (test) loss} = E_{x,y} \{Loss(y, f(x; \theta))\}$$
 
 ### We minimize empirical loss (on the training data) and expect to also find an acceptable expected loss
 - Empirical loss as a proxy for the performance over the whole distribution. 
+
+## Minimizing cost function
+
+Optimal linear weight vector (for SSE cost function):
+
+$$J(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|^2$$
+
+$$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = -2\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$$
+
+$$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = \boldsymbol{0} \Rightarrow \boldsymbol{X}^T\boldsymbol{X}\boldsymbol{w} = \boldsymbol{X}^T\boldsymbol{y}$$
+
+$$\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1} \boldsymbol{X}^T\boldsymbol{y}$$
+
+$$\boldsymbol{w} = \boldsymbol{X}^{\dagger}\boldsymbol{y}$$
+
+$$\boldsymbol{X}^{\dagger} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$$
+
+$$\boldsymbol{X}^{\dagger} \text{ is pseudo inverse of } \boldsymbol{X}$$
+
+## Review: Gradient descent
+
+Minimize $J(\boldsymbol{w})$
+
+$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \eta\nabla_{\boldsymbol{w}}J(\boldsymbol{w}^t)$$
+
+$$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = \left[\frac{\partial J(\boldsymbol{w})}{\partial w_1}, \frac{\partial J(\boldsymbol{w})}{\partial w_2}, ..., \frac{\partial J(\boldsymbol{w})}{\partial w_d}\right]$$
+
+If $\eta$ is small enough, then $J(\boldsymbol{w}^{t+1}) \leq J(\boldsymbol{w}^t)$.
+
+$\eta$ can be allowed to change at every iteration as $\eta_t$.
+
+## Review: Gradient descent disadvantages
+
+- Local minima problem
+
+- However, when $J$ is convex, all local minima are also global minima ⇒ gradient descent can converge to the global solution. 
