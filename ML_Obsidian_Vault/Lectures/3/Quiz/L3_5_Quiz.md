@@ -1,7 +1,7 @@
 # Lecture 3.5: Optimization Techniques for Linear Regression Quiz
 
 ## Overview
-This quiz contains 20 questions from different topics covered in section 3.5 of the lectures on Optimization Techniques for Linear Regression.
+This quiz contains 22 questions from different topics covered in section 3.5 of the lectures on Optimization Techniques for Linear Regression.
 
 ## Question 1
 
@@ -401,4 +401,20 @@ You want to optimize this cost function using batch gradient descent.
 4. [📚] Explain what happens when $\alpha$ is too small and when it is too large
 5. [📚] Describe a simple learning rate scheduling strategy that can improve convergence
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 21: Batch Gradient Descent Analysis](L3_5_21_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 21: Batch Gradient Descent Analysis](L3_5_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+Consider a scenario where data arrives sequentially in a stream, and you need to update your linear regression model in real-time.
+
+#### Task
+1. [📚] Explain what online learning is and how it differs from batch learning
+2. [📚] Write down the Least Mean Squares (LMS) update rule for online learning of linear regression
+3. [📚] A new data point arrives with features $\boldsymbol{x}^{(new)} = [1, 2, 3]^T$ and target $y^{(new)} = 14$. If your current model parameters are $\boldsymbol{w} = [1, 2, 1]^T$ and you use a learning rate of $\alpha = 0.1$, calculate the updated parameters after processing this data point
+4. [📚] Discuss the trade-offs between:
+   a) A large learning rate vs. a small learning rate
+   b) Online learning vs. batch learning
+5. [📚] Describe a real-world scenario where online learning would be particularly valuable
+
+For a detailed explanation of this problem, including step-by-step calculations and key insights, see [Question 22: Online Learning and LMS Algorithm](L3_5_22_explanation.md). 

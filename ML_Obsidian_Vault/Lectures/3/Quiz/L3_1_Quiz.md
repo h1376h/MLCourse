@@ -1,7 +1,7 @@
 # Lecture 3.1: Linear Modeling Fundamentals Quiz
 
 ## Overview
-This quiz contains 10 questions covering different topics from section 3.1 of the lectures on Linear Model Theory, Matrix Properties, Gauss-Markov Theorem, and Statistical Properties.
+This quiz contains 12 questions covering different topics from section 3.1 of the lectures on Linear Model Theory, Matrix Properties, Gauss-Markov Theorem, and Statistical Properties.
 
 ## Question 1
 
@@ -151,4 +151,20 @@ Consider the geometric interpretation of linear regression, where we project the
 4. [📚] If $\hat{\boldsymbol{y}} = \boldsymbol{P}\boldsymbol{y}$ is the projection of $\boldsymbol{y}$ onto the column space of $\boldsymbol{X}$, show that the residual vector $\boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
 
 For a detailed explanation of this problem, including step-by-step proofs and geometric intuition, see [Question 11: Projection Matrix Properties](L3_1_11_explanation.md).
+
+## Question 12
+
+### Problem Statement
+Consider the concept of hypothesis spaces in linear modeling as discussed in the lecture notes.
+
+#### Task
+1. [📚] Define what a hypothesis space is in the context of machine learning
+2. [📚] Compare and contrast the following hypothesis spaces in terms of their complexity:
+   - $\mathcal{H}_0$: Constant functions $f(x) = b$
+   - $\mathcal{H}_1$: Linear functions $f(x) = ax + b$
+   - $\mathcal{H}_2$: Quadratic functions $f(x) = ax^2 + bx + c$
+3. [📚] Explain the "approximation-generalization trade-off" when selecting a hypothesis space
+4. [📚] For a target function that is a sine curve and only two training examples, explain which hypothesis space ($\mathcal{H}_0$ or $\mathcal{H}_1$) might generalize better and why
+
+For a detailed explanation of this problem, including step-by-step analysis and key insights, see [Question 12: Hypothesis Spaces and Model Complexity](L3_1_12_explanation.md).
 

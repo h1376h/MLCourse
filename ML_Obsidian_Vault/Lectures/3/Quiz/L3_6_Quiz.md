@@ -1,7 +1,7 @@
 # Lecture 3.6: Model Evaluation and Validation Quiz
 
 ## Overview
-This quiz contains 19 questions covering different topics from section 3.6 of the lectures on Model Evaluation and Validation in linear regression.
+This quiz contains 21 questions covering different topics from section 3.6 of the lectures on Model Evaluation and Validation in linear regression.
 
 ## Question 1
 
@@ -365,4 +365,22 @@ In linear regression, we can decompose the error into different components to be
 4. [📚] Explain how increasing the number of training examples affects each error component
 5. [📚] Describe how model complexity (e.g., polynomial degree) affects each error component
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 20: Error Decomposition in Linear Regression](L3_6_20_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 20: Error Decomposition in Linear Regression](L3_6_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+Learning curves provide important insights into model performance as a function of the number of training examples.
+
+#### Task
+1. [📚] Sketch (or describe) the typical shapes of learning curves (training error and test error vs. number of training examples) for:
+   a) A simple model with high bias (underfitting)
+   b) A complex model with high variance (overfitting)
+2. [📚] Mathematically explain why the training error typically increases and the test error typically decreases as the number of training examples grows
+3. [📚] Consider a linear model ($f(x) = w_0 + w_1x$) and a 10th-degree polynomial model. Which model is likely to:
+   a) Have a larger gap between training and test error with few training examples?
+   b) Have training and test errors converge with fewer training examples?
+   c) Potentially achieve lower asymptotic error with abundant training data?
+4. [📚] Based on learning curves, explain how you would diagnose whether your model has high bias, high variance, or both
+
+For a detailed explanation of this problem, including step-by-step analysis and key insights, see [Question 21: Learning Curves Analysis](L3_6_21_explanation.md). 

@@ -1,7 +1,7 @@
 # Lecture 3.3: Probabilistic View of Linear Regression Quiz
 
 ## Overview
-This quiz contains 12 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
+This quiz contains 13 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
 
 ## Question 1
 

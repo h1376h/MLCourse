@@ -1,7 +1,7 @@
 # Lecture 3.4: Multiple Linear Regression Quiz
 
 ## Overview
-This quiz contains 18 questions covering different topics from section 3.4 of the lectures on Multiple Linear Regression. These questions test your understanding of extending linear regression to multiple variables, matrix formulations, feature engineering, categorical variables, and nonlinear relationships.
+This quiz contains 19 questions covering different topics from section 3.4 of the lectures on Multiple Linear Regression. These questions test your understanding of extending linear regression to multiple variables, matrix formulations, feature engineering, categorical variables, and nonlinear relationships.
 
 ## Question 1
 
@@ -433,4 +433,26 @@ using matrix operations.
 4. [📚] Derive the gradient of the cost function with respect to $\boldsymbol{w}$ in matrix form
 5. [📚] By setting the gradient to zero, derive the normal equations and the closed-form solution for the optimal weights $\boldsymbol{w}$
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Matrix Formulation of Multiple Linear Regression](L3_4_18_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Matrix Formulation of Multiple Linear Regression](L3_4_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+In generalized linear models, we use basis functions to transform the input data:
+
+$$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1\phi_1(\boldsymbol{x}) + w_2\phi_2(\boldsymbol{x}) + \cdots + w_m\phi_m(\boldsymbol{x})$$
+
+where $\{\phi_1(\boldsymbol{x}), \ldots, \phi_m(\boldsymbol{x})\}$ is a set of basis functions.
+
+#### Task
+1. [📚] Explain how generalized linear models extend basic linear regression while still preserving the linear optimization techniques
+2. [📚] For a univariate input $x$, write down the specific basis functions for:
+   a) Linear regression
+   b) Polynomial regression of degree 3
+   c) Gaussian radial basis functions with centers at $c_1=1$, $c_2=2$, and $c_3=3$ with width $\sigma=0.5$
+3. [📚] Describe the key advantages and disadvantages of using:
+   a) Polynomial basis functions
+   b) Radial basis functions
+4. [📚] Given a dataset with highly non-linear patterns, explain which basis functions you would recommend and why
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 19: Generalized Linear Models and Basis Functions](L3_4_19_explanation.md). 
