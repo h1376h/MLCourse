@@ -1,11 +1,11 @@
 # Linear Regression Notes
 
-## Error function, Optimization, Generalization
+## Topics
 
-Linear regression models the relationship between features and a target variable using linear functions. It involves:
-- Selecting an appropriate hypothesis space
-- Optimizing a cost function based on training data
-- Evaluating the generalization ability of the model
+- Linear regression
+  - Error (cost) function
+  - Optimization
+  - Generalization
 
 ## Regression problem
 
@@ -29,6 +29,8 @@ Example: predicting house price from 3 attributes
 
 ### Evaluation: we measure how well $\hat{f}$ generalizes to unseen examples
 
+![Learning Problem Visualization](Codes/plots/learning_problem_visualization.png)
+
 ## Hypothesis space
 
 ### Specify the class of functions (e.g., linear)
@@ -45,6 +47,8 @@ $f : \mathbb{R} \rightarrow \mathbb{R} \quad f(x; \boldsymbol{w}) = w_0 + w_1 x$
 $f : \mathbb{R}^d \rightarrow \mathbb{R} \quad f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + \ldots w_d x_d$
 
 $\boldsymbol{w} = [w_0, w_1, \ldots, w_d]^T$ are parameters we need to set.
+
+![Linear Model Visualization](Codes/plots/linear_model_visualization.png)
 
 ## Learning algorithm
 
@@ -70,7 +74,9 @@ The learning process aims to:
 1. Measure how well $f(\boldsymbol{x}; \boldsymbol{w})$ approximates the target function
 2. Choose $\boldsymbol{w}$ to minimize the error measure
 
-![Learning Algorithm](Codes/plots/learning_algorithm_diagram.png)
+### Select how to measure the error (i.e. prediction loss)
+
+### Find the minimum of the resulting error or cost function
 
 ## How to measure the error
 
@@ -79,30 +85,19 @@ In supervised learning, we need a way to quantify how well our model's predictio
 ### Squared Error
 The most common error measure for linear regression is the squared error:
 
-$$\text{Squared Error} = \left(y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w})\right)^2$$
+$$\text{Squared error} = \left(y^{(i)} - f(x^{(i)}; \boldsymbol{w})\right)^2$$
 
-### Why squared error?
-1. **Convexity**: Creates a convex optimization problem with a unique global minimum
-2. **Differentiability**: Smooth function that can be easily differentiated
-3. **Penalizes larger errors**: Squaring magnifies large errors, pushing the model to fix significant deviations
-4. **Mathematical convenience**: Leads to closed-form solutions for linear regression
-5. **Statistical justification**: Under certain assumptions, corresponds to maximum likelihood estimation
+![Squared Error Visualization](Codes/plots/squared_error_visualization.png)
 
-### Other error measures:
-- **Mean Absolute Error (MAE)**: $|y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w})|$
-  - More robust to outliers but doesn't have a closed-form solution
-- **Huber Loss**: Combines MSE and MAE; quadratic for small errors, linear for large errors
-- **Quantile Loss**: For predicting specific quantiles rather than the mean
+## Learning algorithm
 
-### Aggregate error measures:
-- **Sum of Squared Errors (SSE)**: $\sum_{i=1}^{n} \left(y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w})\right)^2$
-- **Mean Squared Error (MSE)**: $\frac{1}{n}\sum_{i=1}^{n} \left(y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w})\right)^2$
-- **Root Mean Squared Error (RMSE)**: $\sqrt{\frac{1}{n}\sum_{i=1}^{n} \left(y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w})\right)^2}$
-  - Has same units as the target variable
+![Learning Algorithm](Codes/plots/learning_algorithm_diagram.png)
 
-For linear regression, we typically minimize SSE or MSE, which leads to the same parameters (the scaling factor doesn't affect the location of the minimum).
+Training Set $D$
 
-![Error Measurement](Codes/plots/error_measurement.png)
+We need to:
+1. Measure how well $f(x; \boldsymbol{w})$ approximates the target
+2. Choose $\boldsymbol{w}$ to minimize the error measure
 
 ## Linear regression: univariate example
 
@@ -515,6 +510,4 @@ $\boldsymbol{w} := \boldsymbol{w} + 2\alpha\boldsymbol{X}^T(\boldsymbol{y} - \bo
   - Assumes independence of errors
   - Normal equations require $O(d^3)$ time and $O(d^2)$ space
 
-Extensions: Polynomial regression, generalized linear models, kernel ridge regression
-
-![Page 35](other_slides/Linear-Regression%2089-35.png) 
+Extensions: Polynomial regression, generalized linear models, kernel ridge regression 
