@@ -971,3 +971,99 @@ $$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \gamma_t \nabla J(\boldsymbol{w}^t)$
 
 #### Gradient ascent
 Takes steps proportional to (the positive of) the gradient to find a local maximum of the function
+
+## Model complexity and overfitting
+
+With limited training data, models may achieve zero training error but a large test error.
+
+### Training (empirical) loss
+$$\frac{1}{n}\sum_{i=1}^n \left(y^{(i)} - f\left(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}\right)\right)^2 \approx 0$$
+
+### Expected (test) loss
+$$E_{x,y}\left\{\left(y - f(\boldsymbol{x}; \boldsymbol{\theta})\right)^2\right\} \gg 0$$
+
+Over-fitting occurs when the training loss no longer bears any relation to the test (generalization) loss. The model fails to generalize to unseen examples.
+
+## Model complexity
+
+### Example:
+Polynomials with larger $m$ are becoming increasingly tuned to the random noise on the target values.
+
+- $m = 0$: Constant function (horizontal line)
+- $m = 1$: Linear function
+- $m = 3$: Cubic polynomial
+- $m = 9$: 9th degree polynomial
+
+As the degree of the polynomial increases, the model becomes more flexible and can fit the training data more closely, including the noise. While the higher-degree polynomials may achieve lower training error, they often result in higher test error due to overfitting.
+
+## Polynomial regression: training and test error
+
+$$RMSE = \sqrt{\frac{\sum_{i=1}^n \left(y^{(i)} - f\left(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}\right)\right)^2}{n}}$$
+
+As the model complexity (polynomial degree $m$) increases:
+- Training error consistently decreases
+- Test error initially decreases as the model becomes more expressive
+- Test error then increases as the model starts to overfit 
+- The gap between training and test error widens for higher complexity models
+
+The optimal model complexity balances between underfitting and overfitting, typically at the point where test error is minimized (around $m = 3$ to $m = 5$ for typical cases).
+
+## How to evaluate the learner's performance?
+
+Generalization error is the true (or expected) error that we would like to optimize.
+
+Two ways to assess the generalization error:
+- Practical: Use a separate data set to test the model
+- Theoretical: Law of Large numbers
+  - statistical bounds on the difference between training and expected errors
+
+## Number of training data & overfitting
+
+Over-fitting problem becomes less severe as the size of training data increases.
+
+For the same model complexity (e.g., $m = 9$ polynomial):
+- With few samples ($n = 15$): The model fits the noise in the data
+- With more samples ($n = 100$): The model fits the underlying pattern better
+
+## Evaluation and model selection
+
+### Evaluation:
+We need to measure how well the learned function can predict the target for unseen examples.
+
+### Model selection:
+Most of the time we need to select among a set of models:
+- Example: polynomials with different degree $m$
+- We need to evaluate these models first
+
+## Avoiding over-fitting
+
+### Determine a suitable value for model complexity
+- Simple hold-out method
+- Cross-validation
+
+### Regularization (Occam's Razor)
+- Explicit preference towards simple models
+- Penalize for the model complexity in the objective function
+
+### Bayesian approach
+
+## Over-fitting causes
+
+### Model complexity
+- E.g., Model with a large number of parameters (degrees of freedom)
+
+### Low number of training data
+- Small data size compared to the complexity of the model
+
+## Simple hold-out: model selection
+
+### Steps:
+- Divide training data into training and validation set
+- Use only the training set to train a set of models
+- Evaluate each learned model on the validation set
+    - $J_v(\boldsymbol{w}) = \frac{1}{|v\_set|}\sum_{i\in v\_set} \left(y^{(i)} - f\left(\boldsymbol{x}^{(i)};\boldsymbol{w}\right)\right)^2$
+- Choose the best model based on the validation set error
+
+### Usually, too wasteful of valuable training data
+- Training data may be limited.
+- On the other hand, small validation set gives a relatively noisy estimate of performance.
