@@ -616,9 +616,9 @@ For a detailed explanation of this problem, including regression analysis and bu
 ## Question 36
 
 ### Problem Statement
-(Linear Regression): Given the following data:
+Given the following data:
 
-| Subject | Age (x) | Glucose level (y) | xy | x² | y² |
+| Subject | Age ($x$) | Glucose level ($y$) | $xy$ | $x^2$ | $y^2$ |
 |---------|---------|-------------------|-----|-----|-----|
 | 1 | 43 | 99 | 4257 | 1849 | 9801 |
 | 2 | 21 | 65 | 1365 | 441 | 4225 |
