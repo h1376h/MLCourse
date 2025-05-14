@@ -505,7 +505,7 @@ Draw simple diagrams to illustrate your answers.
 
 For a detailed explanation of this problem, including visual examples, see [Question 28: Effects of Outliers and Leverage Points](L3_2_28_explanation.md).
 
-## Question 29
+## [📕] Question 29
 
 ### Problem Statement
 Consider the residuals $e_i = y_i - \hat{y}_i$ from a simple linear regression model.

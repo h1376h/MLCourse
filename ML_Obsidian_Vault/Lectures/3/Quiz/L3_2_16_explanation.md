@@ -72,23 +72,23 @@ Adding more data points to a regression model does not guarantee a better fit. T
 ![Increasing Data Points](../Images/L3_2_16/increasing_data_points.png)
 
 Our simulation compared three scenarios:
-- Base dataset (10 points): R² = 0.980
-- With good additional data (20 points): R² = 0.958
-- With noisy additional data (20 points): R² = 0.674
+- Base dataset (10 points): $R^2 = 0.980$
+- With good additional data (20 points): $R^2 = 0.958$
+- With noisy additional data (20 points): $R^2 = 0.674$
 
 The model coefficients also showed significant changes:
-- Base model: y = 2.479 + 1.494x
-- Model with good data: y = 1.946 + 1.476x
-- Model with noisy data: y = 2.736 + 1.287x
+- Base model: $y = 2.479 + 1.494x$
+- Model with good data: $y = 1.946 + 1.476x$
+- Model with noisy data: $y = 2.736 + 1.287x$
 
-While adding good, well-behaved data maintained a good fit (slight decrease in R² but still strong), adding noisy data significantly decreased the model's performance. This demonstrates that the quality of additional data matters more than the quantity.
+While adding good, well-behaved data maintained a good fit (slight decrease in $R^2$ but still strong), adding noisy data significantly decreased the model's performance. This demonstrates that the quality of additional data matters more than the quantity.
 
 #### Verdict
 **FALSE**. Increasing the number of data points doesn't always lead to a better fit; the quality of the additional data matters.
 
-### Statement 4: R² Interpretation
+### Statement 4: $R^2$ Interpretation
 
-The coefficient of determination (R²) is mathematically defined as:
+The coefficient of determination ($R^2$) is mathematically defined as:
 $$R^2 = 1 - \frac{SS_{res}}{SS_{tot}} = \frac{SS_{reg}}{SS_{tot}}$$
 
 Where:
@@ -99,20 +99,20 @@ Where:
 ![R² Variance Decomposition](../Images/L3_2_16/r_squared_variance.png)
 
 Our simulation demonstrates this with three levels of relationship strength:
-- Strong relationship: R² = 0.915
+- Strong relationship: $R^2 = 0.915$
   - Total variance: 238.82
   - Explained variance: 218.45 (91.5%)
   - Unexplained variance: 20.37 (8.5%)
-- Medium relationship: R² = 0.375
-- Weak relationship: R² = 0.032
+- Medium relationship: $R^2 = 0.375$
+- Weak relationship: $R^2 = 0.032$
   - Total variance: 2981.52
   - Explained variance: 95.06 (3.2%)
   - Unexplained variance: 2886.46 (96.8%)
 
-The visualizations clearly show how R² directly corresponds to the proportion of variance explained, with the bar charts showing the decomposition of total variance into explained and unexplained components.
+The visualizations clearly show how $R^2$ directly corresponds to the proportion of variance explained, with the bar charts showing the decomposition of total variance into explained and unexplained components.
 
 #### Verdict
-**TRUE**. The coefficient of determination (R²) represents the proportion of variance in the dependent variable explained by the model.
+**TRUE**. The coefficient of determination ($R^2$) represents the proportion of variance in the dependent variable explained by the model.
 
 ### Statement 5: Regression Line Through Mean Point
 
@@ -126,29 +126,29 @@ From these constraints, it can be mathematically proven that the regression line
 
 Our simulation verifies this with three different datasets:
 1. Dataset 1:
-   - Mean point: (x̄, ȳ) = (4.3860, 7.8618)
-   - Regression line at x̄: 7.8618
-   - Difference from ȳ: 0.0000000000
+   - Mean point: ($\bar{x}$, $\bar{y}$) = (4.3860, 7.8618)
+   - Regression line at $\bar{x}$: 7.8618
+   - Difference from $\bar{y}$: 0.0000000000
 2. Dataset 2:
-   - Mean point: (x̄, ȳ) = (9.5714, 28.6337)
-   - Regression line at x̄: 28.6337
-   - Difference from ȳ: 0.0000000000
+   - Mean point: ($\bar{x}$, $\bar{y}$) = (9.5714, 28.6337)
+   - Regression line at $\bar{x}$: 28.6337
+   - Difference from $\bar{y}$: 0.0000000000
 3. Dataset 3:
-   - Mean point: (x̄, ȳ) = (14.2801, 48.4401)
-   - Regression line at x̄: 48.4401
-   - Difference from ȳ: 0.0000000000
+   - Mean point: ($\bar{x}$, $\bar{y}$) = (14.2801, 48.4401)
+   - Regression line at $\bar{x}$: 48.4401
+   - Difference from $\bar{y}$: 0.0000000000
 
-For all datasets, the regression line passes exactly through the point (x̄, ȳ), with only negligible numerical precision differences.
+For all datasets, the regression line passes exactly through the point ($\bar{x}$, $\bar{y}$), with only negligible numerical precision differences.
 
 #### Verdict
-**TRUE**. In simple linear regression, the regression line always passes through the point (x̄, ȳ).
+**TRUE**. In simple linear regression, the regression line always passes through the point ($\bar{x}$, $\bar{y}$).
 
 ## Key Insights
 
 ### Residual Properties
 - Residuals sum to zero in models with intercept - a mathematical consequence of the normal equations
 - This property is not guaranteed in models without an intercept
-- This property ensures the regression line passes through the mean point (x̄, ȳ)
+- This property ensures the regression line passes through the mean point ($\bar{x}$, $\bar{y}$)
 
 ### Estimation Methods
 - Least squares minimizes the sum of squared errors (L2 norm)
@@ -162,14 +162,14 @@ For all datasets, the regression line passes exactly through the point (x̄, ȳ)
 - Noisy data or outliers can significantly reduce model performance
 - The bias-variance trade-off influences how additional data affects model performance
 
-### R² Interpretation
-- R² represents the proportion of variance explained by the model
-- R² = 1 means the model explains all variance in the dependent variable
-- R² = 0 means the model explains none of the variance
-- R² provides a standardized measure of fit regardless of the scale of the data
+### $R^2$ Interpretation
+- $R^2$ represents the proportion of variance explained by the model
+- $R^2 = 1$ means the model explains all variance in the dependent variable
+- $R^2 = 0$ means the model explains none of the variance
+- $R^2$ provides a standardized measure of fit regardless of the scale of the data
 
 ### Regression Line Properties
-- The regression line always passes through (x̄, ȳ) in simple linear regression with intercept
+- The regression line always passes through ($\bar{x}$, $\bar{y}$) in simple linear regression with intercept
 - This is a mathematical property, not a coincidence
 - This property helps with interpreting the regression coefficients
 
@@ -179,5 +179,5 @@ Based on our analysis:
 - Statement 1 is **TRUE**: Residuals always sum to zero with an intercept.
 - Statement 2 is **FALSE**: Least squares minimizes squared differences, not absolute differences.
 - Statement 3 is **FALSE**: More data points don't always improve fit; quality matters.
-- Statement 4 is **TRUE**: R² represents the proportion of explained variance.
-- Statement 5 is **TRUE**: The regression line passes through the point (x̄, ȳ). 
+- Statement 4 is **TRUE**: $R^2$ represents the proportion of explained variance.
+- Statement 5 is **TRUE**: The regression line passes through the point ($\bar{x}$, $\bar{y}$). 
