@@ -368,347 +368,6 @@ $$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = \boldsymbol{0}$$
 
 This gives us a system of $d + 1$ linear equations that we can solve to find the optimal parameters.
 
-## Example: simple linear regression
-
-Consider the simple case with one feature:
-
-$f(x; w_0, w_1) = w_0 + w_1 x$
-
-$\boldsymbol{X} = \begin{bmatrix} 
-1 & x^{(1)} \\
-1 & x^{(2)} \\
-\vdots & \vdots \\
-1 & x^{(n)}
-\end{bmatrix}, \boldsymbol{w} = \begin{bmatrix} w_0 \\ w_1 \end{bmatrix}, \boldsymbol{y} = \begin{bmatrix} y^{(1)} \\ y^{(2)} \\ \vdots \\ y^{(n)} \end{bmatrix}$
-
-$\boldsymbol{X}^T\boldsymbol{X} = \begin{bmatrix} 
-n & \sum_{i=1}^{n} x^{(i)} \\
-\sum_{i=1}^{n} x^{(i)} & \sum_{i=1}^{n} (x^{(i)})^2
-\end{bmatrix}$
-
-$\boldsymbol{X}^T\boldsymbol{y} = \begin{bmatrix} 
-\sum_{i=1}^{n} y^{(i)} \\
-\sum_{i=1}^{n} x^{(i)}y^{(i)}
-\end{bmatrix}$
-
-## Example: simple linear regression (cont.)
-
-Computing the solution:
-
-$\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$
-
-$w_1 = \frac{n\sum_{i=1}^{n} x^{(i)}y^{(i)} - \sum_{i=1}^{n} x^{(i)}\sum_{i=1}^{n} y^{(i)}}{n\sum_{i=1}^{n} (x^{(i)})^2 - (\sum_{i=1}^{n} x^{(i)})^2}$
-
-$w_0 = \frac{1}{n}(\sum_{i=1}^{n} y^{(i)} - w_1 \sum_{i=1}^{n} x^{(i)}) = \bar{y} - w_1 \bar{x}$
-
-Note:
-- $w_1$ captures the correlation between $x$ and $y$
-- $w_0$ shifts the line to pass through the point $(\bar{x}, \bar{y})$
-
-## Linear regression in higher dimensions
-
-The same approach works for multiple features:
-
-$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + w_2 x_2 + \ldots + w_d x_d$
-
-Solution via normal equations:
-
-$\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$
-
-With multiple features:
-- The model describes a hyperplane in the feature space
-- Each $w_i$ for $i \geq 1$ represents the impact of feature $x_i$ on the prediction
-- $w_0$ is the bias or intercept term
-
-## Geometric interpretation: projection
-
-The prediction $\hat{\boldsymbol{y}} = \boldsymbol{X}\boldsymbol{w}$ is the projection of $\boldsymbol{y}$ onto the column space of $\boldsymbol{X}$.
-
-$\hat{\boldsymbol{y}} = \boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y} = \boldsymbol{P}\boldsymbol{y}$
-
-where $\boldsymbol{P} = \boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$ is the projection matrix.
-
-Properties:
-- $\boldsymbol{P}$ is symmetric: $\boldsymbol{P}^T = \boldsymbol{P}$
-- $\boldsymbol{P}$ is idempotent: $\boldsymbol{P}^2 = \boldsymbol{P}$
-- The residual $\boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
-
-Geometrically, this means:
-- $\hat{\boldsymbol{y}}$ is the point in the column space of $\boldsymbol{X}$ closest to $\boldsymbol{y}$
-- The vector $\boldsymbol{y} - \hat{\boldsymbol{y}}$ is perpendicular to the column space
-- The sum of squared errors is minimized
-
-In $\mathbb{R}^n$ space (with $n$ observations):
-- $\boldsymbol{y}$ is a point in $\mathbb{R}^n$
-- The column space of $\boldsymbol{X}$ is a $d+1$ dimensional subspace
-- Linear regression finds the projection of $\boldsymbol{y}$ onto this subspace
-
-This interpretation helps visualize why the least squares solution has the properties it does and why it represents the best linear fit to the data.
-
-![Geometric Interpretation](Codes/plots/geometric_interpretation.png)
-
-## Regularization: Ridge regression
-
-When features are correlated or $d$ is large relative to $n$, the normal equations can be ill-conditioned.
-
-Ridge regression adds a penalty on the magnitude of the weights:
-
-$J_{\text{ridge}}(\boldsymbol{w}) = J(\boldsymbol{w}) + \lambda\|\boldsymbol{w}\|_2^2 = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda\|\boldsymbol{w}\|_2^2$
-
-where $\lambda > 0$ is the regularization parameter.
-
-The solution is:
-
-$\boldsymbol{w}_{\text{ridge}} = (\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I})^{-1}\boldsymbol{X}^T\boldsymbol{y}$
-
-Benefits:
-- Always has a unique solution (since $\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}$ is invertible)
-- Reduces overfitting
-- Handles multicollinearity
-
-### How Ridge regression works:
-- The L2 penalty term $\lambda\|\boldsymbol{w}\|_2^2$ shrinks all coefficients toward zero
-- As $\lambda$ increases, the bias increases and variance decreases
-- The regularization effect is stronger for directions with smaller eigenvalues in $\boldsymbol{X}^T\boldsymbol{X}$
-- The intercept term $w_0$ is typically not regularized
-
-## Regularization: Lasso regression
-
-Lasso (Least Absolute Shrinkage and Selection Operator) regression uses an L1 penalty:
-
-$J_{\text{lasso}}(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda\|\boldsymbol{w}\|_1$
-
-where $\|\boldsymbol{w}\|_1 = \sum_{j=0}^{d}|w_j|$ is the L1 norm.
-
-Properties:
-- Encourages sparse solutions (many weights exactly zero)
-- Performs feature selection
-- No closed-form solution (requires optimization algorithms)
-
-### How Lasso regression works:
-- The L1 penalty creates a constraint region shaped like a diamond
-- This geometry makes it more likely for coefficients to be exactly zero
-- Effective when many features have little or no impact on the target
-- Computationally more intensive than Ridge regression (typically solved using coordinate descent or LARS)
-
-### Elastic Net regularization:
-- Combines both L1 and L2 penalties: $\lambda_1\|\boldsymbol{w}\|_1 + \lambda_2\|\boldsymbol{w}\|_2^2$
-- Preserves the feature selection properties of Lasso
-- More robust to collinearity than Lasso
-- Often outperforms both Ridge and Lasso in practice
-
-Comparison:
-- Ridge: shrinks all coefficients toward zero
-- Lasso: shrinks some coefficients exactly to zero
-- Elastic Net: combines L1 and L2 penalties
-
-### Choosing the regularization parameter:
-- Cross-validation is typically used to select $\lambda$
-- The regularization path shows how coefficients change with varying $\lambda$
-- For high-dimensional data, regularization is often essential
-
-![Regularization Comparison](Codes/plots/regularization_comparison.png)
-
-## Gradient Descent for Linear Regression
-
-When $n$ or $d$ is large, inverting matrices becomes computationally expensive.
-
-Gradient descent is an iterative optimization algorithm:
-
-1. Initialize $\boldsymbol{w}$ (often to zeros or small random values)
-2. Repeat until convergence:
-   $\boldsymbol{w} := \boldsymbol{w} - \alpha \nabla_{\boldsymbol{w}}J(\boldsymbol{w})$
-   where $\alpha > 0$ is the learning rate
-
-For linear regression with SSE:
-$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = -2\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$
-
-Update rule:
-$\boldsymbol{w} := \boldsymbol{w} + 2\alpha\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$
-
-### Gradient Descent Variants:
-
-#### Batch gradient descent:
-- Uses all examples for each update
-- Follows the true gradient direction
-- Computationally expensive for large datasets
-- Guaranteed to converge to global minimum for convex functions (like linear regression)
-- Update rule: $\boldsymbol{w} := \boldsymbol{w} - \alpha \frac{1}{n}\sum_{i=1}^{n}\nabla_{\boldsymbol{w}}(y^{(i)} - \boldsymbol{w}^T\boldsymbol{x}^{(i)})^2$
-
-#### Stochastic gradient descent (SGD):
-- Uses one randomly selected example for each update
-- Much faster per iteration but noisier updates
-- May never converge exactly, but oscillates around the minimum
-- Better for very large datasets
-- Update rule: $\boldsymbol{w} := \boldsymbol{w} - \alpha \nabla_{\boldsymbol{w}}(y^{(i)} - \boldsymbol{w}^T\boldsymbol{x}^{(i)})^2$
-
-#### Mini-batch gradient descent:
-- Uses small batches of examples (e.g., 32, 64, 128)
-- Compromise between batch and stochastic variants
-- Less noisy than SGD but still efficient
-- Most common in practice
-- Update rule: $\boldsymbol{w} := \boldsymbol{w} - \alpha \frac{1}{b}\sum_{i \in B}\nabla_{\boldsymbol{w}}(y^{(i)} - \boldsymbol{w}^T\boldsymbol{x}^{(i)})^2$
-
-### Practical considerations:
-- Learning rate $\alpha$ is a crucial hyperparameter
-  - Too small: slow convergence
-  - Too large: may diverge
-- Learning rate schedules can improve convergence
-  - Start with larger $\alpha$ and decrease over time
-  - Common schedules: step decay, exponential decay, 1/t decay
-- For high-dimensional problems, adaptive methods like Adam, RMSprop, or Adagrad often work better
-- Early stopping can be used to prevent overfitting
-
-### Convergence criteria:
-- Fixed number of iterations
-- Change in parameters below threshold: $\|\boldsymbol{w}_{k+1} - \boldsymbol{w}_k\| < \epsilon$
-- Change in cost function below threshold: $|J(\boldsymbol{w}_{k+1}) - J(\boldsymbol{w}_k)| < \epsilon$
-- Gradient magnitude below threshold: $\|\nabla_{\boldsymbol{w}}J(\boldsymbol{w})\| < \epsilon$
-
-![Gradient Descent](Codes/plots/gradient_descent.png)
-![Gradient Descent Fitting](Codes/plots/gradient_descent_fitting.png)
-
-## Gradient descent for SSE cost function
-
-### Weight update rule: $f(x; w) = w^T x$
-
-For linear regression with the weight update rule, we have:
-
-$$w^{t+1} = w^t + \eta \sum_{i=1}^{n} (y^{(i)} - w^T x^{(i)})x^{(i)}$$
-
-### Batch mode: each step considers all training data
-
-This approach uses the entire training dataset to compute the gradient at each iteration. While this provides the most accurate direction for the update, it can be computationally expensive for large datasets.
-
-### Learning rate considerations:
-- $\eta$: too small → gradient descent can be slow
-- $\eta$: too large → gradient descent can overshoot the minimum. It may fail to converge, or even diverge
-
-The choice of learning rate is critical to the performance of gradient descent. If it's too small, the algorithm will take unnecessarily long to converge. If it's too large, the algorithm might overshoot the minimum, potentially failing to converge or even diverging away from the solution.
-
-## Minimizing J(w) for SSE cost function
-
-### General form of gradient descent:
-$$w^{t+1} = w^t - \eta\nabla_w J(w^t)$$
-
-### Sum of squares error cost function:
-$$J(w) = \sum_{i=1}^{n} \left(y^{(i)} - f(x^{(i)}; w)\right)^2$$
-
-Where $f(w; x) = w^T x$ is the linear model.
-
-### Weight update rule for linear regression with SSE:
-$$w^{t+1} = w^t + \eta \sum_{i=1}^{n} \left(y^{(i)} - w^{t T} x^{(i)}\right) x^{(i)}$$
-
-This update rule moves the weights in a direction that reduces the sum of squared errors between our predictions and the actual target values.
-
-## Review: Iterative optimization of cost function
-
-### Cost function: $J(\boldsymbol{w})$
-
-### Optimization problem: $\hat{\boldsymbol{w}} = \underset{\boldsymbol{w}}{\operatorname{argmin}} J(\boldsymbol{w})$
-
-### Steps:
-- Start from $\boldsymbol{w}^0$
-- Repeat:
-  - Update $\boldsymbol{w}^t$ to $\boldsymbol{w}^{t+1}$ in order to reduce $J$
-  - $t \leftarrow t + 1$
-- Until we hopefully end up at a minimum
-
-The key idea is to iteratively refine our parameter estimates in a way that consistently decreases the cost function, eventually leading to parameters that minimize it.
-
-## Review: Gradient descent
-
-### Minimize $J(\boldsymbol{w})$
-
-$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \eta\nabla_{\boldsymbol{w}}J(\boldsymbol{w}^t)$$
-
-Where $\eta$ is the step size (learning rate parameter) and the gradient is:
-
-$$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = \left[\frac{\partial J(\boldsymbol{w})}{\partial w_1}, \frac{\partial J(\boldsymbol{w})}{\partial w_2}, ..., \frac{\partial J(\boldsymbol{w})}{\partial w_d}\right]$$
-
-### If $\eta$ is small enough, then $J(\boldsymbol{w}^{t+1}) \leq J(\boldsymbol{w}^{t})$.
-
-### $\eta$ can be allowed to change at every iteration as $\eta_t$.
-
-### First-order optimization algorithm to find $\boldsymbol{w}^* = \underset{\boldsymbol{w}}{\operatorname{argmin}} J(\boldsymbol{w})$
-
-- Also known as "steepest descent"
-
-### In each step, takes steps proportional to the negative of the gradient vector of the function at the current point $\boldsymbol{w}^t$:
-
-$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \gamma_t \nabla J(\boldsymbol{w}^t)$$
-
-- $J(\boldsymbol{w})$ decreases fastest if one goes from $\boldsymbol{w}^t$ in the direction of $-\nabla J(\boldsymbol{w}^t)$
-- Assumption: $J(\boldsymbol{w})$ is defined and differentiable in a neighborhood of a point $\boldsymbol{w}^t$
-
-Gradient ascent takes steps proportional to (the positive of) the gradient to find a local maximum of the function.
-
-## Review: Gradient descent disadvantages
-
-### Local minima problem
-
-### However, when $J$ is convex, all local minima are also global minima ⇒ gradient descent can converge to the global solution.
-
-## Gradient descent with non-convex cost functions
-
-When dealing with non-convex cost functions, gradient descent faces challenges:
-
-- Multiple local minima can trap the algorithm
-- The starting point can determine which minimum is reached
-- The convergence to the global minimum is not guaranteed
-
-In non-convex optimization landscapes:
-- Gradient descent follows the path of steepest descent
-- The algorithm may converge to different solutions depending on initialization
-- Advanced techniques like random restarts, momentum, or simulated annealing may help escape local minima
-
-![Non-convex Cost Function](Codes/plots/non_convex_cost_function.png)
-
-The 3D visualization shows a non-convex cost function with multiple local minima. The black path represents how gradient descent might navigate this landscape, potentially getting trapped in a local minimum rather than finding the global optimum.
-
-## Minimizing cost function
-
-### Optimal linear weight vector (for SSE cost function):
-
-$$J(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|^2$$
-
-Taking the gradient with respect to the parameters:
-
-$$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = -2\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$$
-
-Setting the gradient to zero to find the optimum:
-
-$$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = \boldsymbol{0} \Rightarrow \boldsymbol{X}^T\boldsymbol{X}\boldsymbol{w} = \boldsymbol{X}^T\boldsymbol{y}$$
-
-Solving for the optimal parameters:
-
-$$\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1} \boldsymbol{X}^T\boldsymbol{y}$$
-
-This can also be written using the pseudo-inverse notation:
-
-$$\boldsymbol{w} = \boldsymbol{X}^\dagger\boldsymbol{y}$$
-
-Where the pseudo-inverse is defined as:
-
-$$\boldsymbol{X}^\dagger = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$$
-
-The pseudo-inverse $\boldsymbol{X}^\dagger$ is a generalization of the inverse matrix and exists even when $\boldsymbol{X}$ is not square.
-
-## Another approach for optimizing the sum squared error
-
-The closed-form solution with the normal equations provides the exact optimum in one step. However, there are scenarios where an iterative approach may be preferred:
-
-### Iterative approach for solving the optimization problem:
-
-$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2$$
-
-Iterative methods are particularly useful when:
-- The dataset is very large, and computing the inverse is expensive
-- The dataset doesn't fit in memory, requiring incremental updates
-- The matrix $\boldsymbol{X}^T\boldsymbol{X}$ is ill-conditioned or singular
-
-The primary iterative approach used is gradient descent, which we'll explore in more detail.
-
 ## Example: Housing price prediction
 
 In this example, we apply linear regression to predict house prices based on house size:
@@ -721,19 +380,16 @@ where:
 - $w_0$ is the intercept
 - $w_1$ is the slope (price change per unit of size)
 
-The left plot shows:
-- Training data points (red x marks)
-- The fitted linear model (blue line)
-- House prices generally increase with size, but with significant variance
-
-The right plot shows:
-- The contour lines of the cost function $J(w_0, w_1)$
-- The parameters $w_0$ and $w_1$ determine the position of the fitted line
-- The optimal values for $w_0$ and $w_1$ are found at the center of the contours
+The visualizations show:
+- Left plots: Training data points (red x marks) and the linear hypothesis (blue line)
+- Right plots: Contour lines of the cost function $J(w_0, w_1)$ with red x marks showing parameters tried during optimization
 
 As we adjust the parameter values, we can observe different fits to the data:
-- A negative slope fits the data better than a horizontal line
-- The optimal fit captures the general trend of increasing price with increasing size
+1. First model: A horizontal line hypothesis (with slope near zero) does not capture the trend in the data
+2. Second model: A line with negative slope fits the data better than the horizontal line but still doesn't capture the trend correctly
+3. Final model: The optimal fit with positive slope captures the general trend of increasing price with increasing size
+
+These examples from Andrew Ng's Stanford ML course illustrate how different parameter choices affect the fit of our linear model, and how finding the minimum of the cost function leads to the best fit.
 
 ## Cost function: 3D visualization
 
@@ -743,4 +399,24 @@ $$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
 
 The 3D plot demonstrates that the cost function has a convex shape, which means it has a single global minimum without local minima where gradient descent might get stuck.
 
-![Cost Function 3D Surface](Codes/plots/cost_function_3d_surface.png) 
+![Cost Function 3D Surface](Codes/plots/cost_function_3d_surface.png)
+
+## Evaluation and generalization
+
+### Why minimizing the cost function (based on only training data) while we are interested in the performance on new examples?
+
+$$\min_{\theta} \sum_{i=1}^{n} Loss \left(y^{(i)}, f(x^{(i)}; \theta) \right) \longrightarrow \text{Empirical loss}$$
+
+### Evaluation: After training, we need to measure how well the learned prediction function can predicts the target for unseen examples 
+
+## Training and test performance
+
+### Assumption: training and test examples are drawn independently at random from the same but unknown distribution.
+- Each training/test example $(x, y)$ is a sample from joint probability distribution $P(x, y)$, i.e., $(x, y) \sim P$
+
+$$\text{Empirical (training) loss} = \frac{1}{n}\sum_{i=1}^{n} Loss \left(y^{(i)}, f(x^{(i)}; \theta) \right)$$
+
+$$\text{Expected (test) loss} = E_{x,y} \{Loss(y, f(x; \theta))\}$$
+
+### We minimize empirical loss (on the training data) and expect to also find an acceptable expected loss
+- Empirical loss as a proxy for the performance over the whole distribution. 
