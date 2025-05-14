@@ -1050,6 +1050,16 @@ For the same model complexity (e.g., $m = 9$ polynomial):
 
 As we add more training points, even complex models are forced to capture the true underlying pattern rather than fitting individual data points, reducing overfitting.
 
+## Simple hold out: training, validation, and test sets
+
+- Simple hold-out chooses the model that minimizes error on validation set.
+
+- $J_v(\hat{\boldsymbol{w}})$ is likely to be an optimistic estimate of generalization error.
+  - extra parameter (e.g., degree of polynomial) is fit to this set.
+
+- Estimate generalization error for the test set
+  - performance of the selected model is finally evaluated on the test set
+
 ## Evaluation and model selection
 
 ### Evaluation:
