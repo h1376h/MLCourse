@@ -77,22 +77,22 @@
   - ⭐ Quiz: [[L3_2_Quiz]]
   - 📚 Examples: Coming Soon
 - 3.3: Probabilistic View of Linear Regression
-  - ⭐ Quiz: L3_3_Quiz
+  - ⭐ Quiz: [[L3_3_Quiz]]
   - 📚 Examples: Coming Soon
 - 3.4: Multiple Linear Regression
-  - ⭐ Quiz: L3_4_Quiz
+  - ⭐ Quiz: [[L3_4_Quiz]]
   - 📚 Examples: [[L3_4_Multivariate_Regression|Multivariate Regression Examples]]
 - 3.5: Optimization Techniques for Linear Regression
-  - ⭐ Quiz: L3_5_Quiz
+  - ⭐ Quiz: [[L3_5_Quiz]]
   - 📚 Examples: Coming Soon
 - 3.6: Model Evaluation and Validation
-  - ⭐ Quiz: L3_6_Quiz
+  - ⭐ Quiz: [[L3_6_Quiz]]
   - 📚 Examples: Coming Soon
 - 3.7: Regularization in Linear Models
-  - ⭐ Quiz: L3_7_Quiz
+  - ⭐ Quiz: [[L3_7_Quiz]]
   - 📚 Examples: Coming Soon
 - 3.8: Advanced Linear Regression Topics
-  - ⭐ Quiz: L3_8_Quiz
+  - 📚 Quiz: L3_8_Quiz
   - 📚 Examples: Coming Soon
 
 ### Lecture 4: Linear Classifiers

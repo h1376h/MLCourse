@@ -13,12 +13,12 @@ where $\epsilon \sim \mathcal{N}(0, \sigma^2)$ represents Gaussian noise with ze
 
 For the following dataset with 4 observations:
 
-| x | y |
-|---|---|
-| 1 | 3 |
-| 2 | 5 |
-| 3 | 4 |
-| 4 | 7 |
+| $x$ | $y$ |
+|-----|-----|
+| 1   | 3   |
+| 2   | 5   |
+| 3   | 4   |
+| 4   | 7   |
 
 #### Task
 1. Write down the likelihood function for this model
@@ -46,27 +46,27 @@ For a detailed explanation of this problem, including full derivations and impor
 ### Problem Statement
 Consider a simple linear regression model with a probabilistic interpretation. You have collected the following data:
 
-| x | y |
-|---|---|
-| 2 | 5 |
-| 4 | 9 |
-| 6 | 11 |
-| 8 | 15 |
+| $x$ | $y$ |
+|-----|-----|
+| 2   | 5   |
+| 4   | 9   |
+| 6   | 11  |
+| 8   | 15  |
 
-The model assumes that observations follow $y^{(i)} = w_0 + w_1x^{(i)} + \epsilon^{(i)}$ where $\epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)$.
+The model assumes that observations follow $$y^{(i)} = w_0 + w_1x^{(i)} + \epsilon^{(i)}$$ where $\epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)$.
 
 #### Task
 1. Calculate the maximum likelihood estimates for parameters $w_0$ and $w_1$
 2. Estimate the noise variance $\sigma^2$ using the maximum likelihood approach
-3. Write down the predictive distribution for a new input $x_{new} = 5$
-4. Calculate the probability that $y_{new} > 12$ for this new input
+3. Write down the predictive distribution for a new input $x_{\text{new}} = 5$
+4. Calculate the probability that $y_{\text{new}} > 12$ for this new input
 
 For a detailed explanation of this problem, including maximum likelihood estimation and predictive distributions, see [Question 3: Predictive Distribution in Linear Regression](L3_3_3_explanation.md).
 
 ## Question 4
 
 ### Problem Statement
-In a probabilistic linear regression model, the likelihood function plays a crucial role in parameter estimation. Consider a simple model $y = w_0 + w_1x + \epsilon$ with $\epsilon \sim \mathcal{N}(0, \sigma^2)$.
+In a probabilistic linear regression model, the likelihood function plays a crucial role in parameter estimation. Consider a simple model $$y = w_0 + w_1x + \epsilon$$ with $\epsilon \sim \mathcal{N}(0, \sigma^2)$.
 
 #### Task
 1. Derive the maximum likelihood estimators for $w_0$ and $w_1$ by setting the derivatives of the log-likelihood to zero
@@ -107,7 +107,7 @@ For a detailed explanation of this problem, including error decomposition analys
 ### Problem Statement
 Consider a probabilistic linear regression model where we want to predict a student's final exam score based on their midterm score. We assume:
 
-$y = w_0 + w_1x + \epsilon$ where $\epsilon \sim \mathcal{N}(0, \sigma^2)$
+$$y = w_0 + w_1x + \epsilon$$ where $\epsilon \sim \mathcal{N}(0, \sigma^2)$
 
 After fitting the model, we obtain:
 - $\hat{w}_0 = 20$
@@ -115,7 +115,7 @@ After fitting the model, we obtain:
 - $\hat{\sigma}^2 = 25$
 
 #### Task
-1. Write down the predictive distribution for a new student with midterm score $x_{new} = 75$
+1. Write down the predictive distribution for a new student with midterm score $x_{\text{new}} = 75$
 2. Calculate the mean and standard deviation of this predictive distribution
 3. Construct a 95% prediction interval for the final exam score
 4. Calculate the probability that this student will score above 85 on the final exam
@@ -138,7 +138,7 @@ For a detailed explanation of this problem, including the implications of differ
 ## Question 9
 
 ### Problem Statement
-Consider a dataset with 3 observations: (1,2), (2,3), and (3,5). We want to fit a simple linear regression model using maximum likelihood estimation with the assumption that errors are normally distributed.
+Consider a dataset with 3 observations: $(1,2)$, $(2,3)$, and $(3,5)$. We want to fit a simple linear regression model using maximum likelihood estimation with the assumption that errors are normally distributed.
 
 #### Task
 1. Write down the log-likelihood function for this dataset

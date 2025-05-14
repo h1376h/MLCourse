@@ -290,7 +290,7 @@ Match each concept in Column A with the most appropriate description in Column B
 #### Task
 Match each item in Column A with the correct item from Column B:
 
-**Column A**
+**Column A:**
 1. Multicollinearity
 2. Dummy variables
 3. Interaction terms
@@ -300,7 +300,7 @@ Match each item in Column A with the correct item from Column B:
 7. The hat matrix
 8. Polynomial regression
 
-**Column B**
+**Column B:**
 A. $\boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$ which projects $\boldsymbol{y}$ onto the column space of $\boldsymbol{X}$
 B. A technique to transform input features into higher-dimensional space using fixed non-linear functions
 C. Binary variables created to represent categorical predictors in regression models
@@ -324,10 +324,10 @@ Fill in each blank with the appropriate term or expression:
 2. The closed-form solution to the least squares problem in matrix form is given by $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 3. When there is perfect multicollinearity among predictors, the matrix $\boldsymbol{X}^T\boldsymbol{X}$ becomes $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 4. If a categorical variable has $k$ levels, we typically create $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ dummy variables to represent it.
-5. A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y$ = $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ + $\epsilon$.
-6. A Gaussian radial basis function can be expressed as $\phi(\boldsymbol{x}) = $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+5. A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y = \_\_\_\_\_\_\_\_\_\_\_\_\_\_ + \epsilon$.
+6. A Gaussian radial basis function can be expressed as $\phi(\boldsymbol{x}) = \_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 7. The "curse of dimensionality" in regression refers to problems that arise when $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
-8. In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+8. In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = \_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 
 For a detailed explanation of these fill-in-the-blank questions, see [Question 15: Mathematical Foundations of Multiple Regression](L3_4_15_explanation.md).
 
@@ -345,42 +345,49 @@ For each question, select the single best answer from the given options:
    C. Add more training examples
    D. Square all the input features
    E. Use regularization techniques
+   
 2. When creating dummy variables for a categorical predictor with 4 levels, how many dummy variables are typically used?
    A. 1
    B. 2
    C. 3
    D. 4
    E. 5
+   
 3. What does the interaction term $x_1 \times x_2$ in a regression model capture?
    A. The sum of the effects of $x_1$ and $x_2$
    B. How the effect of $x_1$ changes based on the value of $x_2$
    C. The average effect of $x_1$ and $x_2$
    D. The direct causal relationship between $x_1$ and $x_2$
    E. The correlation between $x_1$ and $x_2$
+   
 4. Which of the following is a key advantage of polynomial regression over standard linear regression?
    A. Always produces models with lower test error
    B. Always requires fewer training examples
    C. Can capture nonlinear relationships in the data
    D. Always produces simpler models
    E. Eliminates the need for feature selection
+   
 5. What is the primary purpose of using radial basis functions in regression?
    A. To eliminate multicollinearity
    B. To reduce the number of features
    C. To capture similarities between data points based on their distance
    D. To ensure all features have equal importance
    E. To guarantee a closed-form solution exists
+   
 6. As the degree of a polynomial regression model increases:
    A. Training error always decreases
    B. Test error always decreases
    C. The coefficients always become smaller
    D. The model becomes more interpretable
    E. The number of required training examples decreases
+   
 7. Which statement about the normal equations solution $\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$ is TRUE?
    A. It provides the unique global minimum of the cost function only when $\boldsymbol{X}^T\boldsymbol{X}$ is invertible
    B. It always provides a unique solution regardless of the properties of $\boldsymbol{X}$
    C. It requires fewer computations than iterative methods for very large datasets
    D. It is robust to outliers in the data
    E. It automatically prevents overfitting
+   
 8. In the context of the curse of dimensionality, which statement is TRUE?
    A. Adding more features always improves model performance
    B. As the number of features increases, the amount of data needed to generalize accurately grows exponentially
