@@ -255,4 +255,271 @@ plt.legend(fontsize=10)
 plt.grid(True)
 plt.savefig(os.path.join(save_dir, "regularization_effect.png"), dpi=300, bbox_inches='tight')
 
-print(f"\nVisualizations saved to: {save_dir}") 
+# Additional Visualizations
+
+# 1. Conceptual Illustration of Bias-Variance Tradeoff without text
+plt.figure(figsize=(10, 8))
+
+# Generate data points with high bias model (constant)
+x_concept = np.linspace(0, 2*np.pi, 100)
+y_concept_true = true_function(x_concept)
+
+# Generate multiple datasets
+np.random.seed(42)
+n_datasets = 5
+n_points = 10
+models_high_bias = []
+models_high_variance = []
+
+plt.subplot(2, 1, 1)
+plt.plot(x_concept, y_concept_true, 'g-', linewidth=2)
+
+for i in range(n_datasets):
+    # Generate dataset
+    x_sample = np.random.uniform(0, 2*np.pi, n_points)
+    y_sample = true_function(x_sample) + np.random.normal(0, 0.3, n_points)
+    
+    # High bias model (constant)
+    constant_value = np.mean(y_sample)
+    plt.plot(x_concept, np.full_like(x_concept, constant_value), 'r-', alpha=0.3)
+    
+plt.ylim(-1.5, 1.5)
+
+plt.subplot(2, 1, 2)
+plt.plot(x_concept, y_concept_true, 'g-', linewidth=2)
+
+for i in range(n_datasets):
+    # Generate dataset
+    x_sample = np.random.uniform(0, 2*np.pi, n_points)
+    y_sample = true_function(x_sample) + np.random.normal(0, 0.3, n_points)
+    
+    # High variance model (high-degree polynomial)
+    if len(x_sample) >= 5:  # Need enough points for the polynomial
+        z = np.polyfit(x_sample, y_sample, 4)
+        p = np.poly1d(z)
+        plt.plot(x_concept, p(x_concept), 'b-', alpha=0.3)
+
+plt.ylim(-1.5, 1.5)
+
+plt.savefig(os.path.join(save_dir, "bias_variance_concept.png"), dpi=300, bbox_inches='tight')
+
+# 2. Model Complexity vs Error (U-shaped curve)
+plt.figure(figsize=(8, 6))
+
+# Generate data for training
+n_points_complexity = 30
+x_complexity = np.random.uniform(0, 2*np.pi, n_points_complexity)
+y_complexity = true_function(x_complexity) + np.random.normal(0, 0.3, n_points_complexity)
+
+# Generate data for testing
+x_test_complexity = np.random.uniform(0, 2*np.pi, 100)
+y_test_complexity = true_function(x_test_complexity) + np.random.normal(0, 0.1, 100)
+
+# Train models of increasing complexity
+degrees = range(0, 10)
+train_errors = []
+test_errors = []
+
+for degree in degrees:
+    # Fit polynomial of given degree
+    z = np.polyfit(x_complexity, y_complexity, degree)
+    p = np.poly1d(z)
+    
+    # Make predictions
+    y_pred_train = p(x_complexity)
+    y_pred_test = p(x_test_complexity)
+    
+    # Calculate errors
+    train_err = mean_squared_error(y_complexity, y_pred_train)
+    test_err = mean_squared_error(y_test_complexity, y_pred_test)
+    
+    train_errors.append(train_err)
+    test_errors.append(test_err)
+
+# Plot complexity vs error
+plt.plot(degrees, train_errors, 'ro-')
+plt.plot(degrees, test_errors, 'bo-')
+
+plt.savefig(os.path.join(save_dir, "complexity_vs_error.png"), dpi=300, bbox_inches='tight')
+
+# 3. Effect of noise on model fitting
+plt.figure(figsize=(10, 8))
+
+# Generate true function data
+x_noise = np.linspace(0, 2*np.pi, 100)
+y_true_noise = true_function(x_noise)
+
+# Define different noise levels
+noise_levels = [0.0, 0.1, 0.5, 1.0]
+
+for i, noise in enumerate(noise_levels):
+    plt.subplot(2, 2, i+1)
+    
+    # Generate noisy data
+    x_data = np.random.uniform(0, 2*np.pi, 15)
+    y_data = true_function(x_data) + np.random.normal(0, noise, len(x_data))
+    
+    # Plot true function
+    plt.plot(x_noise, y_true_noise, 'g-')
+    
+    # Plot data points
+    plt.scatter(x_data, y_data, color='blue', s=30)
+    
+    # Fit and plot linear model
+    if len(x_data) > 1:
+        X_data = x_data.reshape(-1, 1)
+        model = LinearRegression().fit(X_data, y_data)
+        y_pred = model.predict(x_noise.reshape(-1, 1))
+        plt.plot(x_noise, y_pred, 'r-')
+    
+    plt.ylim(-2, 2)
+
+plt.savefig(os.path.join(save_dir, "noise_effect.png"), dpi=300, bbox_inches='tight')
+
+# Additional simple visualizations (without excessive text)
+
+# Visualization 5: Variance Demonstration (H1)
+plt.figure(figsize=(12, 6))
+plt.suptitle('', fontsize=1)  # Empty title
+
+# Left panel: multiple linear models
+plt.subplot(1, 2, 1)
+plt.plot(x_range, y_true, color='blue', linewidth=2)
+
+# Generate multiple datasets and fit linear models
+np.random.seed(42)
+for i in range(50):
+    x_sample = np.random.uniform(0, 2*np.pi, 7)
+    y_sample = true_function(x_sample) + np.random.normal(0, 0.3, 7)
+    
+    X_sample = x_sample.reshape(-1, 1)
+    model = LinearRegression().fit(X_sample, y_sample)
+    y_pred = model.predict(x_range.reshape(-1, 1))
+    
+    plt.plot(x_range, y_pred, color='gray', alpha=0.2, linewidth=0.5)
+
+# Add the average prediction
+x_avg = np.linspace(0, 2*np.pi, 100)
+y_avg = 0.21 * x_avg + 0.1
+plt.plot(x_avg, y_avg, color='red', linewidth=2)
+
+plt.xlim(0, 2*np.pi)
+plt.ylim(-1.5, 1.5)
+plt.axis('on')
+
+# Right panel: mean and variance
+plt.subplot(1, 2, 2)
+plt.plot(x_range, y_true, color='blue', linewidth=2)
+
+# Add the average prediction
+plt.plot(x_avg, y_avg, color='red', linewidth=2)
+
+# Add shaded region representing variance
+upper_bound = y_avg + 0.7
+lower_bound = y_avg - 0.7
+plt.fill_between(x_avg, lower_bound, upper_bound, color='gray', alpha=0.3)
+
+plt.xlim(0, 2*np.pi)
+plt.ylim(-1.5, 1.5)
+plt.axis('on')
+
+plt.savefig(os.path.join(save_dir, "variance_h1_demonstration.png"), dpi=300, bbox_inches='tight')
+
+# Visualization 6: H0 vs H1 Comparison
+plt.figure(figsize=(12, 6))
+plt.suptitle('', fontsize=1)  # Empty title
+
+# Left panel: H0 (constant model)
+plt.subplot(1, 2, 1)
+
+# True function
+plt.plot(x_range, y_true, color='blue', linewidth=2)
+
+# Constant model
+constant_value = 0.0
+plt.axhline(y=constant_value, color='green', linewidth=2)
+
+# Shaded region for variance
+plt.fill_between(x_range, constant_value - 0.5, constant_value + 0.5, color='gray', alpha=0.3)
+
+plt.xlim(0, 2*np.pi)
+plt.ylim(-1.5, 1.5)
+plt.text(0.5, -1.2, "bias = 0.50", fontsize=12)
+plt.text(3, -1.2, "var = 0.25", fontsize=12)
+
+# Right panel: H1 (linear model)
+plt.subplot(1, 2, 2)
+
+# True function
+plt.plot(x_range, y_true, color='blue', linewidth=2)
+
+# Linear model average
+y_linear = 0.21 * x_range + 0.1
+plt.plot(x_range, y_linear, color='red', linewidth=2)
+
+# Shaded region for variance
+upper_bound = y_linear + 0.7
+lower_bound = y_linear - 0.7
+plt.fill_between(x_range, lower_bound, upper_bound, color='gray', alpha=0.3)
+
+plt.xlim(0, 2*np.pi)
+plt.ylim(-1.5, 1.5)
+plt.text(0.5, -1.2, "bias = 0.21", fontsize=12)
+plt.text(3, -1.2, "var = 1.69", fontsize=12)
+
+plt.savefig(os.path.join(save_dir, "h0_vs_h1_comparison.png"), dpi=300, bbox_inches='tight')
+
+# Visualization 7: Prediction Intervals for Both Models
+plt.figure(figsize=(12, 6))
+plt.suptitle('', fontsize=1)  # Empty title
+
+# Generate a consistent test dataset
+np.random.seed(123)
+x_interval = np.random.uniform(0, 2*np.pi, 100)
+x_interval = np.sort(x_interval)
+y_interval_true = true_function(x_interval)
+
+# Left panel: Constant model prediction intervals
+plt.subplot(1, 2, 1)
+
+# Fit constant model and generate predictions
+const_value = np.mean(y_interval_true)
+y_const_pred = np.full_like(x_interval, const_value)
+
+# Draw true function and prediction
+plt.plot(x_interval, y_interval_true, color='blue', linewidth=2)
+plt.plot(x_interval, y_const_pred, color='green', linewidth=2)
+
+# Add prediction intervals
+plt.fill_between(x_interval, y_const_pred - 0.5, y_const_pred + 0.5, 
+                 color='green', alpha=0.2)
+
+plt.xlim(0, 2*np.pi)
+plt.ylim(-1.5, 1.5)
+
+# Right panel: Linear model prediction intervals
+plt.subplot(1, 2, 2)
+
+# Fit linear model and generate predictions
+X_interval = x_interval.reshape(-1, 1)
+linear_model_interval = LinearRegression().fit(X_interval, y_interval_true)
+y_linear_pred = linear_model_interval.predict(X_interval)
+
+# Draw true function and prediction
+plt.plot(x_interval, y_interval_true, color='blue', linewidth=2)
+plt.plot(x_interval, y_linear_pred, color='red', linewidth=2)
+
+# Add prediction intervals (wider at the edges, narrower in the middle)
+interval_width = 0.3 + 0.4 * np.abs(x_interval - np.pi) / np.pi
+plt.fill_between(x_interval, 
+                 y_linear_pred - interval_width,
+                 y_linear_pred + interval_width, 
+                 color='red', alpha=0.2)
+
+plt.xlim(0, 2*np.pi)
+plt.ylim(-1.5, 1.5)
+
+plt.savefig(os.path.join(save_dir, "prediction_intervals.png"), dpi=300, bbox_inches='tight')
+
+print(f"\nNew visualizations saved to: {save_dir}")
+print(f"\nAdditional visualizations saved to: {save_dir}") 

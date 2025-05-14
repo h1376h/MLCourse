@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import os
 from matplotlib.gridspec import GridSpec
 import matplotlib as mpl
+import matplotlib.font_manager as fm
 
 # Set a font that supports Unicode subscripts (DejaVu Sans is usually available)
 mpl.rcParams['font.family'] = 'DejaVu Sans'
@@ -319,8 +320,29 @@ y_pred, residuals, rss = calculate_residuals(house_sizes, house_prices, beta_0, 
 
 # Create visualizations
 def create_visualizations(x, y, y_pred, residuals, beta_0, beta_1, new_x=None, new_y=None, save_dir=None):
-    """Create visualizations to help understand the regression analysis."""
+    """Create visualizations for linear regression results."""
     saved_files = []
+    
+    # Check if DejaVu Sans is available, otherwise find a fallback font that supports subscripts
+    font_choices = ['DejaVu Sans', 'Arial Unicode MS', 'STIXGeneral', 'FreeSans']
+    
+    # Find the first available font that supports the subscripts
+    font_prop = None
+    for font in font_choices:
+        if font in fm.findfont(fm.FontProperties(family=font)):
+            font_prop = fm.FontProperties(family=font)
+            break
+    
+    # If none found, use the default
+    if font_prop is None:
+        font_prop = fm.FontProperties()
+    
+    # Apply font to relevant texts
+    def apply_font_to_axes(ax):
+        ax.set_xlabel(ax.get_xlabel(), fontproperties=font_prop)
+        ax.set_ylabel(ax.get_ylabel(), fontproperties=font_prop)
+        ax.set_title(ax.get_title(), fontproperties=font_prop)
+        ax.legend(prop=font_prop)
     
     # Plot 1: Scatter plot with regression line
     plt.figure(figsize=(8, 6))
@@ -337,9 +359,7 @@ def create_visualizations(x, y, y_pred, residuals, beta_0, beta_1, new_x=None, n
         plt.scatter(new_x, new_y, color='green', s=100, label=f'Prediction: ${new_y:.2f}k')
         plt.plot([new_x, new_x], [0, new_y], 'g--', alpha=0.5)
     
-    plt.xlabel('House Size (sq ft)', fontsize=12)
-    plt.ylabel('House Price ($1000s)', fontsize=12)
-    plt.title('Linear Regression: House Price vs Size (Matrix Approach)', fontsize=14)
+    apply_font_to_axes(plt.gca())
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
@@ -358,9 +378,7 @@ def create_visualizations(x, y, y_pred, residuals, beta_0, beta_1, new_x=None, n
     for i in range(len(x)):
         plt.plot([x[i], x[i]], [0, residuals[i]], 'purple', linestyle='--', alpha=0.5)
     
-    plt.xlabel('House Size (sq ft)', fontsize=12)
-    plt.ylabel('Residuals ($1000s)', fontsize=12)
-    plt.title('Residuals Plot (Matrix Approach)', fontsize=14)
+    apply_font_to_axes(plt.gca())
     plt.grid(True)
     plt.tight_layout()
     
@@ -393,9 +411,7 @@ def create_visualizations(x, y, y_pred, residuals, beta_0, beta_1, new_x=None, n
         plt.gca().add_patch(plt.Rectangle((rect_x, rect_y), width, rect_height, 
                                     color='orange', alpha=0.4))
     
-    plt.xlabel('House Size (sq ft)', fontsize=12)
-    plt.ylabel('House Price ($1000s)', fontsize=12)
-    plt.title('Visualization of Squared Residuals (Matrix Approach)', fontsize=14)
+    apply_font_to_axes(plt.gca())
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
@@ -420,9 +436,7 @@ def create_visualizations(x, y, y_pred, residuals, beta_0, beta_1, new_x=None, n
         plt.annotate(f"{x[i]} sq ft", (y[i], y_pred[i]), 
                     xytext=(7, 3), textcoords='offset points')
     
-    plt.xlabel('Actual Price ($1000s)', fontsize=12)
-    plt.ylabel('Predicted Price ($1000s)', fontsize=12)
-    plt.title('Actual vs. Predicted Prices (Matrix Approach)', fontsize=14)
+    apply_font_to_axes(plt.gca())
     plt.grid(True)
     plt.tight_layout()
     
@@ -436,9 +450,7 @@ def create_visualizations(x, y, y_pred, residuals, beta_0, beta_1, new_x=None, n
     plt.figure(figsize=(8, 6))
     plt.hist(residuals, bins=5, color='purple', alpha=0.7, edgecolor='black')
     plt.axvline(x=0, color='red', linestyle='-', alpha=0.7)
-    plt.xlabel('Residuals ($1000s)', fontsize=12)
-    plt.ylabel('Frequency', fontsize=12)
-    plt.title('Histogram of Residuals (Matrix Approach)', fontsize=14)
+    apply_font_to_axes(plt.gca())
     plt.grid(True)
     plt.tight_layout()
     
@@ -478,8 +490,15 @@ def create_visualizations(x, y, y_pred, residuals, beta_0, beta_1, new_x=None, n
     ax2.set_xticks([0])
     ax2.set_xticklabels(["Value"])
     ax2.set_yticks([0, 1])
-    ax2.set_yticklabels(["β₀", "β₁"])
     
+    # Use the font_prop to set tick labels to avoid warnings
+    if font_prop:
+        ax2.set_yticklabels(["β₀", "β₁"], fontproperties=font_prop)
+    else:
+        ax2.set_yticklabels(["β₀", "β₁"])
+    
+    apply_font_to_axes(ax1)
+    apply_font_to_axes(ax2)
     plt.tight_layout()
     
     if save_dir:

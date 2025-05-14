@@ -107,6 +107,46 @@ As regularization strength (α) increases:
 6. Our experiment shows moderate regularization (α=1) maintains good test performance (0.2912) while reducing sensitivity to training data.
 7. High regularization (α=100) significantly worsens test error (0.4555) by introducing too much bias.
 
+## Additional Visualizations
+
+### Conceptual Illustration of Bias-Variance Tradeoff
+The following visualization directly illustrates the bias-variance tradeoff by showing:
+- Top panel: High bias models (constant functions in red) that consistently underfit the true function (green)
+- Bottom panel: High variance models (high-degree polynomials in blue) that overfit to training data
+
+![Bias-Variance Conceptual Illustration](../Images/L3_1_Quiz_9/bias_variance_concept.png)
+
+### Model Complexity vs Error
+This visualization shows how training error (red) continues to decrease with model complexity, while test error (blue) follows a U-shaped curve - demonstrating the classic bias-variance tradeoff:
+
+![Model Complexity vs Error](../Images/L3_1_Quiz_9/complexity_vs_error.png)
+
+### Effect of Noise on Model Fitting
+This set of visualizations demonstrates how increasing noise levels affect the linear model's ability to fit the underlying sine function:
+
+![Effect of Noise on Model Fitting](../Images/L3_1_Quiz_9/noise_effect.png)
+
+### Variance Demonstration (H₁)
+This visualization illustrates the concept of variance in the linear model (H₁):
+- Left panel: Multiple linear models (gray lines) fit to different training sets, showing how the model varies with different data samples
+- Right panel: The average prediction (red line) with a shaded region representing the variance around it
+
+![Variance H₁ Demonstration](../Images/L3_1_Quiz_9/variance_h1_demonstration.png)
+
+### H₀ vs H₁ Comparison
+A direct comparison between constant model (H₀) and linear model (H₁):
+- Left: Constant model with lower variance (narrower gray region) but higher bias
+- Right: Linear model with higher variance (wider gray region) but lower bias
+
+![H₀ vs H₁ Comparison](../Images/L3_1_Quiz_9/h0_vs_h1_comparison.png)
+
+### Prediction Intervals
+This visualization shows prediction intervals for both models:
+- Left: Constant model with uniform prediction uncertainty
+- Right: Linear model with uncertainty that varies based on input location (wider at the edges, narrower in the middle)
+
+![Prediction Intervals](../Images/L3_1_Quiz_9/prediction_intervals.png)
+
 ## Conclusion
 - With very few training examples, simpler models may generalize better despite higher bias, due to their lower variance.
 - As the number of training examples increases, more complex models (with appropriate flexibility) outperform simpler models.
