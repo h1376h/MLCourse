@@ -158,7 +158,7 @@ $$\mathbb{E}_{\boldsymbol{x},y} \left[ (y - h(\boldsymbol{x}))^2 \right] = \iint
 For each $\boldsymbol{x}$ separately minimize loss:
 $$\frac{\delta\mathbb{E}_{\boldsymbol{x},y} \left[ (y - h(\boldsymbol{x}))^2 \right]}{\delta h(\boldsymbol{x})} = \int 2(y - h(\boldsymbol{x}))p(\boldsymbol{x}, y)dy = 0$$
 
-$$\Rightarrow h^*(\boldsymbol{x}) = \mathbb{E}_{y|\boldsymbol{x}}[y]$$
+$$\Rightarrow h^*(\boldsymbol{x}) = \frac{\int yp(\boldsymbol{x}, y)dy}{\int p(\boldsymbol{x}, y)dy} = \frac{\int yp(\boldsymbol{x}, y)dy}{p(\boldsymbol{x})} = \int yp(y|\boldsymbol{x})dy = \mathbb{E}_{y|\boldsymbol{x}}[y]$$
 
 ## 3. Cost Function and Optimization
 
@@ -190,7 +190,7 @@ $$\boldsymbol{y} = \begin{bmatrix} y^{(1)} \\ \vdots \\ y^{(n)} \end{bmatrix},
 \boldsymbol{w} = \begin{bmatrix} w_0 \\ w_1 \\ \vdots \\ w_d \end{bmatrix}$$
 
 The cost function becomes:
-$$J(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|^2$$
+$$J(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|^2 = (\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$$
 
 ### Visualization of the Cost Function
 
@@ -230,6 +230,11 @@ The prediction $\hat{\boldsymbol{y}} = \boldsymbol{X}\boldsymbol{w}$ is the proj
 $$\hat{\boldsymbol{y}} = \boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y} = \boldsymbol{P}\boldsymbol{y}$$
 
 where $\boldsymbol{P} = \boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$ is the projection matrix.
+
+Properties of the projection matrix:
+- $\boldsymbol{P}$ is symmetric: $\boldsymbol{P}^T = \boldsymbol{P}$
+- $\boldsymbol{P}$ is idempotent: $\boldsymbol{P}^2 = \boldsymbol{P}$
+- The residual $\boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
 
 Geometrically, this means:
 - $\hat{\boldsymbol{y}}$ is the point in the column space of $\boldsymbol{X}$ closest to $\boldsymbol{y}$
@@ -417,6 +422,11 @@ As the regularization parameter $\lambda$ changes:
 - With small $\lambda$: Models are flexible with low bias, high variance
 - Optimal $\lambda$ balances bias and variance for best predictive performance
 
+Different degrees of regularization (via $\lambda$ values) can be visualized:
+- With high regularization (large $\lambda$): All models have similar parameters and predictions, showing low variance but high bias
+- With intermediate regularization: Models show a balance between consistency and flexibility
+- With low regularization (small $\lambda$): Models vary significantly across different training datasets, showing high variance but lower bias
+
 ## 6. Model Evaluation and Selection
 
 ### Training vs. Test Performance
@@ -533,3 +543,23 @@ The overfitting problem becomes less severe as the training data size increases:
 3. **More training data**
    - Overfitting becomes less severe with more data
    - Same complex model may generalize well with sufficient data
+
+### Expected Training and True Error Curves
+
+As the number of training samples increases:
+
+For a simple model:
+- Test error (true error) starts high and gradually decreases
+- Training error starts low and gradually increases
+- Both eventually converge to a value above zero (limited by model bias)
+
+For a complex model:
+- Test error starts very high but can eventually reach lower values
+- Training error remains low throughout
+- The gap between training and test error is much larger
+- Requires more data to achieve good generalization
+
+This illustrates that:
+1. Complex models need more data to generalize well
+2. Simple models converge faster but may have higher asymptotic error
+3. Training error is typically an optimistic estimate of true error, especially for complex models
