@@ -686,21 +686,51 @@ This form of update is especially suited for sequential or online learning, wher
 
 ### Why minimizing the cost function (based on only training data) while we are interested in the performance on new examples?
 
-$$\min_{\theta} \sum_{i=1}^{n} Loss \left(y^{(i)}, f(x^{(i)}; \theta) \right) \longrightarrow \text{Empirical loss}$$
+$$\min_{\theta} \sum_{i=1}^{n} Loss \left(y^{(i)}, f(\boldsymbol{x}^{(i)}; \theta) \right) \longrightarrow \text{Empirical loss}$$
 
 ### Evaluation: After training, we need to measure how well the learned prediction function can predicts the target for unseen examples 
 
 ## Training and test performance
 
 ### Assumption: training and test examples are drawn independently at random from the same but unknown distribution.
-- Each training/test example $(x, y)$ is a sample from joint probability distribution $P(x, y)$, i.e., $(x, y) \sim P$
+- Each training/test example $(\boldsymbol{x}, y)$ is a sample from joint probability distribution $P(\boldsymbol{x}, y)$, i.e., $(\boldsymbol{x}, y) \sim P$
 
-$$\text{Empirical (training) loss} = \frac{1}{n}\sum_{i=1}^{n} Loss \left(y^{(i)}, f(x^{(i)}; \theta) \right)$$
+$$\text{Empirical (training) loss} = \frac{1}{n}\sum_{i=1}^{n} Loss \left(y^{(i)}, f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}) \right)$$
 
-$$\text{Expected (test) loss} = E_{x,y} \{Loss(y, f(x; \theta))\}$$
+$$\text{Expected (test) loss} = E_{\boldsymbol{x},y} \{Loss(y, f(\boldsymbol{x}; \boldsymbol{\theta}))\}$$
 
 ### We minimize empirical loss (on the training data) and expect to also find an acceptable expected loss
-- Empirical loss as a proxy for the performance over the whole distribution. 
+- Empirical loss as a proxy for the performance over the whole distribution.
+
+## Linear regression: generalization
+
+### By increasing the number of training examples, will solution be better?
+
+### Why the mean squared error does not decrease more after reaching a level?
+
+![MSE vs Number of Training Examples](Codes/plots/mse_vs_training_size.png)
+
+### Structural error: $E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right]$
+
+where $\boldsymbol{w}^* = (w_0^*, \cdots, w_d^*)$ are the optimal linear regression parameters (infinite training data)
+
+## Linear regression: types of errors
+
+### Structural error: the error introduced by the limited function class (infinite training data):
+
+$$\boldsymbol{w}^* = \text{argmin}_{\boldsymbol{w}} E_{\boldsymbol{x},y}[(y - \boldsymbol{w}^T \boldsymbol{x})^2]$$
+
+$$\text{Structural error}: E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right]$$
+
+where $\boldsymbol{w}^* = (w_0^*, \cdots, w_d^*)$ are the optimal linear regression parameters (infinite training data)
+
+## Stochastic gradient descent: online learning
+
+### Sequential learning is also appropriate for real-time applications
+- data observations are arriving in a continuous stream
+- and predictions must be made before seeing all of the data
+
+### The value of $\eta$ needs to be chosen with care to ensure that the algorithm converges
 
 ## Minimizing cost function
 
