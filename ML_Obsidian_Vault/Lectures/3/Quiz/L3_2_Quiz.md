@@ -331,11 +331,11 @@ For a simplified, exam-friendly approach with computational shortcuts, see [Alte
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 #### Task
-1. In simple linear regression, the residuals always sum to zero when the model includes an intercept term.
-2. The least squares method minimizes the sum of absolute differences between predicted and actual values.
-3. Increasing the number of data points always leads to a better fit in simple linear regression.
-4. The coefficient of determination ($R^2$) represents the proportion of variance in the dependent variable explained by the model.
-5. In simple linear regression, the regression line always passes through the point ($\bar{x}$, $\bar{y}$).
+1. [🔍] In simple linear regression, the residuals always sum to zero when the model includes an intercept term.
+2. [🔍] The least squares method minimizes the sum of absolute differences between predicted and actual values.
+3. [🔍] Increasing the number of data points always leads to a better fit in simple linear regression.
+4. [🔍] The coefficient of determination ($R^2$) represents the proportion of variance in the dependent variable explained by the model.
+5. [🔍] In simple linear regression, the regression line always passes through the point ($\bar{x}$, $\bar{y}$).
 
 For a detailed explanation of this problem, including the mathematical proofs for each statement, see [Question 16: Linear Regression Fundamentals](L3_2_16_explanation.md).
 
