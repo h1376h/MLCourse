@@ -155,17 +155,17 @@ $$\hat{\boldsymbol{w}} = \underset{\boldsymbol{w} \in \mathbb{R}^{d+1}}{\operato
 
 ## Cost function: univariate example
 
-$f(x; w_0, w_1) = w_0 + w_1 x$
+$$f(x; w_0, w_1) = w_0 + w_1 x$$
 
 (for fixed $w_0,w_1$, this is a function of $x$)
 
-$J(w_0, w_1)$
+$$J(w_0, w_1)$$
 
 (function of the parameters $w_0,w_1$)
 
-The left plot shows the hypothesis $f(x; w_0, w_1) = w_0 + w_1 x$ (blue line) and training data points (red x marks). The right plot shows contour lines of the cost function $J(w_0, w_1)$ in the parameter space, with the red x marking the optimal parameter values.
+The left plot shows the hypothesis $f(x; w_0, w_1) = w_0 + w_1 x$ (blue line) and training data points (red x marks). The right plot shows contour lines of the cost function $J(w_0, w_1)$ in the parameter space, with the red x marks showing parameters that have been tried in the gradient descent process.
 
-This example has been adapted from: Prof. Andrew Ng's slides
+This example has been adapted from: Prof. Andrew Ng's slides (ML Online Course, Stanford)
 
 ### 3D visualization of the cost function:
 
@@ -568,6 +568,39 @@ $\boldsymbol{w} := \boldsymbol{w} + 2\alpha\boldsymbol{X}^T(\boldsymbol{y} - \bo
 ![Gradient Descent](Codes/plots/gradient_descent.png)
 ![Gradient Descent Fitting](Codes/plots/gradient_descent_fitting.png)
 
+## Gradient descent for SSE cost function
+
+### Weight update rule: $f(x; w) = w^T x$
+
+For linear regression with the weight update rule, we have:
+
+$$w^{t+1} = w^t + \eta \sum_{i=1}^{n} (y^{(i)} - w^T x^{(i)})x^{(i)}$$
+
+### Batch mode: each step considers all training data
+
+This approach uses the entire training dataset to compute the gradient at each iteration. While this provides the most accurate direction for the update, it can be computationally expensive for large datasets.
+
+### Learning rate considerations:
+- $\eta$: too small → gradient descent can be slow
+- $\eta$: too large → gradient descent can overshoot the minimum. It may fail to converge, or even diverge
+
+The choice of learning rate is critical to the performance of gradient descent. If it's too small, the algorithm will take unnecessarily long to converge. If it's too large, the algorithm might overshoot the minimum, potentially failing to converge or even diverging away from the solution.
+
+## Minimizing J(w) for SSE cost function
+
+### General form of gradient descent:
+$$w^{t+1} = w^t - \eta\nabla_w J(w^t)$$
+
+### Sum of squares error cost function:
+$$J(w) = \sum_{i=1}^{n} \left(y^{(i)} - f(x^{(i)}; w)\right)^2$$
+
+Where $f(w; x) = w^T x$ is the linear model.
+
+### Weight update rule for linear regression with SSE:
+$$w^{t+1} = w^t + \eta \sum_{i=1}^{n} \left(y^{(i)} - w^{t T} x^{(i)}\right) x^{(i)}$$
+
+This update rule moves the weights in a direction that reduces the sum of squared errors between our predictions and the actual target values.
+
 ## Review: Iterative optimization of cost function
 
 ### Cost function: $J(\boldsymbol{w})$
@@ -616,6 +649,23 @@ Gradient ascent takes steps proportional to (the positive of) the gradient to fi
 
 ### However, when $J$ is convex, all local minima are also global minima ⇒ gradient descent can converge to the global solution.
 
+## Gradient descent with non-convex cost functions
+
+When dealing with non-convex cost functions, gradient descent faces challenges:
+
+- Multiple local minima can trap the algorithm
+- The starting point can determine which minimum is reached
+- The convergence to the global minimum is not guaranteed
+
+In non-convex optimization landscapes:
+- Gradient descent follows the path of steepest descent
+- The algorithm may converge to different solutions depending on initialization
+- Advanced techniques like random restarts, momentum, or simulated annealing may help escape local minima
+
+![Non-convex Cost Function](Codes/plots/non_convex_cost_function.png)
+
+The 3D visualization shows a non-convex cost function with multiple local minima. The black path represents how gradient descent might navigate this landscape, potentially getting trapped in a local minimum rather than finding the global optimum.
+
 ## Minimizing cost function
 
 ### Optimal linear weight vector (for SSE cost function):
@@ -658,6 +708,32 @@ Iterative methods are particularly useful when:
 - The matrix $\boldsymbol{X}^T\boldsymbol{X}$ is ill-conditioned or singular
 
 The primary iterative approach used is gradient descent, which we'll explore in more detail.
+
+## Example: Housing price prediction
+
+In this example, we apply linear regression to predict house prices based on house size:
+
+$$f(x; w_0, w_1) = w_0 + w_1 x$$
+
+where:
+- $x$ represents the house size (in feet²)
+- $f(x; w_0, w_1)$ is the predicted price (in $1000s$)
+- $w_0$ is the intercept
+- $w_1$ is the slope (price change per unit of size)
+
+The left plot shows:
+- Training data points (red x marks)
+- The fitted linear model (blue line)
+- House prices generally increase with size, but with significant variance
+
+The right plot shows:
+- The contour lines of the cost function $J(w_0, w_1)$
+- The parameters $w_0$ and $w_1$ determine the position of the fitted line
+- The optimal values for $w_0$ and $w_1$ are found at the center of the contours
+
+As we adjust the parameter values, we can observe different fits to the data:
+- A negative slope fits the data better than a horizontal line
+- The optimal fit captures the general trend of increasing price with increasing size
 
 ## Cost function: 3D visualization
 
