@@ -10,7 +10,7 @@ Linear regression models map inputs to real-valued outputs:
 $$f : \mathbb{R} \rightarrow \mathbb{R} \quad f(x; \boldsymbol{w}) = w_0 + w_1 x$$
 
 **Multivariate**:
-$$f : \mathbb{R}^d \rightarrow \mathbb{R} \quad f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + \ldots w_d x_d$$
+$$f : \mathbb{R}^d \rightarrow \mathbb{R} \quad f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + \ldots + w_d x_d$$
 
 Here, $\boldsymbol{w} = [w_0, w_1, \ldots, w_d]^T$ are the parameters we need to determine.
 
@@ -134,7 +134,7 @@ For a simple univariate linear regression, this simplifies to:
 
 $$w_1 = \frac{n\sum_{i=1}^{n} x^{(i)}y^{(i)} - \sum_{i=1}^{n} x^{(i)}\sum_{i=1}^{n} y^{(i)}}{n\sum_{i=1}^{n} (x^{(i)})^2 - (\sum_{i=1}^{n} x^{(i)})^2}$$
 
-$$w_0 = \frac{1}{n}(\sum_{i=1}^{n} y^{(i)} - w_1 \sum_{i=1}^{n} x^{(i)}) = \bar{y} - w_1 \bar{x}$$
+$$w_0 = \frac{1}{n}\left(\sum_{i=1}^{n} y^{(i)} - w_1 \sum_{i=1}^{n} x^{(i)}\right) = \bar{y} - w_1 \bar{x}$$
 
 ### Geometric Interpretation
 
@@ -282,7 +282,7 @@ $$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\bold
 
 These use linear combinations of fixed non-linear functions:
 
-$$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 \phi_1(\boldsymbol{x}) + \ldots w_m \phi_m(\boldsymbol{x})$$
+$$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 \phi_1(\boldsymbol{x}) + \ldots + w_m \phi_m(\boldsymbol{x})$$
 
 Where $\{\phi_1(\boldsymbol{x}), \ldots, \phi_m(\boldsymbol{x})\}$ are basis functions.
 
@@ -338,7 +338,7 @@ Where:
 - Training examples themselves could serve as prototypes
 
 Other basis functions include:
-- Sigmoid: $\phi_j(\boldsymbol{x}) = \sigma\left(\frac{\|\boldsymbol{x}-\boldsymbol{c}_j\|}{\sigma_j}\right) \quad \sigma(a) = \frac{1}{1+\exp(-a)}$
+- Sigmoid: $\phi_j(\boldsymbol{x}) = \sigma\left(\frac{\|\boldsymbol{x}-\boldsymbol{c}_j\|}{\sigma_j}\right)$ where $\sigma(a) = \frac{1}{1+\exp(-a)}$
 - Gaussian: $\phi_j(\boldsymbol{x}) = \exp\left\{-\frac{(\boldsymbol{x}-\boldsymbol{c}_j)^2}{2\sigma_j^2}\right\}$
 
 ## 6. Regularization
@@ -359,9 +359,9 @@ Properties:
 - The intercept term $w_0$ is typically not regularized
 
 Visual effect of regularization on a 9th degree polynomial:
-- With strong regularization ($\ln \lambda = 0$): coefficients are close to zero (e.g., $w_1 = -0.05, w_9 = 0.01$)
-- With moderate regularization ($\ln \lambda = -18$): coefficients are reasonable (e.g., $w_1 = 4.74, w_9 = 72.68$)
-- Without regularization: coefficients are extremely large (e.g., $w_1 = 232.37, w_9 = 125201.43$)
+- With strong regularization ($\ln \lambda = 0$): coefficients are close to zero (e.g., $w_1 = -0.05$, $w_9 = 0.01$)
+- With moderate regularization ($\ln \lambda = -18$): coefficients are reasonable (e.g., $w_1 = 4.74$, $w_9 = 72.68$)
+- Without regularization: coefficients are extremely large (e.g., $w_1 = 232.37$, $w_9 = 125201.43$)
 
 ### Lasso Regression (L1 Regularization)
 
@@ -402,17 +402,17 @@ Regularization slightly increases bias but dramatically reduces variance, leadin
 - Shrinks coefficients toward zero
 - Balances bias and variance
 
-As the regularization parameter λ changes:
-- With large λ: Models are very simple with high bias, low variance
-- With small λ: Models are flexible with low bias, high variance
-- Optimal λ balances bias and variance for best predictive performance
+As the regularization parameter $\lambda$ changes:
+- With large $\lambda$: Models are very simple with high bias, low variance
+- With small $\lambda$: Models are flexible with low bias, high variance
+- Optimal $\lambda$ balances bias and variance for best predictive performance
 
 ## 7. Model Evaluation and Selection
 
 ### Training vs. Test Performance
 
-- **Training error**: $\frac{1}{n}\sum_{i=1}^{n} Loss(y^{(i)}, f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}))$
-- **Expected (test) error**: $E_{\boldsymbol{x},y} \{Loss(y, f(\boldsymbol{x}; \boldsymbol{\theta}))\}$
+- **Training error**: $\frac{1}{n}\sum_{i=1}^{n} \text{Loss}(y^{(i)}, f(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}))$
+- **Expected (test) error**: $E_{\boldsymbol{x},y} \{\text{Loss}(y, f(\boldsymbol{x}; \boldsymbol{\theta}))\}$
 
 The goal is to minimize expected (test) error, but we can only measure training error directly.
 
@@ -447,10 +447,10 @@ Steps for model selection with CV:
 - Select the model with the best average CV performance
 
 Example results from 5-fold CV (100 runs) for polynomial regression:
-- $m = 1$ (linear): CV: $MSE = 0.30$
-- $m = 3$ (cubic): CV: $MSE = 1.45$
-- $m = 5$ (quintic): CV: $MSE = 45.44$
-- $m = 7$ (7th degree): CV: $MSE = 31759$
+- $m = 1$ (linear): CV: $\text{MSE} = 0.30$
+- $m = 3$ (cubic): CV: $\text{MSE} = 1.45$
+- $m = 5$ (quintic): CV: $\text{MSE} = 45.44$
+- $m = 7$ (7th degree): CV: $\text{MSE} = 31759$
 
 We see that as complexity increases, CV error eventually grows dramatically due to overfitting.
 
@@ -462,18 +462,18 @@ We see that as complexity increases, CV error eventually grows dramatically due 
 
 ### Choosing Regularization Parameter
 
-- Train models with different λ values
-- Use validation set or cross-validation to select optimal λ
-- As λ varies:
-  - Large λ: Both training and test errors high (underfitting)
-  - Optimal λ: Test error minimized
-  - Small λ: Training error low but test error high (overfitting)
+- Train models with different $\lambda$ values
+- Use validation set or cross-validation to select optimal $\lambda$
+- As $\lambda$ varies:
+  - Large $\lambda$: Both training and test errors high (underfitting)
+  - Optimal $\lambda$: Test error minimized
+  - Small $\lambda$: Training error low but test error high (overfitting)
 
-Regularization parameter (λ) selection process:
-1. Train models with different λ values
+Regularization parameter ($\lambda$) selection process:
+1. Train models with different $\lambda$ values
 2. Compute validation/CV error for each model
-3. Select λ with lowest validation/CV error
-4. Retrain final model on complete training set with selected λ
+3. Select $\lambda$ with lowest validation/CV error
+4. Retrain final model on complete training set with selected $\lambda$
 
 ## 8. Overfitting and Generalization
 
@@ -492,8 +492,8 @@ Signs of overfitting:
 
 The overfitting problem becomes less severe as the training data size increases:
 - For the same complex model (e.g., 9th degree polynomial):
-  - With few samples (n = 15): Model fits the noise, producing wild oscillations
-  - With more samples (n = 100): Model fits the underlying pattern better
+  - With few samples ($n = 15$): Model fits the noise, producing wild oscillations
+  - With more samples ($n = 100$): Model fits the underlying pattern better
   - As data increases, even complex models are forced to capture the true pattern
 
 ### Strategies to Avoid Overfitting
