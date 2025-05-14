@@ -7,6 +7,99 @@
   - Optimization
   - Generalization
 
+## Recall: Linear regression (squared loss)
+
+### Linear regression functions
+
+$$f : \mathbb{R} \rightarrow \mathbb{R} \quad f(x; \boldsymbol{w}) = w_0 + w_1 x$$
+
+$$f : \mathbb{R}^d \rightarrow \mathbb{R} \quad f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + \ldots w_d x_d$$
+
+$$\boldsymbol{w} = [w_0, w_1, \ldots, w_d]^T$$ are the parameters we need to set.
+
+### Minimizing the squared loss for linear regression
+
+$$J(\boldsymbol{w}) = \|y - X\boldsymbol{w}\|_2^2$$
+
+### We obtain $$\hat{\boldsymbol{w}} = (X^T X)^{-1} X^T y$$
+
+## Generalized linear
+
+### Linear combination of fixed non-linear function of the input vector
+
+$$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 \phi_1(\boldsymbol{x}) + \ldots w_m \phi_m(\boldsymbol{x})$$
+
+$$\{\phi_1(\boldsymbol{x}), \ldots, \phi_m(\boldsymbol{x})\}: \text{ set of basis functions (or features)}$$
+
+$$\phi_i(\boldsymbol{x}): \mathbb{R}^d \rightarrow \mathbb{R}$$
+
+## Basis functions: examples
+
+### Linear
+
+If $m = d$, $\phi_i(\boldsymbol{x}) = x_i$, $i = 1, \ldots, d$, then
+
+$$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + \ldots + w_d x_d$$
+
+### Polynomial (univariate)
+
+If $\phi_i(x) = x^i$, $i = 1, \ldots, m$, then
+
+$$f(x; \boldsymbol{w}) = w_0 + w_1 x + \ldots + w_{m-1} x^{m-1} + w_m x^m$$
+
+## Polynomial regression: example
+
+This example shows how polynomial regression with different degrees fits the same dataset:
+
+- Top left ($m = 1$): Linear regression (degree 1 polynomial) provides a simple fit but cannot capture the non-linear patterns in the data.
+- Top right ($m = 3$): A cubic polynomial (degree 3) provides a better fit that captures more of the data's curvature.
+- Bottom left ($m = 5$): A degree 5 polynomial fits the data points more closely, capturing more complex patterns.
+- Bottom right ($m = 7$): A degree 7 polynomial fits the data points very closely, potentially overfitting to noise in the training data.
+
+As the polynomial degree increases, the model becomes more flexible and can fit the training data more closely, but may lose generalization ability.
+
+## Beyond linear regression
+
+### $m^{th}$ order polynomial regression (univariate $f : \mathbb{R} \rightarrow \mathbb{R}$)
+
+$$f(x; \boldsymbol{w}) = w_0 + w_1 x + \ldots + w_{m-1} x^{m-1} + w_m x^m$$
+
+### Solution: $\hat{\boldsymbol{w}} = (X'^T X')^{-1} X'^T y$
+
+$$y = \begin{bmatrix} y_1 \\ \vdots \\ y_n \end{bmatrix} \quad X' = \begin{bmatrix} 1 & x^{(1)^1} & x^{(1)^2} & \cdots & x^{(1)^m} \\ 1 & x^{(2)^1} & x^{(2)^2} & \cdots & x^{(2)^m} \\ \vdots & \vdots & \vdots & \ddots & \vdots \\ 1 & x^{(n)^1} & x^{(n)^2} & \cdots & x^{(n)^1} \end{bmatrix} \quad \boldsymbol{w} = \begin{bmatrix} \hat{w}_0 \\ \hat{w}_1 \\ \vdots \\ \hat{w}_m \end{bmatrix}$$
+
+## Generalized linear: optimization
+
+$$J(\boldsymbol{w}) = \sum_{i=1}^n \left(y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w})\right)^2$$
+
+$$= \sum_{i=1}^n \left(y^{(i)} - \boldsymbol{w}^T \phi(\boldsymbol{x}^{(i)})\right)^2$$
+
+$$y = \begin{bmatrix} y^{(1)} \\ \vdots \\ y^{(n)} \end{bmatrix} \quad \Phi = \begin{bmatrix} 1 & \phi_1(\boldsymbol{x}^{(1)}) & \cdots & \phi_m(\boldsymbol{x}^{(1)}) \\ 1 & \phi_1(\boldsymbol{x}^{(2)}) & \cdots & \phi_m(\boldsymbol{x}^{(2)}) \\ \vdots & \vdots & \ddots & \vdots \\ 1 & \phi_1(\boldsymbol{x}^{(n)}) & \cdots & \phi_m(\boldsymbol{x}^{(n)}) \end{bmatrix} \quad \boldsymbol{w} = \begin{bmatrix} w_0 \\ w_1 \\ \vdots \\ w_m \end{bmatrix}$$
+
+$$\hat{\boldsymbol{w}} = (\Phi^T \Phi)^{-1} \Phi^T y$$
+
+## Beyond linear regression approach
+
+### How to extend the linear regression to non-linear functions?
+- Transform the data using basis functions
+- Learn a linear regression on the new feature vectors (obtained by basis functions)
+
+## Radial Basis Functions: prototypes
+
+### Predictions based on similarity to "prototypes":
+
+$$\phi_j(\boldsymbol{x}) = \exp\left\{-\frac{1}{2\sigma_j^2}\|\boldsymbol{x} - \boldsymbol{c}_j\|^2\right\}$$
+
+### Measuring the similarity to the prototypes $\boldsymbol{c}_1, ..., \boldsymbol{c}_m$
+- $\sigma^2$ controls how quickly it vanishes as a function of the distance to the prototype.
+- Training examples themselves could serve as prototypes
+
+## Basis functions: examples (continued)
+
+### Gaussian: $\phi_j(\boldsymbol{x}) = \exp\left\{-\frac{(\boldsymbol{x}-\boldsymbol{c}_j)^2}{2\sigma_j^2}\right\}$
+
+### Sigmoid: $\phi_j(\boldsymbol{x}) = \sigma\left(\frac{\|\boldsymbol{x}-\boldsymbol{c}_j\|}{\sigma_j}\right) \quad \sigma(a) = \frac{1}{1+\exp(-a)}$
+
 ## Regression problem
 
 The goal is to make (real valued) predictions given features.
@@ -403,22 +496,22 @@ Consider the simple case with one feature:
 
 $f(x; w_0, w_1) = w_0 + w_1 x$
 
-$\boldsymbol{X} = \begin{bmatrix} 
+$$\boldsymbol{X} = \begin{bmatrix} 
 1 & x^{(1)} \\
 1 & x^{(2)} \\
 \vdots & \vdots \\
 1 & x^{(n)}
-\end{bmatrix}, \boldsymbol{w} = \begin{bmatrix} w_0 \\ w_1 \end{bmatrix}, \boldsymbol{y} = \begin{bmatrix} y^{(1)} \\ y^{(2)} \\ \vdots \\ y^{(n)} \end{bmatrix}$
+\end{bmatrix}, \boldsymbol{w} = \begin{bmatrix} w_0 \\ w_1 \end{bmatrix}, \boldsymbol{y} = \begin{bmatrix} y^{(1)} \\ y^{(2)} \\ \vdots \\ y^{(n)} \end{bmatrix}$$
 
-$\boldsymbol{X}^T\boldsymbol{X} = \begin{bmatrix} 
+$$\boldsymbol{X}^T\boldsymbol{X} = \begin{bmatrix} 
 n & \sum_{i=1}^{n} x^{(i)} \\
 \sum_{i=1}^{n} x^{(i)} & \sum_{i=1}^{n} (x^{(i)})^2
-\end{bmatrix}$
+\end{bmatrix}$$
 
-$\boldsymbol{X}^T\boldsymbol{y} = \begin{bmatrix} 
+$$\boldsymbol{X}^T\boldsymbol{y} = \begin{bmatrix} 
 \sum_{i=1}^{n} y^{(i)} \\
 \sum_{i=1}^{n} x^{(i)}y^{(i)}
-\end{bmatrix}$
+\end{bmatrix}$$
 
 ## Example: simple linear regression (cont.)
 
