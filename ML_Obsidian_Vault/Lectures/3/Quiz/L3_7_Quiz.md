@@ -1,7 +1,7 @@
 # Lecture 3.7: Regularization in Linear Models Quiz
 
 ## Overview
-This quiz contains 10 questions covering different topics from section 3.7 of the lectures on Regularization in Linear Models, including bias-variance tradeoff, ridge regression, lasso regression, elastic net, and methods for selecting regularization parameters.
+This quiz contains 20 questions covering different topics from section 3.7 of the lectures on Regularization in Linear Models, including bias-variance tradeoff, ridge regression, lasso regression, elastic net, and methods for selecting regularization parameters.
 
 ## Question 1
 
@@ -154,4 +154,175 @@ Early stopping in iterative optimization methods (like gradient descent) can be 
 3. Describe the relationship between the number of iterations and the effective model complexity
 4. Explain how you would determine the optimal stopping point in practice
 
-For a detailed explanation of this problem, including the regularization effect of early stopping, see [Question 10: Early Stopping as Regularization](L3_7_10_explanation.md). 
+For a detailed explanation of this problem, including the regularization effect of early stopping, see [Question 10: Early Stopping as Regularization](L3_7_10_explanation.md).
+
+## Question 11
+
+### Problem Statement
+Consider a simple linear regression model with two features. The unregularized solution is $w_1 = 5$ and $w_2 = 3$.
+
+#### Task
+1. Calculate the L1 norm and L2 norm of this weight vector
+2. If we apply ridge regression with $\lambda = 0.5$, would the regularized weights have larger or smaller norms? Explain why.
+3. If we apply lasso regression with a small $\lambda$, which coefficient might be reduced to zero first? Explain your reasoning.
+4. Draw a simple diagram showing the L1 and L2 constraint regions in this 2D weight space
+
+For a detailed explanation of this problem, including norm calculations, see [Question 11: Comparing L1 and L2 Norms](L3_7_11_explanation.md).
+
+## Question 12
+
+### Problem Statement
+A colleague is selecting a regularization method for a machine learning task but is confused about which one to choose. They have a dataset with 100 features, but they suspect only about 10 features are truly relevant.
+
+#### Task
+1. Which regularization method would you recommend and why?
+2. How would your recommendation change if instead all 100 features were somewhat relevant but highly correlated?
+3. For your recommended method in the original scenario, explain how you would select the regularization parameter
+4. Briefly explain the concept of "effective degrees of freedom" in regularized models
+
+For a detailed explanation of this problem, including feature selection strategy, see [Question 12: Practical Regularization Selection](L3_7_12_explanation.md).
+
+## Question 13
+
+### Problem Statement
+Consider the following regularized cost functions with parameter $\lambda = 2$:
+
+Model A: $J_A(w) = \sum_{i=1}^{n} (y^{(i)} - w^T x^{(i)})^2 + 2\|w\|_2^2$
+
+Model B: $J_B(w) = \sum_{i=1}^{n} (y^{(i)} - w^T x^{(i)})^2 + 2\|w\|_1$
+
+#### Task
+1. If we have a weight vector $w = [0.5, -1.5, 2.0]$, calculate the penalty term for both Models A and B
+2. Which model would likely produce more zero coefficients and why?
+3. Describe one advantage of Model A over Model B
+4. If we double $\lambda$ to 4, how would the penalty terms change for both models?
+
+For a detailed explanation of this problem, including penalty calculations, see [Question 13: Comparing Regularization Penalties](L3_7_13_explanation.md).
+
+## Question 14
+
+### Problem Statement
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
+
+#### Task
+1. Increasing the regularization parameter always increases the bias
+2. An unregularized model will always have lower training error than a regularized version of the same model
+3. If two models have the same training error, the one with smaller coefficient magnitudes will likely generalize better
+4. Lasso regression typically produces more sparse models than Ridge regression with the same $\lambda$ value
+
+For a detailed explanation of this problem, including analysis of each statement, see [Question 14: Regularization True/False](L3_7_14_explanation.md).
+
+## Question 15
+
+### Problem Statement
+A data scientist has trained a linear regression model on housing data. When plotting the model's predictions vs. actual values, they notice that predictions vary wildly for similar houses, suggesting overfitting.
+
+#### Task
+1. Draw a simple sketch illustrating how an overfitted model might look compared to a well-regularized model on this housing data
+2. List three specific symptoms of overfitting that might be observed in this housing price prediction model
+3. If the model has 50 features, explain how you would apply regularization to address the overfitting
+4. Describe a simple approach to determine if regularization has successfully addressed the overfitting problem
+
+For a detailed explanation of this problem, including visualization concepts, see [Question 15: Visualizing Regularization Effects](L3_7_15_explanation.md).
+
+## Question 16
+
+### Problem Statement
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
+
+#### Task
+1. Ridge regression and Lasso regression will produce identical models when applied to the same dataset
+2. As the regularization parameter $\lambda$ approaches infinity in ridge regression, all coefficient values will approach zero
+3. The primary goal of regularization is to improve model performance on the training set
+4. Both L1 and L2 regularization penalize large coefficient values, but in different ways
+5. Early stopping in gradient descent prevents the model from reaching the global minimum of the cost function
+
+For a detailed explanation of these statements, see [Question 16: Regularization Theory](L3_7_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+Multiple Choice Questions on Regularization in Linear Models.
+
+#### Task
+Select the best answer for each question:
+
+1. Which of the following is NOT a common method of regularization in linear regression?
+   a) L1 norm penalty (Lasso)
+   b) L2 norm penalty (Ridge)
+   c) L0 norm penalty
+   d) Elastic Net
+2. As the regularization parameter in ridge regression increases, what happens to the model?
+   a) Bias decreases, variance increases
+   b) Bias increases, variance decreases
+   c) Both bias and variance increase
+   d) Both bias and variance decrease
+3. Which regularization method is most likely to produce exactly zero coefficients?
+   a) Ridge regression
+   b) Lasso regression
+   c) Both produce the same number of zero coefficients
+   d) Neither produces exactly zero coefficients
+4. From a Bayesian perspective, ridge regression can be interpreted as imposing what type of prior on the model parameters?
+   a) Uniform prior
+   b) Laplace prior
+   c) Gaussian prior
+   d) Cauchy prior
+
+For detailed explanations of these questions, see [Question 17: Multiple Choice on Regularization](L3_7_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+Match each concept in Column A with the most appropriate description in Column B.
+
+#### Task
+Match the items in Column A with the correct description in Column B:
+
+Column A:
+1. Elastic Net
+2. Regularization Path
+3. Early Stopping
+4. Cross-Validation
+5. Ridge Regression
+
+Column B:
+a) A visualization showing how coefficient values change as the regularization parameter varies
+b) A technique that combines L1 and L2 penalties to get the best of both approaches
+c) A method that adds the sum of squared weights to the cost function
+d) A form of implicit regularization where iteration is halted before convergence
+e) A technique to select the optimal regularization parameter by estimating model performance on unseen data
+
+For the correct matches and explanations, see [Question 18: Matching Regularization Concepts](L3_7_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Fill in the blanks with the appropriate terms related to regularization in linear models.
+
+#### Task
+Fill in each blank with the most appropriate term:
+
+1. In ridge regression, the penalty term is proportional to the $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ norm of the weight vector.
+2. The $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ regularization method is more likely to produce sparse solutions with many coefficients exactly zero.
+3. From a Bayesian perspective, L1 regularization corresponds to a $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ prior on the model weights.
+4. As the regularization parameter increases, the $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ of the model typically increases while the $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ decreases.
+5. The $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ shows how coefficient values change as the regularization parameter varies.
+6. $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ combines the penalty terms from both ridge and lasso regression.
+
+For the correct answers and explanations, see [Question 19: Fill in the Blanks](L3_7_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+Short Answer Questions on Regularization Methods.
+
+#### Task
+Provide brief answers (1-3 sentences) to each of the following questions:
+
+1. Why might you choose Elastic Net over pure Lasso or Ridge regression?
+2. How does early stopping in gradient descent function as a form of regularization?
+3. What is the relationship between the regularization parameter and the variance of the prior distribution in the Bayesian interpretation?
+4. Why does L1 regularization (Lasso) tend to produce sparse coefficients while L2 regularization (Ridge) does not?
+5. How would you use cross-validation to select the optimal regularization parameter?
+
+For detailed answers to these questions, see [Question 20: Short Answer Questions](L3_7_20_explanation.md). 
