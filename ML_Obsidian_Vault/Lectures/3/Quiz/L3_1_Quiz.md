@@ -145,10 +145,10 @@ For a detailed explanation of this problem, including step-by-step calculations 
 Consider the geometric interpretation of linear regression, where we project the target vector $\boldsymbol{y}$ onto the column space of the design matrix $\boldsymbol{X}$.
 
 #### Task
-1. [📚] Write down the formula for the projection matrix $\boldsymbol{P}$ in terms of the design matrix $\boldsymbol{X}$
-2. [📚] Prove that the projection matrix $\boldsymbol{P}$ is symmetric (i.e., $\boldsymbol{P}^T = \boldsymbol{P}$)
-3. [📚] Prove that the projection matrix $\boldsymbol{P}$ is idempotent (i.e., $\boldsymbol{P}^2 = \boldsymbol{P}$)
-4. [📚] If $\hat{\boldsymbol{y}} = \boldsymbol{P}\boldsymbol{y}$ is the projection of $\boldsymbol{y}$ onto the column space of $\boldsymbol{X}$, show that the residual vector $\boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
+1. Write down the formula for the projection matrix $\boldsymbol{P}$ in terms of the design matrix $\boldsymbol{X}$
+2. Prove that the projection matrix $\boldsymbol{P}$ is symmetric (i.e., $\boldsymbol{P}^T = \boldsymbol{P}$)
+3. Prove that the projection matrix $\boldsymbol{P}$ is idempotent (i.e., $\boldsymbol{P}^2 = \boldsymbol{P}$)
+4. If $\hat{\boldsymbol{y}} = \boldsymbol{P}\boldsymbol{y}$ is the projection of $\boldsymbol{y}$ onto the column space of $\boldsymbol{X}$, show that the residual vector $\boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
 
 For a detailed explanation of this problem, including step-by-step proofs and geometric intuition, see [Question 11: Projection Matrix Properties](L3_1_11_explanation.md).
 
