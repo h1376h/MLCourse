@@ -1,7 +1,7 @@
 # Lecture 3.2: Simple Linear Regression Quiz
 
 ## Overview
-This quiz contains 34 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
+This quiz contains 35 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
 
 ## Question 1
 
@@ -589,3 +589,26 @@ In linear regression, the projection matrix $\boldsymbol{P} = \boldsymbol{X}(\bo
 4. [📚] Explain geometrically what it means when we say the residual vector $\boldsymbol{e} = \boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
 
 For a detailed explanation of this problem, including step-by-step solutions and geometric interpretations, see [Question 34: Projection Matrix in Linear Regression](L3_2_34_explanation.md).
+
+## Question 35
+
+### Problem Statement
+A marketing analyst wants to understand the relationship between a company's advertising budget (in thousands of dollars) and its monthly sales (in units). The following data was collected over 6 months:
+
+| Month | Advertising Budget (x) in $1000s | Monthly Sales (y) in units |
+|-------|----------------------------------|----------------------------|
+| 1     | 5                                | 120                        |
+| 2     | 8                                | 170                        |
+| 3     | 12                               | 220                        |
+| 4     | 15                               | 250                        |
+| 5     | 20                               | 300                        |
+| 6     | 25                               | 350                        |
+
+#### Task
+1. Calculate the least squares estimates for the slope ($\beta_1$) and intercept ($\beta_0$) of the linear regression model
+2. Interpret the meaning of the slope coefficient in the context of this problem
+3. For each additional $1000 spent on advertising, how many additional units can the company expect to sell?
+4. If the company plans to spend $18,000 on advertising next month, what would be the predicted number of sales units?
+5. Calculate the coefficient of determination ($R^2$) and explain what proportion of the variation in sales can be attributed to the advertising budget
+
+For a detailed explanation of this problem, including regression analysis and business interpretation, see [Question 35: Advertising Budget and Sales Analysis](L3_2_35_explanation.md).
