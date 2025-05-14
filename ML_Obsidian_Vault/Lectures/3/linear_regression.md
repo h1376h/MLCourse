@@ -189,6 +189,16 @@ Learning rate considerations:
   - Start with larger $\alpha$ and decrease over time
   - Common schedules: step decay, exponential decay, 1/t decay
 
+### Sequential or Online Learning
+
+Stochastic gradient descent makes it well-suited for online learning scenarios:
+- Data observations arrive in a continuous stream
+- Predictions must be made before seeing all data
+- Parameters are updated after each new observation
+- The model continuously adapts to new patterns
+
+For real-time applications with streaming data, SGD with the LMS update rule provides an effective way to perform continuous learning as new data becomes available.
+
 ## 4. Bias-Variance Tradeoff
 
 ### Error Decomposition
@@ -275,6 +285,22 @@ $$\Rightarrow h^*(\boldsymbol{x}) = \mathbb{E}_{y|\boldsymbol{x}}[y]$$
 The expected error can be decomposed into the sum of structural and approximation errors:
 
 $$E_{\boldsymbol{x},y}[(y - \hat{\boldsymbol{w}}^T \boldsymbol{x})^2] = E_{\boldsymbol{x},y} \left[ \left(y - \boldsymbol{w}^{*T} \boldsymbol{x}\right)^2 \right] + E_{\boldsymbol{x}} \left[ \left(\boldsymbol{w}^{*T} \boldsymbol{x} - \hat{\boldsymbol{w}}^T \boldsymbol{x}\right)^2 \right]$$
+
+### The Learning Diagram
+
+Two key perspectives on the learning process:
+
+**Deterministic Target**: 
+- An unknown target function h(x) maps inputs to outputs
+- Training examples come from this function
+- The learning algorithm with hypothesis set H produces a final hypothesis
+
+**Noisy Target**:
+- Target includes both a function h(x) and noise
+- Joint probability distribution P(x,y) = P(x)P(y|x)
+- Learning involves capturing the target distribution and handling noise
+
+This diagram helps visualize how the learning process works with both deterministic and probabilistic perspectives on the target function.
 
 ## 5. Beyond Linear Regression
 
