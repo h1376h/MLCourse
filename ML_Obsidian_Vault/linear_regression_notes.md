@@ -984,21 +984,23 @@ $$E_{x,y}\left\{\left(y - f(\boldsymbol{x}; \boldsymbol{\theta})\right)^2\right\
 
 Over-fitting occurs when the training loss no longer bears any relation to the test (generalization) loss. The model fails to generalize to unseen examples.
 
-## Model complexity
+## Polynomial regression
 
-### Example:
+### Model complexity
+
 Polynomials with larger $m$ are becoming increasingly tuned to the random noise on the target values.
 
+![Polynomial Regression](Codes/plots/polynomial_regression.png)
+
+The plots show polynomial regression with different degrees:
 - $m = 0$: Constant function (horizontal line)
-- $m = 1$: Linear function
-- $m = 3$: Cubic polynomial
-- $m = 9$: 9th degree polynomial
+- $m = 1$: Linear function (straight line)
+- $m = 3$: Cubic polynomial (more flexible curve)
+- $m = 9$: 9th degree polynomial (highly flexible curve)
 
 As the degree of the polynomial increases, the model becomes more flexible and can fit the training data more closely, including the noise. While the higher-degree polynomials may achieve lower training error, they often result in higher test error due to overfitting.
 
 ## Polynomial regression: training and test error
-
-$$RMSE = \sqrt{\frac{\sum_{i=1}^n \left(y^{(i)} - f\left(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}\right)\right)^2}{n}}$$
 
 As the model complexity (polynomial degree $m$) increases:
 - Training error consistently decreases
@@ -1007,6 +1009,25 @@ As the model complexity (polynomial degree $m$) increases:
 - The gap between training and test error widens for higher complexity models
 
 The optimal model complexity balances between underfitting and overfitting, typically at the point where test error is minimized (around $m = 3$ to $m = 5$ for typical cases).
+
+$$RMSE = \sqrt{\frac{\sum_{i=1}^n \left(y^{(i)} - f\left(\boldsymbol{x}^{(i)}; \boldsymbol{\theta}\right)\right)^2}{n}}$$
+
+![Training and Test Error](Codes/plots/training_test_error.png)
+
+## Model complexity
+
+### Example:
+Polynomials with larger $m$ are becoming increasingly tuned to the random noise on the target values.
+
+![Model Complexity Examples](Codes/plots/model_complexity_examples.png)
+
+The plots show how the same data is fit with polynomials of different degrees:
+- $m = 0$: Constant model (horizontal line) that fails to capture any trend
+- $m = 1$: Linear model (sloped line) captures basic trend but misses the curvature
+- $m = 3$: Cubic polynomial provides a good fit to the underlying pattern
+- $m = 9$: High-degree polynomial fits the noise, creating unnecessary oscillations
+
+As polynomial degree increases, the model captures more of the true underlying function but eventually begins fitting random noise in the data, demonstrating the overfitting problem.
 
 ## How to evaluate the learner's performance?
 
@@ -1021,17 +1042,21 @@ Two ways to assess the generalization error:
 
 Over-fitting problem becomes less severe as the size of training data increases.
 
+![Training Data and Overfitting](Codes/plots/training_data_overfitting.png)
+
 For the same model complexity (e.g., $m = 9$ polynomial):
-- With few samples ($n = 15$): The model fits the noise in the data
-- With more samples ($n = 100$): The model fits the underlying pattern better
+- With few samples ($n = 15$): The model fits the noise in the data (left plot)
+- With more samples ($n = 100$): The model fits the underlying pattern better (right plot)
+
+As we add more training points, even complex models are forced to capture the true underlying pattern rather than fitting individual data points, reducing overfitting.
 
 ## Evaluation and model selection
 
 ### Evaluation:
-We need to measure how well the learned function can predict the target for unseen examples.
+We need to measure how well the learned function can predict the target for unseen examples
 
 ### Model selection:
-Most of the time we need to select among a set of models:
+Most of the time we need to select among a set of models
 - Example: polynomials with different degree $m$
 - We need to evaluate these models first
 
