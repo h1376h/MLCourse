@@ -2,6 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from matplotlib.gridspec import GridSpec
+import matplotlib as mpl
+
+# Set a font that supports Unicode subscripts (DejaVu Sans is usually available)
+mpl.rcParams['font.family'] = 'DejaVu Sans'
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
