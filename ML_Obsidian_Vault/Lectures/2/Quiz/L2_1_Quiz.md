@@ -10,11 +10,11 @@ Consider a random experiment where we roll two fair six-sided dice. Let event A 
 
 #### Task
 Calculate:
-1. P(A)
-2. P(B)
-3. P(A ∩ B)
-4. P(A ∪ B)
-5. Are events A and B independent? Justify your answer.
+1. [📚] P(A)
+2. [📚] P(B)
+3. [📚] P(A ∩ B)
+4. [📚] P(A ∪ B)
+5. [📚] Are events A and B independent? Justify your answer.
 
 For a detailed explanation of this problem, including step-by-step calculations, visual aids, and key insights, see [Question 1: Dice Probability Fundamentals](L2_1_1_explanation.md).
 
@@ -126,10 +126,10 @@ X=2 & 0.20 & 0.30 & 0.20
 \end{pmatrix}$$
 
 #### Task
-1. Find the marginal distributions $P(X)$ and $P(Y)$
-2. Calculate the conditional distributions $P(Y|X=1)$ and $P(X|Y=2)$
-3. Are X and Y independent? Justify your answer mathematically.
-4. Calculate the covariance $Cov(X,Y)$ and correlation coefficient $ρ(X,Y)$
+1. [📚] Find the marginal distributions $P(X)$ and $P(Y)$
+2. [📚] Calculate the conditional distributions $P(Y|X=1)$ and $P(X|Y=2)$
+3. [📚] Are X and Y independent? Justify your answer mathematically.
+4. [📚] Calculate the covariance $Cov(X,Y)$ and correlation coefficient $ρ(X,Y)$
 
 For a detailed explanation of this problem, including joint probability concepts and independence testing, see [Question 8: Joint Probability and Correlation](L2_1_8_explanation.md).
 
@@ -170,10 +170,10 @@ For a detailed explanation of this problem, including binomial probability calcu
 A spam filter analyzes incoming emails. Based on historical data, 20% of all incoming emails are spam. The filter correctly identifies spam emails 95% of the time (true positive rate) and correctly identifies non-spam emails 98% of the time (true negative rate).
 
 #### Task
-1. If an email is classified as spam by the filter, what is the probability that it is actually spam?
-2. If an email is classified as non-spam by the filter, what is the probability that it is actually spam?
-3. What is the overall accuracy of the filter?
-4. How does changing the prior probability of spam to 50% affect the probability in task 1?
+1. [📚] If an email is classified as spam by the filter, what is the probability that it is actually spam?
+2. [📚] If an email is classified as non-spam by the filter, what is the probability that it is actually spam?
+3. [📚] What is the overall accuracy of the filter?
+4. [📚] How does changing the prior probability of spam to 50% affect the probability in task 1?
 
 For a detailed explanation of this problem, including Bayes' theorem application and confusion matrix analysis, see [Question 11: Spam Filter Probability](L2_1_11_explanation.md).
 
@@ -335,10 +335,10 @@ Complete each statement with the appropriate mathematical expression or term.
 
 #### Task
 1. The probability density function of a standard normal distribution is given by $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
-2. For two independent random variables $X$ and $Y$, the variance of their sum $X + Y$ equals $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+2. [📚] For two independent random variables $X$ and $Y$, the variance of their sum $X + Y$ equals $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 3. If $X$ follows a binomial distribution with parameters $n$ and $p$, then the expected value of $X$ is $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ and its variance is $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
-4. The conditional probability $P(A|B)$ can be expressed in terms of $P(B|A)$ using $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ theorem.
-5. The covariance between random variables $X$ and $Y$ can be calculated using the formula $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+4. [📚] The conditional probability $P(A|B)$ can be expressed in terms of $P(B|A)$ using $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ theorem.
+5. [📚] The covariance between random variables $X$ and $Y$ can be calculated using the formula $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 
 For a detailed explanation of these fill-in-the-blank questions, see [Question 22: Probability Fill-in-the-Blank](L2_1_22_explanation.md).
 
@@ -408,11 +408,11 @@ c(x+y) & \text{for } x \in \{0,1,2\} \text{ and } y \in \{0,1\} \\
 \end{cases}$$
 
 #### Task
-1. Find the value of the constant $c$.
-2. Calculate the marginal probability mass functions for $X$ and $Y$.
-3. Determine if $X$ and $Y$ are independent.
-4. Calculate the conditional probability mass function $P(Y|X=1)$.
-5. Compute $E[X|Y=1]$ and interpret its meaning.
+1. [📚] Find the value of the constant $c$.
+2. [📚] Calculate the marginal probability mass functions for $X$ and $Y$.
+3. [📚] Determine if $X$ and $Y$ are independent.
+4. [📚] Calculate the conditional probability mass function $P(Y|X=1)$.
+5. [📚] Compute $E[X|Y=1]$ and interpret its meaning.
 
 For a detailed explanation of this problem, see [Question 26: Joint Distributions Analysis](L2_1_26_explanation.md).
 
@@ -485,7 +485,7 @@ Consider the following contour plot of a bivariate probability density function:
 The contour plot shows elliptical contours of a bivariate normal distribution.
 
 #### Task
-1. Based on the orientation of the contour ellipses, determine whether the correlation between the two variables is positive, negative, or zero.
+1. [📚] Based on the orientation of the contour ellipses, determine whether the correlation between the two variables is positive, negative, or zero.
 2. If the innermost contour is labeled as 0.15 and represents the highest density region, what does this tell you about the location of the mean vector of this distribution?
 3. If the contours are more stretched along the x-axis than the y-axis, what can you conclude about the variances of the two variables?
 4. Draw a rough sketch of how the contour plot would change if the correlation between the variables became zero.
@@ -580,31 +580,31 @@ Consider two species of flowers with the following petal measurements (length, w
 Assume these measurements follow a multivariate Gaussian distribution for each species.
 
 #### Task
-1. Calculate the mean vector and covariance matrix for each species
-2. Using just the mean vectors and assuming equal prior probabilities, classify a new flower with measurements $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 4 \end{bmatrix}$ by computing the Euclidean distance to each mean
-3. Using the multivariate Gaussian probability density function, classify the new flower with equal prior probabilities
+1. [📚] Calculate the mean vector and covariance matrix for each species
+2. [📚] Using just the mean vectors and assuming equal prior probabilities, classify a new flower with measurements $\mathbf{x}_{\text{new}} = \begin{bmatrix} 5 \\ 4 \end{bmatrix}$ by computing the Euclidean distance to each mean
+3. [📚] Using the multivariate Gaussian probability density function, classify the new flower with equal prior probabilities
 4. If Species B is three times more common than Species A in this region (i.e., $P(\text{Species A}) = 0.25$ and $P(\text{Species B}) = 0.75$), would your classification change using either method? Explain briefly.
 
 For a detailed explanation of this problem, including nearest centroid classification and Bayesian decision theory, see [Question 34: Quick Flower Classification](L2_1_34_explanation.md).
 
-## [🔍] Question 35
+## Question 35
 
 ## Problem Statement
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 ## Task
-1. For a multivariate normal distribution, a diagonal covariance matrix implies that the variables are uncorrelated, resulting in probability density contours that are axis-aligned ellipses (or circles if variances are equal).
-2. Covariance measures the tendency of two random variables to vary together; a positive value indicates they tend to increase or decrease together, while a negative value indicates one tends to increase as the other decreases.
-3. All valid covariance matrices must be positive semi-definite, meaning $\text{Var}(a^T X) = a^T \Sigma a \geq 0$ for any vector $a$.
-4. A covariance matrix is strictly positive definite if and only if all its eigenvalues are strictly positive; this condition guarantees the matrix is invertible.
-5. Covariance only quantifies the strength and direction of the *linear* relationship between two random variables.
-6. Zero covariance ($\text{Cov}(X,Y) = 0$) guarantees that the random variables X and Y are statistically independent.
-7. The covariance between X and Y can be calculated using the formula $\text{Cov}(X,Y) = E[(X - E[X])(Y - E[Y])] = E[XY] - E[X]E[Y]$.
-8. The covariance of a random variable X with itself, $\text{Cov}(X,X)$, is equal to its variance, $\text{Var}(X)$.
-9. In a bivariate normal distribution, negative correlation corresponds to probability density contours being tilted primarily along the line $y = -x$.
-10. The principal axes of the probability density contours for a multivariate normal distribution align with the eigenvectors of its covariance matrix.
-11. Contour lines on a probability density plot connect points having the same probability density value.
-12. For any $n \times n$ covariance matrix with eigenvalues $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n$, the volume of the ellipsoid representing the region within one standard deviation is directly proportional to $\sum_{i=1}^{n} \lambda_i$ rather than $\prod_{i=1}^{n} \lambda_i$.
-13. In a multivariate normal distribution, the angle of rotation of probability density contours in a 2D plane is always given by $\theta = \frac{1}{2}\tan^{-1}\left(\frac{2\sigma_{xy}}{\sigma_x^2-\sigma_y^2}\right)$, regardless of whether $\sigma_x^2 = \sigma_y^2$.
+1. [🔍] For a multivariate normal distribution, a diagonal covariance matrix implies that the variables are uncorrelated, resulting in probability density contours that are axis-aligned ellipses (or circles if variances are equal).
+2. [🔍] Covariance measures the tendency of two random variables to vary together; a positive value indicates they tend to increase or decrease together, while a negative value indicates one tends to increase as the other decreases.
+3. [🔍] All valid covariance matrices must be positive semi-definite, meaning $\text{Var}(a^T X) = a^T \Sigma a \geq 0$ for any vector $a$.
+4. [🔍] A covariance matrix is strictly positive definite if and only if all its eigenvalues are strictly positive; this condition guarantees the matrix is invertible.
+5. [🔍] Covariance only quantifies the strength and direction of the *linear* relationship between two random variables.
+6. [🔍] Zero covariance ($\text{Cov}(X,Y) = 0$) guarantees that the random variables X and Y are statistically independent.
+7. [🔍] The covariance between X and Y can be calculated using the formula $\text{Cov}(X,Y) = E[(X - E[X])(Y - E[Y])] = E[XY] - E[X]E[Y]$.
+8. [🔍] The covariance of a random variable X with itself, $\text{Cov}(X,X)$, is equal to its variance, $\text{Var}(X)$.
+9. [🔍] In a bivariate normal distribution, negative correlation corresponds to probability density contours being tilted primarily along the line $y = -x$.
+10. [🔍] The principal axes of the probability density contours for a multivariate normal distribution align with the eigenvectors of its covariance matrix.
+11. [🔍] Contour lines on a probability density plot connect points having the same probability density value.
+12. [🔍] For any $n \times n$ covariance matrix with eigenvalues $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_n$, the volume of the ellipsoid representing the region within one standard deviation is directly proportional to $\sum_{i=1}^{n} \lambda_i$ rather than $\prod_{i=1}^{n} \lambda_i$.
+13. [🔍] In a multivariate normal distribution, the angle of rotation of probability density contours in a 2D plane is always given by $\theta = \frac{1}{2}\tan^{-1}\left(\frac{2\sigma_{xy}}{\sigma_x^2-\sigma_y^2}\right)$, regardless of whether $\sigma_x^2 = \sigma_y^2$.
 
 For a detailed explanation of these true/false questions about covariance and contours, see [Question 35: Covariance Concepts True/False](L2_1_35_explanation.md).

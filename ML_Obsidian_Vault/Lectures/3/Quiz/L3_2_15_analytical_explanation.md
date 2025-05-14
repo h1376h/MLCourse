@@ -16,7 +16,7 @@ A researcher is investigating the relationship between age and glucose levels in
 1. Derive a simple linear regression equation to predict glucose level based on age using calculus
 2. Calculate the correlation coefficient between age and glucose level
 3. Using your derived regression equation, predict the glucose level for a 55-year-old subject
-4. Calculate the coefficient of determination (R²) and interpret what percentage of the variation in glucose levels can be explained by age
+4. Calculate the coefficient of determination ($R^2$) and interpret what percentage of the variation in glucose levels can be explained by age
 
 ## Understanding the Problem
 This problem requires finding the relationship between age and glucose levels using simple linear regression, but approaches it from first principles using calculus and the method of least squares. Instead of using the standard formulas directly, we'll demonstrate how these formulas can be derived mathematically by minimizing the sum of squared errors. The linear model takes the form:

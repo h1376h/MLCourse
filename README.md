@@ -18,6 +18,20 @@ A curated collection of machine learning materials, examples, and notes organize
 - **other_slides/**: Supplementary presentation materials
   - **Note**: This directory is ignored in .gitignore. Store your presentation slides here without tracking them in Git.
 
+## Quiz Symbols in This Vault
+
+- ⭐ **Solved in class**: Core questions covered in lectures—be sure you can solve these.
+- 📕 **Hard questions**: Advanced, for deeper study or challenge.
+- 📚 **Good to solve**: Practice problems—try to solve most of these.
+- 🔍 **Analyze this task**: Focus on these to learn key concepts by working through them.
+
+## How to Use the Quiz Files
+
+- Begin with ⭐ questions for foundational understanding.
+- Work through 📚 and 🔍 tasks to reinforce and deepen your knowledge.
+- Attempt 📕 questions for extra challenge or exam prep.
+- Use the quiz files as interactive notebooks: write your answers, check explanations, and revisit as needed.
+
 ## Prerequisites
 
 This repository requires the following Python packages:

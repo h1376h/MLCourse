@@ -15,7 +15,7 @@ In a psychological study, researchers are investigating the relationship between
 Given that the standard deviation of hours of sleep is 1.8 hours and the standard deviation of cognitive test scores is 9.6 points, we need to:
 
 ### Task
-1. Calculate the correlation coefficient (r) between hours of sleep and cognitive test scores
+1. Calculate the correlation coefficient ($r$) between hours of sleep and cognitive test scores
 2. Calculate the coefficient of determination ($R^2$) and interpret its meaning in this context
 3. Find the slope ($\beta_1$) of the regression line using the correlation coefficient and given standard deviations
 4. Explain what proportion of the variance in cognitive test scores can be explained by hours of sleep

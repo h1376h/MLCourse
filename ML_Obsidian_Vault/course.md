@@ -4,20 +4,6 @@
 - **Instructor**: Dr. Zahra Rahimi
 - **Course Index**: [[index|Main Course Index]]
 
-## Quiz Symbol Legend
-
-- ⭐ **Solved in class**: Core questions covered in lectures—make sure you can solve these!
-- 📕 **Hard questions**: Advanced/challenging—read for deeper understanding or extra challenge.
-- 📚 **Good to solve**: Practice tasks—try to solve most of these for solid learning.
-- 🔍 **Analyze this task**: Focus on these to discover and understand key concepts.
-
-## How to Use the Quiz Files
-
-- ⭐ Start with these for essential skills—they are the foundation.
-- 📚 and 🔍 Prioritize these tasks to reinforce and deepen your understanding.
-- 📕 Attempt these for extra challenge or when preparing for exams.
-- Use the quiz files as active workbooks: write out your solutions, check explanations, and revisit as needed.
-
 ## Legend
 - ⭐ Required materials
 - 📚 Optional materials
@@ -53,13 +39,13 @@
 - 2.2: Information Theory and Entropy
   - 📚 Quiz: [[L2_2_Quiz]]
 - 2.3: Statistical Estimation Basics
-  - ⭐ Quiz: [[L2_3_Quiz]]
+  - 📚 Quiz: [[L2_3_Quiz]]
   - 📚 Examples: [[L2_3_Likelihood_Examples|Likelihood Examples]]
   - 📚 Examples: [[L2_3_Probability_vs_Likelihood_Examples|Probability vs Likelihood Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.4: Maximum Likelihood Estimation
   - ⭐ Quiz: [[L2_4_Quiz]]
-  - ⭐ Examples: [[L2_4_MLE_Examples|MLE Examples]]
+  - 📚 Examples: [[L2_4_MLE_Examples|MLE Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.5: Bayesian Approach to ML
   - ⭐ Quiz: [[L2_5_Quiz]]
@@ -71,8 +57,8 @@
   - 🚫 Special Examples (Slides): Coming Soon
 - 2.7: Maximum A Posteriori and Full Bayesian Inference
   - ⭐ Quiz: [[L2_7_Quiz]]
-  - ⭐ Examples: [[L2_7_MAP_Examples|MAP Examples]]
-  - ⭐ Examples: [[L2_7_Full_Bayesian_Inference|Full Bayesian Inference Examples]]
+  - 📚 Examples: [[L2_7_MAP_Examples|MAP Examples]]
+  - 📚 Examples: [[L2_7_Full_Bayesian_Inference|Full Bayesian Inference Examples]]
   - 📚 Special Examples (Slides): Coming Soon
 - 2.8: Statistical Hypothesis Testing for ML
   - 🚫 Quiz: L2_8_Quiz
@@ -91,22 +77,22 @@
   - ⭐ Quiz: [[L3_2_Quiz]]
   - 📚 Examples: Coming Soon
 - 3.3: Probabilistic View of Linear Regression
-  - ⭐ Quiz: L3_3_Quiz
+  - ⭐ Quiz: [[L3_3_Quiz]]
   - 📚 Examples: Coming Soon
 - 3.4: Multiple Linear Regression
-  - ⭐ Quiz: L3_4_Quiz
+  - ⭐ Quiz: [[L3_4_Quiz]]
   - 📚 Examples: [[L3_4_Multivariate_Regression|Multivariate Regression Examples]]
 - 3.5: Optimization Techniques for Linear Regression
-  - ⭐ Quiz: L3_5_Quiz
+  - ⭐ Quiz: [[L3_5_Quiz]]
   - 📚 Examples: Coming Soon
 - 3.6: Model Evaluation and Validation
-  - ⭐ Quiz: L3_6_Quiz
+  - ⭐ Quiz: [[L3_6_Quiz]]
   - 📚 Examples: Coming Soon
 - 3.7: Regularization in Linear Models
-  - ⭐ Quiz: L3_7_Quiz
+  - ⭐ Quiz: [[L3_7_Quiz]]
   - 📚 Examples: Coming Soon
 - 3.8: Advanced Linear Regression Topics
-  - ⭐ Quiz: L3_8_Quiz
+  - 📚 Quiz: L3_8_Quiz
   - 📚 Examples: Coming Soon
 
 ### Lecture 4: Linear Classifiers

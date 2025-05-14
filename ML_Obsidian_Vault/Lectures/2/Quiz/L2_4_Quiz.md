@@ -475,7 +475,7 @@ The true labels are: Sample 1: Cat, Sample 2: Dog, Sample 3: Bird, Sample 4: Cat
 
 For a detailed explanation, see [Question 28: One-Hot Encoding and Maximum Likelihood Estimation](L2_4_28_explanation.md).
 
-## Question 29
+## [📕] Question 29
 
 ### Problem Statement
 Consider a dataset of 100 examples with three possible categories: A, B, and C. The dataset contains: 50 instances of A, 30 instances of B, and 20 instances of C.

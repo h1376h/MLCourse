@@ -1,23 +1,26 @@
 # Lecture 3: Linear Regression
 
 ## Overview
-This module covers fundamental concepts in linear regression, one of the most widely used statistical methods in machine learning. You'll learn everything from basic theory to advanced applications and optimization techniques for linear models, providing a foundation for many other ML algorithms.
+This module covers fundamental concepts in linear regression, one of the most widely used statistical methods in machine learning. You'll learn everything from basic theory to advanced applications and optimization techniques for linear models, providing a foundation for many other ML algorithms. The module emphasizes the bias-variance tradeoff, different hypothesis spaces, cost function optimization, and practical methods for model evaluation and regularization.
 
 ### Lecture 3.1: Mathematical Foundations of Linear Models
 - [[L3_1_Linear_Model_Theory|Linear Model Theory]]: Vector spaces and linear algebra fundamentals
 - Matrix Properties in Linear Models: Hat matrix, projection, and eigendecomposition
+- Best Unrestricted Regression Function: Mathematical derivation and properties
 - Gauss-Markov Theorem: BLUE properties and optimality
 - Statistical Properties: Bias, variance, and efficiency of estimators
+- Error Decomposition: Breaking down prediction error into components
 - Mathematical Foundations Examples: Theoretical examples and proofs
 - Required Reading: Sections 3.1-3.1.3 of "Pattern Recognition and Machine Learning" by Bishop
 - Quiz: [[L3_1_Quiz]]: Test your understanding of linear model mathematics
 
 ### Lecture 3.2: Simple Linear Regression
 - [[L3_2_Linear_Regression_Formulation|Linear Regression Formulation]]: Problem setup and notation
-- [[L3_2_Simple_Linear_Regression|Simple Linear Regression]]: Modeling with a single independent variable
-- [[L3_2_Cost_Function|Cost Function]]: MSE and optimization objectives
+- [[L3_2_Simple_Linear_Regression|Simple Linear Regression]]: Modeling with a single independent variable 
+- Univariate vs. Multivariate Formulations: Mathematical representations
+- [[L3_2_Cost_Function|Cost Function]]: MSE optimization objectives and visualization
 - [[L3_2_Least_Squares|Least Squares Method]]: Derivation and geometric interpretation
-- [[L3_2_Analytical_Solution|Analytical Solution]]: Closed-form solution for linear regression
+- [[L3_2_Analytical_Solution|Analytical Solution]]: Closed-form solution with normal equations
 - [[L3_2_Error_Models|Error Models]]: Gaussian and other error distributions in regression
 - Linear Regression Assumptions: Testing and implications
 - [[L3_2_Examples|Simple Linear Regression Examples]]: Practical applications with code
@@ -33,6 +36,7 @@ This module covers fundamental concepts in linear regression, one of the most wi
 - Equivalence to Least Squares: Connection between MLE and OLS
 - Parameter Distribution: Uncertainty in parameter estimates
 - Predictive Distribution: Making probabilistic predictions
+- Structural and Approximation Error: Error decomposition analysis
 - Log-Likelihood Optimization: Numerical considerations
 - Probabilistic Linear Regression Examples: Implementation and demonstrations
 - Required Reading: Sections 3.1.5-3.2.2 of "Pattern Recognition and Machine Learning" by Bishop
@@ -40,27 +44,30 @@ This module covers fundamental concepts in linear regression, one of the most wi
 
 ### Lecture 3.4: Multiple Linear Regression
 - Multiple Linear Regression: Extending to multiple variables
-- Matrix Formulation: Vectorized representation
+- Matrix Formulation: Vectorized representation for efficiency
 - Multicollinearity: Causes, detection, and solutions
 - Interaction Terms: Modeling feature interactions
 - Feature Engineering: Creating effective features
 - Dummy Variables: Handling categorical predictors
-- Polynomial Regression: Modeling nonlinear relationships
+- Polynomial Regression: Modeling nonlinear relationships with examples
 - Basis Function Expansion: Radial basis functions and splines
+- Curse of Dimensionality: Challenges with high-dimensional data
 - Multiple Regression Examples: Practical applications with code
 - Required Reading: Section 3.2.3-3.2.5 of "Pattern Recognition and Machine Learning" by Bishop
 - Quiz: L3_4_Quiz: Test your understanding of multiple linear regression
 
 ### Lecture 3.5: Optimization Techniques for Linear Regression
 - Gradient Descent: Iterative optimization for linear regression
-- Batch Gradient Descent: Full dataset approach
+- Batch Gradient Descent: Full dataset approach with math derivation
 - Stochastic Gradient Descent: Scaling to large datasets
 - Mini-batch Gradient Descent: Balancing efficiency and stability
 - Normal Equations vs Gradient Descent: Tradeoffs and considerations
 - Learning Rate Selection: Strategies for convergence
+- Least Mean Squares (LMS) Algorithm: Implementation details
 - Feature Scaling: Preprocessing for optimization
 - Convergence Analysis: Theoretical guarantees
-- Advanced Optimizers: Momentum, RMSProp, Adam
+- Advanced Optimizers: Momentum, RMSprop, Adam
+- Online Learning: Sequential updates for streaming data
 - Optimization Examples: Implementation of various methods
 - Required Reading: Chapter 4.3 of "Pattern Recognition and Machine Learning" by Bishop
 - Quiz: L3_5_Quiz: Test your understanding of optimization techniques
@@ -69,8 +76,10 @@ This module covers fundamental concepts in linear regression, one of the most wi
 - Error Metrics: MSE, MAE, RMSE, R-squared
 - Training vs Testing Error: Generalization assessment
 - Train-Test Split: Data partitioning strategies
+- Simple Hold-Out Method: Implementation and limitations
 - Cross Validation: K-fold and leave-one-out methods
 - Learning Curves: Diagnosing bias and variance
+- Expected Training and True Error Curves: Analysis of model behavior
 - Residual Analysis: Validating model assumptions
 - Hypothesis Testing: Statistical significance of coefficients
 - Model Complexity Selection: Balancing fit and generalization
@@ -81,12 +90,13 @@ This module covers fundamental concepts in linear regression, one of the most wi
 
 ### Lecture 3.7: Regularization in Linear Models
 - Overfitting in Linear Models: Detection and prevention
-- Bias-Variance Tradeoff: Fundamental ML concept
+- Bias-Variance Tradeoff: Fundamental ML concept with visual examples
 - Regularization Theory: Mathematical foundations
-- Ridge Regression: L2 regularization implementation and effects
-- Regularization Path: Effect of regularization parameter
-- Lasso Regression: L1 regularization for feature selection
+- Ridge Regression (L2): Implementation, effects, and mathematical derivation
+- Regularization Path: Effect of regularization parameter lambda
+- Lasso Regression (L1): Feature selection capabilities
 - Elastic Net: Combining L1 and L2 regularization
+- Polynomial Coefficient Analysis: Effect of regularization on coefficient values
 - Bayesian Interpretation: Priors and regularization
 - Selecting Regularization Parameter: Cross-validation approaches
 - Early Stopping: Implicit regularization in iterative methods
@@ -99,6 +109,8 @@ This module covers fundamental concepts in linear regression, one of the most wi
 - Robust Regression: Handling outliers and non-Gaussian noise
 - Weighted Least Squares: Accommodating heteroscedasticity
 - Generalized Linear Models: Beyond the Gaussian case
+- Radial Basis Functions: Prototypes and similarity-based prediction
+- Gaussian Basis Functions: Implementation and applications
 - Regression Diagnostics: Advanced validation techniques
 - Variable Selection Methods: Stepwise, LARS, elastic net
 - Bayesian Linear Regression: Full posterior approach
@@ -109,17 +121,6 @@ This module covers fundamental concepts in linear regression, one of the most wi
 - Advanced Examples: Complex applications and case studies
 - Required Reading: Chapters 3.4-3.5 of "Pattern Recognition and Machine Learning" by Bishop
 - Quiz: L3_8_Quiz: Test your understanding of advanced regression topics
-
-## Related Slides
-*(not included in the repo)*
-- Mathematical_Foundations.pdf
-- Simple_Linear_Regression.pdf
-- Probabilistic_Linear_Regression.pdf
-- Multiple_Linear_Regression.pdf
-- Optimization_for_Linear_Models.pdf
-- Model_Evaluation_and_Validation.pdf
-- Regularization_Techniques.pdf
-- Advanced_Linear_Regression.pdf
 
 ## Related Videos
 - [Mathematical Foundations of Linear Models](https://www.youtube.com/watch?v=zPG4NjIkCjc)

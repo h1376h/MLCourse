@@ -1,0 +1,164 @@
+# Lecture 3.3: Probabilistic View of Linear Regression Quiz
+
+## Overview
+This quiz contains 10 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
+
+## Question 1
+
+### Problem Statement
+Consider a linear regression model with a probabilistic interpretation:
+$$y = w_0 + w_1x + \epsilon$$
+
+where $\epsilon \sim \mathcal{N}(0, \sigma^2)$ represents Gaussian noise with zero mean and variance $\sigma^2$.
+
+For the following dataset with 4 observations:
+
+| $x$ | $y$ |
+|-----|-----|
+| 1   | 3   |
+| 2   | 5   |
+| 3   | 4   |
+| 4   | 7   |
+
+#### Task
+1. Write down the likelihood function for this model
+2. Derive the log-likelihood function
+3. Show that maximizing the log-likelihood is equivalent to minimizing the sum of squared errors
+4. Based on this, calculate the maximum likelihood estimates for $w_0$ and $w_1$
+
+For a detailed explanation of this problem, including step-by-step solutions and derivations, see [Question 1: Maximum Likelihood for Linear Regression](L3_3_1_explanation.md).
+
+## Question 2
+
+### Problem Statement
+In probabilistic linear regression, we assume that observations follow a Gaussian distribution around the predicted values.
+
+#### Task
+1. Write the probability density function (PDF) for observing a specific target value $y^{(i)}$ given input $x^{(i)}$ and parameters $\boldsymbol{w}$ and $\sigma^2$
+2. Using this PDF, construct the likelihood function for a dataset with $n$ observations
+3. Explain why taking the logarithm of the likelihood simplifies the optimization problem
+4. Identify the connection between the negative log-likelihood and the sum of squared errors cost function
+
+For a detailed explanation of this problem, including full derivations and important probabilistic concepts, see [Question 2: Gaussian Likelihood in Linear Regression](L3_3_2_explanation.md).
+
+## Question 3
+
+### Problem Statement
+Consider a simple linear regression model with a probabilistic interpretation. You have collected the following data:
+
+| $x$ | $y$ |
+|-----|-----|
+| 2   | 5   |
+| 4   | 9   |
+| 6   | 11  |
+| 8   | 15  |
+
+The model assumes that observations follow $$y^{(i)} = w_0 + w_1x^{(i)} + \epsilon^{(i)}$$ where $\epsilon^{(i)} \sim \mathcal{N}(0, \sigma^2)$.
+
+#### Task
+1. Calculate the maximum likelihood estimates for parameters $w_0$ and $w_1$
+2. Estimate the noise variance $\sigma^2$ using the maximum likelihood approach
+3. Write down the predictive distribution for a new input $x_{\text{new}} = 5$
+4. Calculate the probability that $y_{\text{new}} > 12$ for this new input
+
+For a detailed explanation of this problem, including maximum likelihood estimation and predictive distributions, see [Question 3: Predictive Distribution in Linear Regression](L3_3_3_explanation.md).
+
+## Question 4
+
+### Problem Statement
+In a probabilistic linear regression model, the likelihood function plays a crucial role in parameter estimation. Consider a simple model $$y = w_0 + w_1x + \epsilon$$ with $\epsilon \sim \mathcal{N}(0, \sigma^2)$.
+
+#### Task
+1. Derive the maximum likelihood estimators for $w_0$ and $w_1$ by setting the derivatives of the log-likelihood to zero
+2. Show that these estimators are identical to the least squares estimators
+3. Derive the maximum likelihood estimator for the noise variance $\sigma^2$
+4. Explain what happens to the likelihood when we increase or decrease $\sigma^2$ while keeping $w_0$ and $w_1$ fixed
+
+For a detailed explanation of this problem, including the full mathematical derivation, see [Question 4: Maximum Likelihood Estimation](L3_3_4_explanation.md).
+
+## Question 5
+
+### Problem Statement
+In probabilistic linear regression, we are often interested in the uncertainty associated with our parameter estimates. Consider a simple linear regression model with Gaussian noise.
+
+#### Task
+1. Explain why parameter estimates in linear regression have a distribution rather than being single fixed values
+2. Describe the distribution of the parameter estimates $\hat{\boldsymbol{w}}$ when derived using maximum likelihood estimation
+3. What factors affect the uncertainty (variance) of these parameter estimates?
+4. How does increasing the number of training examples affect this uncertainty?
+
+For a detailed explanation of this problem, including the distribution of parameter estimates, see [Question 5: Parameter Uncertainty in Linear Regression](L3_3_5_explanation.md).
+
+## Question 6
+
+### Problem Statement
+Error decomposition is an important concept in understanding model performance. In probabilistic linear regression, total error can be broken down into different components.
+
+#### Task
+1. Define and explain the concept of "structural error" in probabilistic linear regression
+2. Define and explain the concept of "approximation error" in probabilistic linear regression
+3. Write down the mathematical decomposition of the expected error in terms of these components
+4. Explain how these error components relate to bias and variance
+
+For a detailed explanation of this problem, including error decomposition analysis, see [Question 6: Error Decomposition in Probabilistic Framework](L3_3_6_explanation.md).
+
+## Question 7
+
+### Problem Statement
+Consider a probabilistic linear regression model where we want to predict a student's final exam score based on their midterm score. We assume:
+
+$$y = w_0 + w_1x + \epsilon$$ where $\epsilon \sim \mathcal{N}(0, \sigma^2)$
+
+After fitting the model, we obtain:
+- $\hat{w}_0 = 20$
+- $\hat{w}_1 = 0.8$
+- $\hat{\sigma}^2 = 25$
+
+#### Task
+1. Write down the predictive distribution for a new student with midterm score $x_{\text{new}} = 75$
+2. Calculate the mean and standard deviation of this predictive distribution
+3. Construct a 95% prediction interval for the final exam score
+4. Calculate the probability that this student will score above 85 on the final exam
+
+For a detailed explanation of this problem, including probability calculations, see [Question 7: Making Probabilistic Predictions](L3_3_7_explanation.md).
+
+## Question 8
+
+### Problem Statement
+The Gaussian error assumption in linear regression has important implications for parameter estimation and inference.
+
+#### Task
+1. State the probability density function for Gaussian noise $\epsilon \sim \mathcal{N}(0, \sigma^2)$
+2. Explain why the Gaussian assumption leads to the least squares objective function
+3. How would the optimization objective change if we assumed Laplace-distributed errors instead?
+4. What are the advantages and limitations of the Gaussian error assumption?
+
+For a detailed explanation of this problem, including the implications of different noise distributions, see [Question 8: Noise Models in Linear Regression](L3_3_8_explanation.md).
+
+## Question 9
+
+### Problem Statement
+Consider a dataset with 3 observations: $(1,2)$, $(2,3)$, and $(3,5)$. We want to fit a simple linear regression model using maximum likelihood estimation with the assumption that errors are normally distributed.
+
+#### Task
+1. Write down the log-likelihood function for this dataset
+2. Find the partial derivatives of the log-likelihood with respect to $w_0$ and $w_1$
+3. Set these derivatives to zero and solve for the maximum likelihood estimates
+4. Calculate the maximum likelihood estimate for the noise variance $\sigma^2$
+
+For a detailed explanation of this problem, including complete calculations, see [Question 9: Manual Calculation of Maximum Likelihood Estimates](L3_3_9_explanation.md).
+
+## Question 10
+
+### Problem Statement
+In probabilistic linear regression, the optimization of the log-likelihood can be approached in different ways.
+
+#### Task
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
+
+1. The negative log-likelihood with Gaussian noise is proportional to the sum of squared errors plus a constant term.
+2. Maximum likelihood estimation with Gaussian noise always results in the same parameter estimates as least squares regression.
+3. If we use maximum likelihood estimation, increasing the noise variance $\sigma^2$ will always increase the log-likelihood.
+4. The log-likelihood function for linear regression with Gaussian noise is always concave with respect to the parameters $\boldsymbol{w}$.
+
+For a detailed explanation of this problem, including proofs for each statement, see [Question 10: Log-Likelihood Optimization Properties](L3_3_10_explanation.md). 
