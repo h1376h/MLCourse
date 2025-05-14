@@ -29,8 +29,6 @@ Example: predicting house price from 3 attributes
 
 ### Evaluation: we measure how well $\hat{f}$ generalizes to unseen examples
 
-![Learning Problem Visualization](Codes/plots/learning_problem_visualization.png)
-
 ## Hypothesis space
 
 ### Specify the class of functions (e.g., linear)
@@ -41,12 +39,12 @@ Example: predicting house price from 3 attributes
 ## Linear regression: hypothesis space
 
 ### Univariate
-$f : \mathbb{R} \rightarrow \mathbb{R} \quad f(x; \boldsymbol{w}) = w_0 + w_1 x$
+$$f : \mathbb{R} \rightarrow \mathbb{R} \quad f(x; \boldsymbol{w}) = w_0 + w_1 x$$
 
 ### Multivariate
-$f : \mathbb{R}^d \rightarrow \mathbb{R} \quad f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + \ldots w_d x_d$
+$$f : \mathbb{R}^d \rightarrow \mathbb{R} \quad f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + \ldots w_d x_d$$
 
-$\boldsymbol{w} = [w_0, w_1, \ldots, w_d]^T$ are parameters we need to set.
+$$\boldsymbol{w} = [w_0, w_1, \ldots, w_d]^T$$ are parameters we need to set.
 
 ![Linear Model Visualization](Codes/plots/linear_model_visualization.png)
 
@@ -103,27 +101,31 @@ We need to:
 
 Cost function:
 
-$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(x; \boldsymbol{w}))^2$
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(x; \boldsymbol{w}))^2$$
 
-$= \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$
+$$= \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
+
+The error for each data point is the vertical distance between the predicted value $f(x^{(i)}; \boldsymbol{w})$ and the actual value $y^{(i)}$. We sum the squares of these errors across all training examples.
+
+![Linear Regression Error Visualization](Codes/plots/linear_regression_errors.png)
 
 ## Regression: squared loss
 
 In the SSE cost function, we used squared error as the prediction loss:
 
-$Loss(y, \hat{y}) = (y - \hat{y})^2 \quad \hat{y} = f(\boldsymbol{x}; \boldsymbol{w})$
+$$Loss(y, \hat{y}) = (y - \hat{y})^2 \quad \hat{y} = f(\boldsymbol{x}; \boldsymbol{w})$$
 
 Cost function (based on the training set):
 
-$J(\boldsymbol{w}) = \sum_{i=1}^{n} Loss(y^{(i)}, f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))$
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} Loss(y^{(i)}, f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))$$
 
-$= \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2$
+$$= \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2$$
 
 Minimizing sum (or mean) of squared errors is a common approach in curve fitting, neural network, etc.
 
 ## Sum of Squares Error (SSE) cost function
 
-$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2$
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2$$
 
 $J(\boldsymbol{w})$: sum of the squares of the prediction errors on the training set
 
@@ -142,6 +144,8 @@ $f(x; w_0, w_1) = w_0 + w_1 x$
 $J(w_0, w_1)$
 
 (function of the parameters $w_0,w_1$)
+
+The left plot shows the hypothesis $f(x; w_0, w_1) = w_0 + w_1 x$ (blue line) and training data points (red x marks). The right plot shows contour lines of the cost function $J(w_0, w_1)$ in the parameter space, with the red x marking the optimal parameter values.
 
 This example has been adapted from: Prof. Andrew Ng's slides
 
@@ -172,23 +176,41 @@ These visualizations help understand why gradient descent works well for linear 
 
 ![Cost Function Contour](Codes/plots/cost_function_contour.png)
 
+### Additional visualizations of the cost function
+
+The left plot shows another example of hypothesis $f(x; w_0, w_1) = w_0 + w_1 x$ (blue horizontal line) where the parameters give a constant prediction. The right plot again shows contour lines of $J(w_0, w_1)$ in the parameter space.
+
+![Cost Function Example](Codes/plots/cost_function_horizontal.png)
+
+### Another variant of the linear hypothesis
+
+This version shows a decreasing linear hypothesis (negative slope):
+
+![Cost Function Example Negative Slope](Codes/plots/cost_function_negative_slope.png)
+
+### Increasing linear hypothesis
+
+This version shows an increasing linear hypothesis (positive slope):
+
+![Cost Function Example Positive Slope](Codes/plots/cost_function_positive_slope.png)
+
 ## Cost function optimization: univariate
 
-$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
 
 Necessary conditions for the "optimal" parameter values:
 
-$\frac{\partial J(\boldsymbol{w})}{\partial w_0} = 0$
+$$\frac{\partial J(\boldsymbol{w})}{\partial w_0} = 0$$
 
-$\frac{\partial J(\boldsymbol{w})}{\partial w_1} = 0$
+$$\frac{\partial J(\boldsymbol{w})}{\partial w_1} = 0$$
 
 ## Optimality conditions: univariate
 
-$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
 
-$\frac{\partial J(\boldsymbol{w})}{\partial w_1} = \sum_{i=1}^{n} 2(y^{(i)} - w_0 - w_1 x^{(i)})(-x^{(i)}) = 0$
+$$\frac{\partial J(\boldsymbol{w})}{\partial w_1} = \sum_{i=1}^{n} 2(y^{(i)} - w_0 - w_1 x^{(i)})(-x^{(i)}) = 0$$
 
-$\frac{\partial J(\boldsymbol{w})}{\partial w_0} = \sum_{i=1}^{n} 2(y^{(i)} - w_0 - w_1 x^{(i)})(-1) = 0$
+$$\frac{\partial J(\boldsymbol{w})}{\partial w_0} = \sum_{i=1}^{n} 2(y^{(i)} - w_0 - w_1 x^{(i)})(-1) = 0$$
 
 A systems of 2 linear equations
 
@@ -235,38 +257,38 @@ Find the $\boldsymbol{w}$ that minimizes $J(\boldsymbol{w})$
 
 We can rewrite the model in matrix form:
 
-$f(\boldsymbol{x}; \boldsymbol{w}) = \boldsymbol{w}^T \boldsymbol{x}'$
+$$f(\boldsymbol{x}; \boldsymbol{w}) = \boldsymbol{w}^T \boldsymbol{x}'$$
 
 where $\boldsymbol{x}' = [1, x_1, x_2, \ldots, x_d]^T$ is the augmented feature vector.
 
 Let's define the input matrix $\boldsymbol{X}$:
 
-$\boldsymbol{X} = \begin{bmatrix} 
+$$\boldsymbol{X} = \begin{bmatrix} 
 1 & x_1^{(1)} & x_2^{(1)} & \cdots & x_d^{(1)} \\
 1 & x_1^{(2)} & x_2^{(2)} & \cdots & x_d^{(2)} \\
 \vdots & \vdots & \vdots & \ddots & \vdots \\
 1 & x_1^{(n)} & x_2^{(n)} & \cdots & x_d^{(n)}
-\end{bmatrix}$
+\end{bmatrix}$$
 
-and the target vector $\boldsymbol{y} = [y^{(1)}, y^{(2)}, \ldots, y^{(n)}]^T$
+and the target vector $$\boldsymbol{y} = [y^{(1)}, y^{(2)}, \ldots, y^{(n)}]^T$$
 
 ## Linear regression: matrix formulation
 
 SSE cost function in matrix form:
 
-$J(\boldsymbol{w}) = (\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$
+$$J(\boldsymbol{w}) = (\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$$
 
 Gradient w.r.t. $\boldsymbol{w}$:
 
-$\nabla_{\boldsymbol{w}} J(\boldsymbol{w}) = -2\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$
+$$\nabla_{\boldsymbol{w}} J(\boldsymbol{w}) = -2\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$$
 
 Setting the gradient to zero:
 
-$\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}) = \boldsymbol{0}$
+$$\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}) = \boldsymbol{0}$$
 
-$\boldsymbol{X}^T\boldsymbol{y} - \boldsymbol{X}^T\boldsymbol{X}\boldsymbol{w} = \boldsymbol{0}$
+$$\boldsymbol{X}^T\boldsymbol{y} - \boldsymbol{X}^T\boldsymbol{X}\boldsymbol{w} = \boldsymbol{0}$$
 
-$\boldsymbol{X}^T\boldsymbol{X}\boldsymbol{w} = \boldsymbol{X}^T\boldsymbol{y}$
+$$\boldsymbol{X}^T\boldsymbol{X}\boldsymbol{w} = \boldsymbol{X}^T\boldsymbol{y}$$
 
 These are called the normal equations.
 
@@ -489,25 +511,12 @@ $\boldsymbol{w} := \boldsymbol{w} + 2\alpha\boldsymbol{X}^T(\boldsymbol{y} - \bo
 ![Gradient Descent](Codes/plots/gradient_descent.png)
 ![Gradient Descent Fitting](Codes/plots/gradient_descent_fitting.png)
 
-## Summary: Linear Regression
+## Cost function: 3D visualization
 
-- Linear regression models the relationship between a dependent variable $y$ and independent variables $\boldsymbol{x}$ using a linear function.
+The left plot shows the training data points of housing prices vs. size. The right plot is a 3D surface visualization of the cost function $J(w_0, w_1)$ that shows how the cost varies with different values of the parameters $w_0$ and $w_1$.
 
-- Key concepts:
-  - Hypothesis space: linear functions $f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + \ldots + w_d x_d$
-  - Cost function: Sum of Squared Errors (SSE)
-  - Learning algorithm: Normal equations or gradient descent
-  - Regularization: Ridge, Lasso, Elastic Net
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
 
-- Advantages:
-  - Simple and interpretable
-  - Closed-form solution (without regularization)
-  - Works well when relationship is approximately linear
+The 3D plot demonstrates that the cost function has a convex shape, which means it has a single global minimum without local minima where gradient descent might get stuck.
 
-- Limitations:
-  - Can only model linear relationships
-  - Sensitive to outliers
-  - Assumes independence of errors
-  - Normal equations require $O(d^3)$ time and $O(d^2)$ space
-
-Extensions: Polynomial regression, generalized linear models, kernel ridge regression 
+![Cost Function 3D Surface](Codes/plots/cost_function_3d_surface.png) 
