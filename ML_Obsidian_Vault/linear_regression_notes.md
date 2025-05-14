@@ -557,7 +557,24 @@ $$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \gamma_t \nabla J(\boldsymbol{w}^t)$
 
 - Assumption: $J(\boldsymbol{w})$ is defined and differentiable in a neighborhood of a point $\boldsymbol{w}^t$
 
-Gradient ascent takes steps proportional to (the positive of) the gradient to find a local maximum of the function
+#### Gradient ascent
+Takes steps proportional to (the positive of) the gradient to find a local maximum of the function
+
+## Review: Problem of gradient descent with non-convex cost functions
+
+When the cost function $J(\boldsymbol{w})$ is not convex, gradient descent may converge to a local minimum rather than the global minimum. This is illustrated in the visualization below, where the algorithm follows the gradient and ends up in one of the local minima, missing the global minimum.
+
+The 3D surface plot shows a non-convex cost function $J(\boldsymbol{w}_0, \boldsymbol{w}_1)$ with multiple local minima. The black path shows how gradient descent might navigate this surface, potentially getting trapped in a local minimum instead of finding the global minimum.
+
+This problem commonly occurs in complex optimization tasks like training deep neural networks, where the loss landscape can be highly non-convex with many local minima and saddle points.
+
+Various techniques have been developed to address this issue:
+- Random restarts: Run gradient descent multiple times with different initializations
+- Momentum methods: Incorporate information from past gradients to help escape local minima
+- Stochastic methods: Add randomness to the optimization process
+- Advanced optimizers: Use algorithms specifically designed to handle non-convex optimization
+
+In linear regression with the standard squared error cost function, this is fortunately not an issue because the cost function is convex, which guarantees that gradient descent will converge to the global minimum.
 
 ## Gradient Descent for Linear Regression
 
@@ -694,4 +711,57 @@ $$f(\boldsymbol{x}, \boldsymbol{w}) = w_0 + w_1 x_1 + ... w_d x_d$$
 
 $$\boldsymbol{w} = [w_0, w_1, ..., w_d]^T$$
 
-$$\hat{\boldsymbol{w}} = \underset{\boldsymbol{w}\in\mathbb{R}^{d+1}}{\operatorname{argmin}}J(\boldsymbol{w})$$ 
+$$\hat{\boldsymbol{w}} = \underset{\boldsymbol{w}\in\mathbb{R}^{d+1}}{\operatorname{argmin}}J(\boldsymbol{w})$$
+
+## Another approach for optimizing the sum squared error
+
+### Iterative approach for solving the following optimization problem:
+
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2$$
+
+Where:
+$$f(\boldsymbol{x}^{(i)}; \boldsymbol{w}) = \boldsymbol{w}^T\boldsymbol{x}^{(i)}$$
+
+This approach uses gradient descent to iteratively improve the parameter values until convergence to the optimal solution. 
+
+## Gradient descent for SSE cost function
+
+### Minimize $J(\boldsymbol{w})$
+
+$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \eta\nabla_{\boldsymbol{w}}J(\boldsymbol{w}^t)$$
+
+### $J(\boldsymbol{w})$: Sum of squares error
+
+$$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - f(\boldsymbol{x}^{(i)}; \boldsymbol{w}))^2$$
+
+### Weight update rule for $f(\boldsymbol{x}; \boldsymbol{w}) = \boldsymbol{w}^T \boldsymbol{x}$:
+
+$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t + \eta \sum_{i=1}^{n} (y^{(i)} - \boldsymbol{w}^{t T} \boldsymbol{x}^{(i)}) \boldsymbol{x}^{(i)}$$
+
+This is known as batch mode gradient descent, as each step considers all training data. 
+
+### Learning rate considerations:
+
+- $\eta$: too small → gradient descent can be slow.
+- $\eta$: too large → gradient descent can overshoot the minimum. It may fail to converge, or even diverge.
+
+The choice of learning rate is crucial for effective optimization:
+- If too small, convergence will be unnecessarily slow
+- If too large, the algorithm may oscillate around the minimum or diverge completely
+- Adaptive learning rate schedules often provide better performance
+
+## Review: First-order optimization algorithm
+
+### First-order optimization algorithm to find $\boldsymbol{w}^* = \underset{\boldsymbol{w}}{\operatorname{argmin}}J(\boldsymbol{w})$
+
+- Also known as "steepest descent"
+
+### In each step, takes steps proportional to the negative of the gradient vector of the function at the current point $\boldsymbol{w}^t$:
+
+$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \gamma_t \nabla J(\boldsymbol{w}^t)$$
+
+- $J(\boldsymbol{w})$ decreases fastest if one goes from $\boldsymbol{w}^t$ in the direction of $-\nabla J(\boldsymbol{w}^t)$
+- Assumption: $J(\boldsymbol{w})$ is defined and differentiable in a neighborhood of a point $\boldsymbol{w}^t$
+
+#### Gradient ascent
+Takes steps proportional to (the positive of) the gradient to find a local maximum of the function
