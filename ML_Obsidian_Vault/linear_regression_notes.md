@@ -391,6 +391,206 @@ As we adjust the parameter values, we can observe different fits to the data:
 
 These examples from Andrew Ng's Stanford ML course illustrate how different parameter choices affect the fit of our linear model, and how finding the minimum of the cost function leads to the best fit.
 
+## Example: simple linear regression
+
+Consider the simple case with one feature:
+
+$f(x; w_0, w_1) = w_0 + w_1 x$
+
+$\boldsymbol{X} = \begin{bmatrix} 
+1 & x^{(1)} \\
+1 & x^{(2)} \\
+\vdots & \vdots \\
+1 & x^{(n)}
+\end{bmatrix}, \boldsymbol{w} = \begin{bmatrix} w_0 \\ w_1 \end{bmatrix}, \boldsymbol{y} = \begin{bmatrix} y^{(1)} \\ y^{(2)} \\ \vdots \\ y^{(n)} \end{bmatrix}$
+
+$\boldsymbol{X}^T\boldsymbol{X} = \begin{bmatrix} 
+n & \sum_{i=1}^{n} x^{(i)} \\
+\sum_{i=1}^{n} x^{(i)} & \sum_{i=1}^{n} (x^{(i)})^2
+\end{bmatrix}$
+
+$\boldsymbol{X}^T\boldsymbol{y} = \begin{bmatrix} 
+\sum_{i=1}^{n} y^{(i)} \\
+\sum_{i=1}^{n} x^{(i)}y^{(i)}
+\end{bmatrix}$
+
+## Example: simple linear regression (cont.)
+
+Computing the solution:
+
+$\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$
+
+$w_1 = \frac{n\sum_{i=1}^{n} x^{(i)}y^{(i)} - \sum_{i=1}^{n} x^{(i)}\sum_{i=1}^{n} y^{(i)}}{n\sum_{i=1}^{n} (x^{(i)})^2 - (\sum_{i=1}^{n} x^{(i)})^2}$
+
+$w_0 = \frac{1}{n}(\sum_{i=1}^{n} y^{(i)} - w_1 \sum_{i=1}^{n} x^{(i)}) = \bar{y} - w_1 \bar{x}$
+
+Note:
+- $w_1$ captures the correlation between $x$ and $y$
+- $w_0$ shifts the line to pass through the point $(\bar{x}, \bar{y})$
+
+## Linear regression in higher dimensions
+
+The same approach works for multiple features:
+
+$f(\boldsymbol{x}; \boldsymbol{w}) = w_0 + w_1 x_1 + w_2 x_2 + \ldots + w_d x_d$
+
+Solution via normal equations:
+
+$\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$
+
+With multiple features:
+- The model describes a hyperplane in the feature space
+- Each $w_i$ for $i \geq 1$ represents the impact of feature $x_i$ on the prediction
+- $w_0$ is the bias or intercept term
+
+## Geometric interpretation: projection
+
+The prediction $\hat{\boldsymbol{y}} = \boldsymbol{X}\boldsymbol{w}$ is the projection of $\boldsymbol{y}$ onto the column space of $\boldsymbol{X}$.
+
+$\hat{\boldsymbol{y}} = \boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y} = \boldsymbol{P}\boldsymbol{y}$
+
+where $\boldsymbol{P} = \boldsymbol{X}(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T$ is the projection matrix.
+
+Properties:
+- $\boldsymbol{P}$ is symmetric: $\boldsymbol{P}^T = \boldsymbol{P}$
+- $\boldsymbol{P}$ is idempotent: $\boldsymbol{P}^2 = \boldsymbol{P}$
+- The residual $\boldsymbol{y} - \hat{\boldsymbol{y}}$ is orthogonal to the column space of $\boldsymbol{X}$
+
+Geometrically, this means:
+- $\hat{\boldsymbol{y}}$ is the point in the column space of $\boldsymbol{X}$ closest to $\boldsymbol{y}$
+- The vector $\boldsymbol{y} - \hat{\boldsymbol{y}}$ is perpendicular to the column space
+- The sum of squared errors is minimized
+
+In $\mathbb{R}^n$ space (with $n$ observations):
+- $\boldsymbol{y}$ is a point in $\mathbb{R}^n$
+- The column space of $\boldsymbol{X}$ is a $d+1$ dimensional subspace
+- Linear regression finds the projection of $\boldsymbol{y}$ onto this subspace
+
+This interpretation helps visualize why the least squares solution has the properties it does and why it represents the best linear fit to the data.
+
+![Geometric Interpretation](Codes/plots/geometric_interpretation.png)
+
+## Regularization: Ridge regression
+
+When features are correlated or $d$ is large relative to $n$, the normal equations can be ill-conditioned.
+
+Ridge regression adds a penalty on the magnitude of the weights:
+
+$J_{\text{ridge}}(\boldsymbol{w}) = J(\boldsymbol{w}) + \lambda\|\boldsymbol{w}\|_2^2 = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda\|\boldsymbol{w}\|_2^2$
+
+where $\lambda > 0$ is the regularization parameter.
+
+The solution is:
+
+$\boldsymbol{w}_{\text{ridge}} = (\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I})^{-1}\boldsymbol{X}^T\boldsymbol{y}$
+
+Benefits:
+- Always has a unique solution (since $\boldsymbol{X}^T\boldsymbol{X} + \lambda\boldsymbol{I}$ is invertible)
+- Reduces overfitting
+- Handles multicollinearity
+
+### How Ridge regression works:
+- The L2 penalty term $\lambda\|\boldsymbol{w}\|_2^2$ shrinks all coefficients toward zero
+- As $\lambda$ increases, the bias increases and variance decreases
+- The regularization effect is stronger for directions with smaller eigenvalues in $\boldsymbol{X}^T\boldsymbol{X}$
+- The intercept term $w_0$ is typically not regularized
+
+## Regularization: Lasso regression
+
+Lasso (Least Absolute Shrinkage and Selection Operator) regression uses an L1 penalty:
+
+$J_{\text{lasso}}(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda\|\boldsymbol{w}\|_1$
+
+where $\|\boldsymbol{w}\|_1 = \sum_{j=0}^{d}|w_j|$ is the L1 norm.
+
+Properties:
+- Encourages sparse solutions (many weights exactly zero)
+- Performs feature selection
+- No closed-form solution (requires optimization algorithms)
+
+### How Lasso regression works:
+- The L1 penalty creates a constraint region shaped like a diamond
+- This geometry makes it more likely for coefficients to be exactly zero
+- Effective when many features have little or no impact on the target
+- Computationally more intensive than Ridge regression (typically solved using coordinate descent or LARS)
+
+### Elastic Net regularization:
+- Combines both L1 and L2 penalties: $\lambda_1\|\boldsymbol{w}\|_1 + \lambda_2\|\boldsymbol{w}\|_2^2$
+- Preserves the feature selection properties of Lasso
+- More robust to collinearity than Lasso
+- Often outperforms both Ridge and Lasso in practice
+
+Comparison:
+- Ridge: shrinks all coefficients toward zero
+- Lasso: shrinks some coefficients exactly to zero
+- Elastic Net: combines L1 and L2 penalties
+
+### Choosing the regularization parameter:
+- Cross-validation is typically used to select $\lambda$
+- The regularization path shows how coefficients change with varying $\lambda$
+- For high-dimensional data, regularization is often essential
+
+![Regularization Comparison](Codes/plots/regularization_comparison.png)
+
+## Gradient Descent for Linear Regression
+
+When $n$ or $d$ is large, inverting matrices becomes computationally expensive.
+
+Gradient descent is an iterative optimization algorithm:
+
+1. Initialize $\boldsymbol{w}$ (often to zeros or small random values)
+2. Repeat until convergence:
+   $\boldsymbol{w} := \boldsymbol{w} - \alpha \nabla_{\boldsymbol{w}}J(\boldsymbol{w})$
+   where $\alpha > 0$ is the learning rate
+
+For linear regression with SSE:
+$\nabla_{\boldsymbol{w}}J(\boldsymbol{w}) = -2\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$
+
+Update rule:
+$\boldsymbol{w} := \boldsymbol{w} + 2\alpha\boldsymbol{X}^T(\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w})$
+
+### Gradient Descent Variants:
+
+#### Batch gradient descent:
+- Uses all examples for each update
+- Follows the true gradient direction
+- Computationally expensive for large datasets
+- Guaranteed to converge to global minimum for convex functions (like linear regression)
+- Update rule: $\boldsymbol{w} := \boldsymbol{w} - \alpha \frac{1}{n}\sum_{i=1}^{n}\nabla_{\boldsymbol{w}}(y^{(i)} - \boldsymbol{w}^T\boldsymbol{x}^{(i)})^2$
+
+#### Stochastic gradient descent (SGD):
+- Uses one randomly selected example for each update
+- Much faster per iteration but noisier updates
+- May never converge exactly, but oscillates around the minimum
+- Better for very large datasets
+- Update rule: $\boldsymbol{w} := \boldsymbol{w} - \alpha \nabla_{\boldsymbol{w}}(y^{(i)} - \boldsymbol{w}^T\boldsymbol{x}^{(i)})^2$
+
+#### Mini-batch gradient descent:
+- Uses small batches of examples (e.g., 32, 64, 128)
+- Compromise between batch and stochastic variants
+- Less noisy than SGD but still efficient
+- Most common in practice
+- Update rule: $\boldsymbol{w} := \boldsymbol{w} - \alpha \frac{1}{b}\sum_{i \in B}\nabla_{\boldsymbol{w}}(y^{(i)} - \boldsymbol{w}^T\boldsymbol{x}^{(i)})^2$
+
+### Practical considerations:
+- Learning rate $\alpha$ is a crucial hyperparameter
+  - Too small: slow convergence
+  - Too large: may diverge
+- Learning rate schedules can improve convergence
+  - Start with larger $\alpha$ and decrease over time
+  - Common schedules: step decay, exponential decay, 1/t decay
+- For high-dimensional problems, adaptive methods like Adam, RMSprop, or Adagrad often work better
+- Early stopping can be used to prevent overfitting
+
+### Convergence criteria:
+- Fixed number of iterations
+- Change in parameters below threshold: $\|\boldsymbol{w}_{k+1} - \boldsymbol{w}_k\| < \epsilon$
+- Change in cost function below threshold: $|J(\boldsymbol{w}_{k+1}) - J(\boldsymbol{w}_k)| < \epsilon$
+- Gradient magnitude below threshold: $\|\nabla_{\boldsymbol{w}}J(\boldsymbol{w})\| < \epsilon$
+
+![Gradient Descent](Codes/plots/gradient_descent.png)
+![Gradient Descent Fitting](Codes/plots/gradient_descent_fitting.png)
+
 ## Cost function: 3D visualization
 
 The left plot shows the training data points of housing prices vs. size. The right plot is a 3D surface visualization of the cost function $J(w_0, w_1)$ that shows how the cost varies with different values of the parameters $w_0$ and $w_1$.
