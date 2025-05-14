@@ -374,6 +374,12 @@ In this example, we apply linear regression to predict house prices based on hou
 
 $$f(x; w_0, w_1) = w_0 + w_1 x$$
 
+(for a fixed set of parameters, this is a function of $x$)
+
+$$J(w_0, w_1)$$
+
+(function of the parameters $w_0,w_1$)
+
 where:
 - $x$ represents the house size (in feet²)
 - $f(x; w_0, w_1)$ is the predicted price (in $1000s$)
@@ -644,6 +650,37 @@ $$J(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - w_0 - w_1 x^{(i)})^2$$
 The 3D plot demonstrates that the cost function has a convex shape, which means it has a single global minimum without local minima where gradient descent might get stuck.
 
 ![Cost Function 3D Surface](Codes/plots/cost_function_3d_surface.png)
+
+## Stochastic gradient descent
+
+### Batch techniques process the entire training set in one go
+- thus they can be computationally costly for large data sets.
+
+### Stochastic gradient descent: when the cost function can comprise a sum over data points:
+
+$$J(\boldsymbol{w}) = \sum_{i=1}^n J^{(i)}(\boldsymbol{w})$$
+
+### Update after presentation of $(\boldsymbol{x}^{(i)}, y^{(i)})$:
+
+$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \eta\nabla_{\boldsymbol{w}}J^{(i)}(\boldsymbol{w})$$
+
+### Example: Linear regression with SSE cost function
+
+For a single training example, the cost function is:
+
+$$J^{(i)}(\boldsymbol{w}) = (y^{(i)} - \boldsymbol{w}^T \boldsymbol{x}^{(i)})^2$$
+
+The weight update using stochastic gradient descent becomes:
+
+$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t - \eta\nabla_{\boldsymbol{w}}J^{(i)}(\boldsymbol{w})$$
+
+When we calculate the gradient and simplify, we get the Least Mean Squares (LMS) update rule:
+
+$$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t + \eta(y^{(i)} - \boldsymbol{w}^T\boldsymbol{x}^{(i)})\boldsymbol{x}^{(i)}$$
+
+This update rule is known as the Least Mean Squares (LMS) algorithm.
+
+This form of update is especially suited for sequential or online learning, where parameters are updated after seeing each training example rather than processing the entire dataset at once. It is proper for sequential or online learning scenarios where data arrives in a stream and we want to continuously adapt our model.
 
 ## Evaluation and generalization
 
