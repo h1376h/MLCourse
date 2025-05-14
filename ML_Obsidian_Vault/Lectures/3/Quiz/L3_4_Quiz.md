@@ -320,14 +320,14 @@ Complete each statement with the appropriate term or mathematical expression.
 #### Task
 Fill in each blank with the appropriate term or expression:
 
-1. In a multiple linear regression model with $d$ features, the design matrix $\boldsymbol{X}$ has dimensions _________.
-2. The closed-form solution to the least squares problem in matrix form is given by _________.
-3. When there is perfect multicollinearity among predictors, the matrix $\boldsymbol{X}^T\boldsymbol{X}$ becomes _________.
-4. If a categorical variable has $k$ levels, we typically create _________ dummy variables to represent it.
-5. A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y = _________ + \epsilon$.
-6. A Gaussian radial basis function can be expressed as $\phi(\boldsymbol{x}) = _________.
-7. The "curse of dimensionality" in regression refers to problems that arise when _________.
-8. In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = _________.
+1. In a multiple linear regression model with $d$ features, the design matrix $\boldsymbol{X}$ has dimensions $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+2. The closed-form solution to the least squares problem in matrix form is given by $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+3. When there is perfect multicollinearity among predictors, the matrix $\boldsymbol{X}^T\boldsymbol{X}$ becomes $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+4. If a categorical variable has $k$ levels, we typically create $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ dummy variables to represent it.
+5. A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y$ = $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ + $\epsilon$.
+6. A Gaussian radial basis function can be expressed as $\phi(\boldsymbol{x}) = $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+7. The "curse of dimensionality" in regression refers to problems that arise when $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+8. In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 
 For a detailed explanation of these fill-in-the-blank questions, see [Question 15: Mathematical Foundations of Multiple Regression](L3_4_15_explanation.md).
 
