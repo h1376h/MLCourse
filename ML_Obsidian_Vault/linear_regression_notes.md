@@ -1092,3 +1092,119 @@ Most of the time we need to select among a set of models
 ### Usually, too wasteful of valuable training data
 - Training data may be limited.
 - On the other hand, small validation set gives a relatively noisy estimate of performance.
+
+## Cross-Validation (CV): Model Selection
+
+- For each model we first find the average error found by CV.
+
+- The model with the best average performance is selected.
+
+## Regularization
+
+- Adding a penalty term in the cost function to discourage the coefficients from reaching large values.
+
+- Ridge regression (weight decay):
+
+$$J(\boldsymbol{w}) = \sum_{i=1}^n \left(y^{(i)} - \boldsymbol{w}^T \phi(\boldsymbol{x}^{(i)})\right)^2 + \lambda\boldsymbol{w}^T\boldsymbol{w}$$
+
+$$\hat{\boldsymbol{w}} = (\Phi^T\Phi + \lambda I)^{-1} \Phi^T\boldsymbol{y}$$
+
+## Leave-One-Out Cross Validation (LOOCV)
+
+- When data is particularly scarce, cross-validation with $k = N$
+
+- Leave-one-out treats each training sample in turn as a test example and all other samples as the training set.
+
+- Use for small datasets
+  - When training data is valuable
+  - LOOCV can be time expensive as $N$ training steps are required.
+
+## Cross-Validation (CV): Evaluation
+
+- $k$-fold cross-validation steps:
+  - Shuffle the dataset and randomly partition training data into $k$ groups of approximately equal size
+  - for $i = 1$ to $k$
+    - Choose the $i$-th group as the held-out validation group
+    - Train the model on all but the $i$-th group of data
+    - Evaluate the model on the held-out group
+  - Performance scores of the model from $k$ runs are averaged.
+    - The average error rate can be considered as an estimation of the true performance.
+
+## Regularization parameter
+
+The table below shows coefficient values for a 9th degree polynomial ($m = 9$) with different regularization parameters:
+
+| Coefficient | $\ln \lambda = -\infty$ | $\ln \lambda = -18$ | $\ln \lambda = 0$ |
+|-------------|-------------------------|---------------------|-------------------|
+| $\hat{w}_0$ | 0.35                    | 0.35                | 0.13              |
+| $\hat{w}_1$ | 232.37                  | 4.74                | -0.05             |
+| $\hat{w}_2$ | -5321.83                | -0.77               | -0.06             |
+| $\hat{w}_3$ | 48568.31                | -31.97              | -0.05             |
+| $\hat{w}_4$ | -231639.30              | -3.89               | -0.03             |
+| $\hat{w}_5$ | 640042.26               | 55.28               | -0.02             |
+| $\hat{w}_6$ | -1061800.52             | 41.32               | -0.01             |
+| $\hat{w}_7$ | 1042400.18              | -45.95              | -0.00             |
+| $\hat{w}_8$ | -557682.99              | -91.53              | 0.00              |
+| $\hat{w}_9$ | 125201.43               | 72.68               | 0.01              |
+
+As we can see, with no regularization ($\ln \lambda = -\infty$), the coefficients have very large magnitudes. With moderate regularization ($\ln \lambda = -18$), the coefficients are more reasonable. With strong regularization ($\ln \lambda = 0$), the coefficients are close to zero.
+
+## Polynomial order
+
+- Polynomials with larger $m$ are becoming increasingly tuned to the random noise on the target values.
+  - magnitude of the coefficients typically gets larger by increasing $m$.
+
+The table below shows how coefficient values grow as the polynomial order increases:
+
+| Coefficient | $M = 0$ | $M = 1$ | $M = 6$ | $M = 9$ |
+|-------------|---------|---------|---------|---------|
+| $w_0^*$     | 0.19    | 0.82    | 0.31    | 0.35    |
+| $w_1^*$     |         | -1.27   | 7.99    | 232.37  |
+| $w_2^*$     |         |         | -25.43  | -5321.83|
+| $w_3^*$     |         |         | 17.37   | 48568.31|
+| $w_4^*$     |         |         |         | -231639.30|
+| $w_5^*$     |         |         |         | 640042.26|
+| $w_6^*$     |         |         |         | -1061800.52|
+| $w_7^*$     |         |         |         | 1042400.18|
+| $w_8^*$     |         |         |         | -557682.99|
+| $w_9^*$     |         |         |         | 125201.43|
+
+Notice how dramatically the coefficient magnitudes increase with higher polynomial orders.
+
+## Cross-validation: polynomial regression example
+
+- 5-fold CV
+- 100 runs
+- average
+
+The results for different polynomial orders show how cross-validation helps identify the best model:
+
+- $m = 1$ (linear): CV: $MSE = 0.30$
+- $m = 3$ (cubic): CV: $MSE = 1.45$
+- $m = 5$ (quintic): CV: $MSE = 45.44$
+- $m = 7$ (7th degree): CV: $MSE = 31759$
+
+We can see that as the polynomial degree increases, the model fits the training data better but eventually overfits dramatically, resulting in poor cross-validation performance. The linear model ($m = 1$) has the best cross-validation performance in this example.
+
+## Choosing the regularization parameter
+
+- A set of models with different values of $\lambda$.
+
+- Find $\hat{\boldsymbol{w}}$ for each model based on training data
+
+- Find $J_v(\hat{\boldsymbol{w}})$ (or $J_{cv}(\hat{\boldsymbol{w}})$) for each model
+  - $J_v(\boldsymbol{w}) = \frac{1}{n_v}\sum_{i\in v\_set} \left(y^{(i)} - f\left(x^{(i)};\boldsymbol{w}\right)\right)^2$
+
+- Select the model with the best $J_v(\hat{\boldsymbol{w}})$ (or $J_{cv}(\hat{\boldsymbol{w}})$)
+
+### Regularization parameter: Generalization
+
+- $\lambda$ now controls the effective complexity of the model and hence determines the degree of over-fitting
+
+The graph shows how regularization affects model performance, plotting $E_{RMS}$ against $\ln \lambda$. As the regularization parameter $\lambda$ decreases (moving from right to left on the x-axis):
+
+1. When $\lambda$ is too large (right side), both training and test errors are high (underfitting)
+2. As $\lambda$ decreases, both errors decrease as the model gains flexibility
+3. At the optimal $\lambda$ value, test error reaches its minimum
+4. As $\lambda$ decreases further, training error continues to decrease but test error begins to increase (overfitting)
+5. When $\lambda$ is too small (left side), the gap between training and test error becomes large
