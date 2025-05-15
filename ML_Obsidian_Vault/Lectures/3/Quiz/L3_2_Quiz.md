@@ -444,7 +444,7 @@ For a detailed explanation of this problem, including the complete derivation wi
 ## Question 24
 
 ### Problem Statement
-Explain the difference between univariate and multivariate formulations of linear regression. If you have data with one input feature x and one output y, write the mathematical formulation for:
+Explain the difference between univariate and multivariate formulations of linear regression. If you have data with one input feature $x$ and one output $y$, write the mathematical formulation for:
 
 1. The univariate linear regression model
 2. The same model expressed in multivariate notation with vectors and matrices
