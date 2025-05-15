@@ -443,7 +443,7 @@ In linear regression, the pseudo-inverse is an important concept, especially whe
 #### Task
 1. [📚] Define what the pseudo-inverse is in the context of linear regression and write down its formula
 2. [📚] Explain when the pseudo-inverse becomes necessary in linear regression instead of the normal inverse
-3. [📚] What are two specific scenarios in linear regression that would lead to a non-invertible $\boldsymbol{X}^T\boldsymbol{X}$ matrix?
+3. [📚] What are two specific scenarios in linear regression that would lead to a non-invertible $\mathbf{X}^T\mathbf{X}$ matrix?
 4. [📚] Describe how the pseudo-inverse can be calculated using Singular Value Decomposition (SVD)
 5. [📚] Explain the relationship between ridge regression and the pseudo-inverse approach for handling non-invertible matrices
 
