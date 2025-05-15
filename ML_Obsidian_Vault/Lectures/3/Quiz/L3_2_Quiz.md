@@ -471,10 +471,10 @@ For a detailed explanation of this problem, including derivation of analytical s
 For a simple linear regression model, you've calculated that $\sum_{i=1}^{n}(x_i - \bar{x})^2 = 50$, $\sum_{i=1}^{n}(y_i - \bar{y})^2 = 200$, and $\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y}) = 80$.
 
 #### Task
-1. Calculate the slope coefficient $w_1$
-2. Calculate the correlation coefficient $r$
-3. Calculate the coefficient of determination $R^2$ without performing any additional calculations
-4. Explain the relationship between $r$ and $R^2$ in simple linear regression
+1. [🔍] Calculate the slope coefficient $w_1$
+2. [🔍] Calculate the correlation coefficient $r$
+3. [🔍] Calculate the coefficient of determination $R^2$ without performing any additional calculations
+4. [🔍] Explain the relationship between $r$ and $R^2$ in simple linear regression
 
 For a detailed explanation of this problem, including statistical relationships, see [Question 26: Correlation and Regression Coefficients](L3_2_26_explanation.md).
 
