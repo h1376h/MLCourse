@@ -22,7 +22,7 @@ $$y = w_0 + w_1x_1 + w_2x_2 + w_3x_3 + \epsilon$$
 1. Write down the design matrix $\boldsymbol{X}$ and the target vector $\boldsymbol{y}$ for this dataset
 2. Express the multiple linear regression model in matrix form using $\boldsymbol{X}$, $\boldsymbol{w}$, and $\boldsymbol{y}$
 3. Write the normal equation for finding the optimal weights $\boldsymbol{w}$
-4. Without calculating the actual values, describe the dimensions of $\boldsymbol{X}^T\boldsymbol{X}$ and $\boldsymbol{X}^T\boldsymbol{y}$ in this example
+4. [🔍] Without calculating the actual values, describe the dimensions of $\boldsymbol{X}^T\boldsymbol{X}$ and $\boldsymbol{X}^T\boldsymbol{y}$ in this example
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: Matrix Formulation of Multiple Linear Regression](L3_4_1_explanation.md).
 
@@ -39,7 +39,7 @@ You are building a multiple linear regression model to predict housing prices an
 Note that 1 square meter equals approximately 10.764 square feet.
 
 #### Task
-1. Identify which features in this dataset might cause multicollinearity and explain why
+1. [🔍] Identify which features in this dataset might cause multicollinearity and explain why
 2. Describe two methods to detect multicollinearity in a dataset
 3. Propose two approaches to address the multicollinearity in this dataset
 4. Explain what would happen to the coefficient estimates and their standard errors if you were to ignore the multicollinearity
@@ -61,7 +61,7 @@ Initial analysis suggests that:
 3. The effect of water on yield diminishes as more water is added
 
 #### Task
-1. Propose a multiple regression model that includes appropriate interaction terms between fertilizer and water to capture their joint effect
+1. [🔍] Propose a multiple regression model that includes appropriate interaction terms between fertilizer and water to capture their joint effect
 2. Suggest a feature transformation for temperature to model the diminishing returns and eventual negative impact
 3. Propose a feature transformation for water to capture the diminishing returns effect
 4. Write the complete equation for your proposed model including all main effects, interaction terms, and transformed features
@@ -271,10 +271,10 @@ For a detailed explanation of this problem, including analysis of educational da
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 #### Task
-1. [🔍] In a multiple linear regression model, if features $x_1$ and $x_2$ are perfectly correlated (correlation coefficient = 1), then $(\boldsymbol{X}^T\boldsymbol{X})$ will be singular (non-invertible).
+1. [🔍] In a multiple linear regression model, if features $x_1$ and $x_2$ are perfectly correlated (correlation coefficient = 1), then $(\mathbf{X}^T\mathbf{X})$ will be singular (non-invertible).
 2. When encoding a categorical variable with $k$ categories using dummy variables, you always need exactly $k$ dummy variables.
 3. [🔍] Adding a polynomial term (e.g., $x^2$) to a regression model always improves the model's fit to the training data.
-4. [🔍] In multiple linear regression, the normal equation $\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$ provides the global minimum of the sum of squared errors cost function.
+4. [🔍] In multiple linear regression, the normal equation $\mathbf{w} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$ provides the global minimum of the sum of squared errors cost function.
 5. [🔍] If a predictor variable has no effect on the response, its coefficient in a multiple regression model will always be exactly zero.
 6. [🔍] In a multiple regression model with interaction terms, the coefficient of a main effect (e.g., $x_1$) represents the effect of that variable when all interacting variables are zero.
 7. Radial basis functions are useful only for problems with exactly two input dimensions.
@@ -381,9 +381,9 @@ For each question, select the single best answer from the given options:
    D. The model becomes more interpretable
    E. The number of required training examples decreases
    
-7. Which statement about the normal equations solution $\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$ is TRUE?
-   A. It provides the unique global minimum of the cost function only when $\boldsymbol{X}^T\boldsymbol{X}$ is invertible
-   B. It always provides a unique solution regardless of the properties of $\boldsymbol{X}$
+7. Which statement about the normal equations solution $\mathbf{w} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$ is TRUE?
+   A. It provides the unique global minimum of the cost function only when $\mathbf{X}^T\mathbf{X}$ is invertible
+   B. It always provides a unique solution regardless of the properties of $\mathbf{X}$
    C. It requires fewer computations than iterative methods for very large datasets
    D. It is robust to outliers in the data
    E. It automatically prevents overfitting
@@ -443,7 +443,7 @@ In linear regression, the pseudo-inverse is an important concept, especially whe
 #### Task
 1. [📚] Define what the pseudo-inverse is in the context of linear regression and write down its formula
 2. [📚] Explain when the pseudo-inverse becomes necessary in linear regression instead of the normal inverse
-3. [📚] What are two specific scenarios in linear regression that would lead to a non-invertible $\boldsymbol{X}^T\boldsymbol{X}$ matrix?
+3. [📚] What are two specific scenarios in linear regression that would lead to a non-invertible $\mathbf{X}^T\mathbf{X}$ matrix?
 4. [📚] Describe how the pseudo-inverse can be calculated using Singular Value Decomposition (SVD)
 5. [📚] Explain the relationship between ridge regression and the pseudo-inverse approach for handling non-invertible matrices
 
