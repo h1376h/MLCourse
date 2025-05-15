@@ -114,14 +114,37 @@ This visualization shows the three data points (blue) along with the regression 
 
 This visualization illustrates the residuals (vertical purple dashed lines) between each actual data point (blue) and the corresponding predicted point on the regression line (green X markers). The length of each line represents the magnitude of the residual. The RSS (0.1667) is the sum of the squares of these residuals.
 
-### Step-by-Step Calculation
-![Step-by-Step Calculations](../Images/L3_2_Quiz_20/plot3_step_by_step.png)
+### Linear Regression Summary
+![Linear Regression Summary](../Images/L3_2_Quiz_20/plot3_summary.png)
 
-This figure provides a comprehensive overview of our calculations, including:
-- Top left: Data points with mean lines for x and y coordinates
-- Top right: The formulas used to calculate β₁ and β₀
-- Bottom left: Detailed residuals calculation and RSS computation
-- Bottom right: Visualization of the prediction at x = 2.5
+This figure provides a summary overview of our linear regression analysis, showing:
+- The original data points (blue)
+- The regression line (red)
+- The mean point (purple) at $(2, 5.33)$
+- The prediction point (green) at $(2.5, 6.58)$
+- Reference lines for the mean values of x and y (dashed lines)
+
+## Formula Explanation
+
+The least squares estimates for a simple linear regression are based on these key formulas:
+
+```
+β1 = Σ(xi - x_mean)(yi - y_mean) / Σ(xi - x_mean)²
+   = 5.0 / 2.0 = 2.5
+   
+β0 = y_mean - β1 × x_mean
+   = 5.33 - 2.5 × 2.0 = 0.33
+
+Regression Equation: y = 0.33 + 2.5x
+```
+
+## Residuals Calculation
+```
+e1 = y1 - y_hat1 = 3 - 2.83 = 0.17
+e2 = y2 - y_hat2 = 5 - 5.33 = -0.33
+e3 = y3 - y_hat3 = 8 - 7.83 = 0.17
+RSS = Σe_i² = 0.0278 + 0.1111 + 0.0278 = 0.1667
+```
 
 ## Key Insights
 
