@@ -195,6 +195,12 @@ This graph shows how each weight evolves as we process the data points. The inte
 
 This visualization compares the actual electricity consumption values with the model's predictions. Initially, there's a large gap between predictions and actual values, but as the algorithm processes more data points, the predictions improve.
 
+### Final Feature Weights
+
+![Final Weights](../Images/L3_5_Quiz_26/final_weights.png)
+
+This bar chart shows the final weights for each feature after processing all data points. The positive values for all weights indicate that increases in each feature are associated with higher electricity consumption. The large weights for the intercept and temperature features confirm their dominant influence on the model's predictions.
+
 ### Feature Importance
 
 ![Feature Importance](../Images/L3_5_Quiz_26/feature_importance.png)
