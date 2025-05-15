@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from matplotlib.gridspec import GridSpec
+import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from mpl_toolkits.mplot3d import Axes3D
@@ -48,25 +49,6 @@ def create_design_matrix():
     print("Dimensions of y:", y.shape)
     print()
     
-    # Visualize the design matrix and target vector 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5), gridspec_kw={'width_ratios': [3, 1]})
-    
-    # Design matrix as heatmap
-    X_df = pd.DataFrame(X, columns=['Intercept', 'x₁', 'x₂', 'x₃'])
-    sns.heatmap(X_df, annot=True, fmt=".1f", cmap="viridis", ax=ax1)
-    ax1.set_title("Design Matrix X")
-    
-    # Target vector
-    ax2.bar(range(len(y)), y, color='teal')
-    ax2.set_xticks(range(len(y)))
-    ax2.set_xticklabels([f'Obs {i+1}' for i in range(len(y))])
-    ax2.set_ylabel('Target Value (y)')
-    ax2.set_title('Target Vector y')
-    
-    plt.tight_layout()
-    plt.savefig(os.path.join(save_dir, "design_matrix.png"), dpi=300)
-    plt.close()
-    
     # Explain design matrix conceptually
     print("Explanation of the design matrix:")
     print("- Each row represents one observation/data point")
@@ -91,55 +73,6 @@ def express_matrix_form():
     print("- w is the weight vector of shape (4,)")
     print("- ε is the vector of errors of shape (4,)")
     print()
-    
-    # Create a visualization of matrix dimensions for the model
-    fig, ax = plt.subplots(figsize=(8, 6))
-    
-    # Define sizes for the boxes (number of rows and columns)
-    X_rows, X_cols = X.shape
-    y_rows = len(y)
-    w_rows = X_cols
-    
-    # Set positions for the boxes
-    pos_X = [0.2, 0.5]  # [x, y] position for X
-    pos_w = [0.5, 0.5]  # [x, y] position for w
-    pos_y = [0.8, 0.5]  # [x, y] position for y
-    
-    # Draw X matrix
-    ax.add_patch(plt.Rectangle((pos_X[0] - 0.1, pos_X[1] - 0.3), 0.2, 0.6, 
-                               fill=True, alpha=0.3, color='blue'))
-    ax.text(pos_X[0], pos_X[1], "X", ha='center', va='center', fontsize=14)
-    ax.text(pos_X[0], pos_X[1] - 0.4, f"({X_rows}×{X_cols})", ha='center', va='center', fontsize=10)
-    
-    # Draw w vector
-    ax.add_patch(plt.Rectangle((pos_w[0] - 0.05, pos_w[1] - 0.2), 0.1, 0.4, 
-                               fill=True, alpha=0.3, color='green'))
-    ax.text(pos_w[0], pos_w[1], "w", ha='center', va='center', fontsize=14)
-    ax.text(pos_w[0], pos_w[1] - 0.3, f"({w_rows}×1)", ha='center', va='center', fontsize=10)
-    
-    # Draw equals sign
-    ax.text(0.65, 0.5, "=", ha='center', va='center', fontsize=16)
-    
-    # Draw y vector
-    ax.add_patch(plt.Rectangle((pos_y[0] - 0.05, pos_y[1] - 0.2), 0.1, 0.4, 
-                               fill=True, alpha=0.3, color='red'))
-    ax.text(pos_y[0], pos_y[1], "y", ha='center', va='center', fontsize=14)
-    ax.text(pos_y[0], pos_y[1] - 0.3, f"({y_rows}×1)", ha='center', va='center', fontsize=10)
-    
-    # Add operation symbol
-    ax.text(0.35, 0.5, "×", ha='center', va='center', fontsize=16)
-    
-    # Set plot limits and remove axis ticks
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    
-    # Add title
-    ax.set_title("Matrix Form of Multiple Linear Regression: y = Xw", fontsize=14)
-    
-    plt.savefig(os.path.join(save_dir, "matrix_form.png"), dpi=300)
-    plt.close()
     
     # Write out the expanded form of the equation
     print("In expanded form, the model is:")
@@ -173,25 +106,6 @@ def calculate_normal_equation_components():
     print(X_T_y)
     print(f"Dimensions of X^T y: {X_T_y.shape}")
     print()
-    
-    # Visualize X^T X as a heatmap
-    plt.figure(figsize=(7, 6))
-    sns.heatmap(X_T_X, annot=True, fmt=".1f", cmap="coolwarm")
-    plt.title("X^T X Matrix")
-    plt.tight_layout()
-    plt.savefig(os.path.join(save_dir, "X_transpose_X.png"), dpi=300)
-    plt.close()
-    
-    # Visualize X^T y
-    plt.figure(figsize=(4, 6))
-    plt.barh(range(len(X_T_y)), X_T_y, color='coral')
-    plt.yticks(range(len(X_T_y)), ['w₀', 'w₁', 'w₂', 'w₃'])
-    plt.xlabel('Value')
-    plt.title('X^T y Vector')
-    plt.grid(axis='x', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    plt.savefig(os.path.join(save_dir, "X_transpose_y.png"), dpi=300)
-    plt.close()
     
     # Detailed explanation of the X^T X calculation (for the first element)
     print("Detailed calculation of X^T X[0,0] (first element):")
@@ -246,24 +160,6 @@ def solve_normal_equation():
     print(XTX_w - X_T_y)
     print()
     
-    # Visualize optimal weights
-    plt.figure(figsize=(6, 5))
-    bars = plt.bar(range(len(w)), w, color='purple')
-    plt.xticks(range(len(w)), ['w₀', 'w₁', 'w₂', 'w₃'])
-    plt.ylabel('Weight Value')
-    plt.title('Optimal Weights (w)')
-    
-    # Add value labels on top of bars
-    for bar in bars:
-        height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2., height + 0.1,
-                 f'{height:.1f}', ha='center', va='bottom')
-    
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    plt.savefig(os.path.join(save_dir, "optimal_weights.png"), dpi=300)
-    plt.close()
-    
     # Write the regression equation
     print("Final regression equation:")
     print(f"y = {w[0]:.1f} + {w[1]:.1f}*x₁ + {w[2]:.1f}*x₂ + {w[3]:.1f}*x₃")
@@ -299,45 +195,6 @@ def evaluate_model(w):
     print(results)
     print(f"\nMean Squared Error: {mse:.6f}")
     print()
-    
-    # Visualize actual vs predicted values
-    plt.figure(figsize=(8, 6))
-    
-    # Bar chart comparing actual and predicted values
-    bar_width = 0.35
-    index = np.arange(len(y))
-    
-    bar1 = plt.bar(index, y, bar_width, label='Actual y', color='blue', alpha=0.7)
-    bar2 = plt.bar(index + bar_width, y_pred, bar_width, label='Predicted y', color='red', alpha=0.7)
-    
-    # Add value labels on top of bars
-    for bars in [bar1, bar2]:
-        for bar in bars:
-            height = bar.get_height()
-            plt.text(bar.get_x() + bar.get_width()/2., height + 0.1,
-                    f'{height:.1f}', ha='center', va='bottom')
-    
-    plt.xlabel('Observation')
-    plt.ylabel('Value')
-    plt.title('Actual vs Predicted Values')
-    plt.xticks(index + bar_width/2, [f'Obs {i+1}' for i in range(len(y))])
-    plt.legend()
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    plt.savefig(os.path.join(save_dir, "actual_vs_predicted.png"), dpi=300)
-    plt.close()
-    
-    # Visualize residuals
-    plt.figure(figsize=(8, 4))
-    plt.bar(range(len(residuals)), residuals, color='green', alpha=0.7)
-    plt.axhline(y=0, color='r', linestyle='-')
-    plt.xticks(range(len(residuals)), [f'Obs {i+1}' for i in range(len(residuals))])
-    plt.ylabel('Residual (y - ŷ)')
-    plt.title('Residuals')
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
-    plt.tight_layout()
-    plt.savefig(os.path.join(save_dir, "residuals.png"), dpi=300)
-    plt.close()
     
     # Create a 3D visualization for multiple regression (using only x1 and x2 for visualization)
     fig = plt.figure(figsize=(10, 8))
@@ -394,127 +251,6 @@ def visualize_matrix_operations():
     print(f"X^T y has dimensions {d} × 1.")
     print(f"The weight vector w has dimensions {d} × 1.")
     print()
-    
-    # Create a comprehensive visualization of all matrix operations
-    plt.figure(figsize=(12, 8))
-    
-    # Create a grid layout
-    gs = GridSpec(2, 4, width_ratios=[3, 1, 3, 2])
-    
-    # Top row: X^T * X = X^T X
-    ax1 = plt.subplot(gs[0, 0])
-    ax1.imshow(X_T, cmap='Blues', aspect='auto')
-    ax1.set_title('X^T ({} × {})'.format(d, n))
-    for i in range(d):
-        for j in range(n):
-            ax1.text(j, i, f"{X_T[i, j]:.1f}", ha="center", va="center", color="black")
-    ax1.set_xticks(range(n))
-    ax1.set_yticks(range(d))
-    ax1.set_xticklabels([f'Obs {i+1}' for i in range(n)])
-    ax1.set_yticklabels(['w₀', 'w₁', 'w₂', 'w₃'])
-    
-    ax2 = plt.subplot(gs[0, 1])
-    ax2.text(0.5, 0.5, '×', fontsize=24, ha='center', va='center')
-    ax2.set_xticks([])
-    ax2.set_yticks([])
-    ax2.set_frame_on(False)
-    
-    ax3 = plt.subplot(gs[0, 2])
-    ax3.imshow(X, cmap='Blues', aspect='auto')
-    ax3.set_title('X ({} × {})'.format(n, d))
-    for i in range(n):
-        for j in range(d):
-            ax3.text(j, i, f"{X[i, j]:.1f}", ha="center", va="center", color="black")
-    ax3.set_xticks(range(d))
-    ax3.set_yticks(range(n))
-    ax3.set_xticklabels(['w₀', 'w₁', 'w₂', 'w₃'])
-    ax3.set_yticklabels([f'Obs {i+1}' for i in range(n)])
-    
-    ax4 = plt.subplot(gs[0, 3])
-    ax4.text(0.5, 0.5, '=', fontsize=24, ha='center', va='center')
-    ax4.set_xticks([])
-    ax4.set_yticks([])
-    ax4.set_frame_on(False)
-    
-    # Split the matrix equation across two rows
-    ax5 = plt.subplot(gs[1, 0:2])
-    ax5.imshow(X_T_X, cmap='Reds', aspect='auto')
-    ax5.set_title('X^T X ({} × {})'.format(d, d))
-    for i in range(d):
-        for j in range(d):
-            ax5.text(j, i, f"{X_T_X[i, j]:.1f}", ha="center", va="center", color="black")
-    ax5.set_xticks(range(d))
-    ax5.set_yticks(range(d))
-    ax5.set_xticklabels(['w₀', 'w₁', 'w₂', 'w₃'])
-    ax5.set_yticklabels(['w₀', 'w₁', 'w₂', 'w₃'])
-    
-    # Show the X^T y calculation
-    ax6 = plt.subplot(gs[1, 2])
-    X_T_y_reshaped = X_T_y.reshape(-1, 1)
-    ax6.imshow(X_T_y_reshaped, cmap='Greens', aspect='auto')
-    ax6.set_title('X^T y ({} × 1)'.format(d))
-    for i in range(d):
-        ax6.text(0, i, f"{X_T_y[i]:.1f}", ha="center", va="center", color="black")
-    ax6.set_xticks([])
-    ax6.set_yticks(range(d))
-    ax6.set_yticklabels(['w₀', 'w₁', 'w₂', 'w₃'])
-    
-    plt.tight_layout()
-    plt.savefig(os.path.join(save_dir, "matrix_operations.png"), dpi=300)
-    plt.close()
-    
-    # Create a visual for the complete normal equation
-    plt.figure(figsize=(14, 4))
-    
-    # Define positions
-    pos_inv = [0.2, 0.5]  # Position for (X^T X)^-1
-    pos_XTy = [0.4, 0.5]  # Position for X^T y
-    pos_w = [0.7, 0.5]    # Position for w
-    
-    ax = plt.gca()
-    
-    # Draw (X^T X)^-1 matrix
-    ax.add_patch(plt.Rectangle((pos_inv[0] - 0.15, pos_inv[1] - 0.2), 0.3, 0.4, 
-                               fill=True, alpha=0.3, color='orange'))
-    ax.text(pos_inv[0], pos_inv[1], "(X^T X)^-1", ha='center', va='center', fontsize=12)
-    ax.text(pos_inv[0], pos_inv[1] - 0.3, f"({d}×{d})", ha='center', va='center', fontsize=10)
-    
-    # Draw operation symbol
-    ax.text(0.3, 0.5, "×", ha='center', va='center', fontsize=16)
-    
-    # Draw X^T y vector
-    ax.add_patch(plt.Rectangle((pos_XTy[0] - 0.05, pos_XTy[1] - 0.2), 0.1, 0.4, 
-                               fill=True, alpha=0.3, color='green'))
-    ax.text(pos_XTy[0], pos_XTy[1], "X^T y", ha='center', va='center', fontsize=12)
-    ax.text(pos_XTy[0], pos_XTy[1] - 0.3, f"({d}×1)", ha='center', va='center', fontsize=10)
-    
-    # Draw equals sign
-    ax.text(0.55, 0.5, "=", ha='center', va='center', fontsize=16)
-    
-    # Draw w vector
-    ax.add_patch(plt.Rectangle((pos_w[0] - 0.05, pos_w[1] - 0.2), 0.1, 0.4, 
-                               fill=True, alpha=0.3, color='purple'))
-    ax.text(pos_w[0], pos_w[1], "w", ha='center', va='center', fontsize=12)
-    ax.text(pos_w[0], pos_w[1] - 0.3, f"({d}×1)", ha='center', va='center', fontsize=10)
-    
-    # Add formula at the bottom
-    ax.text(0.5, 0.1, "Normal Equation: w = (X^T X)^-1 X^T y", ha='center', va='center', fontsize=14)
-    
-    # Add values
-    w_str = ", ".join([f"{val:.1f}" for val in w])
-    ax.text(pos_w[0], pos_w[1] + 0.3, f"[{w_str}]", ha='center', va='center', fontsize=10)
-    
-    # Set plot limits and remove axis ticks
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    
-    # Add title
-    ax.set_title("The Normal Equation for Multiple Linear Regression", fontsize=14)
-    
-    plt.savefig(os.path.join(save_dir, "normal_equation.png"), dpi=300)
-    plt.close()
 
 visualize_matrix_operations()
 
@@ -530,13 +266,4 @@ print(f"   y = {w[0]:.1f} + {w[1]:.1f}*x₁ + {w[2]:.1f}*x₂ + {w[3]:.1f}*x₃"
 
 print("\nSaved visualizations to:", save_dir)
 print("Generated images:")
-print("- design_matrix.png: Visualization of the design matrix and target vector")
-print("- matrix_form.png: Visual representation of matrix form of regression")
-print("- X_transpose_X.png: Heatmap visualization of X^T X")
-print("- X_transpose_y.png: Bar chart of X^T y")
-print("- optimal_weights.png: Bar chart of optimal weight values")
-print("- actual_vs_predicted.png: Comparison of actual vs predicted values")
-print("- residuals.png: Bar chart of residuals")
 print("- 3D_visualization.png: 3D visualization of the regression model")
-print("- matrix_operations.png: Comprehensive visualization of matrix operations")
-print("- normal_equation.png: Visual representation of the normal equation") 
