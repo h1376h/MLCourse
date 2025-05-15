@@ -39,7 +39,7 @@ You are building a multiple linear regression model to predict housing prices an
 Note that 1 square meter equals approximately 10.764 square feet.
 
 #### Task
-1. Identify which features in this dataset might cause multicollinearity and explain why
+1. [🔍] Identify which features in this dataset might cause multicollinearity and explain why
 2. Describe two methods to detect multicollinearity in a dataset
 3. Propose two approaches to address the multicollinearity in this dataset
 4. Explain what would happen to the coefficient estimates and their standard errors if you were to ignore the multicollinearity

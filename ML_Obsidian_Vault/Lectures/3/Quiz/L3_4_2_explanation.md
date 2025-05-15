@@ -50,6 +50,10 @@ This correlation matrix confirms our analysis:
 
 ![Correlation Matrix](../Images/L3_4_Quiz_2/correlation_matrix.png)
 
+We can also visualize all feature relationships through a pairplot, which shows all pairwise relationships between variables:
+
+![Feature Pairplot](../Images/L3_4_Quiz_2/feature_pairplot.png)
+
 We can also visualize the perfect multicollinearity between square meters and square feet:
 
 ![Square Meters vs Square Feet](../Images/L3_4_Quiz_2/sqm_vs_sqft.png)
@@ -118,6 +122,19 @@ The infinite VIF values for $x_1$ and $x_3$ indicate perfect multicollinearity, 
 
 ![VIF Values](../Images/L3_4_Quiz_2/vif_values.png)
 
+#### 3. Eigenvalue Analysis / Condition Number
+
+Another method to detect multicollinearity is to analyze the eigenvalues of the correlation matrix. The condition number (ratio of largest to smallest eigenvalue) provides a summary measure of multicollinearity.
+
+**Interpretation of condition numbers:**
+- Condition number < 10: No serious multicollinearity
+- 10 ≤ Condition number < 30: Moderate to strong multicollinearity
+- Condition number ≥ 30: Severe multicollinearity
+
+In our analysis, the eigenvalues and condition number confirm the presence of severe multicollinearity:
+
+![Eigenvalues Analysis](../Images/L3_4_Quiz_2/eigenvalues.png)
+
 We can also demonstrate multicollinearity through coefficient instability. When features are highly collinear, small changes in the data can lead to large swings in coefficient values. In our simulations, we observed:
 
 - Size_sqm coefficient range: $[-101520.11, 104480.38]$
@@ -144,6 +161,10 @@ For the highly correlated $x_2$ (bedrooms) and $x_4$ (bathrooms), we could:
 - Remove one if it doesn't significantly reduce model performance
 - Create a new composite feature (see Feature Transformation below)
 
+After removing $x_3$ (square feet), we can see that multicollinearity is reduced:
+
+![Correlation After Elimination](../Images/L3_4_Quiz_2/correlation_after_elimination.png)
+
 After removing $x_3$ (square feet), the multicollinearity is reduced but still present between bedrooms and bathrooms:
 
 | Feature | VIF before elimination | VIF after elimination |
@@ -166,6 +187,10 @@ data_transformed['Bedroom_to_Bathroom_Ratio'] = data['Bedrooms'] / data['Bathroo
 # Remove the original features
 data_transformed = data_transformed.drop(['Bedrooms', 'Bathrooms'], axis=1)
 ```
+
+The correlation matrix after this transformation shows that multicollinearity has been significantly reduced:
+
+![Correlation After Transformation](../Images/L3_4_Quiz_2/correlation_after_transformation.png)
 
 This new ratio feature captures the relationship without introducing multicollinearity:
 
