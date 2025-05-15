@@ -1,13 +1,13 @@
 # Question 12: Simple Linear Regression Calculation
 
 ## Problem Statement
-Given the sample data points (1, 2), (2, 4), and (3, 6):
+Given the sample data points $(1, 2)$, $(2, 4)$, and $(3, 6)$:
 
 ### Task
 1. Using only these three points, calculate the means $\bar{x}$ and $\bar{y}$
 2. Find the slope of the simple linear regression model by hand
 3. Find the intercept of the model
-4. Write down the resulting equation for predicting y from x
+4. Write down the resulting equation for predicting $y$ from $x$
 
 ## Understanding the Problem
 This problem tests our understanding of the fundamental calculations involved in simple linear regression. Given three data points, we need to manually determine the regression line by finding the slope and intercept. The regression line takes the form ŷ = β₀ + β₁x, where β₀ is the intercept and β₁ is the slope.

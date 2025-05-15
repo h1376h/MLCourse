@@ -241,13 +241,13 @@ For a detailed explanation of this problem, including prediction calculations an
 ## Question 12
 
 ### Problem Statement
-Given the sample data points (1, 2), (2, 4), and (3, 6):
+Given the sample data points $(1, 2)$, $(2, 4)$, and $(3, 6)$:
 
 #### Task
-1. Using only these three points, calculate the means $\bar{x}$ and $\bar{y}$
-2. Find the slope of the simple linear regression model by hand
-3. Find the intercept of the model
-4. Write down the resulting equation for predicting y from x
+1. [📚] Using only these three points, calculate the means $\bar{x}$ and $\bar{y}$
+2. [📚] Find the slope of the simple linear regression model by hand
+3. [📚] Find the intercept of the model
+4. [📚] Write down the resulting equation for predicting $y$ from $x$
 
 For a detailed explanation of this problem, see [Question 12: Simple Linear Regression Calculation](L3_2_12_explanation.md).
 
@@ -388,11 +388,11 @@ For a detailed explanation of this problem, including the mathematical definitio
 Calculating linear regression coefficients by hand reinforces understanding of the underlying mathematics and provides insight into how the model parameters are derived from data.
 
 #### Task
-Consider these three data points: (1,3), (2,5), and (3,8).
+Consider these three data points: $(1,3)$, $(2,5)$, and $(3,8)$.
 
-1. Calculate the least squares estimates for $\beta_0$ and $\beta_1$ by hand
-2. Find the predicted value when $x = 2.5$
-3. Calculate the residual sum of squares (RSS)
+1. [📚] Calculate the least squares estimates for $\beta_0$ and $\beta_1$ by hand
+2. [📚] Find the predicted value when $x = 2.5$
+3. [📚] Calculate the residual sum of squares (RSS)
 
 For a detailed explanation of this problem, including step-by-step calculations, see [Question 20: Manual Calculation of Linear Regression](L3_2_20_explanation.md).
 
