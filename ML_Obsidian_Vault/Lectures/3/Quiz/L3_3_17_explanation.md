@@ -5,6 +5,17 @@ A social media company models user engagement (hours spent) based on number of c
 
 With infinite data, the optimal linear approximation would be $\hat{y} = 2 + 3x$. However, with limited data, the company estimated $\hat{y} = 1 + 3.5x$.
 
+### Task
+1. For a user with 5 connections, calculate:
+   - The true expected engagement hours
+   - Prediction from the optimal linear model
+   - Prediction from the estimated model
+   - The structural error
+   - The approximation error
+   - Verify the total squared error equals the sum of structural and approximation errors
+2. For users with 4, 6, and 8 connections, determine which error component (structural or approximation) contributes more to total prediction error and by what percentage.
+3. If the company wants to reduce total error below 5 hours$^2$, should they collect more data or use a non-linear model? Justify mathematically.
+
 ## Understanding the Problem
 This problem examines the errors when we use a linear model to approximate a non-linear relationship. There are two key components of error:
 
