@@ -52,10 +52,9 @@ gamma = 0.5  # Scaling factor for error-dependent learning rate
 # Create a detailed function to implement the adaptive LMS update with verbose calculations
 def adaptive_lms_update_detailed(w, x, y, alpha0, gamma):
     # Step 1: Calculate prediction
-    prediction = 0
-    for i in range(len(w)):
-        prediction += w[i] * x[i]
-        print(f"   - w[{i}] * x[{i}] = {w[i]} * {x[i]} = {w[i] * x[i]}")
+    prediction = np.dot(w, x)
+    print(f"   - w[0] * x[0] = {w[0]} * {x[0]} = {w[0] * x[0]}")
+    print(f"   - w[1] * x[1] = {w[1]} * {x[1]} = {w[1] * x[1]}")
     print(f"   - Prediction: w^T * x = {prediction}")
     
     # Step 2: Calculate error
@@ -73,16 +72,14 @@ def adaptive_lms_update_detailed(w, x, y, alpha0, gamma):
     print(f"   - α_t = α_0 * (1 + γ * |error|) = {alpha0} * {one_plus_gamma_error} = {alpha_t}")
     
     # Step 4: Update weights
-    w_new = np.zeros_like(w)
+    update_term = alpha_t * error * x
+    w_new = w + update_term
     print(f"   - Calculating new weights:")
     print(f"     - Original weights: w = {w}")
     print(f"     - Update term: α_t * error * x = {alpha_t} * {error} * {x}")
-    
-    update_term = alpha_t * error * x
     print(f"     - Which equals: [{', '.join([str(val) for val in update_term])}]")
     
     for i in range(len(w)):
-        w_new[i] = w[i] + update_term[i]
         print(f"     - w_new[{i}] = w[{i}] + update_term[{i}] = {w[i]} + {update_term[i]} = {w_new[i]}")
     
     print(f"   - New weights: w_new = {w_new}")
