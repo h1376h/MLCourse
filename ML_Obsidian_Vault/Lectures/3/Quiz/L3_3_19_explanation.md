@@ -141,11 +141,17 @@ This visualization shows the prior and posterior distributions for $w_0$ and $w_
 The left plot shows the prior distribution, which is centered at $(0, 0)$ and has different variances for $w_0$ and $w_1$. The red dashed ellipse represents the 2σ region of the prior. The right plot shows the posterior distribution, which combines the prior with the information from the data. The MAP estimate (red dot) is at the mode of this posterior distribution, while the OLS estimate (green dot) represents the maximum likelihood solution. The dashed lines represent the constraints from each data point, showing how the data and prior jointly determine the posterior.
 
 ### Effect of Different Priors on MAP Estimates
-This visualization demonstrates how different prior distributions affect the MAP estimates:
+This visualization demonstrates how different prior distributions affect the MAP regression lines:
 
-![Prior Effect](../Images/L3_3_Quiz_19/plot5_prior_effect.png)
+![Prior Effect - Regression Lines](../Images/L3_3_Quiz_19/plot5a_prior_effect_lines.png)
 
-The main plot shows regression lines corresponding to different prior variances, from very weak priors (similar to OLS) to very strong priors (forcing parameters closer to zero). Our specific case ($\tau_0^2 = 10$, $\tau_1^2 = 2$) is shown among the other options. The inset plot visualizes the 2σ regions of the different prior distributions, illustrating their relative strengths and shapes. This plot clearly demonstrates how stronger priors (smaller variances) pull the estimates more strongly toward the prior mean (0,0).
+The plot shows regression lines corresponding to different prior variances, from very weak priors (similar to OLS) to very strong priors (forcing parameters closer to zero). Our specific case ($\tau_0^2 = 10$, $\tau_1^2 = 2$) is shown among the other options. As the priors become stronger (smaller variances), the regression lines are pulled more strongly toward a flat line at y=0, which corresponds to the prior mean of $(w_0, w_1) = (0, 0)$.
+
+The shapes of these different prior distributions are visualized below:
+
+![Prior Effect - Distribution Shapes](../Images/L3_3_Quiz_19/plot5b_prior_shapes.png)
+
+This plot visualizes the 2σ regions of the different prior distributions, illustrating their relative strengths and shapes. Larger ellipses represent weaker priors (larger variances), while smaller ellipses represent stronger priors that constrain the parameters more tightly around zero. The ellipse shape shows the relative regularization strength for each parameter.
 
 ### Marginal Distributions for Parameter $w_0$
 This visualization shows the likelihood, prior, and posterior for parameter $w_0$:

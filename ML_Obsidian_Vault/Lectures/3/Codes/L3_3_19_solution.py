@@ -15,6 +15,16 @@ os.makedirs(save_dir, exist_ok=True)
 # Set a nicer style for the plots
 plt.style.use('seaborn-v0_8-whitegrid')
 
+# Set default font sizes for better readability
+plt.rcParams.update({
+    'font.size': 14,
+    'axes.labelsize': 16,
+    'axes.titlesize': 18,
+    'xtick.labelsize': 14,
+    'ytick.labelsize': 14,
+    'legend.fontsize': 14,
+})
+
 # Given dataset
 X = np.array([1, 2, 3])
 y = np.array([2, 4, 5])
@@ -159,17 +169,7 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     print("\nCreating visualizations...")
     saved_files = []
     
-    # Set default font sizes for better readability
-    plt.rcParams.update({
-        'font.size': 12,
-        'axes.labelsize': 14,
-        'axes.titlesize': 16,
-        'xtick.labelsize': 12,
-        'ytick.labelsize': 12,
-        'legend.fontsize': 12,
-    })
-    
-    # Plot 1: Data and regression lines - FIXED
+    # Plot 1: Data and regression lines
     plt.figure(figsize=(12, 8))
     
     # Create a grid of points for the regression lines
@@ -189,18 +189,16 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     # Add a shaded region to show the effect of the priors
     plt.fill_between(x_line, y_map, y_ols, color='gray', alpha=0.2, label='Regularization effect')
     
-    plt.title('Data with MAP and OLS Regression Lines', fontsize=18)
-    plt.xlabel('x', fontsize=16)
-    plt.ylabel('y', fontsize=16)
+    plt.title('Data with MAP and OLS Regression Lines')
+    plt.xlabel('x')
+    plt.ylabel('y')
     plt.grid(True, alpha=0.3)
-    plt.legend(fontsize=14, loc='upper left')
+    plt.legend(loc='upper left')
     
-    # Add annotations to explain the key differences
-    plt.annotate('MAP estimate is\npulled toward zero\ndue to prior',
-                xy=(3, w0_map + w1_map * 3), 
-                xytext=(3.2, w0_map + w1_map * 3 - 0.5),
-                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5),
-                fontsize=14)
+    print("\nRegularization Effect Explanation:")
+    print("- The MAP estimate is pulled toward zero due to the prior")
+    print(f"- MAP estimates (w0={w0_map:.4f}, w1={w1_map:.4f}) differ from OLS estimates (w0={w0_ols:.4f}, w1={w1_ols:.4f})")
+    print("- The gray shaded area shows the effect of regularization")
     
     plt.tight_layout()
     
@@ -209,7 +207,7 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     saved_files.append(file_path)
     plt.close()
     
-    # Plot 2: Log posterior surface - FIXED
+    # Plot 2: Log posterior surface
     w0_range = np.linspace(-1, 3, 100)
     w1_range = np.linspace(0.5, 2.5, 100)
     W0, W1 = np.meshgrid(w0_range, w1_range)
@@ -224,7 +222,7 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     fig = plt.figure(figsize=(16, 12))
     gs = GridSpec(2, 2, width_ratios=[3, 1], height_ratios=[3, 1])
     
-    # 3D surface plot - improved
+    # 3D surface plot
     ax1 = fig.add_subplot(gs[0, 0], projection='3d')
     surf = ax1.plot_surface(W0, W1, Z, cmap=cm.viridis, linewidth=0, 
                            antialiased=True, alpha=0.8)
@@ -237,50 +235,56 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     ax1.scatter([w0_ols], [w1_ols], [log_post(w0_ols, w1_ols)], 
                color='green', s=100, label='OLS estimate')
     
-    ax1.set_xlabel('w0', fontsize=16)
-    ax1.set_ylabel('w1', fontsize=16)
-    ax1.set_zlabel('Log Posterior', fontsize=16)
-    ax1.set_title('Log Posterior Surface', fontsize=18)
-    ax1.legend(fontsize=14)
+    ax1.set_xlabel('w0')
+    ax1.set_ylabel('w1')
+    ax1.set_zlabel('Log Posterior')
+    ax1.set_title('Log Posterior Surface')
+    ax1.legend()
     ax1.view_init(elev=30, azim=135)  # Better viewing angle
     
-    # Contour plot - improved
+    # Contour plot
     ax2 = fig.add_subplot(gs[0, 1])
     contour = ax2.contourf(W0, W1, Z, cmap=cm.viridis, levels=20)
     ax2.scatter([w0_map], [w1_map], color='red', s=100, label='MAP')
     ax2.scatter([w0_ols], [w1_ols], color='green', s=100, label='OLS')
-    ax2.set_xlabel('w0', fontsize=14)
-    ax2.set_ylabel('w1', fontsize=14)
-    ax2.set_title('Contour Plot', fontsize=16)
-    ax2.legend(fontsize=12)
+    ax2.set_xlabel('w0')
+    ax2.set_ylabel('w1')
+    ax2.set_title('Contour Plot')
+    ax2.legend()
     
     # Create the colorbar for the contour plot
     cbar = fig.colorbar(contour, ax=ax2, shrink=0.8)
-    cbar.set_label('Log Posterior', fontsize=14)
+    cbar.set_label('Log Posterior')
     
-    # w0 marginal - improved
+    # w0 marginal
     ax3 = fig.add_subplot(gs[1, 0])
     # For each w0, find the w1 that maximizes the log posterior
     w0_marginal = [np.max(Z[:, i]) for i in range(len(w0_range))]
     ax3.plot(w0_range, w0_marginal, 'b-', linewidth=2)
     ax3.axvline(x=w0_map, color='red', linestyle='--', linewidth=2, label='MAP w0')
     ax3.axvline(x=w0_ols, color='green', linestyle='--', linewidth=2, label='OLS w0')
-    ax3.set_xlabel('w0', fontsize=14)
-    ax3.set_ylabel('Max Log Posterior', fontsize=14)
-    ax3.set_title('w0 Marginal Distribution', fontsize=16)
-    ax3.legend(fontsize=12)
+    ax3.set_xlabel('w0')
+    ax3.set_ylabel('Max Log Posterior')
+    ax3.set_title('w0 Marginal Distribution')
+    ax3.legend()
     
-    # w1 marginal - improved
+    # w1 marginal
     ax4 = fig.add_subplot(gs[1, 1])
     # For each w1, find the w0 that maximizes the log posterior
     w1_marginal = [np.max(Z[j, :]) for j in range(len(w1_range))]
     ax4.plot(w1_range, w1_marginal, 'b-', linewidth=2)
     ax4.axvline(x=w1_map, color='red', linestyle='--', linewidth=2, label='MAP w1')
     ax4.axvline(x=w1_ols, color='green', linestyle='--', linewidth=2, label='OLS w1')
-    ax4.set_xlabel('w1', fontsize=14)
-    ax4.set_ylabel('Max Log Posterior', fontsize=14)
-    ax4.set_title('w1 Marginal Distribution', fontsize=16)
-    ax4.legend(fontsize=12)
+    ax4.set_xlabel('w1')
+    ax4.set_ylabel('Max Log Posterior')
+    ax4.set_title('w1 Marginal Distribution')
+    ax4.legend()
+    
+    print("\nLog Posterior Analysis:")
+    print(f"- The MAP estimates (w0={w0_map:.4f}, w1={w1_map:.4f}) correspond to the peak of the posterior distribution")
+    print(f"- OLS estimates (w0={w0_ols:.4f}, w1={w1_ols:.4f}) maximize the likelihood but not the posterior")
+    print("- The contour plot shows the joint distribution of w0 and w1")
+    print("- The marginal plots show the maximum log posterior for each parameter value")
     
     plt.tight_layout()
     
@@ -289,7 +293,7 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     saved_files.append(file_path)
     plt.close()
     
-    # Plot 3: Ridge path for different regularization values - FIXED
+    # Plot 3: Ridge path for different regularization values
     lambdas = np.logspace(-3, 1, 100)
     w0_values = []
     w1_values = []
@@ -312,25 +316,9 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     plt.axhline(y=w0_map, color='blue', linestyle='--', linewidth=2)
     plt.axhline(y=w1_map, color='red', linestyle='--', linewidth=2)
     
-    # Better text positioning
-    plt.text(0.2, w0_map + 0.2, f'w0 MAP = {w0_map:.4f}', fontsize=14,
-            bbox=dict(facecolor='white', alpha=0.8, edgecolor='blue', boxstyle='round,pad=0.5'))
-    plt.text(0.2, w1_map - 0.3, f'w1 MAP = {w1_map:.4f}', fontsize=14,
-            bbox=dict(facecolor='white', alpha=0.8, edgecolor='red', boxstyle='round,pad=0.5'))
-    
     # Mark the OLS estimates (no regularization)
     plt.scatter(lambdas[0], w0_ols, color='blue', s=150, marker='*', label='w0 OLS')
     plt.scatter(lambdas[0], w1_ols, color='red', s=150, marker='*', label='w1 OLS')
-    
-    # Annotate the OLS estimates
-    plt.annotate(f'OLS: w0 = {w0_ols:.4f}', xy=(lambdas[0], w0_ols), 
-                xytext=(lambdas[5], w0_ols + 0.3),
-                arrowprops=dict(facecolor='blue', shrink=0.05, width=1.5),
-                fontsize=14)
-    plt.annotate(f'OLS: w1 = {w1_ols:.4f}', xy=(lambdas[0], w1_ols), 
-                xytext=(lambdas[5], w1_ols - 0.3),
-                arrowprops=dict(facecolor='red', shrink=0.05, width=1.5),
-                fontsize=14)
     
     # Add vertical lines for our specific regularization parameters
     plt.axvline(x=lambda0, color='blue', linestyle=':', linewidth=2, label=f'λ0 = {lambda0}')
@@ -338,25 +326,25 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     
     plt.xscale('log')
     plt.grid(True, alpha=0.3)
-    plt.xlabel('Regularization Parameter λ (log scale)', fontsize=16)
-    plt.ylabel('Parameter Value', fontsize=16)
-    plt.title('Ridge Path: How Parameters Vary with Regularization', fontsize=18)
-    plt.legend(fontsize=14, loc='best')
+    plt.xlabel('Regularization Parameter λ (log scale)')
+    plt.ylabel('Parameter Value')
+    plt.title('Ridge Path: How Parameters Vary with Regularization')
+    plt.legend(loc='best')
     
-    # Add an explanation of what the ridge path shows
-    plt.figtext(0.5, 0.01, 
-               "As regularization increases, parameter estimates shrink toward zero (the prior mean)", 
-               ha="center", fontsize=14, 
-               bbox={"facecolor":"orange", "alpha":0.2, "pad":5})
+    print("\nRidge Path Analysis:")
+    print("- As regularization increases, parameter estimates shrink toward zero (the prior mean)")
+    print(f"- MAP estimates with our regularization parameters (λ0={lambda0}, λ1={lambda1}): w0={w0_map:.4f}, w1={w1_map:.4f}")
+    print(f"- OLS estimates (no regularization): w0={w0_ols:.4f}, w1={w1_ols:.4f}")
+    print("- The plot shows how different regularization strengths affect the parameter estimates")
     
-    plt.tight_layout(rect=[0, 0.03, 1, 0.97])
+    plt.tight_layout()
     
     file_path = os.path.join(save_dir, "plot3_ridge_path.png")
     plt.savefig(file_path, dpi=300, bbox_inches='tight')
     saved_files.append(file_path)
     plt.close()
     
-    # Plot 4: Prior and Posterior Distributions - FIXED
+    # Plot 4: Prior and Posterior Distributions
     mu_post, Sigma_post = calculate_posterior_mean_cov()
     
     # Create a grid of points
@@ -375,13 +363,13 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     
     fig, axes = plt.subplots(1, 2, figsize=(16, 8))
     
-    # Prior contour plot - improved
+    # Prior contour plot
     ctf1 = axes[0].contourf(W0, W1, prior_pdf, levels=20, cmap=cm.viridis)
-    axes[0].set_xlabel('w0', fontsize=16)
-    axes[0].set_ylabel('w1', fontsize=16)
-    axes[0].set_title('Prior Distribution: w0 ~ N(0, τ0²), w1 ~ N(0, τ1²)', fontsize=18)
+    axes[0].set_xlabel('w0')
+    axes[0].set_ylabel('w1')
+    axes[0].set_title('Prior Distribution: w0 ~ N(0, τ0²), w1 ~ N(0, τ1²)')
     cbar1 = plt.colorbar(ctf1, ax=axes[0])
-    cbar1.set_label('Probability Density', fontsize=14)
+    cbar1.set_label('Probability Density')
     
     # Mark the origin (prior mean)
     axes[0].scatter([0], [0], color='red', s=150, label='Prior Mean')
@@ -392,21 +380,17 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     ellipse_y = 2 * np.sqrt(tau1_squared) * np.sin(theta)
     axes[0].plot(ellipse_x, ellipse_y, 'r--', linewidth=2, alpha=0.7, label='2σ region')
     
-    # Add text to explain the prior
-    axes[0].text(1.5, 1, f'τ0² = {tau0_squared}\nτ1² = {tau1_squared}', 
-                fontsize=14, bbox=dict(facecolor='white', alpha=0.8))
-    
-    axes[0].legend(fontsize=14, loc='upper right')
+    axes[0].legend(loc='upper right')
     axes[0].set_xlim(w0_grid.min(), w0_grid.max())
     axes[0].set_ylim(w1_grid.min(), w1_grid.max())
     
-    # Posterior contour plot - improved
+    # Posterior contour plot
     ctf2 = axes[1].contourf(W0, W1, post_pdf, levels=20, cmap=cm.viridis)
-    axes[1].set_xlabel('w0', fontsize=16)
-    axes[1].set_ylabel('w1', fontsize=16)
-    axes[1].set_title('Posterior Distribution: P(w0, w1|X, y)', fontsize=18)
+    axes[1].set_xlabel('w0')
+    axes[1].set_ylabel('w1')
+    axes[1].set_title('Posterior Distribution: P(w0, w1|X, y)')
     cbar2 = plt.colorbar(ctf2, ax=axes[1])
-    cbar2.set_label('Probability Density', fontsize=14)
+    cbar2.set_label('Probability Density')
     
     # Mark the MAP estimate (mode of posterior)
     axes[1].scatter([w0_map], [w1_map], color='red', s=150, label='MAP Estimate')
@@ -422,8 +406,6 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
         valid_idx = (w1_line >= w1_grid.min()) & (w1_line <= w1_grid.max())
         if np.any(valid_idx):
             axes[1].plot(w0_line[valid_idx], w1_line[valid_idx], 'k--', alpha=0.3, linewidth=2)
-            axes[1].text(w0_line[valid_idx][-15], w1_line[valid_idx][-15], 
-                       f'y{i+1}={yi}, x{i+1}={xi}', fontsize=12, alpha=0.8)
     
     # Draw 2-sigma ellipse for the posterior
     eigvals, eigvecs = np.linalg.eigh(Sigma_post)
@@ -432,13 +414,29 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     ellipse_y = mu_post[1] + 2 * np.sqrt(eigvals[0]) * np.cos(theta) * eigvecs[1, 0] + 2 * np.sqrt(eigvals[1]) * np.sin(theta) * eigvecs[1, 1]
     axes[1].plot(ellipse_x, ellipse_y, 'r--', linewidth=2, alpha=0.7, label='2σ region')
     
-    # Add text explaining the posterior
-    axes[1].text(2, 2.5, "Posterior combines\nprior and likelihood", 
-                fontsize=14, bbox=dict(facecolor='white', alpha=0.8))
-    
-    axes[1].legend(fontsize=14, loc='upper right')
+    axes[1].legend(loc='upper right')
     axes[1].set_xlim(w0_grid.min(), w0_grid.max())
     axes[1].set_ylim(w1_grid.min(), w1_grid.max())
+    
+    print("\nPrior and Posterior Analysis:")
+    print(f"- Prior distribution: w0 ~ N(0, {tau0_squared}), w1 ~ N(0, {tau1_squared})")
+    print("- The prior is centered at (0,0) with the 2σ region shown by the red dashed ellipse")
+    print("- Posterior distribution combines the prior with data likelihood")
+    print("- MAP estimate is the mode of the posterior distribution")
+    print("- Data constraints are shown as dashed lines in the posterior plot")
+    print("- The posterior is more concentrated than the prior due to the data information")
+
+    legend = axes[0].legend()
+
+    # Change the color of all legend text
+    for text in legend.get_texts():
+        text.set_color('white')
+
+    legend = axes[1].legend()
+
+    # Change the color of all legend text
+    for text in legend.get_texts():
+        text.set_color('white')
     
     plt.tight_layout()
     
@@ -447,11 +445,8 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     saved_files.append(file_path)
     plt.close()
     
-    # Fix Figure 5: Use explicit axes to avoid tight_layout issue
-    fig = plt.figure(figsize=(14, 10))
-    
-    # Main plot area
-    main_ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    # Split Plot 5 into two separate plots
+    # Plot 5a: Effect of Different Priors on MAP Regression Lines
     
     # Define different prior variance combinations to demonstrate their effect
     prior_combinations = [
@@ -482,57 +477,76 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     # Set up a color map
     colors = plt.cm.viridis(np.linspace(0, 1, len(prior_combinations)))
     
-    # Plot the regression lines for each prior
-    x_line = np.linspace(0, 4, 100)
+    # Plot 5a: Regression Lines for Different Priors
+    plt.figure(figsize=(12, 8))
     
-    # First, plot the data points
-    main_ax.scatter(X, y, color='darkblue', s=150, label='Data points', zorder=3)
+    # Plot the data points
+    plt.scatter(X, y, color='darkblue', s=150, label='Data points', zorder=3)
     
     # Plot the OLS line as a reference
+    x_line = np.linspace(0, 4, 100)
     y_ols = w_ols[0] + w_ols[1] * x_line
-    main_ax.plot(x_line, y_ols, 'k--', linewidth=3, label=f'OLS: y = {w_ols[0]:.4f} + {w_ols[1]:.4f}x')
+    plt.plot(x_line, y_ols, 'k--', linewidth=3, label=f'OLS: y = {w_ols[0]:.4f} + {w_ols[1]:.4f}x')
     
     # Plot the regression lines for different priors
     for i, (w0, w1, label) in enumerate(estimates):
         y_pred = w0 + w1 * x_line
-        main_ax.plot(x_line, y_pred, color=colors[i], linewidth=3, 
+        plt.plot(x_line, y_pred, color=colors[i], linewidth=3, 
                 label=f'{label}: y = {w0:.4f} + {w1:.4f}x')
     
-    # Add a visualization of the prior distribution shapes
-    inset_ax = fig.add_axes([0.15, 0.15, 0.25, 0.25])
+    plt.title('Effect of Different Priors on MAP Regression Lines')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.grid(True, alpha=0.3)
+    plt.legend(loc='upper left')
     
-    for i, (tau0_sq, tau1_sq, label) in enumerate(prior_combinations):
-        # Create 2-sigma ellipses for each prior
-        theta = np.linspace(0, 2*np.pi, 100)
-        ellipse_x = 2 * np.sqrt(tau0_sq) * np.cos(theta)
-        ellipse_y = 2 * np.sqrt(tau1_sq) * np.sin(theta)
-        inset_ax.plot(ellipse_x, ellipse_y, color=colors[i], linewidth=2)
+    print("\nEffect of Different Priors on Regression Lines:")
+    print("- Stronger priors (smaller variances) pull the estimates more strongly toward the prior mean (0,0)")
+    print("- Weak priors result in estimates close to OLS")
+    print("- Very strong priors force the line to be nearly flat (close to y = 0)")
+    print("- Our case (τ0²=10, τ1²=2) shows moderate regularization")
     
-    inset_ax.scatter([0], [0], color='black', s=50, label='Prior Mean')
-    inset_ax.set_xlabel('w0', fontsize=12)
-    inset_ax.set_ylabel('w1', fontsize=12)
-    inset_ax.set_title('Prior Distributions (2σ)', fontsize=14)
-    inset_ax.grid(True, alpha=0.3)
+    plt.tight_layout()
     
-    # Set main plot properties
-    main_ax.set_title('Effect of Different Priors on MAP Regression Lines', fontsize=18)
-    main_ax.set_xlabel('x', fontsize=16)
-    main_ax.set_ylabel('y', fontsize=16)
-    main_ax.grid(True, alpha=0.3)
-    main_ax.legend(fontsize=12, loc='upper left')
-    
-    # Add explanatory text at the bottom of the figure
-    fig.text(0.5, 0.05, 
-           "Stronger priors (smaller variances) pull the estimates more strongly toward the prior mean (0,0)",
-           ha="center", fontsize=14, 
-           bbox={"facecolor":"orange", "alpha":0.2, "pad":5})
-    
-    file_path = os.path.join(save_dir, "plot5_prior_effect.png")
+    file_path = os.path.join(save_dir, "plot5a_prior_effect_lines.png")
     plt.savefig(file_path, dpi=300, bbox_inches='tight')
     saved_files.append(file_path)
     plt.close()
     
-    # NEW PLOT 6: Simple Likelihood, Prior, and Posterior Distributions for w0
+    # Plot 5b: Prior Distribution Shapes
+    plt.figure(figsize=(10, 8))
+    
+    # Create 2-sigma ellipses for each prior
+    theta = np.linspace(0, 2*np.pi, 100)
+    
+    for i, (tau0_sq, tau1_sq, label) in enumerate(prior_combinations):
+        ellipse_x = 2 * np.sqrt(tau0_sq) * np.cos(theta)
+        ellipse_y = 2 * np.sqrt(tau1_sq) * np.sin(theta)
+        plt.plot(ellipse_x, ellipse_y, color=colors[i], linewidth=3, label=label)
+    
+    plt.scatter([0], [0], color='black', s=100, label='Prior Mean')
+    plt.xlabel('w0')
+    plt.ylabel('w1')
+    plt.title('Prior Distributions (2σ Regions)')
+    plt.grid(True, alpha=0.3)
+    plt.legend(loc='best')
+    plt.axis('equal')  # Equal scaling for better visualization of ellipses
+    
+    print("\nPrior Distribution Shapes:")
+    print("- Each ellipse shows the 2σ region of a different prior distribution")
+    print("- Larger ellipses correspond to weaker priors (larger variances)")
+    print("- Smaller ellipses correspond to stronger priors (smaller variances)")
+    print("- All priors are centered at (0,0)")
+    print("- The ellipse shape shows the relative strength of regularization for each parameter")
+    
+    plt.tight_layout()
+    
+    file_path = os.path.join(save_dir, "plot5b_prior_shapes.png")
+    plt.savefig(file_path, dpi=300, bbox_inches='tight')
+    saved_files.append(file_path)
+    plt.close()
+    
+    # Plot 6: Simple Likelihood, Prior, and Posterior Distributions for w0
     plt.figure(figsize=(12, 8))
     
     # Generate values for visualization
@@ -571,28 +585,18 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     plt.axvline(x=w0_ols, color='blue', linestyle='--', linewidth=2, label='MLE (OLS)')
     plt.axvline(x=w0_map, color='red', linestyle='--', linewidth=2, label='MAP')
     
-    # Add annotations
-    plt.annotate('Prior Mean = 0', xy=(0, 0.2), xytext=(-1.5, 0.3),
-               arrowprops=dict(facecolor='green', shrink=0.05, width=1.5),
-               fontsize=14, color='green')
-    
-    plt.annotate(f'MLE = {w0_ols:.4f}', xy=(w0_ols, 0.6), xytext=(w0_ols+0.5, 0.7),
-               arrowprops=dict(facecolor='blue', shrink=0.05, width=1.5),
-               fontsize=14, color='blue')
-    
-    plt.annotate(f'MAP = {w0_map:.4f}', xy=(w0_map, 0.8), xytext=(w0_map-1.5, 0.9),
-               arrowprops=dict(facecolor='red', shrink=0.05, width=1.5),
-               fontsize=14, color='red')
-    
-    plt.title('Likelihood, Prior and Posterior for Parameter w0', fontsize=18)
-    plt.xlabel('w0', fontsize=16)
-    plt.ylabel('Normalized Density', fontsize=16)
+    plt.title('Likelihood, Prior and Posterior for Parameter w0')
+    plt.xlabel('w0')
+    plt.ylabel('Normalized Density')
     plt.grid(True, alpha=0.3)
-    plt.legend(fontsize=14, loc='best')
+    plt.legend(loc='best')
     
-    # Add explanation text
-    plt.text(2, 0.4, 'The MAP estimate lies between\nthe MLE and the prior mean\ndue to the regularization effect',
-            fontsize=14, bbox=dict(facecolor='white', alpha=0.8))
+    print("\nLikelihood, Prior, and Posterior for w0:")
+    print("- The likelihood (blue) peaks at the MLE (OLS estimate)")
+    print("- The prior (green) is centered at 0 with variance τ0²")
+    print("- The posterior (red) is proportional to the product of likelihood and prior")
+    print("- The MAP estimate lies between the MLE and the prior mean due to the regularization effect")
+    print(f"- Prior Mean = 0, MLE = {w0_ols:.4f}, MAP = {w0_map:.4f}")
     
     plt.tight_layout()
     
@@ -601,7 +605,7 @@ def create_visualizations(log_post, w0_map, w1_map, w0_ols, w1_ols, lambda0, lam
     saved_files.append(file_path)
     plt.close()
     
-    print(f"Visualizations saved to: {', '.join(saved_files)}")
+    print(f"\nVisualizations saved to: {save_dir}")
     
     return saved_files
 
