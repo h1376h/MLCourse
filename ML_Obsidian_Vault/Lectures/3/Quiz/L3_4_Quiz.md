@@ -61,7 +61,7 @@ Initial analysis suggests that:
 3. The effect of water on yield diminishes as more water is added
 
 #### Task
-1. Propose a multiple regression model that includes appropriate interaction terms between fertilizer and water to capture their joint effect
+1. [🔍] Propose a multiple regression model that includes appropriate interaction terms between fertilizer and water to capture their joint effect
 2. Suggest a feature transformation for temperature to model the diminishing returns and eventual negative impact
 3. Propose a feature transformation for water to capture the diminishing returns effect
 4. Write the complete equation for your proposed model including all main effects, interaction terms, and transformed features

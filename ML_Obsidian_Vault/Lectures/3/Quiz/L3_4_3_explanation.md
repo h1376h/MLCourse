@@ -33,7 +33,7 @@ Effective feature engineering will help us create a regression model that better
 
 The interaction between fertilizer and water (insight #1) suggests that the effect of fertilizer on crop yield depends on the amount of water available. This makes intuitive sense in agriculture: fertilizer effectiveness often depends on sufficient water to dissolve and transport nutrients to plant roots.
 
-In a standard linear model without interaction ($y = \beta_0 + \beta_1x_1 + \beta_2x_2$), the effect of fertilizer on yield would be constant (β₁) regardless of water level. However, this doesn't match the agricultural reality.
+In a standard linear model without interaction ($y = \beta_0 + \beta_1x_1 + \beta_2x_2$), the effect of fertilizer on yield would be constant ($\beta_1$) regardless of water level. However, this doesn't match the agricultural reality.
 
 To model this interaction, we add an interaction term to our regression equation:
 
@@ -42,15 +42,15 @@ $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 (x_1 \times x_2) + \beta_4 x
 With this interaction term, the effect of fertilizer on yield becomes:
 $$\frac{\partial y}{\partial x_1} = \beta_1 + \beta_3 x_2$$
 
-This shows that the effect of adding 1 unit of fertilizer depends on the current water level (x₂). Similarly, the effect of water becomes:
+This shows that the effect of adding 1 unit of fertilizer depends on the current water level ($x_2$). Similarly, the effect of water becomes:
 $$\frac{\partial y}{\partial x_2} = \beta_2 + \beta_3 x_1$$
 
-From our simulated data analysis, the coefficient for the interaction term (β₃) is positive (approximately 0.0001), indicating that the positive effect of fertilizer on crop yield increases with higher water levels. This makes agricultural sense: more water helps crops better utilize the nutrients from fertilizer.
+From our simulated data analysis, the coefficient for the interaction term ($\beta_3$) is positive (approximately $0.0001$), indicating that the positive effect of fertilizer on crop yield increases with higher water levels. This makes agricultural sense: more water helps crops better utilize the nutrients from fertilizer.
 
 At different water levels, the effect of fertilizer varies significantly:
-- At low water (100 L/day): Effect of +1 kg fertilizer ≈ 0.019 tons/ha
-- At medium water (300 L/day): Effect of +1 kg fertilizer ≈ 0.039 tons/ha
-- At high water (500 L/day): Effect of +1 kg fertilizer ≈ 0.059 tons/ha
+- At low water ($100$ L/day): Effect of $+1$ kg fertilizer $\approx 0.019$ tons/ha
+- At medium water ($300$ L/day): Effect of $+1$ kg fertilizer $\approx 0.039$ tons/ha
+- At high water ($500$ L/day): Effect of $+1$ kg fertilizer $\approx 0.059$ tons/ha
 
 This clearly demonstrates how fertilizer effectiveness increases with water availability.
 
@@ -75,27 +75,27 @@ We extend our model to include a quadratic term for temperature:
 $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 (x_1 \times x_2) + \beta_4 x_3 + \beta_5 x_3^2 + \epsilon$$
 
 The mathematical properties of this relationship provide important insights:
-- The linear term β₄x₃ captures the initial positive effect of temperature
-- The quadratic term β₅x₃² (with negative β₅) captures the diminishing returns and eventual negative impact
-- The first derivative (∂y/∂x₃ = β₄ + 2β₅x₃) represents the marginal effect of temperature, which decreases as temperature increases
-- When set to zero (β₄ + 2β₅x₃ = 0), we can find the optimal temperature: x₃ = -β₄/(2β₅)
+- The linear term $\beta_4 x_3$ captures the initial positive effect of temperature
+- The quadratic term $\beta_5 x_3^2$ (with negative $\beta_5$) captures the diminishing returns and eventual negative impact
+- The first derivative ($\frac{\partial y}{\partial x_3} = \beta_4 + 2\beta_5 x_3$) represents the marginal effect of temperature, which decreases as temperature increases
+- When set to zero ($\beta_4 + 2\beta_5 x_3 = 0$), we can find the optimal temperature: $x_3 = -\frac{\beta_4}{2\beta_5}$
 
 From our simulated data analysis, the coefficients are approximately:
-- Temperature linear coefficient (β₄): 0.48
-- Temperature quadratic coefficient (β₅): -0.01
+- Temperature linear coefficient ($\beta_4$): $0.48$
+- Temperature quadratic coefficient ($\beta_5$): $-0.01$
 
 With these coefficients, we can calculate the optimal temperature:
 $$x_3 = -\frac{\beta_4}{2\beta_5} \approx -\frac{0.48}{2 \times (-0.01)} \approx 25°C$$
 
 This optimal temperature aligns with the growing requirements for many common crops. Our model also quantifies the temperature effect at different points:
-- At low temperature (10°C): Effect = +0.29 tons/ha per °C (positive)
-- At optimal temperature (25°C): Effect ≈ 0 tons/ha per °C (flat maximum)
-- At high temperature (35°C): Effect = -0.19 tons/ha per °C (negative)
+- At low temperature ($10°C$): Effect = $+0.29$ tons/ha per °C (positive)
+- At optimal temperature ($25°C$): Effect $\approx 0$ tons/ha per °C (flat maximum)
+- At high temperature ($35°C$): Effect = $-0.19$ tons/ha per °C (negative)
 
 The comparison between linear and quadratic models shows dramatic improvement:
-- Linear model: R² = 0.22
-- Quadratic model: R² = 0.81
-- Improvement: 59% in R², 76% reduction in MSE
+- Linear model: $R^2 = 0.22$
+- Quadratic model: $R^2 = 0.81$
+- Improvement: $59\%$ in $R^2$, $76\%$ reduction in MSE
 
 ![Temperature Effect Visualization](../Images/L3_4_Quiz_3/temperature_quadratic.png)
 
@@ -120,17 +120,17 @@ $$y = \beta_0 + \beta_1 x_1 + \beta_2 \log(x_2) + \beta_3 (x_1 \times \log(x_2))
 Note that we've also updated the interaction term to use $\log(x_2)$ rather than $x_2$, maintaining consistency in how water is represented in the model.
 
 The logarithmic transformation has important mathematical properties:
-- For a linear term (β₂x₂), each additional unit of water adds a constant β₂ to yield
-- For a logarithmic term (β₂log(x₂)), the effect of additional water diminishes
-- The marginal effect is: ∂y/∂x₂ = β₂/x₂
-- As x₂ increases, the effect of adding more water decreases proportionally
+- For a linear term ($\beta_2 x_2$), each additional unit of water adds a constant $\beta_2$ to yield
+- For a logarithmic term ($\beta_2 \log(x_2)$), the effect of additional water diminishes
+- The marginal effect is: $\frac{\partial y}{\partial x_2} = \frac{\beta_2}{x_2}$
+- As $x_2$ increases, the effect of adding more water decreases proportionally
 
 Our analysis demonstrates how dramatically the effect of water diminishes:
-- Effect of +1 L/day at 100 L/day: 0.020 tons/ha
-- Effect of +1 L/day at 300 L/day: 0.007 tons/ha
-- Effect of +1 L/day at 600 L/day: 0.003 tons/ha
+- Effect of $+1$ L/day at $100$ L/day: $0.020$ tons/ha
+- Effect of $+1$ L/day at $300$ L/day: $0.007$ tons/ha
+- Effect of $+1$ L/day at $600$ L/day: $0.003$ tons/ha
 
-At 600 L/day, the effect is only about 17% of what it was at 100 L/day, reflecting the biological reality that plants have limited capacity to utilize water beyond certain thresholds.
+At $600$ L/day, the effect is only about $17\%$ of what it was at $100$ L/day, reflecting the biological reality that plants have limited capacity to utilize water beyond certain thresholds.
 
 ![Water Effect Visualization](../Images/L3_4_Quiz_3/water_transformation.png)
 
@@ -148,7 +148,7 @@ This contour plot visualizes the interaction between fertilizer and log-transfor
 
 This comparison demonstrates why the logarithmic water model (right) is biologically more plausible than the linear model (left). The linear model suggests unlimited yield growth with increasing water, while the logarithmic model correctly shows diminishing returns.
 
-Our data analysis shows that using a logarithmic transformation for water improves the model's R² from 0.87 (linear water term) to 0.95 (logarithmic water term), confirming that this transformation better captures the true relationship.
+Our data analysis shows that using a logarithmic transformation for water improves the model's $R^2$ from $0.87$ (linear water term) to $0.95$ (logarithmic water term), confirming that this transformation better captures the true relationship.
 
 ### Step 4: Complete Model Equation
 
@@ -158,15 +158,15 @@ $$y = \beta_0 + \beta_1 x_1 + \beta_2 \log(x_2) + \beta_3 (x_1 \times \log(x_2))
 
 Each component of this model serves a specific purpose:
 - $\beta_0$ is the intercept (baseline yield)
-- $\beta_1x_1$ represents the main effect of fertilizer
-- $\beta_2log(x_2)$ captures the diminishing returns effect of water
-- $\beta_3(x_1 \times log(x_2))$ models how fertilizer effect depends on water level
-- $\beta_4x_3+\beta_5x_3^2$ creates the inverted U-shape relationship for temperature
+- $\beta_1 x_1$ represents the main effect of fertilizer
+- $\beta_2 \log(x_2)$ captures the diminishing returns effect of water
+- $\beta_3 (x_1 \times \log(x_2))$ models how fertilizer effect depends on water level
+- $\beta_4 x_3 + \beta_5 x_3^2$ creates the inverted U-shape relationship for temperature
 
 This model addresses all three insights from our initial analysis:
-1. The interaction between fertilizer and water through the term $\beta_3(x_1 \times log(x_2))$
-2. The optimal temperature effect through the terms $\beta_4x_3+\beta_5x_3^2$
-3. The diminishing returns of water through the logarithmic transformation $\beta_2log(x_2)$
+1. The interaction between fertilizer and water through the term $\beta_3 (x_1 \times \log(x_2))$
+2. The optimal temperature effect through the terms $\beta_4 x_3 + \beta_5 x_3^2$
+3. The diminishing returns of water through the logarithmic transformation $\beta_2 \log(x_2)$
 
 Our integrated model demonstrates excellent performance, capturing the complex interactions and non-linear effects present in agricultural systems.
 
@@ -232,7 +232,7 @@ During implementation, we should:
 
 - **Interpretability vs. Complexity**: The model balances complexity (by adding non-linear terms) with interpretability (by using transformations with clear agricultural meaning).
 
-- **Model Selection**: The improved R² values confirm that our transformations better capture the underlying relationships compared to a simple linear model.
+- **Model Selection**: The improved $R^2$ values confirm that our transformations better capture the underlying relationships compared to a simple linear model.
 
 ### Biological Significance
 
@@ -256,10 +256,10 @@ During implementation, we should:
 
 Our step-by-step approach to building this model illustrates the incremental improvement gained from each feature transformation:
 
-- **Model 1 (Linear main effects only)**: R² = 0.80
-- **Model 2 (With log(water) transformation)**: R² = 0.85, improvement: 5%
-- **Model 3 (Adding temperature²)**: R² = 0.88, improvement: 3%
-- **Model 4 (Full model with interaction)**: R² = 0.88, improvement: 0.1%
+- **Model 1 (Linear main effects only)**: $R^2 = 0.80$
+- **Model 2 (With $\log(\text{water})$ transformation)**: $R^2 = 0.85$, improvement: $5\%$
+- **Model 3 (Adding $\text{temperature}^2$)**: $R^2 = 0.88$, improvement: $3\%$
+- **Model 4 (Full model with interaction)**: $R^2 = 0.88$, improvement: $0.1\%$
 
 This progression demonstrates that each feature transformation contributed to the model's overall performance, with the most substantial improvements coming from the logarithmic water transformation and quadratic temperature term.
 
