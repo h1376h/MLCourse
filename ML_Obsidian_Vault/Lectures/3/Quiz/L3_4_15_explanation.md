@@ -52,7 +52,15 @@ Where:
 - $(\boldsymbol{X}^T\boldsymbol{X})^{-1}$ is the inverse of the matrix $\boldsymbol{X}^T\boldsymbol{X}$
 - $\hat{\boldsymbol{\beta}}$ is the vector of estimated coefficients (dimensions: $(d+1) \times 1$)
 
-This formula gives the values of the coefficients that minimize the sum of squared residuals.
+This formula gives the values of the coefficients that minimize the sum of squared residuals. In our example, for a simple linear regression, we get:
+
+$$\hat{\boldsymbol{\beta}} = 
+\begin{bmatrix}
+2.69 \\
+1.46
+\end{bmatrix}$$
+
+Which represents an intercept of 2.69 and a slope of 1.46 for our regression line.
 
 ![Closed Form Solution](../Images/L3_4_Quiz_15/closed_form_solution.png)
 

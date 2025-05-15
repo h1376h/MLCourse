@@ -123,42 +123,32 @@ def demonstrate_closed_form_solution():
     print("\nStep 4: Calculate (X^T X)^(-1) X^T y")
     print(f"Beta hat: {beta_hat}")
     
-    # Create a figure to visualize the solution
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    # Create a figure to visualize the solution (just the scatter plot, no equations)
+    fig, ax = plt.subplots(figsize=(8, 5))
     
     # Plot the data and regression line
-    axes[0].scatter(X, y, alpha=0.7, label='Data points')
+    ax.scatter(X, y, alpha=0.7, label='Data points')
     x_range = np.linspace(0, 10, 100)
     y_pred = beta_hat[0] + beta_hat[1] * x_range
-    axes[0].plot(x_range, y_pred, 'r-', linewidth=2, label='Regression line')
-    axes[0].set_xlabel('x', fontsize=12)
-    axes[0].set_ylabel('y', fontsize=12)
-    axes[0].set_title('Least Squares Regression', fontsize=14)
-    axes[0].legend()
+    ax.plot(x_range, y_pred, 'r-', linewidth=2, label='Regression line')
+    ax.set_xlabel('x', fontsize=12)
+    ax.set_ylabel('y', fontsize=12)
+    ax.set_title('Least Squares Regression', fontsize=14)
+    ax.legend()
     
-    # Visualize the equation
-    axes[1].axis('off')
-    equation_text = r"""
-    Closed-form solution:
-    $\hat{\boldsymbol{\beta}} = (\boldsymbol{X}^T \boldsymbol{X})^{-1} \boldsymbol{X}^T \boldsymbol{y}$
+    # Print the closed-form solution equation and explanation
+    print("\nClosed-form solution:")
+    print("β̂ = (X^T X)^(-1) X^T y")
     
-    In our example:
-    $\hat{\boldsymbol{\beta}} = 
-    \begin{bmatrix}
-    %.2f \\
-    %.2f
-    \end{bmatrix}$
-    """ % (beta_hat[0], beta_hat[1])
-    
-    axes[1].text(0.1, 0.5, equation_text, fontsize=14, va='center')
-    
-    # Print explanation instead of including in the figure
-    print("\nClosed-form solution explanation:")
-    print("Where:")
+    print("\nWhere:")
     print("- X is the design matrix (n × (d+1))")
     print("- y is the target vector (n × 1)")
     print("- β̂ is the vector of estimated coefficients ((d+1) × 1)")
     print(f"In our example, β̂ = [{beta_hat[0]:.2f}, {beta_hat[1]:.2f}]")
+    
+    # Print LaTeX code for the closed-form solution
+    print("\nLaTeX representation of the closed-form solution:")
+    print(r"\hat{\boldsymbol{\beta}} = (\boldsymbol{X}^T \boldsymbol{X})^{-1} \boldsymbol{X}^T \boldsymbol{y}")
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'closed_form_solution.png'), dpi=300)
