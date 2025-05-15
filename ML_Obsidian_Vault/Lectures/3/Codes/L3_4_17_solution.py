@@ -1,11 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
 from sklearn.preprocessing import PolynomialFeatures
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, KFold, cross_val_score
 from sklearn.metrics import mean_squared_error
 import os
+from scipy.special import binom
+import time
+from mpl_toolkits.mplot3d import Axes3D
+import pandas as pd
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -112,6 +116,33 @@ def sigmoid_basis(x, centers, scaling=1.0):
     
     return phi
 
+# New: Define analytical gradient functions for each basis type
+def poly_gradient(x, degree):
+    """Calculate gradients of polynomial basis functions."""
+    gradients = []
+    for d in range(degree + 1):
+        if d == 0:
+            # Gradient of constant term is 0
+            gradients.append(0)
+        else:
+            # Gradient of x^d is d*x^(d-1)
+            gradients.append(d * x**(d-1))
+    return gradients
+
+def rbf_gradient(x, center, width):
+    """Calculate gradient of a Gaussian RBF w.r.t. x."""
+    # ∂φ(x)/∂x = φ(x) * (-(x-center)/(width^2))
+    phi_x = np.exp(-(x - center)**2 / (2 * width**2))
+    grad = phi_x * (-(x - center) / width**2)
+    return grad
+
+def sigmoid_gradient(x, center, scaling):
+    """Calculate gradient of a sigmoid basis function w.r.t. x."""
+    # ∂φ(x)/∂x = φ(x) * (1 - φ(x)) * scaling
+    phi_x = 1 / (1 + np.exp(-scaling * (x - center)))
+    grad = phi_x * (1 - phi_x) * scaling
+    return grad
+
 print("Basis functions are non-linear transformations of input features that allow linear models")
 print("to capture non-linear relationships in the data. By projecting the original features into")
 print("a higher-dimensional space using basis functions, we can apply linear methods to solve")
@@ -120,6 +151,57 @@ print("\nWe've defined three types of basis functions:")
 print("1. Polynomial basis functions")
 print("2. Gaussian radial basis functions")
 print("3. Sigmoid basis functions")
+
+# Part 1.5: Analytical properties of basis functions
+print_section_header("Part 1.5: Analytical Properties of Basis Functions")
+
+# Define a point to evaluate gradients
+x_point = 1.0
+print(f"Evaluating basis function gradients at x = {x_point}")
+
+# Calculate and print polynomial gradients
+degree = 3
+poly_grads = poly_gradient(x_point, degree)
+print(f"\nPolynomial basis function gradients (degree {degree}):")
+for d, grad in enumerate(poly_grads):
+    print(f"  ∂φ_{d}(x)/∂x = ∂(x^{d})/∂x = {grad}")
+
+# Calculate and print RBF gradients
+rbf_center = 2.0
+rbf_width = 1.5
+rbf_grad = rbf_gradient(x_point, rbf_center, rbf_width)
+phi_rbf = np.exp(-(x_point - rbf_center)**2 / (2 * rbf_width**2))
+print(f"\nGaussian RBF gradient at center = {rbf_center}, width = {rbf_width}:")
+print(f"  φ(x) = exp(-(x-{rbf_center})²/(2*{rbf_width}²)) = {phi_rbf:.6f}")
+print(f"  ∂φ(x)/∂x = φ(x) * (-(x-center)/width²) = {rbf_grad:.6f}")
+
+# Calculate and print sigmoid gradients
+sigmoid_center = 0.5
+sigmoid_scaling = 2.0
+sigmoid_grad = sigmoid_gradient(x_point, sigmoid_center, sigmoid_scaling)
+phi_sigmoid = 1 / (1 + np.exp(-sigmoid_scaling * (x_point - sigmoid_center)))
+print(f"\nSigmoid gradient at center = {sigmoid_center}, scaling = {sigmoid_scaling}:")
+print(f"  φ(x) = 1/(1+exp(-{sigmoid_scaling}*(x-{sigmoid_center}))) = {phi_sigmoid:.6f}")
+print(f"  ∂φ(x)/∂x = φ(x) * (1 - φ(x)) * scaling = {sigmoid_grad:.6f}")
+
+# Calculate number of basis functions for polynomial model
+print("\nNumber of basis functions in polynomial models of different degrees:")
+input_dims = [1, 2, 3, 5, 10]
+degrees = [1, 2, 3, 5, 10]
+
+table_data = []
+for n in input_dims:
+    row = [n]
+    for d in degrees:
+        # Number of basis functions (including constant term)
+        # Formula: binom(n+d, d) = (n+d)! / (n! * d!)
+        num_basis = binom(n+d, d)
+        row.append(int(num_basis))
+    table_data.append(row)
+
+df = pd.DataFrame(table_data, 
+                  columns=['Input Dim'] + [f'Degree {d}' for d in degrees])
+print(df.to_string(index=False))
 
 # Part 2: Visualize different basis functions
 print_section_header("Part 2: Visualizing Basis Functions")
@@ -281,7 +363,15 @@ np.random.seed(42)
 n_samples = 100
 X = np.random.uniform(-3, 3, (n_samples, 2))
 # True function: f(x) = 1 + 2*x₁ - x₂ + 0.5*x₁² + 2*x₁*x₂ - 1.5*x₂²
-y = 1 + 2*X[:, 0] - X[:, 1] + 0.5*X[:, 0]**2 + 2*X[:, 0]*X[:, 1] - 1.5*X[:, 1]**2 + np.random.normal(0, 1, n_samples)
+true_w0 = 1.0
+true_w1 = 2.0
+true_w2 = -1.0
+true_w3 = 0.5
+true_w4 = 2.0
+true_w5 = -1.5
+
+y_true = true_w0 + true_w1*X[:, 0] + true_w2*X[:, 1] + true_w3*X[:, 0]**2 + true_w4*X[:, 0]*X[:, 1] + true_w5*X[:, 1]**2
+y = y_true + np.random.normal(0, 1, n_samples)
 
 # Transform features and fit model
 quad = PolynomialFeatures(degree=2)
@@ -301,6 +391,17 @@ for i, (name, coef) in enumerate(zip(feature_names, model.coef_)):
     print(f"w_{i} (for {name}) = {coef:.4f}")
 print(f"Intercept (w_0) = {model.intercept_:.4f}")
 
+# Print true vs. fitted coefficients
+print("\nComparison of true vs. fitted coefficients:")
+true_coefs = [true_w0, true_w1, true_w2, true_w3, true_w4, true_w5]
+fitted_coefs = [model.intercept_] + list(model.coef_[1:6])  # Skip the constant term from coef_
+for i, (true_coef, fitted_coef) in enumerate(zip(true_coefs, fitted_coefs)):
+    if i == 0:
+        name = "Intercept"
+    else:
+        name = feature_names[i]
+    print(f"{name}: True = {true_coef:.4f}, Fitted = {fitted_coef:.4f}, Difference = {fitted_coef - true_coef:.4f}")
+
 # Create visualization of the model surface
 fig = plt.figure(figsize=(15, 12))
 gs = GridSpec(2, 2, figure=fig)
@@ -309,7 +410,7 @@ gs = GridSpec(2, 2, figure=fig)
 ax1 = fig.add_subplot(gs[0, 0], projection='3d')
 x1_grid, x2_grid = np.meshgrid(np.linspace(-3, 3, 50), np.linspace(-3, 3, 50))
 X_grid = np.column_stack([x1_grid.ravel(), x2_grid.ravel()])
-z_true = 1 + 2*X_grid[:, 0] - X_grid[:, 1] + 0.5*X_grid[:, 0]**2 + 2*X_grid[:, 0]*X_grid[:, 1] - 1.5*X_grid[:, 1]**2
+z_true = true_w0 + true_w1*X_grid[:, 0] + true_w2*X_grid[:, 1] + true_w3*X_grid[:, 0]**2 + true_w4*X_grid[:, 0]*X_grid[:, 1] + true_w5*X_grid[:, 1]**2
 z_true = z_true.reshape(x1_grid.shape)
 
 surf1 = ax1.plot_surface(x1_grid, x2_grid, z_true, cmap='viridis', alpha=0.8)
@@ -355,6 +456,111 @@ plt.close()
 
 print("\nVisualization of the quadratic model with 2D input has been created.")
 print("Figure saved as 'quadratic_model_2d.png'")
+
+# Part 3.5: Computational Efficiency Comparison
+print_section_header("Part 3.5: Computational Efficiency Comparison")
+
+# Generate larger dataset for timing comparison
+np.random.seed(42)
+n_timing_samples = 10000
+X_timing = np.random.uniform(-5, 5, (n_timing_samples, 1))
+y_timing = np.sin(X_timing.ravel()) + 0.1 * np.random.randn(n_timing_samples)
+
+# Define parameter ranges
+poly_degrees = [1, 2, 3, 5, 10]
+rbf_n_centers = [5, 10, 20, 50, 100]
+sigmoid_n_centers = [5, 10, 20, 50, 100]
+
+# Function to time the transformation and fitting
+def time_model(transform_func, fit_func, name):
+    transform_time = time.time()
+    X_transformed = transform_func()
+    transform_time = time.time() - transform_time
+    
+    fit_time = time.time()
+    model = fit_func(X_transformed)
+    fit_time = time.time() - fit_time
+    
+    # Calculate memory usage (approximate)
+    memory_mb = X_transformed.nbytes / (1024 * 1024)
+    
+    return {
+        'name': name,
+        'transform_time': transform_time,
+        'fit_time': fit_time,
+        'total_time': transform_time + fit_time,
+        'memory_mb': memory_mb,
+        'n_features': X_transformed.shape[1]
+    }
+
+# Time polynomial transformations
+poly_results = []
+for degree in poly_degrees:
+    result = time_model(
+        lambda: PolynomialFeatures(degree).fit_transform(X_timing),
+        lambda X: LinearRegression().fit(X, y_timing),
+        f'Polynomial (degree={degree})'
+    )
+    poly_results.append(result)
+
+# Time RBF transformations 
+rbf_results = []
+for n_centers in rbf_n_centers:
+    centers = np.linspace(-5, 5, n_centers).reshape(-1, 1)
+    result = time_model(
+        lambda: gaussian_rbf(X_timing, centers, width=1.0),
+        lambda X: LinearRegression().fit(X, y_timing),
+        f'RBF (centers={n_centers})'
+    )
+    rbf_results.append(result)
+
+# Time sigmoid transformations
+sigmoid_results = []
+for n_centers in sigmoid_n_centers:
+    centers = np.linspace(-5, 5, n_centers)
+    result = time_model(
+        lambda: sigmoid_basis(X_timing, centers, scaling=2.0),
+        lambda X: LinearRegression().fit(X, y_timing),
+        f'Sigmoid (centers={n_centers})'
+    )
+    sigmoid_results.append(result)
+
+# Combine results
+all_results = poly_results + rbf_results + sigmoid_results
+results_df = pd.DataFrame(all_results)
+
+# Print results as a table
+print(f"Computational efficiency comparison (dataset size: {n_timing_samples} samples)")
+print(results_df.to_string(index=False, float_format=lambda x: f"{x:.4f}"))
+
+# Visualize computation time vs. number of features
+plt.figure(figsize=(12, 6))
+plt.plot([r['n_features'] for r in poly_results], [r['total_time'] for r in poly_results], 'bo-', label='Polynomial')
+plt.plot([r['n_features'] for r in rbf_results], [r['total_time'] for r in rbf_results], 'ro-', label='RBF')
+plt.plot([r['n_features'] for r in sigmoid_results], [r['total_time'] for r in sigmoid_results], 'go-', label='Sigmoid')
+plt.xlabel('Number of Features', fontsize=12)
+plt.ylabel('Computation Time (seconds)', fontsize=12)
+plt.title('Computation Time vs. Number of Features', fontsize=14)
+plt.grid(True)
+plt.legend()
+plt.savefig(os.path.join(save_dir, 'computation_time.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
+# Visualize memory usage vs. number of features
+plt.figure(figsize=(12, 6))
+plt.plot([r['n_features'] for r in poly_results], [r['memory_mb'] for r in poly_results], 'bo-', label='Polynomial')
+plt.plot([r['n_features'] for r in rbf_results], [r['memory_mb'] for r in rbf_results], 'ro-', label='RBF')
+plt.plot([r['n_features'] for r in sigmoid_results], [r['memory_mb'] for r in sigmoid_results], 'go-', label='Sigmoid')
+plt.xlabel('Number of Features', fontsize=12)
+plt.ylabel('Memory Usage (MB)', fontsize=12)
+plt.title('Memory Usage vs. Number of Features', fontsize=14)
+plt.grid(True)
+plt.legend()
+plt.savefig(os.path.join(save_dir, 'memory_usage.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
+print("\nComputational efficiency visualizations have been created.")
+print("Figures saved as 'computation_time.png' and 'memory_usage.png'")
 
 # Part 4: Bias-Variance Tradeoff
 print_section_header("Part 4: Bias-Variance Tradeoff with Different Basis Functions")
@@ -436,12 +642,102 @@ plt.legend()
 plt.savefig(os.path.join(save_dir, 'bias_variance_tradeoff.png'), dpi=300, bbox_inches='tight')
 plt.close()
 
-print("As the degree of polynomial basis functions increases:")
+# Create a table of results
+bias_variance_table = pd.DataFrame({
+    'Degree': degrees,
+    'Training Error': train_errors,
+    'Test Error': test_errors,
+    'Difference': np.array(test_errors) - np.array(train_errors)
+})
+print("\nBias-Variance Tradeoff Results:")
+print(bias_variance_table.to_string(index=False, float_format=lambda x: f"{x:.6f}"))
+
+print("\nAs the degree of polynomial basis functions increases:")
 print("- Training error consistently decreases")
 print("- Test error initially decreases (reducing bias)")
 print("- But beyond a certain complexity, test error increases (due to increasing variance)")
 print("\nThis demonstrates the classic bias-variance tradeoff in machine learning")
 print("\nFigures saved as 'bias_variance_fits.png' and 'bias_variance_tradeoff.png'")
+
+# Part 4.5: Cross-Validation for Optimal Model Selection
+print_section_header("Part 4.5: Cross-Validation for Optimal Model Selection")
+
+print("We'll use cross-validation to find the optimal model complexity:")
+
+# Generate new dataset
+np.random.seed(456)
+n_samples = 100
+x_cv = np.linspace(-3, 3, n_samples)
+y_cv_true = 0.5 * np.sin(np.pi * x_cv) + 0.5 * x_cv + 0.2 * x_cv**2
+y_cv = y_cv_true + np.random.normal(0, 0.3, size=n_samples)
+X_cv = x_cv.reshape(-1, 1)
+
+# Define models to test
+cv_degrees = list(range(1, 21))  # Polynomial degrees 1 to 20
+cv_scores = []
+cv_scores_std = []
+
+# Perform cross-validation for each degree
+kf = KFold(n_splits=5, shuffle=True, random_state=42)
+for degree in cv_degrees:
+    # Create polynomial features
+    poly = PolynomialFeatures(degree)
+    X_poly = poly.fit_transform(X_cv)
+    
+    # Cross-validate
+    model = LinearRegression()
+    scores = cross_val_score(model, X_poly, y_cv, cv=kf, scoring='neg_mean_squared_error')
+    
+    # Store results (convert to positive MSE)
+    cv_scores.append(-scores.mean())
+    cv_scores_std.append(scores.std())
+
+# Find the best degree
+best_degree_idx = np.argmin(cv_scores)
+best_degree = cv_degrees[best_degree_idx]
+print(f"Cross-validation results for polynomial degrees 1-20:")
+for i, (degree, score, std) in enumerate(zip(cv_degrees, cv_scores, cv_scores_std)):
+    if i == best_degree_idx:
+        print(f"Degree {degree}: MSE = {score:.6f} ± {std:.6f} (BEST)")
+    else:
+        print(f"Degree {degree}: MSE = {score:.6f} ± {std:.6f}")
+
+# Plot cross-validation results
+plt.figure(figsize=(12, 6))
+plt.errorbar(cv_degrees, cv_scores, yerr=cv_scores_std, fmt='o-')
+plt.axvline(x=best_degree, color='r', linestyle='--', label=f'Best degree: {best_degree}')
+plt.xlabel('Polynomial Degree', fontsize=12)
+plt.ylabel('Mean Squared Error (CV)', fontsize=12)
+plt.title('Cross-Validation Results: Error vs. Model Complexity', fontsize=14)
+plt.grid(True)
+plt.legend()
+plt.savefig(os.path.join(save_dir, 'cross_validation.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
+# Train final model with best degree
+best_poly = PolynomialFeatures(best_degree)
+X_best_poly = best_poly.fit_transform(X_cv)
+best_model = LinearRegression().fit(X_best_poly, y_cv)
+
+# Generate predictions for plotting
+x_plot = np.linspace(-3.5, 3.5, 200).reshape(-1, 1)
+x_plot_poly = best_poly.transform(x_plot)
+y_plot_pred = best_model.predict(x_plot_poly)
+
+# Plot the results
+plt.figure(figsize=(12, 6))
+plt.scatter(x_cv, y_cv, alpha=0.6, label='Data')
+plt.plot(x_plot, y_plot_pred, 'r-', linewidth=2, label=f'Best model (degree {best_degree})')
+plt.xlabel('x', fontsize=12)
+plt.ylabel('y', fontsize=12)
+plt.title(f'Optimal Model Selected via Cross-Validation (Degree {best_degree})', fontsize=14)
+plt.grid(True)
+plt.legend()
+plt.savefig(os.path.join(save_dir, 'optimal_model.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
+print(f"\nThe optimal polynomial degree determined by cross-validation is {best_degree}")
+print("Figures saved as 'cross_validation.png' and 'optimal_model.png'")
 
 # Part 5: Compare different basis functions on the same problem
 print_section_header("Part 5: Comparing Different Basis Functions")
@@ -517,7 +813,8 @@ for name, model_config in models.items():
     # Store results
     results[name] = {
         'train_mse': train_mse,
-        'test_mse': test_mse
+        'test_mse': test_mse,
+        'n_features': X_train_transformed.shape[1]
     }
     
     # Plot predictions
@@ -530,6 +827,20 @@ plt.legend()
 plt.grid(True)
 plt.savefig(os.path.join(save_dir, 'basis_functions_comparison.png'), dpi=300, bbox_inches='tight')
 plt.close()
+
+# Create table of results
+results_table = pd.DataFrame([
+    {
+        'Model': name,
+        'Features': info['n_features'],
+        'Train MSE': info['train_mse'],
+        'Test MSE': info['test_mse'],
+        'Gap': info['test_mse'] - info['train_mse']
+    }
+    for name, info in results.items()
+])
+print("\nComparison of different basis function types:")
+print(results_table.to_string(index=False, float_format=lambda x: f"{x:.6f}"))
 
 # Create bar chart of errors
 plt.figure(figsize=(12, 6))
@@ -552,11 +863,117 @@ plt.grid(True, axis='y')
 plt.savefig(os.path.join(save_dir, 'basis_functions_errors.png'), dpi=300, bbox_inches='tight')
 plt.close()
 
-print("We've compared different basis functions on the same regression problem:")
+print("\nWe've compared different basis functions on the same regression problem:")
 for name, result in results.items():
     print(f"- {name}: Training MSE = {result['train_mse']:.4f}, Test MSE = {result['test_mse']:.4f}")
 
 print("\nFigures saved as 'basis_functions_comparison.png' and 'basis_functions_errors.png'")
+
+# Part 6: Regularization with Basis Functions
+print_section_header("Part 6: Regularization with Basis Functions")
+
+print("When using many basis functions, regularization helps prevent overfitting.")
+print("Let's demonstrate this with polynomial basis functions and ridge regression.")
+
+# Generate data with noise
+np.random.seed(123)
+n_reg_samples = 50
+x_reg = np.random.uniform(-3, 3, n_reg_samples)
+X_reg = x_reg.reshape(-1, 1)
+y_reg_true = 0.5 * np.sin(np.pi * x_reg) + 0.5 * x_reg
+y_reg = y_reg_true + np.random.normal(0, 0.5, size=n_reg_samples)
+
+# Split data
+X_reg_train, X_reg_test, y_reg_train, y_reg_test = train_test_split(X_reg, y_reg, test_size=0.3, random_state=42)
+
+# Use high-degree polynomial basis functions
+reg_degree = 15
+poly_reg = PolynomialFeatures(reg_degree)
+X_reg_train_poly = poly_reg.fit_transform(X_reg_train)
+X_reg_test_poly = poly_reg.transform(X_reg_test)
+
+# Try different regularization strengths
+alphas = [0, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0]
+reg_results = []
+
+plt.figure(figsize=(15, 10))
+plt.scatter(X_reg_train, y_reg_train, color='black', alpha=0.6, label='Training data')
+plt.scatter(X_reg_test, y_reg_test, color='gray', alpha=0.6, label='Test data')
+
+x_reg_plot = np.linspace(-3.5, 3.5, 100).reshape(-1, 1)
+x_reg_plot_poly = poly_reg.transform(x_reg_plot)
+
+for alpha in alphas:
+    # Fit model with ridge regression
+    if alpha == 0:
+        model = LinearRegression()
+    else:
+        model = Ridge(alpha=alpha)
+    
+    model.fit(X_reg_train_poly, y_reg_train)
+    
+    # Make predictions
+    y_reg_train_pred = model.predict(X_reg_train_poly)
+    y_reg_test_pred = model.predict(X_reg_test_poly)
+    y_reg_plot_pred = model.predict(x_reg_plot_poly)
+    
+    # Calculate errors
+    train_mse = mean_squared_error(y_reg_train, y_reg_train_pred)
+    test_mse = mean_squared_error(y_reg_test, y_reg_test_pred)
+    
+    # Store results
+    reg_results.append({
+        'alpha': alpha,
+        'train_mse': train_mse,
+        'test_mse': test_mse,
+        'coef_norm': np.linalg.norm(model.coef_)
+    })
+    
+    # Plot predictions
+    label = 'OLS' if alpha == 0 else f'Ridge (α={alpha})'
+    plt.plot(x_reg_plot, y_reg_plot_pred, label=f'{label}, Test MSE: {test_mse:.4f}')
+
+plt.title(f'Ridge Regression with Polynomial Basis Functions (Degree {reg_degree})', fontsize=14)
+plt.xlabel('x', fontsize=12)
+plt.ylabel('y', fontsize=12)
+plt.legend()
+plt.grid(True)
+plt.savefig(os.path.join(save_dir, 'regularization.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
+# Plot regularization path
+reg_results_df = pd.DataFrame(reg_results)
+print("\nRegularization results with different alpha values:")
+print(reg_results_df.to_string(index=False, float_format=lambda x: f"{x:.6f}"))
+
+plt.figure(figsize=(12, 6))
+plt.plot(reg_results_df['alpha'], reg_results_df['train_mse'], 'bo-', label='Training Error')
+plt.plot(reg_results_df['alpha'], reg_results_df['test_mse'], 'ro-', label='Test Error')
+plt.xscale('log')
+plt.xlabel('Regularization Parameter (α)', fontsize=12)
+plt.ylabel('Mean Squared Error', fontsize=12)
+plt.title('Effect of Regularization on Training and Test Error', fontsize=14)
+plt.grid(True)
+plt.legend()
+plt.savefig(os.path.join(save_dir, 'regularization_path.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
+# Plot coefficient norm vs. regularization
+plt.figure(figsize=(12, 6))
+plt.plot(reg_results_df['alpha'], reg_results_df['coef_norm'], 'go-')
+plt.xscale('log')
+plt.xlabel('Regularization Parameter (α)', fontsize=12)
+plt.ylabel('Coefficient Norm', fontsize=12)
+plt.title('Effect of Regularization on Model Complexity', fontsize=14)
+plt.grid(True)
+plt.savefig(os.path.join(save_dir, 'coefficient_norm.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
+print("\nRegularization helps control model complexity when using many basis functions:")
+print("- Without regularization (α=0), the high-degree polynomial model overfits")
+print("- With optimal regularization, the model generalizes better")
+print("- As regularization increases, model becomes simpler but may underfit")
+print("\nFigures saved as 'regularization.png', 'regularization_path.png', and 'coefficient_norm.png'")
 
 print_section_header("Summary")
 print("1. Basis functions allow linear models to capture non-linear relationships by transforming input features.")
@@ -569,5 +986,6 @@ print("4. The choice of basis functions greatly affects the bias-variance tradeo
 print("   - Simpler basis functions may underfit (high bias)")
 print("   - More complex basis functions may overfit (high variance)")
 print("5. Different basis functions are suitable for different types of relationships in the data")
+print("6. Regularization helps control model complexity when using many basis functions")
 
 print("\nImages have been saved to the directory:", save_dir) 

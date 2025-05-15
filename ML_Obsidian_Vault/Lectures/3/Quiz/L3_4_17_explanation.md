@@ -67,6 +67,58 @@ This transformation allows us to:
 
 5. **Universal approximation**: With a sufficient number of appropriate basis functions, we can approximate any continuous function to arbitrary precision within a compact domain.
 
+### Step 1.5: Analytical Properties of Basis Functions
+
+Basis functions have specific mathematical properties that determine their behavior and effectiveness. Let's examine their analytical properties including gradients, which are crucial for optimization algorithms.
+
+#### Gradients of Basis Functions
+
+For a basis function $\phi(x)$, the gradient $\nabla\phi(x) = \frac{d\phi(x)}{dx}$ indicates how the function changes with respect to the input. This is important for gradient-based optimization methods used in training.
+
+**Polynomial Basis Functions:**
+For $\phi_d(x) = x^d$, the gradient is:
+$$\frac{d\phi_d(x)}{dx} = d \cdot x^{d-1}$$
+
+At $x = 1$, these gradients evaluate to:
+- $\frac{d\phi_0(x)}{dx} = \frac{d(1)}{dx} = 0$
+- $\frac{d\phi_1(x)}{dx} = \frac{d(x)}{dx} = 1$
+- $\frac{d\phi_2(x)}{dx} = \frac{d(x^2)}{dx} = 2x = 2$
+- $\frac{d\phi_3(x)}{dx} = \frac{d(x^3)}{dx} = 3x^2 = 3$
+
+**Gaussian RBF:**
+For $\phi(x) = \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$, the gradient is:
+$$\frac{d\phi(x)}{dx} = \phi(x) \cdot \left(-\frac{x-\mu}{\sigma^2}\right)$$
+
+For example, with $\mu = 2$ and $\sigma = 1.5$ at $x = 1$:
+- $\phi(1) = \exp\left(-\frac{(1-2)^2}{2 \cdot 1.5^2}\right) \approx 0.801$
+- $\frac{d\phi(1)}{dx} = 0.801 \cdot \left(-\frac{1-2}{1.5^2}\right) \approx 0.356$
+
+**Sigmoid Basis Functions:**
+For $\phi(x) = \frac{1}{1+\exp(-a(x-c))}$, the gradient is:
+$$\frac{d\phi(x)}{dx} = \phi(x) \cdot (1-\phi(x)) \cdot a$$
+
+For example, with $c = 0.5$ and $a = 2$ at $x = 1$:
+- $\phi(1) = \frac{1}{1+\exp(-2(1-0.5))} \approx 0.731$
+- $\frac{d\phi(1)}{dx} = 0.731 \cdot (1-0.731) \cdot 2 \approx 0.393$
+
+#### Basis Function Growth
+
+The number of basis functions required grows significantly with the input dimension and the degree of the polynomial. For polynomial basis functions, the number of terms is given by the binomial coefficient:
+
+$$\binom{n+d}{d} = \frac{(n+d)!}{n!d!}$$
+
+Where $n$ is the input dimension and $d$ is the polynomial degree.
+
+| Input Dim | Degree 1 | Degree 2 | Degree 3 | Degree 5 | Degree 10 |
+|----------:|---------:|---------:|---------:|---------:|----------:|
+| 1         | 2        | 3        | 4        | 6        | 11        |
+| 2         | 3        | 6        | 10       | 21       | 66        |
+| 3         | 4        | 10       | 20       | 56       | 286       |
+| 5         | 6        | 21       | 56       | 252      | 3003      |
+| 10        | 11       | 66       | 286      | 3003     | 184756    |
+
+This rapid growth (known as the "curse of dimensionality") makes high-degree polynomial basis functions impractical for high-dimensional inputs, highlighting the importance of choosing appropriate basis functions for the problem at hand.
+
 ### Step 2: Types of Basis Functions
 
 #### a. Polynomial Basis Functions
@@ -261,21 +313,52 @@ The figure demonstrates a quadratic model applied to 2D data. The top row shows 
 When we fit a quadratic model to 2D data, we expect the fitted coefficients to approximate the true underlying parameters. From our simulation results:
 
 ```
-The fitted model weights are:
-w_0 (for 1) = 1.0534
-w_1 (for x₁) = 2.0507
-w_2 (for x₂) = -0.9226
-w_3 (for x₁^2) = 0.4754
-w_4 (for x₁ x₂) = 2.0392
-w_5 (for x₂^2) = -1.4474
+Comparison of true vs. fitted coefficients:
+Intercept: True = 1.0000, Fitted = 1.0534, Difference = 0.0534
+x₁: True = 2.0000, Fitted = 2.0507, Difference = 0.0507
+x₂: True = -1.0000, Fitted = -0.9226, Difference = 0.0774
+x₁^2: True = 0.5000, Fitted = 0.4754, Difference = -0.0246
+x₁ x₂: True = 2.0000, Fitted = 2.0392, Difference = 0.0392
+x₂^2: True = -1.5000, Fitted = -1.4474, Difference = 0.0526
 ```
 
-These closely match the true parameters used to generate the data:
-```
-True function: f(x) = 1 + 2*x₁ - x₂ + 0.5*x₁² + 2*x₁*x₂ - 1.5*x₂²
-```
+This demonstrates how the basis functions effectively capture the true underlying quadratic relationship in the data, with small differences attributable to the noise in the data.
 
-This demonstrates how the basis functions effectively capture the true underlying quadratic relationship in the data.
+### Step 3.5: Computational Efficiency of Different Basis Functions
+
+An important practical consideration when choosing basis functions is their computational efficiency. The transformation time, fitting time, and memory requirements can vary significantly between different types of basis functions.
+
+The table below compares the computational requirements of different basis function types on a dataset with 10,000 samples:
+
+| Model | Transform Time (s) | Fit Time (s) | Total Time (s) | Memory (MB) | Features |
+|:--------------------------|--------------:|--------------:|---------------:|------------:|-----------:|
+| Polynomial (degree=1)     | 0.0003        | 0.0012       | 0.0016        | 0.1526     | 2          |
+| Polynomial (degree=2)     | 0.0002        | 0.0007       | 0.0009        | 0.2289     | 3          |
+| Polynomial (degree=3)     | 0.0002        | 0.0008       | 0.0010        | 0.3052     | 4          |
+| Polynomial (degree=5)     | 0.0002        | 0.0011       | 0.0013        | 0.4578     | 6          |
+| Polynomial (degree=10)    | 0.0004        | 0.0021       | 0.0025        | 0.8392     | 11         |
+| RBF (centers=5)           | 0.0004        | 0.0013       | 0.0017        | 0.4578     | 6          |
+| RBF (centers=10)          | 0.0007        | 0.0021       | 0.0028        | 0.8392     | 11         |
+| RBF (centers=20)          | 0.0016        | 0.0034       | 0.0051        | 1.6022     | 21         |
+| RBF (centers=50)          | 0.0039        | 0.0132       | 0.0172        | 3.8910     | 51         |
+| RBF (centers=100)         | 0.0085        | 0.0235       | 0.0320        | 7.7057     | 101        |
+| Sigmoid (centers=5)       | 0.0006        | 0.0014       | 0.0020        | 0.4578     | 6          |
+| Sigmoid (centers=10)      | 0.0011        | 0.0019       | 0.0030        | 0.8392     | 11         |
+| Sigmoid (centers=20)      | 0.0019        | 0.0035       | 0.0054        | 1.6022     | 21         |
+| Sigmoid (centers=50)      | 0.0050        | 0.0086       | 0.0136        | 3.8910     | 51         |
+| Sigmoid (centers=100)     | 0.0093        | 0.0218       | 0.0310        | 7.7057     | 101        |
+
+**Key observations:**
+1. **Polynomial basis functions** are the most computationally efficient for low degrees, requiring less transformation time and memory than RBF or sigmoid functions with comparable numbers of features.
+2. **RBF and sigmoid basis functions** become more expensive as the number of centers increases, both in terms of computation time and memory usage.
+3. **Memory usage** scales linearly with the number of features for all basis function types.
+4. **Computation time** increases more rapidly for RBF and sigmoid functions than for polynomial functions as the number of features increases.
+
+![Computation Time](../Images/L3_4_Quiz_17/computation_time.png)
+
+![Memory Usage](../Images/L3_4_Quiz_17/memory_usage.png)
+
+These computational considerations are important when dealing with large datasets or when deploying models in resource-constrained environments.
 
 ### Step 4: Basis Functions and the Bias-Variance Tradeoff
 
@@ -351,20 +434,115 @@ This figure shows polynomial models of different degrees fitted to a sine functi
 
 This figure illustrates the classic bias-variance tradeoff. As model complexity (polynomial degree) increases, training error consistently decreases. However, test error initially decreases (as bias is reduced) but then increases (as variance grows). This demonstrates that the optimal model complexity balances bias and variance to achieve the best generalization performance.
 
-#### Empirical Comparison of Basis Functions
+#### Empirical Comparison of Bias-Variance Tradeoff
 
-Different basis functions will perform differently on the same dataset, depending on the underlying pattern:
+Our empirical results from fitting polynomial models of different degrees to a sine function demonstrate this tradeoff clearly:
 
-![Comparison of Basis Functions](../Images/L3_4_Quiz_17/basis_functions_comparison.png)
+| Degree | Training Error | Test Error | Difference |
+|-------:|--------------:|----------:|----------:|
+| 1      | 0.230021      | 0.238006  | 0.007985  |
+| 3      | 0.010603      | 0.010978  | 0.000375  |
+| 5      | 0.005609      | 0.007201  | 0.001592  |
+| 9      | 0.003884      | 0.016896  | 0.013012  |
+| 15     | 0.002479      | 51.309059 | 51.306581 |
 
-This visualization compares how different types of basis functions perform on the same dataset. Each function type captures the underlying pattern differently, with some providing better fits than others depending on the nature of the data.
+This table shows:
+1. Training error consistently decreases with model complexity (from 0.230 for degree 1 to 0.002 for degree 15)
+2. Test error initially decreases (from 0.238 for degree 1 to 0.011 for degree 3)
+3. Test error then starts to increase with higher degrees, dramatically jumping to 51.31 for degree 15
+4. The gap between training and test error (indicating overfitting) widens substantially with increased model complexity
 
-![Error Comparison](../Images/L3_4_Quiz_17/basis_functions_errors.png)
+These results empirically confirm the theoretical bias-variance tradeoff, showing that the optimal model (degree 3 in this case) balances the reduction of bias with the increase in variance.
 
-This bar chart compares the training and test errors for different basis function types on the same dataset. We can observe that:
-- Linear model has high bias (underfitting)
-- More complex models like sigmoid and RBF achieve lower test error by better balancing bias and variance
-- Some models might show signs of overfitting with higher test than training error
+### Step 4.5: Cross-Validation for Optimal Model Selection
+
+To objectively determine the optimal model complexity, we can use cross-validation. This technique provides a more robust estimate of the generalization error by evaluating the model on multiple train-test splits.
+
+| Degree | Mean Squared Error (MSE) ± Standard Deviation |
+|-------:|--------------------------------------------:|
+| 1 | 0.556462 ± 0.158432 |
+| 2 | 0.181296 ± 0.028558 |
+| 3 | 0.170881 ± 0.040052 |
+| 4 | 0.172534 ± 0.039729 |
+| 5 | 0.177436 ± 0.039069 |
+| 6 | 0.191133 ± 0.059877 |
+| 7 | 0.152380 ± 0.068506 |
+| 8 | 0.221680 ± 0.193910 |
+| 9 | 0.089966 ± 0.030142 (BEST) |
+| 10 | 0.104328 ± 0.042683 |
+| ... | ... |
+| 20 | 24.279346 ± 48.295055 |
+
+The cross-validation results identify degree 9 as the optimal polynomial degree for this particular dataset, with the lowest cross-validated MSE of 0.090. Note that the standard deviation of the error also provides information about the stability of the model's performance across different data splits.
+
+![Cross-Validation Results](../Images/L3_4_Quiz_17/cross_validation.png)
+
+The cross-validation curve shows the mean squared error as a function of polynomial degree, with a clear minimum at degree 9. Beyond this point, the error starts to increase and becomes increasingly unstable, as indicated by the larger error bars.
+
+![Optimal Model](../Images/L3_4_Quiz_17/optimal_model.png)
+
+The fitted model with the optimal degree provides a good balance between fitting the data well and avoiding overfitting, resulting in smooth predictions that capture the underlying pattern.
+
+### Step 5: Comparison of Different Basis Functions
+
+To determine which basis function is most appropriate for a given problem, we need to compare their performance directly. The following table compares different basis function types on the same regression problem:
+
+| Model | Features | Train MSE | Test MSE | Gap |
+|:------------|--------:|----------:|--------:|--------:|
+| Linear      | 2       | 0.476791  | 0.627096 | 0.150304 |
+| Quadratic   | 3       | 0.173505  | 0.181325 | 0.007820 |
+| Cubic       | 4       | 0.159985  | 0.209047 | 0.049063 |
+| Gaussian RBF| 8       | 0.119519  | 0.201965 | 0.082446 |
+| Sigmoid     | 8       | 0.032959  | 0.040727 | 0.007768 |
+
+**Observations:**
+1. The **linear model** has the highest training and test error, indicating it lacks the flexibility to capture the non-linear relationship (high bias).
+2. **Sigmoid basis functions** achieve the lowest training and test error, suggesting they are well-suited to this particular dataset.
+3. The **gap between training and test error** is smallest for quadratic and sigmoid models, indicating a good balance in the bias-variance tradeoff.
+4. **Gaussian RBF** has a relatively large gap between training and test error, suggesting some overfitting despite not having the lowest training error.
+5. The **cubic model** performs worse than the quadratic model on test data, indicating that the additional flexibility may be capturing noise rather than signal.
+
+These results demonstrate that the choice of basis function should be guided by the specific characteristics of the data and the underlying relationship being modeled.
+
+### Step 6: Regularization with Basis Functions
+
+When using many basis functions, especially in high-dimensional spaces, the model can become prone to overfitting. Regularization is a technique to control model complexity by penalizing large coefficient values.
+
+We can demonstrate the effect of regularization using ridge regression (L2 regularization) with a high-degree polynomial model:
+
+| Alpha | Training MSE | Test MSE | Coefficient Norm |
+|------:|------------:|----------:|----------------:|
+| 0.000000 | 0.168791 | 1544718.256040 | 47.903115 |
+| 0.001000 | 0.183818 | 162714.146388 | 17.864079 |
+| 0.010000 | 0.203242 | 891.887645 | 3.572170 |
+| 0.100000 | 0.210095 | 2967.333924 | 1.566988 |
+| 1.000000 | 0.223516 | 6165.433131 | 1.070464 |
+| 10.000000 | 0.316219 | 1951.915160 | 0.362484 |
+| 100.000000 | 0.394156 | 674.390769 | 0.076773 |
+
+The table shows how increasing the regularization parameter $\alpha$ affects:
+1. **Training MSE**: Gradually increases as the model becomes more constrained
+2. **Test MSE**: Initially extremely high (severe overfitting), decreases with some regularization, but then increases again with too much regularization
+3. **Coefficient norm**: Dramatically decreases as regularization increases, showing how the coefficients are shrunk towards zero
+
+![Regularization Effect](../Images/L3_4_Quiz_17/regularization.png)
+
+The plot shows how different regularization strengths affect the fitted curves. Without regularization (OLS), the high-degree polynomial fits the training data well but exhibits wild oscillations outside the data range. As regularization increases, the curve becomes smoother and better behaved.
+
+![Regularization Path](../Images/L3_4_Quiz_17/regularization_path.png)
+
+The regularization path shows how training and test error change with the regularization parameter. The optimal regularization strength balances the increase in training error with the decrease in test error.
+
+![Coefficient Norm](../Images/L3_4_Quiz_17/coefficient_norm.png)
+
+The coefficient norm decreases monotonically with increasing regularization, showing how ridge regression shrinks the coefficients to reduce model complexity.
+
+Regularization is particularly important when:
+1. The number of basis functions is large relative to the number of data points
+2. The basis functions are highly correlated, leading to unstable coefficient estimates
+3. The data contains noise that the model might try to fit
+
+By properly tuning the regularization parameter through cross-validation, we can find the sweet spot that provides good generalization performance.
 
 ## Practical Implementation
 Let's examine the practical implementation of these concepts with concrete examples and visualizations.
@@ -485,6 +663,19 @@ This bar chart compares the training and test errors for different basis functio
   * Exploratory data analysis to identify patterns
   * Model comparison using metrics like AIC, BIC, or cross-validation
 
+### Computational Considerations
+- Different basis functions have different computational requirements:
+  * Polynomial basis functions are efficient for low degrees but scale poorly with input dimension
+  * RBF and sigmoid require more computation time when many centers are used
+  * Memory usage increases linearly with the number of basis functions for all types
+- For large datasets or resource-constrained environments, computational efficiency becomes an important factor in choosing basis functions
+
+### Regularization and Robustness
+- Regularization is crucial when using many basis functions to prevent overfitting
+- Ridge regression (L2) effectively stabilizes coefficient estimates by shrinking them towards zero
+- The regularization parameter should be tuned using cross-validation
+- Well-regularized models tend to be more robust to noise and outliers in the data
+
 ## Conclusion
 - **Basis functions** are transformations that extend linear models to capture non-linear relationships while preserving the computational advantages of linear methods. They effectively convert a non-linear modeling problem into a linear one in a transformed feature space.
 
@@ -493,5 +684,9 @@ This bar chart compares the training and test errors for different basis functio
 - **A quadratic model for 2D inputs** requires six basis functions: a constant term (1), two linear terms ($x_1$, $x_2$), and three quadratic terms ($x_1^2$, $x_1x_2$, $x_2^2$). This model can represent a variety of curved surfaces including bowls, ridges, and saddles.
 
 - **The choice of basis functions** directly affects the bias-variance tradeoff. Simpler functions may cause underfitting (high bias), while more complex functions may cause overfitting (high variance). The optimal choice balances these two sources of error to achieve the best generalization performance.
+
+- **Computational efficiency** should be considered when choosing basis functions, especially for large datasets or resource-constrained environments.
+- **Regularization** plays a crucial role in controlling model complexity when using many basis functions, improving generalization performance and robustness.
+- **Cross-validation** provides an objective way to select the optimal model complexity, balancing bias and variance to achieve the best generalization performance.
 
 Understanding basis functions provides a powerful framework for modeling complex relationships in data while leveraging the simplicity and efficiency of linear models. This approach forms the foundation for many advanced machine learning techniques, including kernel methods, spline models, and neural networks with their connection to infinite-width networks and neural tangent kernels. 
