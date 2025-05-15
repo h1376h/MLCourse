@@ -345,7 +345,7 @@ For a detailed explanation of this problem, including the mathematical proofs fo
 The geometric interpretation of linear regression provides insights into how the least squares method minimizes prediction errors and relates to vector projections in n-dimensional space.
 
 #### Task
-Which of the following statements correctly describes the geometric interpretation of the least squares method?
+[📚] Which of the following statements correctly describes the geometric interpretation of the least squares method?
 
 A) It minimizes the sum of vertical distances between points and the regression line
 B) It minimizes the sum of horizontal distances between points and the regression line
