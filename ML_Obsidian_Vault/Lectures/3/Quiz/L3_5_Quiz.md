@@ -508,10 +508,10 @@ Consider the following data points from your historical dataset:
 | 4          | 0.25                | 0.28                | 0.6                 | 14                |
 | 5          | 0.50                | 0.28                | 0.8                 | 25                |
 
-1. Starting with $\boldsymbol{w}^{(0)} = [0, 0, 0, 0]^T$, calculate the model's prediction for the first data point.
-2. Using the LMS update rule, calculate the updated weight vector $\boldsymbol{w}^{(1)}$ after processing the first data point.
-3. Calculate the model's prediction for the second data point using $\boldsymbol{w}^{(1)}$.
-4. Using the LMS update rule, calculate the updated weight vector $\boldsymbol{w}^{(2)}$ after processing the second data point.
-5. Based on these first two updates, explain how the weight for each feature reflects its importance in predicting electricity consumption. Which feature appears to have the strongest influence so far?
+1. [📚] Starting with $\boldsymbol{w}^{(0)} = [0, 0, 0, 0]^T$, calculate the model's prediction for the first data point.
+2. [📚] Using the LMS update rule, calculate the updated weight vector $\boldsymbol{w}^{(1)}$ after processing the first data point.
+3. [📚] Calculate the model's prediction for the second data point using $\boldsymbol{w}^{(1)}$.
+4. [📚] Using the LMS update rule, calculate the updated weight vector $\boldsymbol{w}^{(2)}$ after processing the second data point.
+5. [📚] Based on these first two updates, explain how the weight for each feature reflects its importance in predicting electricity consumption. Which feature appears to have the strongest influence so far?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 26: Electricity Consumption Prediction](L3_5_26_explanation.md). 
