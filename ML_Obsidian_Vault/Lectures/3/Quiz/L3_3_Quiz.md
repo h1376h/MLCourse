@@ -280,7 +280,7 @@ You've found 4 treasures at the following locations:
 2. [📚] Calculate the maximum likelihood estimates for parameters $w_0$ and $w_1$
 3. [📚] Estimate the noise variance $\sigma^2$ using MLE
 4. [📚] A map indicates a treasure at $x=2.5$. Calculate the probability this treasure is located beyond $y>12$
-5. [📚] Calculate the 90% prediction interval for where to dig at $x=2.5$
+5. Calculate the 90% prediction interval for where to dig at $x=2.5$
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 16: Probability Island Treasure Hunt](L3_3_16_explanation.md).
 
