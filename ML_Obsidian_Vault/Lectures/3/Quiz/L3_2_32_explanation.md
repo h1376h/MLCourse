@@ -23,16 +23,17 @@ The column space of the design matrix $\mathbf{X}$ is the set of all possible li
 If $\mathbf{X}$ has $p$ columns (including the intercept), then the column space is at most a $p$-dimensional subspace within the $n$-dimensional space. Each column of $\mathbf{X}$ represents a direction in this space.
 
 For example, in our simulation, we created a design matrix with two columns:
-```
-X = [[1 0]
-     [1 1]
-     [0 1]
-     [1 2]
-     [0 1]
-     [0 2]
-     [1 3]
-     [0 2]]
-```
+
+$$\mathbf{X} = \begin{bmatrix} 
+1 & 0 \\
+1 & 1 \\
+0 & 1 \\
+1 & 2 \\
+0 & 1 \\
+0 & 2 \\
+1 & 3 \\
+0 & 2
+\end{bmatrix}$$
 
 The first column (usually representing the intercept) and the second column (representing our feature) span a 2-dimensional subspace within the 8-dimensional space.
 
@@ -42,7 +43,7 @@ This subspace represents all possible predictions $\hat{\mathbf{y}} = \mathbf{X}
 
 The least squares solution aims to find the coefficients $\hat{\mathbf{w}}$ that minimize the sum of squared residuals:
 
-$$\hat{\mathbf{w}} = \arg\min_{\mathbf{w}} ||\mathbf{y} - \mathbf{X}\mathbf{w}||^2$$
+$$\hat{\mathbf{w}} = \arg\min_{\mathbf{w}} \|\mathbf{y} - \mathbf{X}\mathbf{w}\|^2$$
 
 Geometrically, this is equivalent to finding the point in the column space of $\mathbf{X}$ that is closest to the response vector $\mathbf{y}$ in terms of Euclidean distance. This closest point is the orthogonal projection of $\mathbf{y}$ onto the column space.
 
@@ -50,17 +51,61 @@ The projection of $\mathbf{y}$ onto the column space is given by $\hat{\mathbf{y
 
 $$\hat{\mathbf{w}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
 
-In our simulation, we verified that:
-```
-Least squares solution w_hat: [2.47172055 1.76230172]
-```
+Let's perform these calculations step-by-step for our example:
 
-This means the closest point in the column space to our response vector is:
-```
-Projection of y onto column space (y_hat): [2.47172055 4.23402227 1.76230172 5.99632399 1.76230172 3.52460344 7.75862571 3.52460344]
-```
+**Step A**: Calculate $\mathbf{X}^T\mathbf{X}$:
 
-The Euclidean distance between $\mathbf{y}$ and its projection $\hat{\mathbf{y}}$ is minimized, making this the best possible approximation of $\mathbf{y}$ within the column space of $\mathbf{X}$.
+$$\mathbf{X}^T = \begin{bmatrix} 
+1 & 1 & 0 & 1 & 0 & 0 & 1 & 0 \\
+0 & 1 & 1 & 2 & 1 & 2 & 3 & 2
+\end{bmatrix}$$
+
+$$\mathbf{X}^T\mathbf{X} = \begin{bmatrix} 
+4 & 6 \\
+6 & 24
+\end{bmatrix}$$
+
+**Step B**: Calculate $\mathbf{X}^T\mathbf{y}$:
+
+$$\mathbf{X}^T\mathbf{y} = \begin{bmatrix} 
+20.46069252 \\
+57.12556457
+\end{bmatrix}$$
+
+**Step C**: Calculate $(\mathbf{X}^T\mathbf{X})^{-1}$:
+
+$$(\mathbf{X}^T\mathbf{X})^{-1} = \begin{bmatrix} 
+0.4 & -0.1 \\
+-0.1 & 0.06666667
+\end{bmatrix}$$
+
+**Step D**: Calculate $\hat{\mathbf{w}} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$:
+
+$$\hat{\mathbf{w}} = \begin{bmatrix} 
+2.47172055 \\
+1.76230172
+\end{bmatrix}$$
+
+**Step E**: Calculate the projection $\hat{\mathbf{y}} = \mathbf{X}\hat{\mathbf{w}}$:
+
+$$\hat{\mathbf{y}} = \begin{bmatrix} 
+2.47172055 \\
+4.23402227 \\
+1.76230172 \\
+5.99632399 \\
+1.76230172 \\
+3.52460344 \\
+7.75862571 \\
+3.52460344
+\end{bmatrix}$$
+
+This means the closest point in the column space to our response vector is $\hat{\mathbf{y}}$. The Euclidean distance between $\mathbf{y}$ and its projection $\hat{\mathbf{y}}$ is minimized, making this the best possible approximation of $\mathbf{y}$ within the column space of $\mathbf{X}$.
+
+To verify this is indeed the minimum distance, we can perturb the coefficients slightly and check if the distance increases:
+
+$$\mathbf{w}_{\text{perturbed}} = \hat{\mathbf{w}} + \begin{bmatrix} 0.1 \\ -0.1 \end{bmatrix} = \begin{bmatrix} 2.57172055 \\ 1.66230172 \end{bmatrix}$$
+
+The squared distance with the original coefficients is 2.171348, while with the perturbed coefficients it increases to 2.331348, confirming that our solution indeed minimizes the distance.
 
 ### Step 3: Orthogonality of the Residual Vector
 
@@ -82,10 +127,28 @@ Therefore:
 $$\mathbf{X}^T\mathbf{e} = \mathbf{0}$$
 
 This means that the residual vector is orthogonal to each column of $\mathbf{X}$. In our simulation, we validated this:
-```
-Orthogonality check with x1: 0.0000000000
-Orthogonality check with x2: 0.0000000000
-```
+
+**Step F**: Calculate the residual $\mathbf{e} = \mathbf{y} - \hat{\mathbf{y}}$:
+
+$$\mathbf{e} = \begin{bmatrix} 
+0.0249936 \\
+-0.87228657 \\
+0.38538682 \\
+0.52670587 \\
+-0.49645509 \\
+-0.75874039 \\
+0.32058711 \\
+0.24283129
+\end{bmatrix}$$
+
+**Step G**: Verify orthogonality by checking that $\mathbf{X}^T\mathbf{e} = \mathbf{0}$:
+
+$$\mathbf{x}_1^T\mathbf{e} = 0.0000000000$$
+$$\mathbf{x}_2^T\mathbf{e} = 0.0000000000$$
+
+**Step H**: Calculate the squared norm of the residual:
+
+$$\|\mathbf{e}\|^2 = \mathbf{e}^T\mathbf{e} = 2.171348$$
 
 Geometrically, this orthogonality means that the residual vector points in a direction that is perpendicular to the entire column space. It represents the component of $\mathbf{y}$ that cannot be explained by our model, no matter what coefficients we choose.
 
@@ -97,7 +160,7 @@ The quality of the fit is determined by how close this projection is to the orig
 
 The proportion of the response vector that can be explained by the model is given by the coefficient of determination ($R^2$):
 
-$$R^2 = 1 - \frac{||\mathbf{e}||^2}{||\mathbf{y} - \bar{y}\mathbf{1}||^2}$$
+$$R^2 = 1 - \frac{\|\mathbf{e}\|^2}{\|\mathbf{y} - \bar{y}\mathbf{1}\|^2}$$
 
 where $\bar{y}$ is the mean of $\mathbf{y}$ and $\mathbf{1}$ is a vector of ones.
 
@@ -110,41 +173,16 @@ When we add another feature to our model (adding an additional column to $\mathb
 Geometrically, if the original column space was $p$-dimensional, the new column space becomes $(p+1)$-dimensional (assuming the new column is linearly independent of the existing columns). This expanded subspace includes all points in the original subspace, plus new points that can be reached in the direction of the new feature.
 
 In our simulation, we demonstrated this by adding a quadratic term ($x^2$) to a linear model:
-```
-Model 1 (intercept + x): MSE = 2.8054, Coefficients = [-1.40249593  2.46890677]
-Model 2 (intercept + x + x²): MSE = 1.1675, Coefficients = [1.86426196 0.57910845 0.19125255]
-Reduction in MSE: 1.6380 (58.39%)
-```
+
+$$\text{Model 1 (intercept + x): MSE} = 2.8054, \text{Coefficients} = \begin{bmatrix} -1.40249593 \\ 2.46890677 \end{bmatrix}$$
+
+$$\text{Model 2 (intercept + x + x²): MSE} = 1.1675, \text{Coefficients} = \begin{bmatrix} 1.86426196 \\ 0.57910845 \\ 0.19125255 \end{bmatrix}$$
+
+$$\text{Reduction in MSE: } 1.6380 \text{ (58.39\%)}$$
 
 The expanded column space allowed for a closer projection of the response vector, reducing the mean squared error by 58.39%. This is because the quadratic term added a new "direction" that better captured the true relationship in the data.
 
 The improved fit can be visualized as a reduction in the length of the residual vector. The residual vector becomes shorter as the projection gets closer to the original response vector.
-
-## Practical Implementation
-
-To illustrate these concepts, we implemented a step-by-step solution with visual demonstrations:
-
-1. We created a design matrix with two columns and a response vector in an 8-dimensional space.
-2. We verified that the least squares solution projects the response vector onto the column space.
-3. We confirmed that the residual vector is orthogonal to each column of the design matrix.
-4. We demonstrated how adding a new feature expands the column space and improves the fit.
-
-For visual clarity, we simplified the high-dimensional concepts using 3D visualizations:
-
-```python
-# Simplified 3D representation for visualization
-fig = plt.figure(figsize=(12, 10))
-ax = fig.add_subplot(111, projection='3d')
-
-# Create a point to represent y (outside the plane)
-y_3d = np.array([0.7, 0.5, 0.8])
-
-# Create its projection onto the plane (column space)
-y_proj_3d = proj_coef1 * x1_3d + proj_coef2 * x2_3d
-
-# Calculate the residual
-residual_3d = y_3d - y_proj_3d
-```
 
 ## Visual Explanations
 
@@ -172,6 +210,11 @@ This figure demonstrates how adding a quadratic term to our model improves the f
 ![Projection Improvement](../Images/L3_2_Quiz_32/projection_improvement_3d.png)
 
 This 3D visualization shows how adding a feature improves the projection of the response vector. The red line represents the 1D subspace of Model 1, while the green plane represents the 2D subspace of Model 2. The residual for Model 2 (green dashed line) is shorter than the residual for Model 1 (red dashed line), indicating a better fit.
+
+### Pure Geometric Visualization of Subspace Projection
+![Subspace Projection](../Images/L3_2_Quiz_32/subspace_projection_clean.png)
+
+This minimalist visualization focuses purely on the geometric interpretation without any text or labels. It shows a 2D subspace (blue plane) in a 3D space with scattered data points (black). A point outside the subspace (red) is projected onto it (green), with the residual vector shown in orange. The dashed line connects the point to its projection, representing the shortest distance. This clean representation highlights the fundamental geometric principle that projection finds the closest point in the subspace to a given point.
 
 ## Key Insights
 

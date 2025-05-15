@@ -75,6 +75,69 @@ print(f"\nOrthogonality check with x2: {ortho_check_x2:.10f}")
 normal_eq_solution = np.linalg.inv(X.T @ X) @ X.T @ y
 print(f"\nSolution via normal equations: {normal_eq_solution}")
 
+# Add detailed manual calculations after the normal equation check
+print("\nPart 1.5: Detailed Step-by-Step Calculations")
+print("--------------------------------------------")
+print("Let's perform the detailed calculations by hand for our example:")
+
+# Manual calculation of X^T X
+X_transpose = X.T
+XTX = X_transpose @ X
+print("\nStep A: Calculate X^T X by hand:")
+print(f"X^T = \n{X_transpose}")
+print(f"X^T X = \n{XTX}")
+
+# Manual calculation of X^T y
+XTy = X_transpose @ y
+print("\nStep B: Calculate X^T y by hand:")
+print(f"X^T y = \n{XTy}")
+
+# Manual calculation of (X^T X)^(-1)
+XTX_inv = np.linalg.inv(XTX)
+print("\nStep C: Calculate (X^T X)^(-1) by hand:")
+print(f"(X^T X)^(-1) = \n{XTX_inv}")
+
+# Manual calculation of (X^T X)^(-1) X^T y
+w_hat_manual = XTX_inv @ XTy
+print("\nStep D: Calculate (X^T X)^(-1) X^T y to get w_hat by hand:")
+print(f"w_hat = (X^T X)^(-1) X^T y = \n{w_hat_manual}")
+
+# Manual calculation of the projection
+y_hat_manual = X @ w_hat_manual
+print("\nStep E: Calculate X w_hat to get y_hat (the projection) by hand:")
+print(f"y_hat = X w_hat = \n{y_hat_manual}")
+
+# Manual calculation of the residual
+e_manual = y - y_hat_manual
+print("\nStep F: Calculate e = y - y_hat (the residual) by hand:")
+print(f"e = y - y_hat = \n{e_manual}")
+
+# Verify orthogonality manually
+ortho_manual_1 = X_transpose[0] @ e_manual
+ortho_manual_2 = X_transpose[1] @ e_manual
+print("\nStep G: Verify that X^T e = 0 (orthogonality):")
+print(f"x1^T e = {ortho_manual_1:.10f}")
+print(f"x2^T e = {ortho_manual_2:.10f}")
+
+# Calculate the squared norm of the residual
+residual_norm_squared = np.dot(e_manual, e_manual)
+print("\nStep H: Calculate the squared norm of the residual:")
+print(f"||e||^2 = e^T e = {residual_norm_squared:.6f}")
+
+# Calculate the squared distance from y to its projection
+squared_distance = np.sum((y - y_hat_manual) ** 2)
+print("\nStep I: Calculate the squared distance from y to its projection:")
+print(f"||y - y_hat||^2 = {squared_distance:.6f}")
+
+# Verify this is the minimum distance
+print("\nStep J: Verify this is the minimum distance:")
+print("Let's try a different point in the column space by slightly changing the coefficients:")
+w_perturbed = w_hat_manual + np.array([0.1, -0.1])
+y_perturbed = X @ w_perturbed
+squared_distance_perturbed = np.sum((y - y_perturbed) ** 2)
+print(f"With perturbed w = {w_perturbed}, the squared distance is {squared_distance_perturbed:.6f}")
+print(f"This is larger than the original squared distance: {squared_distance:.6f} < {squared_distance_perturbed:.6f}")
+
 print("\nVisualization: Column Space and Projection in R^n")
 
 # Create a 3D visualization to illustrate the concept in 3D (simplifying the 8D reality)
@@ -467,6 +530,8 @@ print("   geometrically and mathematically.")
 print("4. Geometric Perspective: Explains 'fitting' as finding the optimal projection of y onto the column space.")
 print("5. Adding Features: Expands the column space, potentially allowing a closer approximation to y by providing")
 print("   more directions for projection.")
+print("6. Step-by-Step Calculations: We performed detailed calculations to demonstrate the mathematical foundation")
+print("   of these geometric interpretations.")
 
 # Print output for images
 print("\nGenerated Images:")
@@ -475,6 +540,109 @@ print(f"2. {file_path2}")
 print(f"3. {file_path3}")
 print(f"4. {file_path4}")
 print(f"5. {file_path5}")
+
+print("\nThe above visualizations and analyses help understand the geometric interpretation of linear regression.")
+print("Use these insights to create an explanation for the five tasks in the question.")
+
+# Add a new visualization showing perpendicular projection more clearly
+print("\nPart 6: Additional visualization showing subspace projections without text labels")
+print("----------------------------------------------------------------------------")
+
+# Create a new figure for a clean visualization with minimal text
+fig = plt.figure(figsize=(10, 10))
+ax = fig.add_subplot(111, projection='3d')
+
+# Create a more complex 3D space to work with
+np.random.seed(42)
+n_samples = 30
+X_vis = np.random.rand(n_samples, 3)
+# Make the third column a linear combination of the first two to ensure we have a 2D subspace
+X_vis[:, 2] = 0.7 * X_vis[:, 0] + 0.3 * X_vis[:, 1] + np.random.normal(0, 0.05, n_samples)
+
+# PCA to find the principal components (the 2D subspace)
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2)
+X_projected = pca.fit_transform(X_vis)
+components = pca.components_
+
+# Create a point that's not in the subspace
+point_outside = np.array([0.5, 0.5, 0.9])
+
+# Project the point onto the 2D subspace
+projection_coefs = np.array([np.dot(point_outside, components[0]), 
+                             np.dot(point_outside, components[1])])
+point_projected = projection_coefs[0] * components[0] + projection_coefs[1] * components[1]
+point_projected_origin = pca.inverse_transform(np.array([projection_coefs]))[0]
+
+# Calculate the residual
+residual = point_outside - point_projected_origin
+
+# Create a grid for the 2D subspace
+xx, yy = np.meshgrid(np.linspace(-0.5, 1.5, 20), np.linspace(-0.5, 1.5, 20))
+subspace_points = np.zeros((20, 20, 3))
+for i in range(20):
+    for j in range(20):
+        # Linear combinations of the principal components
+        coef1, coef2 = xx[i, j], yy[i, j]
+        subspace_points[i, j] = coef1 * components[0] + coef2 * components[1]
+
+# Plot the subspace as a surface with high alpha for clarity
+ax.plot_surface(subspace_points[:, :, 0], 
+                subspace_points[:, :, 1], 
+                subspace_points[:, :, 2], 
+                alpha=0.3, color='blue', shade=False)
+
+# Plot the original data points
+ax.scatter(X_vis[:, 0], X_vis[:, 1], X_vis[:, 2], color='black', s=20, alpha=0.5)
+
+# Plot the point outside the subspace
+ax.scatter([point_outside[0]], [point_outside[1]], [point_outside[2]], 
+           color='red', s=100)
+
+# Plot the projected point
+ax.scatter([point_projected_origin[0]], [point_projected_origin[1]], [point_projected_origin[2]], 
+           color='green', s=100)
+
+# Plot the residual vector
+ax.quiver(point_projected_origin[0], point_projected_origin[1], point_projected_origin[2],
+          residual[0], residual[1], residual[2], 
+          color='orange', arrow_length_ratio=0.1)
+
+# Connect the point to its projection
+ax.plot([point_outside[0], point_projected_origin[0]],
+        [point_outside[1], point_projected_origin[1]],
+        [point_outside[2], point_projected_origin[2]],
+        'k--', linewidth=1)
+
+# No labels, let the visualization speak for itself
+ax.set_axis_off()
+ax.view_init(elev=20, azim=30)
+
+file_path6 = save_figure(fig, "subspace_projection_clean.png")
+plt.close(fig)
+
+# Update the final summary to include the new information
+print("\nFinal Summary")
+print("============")
+print("1. Column Space Interpretation: The column space of X represents all possible predictions that can be made")
+print("   by linear combinations of the feature vectors.")
+print("2. Least Squares Solution: Finds the point in the column space closest to y, minimizing the Euclidean distance.")
+print("3. Orthogonality of Residuals: The residual vector is orthogonal to each column of X, confirmed both")
+print("   geometrically and mathematically.")
+print("4. Geometric Perspective: Explains 'fitting' as finding the optimal projection of y onto the column space.")
+print("5. Adding Features: Expands the column space, potentially allowing a closer approximation to y by providing")
+print("   more directions for projection.")
+print("6. Step-by-Step Calculations: We performed detailed calculations to demonstrate the mathematical foundation")
+print("   of these geometric interpretations.")
+
+# Print output for images
+print("\nGenerated Images:")
+print(f"1. {file_path1}")
+print(f"2. {file_path2}")
+print(f"3. {file_path3}")
+print(f"4. {file_path4}")
+print(f"5. {file_path5}")
+print(f"6. {file_path6}")
 
 print("\nThe above visualizations and analyses help understand the geometric interpretation of linear regression.")
 print("Use these insights to create an explanation for the five tasks in the question.") 

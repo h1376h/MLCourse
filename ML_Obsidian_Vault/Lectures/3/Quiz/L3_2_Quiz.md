@@ -550,11 +550,11 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the geometric interpretation of linear regression in an n-dimensional space, where n is the number of observations.
 
 #### Task
-1. [📚] In linear regression, the column space of the design matrix $\mathbf{X}$ forms a subspace in $\mathbb{R}^n$. Explain what this subspace represents geometrically.
+1. [🔍] In linear regression, the column space of the design matrix $\mathbf{X}$ forms a subspace in $\mathbb{R}^n$. Explain what this subspace represents geometrically.
 2. Explain why the least squares solution can be described as finding the point in this subspace that is closest to the response vector $\mathbf{y}$.
 3. Why is the residual vector $\mathbf{e} = \mathbf{y} - \mathbf{X}\mathbf{\hat{w}}$ orthogonal to every column of $\mathbf{X}$? Prove this mathematically.
-4. [📚] How does this geometric perspective help us understand the concept of "fitting" a linear model to data?
-5. [📚] If we were to add another feature to our model (an additional column to $\mathbf{X}$), how would this change the subspace and potentially improve the fit? Explain geometrically.
+4. [🔍] How does this geometric perspective help us understand the concept of "fitting" a linear model to data?
+5. [🔍] If we were to add another feature to our model (an additional column to $\mathbf{X}$), how would this change the subspace and potentially improve the fit? Explain geometrically.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 32: Geometric Interpretation in n-Dimensions](L3_2_32_explanation.md).
 
