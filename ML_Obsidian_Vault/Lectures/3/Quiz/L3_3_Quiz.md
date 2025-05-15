@@ -267,6 +267,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 You're a treasure hunter on Probability Island where treasures are buried along a straight path. The true location of a treasure is given by $y = 3x + 2 + \epsilon$ where $\epsilon \sim \mathcal{N}(0, 4)$ represents random displacement due to tides.
 
 You've found 4 treasures at the following locations:
+
 | $x$ (distance from shore) | $y$ (steps along coast) |
 |---------------------------|--------------------------|
 | 1                         | 6                        |
@@ -298,10 +299,8 @@ With infinite data, the optimal linear approximation would be $\hat{y} = 2 + 3x$
    - The structural error
    - The approximation error
    - Verify the total squared error equals the sum of structural and approximation errors
-
 2. [📚] For users with 4, 6, and 8 connections, determine which error component (structural or approximation) contributes more to total prediction error and by what percentage.
-
-3. [📚] If the company wants to reduce total error below 5 hours², should they collect more data or use a non-linear model? Justify mathematically.
+3. [📚] If the company wants to reduce total error below 5 hours$^2$, should they collect more data or use a non-linear model? Justify mathematically.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Error Decomposition Challenge](L3_3_17_explanation.md).
 
