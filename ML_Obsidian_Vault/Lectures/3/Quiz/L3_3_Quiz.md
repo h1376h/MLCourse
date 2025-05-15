@@ -365,10 +365,10 @@ $$y = w_0 + w_1x + \epsilon$$
 where $\epsilon \sim \mathcal{N}(0, \sigma^2)$, and assuming $\sigma^2$ is known.
 
 #### Task
-1. Identify the conjugate prior distribution for the parameter vector $\boldsymbol{w} = [w_0, w_1]^T$ in linear regression with Gaussian noise
-2. Given a prior $\boldsymbol{w} \sim \mathcal{N}(\boldsymbol{\mu}_0, \boldsymbol{\Sigma}_0)$ where $\boldsymbol{\mu}_0 = [0, 0]^T$ and $\boldsymbol{\Sigma}_0 = \begin{bmatrix} 2 & 0 \\ 0 & 3 \end{bmatrix}$, derive the posterior distribution after observing the data points $(x^{(1)}, y^{(1)}) = (1, 3)$ and $(x^{(2)}, y^{(2)}) = (2, 5)$
-3. Calculate the posterior predictive distribution for a new input $x_{\text{new}} = 1.5$
-4. Explain how the posterior uncertainty in parameters affects prediction uncertainty compared to maximum likelihood estimation
+1. [🔍] Identify the conjugate prior distribution for the parameter vector $\boldsymbol{w} = [w_0, w_1]^T$ in linear regression with Gaussian noise
+2. [🔍] Given a prior $\boldsymbol{w} \sim \mathcal{N}(\boldsymbol{\mu}_0, \boldsymbol{\Sigma}_0)$ where $\boldsymbol{\mu}_0 = [0, 0]^T$ and $\boldsymbol{\Sigma}_0 = \begin{bmatrix} 2 & 0 \\ 0 & 3 \end{bmatrix}$, derive the posterior distribution after observing the data points $(x^{(1)}, y^{(1)}) = (1, 3)$ and $(x^{(2)}, y^{(2)}) = (2, 5)$
+3. [🔍] Calculate the posterior predictive distribution for a new input $x_{\text{new}} = 1.5$
+4. [🔍] Explain how the posterior uncertainty in parameters affects prediction uncertainty compared to maximum likelihood estimation
 
 For a detailed explanation of this problem, including step-by-step derivations and key insights, see [Question 20: Conjugate Priors in Bayesian Linear Regression](L3_3_20_explanation.md).
 
