@@ -33,7 +33,7 @@ Effective feature engineering will help us create a regression model that better
 
 The interaction between fertilizer and water (insight #1) suggests that the effect of fertilizer on crop yield depends on the amount of water available. This makes intuitive sense in agriculture: fertilizer effectiveness often depends on sufficient water to dissolve and transport nutrients to plant roots.
 
-In a standard linear model without interaction (y = β₀ + β₁x₁ + β₂x₂), the effect of fertilizer on yield would be constant (β₁) regardless of water level. However, this doesn't match the agricultural reality.
+In a standard linear model without interaction ($y = \beta_0 + \beta_1x_1 + \beta_2x_2$), the effect of fertilizer on yield would be constant (β₁) regardless of water level. However, this doesn't match the agricultural reality.
 
 To model this interaction, we add an interaction term to our regression equation:
 
@@ -157,16 +157,16 @@ The complete model equation incorporating all the transformations and interactio
 $$y = \beta_0 + \beta_1 x_1 + \beta_2 \log(x_2) + \beta_3 (x_1 \times \log(x_2)) + \beta_4 x_3 + \beta_5 x_3^2 + \epsilon$$
 
 Each component of this model serves a specific purpose:
-- β₀ is the intercept (baseline yield)
-- β₁x₁ represents the main effect of fertilizer
-- β₂log(x₂) captures the diminishing returns effect of water
-- β₃(x₁ × log(x₂)) models how fertilizer effect depends on water level
-- β₄x₃ + β₅x₃² creates the inverted U-shape relationship for temperature
+- $\beta_0$ is the intercept (baseline yield)
+- $\beta_1x_1$ represents the main effect of fertilizer
+- $\beta_2log(x_2)$ captures the diminishing returns effect of water
+- $\beta_3(x_1 \times log(x_2))$ models how fertilizer effect depends on water level
+- $\beta_4x_3+\beta_5x_3^2$ creates the inverted U-shape relationship for temperature
 
 This model addresses all three insights from our initial analysis:
-1. The interaction between fertilizer and water through the term β₃(x₁ × log(x₂))
-2. The optimal temperature effect through the terms β₄x₃ + β₅x₃²
-3. The diminishing returns of water through the logarithmic transformation β₂log(x₂)
+1. The interaction between fertilizer and water through the term $\beta_3(x_1 \times log(x_2))$
+2. The optimal temperature effect through the terms $\beta_4x_3+\beta_5x_3^2$
+3. The diminishing returns of water through the logarithmic transformation $\beta_2log(x_2)$
 
 Our integrated model demonstrates excellent performance, capturing the complex interactions and non-linear effects present in agricultural systems.
 
