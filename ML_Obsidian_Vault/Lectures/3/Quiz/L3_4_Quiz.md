@@ -22,7 +22,7 @@ $$y = w_0 + w_1x_1 + w_2x_2 + w_3x_3 + \epsilon$$
 1. Write down the design matrix $\boldsymbol{X}$ and the target vector $\boldsymbol{y}$ for this dataset
 2. Express the multiple linear regression model in matrix form using $\boldsymbol{X}$, $\boldsymbol{w}$, and $\boldsymbol{y}$
 3. Write the normal equation for finding the optimal weights $\boldsymbol{w}$
-4. Without calculating the actual values, describe the dimensions of $\boldsymbol{X}^T\boldsymbol{X}$ and $\boldsymbol{X}^T\boldsymbol{y}$ in this example
+4. [🔍] Without calculating the actual values, describe the dimensions of $\boldsymbol{X}^T\boldsymbol{X}$ and $\boldsymbol{X}^T\boldsymbol{y}$ in this example
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: Matrix Formulation of Multiple Linear Regression](L3_4_1_explanation.md).
 
