@@ -54,8 +54,6 @@ $$\boldsymbol{y} = \begin{bmatrix}
 
 The design matrix has dimensions 4×4 (4 rows for observations, 4 columns for the intercept and 3 features), and the target vector has dimensions 4×1 (4 observations).
 
-![Design Matrix and Target Vector](../Images/L3_4_Quiz_1/design_matrix.png)
-
 ### Step 2: Expressing the Multiple Linear Regression Model in Matrix Form
 
 The multiple linear regression model can be expressed in matrix form as:
@@ -71,8 +69,6 @@ Where:
 In expanded form, for each observation $i$, this is equivalent to:
 $$y_i = w_0 + w_1x_{i1} + w_2x_{i2} + w_3x_{i3} + \epsilon_i$$
 
-![Matrix Form of Regression](../Images/L3_4_Quiz_1/matrix_form.png)
-
 ### Step 3: The Normal Equation for Finding Optimal Weights
 
 To find the optimal weights $\boldsymbol{w}$ that minimize the sum of squared errors, we use the normal equation:
@@ -84,8 +80,6 @@ Solving for $\boldsymbol{w}$:
 $$\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$$
 
 This equation gives us the closed-form solution for the optimal weight vector that minimizes the sum of squared errors.
-
-![Normal Equation Visualization](../Images/L3_4_Quiz_1/normal_equation.png)
 
 ### Step 4: Dimensions of $\boldsymbol{X}^T\boldsymbol{X}$ and $\boldsymbol{X}^T\boldsymbol{y}$
 
@@ -100,8 +94,6 @@ In general, if $\boldsymbol{X}$ is an $n \times (p+1)$ matrix (where $n$ is the 
 - $\boldsymbol{X}^T\boldsymbol{y}$ will be a $(p+1) \times 1$ vector
 
 These dimensions are critical because they determine the size of the weight vector $\boldsymbol{w}$, which has dimensions $(p+1) \times 1$.
-
-![Matrix Operations Visualization](../Images/L3_4_Quiz_1/matrix_operations.png)
 
 ## Calculating the Components of the Normal Equation
 
@@ -130,8 +122,6 @@ $$\boldsymbol{X}^T\boldsymbol{X} = \begin{bmatrix}
 For example, the element in the first row and first column is calculated as:
 $\boldsymbol{X}^T\boldsymbol{X}[0,0] = 1 \times 1 + 1 \times 1 + 1 \times 1 + 1 \times 1 = 4$
 
-![X^T X Matrix](../Images/L3_4_Quiz_1/X_transpose_X.png)
-
 ### Calculating $\boldsymbol{X}^T\boldsymbol{y}$
 
 Multiplying $\boldsymbol{X}^T$ by $\boldsymbol{y}$:
@@ -145,8 +135,6 @@ $$\boldsymbol{X}^T\boldsymbol{y} = \begin{bmatrix}
 
 For example, the first element is calculated as:
 $\boldsymbol{X}^T\boldsymbol{y}[0] = 1 \times 12 + 1 \times 7 + 1 \times 11 + 1 \times 13 = 43$
-
-![X^T y Vector](../Images/L3_4_Quiz_1/X_transpose_y.png)
 
 ## Solving for the Optimal Weights
 
@@ -181,8 +169,6 @@ Therefore, the optimal weights for our model are:
 Our multiple linear regression model can be written as:
 $$\hat{y} = -2.0 + 2.0 \times x_1 + 1.5 \times x_2 + 2.5 \times x_3$$
 
-![Optimal Weights](../Images/L3_4_Quiz_1/optimal_weights.png)
-
 ## Model Evaluation
 
 We can verify that our model makes accurate predictions by calculating the predicted values and comparing them to the actual values:
@@ -195,12 +181,6 @@ We can verify that our model makes accurate predictions by calculating the predi
 | 4           | 13       | 13.0        | ≈0.0     |
 
 The mean squared error is approximately 0, indicating that our model perfectly fits the training data.
-
-![Actual vs Predicted Values](../Images/L3_4_Quiz_1/actual_vs_predicted.png)
-
-The residuals (differences between actual and predicted values) are virtually zero:
-
-![Residuals](../Images/L3_4_Quiz_1/residuals.png)
 
 ## Visual Explanations
 
