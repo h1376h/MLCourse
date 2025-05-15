@@ -149,15 +149,21 @@ Let's trace through the algorithm with the given data points using detailed calc
 | 2 | $[0.75, 2.5]^T$ | $[1, 3]^T$, 8 | 8.25 | -0.25 | 0.1125 | $[0.721875, 2.415625]^T$ |
 | 3 | $[0.721875, 2.415625]^T$ | $[1, 4]^T$, 9 | 10.384375 | -1.384375 | 0.16921875 | $[0.487613, 1.478576]^T$ |
 
-*Visualization of the adaptive learning rate process:*
+*Visualizations of the adaptive learning rate process:*
 
-![Adaptive LMS Visualization](../Images/L3_5_Quiz_25/adaptive_lms_visualization.png)
+![Adaptive LMS Learning Rates and Errors](../Images/L3_5_Quiz_25/adaptive_lms_rates_errors.png)
 
-The top-left plot shows the adaptive learning rates over iterations. Notice how it increases at step 1 (large positive error) and again at step 3 (large negative error), but decreases at step 2 (small error).
+The left plot shows the adaptive learning rates over iterations. Notice how it increases at step 1 (large positive error) and again at step 3 (large negative error), but decreases at step 2 (small error).
 
-The top-right plot shows the prediction errors at each step. 
+The right plot shows the prediction errors at each step.
 
-The bottom plot shows the trajectory of the weight vector, starting from $[0, 1]^T$ and gradually moving toward a solution that better fits the data points.
+![Adaptive LMS Weight Trajectory](../Images/L3_5_Quiz_25/adaptive_lms_weight_trajectory.png)
+
+This plot shows the trajectory of the weight vector, starting from $[0, 1]^T$ and gradually moving toward a solution that better fits the data points.
+
+![Adaptive LMS Model Fit](../Images/L3_5_Quiz_25/adaptive_lms_model_fit.png)
+
+This plot shows the training data points and how the model fit improves from the initial model to the final model after the adaptive learning rate updates.
 
 ### Step 3: Annealing Learning Rate Schedule
 

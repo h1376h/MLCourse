@@ -150,59 +150,105 @@ print("\n### Summary of iterations:")
 print(df.to_string(index=False))
 
 # Create visualization of the adaptive learning rate process
-plt.figure(figsize=(12, 8))
-gs = GridSpec(2, 2, figure=plt.gcf())
+# First visualization: Learning rates and errors
+plt.figure(figsize=(12, 5))
 
 # Plot 1: Learning rates over iterations
-ax1 = plt.subplot(gs[0, 0])
+plt.subplot(1, 2, 1)
 iterations = np.arange(len(results))
 learning_rates = [row[6] for row in results]
-ax1.plot(iterations, learning_rates, 'o-', color='blue', markersize=8)
-ax1.set_title('Adaptive Learning Rate Over Iterations')
-ax1.set_xlabel('Iteration')
-ax1.set_ylabel('Learning Rate ($\\alpha_t$)')
-ax1.grid(True)
+plt.plot(iterations, learning_rates, 'o-', color='blue', markersize=8)
+plt.title('Adaptive Learning Rate Over Iterations')
+plt.xlabel('Iteration')
+plt.ylabel('Learning Rate ($\\alpha_t$)')
+plt.grid(True)
 
 # Plot 2: Errors over iterations
-ax2 = plt.subplot(gs[0, 1])
+plt.subplot(1, 2, 2)
 errors = [row[5] if row[5] != '-' else 0 for row in results]
 errors = [0 if isinstance(e, str) else e for e in errors]
-ax2.plot(iterations[1:], errors[1:], 'o-', color='red', markersize=8)
-ax2.set_title('Prediction Error Over Iterations')
-ax2.set_xlabel('Iteration')
-ax2.set_ylabel('Error ($e_t$)')
-ax2.grid(True)
+plt.plot(iterations[1:], errors[1:], 'o-', color='red', markersize=8)
+plt.title('Prediction Error Over Iterations')
+plt.xlabel('Iteration')
+plt.ylabel('Error ($e_t$)')
+plt.grid(True)
 
-# Plot 3: Weight trajectories
-ax3 = plt.subplot(gs[1, :])
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'adaptive_lms_rates_errors.png'), dpi=300)
+plt.close()
+
+# Second visualization: Weight vector trajectory
+plt.figure(figsize=(8, 6))
 w_trajectories = [row[1] if row[1] != '-' else [0, 0] for row in results]
 w0_values = [w[0] for w in w_trajectories]
 w1_values = [w[1] for w in w_trajectories]
 
+# Plot weight trajectory more clearly
+plt.scatter(w0_values, w1_values, c=range(len(w0_values)), cmap='viridis', s=100, zorder=5)
+plt.plot(w0_values, w1_values, '-', color='gray', alpha=0.7, zorder=1)
+
 # Add arrows to show direction of weight updates
 for i in range(len(w0_values)-1):
-    ax3.annotate("",
+    plt.annotate("",
                 xy=(w0_values[i+1], w1_values[i+1]),
                 xytext=(w0_values[i], w1_values[i]),
                 arrowprops=dict(arrowstyle="->", color="black", lw=1.5))
 
-ax3.plot(w0_values, w1_values, 'o-', color='green', markersize=8)
-
 # Add labels to points
 for i, (w0, w1) in enumerate(zip(w0_values, w1_values)):
-    ax3.annotate(f"$\\mathbf{{w}}^{{({i})}}$", (w0, w1), textcoords="offset points", 
+    plt.annotate(f"$\\mathbf{{w}}^{{({i})}}$", (w0, w1), textcoords="offset points", 
                  xytext=(0, 10), ha='center')
 
-ax3.set_title('Weight Vector Trajectory During Training')
-ax3.set_xlabel('$w_0$')
-ax3.set_ylabel('$w_1$')
-ax3.grid(True)
-
+plt.title('Weight Vector Trajectory During Training')
+plt.xlabel('$w_0$')
+plt.ylabel('$w_1$')
+plt.grid(True)
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'adaptive_lms_visualization.png'), dpi=300)
+plt.savefig(os.path.join(save_dir, 'adaptive_lms_weight_trajectory.png'), dpi=300)
 plt.close()
 
-print("\nVisualization of the adaptive learning rate process saved to 'adaptive_lms_visualization.png'")
+# New visualization: Data points and final decision boundary
+plt.figure(figsize=(8, 6))
+
+# Create data points from the problem
+data_x = np.array([
+    [1, 2],  # x1
+    [1, 3],  # x2
+    [1, 4]   # x3
+])
+data_y = np.array([5, 8, 9])  # y1, y2, y3
+
+# Plot the data points
+plt.scatter(data_x[:, 1], data_y, color='blue', s=100, label='Training Data')
+
+# Get the final weights
+final_w = w_trajectories[-1]
+
+# Create a range of x values for plotting the decision line
+x_range = np.linspace(1.5, 4.5, 100)
+y_pred = final_w[0] + final_w[1] * x_range
+
+# Plot the decision line
+plt.plot(x_range, y_pred, 'r-', linewidth=2, label=f'Final Model: $y = {final_w[0]:.3f} + {final_w[1]:.3f}x$')
+
+# Plot the initial model
+initial_w = w_trajectories[0]
+y_initial = initial_w[0] + initial_w[1] * x_range
+plt.plot(x_range, y_initial, 'g--', linewidth=2, label=f'Initial Model: $y = {initial_w[0]:.3f} + {initial_w[1]:.3f}x$')
+
+plt.title('LMS Model Fitting with Adaptive Learning Rate')
+plt.xlabel('Feature Value ($x_1$)')
+plt.ylabel('Target Value ($y$)')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'adaptive_lms_model_fit.png'), dpi=300)
+plt.close()
+
+print("\nVisualizations saved to:")
+print("- 'adaptive_lms_rates_errors.png' (learning rates and errors)")
+print("- 'adaptive_lms_weight_trajectory.png' (weight vector trajectory)")
+print("- 'adaptive_lms_model_fit.png' (data points and fitted model)")
 
 print("\n## Part 3: Annealing Learning Rate\n")
 
