@@ -223,10 +223,10 @@ def evaluate_model(w):
         ax.plot([x1[i], x1[i]], [x2[i], x2[i]], [y[i], pred_z], 'k--', alpha=0.5)
     
     # Set labels and title
-    ax.set_xlabel('x₁')
-    ax.set_ylabel('x₂')
+    ax.set_xlabel('$x_1$')
+    ax.set_ylabel('$x_2$')
     ax.set_zlabel('y')
-    ax.set_title('Multiple Linear Regression Visualization\n(x₃ fixed at mean value)')
+    ax.set_title('Multiple Linear Regression Visualization\n($x_3$ fixed at mean value)')
     
     # Add a colorbar
     fig.colorbar(surf, ax=ax, shrink=0.5, aspect=5)
