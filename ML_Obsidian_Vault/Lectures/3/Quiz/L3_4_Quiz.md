@@ -271,10 +271,10 @@ For a detailed explanation of this problem, including analysis of educational da
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 #### Task
-1. [🔍] In a multiple linear regression model, if features $x_1$ and $x_2$ are perfectly correlated (correlation coefficient = 1), then $(\boldsymbol{X}^T\boldsymbol{X})$ will be singular (non-invertible).
+1. [🔍] In a multiple linear regression model, if features $x_1$ and $x_2$ are perfectly correlated (correlation coefficient = 1), then $(\mathbf{X}^T\mathbf{X})$ will be singular (non-invertible).
 2. When encoding a categorical variable with $k$ categories using dummy variables, you always need exactly $k$ dummy variables.
 3. [🔍] Adding a polynomial term (e.g., $x^2$) to a regression model always improves the model's fit to the training data.
-4. [🔍] In multiple linear regression, the normal equation $\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$ provides the global minimum of the sum of squared errors cost function.
+4. [🔍] In multiple linear regression, the normal equation $\mathbf{w} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$ provides the global minimum of the sum of squared errors cost function.
 5. [🔍] If a predictor variable has no effect on the response, its coefficient in a multiple regression model will always be exactly zero.
 6. [🔍] In a multiple regression model with interaction terms, the coefficient of a main effect (e.g., $x_1$) represents the effect of that variable when all interacting variables are zero.
 7. Radial basis functions are useful only for problems with exactly two input dimensions.
