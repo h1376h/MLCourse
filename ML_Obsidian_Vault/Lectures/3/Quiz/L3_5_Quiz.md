@@ -448,13 +448,13 @@ In this problem:
 - The LMS update rule is: $$\boldsymbol{w}^{t+1} = \boldsymbol{w}^t + \alpha(y^{(i)} - \boldsymbol{w}^T\boldsymbol{x}^{(i)})\boldsymbol{x}^{(i)}$$
 
 #### Task
-1. Suppose you observe that your model's predictions tend to lag behind rapid market movements. Would you increase or decrease the learning rate $\alpha$, and why? Explain the tradeoff involved.
-2. If your current weight vector is $\boldsymbol{w} = [0.1, 0.5, -0.3, 0.2, 0.4]^T$ and you receive a new data point $\boldsymbol{x} = [1, 0.8, 0.6, 0.4, 0.7]^T$ with actual price change $y = 0.15$, calculate:
+1. [🔍] Suppose you observe that your model's predictions tend to lag behind rapid market movements. Would you increase or decrease the learning rate $\alpha$, and why? Explain the tradeoff involved.
+2. [📚] If your current weight vector is $\boldsymbol{w} = [0.1, 0.5, -0.3, 0.2, 0.4]^T$ and you receive a new data point $\boldsymbol{x} = [1, 0.8, 0.6, 0.4, 0.7]^T$ with actual price change $y = 0.15$, calculate:
    a) Your model's prediction for this data point
    b) The prediction error
    c) The updated weight vector using learning rate $\alpha = 0.1$
 3. In practice, financial data often contains noise and outliers. Derive a modified version of the LMS update rule that uses a "gradient clipping" approach, where gradients larger than a threshold value $\tau$ are scaled down. Write the mathematical formula for this modified update rule.
-4. Through experimentation, you find that indicator $x_1$ has high variance and causes your weights to oscillate. Propose a per-feature learning rate approach for the LMS algorithm and write out the modified update equation.
+4. [📚] Through experimentation, you find that indicator $x_1$ has high variance and causes your weights to oscillate. Propose a per-feature learning rate approach for the LMS algorithm and write out the modified update equation.
 5. Draw a diagram illustrating how the standard LMS algorithm update would behave differently from your modified approaches from tasks 3 and 4 when encountering an outlier data point.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 24: Financial Prediction with LMS](L3_5_24_explanation.md).
