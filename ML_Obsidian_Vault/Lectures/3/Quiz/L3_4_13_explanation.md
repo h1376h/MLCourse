@@ -24,23 +24,15 @@ When two features $x_1$ and $x_2$ in a regression model are perfectly correlated
 
 In matrix form, this linear dependence means that one column of the design matrix $\mathbf{X}$ is a scalar multiple of another. When we compute $\mathbf{X}^T \mathbf{X}$ (a crucial step in solving the normal equation for regression), this linear dependence is preserved, resulting in a singular (non-invertible) matrix.
 
-![Perfect Correlation](../Images/L3_4_Q13/1_perfect_correlation.png)
+![Perfect Correlation](../Images/L3_4_Quiz_13/1_perfect_correlation.png)
 
 The visualization shows:
 - Left: Perfectly correlated variables forming an exact linear relationship
 - Right: Slightly imperfect correlation with minor deviations from linearity
 
-We can further visualize different levels of multicollinearity with a correlation matrix:
+We can further visualize how perfect correlation affects regression with this additional view:
 
-![Correlation Matrix](../Images/L3_4_Q13/additional_correlation_matrix.png)
-
-This correlation matrix illustrates:
-- $X_1$ and $X_2$ have near-zero correlation (independent variables)
-- $X_3$ shows moderate correlation with $X_1$ (correlation ≈ 0.5)
-- $X_4$ exhibits strong correlation with $X_1$ (correlation ≈ 0.9)
-- $X_5$ demonstrates perfect correlation with $X_1$ (correlation = 1.0)
-
-Multicollinearity becomes problematic as correlation approaches 1.0, with perfect correlation causing the most severe issues.
+![Regression Visualization](../Images/L3_4_Quiz_13/1b_regression_vis.png)
 
 Mathematically, a singular matrix has a determinant of zero, which our simulation confirmed for the perfectly correlated case:
 - Determinant of $\mathbf{X}^T \mathbf{X}$ (perfect correlation): $0.0$
@@ -65,7 +57,7 @@ There are two common approaches:
 1. One-hot encoding ($k$ dummy variables): Creates a binary variable for each category
 2. Reference encoding ($k-1$ dummy variables): Uses one category as a reference level, creating binary variables only for the remaining categories
 
-![Dummy Variables](../Images/L3_4_Q13/2_dummy_variables.png)
+![Dummy Variables](../Images/L3_4_Quiz_13/2_dummy_variables.png)
 
 The fundamental issue is that using $k$ dummy variables with an intercept creates perfect multicollinearity, often called the "dummy variable trap." This is because the sum of all $k$ dummy variables equals 1 for every observation, making them linearly dependent with the intercept.
 
@@ -92,7 +84,7 @@ We examined three scenarios:
 2. Data with a true quadratic relationship ($y = \beta_0 + \beta_1 x + \beta_2 x^2 + \text{error}$)
 3. Data with a true cubic relationship ($y = \beta_0 + \beta_1 x + \beta_3 x^3 + \text{error}$)
 
-![Polynomial Terms](../Images/L3_4_Q13/3_polynomial_terms.png)
+![Polynomial Terms](../Images/L3_4_Quiz_13/3_polynomial_terms.png)
 
 Our findings show:
 - For linear data: Adding polynomial terms produced minimal improvement and eventually just fit noise
@@ -105,16 +97,6 @@ Our findings show:
 - For cubic data: Adding a cubic term was necessary to capture the relationship
   * MSE with degree 2: $0.9773$
   * MSE with degree 3: $0.2802$
-
-While adding polynomial terms may improve training fit, it often leads to overfitting. The following visualization demonstrates the gap between training and test performance as polynomial degree increases:
-
-![Overfitting with Polynomials](../Images/L3_4_Q13/additional_overfitting_polynomial.png)
-
-The visualization reveals critical insights:
-- Top plot: Training error continually decreases with higher polynomial degrees, while test error initially decreases but then increases due to overfitting
-- Bottom plot: Higher-degree polynomials (degrees 5 and 10) fit the training data better but create unrealistic wiggles in regions with sparse data
-- The true underlying model is quadratic (degree 2), which achieves the best generalization (lowest test error)
-- Beyond degree 2, more complex models begin overfitting, capturing noise rather than the true pattern
 
 The benefit of adding polynomial terms depends on:
 1. The true underlying relationship in the data
@@ -138,7 +120,7 @@ $$\mathbf{w} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$$
 
 This equation provides a closed-form solution for the weights that minimize the sum of squared errors (SSE) cost function. To determine whether this solution is a global minimum, we analyzed the properties of the SSE cost function.
 
-![Normal Equation](../Images/L3_4_Q13/4_normal_equation.png)
+![Normal Equation](../Images/L3_4_Quiz_13/4_normal_equation.png)
 
 Key findings:
 1. The sum of squared errors cost function is convex (has a bowl-like shape)
@@ -166,7 +148,7 @@ Intuitively, one might expect that a predictor with no effect on the response wo
 
 We simulated data with a predictor that had no true effect (coefficient = 0) and examined what happened when we estimated the model:
 
-![Zero Coefficient](../Images/L3_4_Q13/5_zero_coefficient.png)
+![Zero Coefficient](../Images/L3_4_Quiz_13/5_zero_coefficient.png)
 
 Key observations:
 1. The true coefficient was $0$, but the estimated coefficient was $-0.0501$
@@ -174,6 +156,10 @@ Key observations:
 3. While this interval contained $0$ (suggesting the variable might indeed have no effect), the point estimate was non-zero
 
 We also examined how sample size and noise affected these estimates:
+
+![Sample Size and Noise Effects](../Images/L3_4_Quiz_13/5b_sample_size_noise.png)
+
+This visualization shows:
 - Larger sample sizes brought estimates closer to zero on average
 - Higher noise levels increased the variability of estimates
 - Even with large samples and low noise, estimates were rarely exactly zero
@@ -200,7 +186,7 @@ We simulated data from the model:
 
 $$y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_3 x_1 x_2 + \varepsilon$$
 
-![Interaction Terms](../Images/L3_4_Q13/6_interaction_terms.png)
+![Interaction Terms](../Images/L3_4_Quiz_13/6_interaction_terms.png)
 
 With interaction terms:
 - The coefficient $\beta_1$ represents the effect of $x_1$ when $x_2 = 0$
@@ -232,7 +218,7 @@ $$\phi(\mathbf{x}) = \exp\left(-\frac{\|\mathbf{x} - \mathbf{c}\|^2}{2\sigma^2}\
 
 We tested RBFs in multiple dimensions:
 
-![Radial Basis Functions](../Images/L3_4_Q13/7_radial_basis_functions.png)
+![Radial Basis Functions](../Images/L3_4_Quiz_13/7_radial_basis_functions.png)
 
 Our implementation demonstrated:
 1. 1D example: Successfully approximated a sine wave using 3 RBF centers
@@ -262,7 +248,7 @@ Statement 7 is **FALSE**. Radial basis functions are not limited to problems wit
 #### Analysis
 The "curse of dimensionality" refers to various phenomena that arise when analyzing data in high-dimensional spaces. While computational complexity is one aspect, it encompasses many other challenges.
 
-![Curse of Dimensionality](../Images/L3_4_Q13/8_curse_of_dimensionality.png)
+![Curse of Dimensionality](../Images/L3_4_Quiz_13/8_curse_of_dimensionality.png)
 
 Our analysis revealed multiple aspects of the curse:
 
