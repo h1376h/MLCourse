@@ -23,7 +23,7 @@ The matrix notation provides a concise way to represent regression models and en
 ## Solution
 
 ### Step 1: Design Matrix Dimensions
-In a multiple linear regression model with $d$ features, the design matrix $\boldsymbol{X}$ has dimensions $n \times (d+1)$, where:
+In a multiple linear regression model with $d$ features, the design matrix $\boldsymbol{X}$ has dimensions **$n \times (d+1)$**, where:
 - $n$ is the number of samples/observations
 - $d$ is the number of features/predictors
 - The additional column $(+1)$ is for the intercept term (typically a column of ones)
@@ -43,7 +43,7 @@ $$\boldsymbol{X} =
 ### Step 2: Closed-Form Solution to Least Squares
 The closed-form solution to the least squares problem in matrix form is given by:
 
-$$\hat{\boldsymbol{\beta}} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$$
+**$(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$**
 
 Where:
 - $\boldsymbol{X}$ is the design matrix (dimensions: $n \times (d+1)$)
@@ -87,7 +87,7 @@ Beyond making the matrix singular in the extreme case, multicollinearity has sig
 ![Multicollinearity Effects on Estimates](../Images/L3_4_Quiz_15/multicollinearity_effects.png)
 
 ### Step 4: Dummy Variables for Categorical Variables
-If a categorical variable has $k$ levels (categories), we typically create $k-1$ dummy variables to represent it.
+If a categorical variable has $k$ levels (categories), we typically create **$k-1$** dummy variables to represent it.
 
 We use $k-1$ (and not $k$) dummy variables because:
 - Using all $k$ dummy variables would create perfect multicollinearity with the intercept term
@@ -99,7 +99,7 @@ We use $k-1$ (and not $k$) dummy variables because:
 ### Step 5: Polynomial Regression of Degree 3
 A polynomial regression model of degree 3 with a single input variable $x$ can be written as:
 
-$$y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \epsilon$$
+**$\beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \epsilon$**
 
 Where:
 - $\beta_0$ is the intercept
@@ -130,7 +130,7 @@ Polynomial regression provides an excellent demonstration of the bias-variance t
 ### Step 6: Gaussian Radial Basis Function
 A Gaussian radial basis function (RBF) can be expressed as:
 
-$$\phi(\boldsymbol{x}) = \exp(-\gamma\|\boldsymbol{x} - \boldsymbol{\mu}\|^2)$$
+**$\exp(-\gamma\|\boldsymbol{x} - \boldsymbol{\mu}\|^2)$**
 
 Where:
 - $\boldsymbol{x}$ is the input vector
@@ -157,7 +157,7 @@ These problems include:
 ### Step 8: Matrix Form for Predictions
 In matrix form, the predictions of a linear regression model can be written as:
 
-$$\hat{\boldsymbol{y}} = \boldsymbol{X}\boldsymbol{\beta}$$
+**$\boldsymbol{X}\boldsymbol{\beta}$**
 
 Where:
 - $\hat{\boldsymbol{y}}$ is the vector of predicted values (dimensions: $n \times 1$)
@@ -221,13 +221,24 @@ This matrix multiplication effectively computes the linear combination for each 
 - Regularization techniques can be used to address multicollinearity and overfitting in high-dimensional settings
 
 ## Conclusion
-- In a multiple linear regression model with $d$ features, the design matrix $\boldsymbol{X}$ has dimensions $n \times (d+1)$.
-- The closed-form solution to the least squares problem in matrix form is given by $(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$.
-- When there is perfect multicollinearity among predictors, the matrix $\boldsymbol{X}^T\boldsymbol{X}$ becomes singular.
-- If a categorical variable has $k$ levels, we typically create $k-1$ dummy variables to represent it.
-- A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \epsilon$.
-- A Gaussian radial basis function can be expressed as $\phi(\boldsymbol{x}) = \exp(-\gamma\|\boldsymbol{x} - \boldsymbol{\mu}\|^2)$.
-- The "curse of dimensionality" in regression refers to problems that arise when the number of features/dimensions becomes large relative to the number of samples.
-- In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = \boldsymbol{X}\boldsymbol{\beta}$.
-- As correlation between predictors increases, the variance of coefficient estimates increases, making them less reliable.
-- The bias-variance tradeoff is well illustrated in polynomial regression, where we must balance model complexity to avoid both underfitting and overfitting. 
+
+### Summary of Key Answers
+1. In a multiple linear regression model with $d$ features, the design matrix $\boldsymbol{X}$ has dimensions **$n \times (d+1)$**.
+2. The closed-form solution to the least squares problem in matrix form is given by **$(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$**.
+3. When there is perfect multicollinearity among predictors, the matrix $\boldsymbol{X}^T\boldsymbol{X}$ becomes **singular**.
+4. If a categorical variable has $k$ levels, we typically create **$k-1$** dummy variables to represent it.
+5. A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y = \textbf{$\beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3$} + \epsilon$.
+6. A Gaussian radial basis function can be expressed as $\phi(\boldsymbol{x}) = \textbf{$\exp(-\gamma\|\boldsymbol{x} - \boldsymbol{\mu}\|^2)$}$.
+7. The "curse of dimensionality" in regression refers to problems that arise when **the number of features/dimensions becomes large relative to the number of samples**.
+8. In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = \textbf{$\boldsymbol{X}\boldsymbol{\beta}$}$.
+
+### Critical Understanding Points
+- Matrix formulations provide a powerful framework for expressing and solving regression problems efficiently
+- The properties of these matrices directly impact model estimation and performance
+- Understanding these concepts helps diagnose and address common issues in regression modeling:
+  - Recognizing and addressing multicollinearity
+  - Properly handling categorical variables
+  - Managing the trade-off between model complexity and generalization
+  - Implementing appropriate regularization techniques when needed
+
+These mathematical foundations are not just theoretical but have direct practical implications for building effective regression models and understanding their limitations. By mastering these concepts, you'll be better equipped to implement, troubleshoot, and optimize linear regression models across various domains and applications. 
