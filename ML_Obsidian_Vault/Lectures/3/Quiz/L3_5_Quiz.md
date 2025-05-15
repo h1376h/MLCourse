@@ -429,11 +429,11 @@ In this problem:
 - The learning rate is $\alpha = 0.05$
 
 #### Task
-1. Write down the LMS update rule for online learning in the context of this problem.
-2. You receive a new data point: time = 0.75 (evening), humidity = 0.4, previous temperature = 22°C, and the actual temperature is 24°C. Calculate the prediction of your current model for this data point.
-3. Using the LMS update rule, calculate the new weight vector $\boldsymbol{w}$ after processing this data point.
-4. The next data point arrives: time = 0.8, humidity = 0.45, previous temperature = 24°C. Predict the temperature using your updated weights.
-5. In online learning with the LMS algorithm, explain how you would handle a scenario where a sensor occasionally provides incorrect readings (outliers). Propose a specific modification to the standard LMS update rule to make it more robust to outliers.
+1. [📚] Write down the LMS update rule for online learning in the context of this problem.
+2. [📚] You receive a new data point: time = 0.75 (evening), humidity = 0.4, previous temperature = 22°C, and the actual temperature is 24°C. Calculate the prediction of your current model for this data point.
+3. [📚] Using the LMS update rule, calculate the new weight vector $\boldsymbol{w}$ after processing this data point.
+4. [📚] The next data point arrives: time = 0.8, humidity = 0.45, previous temperature = 24°C. Predict the temperature using your updated weights.
+5. [🔍] In online learning with the LMS algorithm, explain how you would handle a scenario where a sensor occasionally provides incorrect readings (outliers). Propose a specific modification to the standard LMS update rule to make it more robust to outliers.
 
 For a detailed explanation of this problem, including step-by-step calculations and key insights, see [Question 23: Temperature Prediction with LMS](L3_5_23_explanation.md).
 
