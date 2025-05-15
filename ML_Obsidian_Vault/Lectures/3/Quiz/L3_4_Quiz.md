@@ -381,9 +381,9 @@ For each question, select the single best answer from the given options:
    D. The model becomes more interpretable
    E. The number of required training examples decreases
    
-7. Which statement about the normal equations solution $\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$ is TRUE?
-   A. It provides the unique global minimum of the cost function only when $\boldsymbol{X}^T\boldsymbol{X}$ is invertible
-   B. It always provides a unique solution regardless of the properties of $\boldsymbol{X}$
+7. Which statement about the normal equations solution $\mathbf{w} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$ is TRUE?
+   A. It provides the unique global minimum of the cost function only when $\mathbf{X}^T\mathbf{X}$ is invertible
+   B. It always provides a unique solution regardless of the properties of $\mathbf{X}$
    C. It requires fewer computations than iterative methods for very large datasets
    D. It is robust to outliers in the data
    E. It automatically prevents overfitting

@@ -48,9 +48,9 @@ For each question, select the single best answer from the given options:
    D. The model becomes more interpretable
    E. The number of required training examples decreases
    
-7. Which statement about the normal equations solution $\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$ is TRUE?
-   A. It provides the unique global minimum of the cost function only when $\boldsymbol{X}^T\boldsymbol{X}$ is invertible
-   B. It always provides a unique solution regardless of the properties of $\boldsymbol{X}$
+7. Which statement about the normal equations solution $\mathbf{w} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$ is TRUE?
+   A. It provides the unique global minimum of the cost function only when $\mathbf{X}^T\mathbf{X}$ is invertible
+   B. It always provides a unique solution regardless of the properties of $\mathbf{X}$
    C. It requires fewer computations than iterative methods for very large datasets
    D. It is robust to outliers in the data
    E. It automatically prevents overfitting
@@ -76,15 +76,15 @@ Looking at various approaches to address multicollinearity:
 
 ![Multicollinearity Correlation Matrix](../Images/L3_4_Quiz_16/1_multicollinearity_correlation.png)
 
-In our simulation, variables x1 and x2 have a correlation of 0.993, indicating severe multicollinearity.
+In our simulation, variables $x_1$ and $x_2$ have a correlation of 0.993, indicating severe multicollinearity.
 
 Valid approaches to address multicollinearity include:
-- **Removing one of the correlated variables**: Keeping only x1 maintained similar R² (0.8196 vs. 0.8200)
-- **Combining correlated variables**: Averaging x1 and x2 gave R² of 0.8161
-- **Using regularization**: Ridge regression helped stabilize coefficients with R² of 0.8183
+- **Removing one of the correlated variables**: Keeping only $x_1$ maintained similar $R^2$ (0.8196 vs. 0.8200)
+- **Combining correlated variables**: Averaging $x_1$ and $x_2$ gave $R^2$ of 0.8161
+- **Using regularization**: Ridge regression helped stabilize coefficients with $R^2$ of 0.8183
 - **Adding more training examples**: This can sometimes help refine coefficient estimates
 
-Squaring all input features actually worsens multicollinearity by creating additional correlations between the original and squared terms. In our example, the model with squared features had a higher R² (0.8349) but would have much less stable coefficient estimates and poorer generalization.
+Squaring all input features actually worsens multicollinearity by creating additional correlations between the original and squared terms. In our example, the model with squared features had a higher $R^2$ (0.8349) but would have much less stable coefficient estimates and poorer generalization.
 
 **Answer: D. Square all the input features**
 
@@ -93,7 +93,7 @@ When including a categorical variable in a regression model, we need to create d
 
 ![Categorical Data with 4 Levels](../Images/L3_4_Quiz_16/2_dummy_variables.png)
 
-For a categorical variable with k levels, we typically create k-1 dummy variables to avoid perfect multicollinearity (known as the "dummy variable trap"). This is done by designating one level as the reference category.
+For a categorical variable with $k$ levels, we typically create $k-1$ dummy variables to avoid perfect multicollinearity (known as the "dummy variable trap"). This is done by designating one level as the reference category.
 
 In our example with 4 categories (A, B, C, D), we created 3 dummy variables (with A as the reference category):
 ```
@@ -114,15 +114,16 @@ Interaction terms capture how the effect of one predictor variable depends on th
 
 ![Interaction Effects](../Images/L3_4_Quiz_16/3_interaction_terms.png)
 
-In our simulation, we created data where y depends on x1, x2, and their interaction:
-y = 2·x1 + 3·x2 + 4·x1·x2 + noise
+In our simulation, we created data where $y$ depends on $x_1$, $x_2$, and their interaction:
 
-Without the interaction term, the model had an R² of 0.3055.
-Adding the interaction term substantially improved the model's fit (R² of 0.9773).
+$$y = 2x_1 + 3x_2 + 4x_1x_2 + \text{noise}$$
 
-The 3D plot shows a non-planar surface, indicating that the effect of x1 on y changes based on the value of x2. This is also evident in the line plots where the slope of y vs. x1 changes for different values of x2.
+Without the interaction term, the model had an $R^2$ of 0.3055.
+Adding the interaction term substantially improved the model's fit ($R^2$ of 0.9773).
 
-**Answer: B. How the effect of x1 changes based on the value of x2**
+The 3D plot shows a non-planar surface, indicating that the effect of $x_1$ on $y$ changes based on the value of $x_2$. This is also evident in the line plots where the slope of $y$ vs. $x_1$ changes for different values of $x_2$.
+
+**Answer: B. How the effect of $x_1$ changes based on the value of $x_2$**
 
 ### Question 4: Advantages of Polynomial Regression
 Polynomial regression extends linear regression by including polynomial terms of the predictor variables.
@@ -154,6 +155,12 @@ In our demonstration, we:
 - Each RBF produces higher values for points close to its center
 - Combined these basis functions to model a nonlinear relationship
 
+A Gaussian RBF has the form:
+
+$$\phi(x) = \exp\left(-\frac{(x - c)^2}{2\sigma^2}\right)$$
+
+where $c$ is the center and $\sigma$ controls the width.
+
 RBFs measure similarity between data points based on distance, enabling the model to capture local patterns in different regions of the input space. They don't inherently eliminate multicollinearity, reduce feature count, equalize feature importance, or guarantee closed-form solutions.
 
 **Answer: C. To capture similarities between data points based on their distance**
@@ -169,26 +176,37 @@ Our simulation demonstrates that:
 - Higher-degree models are more complex and less interpretable
 - Higher-degree models require more training examples to avoid overfitting
 
-The decreasing training error occurs because each additional term gives the model more flexibility to fit the training data. In the limiting case, a polynomial of degree n-1 can perfectly fit n data points.
+The decreasing training error occurs because each additional term gives the model more flexibility to fit the training data. In the limiting case, a polynomial of degree $n-1$ can perfectly fit $n$ data points.
 
 **Answer: A. Training error always decreases**
 
 ### Question 7: Normal Equations Solution
-The normal equations provide a closed-form solution for linear regression: $\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$
+The normal equations provide a closed-form solution for linear regression:
+
+$$\mathbf{w} = (\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{y}$$
+
+Where:
+- $\mathbf{w} \in \mathbb{R}^p$ is the vector of coefficients
+- $\mathbf{X} \in \mathbb{R}^{n \times p}$ is the design matrix
+- $\mathbf{y} \in \mathbb{R}^n$ is the vector of target values
 
 ![Normal Equations and Condition Number](../Images/L3_4_Quiz_16/7_normal_equations.png)
 
 Our analysis shows:
 - With well-conditioned data (condition number = 2.04), the normal equations solution works well
-- With poorly-conditioned data (condition number = 9.73e+15), $\boldsymbol{X}^T\boldsymbol{X}$ is nearly singular
-- The solution depends on $\boldsymbol{X}^T\boldsymbol{X}$ being invertible
+- With poorly-conditioned data (condition number = 9.73e+15), $\mathbf{X}^T\mathbf{X}$ is nearly singular
+- The solution depends on $\mathbf{X}^T\mathbf{X}$ being invertible
 - The solution is not robust to outliers
 - It doesn't prevent overfitting
 - For large datasets, it can be computationally expensive compared to iterative methods
 
-The normal equations provide the unique global minimum of the least squares cost function, but only when $\boldsymbol{X}^T\boldsymbol{X}$ is invertible (which requires linearly independent features).
+The normal equations provide the unique global minimum of the least squares cost function:
 
-**Answer: A. It provides the unique global minimum of the cost function only when $\boldsymbol{X}^T\boldsymbol{X}$ is invertible**
+$$J(\mathbf{w}) = \|\mathbf{X}\mathbf{w} - \mathbf{y}\|^2$$
+
+But this is only true when $\mathbf{X}^T\mathbf{X}$ is invertible (which requires linearly independent features).
+
+**Answer: A. It provides the unique global minimum of the cost function only when $\mathbf{X}^T\mathbf{X}$ is invertible**
 
 ### Question 8: Curse of Dimensionality
 The curse of dimensionality refers to various phenomena that arise when analyzing data in high-dimensional spaces.
@@ -202,7 +220,9 @@ Our experiments illustrate that:
 - Using polynomial features actually makes the curse worse by increasing dimensionality
 - The challenge goes beyond visualization to fundamental statistical and computational issues
 
-The exponential relationship between dimensions and required sample size is a key characteristic of the curse of dimensionality.
+The exponential relationship between dimensions and required sample size is a key characteristic of the curse of dimensionality. For a fixed level of model performance, the required sample size $n$ grows exponentially with the input dimension $d$:
+
+$$n \propto \exp(d)$$
 
 **Answer: B. As the number of features increases, the amount of data needed to generalize accurately grows exponentially**
 
@@ -211,17 +231,17 @@ The exponential relationship between dimensions and required sample size is a ke
 ### Multicollinearity Visualization
 ![Multicollinearity Correlation Matrix](../Images/L3_4_Quiz_16/1_multicollinearity_correlation.png)
 
-This heatmap shows the correlation matrix of our simulated data. The high correlation (0.993) between x1 and x2 indicates severe multicollinearity. Such high correlation makes it difficult to determine the individual effect of each predictor on the response variable.
+This heatmap shows the correlation matrix of our simulated data. The high correlation (0.993) between $x_1$ and $x_2$ indicates severe multicollinearity. Such high correlation makes it difficult to determine the individual effect of each predictor on the response variable.
 
 ### Dummy Variables for Categorical Data
 ![Categorical Data with 4 Levels](../Images/L3_4_Quiz_16/2_dummy_variables.png)
 
-This scatter plot shows data from four different categories (A, B, C, D). Each category has a different mean response value. To represent this categorical variable in a regression model, we need k-1 (in this case, 3) dummy variables.
+This scatter plot shows data from four different categories (A, B, C, D). Each category has a different mean response value. To represent this categorical variable in a regression model, we need $k-1$ (in this case, 3) dummy variables.
 
 ### Interaction Effects Visualization
 ![Interaction Effects](../Images/L3_4_Quiz_16/3_interaction_terms.png)
 
-The 3D surface plot shows how y depends on both x1 and x2 in a non-additive way. The lower left plot shows how the relationship between x1 and y changes for different values of x2 - the slopes are different, indicating interaction. The contour plot shows non-parallel level curves, another indicator of interaction.
+The 3D surface plot shows how $y$ depends on both $x_1$ and $x_2$ in a non-additive way. The lower left plot shows how the relationship between $x_1$ and $y$ changes based on the value of $x_2$ - the slopes are different, indicating interaction. The contour plot shows non-parallel level curves, another indicator of interaction.
 
 ### Polynomial Regression Visualization
 ![Polynomial Regression](../Images/L3_4_Quiz_16/4_polynomial_regression.png)
@@ -236,12 +256,12 @@ The top plot shows individual RBFs, each centered at a different point. Each fun
 ### Normal Equations Visualization
 ![Normal Equations and Condition Number](../Images/L3_4_Quiz_16/7_normal_equations.png)
 
-These bar charts compare the eigenvalues of X^T X for well-conditioned data (left) vs. poorly-conditioned data (right). In the poorly-conditioned case, some eigenvalues are nearly zero, making X^T X nearly singular and the normal equations solution unstable.
+These bar charts compare the eigenvalues of $\mathbf{X}^T\mathbf{X}$ for well-conditioned data (left) vs. poorly-conditioned data (right). In the poorly-conditioned case, some eigenvalues are nearly zero, making $\mathbf{X}^T\mathbf{X}$ nearly singular and the normal equations solution unstable.
 
 ### Curse of Dimensionality Visualization
 ![Curse of Dimensionality](../Images/L3_4_Quiz_16/8_curse_of_dimensionality.png)
 
-The left plot shows how model performance (R² score) decreases as dimensionality increases for various sample sizes. The right plot shows how the sample size needed to achieve good performance grows exponentially with the number of dimensions.
+The left plot shows how model performance ($R^2$ score) decreases as dimensionality increases for various sample sizes. The right plot shows how the sample size needed to achieve good performance grows exponentially with the number of dimensions.
 
 ## Key Insights
 
@@ -252,7 +272,7 @@ The left plot shows how model performance (R² score) decreases as dimensionalit
 - As model complexity increases (e.g., higher polynomial degree), training error decreases but test error may eventually increase
 
 ### Data Preprocessing Considerations
-- Categorical variables with k levels typically require k-1 dummy variables
+- Categorical variables with $k$ levels typically require $k-1$ dummy variables
 - Feature scaling becomes increasingly important in high-dimensional spaces
 - Proper handling of multicollinearity is crucial for model stability and interpretability
 
@@ -269,11 +289,11 @@ The left plot shows how model performance (R² score) decreases as dimensionalit
 ## Conclusion
 - Option D (Square all the input features) is NOT a valid way to address multicollinearity
 - For a categorical predictor with 4 levels, we typically use 3 dummy variables
-- The interaction term x₁ × x₂ captures how the effect of x₁ changes based on the value of x₂
+- The interaction term $x_1 \times x_2$ captures how the effect of $x_1$ changes based on the value of $x_2$
 - A key advantage of polynomial regression is that it can capture nonlinear relationships in the data
 - The primary purpose of radial basis functions is to capture similarities between data points based on their distance
 - As the degree of a polynomial regression model increases, training error always decreases
-- The normal equations solution provides the unique global minimum of the cost function only when X^T X is invertible
+- The normal equations solution provides the unique global minimum of the cost function only when $\mathbf{X}^T\mathbf{X}$ is invertible
 - As the number of features increases, the amount of data needed to generalize accurately grows exponentially
 
 These concepts are fundamental to understanding regression modeling, and mastering them enables data scientists to build more effective predictive models across various domains. 
