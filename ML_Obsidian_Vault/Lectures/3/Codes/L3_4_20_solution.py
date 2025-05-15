@@ -57,7 +57,7 @@ def step_2_define_basis_functions():
     
     # a) Linear regression basis
     print("a) Linear regression basis functions:")
-    print("   φ₁(x) = x")
+    print("   φ(x) = x")
     print("\nThis is the standard linear model where the input is used directly.")
     
     # b) Polynomial regression of degree 3
@@ -93,7 +93,7 @@ def step_3_visualize_basis_functions(x):
     ax1.plot(x, linear_basis(x), 'b-', linewidth=2)
     ax1.set_title('Linear Basis Function', fontsize=14)
     ax1.set_xlabel('x', fontsize=12)
-    ax1.set_ylabel('φ(x) = x', fontsize=12)
+    ax1.set_ylabel(r'$\phi(x) = x$', fontsize=12)
     ax1.grid(True)
     ax1.axhline(y=0, color='k', linestyle='-', alpha=0.3)
     ax1.axvline(x=0, color='k', linestyle='-', alpha=0.3)
@@ -101,10 +101,10 @@ def step_3_visualize_basis_functions(x):
     # b) Polynomial basis functions
     ax2 = fig.add_subplot(gs[0, 1])
     for i, p in enumerate(polynomial_basis(x), 1):
-        ax2.plot(x, p, linewidth=2, label=f'φ₁(x) = x^{i}')
+        ax2.plot(x, p, linewidth=2, label=r'$\phi_{%d}(x) = x^{%d}$' % (i, i))
     ax2.set_title('Polynomial Basis Functions (Degree 3)', fontsize=14)
     ax2.set_xlabel('x', fontsize=12)
-    ax2.set_ylabel('φᵢ(x)', fontsize=12)
+    ax2.set_ylabel(r'$\phi_i(x)$', fontsize=12)
     ax2.legend()
     ax2.grid(True)
     ax2.axhline(y=0, color='k', linestyle='-', alpha=0.3)
@@ -119,12 +119,12 @@ def step_3_visualize_basis_functions(x):
     
     for i, (rbf, center, color) in enumerate(zip(rbfs, centers, colors), 1):
         ax3.plot(x, rbf, color=color, linewidth=2, 
-                label=f'φ₁(x) = exp(-(x-{center})²/(2×{width}²))')
+                label=r'$\phi_{%d}(x) = \exp(-(x-%d)^2/(2\times%.1f^2))$' % (i, center, width))
         ax3.axvline(x=center, color=color, linestyle='--', alpha=0.5)
     
     ax3.set_title('Gaussian Radial Basis Functions', fontsize=14)
     ax3.set_xlabel('x', fontsize=12)
-    ax3.set_ylabel('φᵢ(x)', fontsize=12)
+    ax3.set_ylabel(r'$\phi_i(x)$', fontsize=12)
     ax3.legend()
     ax3.grid(True)
     ax3.axhline(y=0, color='k', linestyle='-', alpha=0.3)
@@ -137,7 +137,7 @@ def step_3_visualize_basis_functions(x):
     for i, (rbf, weight, center, color) in enumerate(zip(rbfs, weights, centers, colors), 1):
         weighted_component = weight * rbf
         ax4.plot(x, weighted_component, color=color, linestyle='--', alpha=0.5,
-                label=f'{weight} × φ₁(x; center={center})')
+                label=r'$%.1f \times \phi_{%d}(x; \mathrm{center}=%d)$' % (weight, i, center))
         weighted_sum += weighted_component
     
     ax4.plot(x, weighted_sum, 'k-', linewidth=2, label='Combined function')
