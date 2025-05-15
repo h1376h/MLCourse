@@ -227,10 +227,10 @@ This matrix multiplication effectively computes the linear combination for each 
 2. The closed-form solution to the least squares problem in matrix form is given by **$(\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$**.
 3. When there is perfect multicollinearity among predictors, the matrix $\boldsymbol{X}^T\boldsymbol{X}$ becomes **singular**.
 4. If a categorical variable has $k$ levels, we typically create **$k-1$** dummy variables to represent it.
-5. A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y = \textbf{$\beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3$} + \epsilon$.
-6. A Gaussian radial basis function can be expressed as $\phi(\boldsymbol{x}) = \textbf{$\exp(-\gamma\|\boldsymbol{x} - \boldsymbol{\mu}\|^2)$}$.
+5. A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \epsilon$.
+6. A Gaussian radial basis function can be expressed as $\phi(\boldsymbol{x}) = \exp(-\gamma\|\boldsymbol{x} - \boldsymbol{\mu}\|^2)$.
 7. The "curse of dimensionality" in regression refers to problems that arise when **the number of features/dimensions becomes large relative to the number of samples**.
-8. In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = \textbf{$\boldsymbol{X}\boldsymbol{\beta}$}$.
+8. In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = \boldsymbol{X}\boldsymbol{\beta}$.
 
 ### Critical Understanding Points
 - Matrix formulations provide a powerful framework for expressing and solving regression problems efficiently
