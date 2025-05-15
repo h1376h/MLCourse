@@ -782,7 +782,7 @@ def transform_water():
     
     print("\nKEY FINDINGS FROM STEP 3:")
     print("1. The logarithmic model significantly outperforms the linear model for water effects,")
-    print(f"   with an R² improvement of {(model_log.score(X_log, yield_tons)-model_linear.score(X_linear, yield_tons))*100:.2f}%.")
+    print("   confirming that water's effect on crop yield follows a diminishing returns pattern.")
     print("2. The marginal effect of water decreases as water quantity increases, aligning with")
     print("   agricultural principles of diminishing returns.")
     print("3. The logarithmic transformation creates a more biologically plausible model, as plants")
@@ -798,34 +798,61 @@ water_data, interaction_data = transform_water()
 # Step 4: Write the complete equation for the proposed model
 def write_complete_model():
     """Write the complete equation for the proposed model."""
-    print("\nStep 4: Complete equation for the proposed model")
+    print("="*80)
+    print("STEP 4: INTEGRATING ALL TRANSFORMATIONS INTO FINAL MODEL")
+    print("="*80)
     
-    print("\nFinal proposed model:")
+    print("\nFINAL PROPOSED MODEL:")
     print("y = β₀ + β₁x₁ + β₂log(x₂) + β₃(x₁ × log(x₂)) + β₄x₃ + β₅x₃² + ε")
     print()
     
-    print("Where:")
+    print("COMPONENT BREAKDOWN:")
     print("- y is the crop yield (tons/hectare)")
     print("- x₁ is the amount of fertilizer (kg/hectare)")
     print("- x₂ is the amount of water (liters/day)")
     print("- x₃ is the average daily temperature (°C)")
-    print("- β₀ is the intercept")
-    print("- β₁ is the coefficient for fertilizer")
-    print("- β₂ is the coefficient for log-transformed water")
-    print("- β₃ is the coefficient for the interaction between fertilizer and log-transformed water")
-    print("- β₄ is the coefficient for temperature")
-    print("- β₅ is the coefficient for temperature squared")
+    print("- β₀ is the intercept (baseline yield)")
+    print("- β₁x₁ represents the main effect of fertilizer")
+    print("- β₂log(x₂) captures the diminishing returns effect of water")
+    print("- β₃(x₁ × log(x₂)) models how fertilizer effect depends on water level")
+    print("- β₄x₃ + β₅x₃² creates the inverted U-shape relationship for temperature")
     print("- ε is the error term")
     print()
     
-    print("Explanation of the complete model:")
-    print("1. The model captures the effect of fertilizer through β₁x₁.")
-    print("2. It captures the diminishing returns of water through β₂log(x₂).")
-    print("3. It accounts for the interaction between fertilizer and water through β₃(x₁ × log(x₂)).")
-    print("4. It models the inverted U-shape relationship of temperature through β₄x₃ + β₅x₃².")
-    print("5. This model addresses all three observed effects from the initial analysis.")
+    print("COMPREHENSIVE EXPLANATION OF THE FINAL MODEL:")
+    print("1. Fertilizer Effect (β₁x₁ + β₃(x₁ × log(x₂))):")
+    print("   - The total effect of fertilizer is: β₁ + β₃log(x₂)")
+    print("   - This means fertilizer's effectiveness depends on water availability")
+    print("   - With more water (higher x₂), fertilizer has a greater positive impact")
+    print("   - This interaction reflects how nutrients need water to be accessible to plants")
+    print()
+    
+    print("2. Water Effect (β₂log(x₂) + β₃(x₁ × log(x₂))):")
+    print("   - The total effect of water is: β₂ + β₃x₁")
+    print("   - The logarithmic transformation captures diminishing returns")
+    print("   - The marginal effect of water (∂y/∂x₂) = (β₂ + β₃x₁)/x₂")
+    print("   - This decreases as water increases (1/x₂ term) - key agricultural principle")
+    print("   - More fertilizer enhances water's effect (interaction term)")
+    print()
+    
+    print("3. Temperature Effect (β₄x₃ + β₅x₃²):")
+    print("   - Creates a quadratic relationship with an optimal temperature at -β₄/(2β₅)")
+    print("   - Temperature positively affects yield up to this optimum, then becomes harmful")
+    print("   - Captures the biological reality that plants have ideal temperature ranges")
+    print("   - The marginal effect of temperature (∂y/∂x₃) = β₄ + 2β₅x₃")
+    print()
+    
+    print("ADDRESSING THE INITIAL INSIGHTS:")
+    print("1. ✓ \"More fertilizer generally increases yield, but effect depends on water amount\"")
+    print("   → Addressed through fertilizer main effect and fertilizer-water interaction")
+    print("2. ✓ \"Higher temperatures improve yield up to a point, after which they become harmful\"")
+    print("   → Addressed through quadratic temperature term")
+    print("3. ✓ \"The effect of water on yield diminishes as more water is added\"")
+    print("   → Addressed through logarithmic transformation of water")
+    print()
     
     # Create synthetic data to visualize the complete model
+    print("SIMULATION: Creating synthetic data for the complete integrated model")
     np.random.seed(42)
     n = 200
     
@@ -839,13 +866,25 @@ def write_complete_model():
     temp_squared = temperature**2
     fert_water_interaction = fertilizer * log_water
     
-    # Set coefficients
+    # Set coefficients for data generation
     intercept = 2.0
     fert_coef = 0.01
     log_water_coef = 1.5
     interaction_coef = 0.002
     temp_coef = 0.3
     temp_sq_coef = -0.006
+    
+    print("True model parameters used for simulation:")
+    print(f"- Intercept (β₀): {intercept}")
+    print(f"- Fertilizer coefficient (β₁): {fert_coef}")
+    print(f"- Log(Water) coefficient (β₂): {log_water_coef}")
+    print(f"- Interaction coefficient (β₃): {interaction_coef}")
+    print(f"- Temperature coefficient (β₄): {temp_coef}")
+    print(f"- Temperature² coefficient (β₅): {temp_sq_coef}")
+    
+    # Calculate the true optimal temperature
+    true_optimal_temp = -temp_coef / (2 * temp_sq_coef)
+    print(f"- Optimal temperature: {true_optimal_temp:.2f}°C")
     
     # Generate yield
     yield_tons = (intercept + 
@@ -867,26 +906,91 @@ def write_complete_model():
         'Yield': yield_tons
     })
     
+    # Display basic statistics
+    print("\nSimulated data summary statistics:")
+    print(f"Number of observations: {n}")
+    print(f"Variable ranges:")
+    for col in ['Fertilizer', 'Water', 'Temperature', 'Yield']:
+        print(f"- {col}: {full_data[col].min():.2f} to {full_data[col].max():.2f}")
+    
     # Fit the complete model
+    print("\nFitting the complete integrated model...")
     X = np.column_stack((fertilizer, log_water, fert_water_interaction, 
                          temperature, temp_squared))
     
     full_model = LinearRegression().fit(X, yield_tons)
     
-    print("\nSimulated coefficients from complete model:")
+    print("\nESTIMATED MODEL COEFFICIENTS:")
     print(f"Intercept (β₀): {full_model.intercept_:.4f}")
     print(f"Fertilizer coefficient (β₁): {full_model.coef_[0]:.4f}")
     print(f"Log(Water) coefficient (β₂): {full_model.coef_[1]:.4f}")
     print(f"Interaction coefficient (β₃): {full_model.coef_[2]:.4f}")
     print(f"Temperature coefficient (β₄): {full_model.coef_[3]:.4f}")
     print(f"Temperature² coefficient (β₅): {full_model.coef_[4]:.4f}")
-    print()
+    
+    # Calculate model performance
+    y_pred = full_model.predict(X)
+    mse = np.mean((yield_tons - y_pred)**2)
+    r2 = full_model.score(X, yield_tons)
+    print(f"Model performance: R² = {r2:.4f}, MSE = {mse:.4f}")
     
     # Calculate optimal temperature
     optimal_temp = -full_model.coef_[3] / (2 * full_model.coef_[4])
-    print(f"Optimal temperature from complete model: {optimal_temp:.2f}°C")
+    print(f"\nOptimal temperature from integrated model: {optimal_temp:.2f}°C")
+    print(f"(True optimal temperature was: {true_optimal_temp:.2f}°C)")
     
+    # Calculate characteristic effects for interpretation
+    print("\nEFFECT ANALYSIS AT REPRESENTATIVE VALUES:")
+    
+    # Reference values (for partial dependencies)
+    water_med = np.median(water)
+    log_water_med = np.log(water_med)
+    fert_med = np.median(fertilizer)
+    
+    # Fertilizer effect at different water levels
+    water_low = np.percentile(water, 10)
+    water_high = np.percentile(water, 90)
+    log_water_low = np.log(water_low)
+    log_water_high = np.log(water_high)
+    
+    fert_effect_low = full_model.coef_[0] + full_model.coef_[2] * log_water_low
+    fert_effect_med = full_model.coef_[0] + full_model.coef_[2] * log_water_med
+    fert_effect_high = full_model.coef_[0] + full_model.coef_[2] * log_water_high
+    
+    print(f"1. Fertilizer effect (impact of +1 kg/ha) at different water levels:")
+    print(f"   - At low water ({water_low:.0f} L/day): {fert_effect_low:.5f} tons/ha")
+    print(f"   - At median water ({water_med:.0f} L/day): {fert_effect_med:.5f} tons/ha")
+    print(f"   - At high water ({water_high:.0f} L/day): {fert_effect_high:.5f} tons/ha")
+    
+    # Water marginal effect at different fertilizer levels
+    fert_low = np.percentile(fertilizer, 10)
+    fert_high = np.percentile(fertilizer, 90)
+    
+    water_effect_low_fert = (full_model.coef_[1] + full_model.coef_[2] * fert_low) / water_med
+    water_effect_med_fert = (full_model.coef_[1] + full_model.coef_[2] * fert_med) / water_med
+    water_effect_high_fert = (full_model.coef_[1] + full_model.coef_[2] * fert_high) / water_med
+    
+    print(f"\n2. Water marginal effect (impact of +1 L/day at {water_med:.0f} L/day) at different fertilizer levels:")
+    print(f"   - At low fertilizer ({fert_low:.0f} kg/ha): {water_effect_low_fert:.6f} tons/ha")
+    print(f"   - At median fertilizer ({fert_med:.0f} kg/ha): {water_effect_med_fert:.6f} tons/ha")
+    print(f"   - At high fertilizer ({fert_high:.0f} kg/ha): {water_effect_high_fert:.6f} tons/ha")
+    
+    # Temperature effect at different points
+    temp_below = optimal_temp - 10
+    temp_above = optimal_temp + 10
+    
+    temp_effect_below = full_model.coef_[3] + 2 * full_model.coef_[4] * temp_below
+    temp_effect_optimal = full_model.coef_[3] + 2 * full_model.coef_[4] * optimal_temp
+    temp_effect_above = full_model.coef_[3] + 2 * full_model.coef_[4] * temp_above
+    
+    print(f"\n3. Temperature marginal effect (impact of +1°C) at different temperature levels:")
+    print(f"   - At {temp_below:.1f}°C (below optimal): {temp_effect_below:.4f} tons/ha")
+    print(f"   - At {optimal_temp:.1f}°C (optimal): {temp_effect_optimal:.4f} tons/ha")
+    print(f"   - At {temp_above:.1f}°C (above optimal): {temp_effect_above:.4f} tons/ha")
+    
+    print("\nVISUALIZATION: Creating visualizations of the integrated model...")
     # Create a correlation matrix visualization
+    print("Creating correlation matrix...")
     plt.figure(figsize=(10, 8))
     corr_matrix = full_data.drop('FertWaterInteraction', axis=1).corr()
     mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
@@ -894,9 +998,11 @@ def write_complete_model():
     plt.title('Correlation Matrix of Model Variables')
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, "model_correlation_matrix.png"), dpi=300)
+    print(f"Saved correlation matrix to: {os.path.join(save_dir, 'model_correlation_matrix.png')}")
     plt.close()
     
     # Create a coefficient visualization
+    print("\nCreating coefficient visualization...")
     plt.figure(figsize=(10, 6))
     
     # Define custom names for readability
@@ -917,54 +1023,53 @@ def write_complete_model():
     plt.xticks(rotation=30)
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, "model_coefficients.png"), dpi=300)
+    print(f"Saved coefficient visualization to: {os.path.join(save_dir, 'model_coefficients.png')}")
     plt.close()
     
     # Create partial dependence plots for each variable
+    print("\nCreating partial dependence plots...")
     fig, axes = plt.subplots(1, 3, figsize=(15, 5))
     
     # 1. Fertilizer effect (at median water and optimal temperature)
-    median_water = np.median(water)
-    log_median_water = np.log(median_water)
     fert_range = np.linspace(min(fertilizer), max(fertilizer), 100)
     
     fert_effect = (full_model.intercept_ +
                   full_model.coef_[0] * fert_range +
-                  full_model.coef_[1] * log_median_water +
-                  full_model.coef_[2] * fert_range * log_median_water +
+                  full_model.coef_[1] * log_water_med +
+                  full_model.coef_[2] * fert_range * log_water_med +
                   full_model.coef_[3] * optimal_temp +
                   full_model.coef_[4] * optimal_temp**2)
     
     axes[0].plot(fert_range, fert_effect, 'b-', linewidth=2)
     axes[0].set_xlabel('Fertilizer (kg/hectare)')
     axes[0].set_ylabel('Predicted Yield (tons/hectare)')
-    axes[0].set_title(f'Fertilizer Effect\n(Water={median_water:.0f}L, Temp={optimal_temp:.1f}°C)')
+    axes[0].set_title(f'Fertilizer Effect\n(Water={water_med:.0f}L, Temp={optimal_temp:.1f}°C)')
     axes[0].grid(True, alpha=0.3)
     
     # 2. Water effect (at median fertilizer and optimal temperature)
-    median_fert = np.median(fertilizer)
     water_range = np.linspace(min(water), max(water), 100)
     log_water_range = np.log(water_range)
     
     water_effect = (full_model.intercept_ +
-                   full_model.coef_[0] * median_fert +
+                   full_model.coef_[0] * fert_med +
                    full_model.coef_[1] * log_water_range +
-                   full_model.coef_[2] * median_fert * log_water_range +
+                   full_model.coef_[2] * fert_med * log_water_range +
                    full_model.coef_[3] * optimal_temp +
                    full_model.coef_[4] * optimal_temp**2)
     
     axes[1].plot(water_range, water_effect, 'g-', linewidth=2)
     axes[1].set_xlabel('Water (liters/day)')
     axes[1].set_ylabel('Predicted Yield (tons/hectare)')
-    axes[1].set_title(f'Water Effect\n(Fertilizer={median_fert:.0f}kg, Temp={optimal_temp:.1f}°C)')
+    axes[1].set_title(f'Water Effect\n(Fertilizer={fert_med:.0f}kg, Temp={optimal_temp:.1f}°C)')
     axes[1].grid(True, alpha=0.3)
     
     # 3. Temperature effect (at median fertilizer and water)
     temp_range = np.linspace(min(temperature), max(temperature), 100)
     
     temp_effect = (full_model.intercept_ +
-                  full_model.coef_[0] * median_fert +
-                  full_model.coef_[1] * log_median_water +
-                  full_model.coef_[2] * median_fert * log_median_water +
+                  full_model.coef_[0] * fert_med +
+                  full_model.coef_[1] * log_water_med +
+                  full_model.coef_[2] * fert_med * log_water_med +
                   full_model.coef_[3] * temp_range +
                   full_model.coef_[4] * temp_range**2)
     
@@ -973,16 +1078,18 @@ def write_complete_model():
                    label=f'Optimal: {optimal_temp:.1f}°C')
     axes[2].set_xlabel('Temperature (°C)')
     axes[2].set_ylabel('Predicted Yield (tons/hectare)')
-    axes[2].set_title(f'Temperature Effect\n(Fertilizer={median_fert:.0f}kg, Water={median_water:.0f}L)')
+    axes[2].set_title(f'Temperature Effect\n(Fertilizer={fert_med:.0f}kg, Water={water_med:.0f}L)')
     axes[2].grid(True, alpha=0.3)
     axes[2].legend()
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, "partial_dependence_plots.png"), dpi=300)
+    print(f"Saved partial dependence plots to: {os.path.join(save_dir, 'partial_dependence_plots.png')}")
     plt.close()
     
     # Create a 3D partial dependence plot for fertilizer and water interaction
     # (at optimal temperature)
+    print("\nCreating 3D visualization of fertilizer-water interaction at optimal temperature...")
     plt.figure(figsize=(10, 8))
     ax = plt.axes(projection='3d')
     
@@ -1016,31 +1123,98 @@ def write_complete_model():
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, "interaction_3d_final.png"), dpi=300)
+    print(f"Saved 3D interaction plot to: {os.path.join(save_dir, 'interaction_3d_final.png')}")
     plt.close()
+    
+    # Calculate R-squared for simpler models to show improvement
+    print("\nCOMPARING MODELS OF INCREASING COMPLEXITY:")
+    
+    # Model 1: Simple linear model with main effects only
+    X1 = np.column_stack((fertilizer, water, temperature))
+    model1 = LinearRegression().fit(X1, yield_tons)
+    r2_1 = model1.score(X1, yield_tons)
+    
+    # Model 2: With log water transformation
+    X2 = np.column_stack((fertilizer, log_water, temperature))
+    model2 = LinearRegression().fit(X2, yield_tons)
+    r2_2 = model2.score(X2, yield_tons)
+    
+    # Model 3: Add temperature squared
+    X3 = np.column_stack((fertilizer, log_water, temperature, temp_squared))
+    model3 = LinearRegression().fit(X3, yield_tons)
+    r2_3 = model3.score(X3, yield_tons)
+    
+    # Model 4: Full model with interaction
+    r2_4 = r2  # Already calculated
+    
+    print(f"Model 1 (Linear main effects only): R² = {r2_1:.4f}")
+    print(f"Model 2 (With log(water) transformation): R² = {r2_2:.4f}, improvement: {(r2_2-r2_1)*100:.2f}%")
+    print(f"Model 3 (Adding temperature²): R² = {r2_3:.4f}, improvement: {(r2_3-r2_2)*100:.2f}%")
+    print(f"Model 4 (Full model with interaction): R² = {r2_4:.4f}, improvement: {(r2_4-r2_3)*100:.2f}%")
+    
+    print("\nKEY FINDINGS FROM INTEGRATED MODEL:")
+    print("1. The comprehensive model successfully captures all three insights from our initial analysis:")
+    print("   - Fertilizer-water interaction")
+    print("   - Inverted U-shape temperature effect")
+    print("   - Diminishing returns of water")
+    print("2. The model achieved excellent fit (R² = {:.4f}), with each feature transformation".format(r2))
+    print("   contributing to improved predictive performance.")
+    print("3. The optimal temperature was estimated at {:.1f}°C, close to the true value of {:.1f}°C.".format(optimal_temp, true_optimal_temp))
+    print("4. The model provides actionable insights for farmers:")
+    print("   - Apply more fertilizer when water is abundant")
+    print("   - Focus on water efficiency when water is scarce")
+    print("   - Maintain temperature as close to optimal as possible")
+    print("5. The integrated approach demonstrates how feature engineering can incorporate")
+    print("   domain knowledge to create more accurate and interpretable models.")
+    print()
     
     return full_data, full_model
 
 full_data, full_model = write_complete_model()
 
 # Summary of the solution
-print("\nQuestion 3 Solution Summary:")
-print("1. To model the joint effect of fertilizer and water, we added an interaction term: β₃(x₁ × x₂)")
-print("2. For temperature's diminishing returns and eventual negative impact, we added a quadratic term: β₅x₃²")
-print("3. For water's diminishing returns, we applied a logarithmic transformation: β₂log(x₂)")
-print("4. The complete model is: y = β₀ + β₁x₁ + β₂log(x₂) + β₃(x₁ × log(x₂)) + β₄x₃ + β₅x₃² + ε")
+print("\n" + "="*80)
+print("QUESTION 3 SOLUTION SUMMARY")
+print("="*80)
+print("\nWe developed a multiple regression model for crop yield prediction that addresses")
+print("three key agricultural relationships through appropriate feature engineering:")
+print()
+print("1. FERTILIZER-WATER INTERACTION:")
+print("   - Added interaction term: β₃(x₁ × log(x₂))")
+print("   - Captures how fertilizer effectiveness depends on water availability")
+print("   - Allows for targeted fertilizer application based on water conditions")
+print()
+print("2. TEMPERATURE'S OPTIMAL RANGE:")
+print("   - Added quadratic term: β₅x₃²")
+print("   - Creates inverted U-shape relationship with optimal temperature")
+print("   - Identifies ideal temperature for maximum yield")
+print()
+print("3. WATER'S DIMINISHING RETURNS:")
+print("   - Applied logarithmic transformation: β₂log(x₂)")
+print("   - Models decreasing marginal benefit of additional water")
+print("   - Supports water conservation and efficiency")
+print()
+print("FINAL MODEL EQUATION:")
+print("y = β₀ + β₁x₁ + β₂log(x₂) + β₃(x₁ × log(x₂)) + β₄x₃ + β₅x₃² + ε")
+print()
+print("This model provides a realistic representation of agricultural processes,")
+print("balancing mathematical rigor with biological plausibility. The feature")
+print("transformations significantly improved model fit while maintaining")
+print("interpretability for practical agricultural applications.")
 
 print("\nSaved visualizations to:", save_dir)
 print("Generated images:")
-print("- interaction_3d.png: 3D visualization of fertilizer-water interaction")
-print("- interaction_lines.png: Fertilizer effect at different water levels")
-print("- interaction_contour.png: Contour plot of fertilizer-water interaction")
-print("- temperature_quadratic.png: Visualization of quadratic temperature effect")
-print("- temperature_residuals.png: Residual plots comparing linear vs quadratic models")
-print("- water_transformation.png: Linear vs logarithmic water transformation")
-print("- water_marginal_effect.png: Diminishing marginal effect of water")
-print("- log_water_interaction.png: Log-water and fertilizer interaction")
-print("- water_biological_comparison.png: Biological comparison of linear vs log models")
-print("- model_correlation_matrix.png: Correlation matrix of all model variables")
-print("- model_coefficients.png: Bar chart of model coefficients")
-print("- partial_dependence_plots.png: Partial dependence plots for each variable")
-print("- interaction_3d_final.png: 3D surface plot of final fertilizer-water interaction") 
+print("1. interaction_3d.png: 3D visualization of fertilizer-water interaction")
+print("2. interaction_lines.png: Fertilizer effect at different water levels")
+print("3. interaction_contour.png: Contour plot of fertilizer-water interaction")
+print("4. temperature_quadratic.png: Visualization of quadratic temperature effect")
+print("5. temperature_residuals.png: Residual plots comparing linear vs quadratic models")
+print("6. temperature_marginal_effect.png: Marginal effect of temperature at different levels")
+print("7. water_transformation.png: Linear vs logarithmic water transformation")
+print("8. water_marginal_effect.png: Diminishing marginal effect of water")
+print("9. log_water_interaction.png: Log-water and fertilizer interaction")
+print("10. water_biological_comparison.png: Biological comparison of linear vs log models")
+print("11. model_correlation_matrix.png: Correlation matrix of all model variables")
+print("12. model_coefficients.png: Bar chart of model coefficients")
+print("13. partial_dependence_plots.png: Partial dependence plots for each variable")
+print("14. interaction_3d_final.png: 3D surface plot of final fertilizer-water interaction") 
