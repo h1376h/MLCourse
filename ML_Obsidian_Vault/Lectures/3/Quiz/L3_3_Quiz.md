@@ -1,7 +1,7 @@
 # Lecture 3.3: Probabilistic View of Linear Regression Quiz
 
 ## Overview
-This quiz contains 13 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
+This quiz contains 18 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
 
 ## Question 1
 
@@ -259,4 +259,76 @@ The best possible linear approximation for this data is $\hat{y} = -1 + 3x$, whi
 4. [📚] Calculate the total squared error for each point and verify it equals the sum of the corresponding structural and approximation errors
 5. [📚] What percentage of the average total error is due to structural error vs. approximation error?
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 15: Error Decomposition with Multiple Points](L3_3_15_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 15: Error Decomposition with Multiple Points](L3_3_15_explanation.md).
+
+## Question 16
+
+### Problem Statement
+You're a treasure hunter on Probability Island where treasures are buried along a straight path. The true location of a treasure is given by $y = 3x + 2 + \epsilon$ where $\epsilon \sim \mathcal{N}(0, 4)$ represents random displacement due to tides.
+
+You've found 4 treasures at the following locations:
+| $x$ (distance from shore) | $y$ (steps along coast) |
+|---------------------------|--------------------------|
+| 1                         | 6                        |
+| 2                         | 9                        |
+| 3                         | 11                       |
+| 4                         | 16                       |
+
+#### Task
+1. [📚] Write the likelihood function for finding treasures at these locations
+2. [📚] Calculate the maximum likelihood estimates for parameters $w_0$ and $w_1$
+3. [📚] Estimate the noise variance $\sigma^2$ using MLE
+4. [📚] A map indicates a treasure at $x=2.5$. Calculate the probability this treasure is located beyond $y>12$
+5. [📚] Calculate the 90% prediction interval for where to dig at $x=2.5$
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 16: Probability Island Treasure Hunt](L3_3_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+A social media company models user engagement (hours spent) based on number of connections. The true relationship is $f(x) = 0.5x^2$, but the company uses a linear model $\hat{y} = w_0 + w_1x$.
+
+With infinite data, the optimal linear approximation would be $\hat{y} = 2 + 3x$. However, with limited data, the company estimated $\hat{y} = 1 + 3.5x$.
+
+#### Task
+1. [📚] For a user with 5 connections, calculate:
+   - The true expected engagement hours
+   - Prediction from the optimal linear model
+   - Prediction from the estimated model
+   - The structural error
+   - The approximation error
+   - Verify the total squared error equals the sum of structural and approximation errors
+
+2. [📚] For users with 4, 6, and 8 connections, determine which error component (structural or approximation) contributes more to total prediction error and by what percentage.
+
+3. [📚] If the company wants to reduce total error below 5 hours², should they collect more data or use a non-linear model? Justify mathematically.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Error Decomposition Challenge](L3_3_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+A medical researcher is developing a model to predict blood pressure response ($y$) to medication dosage ($x$). The researcher believes the relationship follows a linear model with Gaussian noise:
+
+$$y = w_0 + w_1x + \epsilon$$
+
+where $\epsilon \sim \mathcal{N}(0, \sigma^2)$.
+
+Clinical trials produced the following data:
+
+| Dosage ($x$, mg) | Blood Pressure Reduction ($y$, mmHg) |
+|------------------|-------------------------------------|
+| 10               | 5                                   |
+| 20               | 8                                   |
+| 30               | 13                                  |
+| 40               | 15                                  |
+| 50               | 21                                  |
+
+#### Task
+1. [📚] Calculate the maximum likelihood estimates for $w_0$ and $w_1$
+2. [📚] Estimate the noise variance $\sigma^2$
+3. [📚] Write the complete predictive distribution for a new patient receiving a 35mg dose
+4. [📚] The FDA requires that a medication demonstrate at least 12mmHg reduction with 80% probability to be approved. Does a 35mg dose meet this requirement? Show calculations.
+5. [📚] If the researcher suspects the true relationship is quadratic rather than linear, explain how this would affect the structural error and whether MLE would still be appropriate for parameter estimation.
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Medical Dosage Response Model](L3_3_18_explanation.md). 
