@@ -1,7 +1,7 @@
 # Lecture 3.3: Probabilistic View of Linear Regression Quiz
 
 ## Overview
-This quiz contains 18 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
+This quiz contains 26 questions from different topics covered in section 3.3 of the lectures on the Probabilistic View of Linear Regression.
 
 ## Question 1
 
@@ -330,4 +330,165 @@ Clinical trials produced the following data:
 4. [📚] The FDA requires that a medication demonstrate at least 12mmHg reduction with 80% probability to be approved. Does a 35mg dose meet this requirement? Show calculations.
 5. [📚] If the researcher suspects the true relationship is quadratic rather than linear, explain how this would affect the structural error and whether MLE would still be appropriate for parameter estimation.
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Medical Dosage Response Model](L3_3_18_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 18: Medical Dosage Response Model](L3_3_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Consider a linear regression model with a probabilistic interpretation and a Bayesian approach using MAP estimation:
+$$y = w_0 + w_1x + \epsilon$$
+
+where $\epsilon \sim \mathcal{N}(0, \sigma^2)$ and you have prior beliefs about the parameters: $w_0 \sim \mathcal{N}(0, \tau_0^2)$ and $w_1 \sim \mathcal{N}(0, \tau_1^2)$.
+
+For the following dataset with 3 observations:
+
+| $x$ | $y$ |
+|-----|-----|
+| 1   | 2   |
+| 2   | 4   |
+| 3   | 5   |
+
+#### Task
+1. Write down the posterior distribution for the parameters $w_0$ and $w_1$ given the data
+2. Derive the logarithm of the posterior distribution
+3. Show that MAP estimation with Gaussian priors is equivalent to ridge regression with specific regularization parameters
+4. Calculate the MAP estimates for $w_0$ and $w_1$ assuming $\sigma^2 = 1$, $\tau_0^2 = 10$, and $\tau_1^2 = 2$
+
+For a detailed explanation of this problem, including step-by-step solutions and derivations, see [Question 19: MAP Estimation for Linear Regression](L3_3_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+Consider a Bayesian approach to linear regression where we use conjugate priors for efficient posterior computations. For a simple linear regression model:
+$$y = w_0 + w_1x + \epsilon$$
+
+where $\epsilon \sim \mathcal{N}(0, \sigma^2)$, and assuming $\sigma^2$ is known.
+
+#### Task
+1. Identify the conjugate prior distribution for the parameter vector $\boldsymbol{w} = [w_0, w_1]^T$ in linear regression with Gaussian noise
+2. Given a prior $\boldsymbol{w} \sim \mathcal{N}(\boldsymbol{\mu}_0, \boldsymbol{\Sigma}_0)$ where $\boldsymbol{\mu}_0 = [0, 0]^T$ and $\boldsymbol{\Sigma}_0 = \begin{bmatrix} 2 & 0 \\ 0 & 3 \end{bmatrix}$, derive the posterior distribution after observing the data points $(x^{(1)}, y^{(1)}) = (1, 3)$ and $(x^{(2)}, y^{(2)}) = (2, 5)$
+3. Calculate the posterior predictive distribution for a new input $x_{\text{new}} = 1.5$
+4. Explain how the posterior uncertainty in parameters affects prediction uncertainty compared to maximum likelihood estimation
+
+For a detailed explanation of this problem, including step-by-step derivations and key insights, see [Question 20: Conjugate Priors in Bayesian Linear Regression](L3_3_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+In probabilistic linear regression, the noise variance $\sigma^2$ is often treated as a known parameter, but in practice, it must be estimated from data. Consider a Bayesian approach to estimating both the regression coefficients and the noise variance.
+
+#### Task
+1. For a linear model $y = \boldsymbol{w}^T\boldsymbol{x} + \epsilon$ with $\epsilon \sim \mathcal{N}(0, \sigma^2)$, specify an appropriate conjugate prior for the unknown variance $\sigma^2$
+2. Given the prior distribution, derive the joint posterior distribution for both $\boldsymbol{w}$ and $\sigma^2$
+3. Explain the concept of the marginal likelihood (model evidence) $p(\boldsymbol{y}|\boldsymbol{X})$ in this context and why it's useful for model comparison
+4. For a dataset with 5 observations and sum of squared residuals (using MLE estimates for $\boldsymbol{w}$) of 12, calculate the posterior mean for $\sigma^2$ assuming an Inverse-Gamma(2, 4) prior
+
+For a detailed explanation of this problem, including key Bayesian concepts and derivations, see [Question 21: Bayesian Estimation of Regression Variance](L3_3_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+You are analyzing housing price data and need to decide between different linear regression models with varying complexity:
+- Model 1: $y = w_0 + w_1x_1 + \epsilon$ (price depends only on house size)
+- Model 2: $y = w_0 + w_1x_1 + w_2x_2 + \epsilon$ (price depends on size and number of bedrooms)
+- Model 3: $y = w_0 + w_1x_1 + w_2x_2 + w_3x_3 + \epsilon$ (price depends on size, bedrooms, and age)
+
+Where $\epsilon \sim \mathcal{N}(0, \sigma^2)$ for all models.
+
+#### Task
+1. Explain how to compute the marginal likelihood (model evidence) $p(\boldsymbol{y}|\mathcal{M}_i)$ for model comparison
+2. Describe the role of Occam's razor in Bayesian model selection and how it's naturally incorporated in the marginal likelihood
+3. Given the following (log) model evidences, compute the posterior probabilities for each model assuming equal prior probabilities:
+   - $\log p(\boldsymbol{y}|\mathcal{M}_1) = -45.2$
+   - $\log p(\boldsymbol{y}|\mathcal{M}_2) = -42.8$
+   - $\log p(\boldsymbol{y}|\mathcal{M}_3) = -43.1$
+4. Explain the relationship between Bayesian model selection and information criteria like BIC
+
+For a detailed explanation of this problem, including key concepts in Bayesian model comparison, see [Question 22: Bayesian Model Selection for Linear Regression](L3_3_22_explanation.md).
+
+## Question 23
+
+### Problem Statement
+Exact Bayesian inference can be computationally intensive, especially with complex models. The Laplace approximation provides a useful Gaussian approximation to the posterior distribution. Consider its application to Bayesian linear regression.
+
+#### Task
+1. Explain the key idea behind the Laplace approximation for approximating posterior distributions
+2. For a linear regression model with the posterior distribution $p(\boldsymbol{w}|\boldsymbol{y},\boldsymbol{X}) \propto p(\boldsymbol{y}|\boldsymbol{X},\boldsymbol{w})p(\boldsymbol{w})$, outline the steps to derive the Laplace approximation
+3. If the negative log posterior has the form $E(\boldsymbol{w}) = \frac{1}{2}(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{w})^T(\boldsymbol{y}-\boldsymbol{X}\boldsymbol{w}) + \frac{\lambda}{2}\boldsymbol{w}^T\boldsymbol{w} + C$, compute the Hessian matrix needed for the Laplace approximation
+4. Using the Laplace approximation, derive the approximate predictive distribution for a new input $\boldsymbol{x}_{\text{new}}$
+
+For a detailed explanation of this problem, including the mathematical derivation of the Laplace approximation, see [Question 23: Laplace Approximation in Bayesian Linear Regression](L3_3_23_explanation.md).
+
+## Question 24
+
+### Problem Statement
+Instead of selecting a single "best" linear regression model, Bayesian model averaging (BMA) combines predictions from multiple models, weighted by their posterior probabilities. Consider three competing linear regression models:
+
+- $\mathcal{M}_1$: $y = w_0 + w_1x_1 + \epsilon$
+- $\mathcal{M}_2$: $y = w_0 + w_1x_1 + w_2x_2 + \epsilon$
+- $\mathcal{M}_3$: $y = w_0 + w_1x_1 + w_3x_3 + \epsilon$
+
+Where all models assume $\epsilon \sim \mathcal{N}(0, \sigma^2)$.
+
+#### Task
+1. Write down the formula for making predictions using Bayesian model averaging across these three models
+2. For a new input point $\boldsymbol{x}_{\text{new}} = [1, 1.5, 2.0, 0.5]$, if the models predict:
+   - $\mathcal{M}_1$: $\hat{y}_1 = 4.2$ with predictive variance $v_1 = 0.8$
+   - $\mathcal{M}_2$: $\hat{y}_2 = 5.1$ with predictive variance $v_2 = 0.6$
+   - $\mathcal{M}_3$: $\hat{y}_3 = 3.8$ with predictive variance $v_3 = 1.0$
+   - And the posterior model probabilities are $p(\mathcal{M}_1|\boldsymbol{y}) = 0.2$, $p(\mathcal{M}_2|\boldsymbol{y}) = 0.5$, $p(\mathcal{M}_3|\boldsymbol{y}) = 0.3$
+   - Calculate the BMA prediction and its total variance
+3. Explain how BMA naturally accounts for model uncertainty unlike traditional model selection
+4. Discuss the computational challenges of implementing BMA in practice and potential approximation methods
+
+For a detailed explanation of this problem, including key concepts in Bayesian model averaging, see [Question 24: Bayesian Model Averaging for Linear Regression](L3_3_24_explanation.md).
+
+## Question 25
+
+### Problem Statement
+Different noise distributions in linear regression lead to different loss functions. Consider the standard linear model:
+
+$$y = \boldsymbol{w}^T\boldsymbol{x} + \epsilon$$
+
+And three different assumptions about the noise distribution:
+
+- Model A: $\epsilon \sim \mathcal{N}(0, \sigma^2)$ (Gaussian noise)
+- Model B: $\epsilon \sim \text{Laplace}(0, b)$ (Laplace noise)
+- Model C: $\epsilon \sim \text{Student-}t(\nu, 0, \sigma)$ (Student's t-noise with $\nu$ degrees of freedom)
+
+#### Task
+1. Derive the negative log-likelihood (loss function) for each noise model
+2. Explain why Gaussian noise leads to squared error loss, Laplace noise leads to absolute error loss, and Student's t-noise leads to a robust loss function
+3. For the following dataset with a potential outlier:
+
+| $x$ | $y$ |
+|-----|-----|
+| 1   | 2   |
+| 2   | 4   |
+| 3   | 6   |
+| 4   | 12  |
+| 5   | 10  |
+
+Calculate the optimal $w_0$ and $w_1$ for a simple linear model $y = w_0 + w_1x$ under both Gaussian and Laplace noise assumptions, and compare the results
+
+4. Discuss the robustness properties of each model and scenarios where each would be preferred
+
+For a detailed explanation of this problem, including derivations and comparisons of different noise models, see [Question 25: Noise Models and Loss Functions in Linear Regression](L3_3_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+Empirical Bayes (EB) methods provide a practical approach to Bayesian inference by estimating hyperparameters from the data. Consider a Bayesian linear regression model with the following hierarchical structure:
+
+$$y = \boldsymbol{w}^T\boldsymbol{x} + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)$$
+$$\boldsymbol{w} \sim \mathcal{N}(\boldsymbol{0}, \alpha^{-1}\boldsymbol{I})$$
+
+where $\alpha$ is a precision hyperparameter controlling the strength of the prior.
+
+#### Task
+1. Explain the key idea behind empirical Bayes and how it differs from fully Bayesian approaches
+2. Derive the marginal likelihood $p(\boldsymbol{y}|\boldsymbol{X}, \alpha, \sigma^2)$ by integrating out the parameters $\boldsymbol{w}$
+3. Show how to find the optimal value of $\alpha$ by maximizing the marginal likelihood
+4. For a given dataset with design matrix $\boldsymbol{X}$ (10 examples, 3 features) and target vector $\boldsymbol{y}$, if the eigenvalues of $\boldsymbol{X}^T\boldsymbol{X}$ are $\{50, 30, 10\}$ and the sum of squared errors using the least squares solution is 20 with $\sigma^2 = 2$, estimate the optimal $\alpha$ using empirical Bayes
+
+For a detailed explanation of this problem, including key concepts in empirical Bayes methods for linear regression, see [Question 26: Empirical Bayes in Linear Regression](L3_3_26_explanation.md). 
