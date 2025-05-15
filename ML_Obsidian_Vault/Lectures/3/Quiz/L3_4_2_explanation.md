@@ -1,20 +1,20 @@
 # Question 2: Multicollinearity in Housing Price Prediction
 
 ## Problem Statement
-You are building a multiple regression model to predict housing prices. You've collected the following features:
+You are building a multiple linear regression model to predict housing prices and have collected the following features:
 - $x_1$: Size of the house (in square meters)
 - $x_2$: Number of bedrooms
 - $x_3$: Size of the house (in square feet)
 - $x_4$: Number of bathrooms
 - $x_5$: Year built
 
-Note that 1 square meter = 10.764 square feet, so $x_3 = 10.764 \times x_1$.
+Note that 1 square meter equals approximately 10.764 square feet.
 
 ### Task
-1. Identify which features might cause multicollinearity in your model and explain why
-2. Describe two methods you could use to detect multicollinearity
-3. Suggest approaches to address the multicollinearity in this dataset
-4. Explain what would happen if you ignored the multicollinearity and proceeded with the regression
+1. Identify which features in this dataset might cause multicollinearity and explain why
+2. Describe two methods to detect multicollinearity in a dataset
+3. Propose two approaches to address the multicollinearity in this dataset
+4. Explain what would happen to the coefficient estimates and their standard errors if you were to ignore the multicollinearity
 
 ## Understanding the Problem
 Multicollinearity occurs when two or more predictor variables in a multiple regression model are highly correlated with each other. This can cause problems in the regression analysis because it becomes difficult to separate the individual effects of the collinear variables on the response variable. In this problem, we need to identify potential sources of multicollinearity in a housing price prediction model, understand how to detect it, and learn strategies to address it.
