@@ -154,7 +154,6 @@
   - 📚 Examples: Coming Soon
 
 ## Practice Materials
-- ⭐ Practice_Exam_1: Lectures 1-2
-- ⭐ Practice_Exam_2: Lectures 3-5
-- ⭐ Practice_Exam_3: Lectures 6-7
+- ⭐ Practice_Exam_1: Lectures 1-5
+- ⭐ Practice_Exam_2: Lectures 6-7
 - ⭐ Final_Exam_Practice: Comprehensive Review

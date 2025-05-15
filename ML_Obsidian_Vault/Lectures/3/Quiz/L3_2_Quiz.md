@@ -241,13 +241,13 @@ For a detailed explanation of this problem, including prediction calculations an
 ## Question 12
 
 ### Problem Statement
-Given the sample data points (1, 2), (2, 4), and (3, 6):
+Given the sample data points $(1, 2)$, $(2, 4)$, and $(3, 6)$:
 
 #### Task
-1. Using only these three points, calculate the means $\bar{x}$ and $\bar{y}$
-2. Find the slope of the simple linear regression model by hand
-3. Find the intercept of the model
-4. Write down the resulting equation for predicting y from x
+1. [📚] Using only these three points, calculate the means $\bar{x}$ and $\bar{y}$
+2. [📚] Find the slope of the simple linear regression model by hand
+3. [📚] Find the intercept of the model
+4. [📚] Write down the resulting equation for predicting $y$ from $x$
 
 For a detailed explanation of this problem, see [Question 12: Simple Linear Regression Calculation](L3_2_12_explanation.md).
 
@@ -342,10 +342,10 @@ For a detailed explanation of this problem, including the mathematical proofs fo
 ## Question 17
 
 ### Problem Statement
-The geometric interpretation of linear regression provides insights into how the least squares method minimizes prediction errors and relates to vector projections in n-dimensional space.
+The geometric interpretation of linear regression provides insights into how the least squares method minimizes prediction errors and relates to vector projections in $n$-dimensional space.
 
 #### Task
-Which of the following statements correctly describes the geometric interpretation of the least squares method?
+[📚] Which of the following statements correctly describes the geometric interpretation of the least squares method?
 
 A) It minimizes the sum of vertical distances between points and the regression line
 B) It minimizes the sum of horizontal distances between points and the regression line
@@ -362,8 +362,8 @@ The normal equations provide an analytical solution to the linear regression pro
 #### Task
 Given a simple linear regression model $y = \beta_0 + \beta_1x$ with $n$ data points:
 
-1. Write down the formula for the normal equations in matrix form
-2. What matrix property ensures that a unique solution exists?
+1. [📚] Write down the formula for the normal equations in matrix form
+2. [📚] What matrix property ensures that a unique solution exists?
 
 For a detailed explanation of this problem, including the derivation of normal equations and their properties, see [Question 18: Normal Equations in Matrix Form](L3_2_18_explanation.md).
 
@@ -388,11 +388,11 @@ For a detailed explanation of this problem, including the mathematical definitio
 Calculating linear regression coefficients by hand reinforces understanding of the underlying mathematics and provides insight into how the model parameters are derived from data.
 
 #### Task
-Consider these three data points: (1,3), (2,5), and (3,8).
+Consider these three data points: $(1,3)$, $(2,5)$, and $(3,8)$.
 
-1. Calculate the least squares estimates for $\beta_0$ and $\beta_1$ by hand
-2. Find the predicted value when $x = 2.5$
-3. Calculate the residual sum of squares (RSS)
+1. [📚] Calculate the least squares estimates for $\beta_0$ and $\beta_1$ by hand
+2. [📚] Find the predicted value when $x = 2.5$
+3. [📚] Calculate the residual sum of squares (RSS)
 
 For a detailed explanation of this problem, including step-by-step calculations, see [Question 20: Manual Calculation of Linear Regression](L3_2_20_explanation.md).
 
@@ -444,7 +444,7 @@ For a detailed explanation of this problem, including the complete derivation wi
 ## Question 24
 
 ### Problem Statement
-Explain the difference between univariate and multivariate formulations of linear regression. If you have data with one input feature x and one output y, write the mathematical formulation for:
+Explain the difference between univariate and multivariate formulations of linear regression. If you have data with one input feature $x$ and one output $y$, write the mathematical formulation for:
 
 1. The univariate linear regression model
 2. The same model expressed in multivariate notation with vectors and matrices
@@ -471,10 +471,10 @@ For a detailed explanation of this problem, including derivation of analytical s
 For a simple linear regression model, you've calculated that $\sum_{i=1}^{n}(x_i - \bar{x})^2 = 50$, $\sum_{i=1}^{n}(y_i - \bar{y})^2 = 200$, and $\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y}) = 80$.
 
 #### Task
-1. Calculate the slope coefficient $\beta_1$
-2. Calculate the correlation coefficient $r$
-3. Calculate the coefficient of determination $R^2$ without performing any additional calculations
-4. Explain the relationship between $r$ and $R^2$ in simple linear regression
+1. [🔍] Calculate the slope coefficient $w_1$
+2. [🔍] Calculate the correlation coefficient $r$
+3. [🔍] Calculate the coefficient of determination $R^2$ without performing any additional calculations
+4. [🔍] Explain the relationship between $r$ and $R^2$ in simple linear regression
 
 For a detailed explanation of this problem, including statistical relationships, see [Question 26: Correlation and Regression Coefficients](L3_2_26_explanation.md).
 
@@ -550,11 +550,11 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the geometric interpretation of linear regression in an n-dimensional space, where n is the number of observations.
 
 #### Task
-1. [📚] In linear regression, the column space of the design matrix $\mathbf{X}$ forms a subspace in $\mathbb{R}^n$. Explain what this subspace represents geometrically.
+1. [🔍] In linear regression, the column space of the design matrix $\mathbf{X}$ forms a subspace in $\mathbb{R}^n$. Explain what this subspace represents geometrically.
 2. Explain why the least squares solution can be described as finding the point in this subspace that is closest to the response vector $\mathbf{y}$.
 3. Why is the residual vector $\mathbf{e} = \mathbf{y} - \mathbf{X}\mathbf{\hat{w}}$ orthogonal to every column of $\mathbf{X}$? Prove this mathematically.
-4. [📚] How does this geometric perspective help us understand the concept of "fitting" a linear model to data?
-5. [📚] If we were to add another feature to our model (an additional column to $\mathbf{X}$), how would this change the subspace and potentially improve the fit? Explain geometrically.
+4. [🔍] How does this geometric perspective help us understand the concept of "fitting" a linear model to data?
+5. [🔍] If we were to add another feature to our model (an additional column to $\mathbf{X}$), how would this change the subspace and potentially improve the fit? Explain geometrically.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 32: Geometric Interpretation in n-Dimensions](L3_2_32_explanation.md).
 

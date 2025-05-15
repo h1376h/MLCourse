@@ -271,14 +271,14 @@ For a detailed explanation of this problem, including analysis of educational da
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 #### Task
-1. In a multiple linear regression model, if features $x_1$ and $x_2$ are perfectly correlated (correlation coefficient = 1), then $(\boldsymbol{X}^T\boldsymbol{X})$ will be singular (non-invertible).
+1. [🔍] In a multiple linear regression model, if features $x_1$ and $x_2$ are perfectly correlated (correlation coefficient = 1), then $(\boldsymbol{X}^T\boldsymbol{X})$ will be singular (non-invertible).
 2. When encoding a categorical variable with $k$ categories using dummy variables, you always need exactly $k$ dummy variables.
-3. Adding a polynomial term (e.g., $x^2$) to a regression model always improves the model's fit to the training data.
-4. In multiple linear regression, the normal equation $\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$ provides the global minimum of the sum of squared errors cost function.
-5. If a predictor variable has no effect on the response, its coefficient in a multiple regression model will always be exactly zero.
-6. In a multiple regression model with interaction terms, the coefficient of a main effect (e.g., $x_1$) represents the effect of that variable when all interacting variables are zero.
+3. [🔍] Adding a polynomial term (e.g., $x^2$) to a regression model always improves the model's fit to the training data.
+4. [🔍] In multiple linear regression, the normal equation $\boldsymbol{w} = (\boldsymbol{X}^T\boldsymbol{X})^{-1}\boldsymbol{X}^T\boldsymbol{y}$ provides the global minimum of the sum of squared errors cost function.
+5. [🔍] If a predictor variable has no effect on the response, its coefficient in a multiple regression model will always be exactly zero.
+6. [🔍] In a multiple regression model with interaction terms, the coefficient of a main effect (e.g., $x_1$) represents the effect of that variable when all interacting variables are zero.
 7. Radial basis functions are useful only for problems with exactly two input dimensions.
-8. The curse of dimensionality refers exclusively to computational complexity issues when fitting models with many features.
+8. [🔍] The curse of dimensionality refers exclusively to computational complexity issues when fitting models with many features.
 
 For a detailed explanation of these true/false statements, see [Question 13: Core Concepts in Multiple Linear Regression](L3_4_13_explanation.md).
 
@@ -320,14 +320,14 @@ Complete each statement with the appropriate term or mathematical expression.
 #### Task
 Fill in each blank with the appropriate term or expression:
 
-1. In a multiple linear regression model with $d$ features, the design matrix $\boldsymbol{X}$ has dimensions $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
-2. The closed-form solution to the least squares problem in matrix form is given by $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
-3. When there is perfect multicollinearity among predictors, the matrix $\boldsymbol{X}^T\boldsymbol{X}$ becomes $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+1. [🔍] In a multiple linear regression model with $d$ features, the design matrix $\boldsymbol{X}$ has dimensions $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+2. [🔍] The closed-form solution to the least squares problem in matrix form is given by $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+3. [🔍] When there is perfect multicollinearity among predictors, the matrix $\boldsymbol{X}^T\boldsymbol{X}$ becomes $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 4. If a categorical variable has $k$ levels, we typically create $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$ dummy variables to represent it.
-5. A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y = \_\_\_\_\_\_\_\_\_\_\_\_\_\_ + \epsilon$.
+5. [🔍] A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y = \_\_\_\_\_\_\_\_\_\_\_\_\_\_ + \epsilon$.
 6. A Gaussian radial basis function can be expressed as $\phi(\boldsymbol{x}) = \_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
-7. The "curse of dimensionality" in regression refers to problems that arise when $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
-8. In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = \_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+7. [🔍] The "curse of dimensionality" in regression refers to problems that arise when $\_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
+8. [🔍] In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = \_\_\_\_\_\_\_\_\_\_\_\_\_\_$.
 
 For a detailed explanation of these fill-in-the-blank questions, see [Question 15: Mathematical Foundations of Multiple Regression](L3_4_15_explanation.md).
 
