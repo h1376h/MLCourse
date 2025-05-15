@@ -349,10 +349,10 @@ For the following dataset with 3 observations:
 | 3   | 5   |
 
 #### Task
-1. Write down the posterior distribution for the parameters $w_0$ and $w_1$ given the data
-2. Derive the logarithm of the posterior distribution
-3. Show that MAP estimation with Gaussian priors is equivalent to ridge regression with specific regularization parameters
-4. Calculate the MAP estimates for $w_0$ and $w_1$ assuming $\sigma^2 = 1$, $\tau_0^2 = 10$, and $\tau_1^2 = 2$
+1. [📚] Write down the posterior distribution for the parameters $w_0$ and $w_1$ given the data
+2. [📚] Derive the logarithm of the posterior distribution
+3. [🔍] Show that MAP estimation with Gaussian priors is equivalent to ridge regression with specific regularization parameters
+4. [📚] Calculate the MAP estimates for $w_0$ and $w_1$ assuming $\sigma^2 = 1$, $\tau_0^2 = 10$, and $\tau_1^2 = 2$
 
 For a detailed explanation of this problem, including step-by-step solutions and derivations, see [Question 19: MAP Estimation for Linear Regression](L3_3_19_explanation.md).
 
