@@ -469,7 +469,7 @@ In this problem:
 - You want to implement a variable learning rate that adapts based on recent performance
 
 #### Task
-1. Write down a modified LMS update rule where the learning rate $\alpha_t$ at time step $t$ depends on the recent prediction errors. Give a specific formula that reduces $\alpha_t$ when errors are small and increases it when errors are large.
+1. [🔍] Write down a modified LMS update rule where the learning rate $\alpha_t$ at time step $t$ depends on the recent prediction errors. Give a specific formula that reduces $\alpha_t$ when errors are small and increases it when errors are large.
 2. Consider the following data point sequence arriving in an online learning scenario:
    - Point 1: $\boldsymbol{x}^{(1)} = [1, 2]^T$, $y^{(1)} = 5$
    - Point 2: $\boldsymbol{x}^{(2)} = [1, 3]^T$, $y^{(2)} = 8$
@@ -477,7 +477,7 @@ In this problem:
    
    If your initial weights are $\boldsymbol{w}^{(0)} = [0, 1]^T$ and initial learning rate is $\alpha_0 = 0.1$, trace through the updates using your adaptive learning rate formula.
 3. Implement an "annealing" learning rate for the LMS algorithm where the learning rate decreases over time according to the schedule $\alpha_t = \frac{\alpha_0}{1 + \beta t}$ where $\beta$ is a decay parameter. If $\alpha_0 = 0.2$ and $\beta = 0.1$, calculate the learning rates for the first 5 time steps.
-4. In online learning with non-stationary data (where the underlying distribution changes over time), explain why a constant learning rate might be preferable to an annealing schedule.
+4. [🔍] In online learning with non-stationary data (where the underlying distribution changes over time), explain why a constant learning rate might be preferable to an annealing schedule.
 5. Propose and mathematically formulate a "momentum-based" LMS update rule that incorporates information from previous updates to smooth the learning process.
 
 For a detailed explanation of this problem, including step-by-step calculations and key insights, see [Question 25: Adaptive Learning Rates for LMS](L3_5_25_explanation.md).
