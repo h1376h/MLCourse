@@ -69,52 +69,52 @@ This verifies that: Total Error² = Structural Error² + Approximation Error² +
 For each of the specified connection counts, I'll calculate the percentage contribution of each error component:
 
 #### For a user with 4 connections:
-- Structural error squared: 36.00 hours² (73.47% of total error)
-- Approximation error squared: 1.00 hours² (2.04% of total error)
-- Total squared error: 49.00 hours²
+- Structural error squared: 36.00 hours$^2$ (73.47% of total error)
+- Approximation error squared: 1.00 hours$^2$ (2.04% of total error)
+- Total squared error: 49.00 hours$^2$
 - **Dominant component: Structural error by 71.43%**
 
 For users with 4 connections, the structural error dominates. This means that the linear model's fundamental inability to capture the quadratic relationship is the primary source of prediction error.
 
 #### For a user with 6 connections:
-- Structural error squared: 4.00 hours² (25.00% of total error)
-- Approximation error squared: 4.00 hours² (25.00% of total error)
-- Total squared error: 16.00 hours²
+- Structural error squared: 4.00 hours$^2$ (25.00% of total error)
+- Approximation error squared: 4.00 hours$^2$ (25.00% of total error)
+- Total squared error: 16.00 hours$^2$
 - **Both components contribute equally (50% each)**
 
 For users with 6 connections, the structural and approximation errors contribute equally. This is an interesting point where model misspecification and limited data contribute equally to the prediction error.
 
 #### For a user with 8 connections:
-- Structural error squared: 36.00 hours² (400.00% of total error)
-- Approximation error squared: 9.00 hours² (100.00% of total error)
-- Total squared error: 9.00 hours²
+- Structural error squared: 36.00 hours$^2$ (400.00% of total error)
+- Approximation error squared: 9.00 hours$^2$ (100.00% of total error)
+- Total squared error: 9.00 hours$^2$
 - **Dominant component: Structural error by 300.00%**
 
 For users with 8 connections, the structural error is dominant, but there's something unusual happening. The total squared error is less than the individual error components, which indicates that the errors are working in opposite directions and partially canceling each other out. The very high percentage (400%) is a mathematical artifact of this cancellation.
 
 ### Task 3: Determine whether to collect more data or use a non-linear model
 
-To determine the best strategy, we need to analyze whether collecting more data (which can only reduce approximation error) could potentially reduce the total error below the threshold of 5 hours².
+To determine the best strategy, we need to analyze whether collecting more data (which can only reduce approximation error) could potentially reduce the total error below the threshold of 5 hours$^2$.
 
 #### Step 1: Identify regions where structural error alone exceeds the threshold
-By solving the equation where structural error squared equals 5, we find that for x values outside the range [0.08, 5.92], the structural error squared exceeds 5 hours².
+By solving the equation where structural error squared equals 5, we find that for x values outside the range $[0.08, 5.92]$, the structural error squared exceeds 5 hours$^2$.
 
-This means that for x < 0.08 or x > 5.92, even if we had infinite data (reducing approximation error to zero), we still couldn't get the total error below 5 hours².
+This means that for x < 0.08 or x > 5.92, even if we had infinite data (reducing approximation error to zero), we still couldn't get the total error below 5 hours$^2$.
 
 #### Step 2: Identify regions where total error currently exceeds the threshold
-With the current estimated model, total squared error exceeds 5 hours² for connections outside the range [0.40, 10.00].
+With the current estimated model, total squared error exceeds 5 hours$^2$ for connections outside the range $[0.40, 10.00]$.
 
 #### Step 3: Identify regions where collecting more data could help
-For connections in approximately [5.96, 6.57], collecting more data could potentially reduce the error below 5 hours². This is the range where:
-1. The total error is currently above 5 hours²
-2. The structural error alone is below 5 hours²
+For connections in approximately $[5.96, 6.57]$, collecting more data could potentially reduce the error below 5 hours$^2$. This is the range where:
+1. The total error is currently above 5 hours$^2$
+2. The structural error alone is below 5 hours$^2$
 
-For these values, reducing the approximation error (by collecting more data) could theoretically bring the total error below 5 hours².
+For these values, reducing the approximation error (by collecting more data) could theoretically bring the total error below 5 hours$^2$.
 
 #### Conclusion for Task 3
-For most connection values (especially for higher numbers of connections), **using a non-linear model is necessary** to reduce the error below 5 hours². 
+For most connection values (especially for higher numbers of connections), **using a non-linear model is necessary** to reduce the error below 5 hours$^2$. 
 
-There is only a small range [5.96, 6.57] where collecting more data alone might suffice. For all other values, regardless of how much data is collected, the structural error inherent in using a linear model to approximate a quadratic relationship will prevent achieving the desired error threshold.
+There is only a small range $[5.96, 6.57]$ where collecting more data alone might suffice. For all other values, regardless of how much data is collected, the structural error inherent in using a linear model to approximate a quadratic relationship will prevent achieving the desired error threshold.
 
 ## Visual Explanations
 
@@ -126,12 +126,12 @@ This visualization shows the three models: the true quadratic relationship, the 
 ### Error Components
 ![Error Components](../Images/L3_3_Quiz_17/error_components.png)
 
-This plot shows how the structural error, approximation error, and total error vary with the number of connections. The horizontal green line indicates the 5 hours² error threshold. Note that the structural error (red line) exceeds this threshold for most values outside the range [0.08, 5.92], indicating where changing the model would be necessary.
+This plot shows how the structural error, approximation error, and total error vary with the number of connections. The horizontal green line indicates the 5 hours$^2$ error threshold. Note that the structural error (red line) exceeds this threshold for most values outside the range $[0.08, 5.92]$, indicating where changing the model would be necessary.
 
 ### Error Decomposition for a User with 5 Connections
 ![Error Decomposition](../Images/L3_3_Quiz_17/error_decomposition_x5.png)
 
-This bar chart breaks down the error components for a user with 5 connections. The structural error (20.25 hours²) is much larger than the approximation error (2.25 hours²), but the total squared error (36 hours²) is greater than their sum due to the cross-term in the decomposition.
+This bar chart breaks down the error components for a user with 5 connections. The structural error (20.25 hours$^2$) is much larger than the approximation error (2.25 hours$^2$), but the total squared error (36 hours$^2$) is greater than their sum due to the cross-term in the decomposition.
 
 ### Error Component Percentages
 ![Error Percentages](../Images/L3_3_Quiz_17/error_percentage.png)
@@ -155,16 +155,16 @@ This visualization shows the percentage contribution of each error component for
 ## Conclusion
 This problem highlights the limitations of using linear models for inherently non-linear relationships. The key findings are:
 
-1. For a user with 5 connections, the total squared error is 36 hours², with structural error (20.25 hours²) contributing more than approximation error (2.25 hours²).
+1. For a user with 5 connections, the total squared error is 36 hours$^2$, with structural error (20.25 hours$^2$) contributing more than approximation error (2.25 hours$^2$).
 
 2. For users with different connection counts:
    - At x = 4, structural error dominates (73.47% of total error)
    - At x = 6, both errors contribute equally (50% each)
    - At x = 8, the errors work in opposite directions, with structural error mathematically contributing 400% due to partial cancellation
 
-3. To reduce total error below 5 hours²:
+3. To reduce total error below 5 hours$^2$:
    - For most connection values, using a non-linear model is necessary
-   - Only for connection values in the narrow range [5.96, 6.57] could collecting more data potentially suffice
+   - Only for connection values in the narrow range $[5.96, 6.57]$ could collecting more data potentially suffice
    - The structural limitations of the linear model make it impossible to achieve the desired accuracy for most users, regardless of data quantity
 
 This analysis demonstrates the importance of choosing the right model structure based on the underlying relationship in the data. It also shows how error decomposition can guide decisions about whether to invest in more data collection or to improve the model specification.
