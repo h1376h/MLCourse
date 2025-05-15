@@ -22,103 +22,269 @@ To solve a linear regression problem, we first express the model in matrix form.
 $$y = X\beta + \varepsilon$$
 
 Where:
-- $y$ is an $n \times 1$ vector of response values
-- $X$ is an $n \times 2$ design matrix where the first column contains all 1s (for the intercept) and the second column contains the $x$ values
+- $y$ is an $n \times 1$ vector of response values $[y_1, y_2, \ldots, y_n]^T$
+- $X$ is an $n \times 2$ design matrix where the first column contains all 1s (for the intercept) and the second column contains the $x$ values:
+
+$$X = \begin{bmatrix} 
+1 & x_1 \\
+1 & x_2 \\
+\vdots & \vdots \\
+1 & x_n
+\end{bmatrix}$$
+
 - $\beta$ is a $2 \times 1$ vector $[\beta_0, \beta_1]^T$ of parameters
-- $\varepsilon$ is an $n \times 1$ vector of error terms
+- $\varepsilon$ is an $n \times 1$ vector of error terms $[\varepsilon_1, \varepsilon_2, \ldots, \varepsilon_n]^T$
 
-The objective in linear regression is to minimize the sum of squared errors:
+The objective in linear regression is to minimize the sum of squared errors (SSE):
 
-$$\min S(\beta) = (y - X\beta)^T(y - X\beta)$$
+$$\min_{\beta} S(\beta) = \varepsilon^T\varepsilon = (y - X\beta)^T(y - X\beta)$$
 
-To find the values of $\beta$ that minimize this function, we take the derivative with respect to $\beta$ and set it equal to zero:
+Let's expand this expression:
+
+$$\begin{align}
+S(\beta) &= (y - X\beta)^T(y - X\beta) \\
+&= y^Ty - y^TX\beta - \beta^TX^Ty + \beta^TX^TX\beta \\
+&= y^Ty - 2\beta^TX^Ty + \beta^TX^TX\beta
+\end{align}$$
+
+Note that $y^TX\beta = \beta^TX^Ty$ because both are scalar (1×1) values.
+
+To find the values of $\beta$ that minimize $S(\beta)$, we take the derivative with respect to $\beta$ and set it equal to zero:
+
+$$\begin{align}
+\frac{\partial S}{\partial \beta} &= \frac{\partial}{\partial \beta}(y^Ty - 2\beta^TX^Ty + \beta^TX^TX\beta) \\
+&= 0 - 2X^Ty + 2X^TX\beta \\
+&= -2X^Ty + 2X^TX\beta \\
+&= -2X^T(y - X\beta)
+\end{align}$$
+
+Setting the derivative equal to zero (necessary condition for minimum):
 
 $$\frac{\partial S}{\partial \beta} = -2X^T(y - X\beta) = 0$$
 
-Simplifying this equation:
+Simplifying:
 
-$$X^T(y - X\beta) = 0$$
-$$X^Ty - X^TX\beta = 0$$
-$$X^TX\beta = X^Ty$$
+$$\begin{align}
+X^T(y - X\beta) &= 0 \\
+X^Ty - X^TX\beta &= 0 \\
+X^TX\beta &= X^Ty
+\end{align}$$
 
-This final equation, $X^TX\beta = X^Ty$, is the formula for the normal equations in matrix form. 
+This final equation, $X^TX\beta = X^Ty$, is the formula for the normal equations in matrix form.
 
-The solution to this equation is:
+If $X^TX$ is invertible, the solution is:
 
 $$\beta = (X^TX)^{-1}X^Ty$$
 
-This formula gives us the least squares estimates of the regression coefficients.
+This is the least squares estimator for $\beta$.
+
+For our simple linear regression model with two parameters, the normal equations can be written explicitly as:
+
+$$\begin{bmatrix} 
+\sum(1) & \sum(x_i) \\
+\sum(x_i) & \sum(x_i^2)
+\end{bmatrix} 
+\begin{bmatrix} 
+\beta_0 \\
+\beta_1
+\end{bmatrix} = 
+\begin{bmatrix} 
+\sum(y_i) \\
+\sum(x_iy_i)
+\end{bmatrix}$$
+
+This gives the familiar formulas for simple linear regression:
+
+$$\beta_1 = \frac{\sum(x_iy_i) - n^{-1}(\sum x_i)(\sum y_i)}{\sum(x_i^2) - n^{-1}(\sum x_i)^2}$$
+
+$$\beta_0 = \bar{y} - \beta_1\bar{x}$$
 
 ### Step 2: Matrix Property for Unique Solution
 
 The key matrix property that ensures a unique solution exists is that $X^TX$ must be invertible (non-singular).
 
 For $X^TX$ to be invertible, the following conditions must be met:
-1. The matrix $X$ must have full column rank
-2. There must be at least as many observations as parameters ($n \geq p$, where $p$ is the number of parameters)
-3. The columns of $X$ must be linearly independent
 
-In our simple linear regression case with $y = \beta_0 + \beta_1x$:
-- We have 2 parameters ($\beta_0$ and $\beta_1$)
-- We need at least 2 data points ($n \geq 2$)
-- The $x$ values must not all be identical (otherwise the second column would be a scalar multiple of the first)
+1. The matrix $X$ must have full column rank.
+   This means that the columns of $X$ must be linearly independent vectors.
+   In mathematical terms: $\text{rank}(X) = p$, where $p$ is the number of columns in $X$.
 
-When $X^TX$ is invertible, the normal equations have a unique solution. When $X^TX$ is not invertible (singular), the system is rank-deficient, and either no solution exists or infinitely many solutions exist.
+2. There must be at least as many observations as parameters ($n \geq p$).
+   This is because a matrix with more columns than rows cannot have full column rank.
 
-The condition that $X^TX$ is invertible is equivalent to saying that the determinant of $X^TX$ is non-zero:
+3. No exact linear relationship can exist among the predictor variables.
+   This means no column can be expressed as a linear combination of other columns.
 
-$$\det(X^TX) \neq 0$$
+$X^TX$ has several important mathematical properties:
 
-If this determinant is zero, it indicates perfect collinearity (linear dependence) among the predictor variables, making it impossible to determine unique coefficient values.
+1. $X^TX$ is always a square matrix with dimensions $p \times p$.
+2. $X^TX$ is always symmetric: $(X^TX)^T = X^TX$
+3. $X^TX$ is positive semi-definite, meaning:
+   a. All eigenvalues are non-negative
+   b. For any vector $v$, $v^T(X^TX)v \geq 0$
+4. $X^TX$ is positive definite (and thus invertible) if and only if $X$ has full column rank.
+   When positive definite:
+   a. All eigenvalues are strictly positive
+   b. For any non-zero vector $v$, $v^T(X^TX)v > 0$
 
-## Practical Implementation
-Let's demonstrate these concepts with a simple example.
+In our simple linear regression case with $y = \beta_0 + \beta_1x$, the design matrix $X$ has 2 columns:
+- First column: all 1s (for the intercept $\beta_0$)
+- Second column: the $x$ values (for the slope $\beta_1$)
 
-### Example with a Well-Conditioned Matrix
-For a dataset with 10 points where the true model is $y = 3 + 2x$ with some random noise:
+For $X^TX$ to be invertible in this case:
+1. We need at least 2 data points ($n \geq 2$)
+2. The $x$ values must not all be identical
 
-1. We construct the design matrix $X$ with a column of 1s and a column of $x$ values.
+If all $x$ values were identical (e.g., all equal to 5), then the second column would be a scalar multiple of the first: $[x_1, x_2, \ldots, x_n]^T = 5[1, 1, \ldots, 1]^T$. This would make the columns linearly dependent, causing $X^TX$ to be singular.
 
-2. Computing $X^TX$:
-   ```
-   X^T X matrix:
-     [10.00, 50.00]
-     [50.00, 351.85]
-   ```
+Testing for invertibility:
+1. Check the determinant: $\det(X^TX) \neq 0$
+2. Check the eigenvalues: all eigenvalues of $X^TX > 0$
+3. Check the rank: $\text{rank}(X) = p$
 
-3. Calculating the determinant:
-   ```
-   Determinant of X^T X: 1018.52
-   ```
-   Since the determinant is non-zero, $X^TX$ is invertible and a unique solution exists.
+When $X^TX$ is invertible, the normal equations have a unique solution $\beta = (X^TX)^{-1}X^Ty$. When $X^TX$ is not invertible, the system is rank-deficient, and either no solution exists or infinitely many solutions exist that minimize the sum of squared errors.
 
-4. Solving for $\beta$ using the normal equations:
-   ```
-   Solution using normal equations:
-     β₀ = 3.4791
-     β₁ = 1.9938
-   ```
-   These values are close to the true parameters (3 and 2), with small differences due to random noise.
+## Numerical Examples
 
-### Example with a Singular Matrix
+### Example 1: Well-Conditioned Case
+Let's demonstrate these concepts with a simple example using 10 data points where the true model is $y = 3 + 2x$ with some random noise.
+
+First, we construct the design matrix $X$ with a column of 1s and a column of $x$ values:
+
+```
+Design matrix X:
+  X[0] = [1.0, 0.00]
+  X[1] = [1.0, 1.11]
+  X[2] = [1.0, 2.22]
+  ...
+  X[9] = [1.0, 10.00]
+```
+
+Computing $X^TX$:
+```
+X^T X matrix:
+  [10.00, 50.00]
+  [50.00, 351.85]
+```
+
+The elements of $X^TX$ have specific interpretations:
+- $X^TX[0,0] = 10.00 =$ number of observations ($n$)
+- $X^TX[0,1] = X^TX[1,0] = 50.00 =$ sum of $x$ values
+- $X^TX[1,1] = 351.85 =$ sum of squared $x$ values
+
+Calculating the determinant:
+```
+Determinant of X^T X: 1018.52
+```
+Since the determinant is non-zero, $X^TX$ is invertible and a unique solution exists.
+
+Checking the eigenvalues:
+```
+Eigenvalues of X^T X: 2.84, 359.01
+```
+All eigenvalues are positive, confirming $X^TX$ is positive definite.
+
+Computing $X^Ty$:
+```
+X^T y vector:
+  [134.48, 875.47]
+```
+
+The elements of $X^Ty$ represent:
+- $X^Ty[0] = 134.48 =$ sum of $y$ values
+- $X^Ty[1] = 875.47 =$ sum of $x \times y$ products
+
+Calculating the inverse of $X^TX$:
+```
+(X^T X)^-1 matrix:
+  [0.345455, -0.049091]
+  [-0.049091, 0.009818]
+```
+
+Finally, solving for $\beta$ using the normal equations:
+$$\begin{align}
+\beta &= (X^TX)^{-1}X^Ty \\
+&= \begin{bmatrix}
+0.345455 & -0.049091 \\
+-0.049091 & 0.009818
+\end{bmatrix}
+\begin{bmatrix}
+134.48 \\
+875.47
+\end{bmatrix} \\
+&= \begin{bmatrix}
+3.4791 \\
+1.9938
+\end{bmatrix}
+\end{align}$$
+
+So our estimated parameters are:
+- $\hat{\beta}_0 = 3.4791$ (true value: 3)
+- $\hat{\beta}_1 = 1.9938$ (true value: 2)
+
+The small differences are due to the random noise in our simulated data.
+
+Evaluating the model:
+```
+Sum of Squared Errors (SSE): 4.7007
+R-squared: 0.9885
+```
+
+The high R-squared value indicates that our model explains over 98% of the variance in the response variable.
+
+### Example 2: Singular Case
 To demonstrate what happens when $X^TX$ is not invertible, we can create a case where all $x$ values are identical (perfect collinearity):
 
 ```
-In this example, all x values are identical (x = 5).
-X^T X matrix for singular case:
+Data points where all x values = 5:
+X^T X matrix:
   [10.00, 50.00]
   [50.00, 250.00]
+```
 
+Examining this matrix, we can see that the second row is exactly 5 times the first row:
+```
+Ratio check for linear dependence in X^T X:
+  Row 1 ratio: 50.0 / 10.0 = 5.0
+  Row 2 ratio: 250.0 / 50.0 = 5.0
+```
+
+This confirms the linear dependence in the columns of $X$.
+
+Calculating the determinant:
+```
 Determinant of X^T X: 0.0000000000
 ```
 
 Since the determinant is zero, $X^TX$ is not invertible. Attempting to solve the normal equations directly results in an error:
 
 ```
-Linear algebra error: Singular matrix cannot be inverted.
+Error: Singular matrix
 ```
 
-This confirms that no unique solution exists when $X^TX$ is singular. In such cases, we might use techniques like the pseudoinverse to find one of infinitely many solutions that minimize the sum of squared errors.
+Checking the eigenvalues:
+```
+Eigenvalues of X^T X: 0.000000, 260.000000
+```
+One eigenvalue is zero, confirming that $X^TX$ is singular.
+
+In this case, we can use the pseudoinverse (Moore-Penrose) to find one of infinitely many solutions that minimize the sum of squared errors:
+
+```
+β₀ = 0.0885
+β₁ = 0.4423
+Sum of squared errors: 8.1000
+```
+
+We can verify that infinitely many solutions exist by testing an alternative solution:
+```
+Alternative solution:
+β₀ = 1.0885
+β₁ = 0.2423
+Sum of squared errors: 8.1000
+```
+
+Both solutions give exactly the same SSE, confirming that when $X^TX$ is singular, there are infinitely many solutions that minimize the sum of squared errors.
 
 ## Visual Explanations
 
@@ -135,12 +301,12 @@ The 3D surface (left) illustrates how the sum of squared errors varies with diff
 ### Collinearity vs Non-Collinearity
 ![Collinearity Comparison](../Images/L3_2_Quiz_18/plot3_collinearity.png)
 
-This comparison illustrates the difference between non-collinear data (left) and collinear data (right). In the non-collinear case, the x-values vary, making X^T X invertible (det(X^T X) > 0) and ensuring a unique solution exists. In the collinear case, all x-values are identical, making X^T X singular (det(X^T X) = 0) and resulting in no unique solution.
+This comparison illustrates the difference between non-collinear data (left) and collinear data (right). In the non-collinear case, the x-values vary, making $X^TX$ invertible ($\det(X^TX) > 0$) and ensuring a unique solution exists. In the collinear case, all x-values are identical, making $X^TX$ singular ($\det(X^TX) = 0$) and resulting in no unique solution.
 
 ### Eigenvalues of X^T X Matrix
 ![Eigenvalues](../Images/L3_2_Quiz_18/plot4_eigenvalues.png)
 
-This visualization compares the eigenvalues of X^T X in three scenarios:
+This visualization compares the eigenvalues of $X^TX$ in three scenarios:
 - **Well-conditioned case**: Both eigenvalues are significantly above zero, indicating a stable, invertible matrix
 - **Ill-conditioned case**: The smallest eigenvalue approaches zero, resulting in a nearly singular matrix
 - **Singular case**: One eigenvalue equals zero, making the matrix non-invertible
@@ -150,12 +316,12 @@ The condition number (ratio of largest to smallest eigenvalue) quantifies the nu
 ### Matrix Representation
 ![Matrix Representation](../Images/L3_2_Quiz_18/plot5_matrix_representation.png)
 
-This visualization illustrates the actual matrices involved in the normal equations. The left panel shows the design matrix X with a column of ones (intercept) and a column of x-values. The right panel shows the resulting X^T X matrix, which must be invertible for a unique solution to exist. The determinant value in the title quantifies this invertibility.
+This visualization illustrates the actual matrices involved in the normal equations. The left panel shows the design matrix $X$ with a column of ones (intercept) and a column of x-values. The right panel shows the resulting $X^TX$ matrix, which must be invertible for a unique solution to exist. The determinant value in the title quantifies this invertibility.
 
 ### Geometric Interpretation
 ![Geometric Interpretation](../Images/L3_2_Quiz_18/plot6_geometric_interpretation.png)
 
-This 3D visualization demonstrates the geometric interpretation of the normal equations. The blue plane represents the column space of X (all possible linear combinations of the predictor variables). The red points are the original data points, and the green points are their projections onto the column space. The black lines show that these projections are orthogonal to the column space, illustrating that X^T(y - X𝛽) = 0, which is equivalent to the normal equations.
+This 3D visualization demonstrates the geometric interpretation of the normal equations. The blue plane represents the column space of $X$ (all possible linear combinations of the predictor variables). The red points are the original data points, and the green points are their projections onto the column space. The black lines show that these projections are orthogonal to the column space, illustrating that $X^T(y - X\beta) = 0$, which is equivalent to the normal equations.
 
 ## Key Insights
 
