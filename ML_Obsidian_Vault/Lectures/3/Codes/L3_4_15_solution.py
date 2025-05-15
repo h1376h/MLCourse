@@ -8,7 +8,10 @@ from mpl_toolkits.mplot3d import Axes3D
 from sklearn.linear_model import LinearRegression
 
 # Create directory to save figures
-os.makedirs("Images/L3_4_Quiz_15", exist_ok=True)
+script_dir = os.path.dirname(os.path.abspath(__file__))
+images_dir = os.path.join(os.path.dirname(script_dir), "Images")
+save_dir = os.path.join(images_dir, "L3_4_Quiz_15")
+os.makedirs(save_dir, exist_ok=True)
 
 # Set a nice style for the plots
 plt.style.use('seaborn-v0_8-whitegrid')
@@ -35,7 +38,7 @@ def plot_design_matrix():
     print(X_with_intercept)
     
     # Create a visual representation of the design matrix
-    fig, ax = plt.subplots(figsize=(10, 5))
+    fig, ax = plt.subplots(figsize=(8, 4))
     
     # Create heatmap of design matrix
     im = ax.imshow(X_with_intercept, cmap='viridis')
@@ -64,14 +67,13 @@ def plot_design_matrix():
     # Set title and labels
     ax.set_title('Design Matrix Dimensions', fontsize=14)
     
-    # Add annotations to explain dimensions
-    plt.figtext(0.5, 0.01, f"The design matrix has dimensions n × (d+1): {n_samples} × {d_features+1}\n"
-                f"where n = {n_samples} is the number of samples and d = {d_features} is the number of features\n"
-                f"The +1 is for the intercept column of ones", 
-                ha='center', fontsize=12, bbox=dict(facecolor='white', alpha=0.8))
+    # Instead of figtext, print the explanation
+    print(f"The design matrix has dimensions n × (d+1): {n_samples} × {d_features+1}")
+    print(f"where n = {n_samples} is the number of samples and d = {d_features} is the number of features")
+    print(f"The +1 is for the intercept column of ones")
     
-    plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-    plt.savefig('Images/L3_4_Quiz_15/design_matrix.png', dpi=300)
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'design_matrix.png'), dpi=300)
     
     print(f"Answer: n × (d+1) or {n_samples} × {d_features+1} in this example")
     print(f"where n is the number of samples and d is the number of features\n")
@@ -122,7 +124,7 @@ def demonstrate_closed_form_solution():
     print(f"Beta hat: {beta_hat}")
     
     # Create a figure to visualize the solution
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
     
     # Plot the data and regression line
     axes[0].scatter(X, y, alpha=0.7, label='Data points')
@@ -137,15 +139,8 @@ def demonstrate_closed_form_solution():
     # Visualize the equation
     axes[1].axis('off')
     equation_text = r"""
-    $\begin{align}
-    \text{Closed-form solution:} \\
-    \hat{\boldsymbol{\beta}} &= (\boldsymbol{X}^T \boldsymbol{X})^{-1} \boldsymbol{X}^T \boldsymbol{y} \\
-    \end{align}$
-    
-    Where:
-    - $\boldsymbol{X}$ is the design matrix (n × (d+1))
-    - $\boldsymbol{y}$ is the target vector (n × 1)
-    - $\hat{\boldsymbol{\beta}}$ is the vector of estimated coefficients ((d+1) × 1)
+    Closed-form solution:
+    $\hat{\boldsymbol{\beta}} = (\boldsymbol{X}^T \boldsymbol{X})^{-1} \boldsymbol{X}^T \boldsymbol{y}$
     
     In our example:
     $\hat{\boldsymbol{\beta}} = 
@@ -157,8 +152,16 @@ def demonstrate_closed_form_solution():
     
     axes[1].text(0.1, 0.5, equation_text, fontsize=14, va='center')
     
+    # Print explanation instead of including in the figure
+    print("\nClosed-form solution explanation:")
+    print("Where:")
+    print("- X is the design matrix (n × (d+1))")
+    print("- y is the target vector (n × 1)")
+    print("- β̂ is the vector of estimated coefficients ((d+1) × 1)")
+    print(f"In our example, β̂ = [{beta_hat[0]:.2f}, {beta_hat[1]:.2f}]")
+    
     plt.tight_layout()
-    plt.savefig('Images/L3_4_Quiz_15/closed_form_solution.png', dpi=300)
+    plt.savefig(os.path.join(save_dir, 'closed_form_solution.png'), dpi=300)
     
     print(f"\nAnswer: (X^T X)^(-1) X^T y\n")
     
@@ -206,7 +209,7 @@ def demonstrate_multicollinearity():
     print(f"\nEigenvalues of X^T X: {eigenvalues}")
     
     # Create a visualization
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
     
     # Plot the relationship between features
     axes[0].scatter(x1, x2, s=80, alpha=0.7)
@@ -238,14 +241,14 @@ def demonstrate_multicollinearity():
     
     axes[1].set_title('X^T X Matrix with Multicollinearity', fontsize=14)
     
-    # Add explanation
-    plt.figtext(0.5, 0.01, f"With perfect multicollinearity, the X^T X matrix becomes singular.\n"
-                f"Determinant ≈ {det_X_T_X:.2e}, which is effectively zero.\n"
-                f"This means the matrix has no inverse, making least squares estimation impossible.", 
-                ha='center', fontsize=12, bbox=dict(facecolor='white', alpha=0.8))
+    # Print explanation instead of figtext
+    print("\nMulticollinearity explanation:")
+    print(f"With perfect multicollinearity, the X^T X matrix becomes singular.")
+    print(f"Determinant ≈ {det_X_T_X:.2e}, which is effectively zero.")
+    print(f"This means the matrix has no inverse, making least squares estimation impossible.")
     
-    plt.tight_layout(rect=[0, 0.08, 1, 0.95])
-    plt.savefig('Images/L3_4_Quiz_15/multicollinearity.png', dpi=300)
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'multicollinearity.png'), dpi=300)
     
     print(f"\nAnswer: singular\n")
     
@@ -286,7 +289,7 @@ def demonstrate_dummy_variables():
     print(f"Note: Category 1 is now the reference category")
     
     # Create visualization
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 6))
     
     # Visualize the full one-hot encoding
     im1 = axes[0].imshow(dummy_matrix, cmap='Blues')
@@ -324,14 +327,14 @@ def demonstrate_dummy_variables():
     
     axes[1].set_title('Proper Dummy Encoding (k-1 dummies)', fontsize=14)
     
-    # Add explanation
-    plt.figtext(0.5, 0.01, f"For a categorical variable with k={k} levels, we typically create k-1={k-1} dummy variables.\n"
-                f"Using all k dummies would cause perfect multicollinearity with the intercept term.\n"
-                f"The omitted category becomes the reference/baseline category.", 
-                ha='center', fontsize=12, bbox=dict(facecolor='white', alpha=0.8))
+    # Print explanation instead of figtext
+    print("\nDummy variables explanation:")
+    print(f"For a categorical variable with k={k} levels, we typically create k-1={k-1} dummy variables.")
+    print(f"Using all k dummies would cause perfect multicollinearity with the intercept term.")
+    print(f"The omitted category becomes the reference/baseline category.")
     
-    plt.tight_layout(rect=[0, 0.08, 1, 0.95])
-    plt.savefig('Images/L3_4_Quiz_15/dummy_variables.png', dpi=300)
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'dummy_variables.png'), dpi=300)
     
     print(f"\nAnswer: k-1\n")
     
@@ -375,7 +378,7 @@ def demonstrate_polynomial_regression():
     y_plot = model.predict(x_plot_poly)
     
     # Create visualization
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(8, 5))
     
     # Plot the data points
     ax.scatter(x, y, alpha=0.7, label='Data points')
@@ -388,13 +391,11 @@ def demonstrate_polynomial_regression():
     ax.set_title('Polynomial Regression of Degree 3', fontsize=14)
     ax.legend(fontsize=12)
     
-    # Add the equation to the plot
-    equation = f"$y = {intercept:.2f} + ({coefficients[1]:.2f})x + ({coefficients[2]:.2f})x^2 + ({coefficients[3]:.2f})x^3 + \\epsilon$"
-    ax.text(0.05, 0.95, equation, transform=ax.transAxes, fontsize=14, 
-            verticalalignment='top', bbox=dict(facecolor='white', alpha=0.8))
+    # Print equation instead of adding to the plot
+    print(f"\nEquation: y = {intercept:.2f} + ({coefficients[1]:.2f})x + ({coefficients[2]:.2f})x^2 + ({coefficients[3]:.2f})x^3 + ε")
     
     plt.tight_layout()
-    plt.savefig('Images/L3_4_Quiz_15/polynomial_regression.png', dpi=300)
+    plt.savefig(os.path.join(save_dir, 'polynomial_regression.png'), dpi=300)
     
     print(f"\nAnswer: β₀ + β₁x + β₂x² + β₃x³ + ε\n")
     
@@ -426,7 +427,7 @@ def demonstrate_rbf():
     Z = Z.reshape(X.shape)
     
     # Create visualization
-    fig = plt.figure(figsize=(14, 6))
+    fig = plt.figure(figsize=(12, 5))
     gs = GridSpec(1, 2, figure=fig)
     
     # 3D surface plot
@@ -452,13 +453,13 @@ def demonstrate_rbf():
     ax2.set_title('Gaussian RBF Contour Plot', fontsize=14)
     ax2.legend(fontsize=10)
     
-    # Add the equation to the plot
-    equation = r"$\phi(\mathbf{x}) = \exp(-\gamma \|\mathbf{x} - \mathbf{\mu}\|^2)$"
-    fig.text(0.5, 0.01, equation + f"\nwhere γ={gamma} controls the width, and μ={center} is the center", 
-             ha='center', fontsize=14, bbox=dict(facecolor='white', alpha=0.8))
+    # Print explanation instead of figtext
+    print("\nGaussian RBF explanation:")
+    print(f"φ(x) = exp(-γ||x-μ||²)")
+    print(f"where γ={gamma} controls the width, and μ={center} is the center")
     
-    plt.tight_layout(rect=[0, 0.05, 1, 0.95])
-    plt.savefig('Images/L3_4_Quiz_15/gaussian_rbf.png', dpi=300)
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'gaussian_rbf.png'), dpi=300)
     
     print(f"Gaussian RBF: φ(x) = exp(-γ||x-μ||²)")
     print(f"where:")
@@ -482,7 +483,7 @@ def demonstrate_curse_of_dimensionality():
     total_samples = samples_per_dim ** dimensions
     
     # Create visualization
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
     
     # Plot the exponential growth of samples needed
     axes[0].semilogy(dimensions, total_samples, 'bo-', linewidth=2, markersize=8)
@@ -521,17 +522,16 @@ def demonstrate_curse_of_dimensionality():
     axes[1].set_title('Data Sparsity with Fixed Sample Size', fontsize=14)
     axes[1].legend(fontsize=10)
     
-    # Add text explaining the curse of dimensionality
-    plt.figtext(0.5, 0.01, 
-                "The \"curse of dimensionality\" refers to problems that arise when the number of features (dimensions) increases:\n"
-                "1. The number of samples needed grows exponentially with dimensions\n"
-                "2. Data becomes increasingly sparse in the feature space\n"
-                "3. Distance metrics become less meaningful as dimensions increase\n"
-                "4. Risk of overfitting increases due to the increased model complexity",
-                ha='center', fontsize=12, bbox=dict(facecolor='white', alpha=0.8))
+    # Print the explanation instead of figtext
+    print("\nCurse of dimensionality explanation:")
+    print("The \"curse of dimensionality\" refers to problems that arise when the number of features (dimensions) increases:")
+    print("1. The number of samples needed grows exponentially with dimensions")
+    print("2. Data becomes increasingly sparse in the feature space")
+    print("3. Distance metrics become less meaningful as dimensions increase")
+    print("4. Risk of overfitting increases due to the increased model complexity")
     
-    plt.tight_layout(rect=[0, 0.1, 1, 0.95])
-    plt.savefig('Images/L3_4_Quiz_15/curse_of_dimensionality.png', dpi=300)
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'curse_of_dimensionality.png'), dpi=300)
     
     print("The \"curse of dimensionality\" in regression refers to problems that arise when the number of features/dimensions becomes large relative to the number of samples.")
     
@@ -568,48 +568,272 @@ def demonstrate_matrix_prediction():
     print("\nPredictions y_hat = X * beta:")
     print(y_hat)
     
-    # Create visualization
-    fig, ax = plt.subplots(figsize=(10, 6))
+    # Print LaTeX code for matrices that can be used in the markdown file
+    print("\nLaTeX representation of the matrices for use in markdown:")
     
-    # Create a visual representation of the matrix multiplication
-    def draw_matrix(matrix, pos, name, color):
-        m, n = matrix.shape
-        
-        # Draw the matrix
-        rect = plt.Rectangle(pos, n * 0.6, m * 0.6, fill=True, color=color, alpha=0.3)
-        ax.add_patch(rect)
-        
-        # Add the values
-        for i in range(m):
-            for j in range(n):
-                ax.text(pos[0] + j * 0.6 + 0.3, pos[1] + i * 0.6 + 0.3, 
-                        f'{matrix[i, j]:.2f}', ha='center', va='center')
-        
-        # Add the name
-        ax.text(pos[0] + n * 0.6 / 2, pos[1] + m * 0.6 + 0.2, name, 
-                ha='center', va='bottom', fontsize=12)
+    # Design matrix X in LaTeX format
+    print("\nDesign matrix X:")
+    print("\\begin{bmatrix}")
+    for i in range(X_design.shape[0]):
+        row = " & ".join([f"{X_design[i, j]:.2f}" for j in range(X_design.shape[1])])
+        if i < X_design.shape[0] - 1:
+            print(row + " \\\\")
+        else:
+            print(row)
+    print("\\end{bmatrix}")
     
-    # Draw the matrices
-    draw_matrix(X_design, (1, 1), 'X (design matrix)', 'blue')
-    draw_matrix(beta_true.reshape(-1, 1), (4, 1), 'β (coefficients)', 'green')
-    draw_matrix(y_hat.reshape(-1, 1), (7, 1), 'ŷ (predictions)', 'red')
+    # Beta vector in LaTeX format
+    print("\nCoefficient vector beta:")
+    print("\\begin{bmatrix}")
+    for i, val in enumerate(beta_true):
+        if i < len(beta_true) - 1:
+            print(f"{val:.2f} \\\\")
+        else:
+            print(f"{val:.2f}")
+    print("\\end{bmatrix}")
     
-    # Add multiplication and equals symbols
-    ax.text(3.5, 3, '×', fontsize=20, ha='center', va='center')
-    ax.text(6, 3, '=', fontsize=20, ha='center', va='center')
+    # Predictions vector in LaTeX format
+    print("\nPredictions vector y_hat:")
+    print("\\begin{bmatrix}")
+    for i, val in enumerate(y_hat):
+        if i < len(y_hat) - 1:
+            print(f"{val:.2f} \\\\")
+        else:
+            print(f"{val:.2f}")
+    print("\\end{bmatrix}")
     
-    # Add the equation at the bottom
-    ax.text(4.5, 0.3, r'$\hat{\mathbf{y}} = \mathbf{X} \boldsymbol{\beta}$', 
-            fontsize=16, ha='center', va='center',
-            bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.5'))
-    
-    ax.set_xlim(0, 9)
-    ax.set_ylim(0, 6)
-    ax.axis('off')
-    
-    plt.savefig('Images/L3_4_Quiz_15/matrix_prediction.png', dpi=300)
+    print("\nMatrix form equation:")
+    print("ŷ = X β")
+    print("Where:")
+    print("- ŷ is the vector of predicted values")
+    print("- X is the design matrix")
+    print("- β is the vector of coefficients")
     
     print(f"\nAnswer: X β\n")
+    
+    return None
+
+def demonstrate_multicollinearity_effects():
+    """Visualize the effects of multicollinearity on coefficient estimates."""
+    print("\n9. Effects of Multicollinearity on Coefficient Estimates")
+    print("----------------------------------------------------")
+    
+    # Set random seed for reproducibility
+    np.random.seed(42)
+    
+    # Generate data for the experiment
+    n_samples = 100
+    
+    # Create a range of correlation values
+    correlations = np.linspace(0, 0.99, 10)
+    
+    # Storage for coefficient variances
+    coefficient_variances = []
+    condition_numbers = []
+    
+    # For each correlation level
+    for corr in correlations:
+        # Create covariance matrix for 2 correlated predictors
+        cov_matrix = np.array([[1, corr], [corr, 1]])
+        
+        # Generate correlated features
+        X = np.random.multivariate_normal(mean=[0, 0], cov=cov_matrix, size=n_samples)
+        
+        # Add a third uncorrelated feature
+        X = np.column_stack((X, np.random.randn(n_samples)))
+        
+        # True coefficients
+        beta_true = np.array([1.0, 1.0, 1.0])
+        
+        # Generate target with noise
+        y = X @ beta_true + np.random.randn(n_samples) * 0.5
+        
+        # Add intercept
+        X_design = np.column_stack((np.ones(n_samples), X))
+        
+        # Compute X^T X and its condition number
+        X_T_X = X_design.T @ X_design
+        eigvals = np.linalg.eigvals(X_T_X)
+        condition_number = np.max(np.abs(eigvals)) / np.min(np.abs(eigvals))
+        condition_numbers.append(condition_number)
+        
+        # Fit multiple models with bootstrap to assess coefficient variance
+        n_bootstraps = 100
+        coefficients = []
+        
+        for _ in range(n_bootstraps):
+            # Bootstrap sample
+            indices = np.random.choice(n_samples, n_samples, replace=True)
+            X_boot = X_design[indices]
+            y_boot = y[indices]
+            
+            # Fit model
+            try:
+                beta_hat = np.linalg.inv(X_boot.T @ X_boot) @ X_boot.T @ y_boot
+                coefficients.append(beta_hat)
+            except np.linalg.LinAlgError:
+                # In case of singular matrix, skip this bootstrap
+                continue
+        
+        # Convert to array and compute variance of coefficient for the first feature
+        coefficients = np.array(coefficients)
+        var_beta1 = np.var(coefficients[:, 1])
+        coefficient_variances.append(var_beta1)
+    
+    # Create visualization
+    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+    
+    # Plot 1: Coefficient variance vs correlation
+    axes[0].plot(correlations, coefficient_variances, 'bo-', linewidth=2)
+    axes[0].set_xlabel('Correlation between predictors', fontsize=12)
+    axes[0].set_ylabel('Variance of coefficient estimate', fontsize=12)
+    axes[0].set_title('Effect of Multicollinearity on Coefficient Variance', fontsize=14)
+    axes[0].grid(True)
+    
+    # Plot 2: Condition number vs correlation
+    axes[1].semilogy(correlations, condition_numbers, 'ro-', linewidth=2)
+    axes[1].set_xlabel('Correlation between predictors', fontsize=12)
+    axes[1].set_ylabel('Condition number (log scale)', fontsize=12)
+    axes[1].set_title('Condition Number as Indicator of Multicollinearity', fontsize=14)
+    axes[1].grid(True)
+    
+    # Print explanation
+    print("\nVisualization of multicollinearity effects:")
+    print("1. As correlation between predictors increases, the variance of coefficient estimates increases")
+    print("2. This makes coefficient estimates unstable and sensitive to small changes in the data")
+    print("3. The condition number of X^T X rises dramatically as correlation approaches 1")
+    print("4. A high condition number indicates numerical instability in solving the linear system")
+    print("5. When perfect multicollinearity occurs, the condition number becomes infinite")
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'multicollinearity_effects.png'), dpi=300)
+    
+    return fig
+
+def demonstrate_polynomial_bias_variance():
+    """Visualize the bias-variance tradeoff in polynomial regression."""
+    print("\n10. Bias-Variance Tradeoff in Polynomial Regression")
+    print("-----------------------------------------------")
+    
+    # Set random seed for reproducibility
+    np.random.seed(42)
+    
+    # Generate true function: f(x) = sin(x)
+    x_true = np.linspace(0, 10, 1000)
+    y_true = np.sin(x_true)
+    
+    # Generate training data with noise
+    n_samples = 20
+    x_train = np.random.uniform(0, 10, n_samples)
+    x_train = np.sort(x_train)  # Sort for easier visualization
+    y_train = np.sin(x_train) + np.random.normal(0, 0.2, n_samples)
+    
+    # Generate test data for evaluation
+    x_test = np.linspace(0, 10, 100)
+    y_test = np.sin(x_test)
+    
+    # Fit polynomial models of different degrees
+    max_degree = 15
+    degrees = range(1, max_degree + 1)
+    train_errors = []
+    test_errors = []
+    
+    # Storage for different model predictions
+    predictions = {}
+    
+    for degree in degrees:
+        # Create polynomial features
+        poly = PolynomialFeatures(degree=degree, include_bias=True)
+        x_train_poly = poly.fit_transform(x_train.reshape(-1, 1))
+        x_test_poly = poly.transform(x_test.reshape(-1, 1))
+        
+        # Fit model
+        model = LinearRegression()
+        model.fit(x_train_poly, y_train)
+        
+        # Make predictions
+        y_train_pred = model.predict(x_train_poly)
+        y_test_pred = model.predict(x_test_poly)
+        
+        # Store predictions for selected degrees
+        if degree in [1, 3, 10, 15]:
+            predictions[degree] = y_test_pred
+        
+        # Calculate errors
+        train_error = np.mean((y_train - y_train_pred) ** 2)
+        test_error = np.mean((y_test - y_test_pred) ** 2)
+        
+        train_errors.append(train_error)
+        test_errors.append(test_error)
+    
+    # Create visualizations
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+    
+    # Plot 1: Selected polynomial fits
+    highlight_degrees = [1, 3, 10, 15]
+    colors = ['blue', 'green', 'orange', 'red']
+    
+    for i, degree in enumerate(highlight_degrees):
+        axes[0, 0].plot(x_test, predictions[degree], color=colors[i], 
+                      linewidth=2, label=f'Degree {degree}')
+    
+    # Plot the true function and training data
+    axes[0, 0].plot(x_true, y_true, 'k--', linewidth=1.5, label='True function')
+    axes[0, 0].scatter(x_train, y_train, color='black', s=30, alpha=0.7, label='Training data')
+    
+    axes[0, 0].set_xlabel('x', fontsize=12)
+    axes[0, 0].set_ylabel('y', fontsize=12)
+    axes[0, 0].set_title('Polynomial Regression Models of Different Degrees', fontsize=14)
+    axes[0, 0].legend(fontsize=10)
+    axes[0, 0].grid(True, alpha=0.3)
+    
+    # Plot 2: Training and test error vs. polynomial degree
+    axes[0, 1].plot(degrees, train_errors, 'b-', linewidth=2, label='Training error')
+    axes[0, 1].plot(degrees, test_errors, 'r-', linewidth=2, label='Test error')
+    axes[0, 1].set_xlabel('Polynomial Degree', fontsize=12)
+    axes[0, 1].set_ylabel('Mean Squared Error', fontsize=12)
+    axes[0, 1].set_title('Training and Test Error vs. Model Complexity', fontsize=14)
+    axes[0, 1].legend(fontsize=10)
+    axes[0, 1].grid(True, alpha=0.3)
+    
+    # Plot 3: Detailed visualization of underfitting
+    axes[1, 0].plot(x_true, y_true, 'k--', linewidth=1.5, label='True function')
+    axes[1, 0].scatter(x_train, y_train, color='black', s=30, alpha=0.7, label='Training data')
+    axes[1, 0].plot(x_test, predictions[1], color='blue', linewidth=2, label='Degree 1 (Linear)')
+    
+    axes[1, 0].set_xlabel('x', fontsize=12)
+    axes[1, 0].set_ylabel('y', fontsize=12)
+    axes[1, 0].set_title('Underfitting with Linear Model (High Bias)', fontsize=14)
+    axes[1, 0].legend(fontsize=10)
+    axes[1, 0].grid(True, alpha=0.3)
+    
+    # Plot 4: Detailed visualization of overfitting
+    axes[1, 1].plot(x_true, y_true, 'k--', linewidth=1.5, label='True function')
+    axes[1, 1].scatter(x_train, y_train, color='black', s=30, alpha=0.7, label='Training data')
+    axes[1, 1].plot(x_test, predictions[15], color='red', linewidth=2, label='Degree 15 (Complex)')
+    
+    axes[1, 1].set_xlabel('x', fontsize=12)
+    axes[1, 1].set_ylabel('y', fontsize=12)
+    axes[1, 1].set_title('Overfitting with High-Degree Polynomial (High Variance)', fontsize=14)
+    axes[1, 1].legend(fontsize=10)
+    axes[1, 1].grid(True, alpha=0.3)
+    
+    # Print explanation
+    print("\nBias-Variance Tradeoff in Polynomial Regression:")
+    print("1. Low-degree models (like linear) show high bias (underfitting)")
+    print("   - They fail to capture the complexity of the underlying function")
+    print("   - Both training and test errors are high")
+    print("\n2. High-degree models show high variance (overfitting)")
+    print("   - They capture noise in the training data")
+    print("   - Training error is very low but test error increases")
+    print("\n3. The optimal model complexity (polynomial degree) balances bias and variance")
+    print("   - It minimizes test error while maintaining reasonable training error")
+    print("\n4. This illustrates the fundamental bias-variance tradeoff in machine learning:")
+    print("   - Simple models: high bias, low variance")
+    print("   - Complex models: low bias, high variance")
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'polynomial_bias_variance.png'), dpi=300)
     
     return fig
 
@@ -627,6 +851,8 @@ def main():
     demonstrate_rbf()
     demonstrate_curse_of_dimensionality()
     demonstrate_matrix_prediction()
+    demonstrate_multicollinearity_effects()
+    demonstrate_polynomial_bias_variance()
     
     print("\n## Summary of Answers:")
     print("1. In a multiple linear regression model with d features, the design matrix X has dimensions n × (d+1).")
@@ -637,6 +863,8 @@ def main():
     print("6. A Gaussian radial basis function can be expressed as φ(x) = exp(-γ||x-μ||²).")
     print("7. The \"curse of dimensionality\" in regression refers to problems that arise when the number of features/dimensions becomes large relative to the number of samples.")
     print("8. In matrix form, the predictions of a linear regression model can be written as ŷ = X β.")
+    print("9. The effects of multicollinearity on coefficient estimates are visualized in the multicollinearity_effects function.")
+    print("10. The bias-variance tradeoff in polynomial regression is visualized in the polynomial_bias_variance function.")
 
 if __name__ == "__main__":
     main() 

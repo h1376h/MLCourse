@@ -38,8 +38,6 @@ $$\boldsymbol{X} =
 1 & x_{n1} & x_{n2} & \cdots & x_{nd}
 \end{bmatrix}$$
 
-Here's a visual representation of a design matrix with $n=5$ samples and $d=3$ features:
-
 ![Design Matrix Dimensions](../Images/L3_4_Quiz_15/design_matrix.png)
 
 ### Step 2: Closed-Form Solution to Least Squares
@@ -70,6 +68,16 @@ Without an inverse of $\boldsymbol{X}^T\boldsymbol{X}$, we cannot compute the cl
 
 ![Multicollinearity Effect](../Images/L3_4_Quiz_15/multicollinearity.png)
 
+#### Effects of Multicollinearity on Coefficient Estimates
+Beyond making the matrix singular in the extreme case, multicollinearity has significant effects on coefficient estimates as the correlation between predictors increases:
+
+1. The variance of coefficient estimates increases dramatically
+2. This makes the model unstable - small changes in the data can result in large changes in coefficient values
+3. The condition number of $\boldsymbol{X}^T\boldsymbol{X}$ rises sharply as correlation approaches 1
+4. While coefficients themselves become unreliable, predictions may still be accurate within the range of the data
+
+![Multicollinearity Effects on Estimates](../Images/L3_4_Quiz_15/multicollinearity_effects.png)
+
 ### Step 4: Dummy Variables for Categorical Variables
 If a categorical variable has $k$ levels (categories), we typically create $k-1$ dummy variables to represent it.
 
@@ -93,6 +101,23 @@ Where:
 Polynomial regression allows us to model nonlinear relationships using linear regression techniques by adding polynomial terms as features.
 
 ![Polynomial Regression](../Images/L3_4_Quiz_15/polynomial_regression.png)
+
+#### Bias-Variance Tradeoff in Polynomial Regression
+Polynomial regression provides an excellent demonstration of the bias-variance tradeoff in machine learning:
+
+1. Low-degree models (like linear regression) often show high bias:
+   - They fail to capture the true underlying pattern (underfitting)
+   - Both training and test errors remain high
+
+2. High-degree models exhibit high variance:
+   - They capture noise in the training data (overfitting)
+   - Training error approaches zero while test error increases
+
+3. The optimal model complexity balances these opposing forces:
+   - It adequately captures the pattern in the data
+   - It generalizes well to new, unseen data
+
+![Polynomial Bias-Variance Tradeoff](../Images/L3_4_Quiz_15/polynomial_bias_variance.png)
 
 ### Step 6: Gaussian Radial Basis Function
 A Gaussian radial basis function (RBF) can be expressed as:
@@ -133,7 +158,38 @@ Where:
 
 This compact notation represents the linear combination of features and coefficients for all samples simultaneously.
 
-![Matrix Predictions](../Images/L3_4_Quiz_15/matrix_prediction.png)
+For example, with a design matrix $\boldsymbol{X}$:
+
+$$\boldsymbol{X} = 
+\begin{bmatrix}
+1.00 & 0.37 & 0.95 \\
+1.00 & 0.73 & 0.60 \\
+1.00 & 0.16 & 0.16 \\
+1.00 & 0.06 & 0.87 \\
+1.00 & 0.60 & 0.71
+\end{bmatrix}$$
+
+And coefficient vector $\boldsymbol{\beta}$:
+
+$$\boldsymbol{\beta} = 
+\begin{bmatrix}
+3.00 \\
+1.50 \\
+2.00
+\end{bmatrix}$$
+
+The resulting predictions $\hat{\boldsymbol{y}}$ would be:
+
+$$\hat{\boldsymbol{y}} = 
+\begin{bmatrix}
+5.46 \\
+5.30 \\
+3.55 \\
+4.82 \\
+5.32
+\end{bmatrix}$$
+
+This matrix multiplication effectively computes the linear combination for each sample in a single operation.
 
 ## Key Insights
 
@@ -141,17 +197,20 @@ This compact notation represents the linear combination of features and coeffici
 - The matrix representation of linear regression provides a concise way to express the model and derive its properties
 - The closed-form solution exists when $\boldsymbol{X}^T\boldsymbol{X}$ is invertible (i.e., no perfect multicollinearity)
 - The dimensions of matrices in linear regression are important for understanding the model structure and computations
+- As correlation between predictors increases, coefficient estimates become increasingly unstable due to multicollinearity
 
 ### Practical Considerations
 - Multicollinearity should be addressed before fitting a model to ensure stable coefficient estimates
 - Categorical variables require proper encoding (usually with $k-1$ dummy variables)
 - The curse of dimensionality emphasizes the importance of feature selection and dimensionality reduction
 - Polynomial regression and basis functions allow linear regression to model nonlinear relationships
+- The bias-variance tradeoff highlights the importance of selecting appropriate model complexity
 
 ### Advanced Applications
 - The matrix form of linear regression extends to many advanced techniques like ridge regression, lasso, and elastic net
 - Basis functions (like Gaussian RBF) enable kernel methods and more flexible models
 - Understanding matrix operations is essential for implementing efficient computational algorithms for regression
+- Regularization techniques can be used to address multicollinearity and overfitting in high-dimensional settings
 
 ## Conclusion
 - In a multiple linear regression model with $d$ features, the design matrix $\boldsymbol{X}$ has dimensions $n \times (d+1)$.
@@ -161,4 +220,6 @@ This compact notation represents the linear combination of features and coeffici
 - A polynomial regression model of degree 3 with a single input variable $x$ can be written as $y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \epsilon$.
 - A Gaussian radial basis function can be expressed as $\phi(\boldsymbol{x}) = \exp(-\gamma\|\boldsymbol{x} - \boldsymbol{\mu}\|^2)$.
 - The "curse of dimensionality" in regression refers to problems that arise when the number of features/dimensions becomes large relative to the number of samples.
-- In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = \boldsymbol{X}\boldsymbol{\beta}$. 
+- In matrix form, the predictions of a linear regression model can be written as $\hat{\boldsymbol{y}} = \boldsymbol{X}\boldsymbol{\beta}$.
+- As correlation between predictors increases, the variance of coefficient estimates increases, making them less reliable.
+- The bias-variance tradeoff is well illustrated in polynomial regression, where we must balance model complexity to avoid both underfitting and overfitting. 
