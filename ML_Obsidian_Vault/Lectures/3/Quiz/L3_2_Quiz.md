@@ -362,8 +362,8 @@ The normal equations provide an analytical solution to the linear regression pro
 #### Task
 Given a simple linear regression model $y = \beta_0 + \beta_1x$ with $n$ data points:
 
-1. Write down the formula for the normal equations in matrix form
-2. What matrix property ensures that a unique solution exists?
+1. [📚] Write down the formula for the normal equations in matrix form
+2. [📚] What matrix property ensures that a unique solution exists?
 
 For a detailed explanation of this problem, including the derivation of normal equations and their properties, see [Question 18: Normal Equations in Matrix Form](L3_2_18_explanation.md).
 
