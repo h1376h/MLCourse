@@ -17,7 +17,7 @@ The least squares method allows us to find the optimal values of these coefficie
 
 ## Solution
 
-### Step 1: Calculate the least squares estimates for β₀ and β₁
+### Step 1: Calculate the least squares estimates for $\beta_0$ and $\beta_1$
 
 First, we need to find the slope ($\beta_1$) and intercept ($\beta_0$) of the regression line using the least squares formulas.
 
@@ -60,11 +60,11 @@ $(x_3 - \bar{x})^2 = (1)^2 = 1$
 $$\sum_{i=1}^{3} (x_i - \bar{x})(y_i - \bar{y}) = 2.33 + 0 + 2.67 = 5$$
 $$\sum_{i=1}^{3} (x_i - \bar{x})^2 = 1 + 0 + 1 = 2$$
 
-#### Step 1.5: Calculate β₁ (slope)
+#### Step 1.5: Calculate $\beta_1$ (slope)
 Using the formula for the slope:
 $$\beta_1 = \frac{\sum_{i=1}^{n} (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^{n} (x_i - \bar{x})^2} = \frac{5}{2} = 2.5$$
 
-#### Step 1.6: Calculate β₀ (intercept)
+#### Step 1.6: Calculate $\beta_0$ (intercept)
 Using the formula for the intercept:
 $$\beta_0 = \bar{y} - \beta_1 \bar{x} = 5.33 - 2.5 \times 2 = 5.33 - 5 = 0.33$$
 
@@ -150,9 +150,9 @@ RSS = Σe_i² = 0.0278 + 0.1111 + 0.0278 = 0.1667
 
 ### Theoretical Foundations
 - The least squares method minimizes the sum of squared residuals between observed and predicted values.
-- The coefficients β₀ and β₁ are calculated using specific formulas derived from calculus principles.
-- The slope coefficient β₁ represents how much y changes for a unit change in x.
-- The intercept coefficient β₀ represents the expected value of y when x equals zero.
+- The coefficients $\beta_0$ and $\beta_1$ are calculated using specific formulas derived from calculus principles.
+- The slope coefficient $\beta_1$ represents how much $y$ changes for a unit change in $x$.
+- The intercept coefficient $\beta_0$ represents the expected value of $y$ when $x$ equals zero.
 
 ### Practical Applications
 - Linear regression is useful for understanding relationships between variables and making predictions.
@@ -167,9 +167,9 @@ RSS = Σe_i² = 0.0278 + 0.1111 + 0.0278 = 0.1667
 - Extrapolating far beyond the range of observed x-values may lead to unreliable predictions.
 
 ## Conclusion
-- We successfully calculated the linear regression coefficients: β₀ = 0.33 and β₁ = 2.5.
-- The regression equation is y = 0.33 + 2.5x, which provides the best linear fit to the given data points.
-- For x = 2.5, the predicted value is y = 6.58.
-- The residual sum of squares (RSS) is 0.1667, which is relatively small, indicating a good fit.
+- We successfully calculated the linear regression coefficients: $\beta_0$ = 0.33 and $\beta_1$ = 2.5.
+- The regression equation is $y = 0.33 + 2.5x$, which provides the best linear fit to the given data points.
+- For $x = 2.5$, the predicted value is $y = 6.58$.
+- The residual sum of squares (RSS) is $0.1667$, which is relatively small, indicating a good fit.
 
 This example demonstrates the fundamental mechanics of linear regression by hand, highlighting the mathematical foundations of this widely-used statistical technique. 

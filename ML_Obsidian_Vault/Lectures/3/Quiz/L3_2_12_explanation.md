@@ -10,7 +10,7 @@ Given the sample data points $(1, 2)$, $(2, 4)$, and $(3, 6)$:
 4. Write down the resulting equation for predicting $y$ from $x$
 
 ## Understanding the Problem
-This problem tests our understanding of the fundamental calculations involved in simple linear regression. Given three data points, we need to manually determine the regression line by finding the slope and intercept. The regression line takes the form $\hat{y}$ = β₀ + β₁x, where β₀ is the intercept and β₁ is the slope.
+This problem tests our understanding of the fundamental calculations involved in simple linear regression. Given three data points, we need to manually determine the regression line by finding the slope and intercept. The regression line takes the form $\hat{y}$ = $\beta_0$ + $\beta_1$x, where $\beta_0$ is the intercept and $\beta_1$ is the slope.
 
 ## Solution
 
@@ -90,12 +90,12 @@ $$\hat{y} = 0 + 2 × 4 = 8$$
 
 ### Mathematical Properties
 - The least squares regression line always passes through the point $(\bar{x}, \bar{y})$.
-- The slope β₁ represents the average change in the dependent variable (y) for each unit change in the independent variable (x).
-- The intercept β₀ represents the predicted value of y when x = 0.
-- In this special case, the intercept is exactly 0, which means our regression line passes through the origin (0, 0).
+- The slope $\beta_1$ represents the average change in the dependent variable (y) for each unit change in the independent variable (x).
+- The intercept $\beta_0$ represents the predicted value of $y$ when $x = 0$.
+- In this special case, the intercept is exactly 0, which means our regression line passes through the origin $(0, 0)$.
 
 ### Pattern Recognition
-- The data points in this problem follow a perfect linear pattern (y = 2x), which is why our regression line fits the data perfectly.
+- The data points in this problem follow a perfect linear pattern ($y = 2x$), which is why our regression line fits the data perfectly.
 - In real-world data, such perfect patterns are rare, and there would typically be some residual error.
 
 ### Conceptual Understanding
@@ -104,8 +104,8 @@ $$\hat{y} = 0 + 2 × 4 = 8$$
 
 ## Conclusion
 - We calculated the means: $\bar{x} = 2$ and $\bar{y} = 4$
-- We found the slope: β₁ = 2
-- We found the intercept: β₀ = 0
+- We found the slope: $\beta_1$ = 2
+- We found the intercept: $\beta_0$ = 0
 - The resulting regression equation is: $\hat{y}$ = 2x
 
-This example illustrates a perfect linear relationship between x and y, where y is exactly twice x. The regression line passes through all three data points as well as the origin, resulting in an equation that perfectly models the relationship between the variables. 
+This example illustrates a perfect linear relationship between $x$ and $y$, where $y$ is exactly twice $x$. The regression line passes through all three data points as well as the origin, resulting in an equation that perfectly models the relationship between the variables. 
