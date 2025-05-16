@@ -149,10 +149,10 @@ For a detailed explanation of this problem, including validation strategies, see
 Early stopping in iterative optimization methods (like gradient descent) can be viewed as a form of implicit regularization.
 
 #### Task
-1. Explain how early stopping acts as a regularization technique
-2. Compare early stopping to explicit regularization methods like Ridge and Lasso
-3. Describe the relationship between the number of iterations and the effective model complexity
-4. Explain how you would determine the optimal stopping point in practice
+1. [🔍] Explain how early stopping acts as a regularization technique
+2. [🔍] Compare early stopping to explicit regularization methods like Ridge and Lasso
+3. [🔍] Describe the relationship between the number of iterations and the effective model complexity
+4. [🔍] Explain how you would determine the optimal stopping point in practice
 
 For a detailed explanation of this problem, including the regularization effect of early stopping, see [Question 10: Early Stopping as Regularization](L3_7_10_explanation.md).
 
