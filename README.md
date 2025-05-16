@@ -36,6 +36,7 @@ A curated collection of machine learning materials, examples, and notes organize
 
 This repository requires the following Python packages:
 ```
+ipython>=9.2.0
 matplotlib>=3.10.1
 networkx>=3.4.2
 numpy>=2.2.3
