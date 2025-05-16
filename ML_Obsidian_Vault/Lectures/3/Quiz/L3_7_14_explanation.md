@@ -96,6 +96,10 @@ The coefficient patterns clearly show Lasso's ability to produce sparse models, 
 
 This visualization directly compares the number of non-zero coefficients for Lasso and Ridge across different regularization strengths, clearly showing Lasso's superior sparsity.
 
+![Sparsity and Error vs Regularization](../Images/L3_7_Quiz_14/statement4_sparsity_and_error.png)
+
+This plot illustrates how both sparsity (number of non-zero coefficients) and test error change with increasing regularization strength, demonstrating the tradeoff between model simplicity and performance for both Lasso and Ridge regression.
+
 #### Verdict
 **TRUE**. Lasso regression consistently produces more sparse models than Ridge regression with equivalent regularization strength. This fundamental difference stems from the nature of the penalties: Lasso's L1 penalty can shrink coefficients exactly to zero, while Ridge's L2 penalty only makes coefficients approach zero asymptotically. Our experiments confirmed this pattern across all tested regularization strengths, with Lasso effectively performing feature selection by eliminating irrelevant features.
 
