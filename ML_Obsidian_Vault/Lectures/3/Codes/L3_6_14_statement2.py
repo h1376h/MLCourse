@@ -96,14 +96,10 @@ def statement2_aic_selection():
     best_degree = degrees[best_idx]
     
     # Print results
-    print("\nModel comparison results:")
-    print("Degree\tParams\tMSE\t\tPenalty\t\tAIC")
+    print("\nAIC values for polynomial degrees:")
     for i, degree in enumerate(degrees):
-        num_params = degree + 1
-        print(f"{degree}\t{num_params}\t{mse_values[i]:.2f}\t\t{penalty_values[i]:.2f}\t\t{aic_values[i]:.2f}")
-    
-    print(f"\nBest model according to AIC: Polynomial degree {best_degree}")
-    print(f"This model has the LOWEST AIC value: {aic_values[best_idx]:.2f}")
+        print(f"Degree {degree}: AIC = {aic_values[i]:.2f}, MSE = {mse_values[i]:.2f}")
+    print(f"Best model according to AIC: Polynomial degree {best_degree}")
     
     # Plot 1: Model comparison
     plt.figure(figsize=(10, 6))
@@ -192,6 +188,47 @@ def statement2_aic_selection():
     
     plt.savefig(os.path.join(save_dir, 'statement2_aic_vs_bic.png'), dpi=300, bbox_inches='tight')
     
+    # Stacked bar chart showing AIC components for each model
+    plt.figure(figsize=(10, 6))
+    
+    # Prepare the data for stacked bars
+    degrees_str = [f'Degree {d}' for d in degrees]
+    
+    # Create the stacked bar chart
+    bar_width = 0.6
+    bottom = np.zeros(len(degrees))
+    
+    # First stack: Fit term
+    plt.bar(degrees_str, fit_term, bar_width, label='Fit term: n·ln(MSE)', color='blue', alpha=0.7)
+    
+    # Second stack: Penalty term
+    plt.bar(degrees_str, penalty_values, bar_width, bottom=fit_term, label='Penalty term: 2k', color='red', alpha=0.7)
+    
+    # Add total AIC values on top of bars
+    for i, (d, aic) in enumerate(zip(degrees_str, aic_values)):
+        plt.text(i, fit_term[i] + penalty_values[i] + 5, f'AIC: {aic:.1f}', 
+                 ha='center', va='bottom', fontweight='bold')
+    
+    # Add best model indicator
+    plt.axvline(x=best_idx, color='green', linestyle='--', linewidth=2)
+    plt.text(best_idx, np.max(aic_values) * 0.95, f'Best Model', 
+            ha='center', va='bottom', color='green', fontweight='bold',
+            bbox=dict(facecolor='white', alpha=0.7, boxstyle='round'))
+    
+    # Improve the plot
+    plt.xlabel('Model Complexity', fontsize=12)
+    plt.ylabel('AIC Components Value', fontsize=12)
+    plt.title('AIC Breakdown: Fit vs Complexity Penalty', fontsize=14)
+    plt.legend(loc='upper right')
+    plt.grid(axis='y')
+    
+    # Add description
+    plt.figtext(0.5, 0.01, "Lower AIC values indicate better models (balance between fit and complexity)",
+               ha='center', fontsize=10, bbox=dict(facecolor='white', alpha=0.8, boxstyle='round'))
+    
+    plt.tight_layout(rect=[0, 0.03, 1, 0.97])
+    plt.savefig(os.path.join(save_dir, 'statement2_aic_breakdown.png'), dpi=300, bbox_inches='tight')
+    
     # Print AIC vs BIC explanation
     print("\nAIC vs BIC Comparison:")
     print("AIC and BIC are both information criteria used for model selection.")
@@ -209,7 +246,7 @@ def statement2_aic_selection():
         'statement': "When comparing models using information criteria, the model with the highest AIC value should be selected.",
         'is_true': False,
         'explanation': "When using information criteria like AIC (Akaike Information Criterion), we should select the model with the LOWEST AIC value, not the highest. AIC balances model fit and complexity by penalizing models with more parameters. Lower AIC values indicate better models with a good trade-off between fit and complexity.",
-        'image_path': ['statement2_aic_selection.png', 'statement2_aic_components.png', 'statement2_aic_vs_bic.png']
+        'image_path': ['statement2_aic_selection.png', 'statement2_aic_components.png', 'statement2_aic_vs_bic.png', 'statement2_aic_breakdown.png']
     }
     
     return result

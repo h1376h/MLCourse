@@ -143,11 +143,53 @@ def statement1_kfold_vs_loo():
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'statement1_fold_visualization.png'), dpi=300, bbox_inches='tight')
     
+    # NEW VISUALIZATION: Show concrete examples of model fits for different folds
+    # Generate a more visually intuitive dataset
+    np.random.seed(42)
+    X_visual = np.linspace(0, 10, n_samples).reshape(-1, 1)
+    y_visual = 2 * X_visual.squeeze() + np.random.normal(0, 1, n_samples)
+    
+    # Create a figure showing how models are fit in different folds
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    axes = axes.flatten()
+    
+    # Show full dataset in first subplot
+    axes[0].scatter(X_visual, y_visual, color='black', alpha=0.7)
+    axes[0].set_title('Full Dataset')
+    axes[0].set_xlabel('X')
+    axes[0].set_ylabel('y')
+    
+    # Show 3 different folds and the resulting models
+    for i, ax in enumerate(axes[1:]):
+        if i < 3:  # Show first 3 folds
+            train_idx = kfold_indices[i][0]
+            test_idx = kfold_indices[i][1]
+            
+            # Plot training and test points
+            ax.scatter(X_visual[train_idx], y_visual[train_idx], color='blue', alpha=0.7, label='Training')
+            ax.scatter(X_visual[test_idx], y_visual[test_idx], color='red', s=100, label='Test')
+            
+            # Fit a simple linear model to the training data
+            coeffs = np.polyfit(X_visual[train_idx].squeeze(), y_visual[train_idx], 1)
+            x_line = np.linspace(0, 10, 100)
+            y_line = coeffs[0] * x_line + coeffs[1]
+            
+            # Plot the model fit
+            ax.plot(x_line, y_line, 'g-', linewidth=2, label='Model Fit')
+            
+            ax.set_title(f'Fold {i+1}: Test on Sample {test_idx[0]}')
+            ax.set_xlabel('X')
+            ax.set_ylabel('y')
+            ax.legend(fontsize=8)
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'statement1_kfold_vs_loo_examples.png'), dpi=300, bbox_inches='tight')
+    
     result = {
         'statement': "K-fold cross-validation with K=n (where n is the number of samples) is equivalent to leave-one-out cross-validation.",
         'is_true': True,
         'explanation': "When K equals the number of samples (n), K-fold cross-validation creates n folds, each with n-1 training samples and 1 test sample. This is identical to leave-one-out cross-validation, as demonstrated by the identical fold assignments in the visualization.",
-        'image_path': ['statement1_kfold_vs_loo.png', 'statement1_fold_visualization.png']
+        'image_path': ['statement1_kfold_vs_loo.png', 'statement1_fold_visualization.png', 'statement1_kfold_vs_loo_examples.png']
     }
     
     return result

@@ -3,12 +3,13 @@ import matplotlib.pyplot as plt
 import os
 import seaborn as sns
 from sklearn.model_selection import learning_curve
-from sklearn.linear_model import Ridge
-from sklearn.datasets import make_regression
-import warnings
-
-# Suppress warnings
-warnings.filterwarnings('ignore')
+from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import Pipeline
+import pandas as pd
+from sklearn.model_selection import train_test_split
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -23,269 +24,422 @@ np.random.seed(42)  # For reproducibility
 
 def statement8_learning_curves():
     """
-    Statement 8: In learning curves, if the validation error continues to decrease as more 
-    training samples are added, adding more data is likely to improve model performance.
+    Statement 8: In learning curves, if the validation error continues to decrease 
+    as more training samples are added, adding more data is likely to improve 
+    model performance.
     """
-    print("\n==== Statement 8: Learning Curves and Model Improvement ====")
+    print("\n==== Statement 8: Learning Curves and Model Improvement with More Data ====")
     
-    # Print detailed explanation of learning curves
-    print("\nLearning Curves Explained:")
-    print("- Learning curves show model error as a function of training set size")
-    print("- They help diagnose bias, variance, and the effect of dataset size")
-    print("- Typically show both training and validation error rates")
-    print("- The gap between training and validation curves indicates variance")
-    print("- The absolute error level indicates bias")
+    # Generate two datasets with different characteristics to demonstrate different scenarios
     
-    print("\nWhen More Data Helps:")
-    print("1. When validation error is STILL DECREASING as training set size increases")
-    print("2. When validation error hasn't plateaued")
-    print("3. When the gap between training and validation error isn't too large")
-    
-    print("\nWhen More Data May Not Help:")
-    print("1. When validation error has PLATEAUED (flat curve)")
-    print("2. When both training and validation errors are high (high bias/underfitting)")
-    print("3. When there's a large gap that doesn't decrease with more data (high variance/overfitting)")
-    
-    # Generate different dataset scenarios
+    # Dataset 1: Linear pattern with moderate noise - model will converge with sufficient data
     np.random.seed(42)
+    n_samples = 1000
+    X1 = np.linspace(0, 10, n_samples).reshape(-1, 1)
+    y1 = 2 * X1.squeeze() + 1 + np.random.normal(0, 1, n_samples)
     
-    # Scenario 1: Model benefits from more data (validation error still decreasing)
-    X1, y1 = make_regression(n_samples=1000, n_features=20, n_informative=10, noise=30, random_state=42)
+    # Create a train/test split for evaluation
+    X1_train, X1_test, y1_train, y1_test = train_test_split(X1, y1, test_size=0.2, random_state=42)
     
-    # Scenario 2: Model has plateaued (validation error has flattened)
-    X2, y2 = make_regression(n_samples=1000, n_features=5, n_informative=3, noise=10, random_state=42)
+    # Dataset 2: Nonlinear pattern with high noise - model will benefit from more data
+    X2 = np.linspace(0, 10, n_samples).reshape(-1, 1)
+    y2 = 0.5 * X2.squeeze()**2 + 3 * X2.squeeze() + np.random.normal(0, 5, n_samples)
     
-    # Scenario 3: Complex dataset with insufficient model capacity (high bias)
-    X3 = np.linspace(0, 10, 1000).reshape(-1, 1)
-    y3 = 3 * np.sin(X3.squeeze()) + 2 * np.cos(2 * X3.squeeze()) + np.random.normal(0, 0.5, 1000)
+    # Create a train/test split for evaluation
+    X2_train, X2_test, y2_train, y2_test = train_test_split(X2, y2, test_size=0.2, random_state=42)
     
-    datasets = [
-        ('Scenario 1: Model benefits from more data', X1, y1, Ridge(), 'blue'),
-        ('Scenario 2: Model has plateaued', X2, y2, Ridge(), 'green'),
-        ('Scenario 3: High bias (underfitting)', X3, y3, Ridge(), 'red')
-    ]
+    # For Dataset 1, calculate learning curves with LinearRegression
+    train_sizes1, train_scores1, val_scores1 = learning_curve(
+        LinearRegression(), X1_train, y1_train, 
+        train_sizes=np.linspace(0.1, 1.0, 10), 
+        cv=5, scoring='neg_mean_squared_error')
     
-    # Store results for each scenario
-    scenario_results = []
+    # For Dataset 2, calculate learning curves with RandomForestRegressor
+    train_sizes2, train_scores2, val_scores2 = learning_curve(
+        RandomForestRegressor(n_estimators=100, random_state=42), X2_train, y2_train, 
+        train_sizes=np.linspace(0.1, 1.0, 10), 
+        cv=5, scoring='neg_mean_squared_error')
     
-    for name, X, y, model, color in datasets:
-        # Calculate learning curves
-        train_sizes, train_scores, val_scores = learning_curve(
-            model, X, y, train_sizes=np.linspace(0.1, 1.0, 10),
-            cv=5, scoring='neg_mean_squared_error', n_jobs=-1)
+    # Prepare the scores for plotting (convert to positive MSE)
+    train_mse1 = -np.mean(train_scores1, axis=1)
+    val_mse1 = -np.mean(val_scores1, axis=1)
+    train_mse2 = -np.mean(train_scores2, axis=1)
+    val_mse2 = -np.mean(val_scores2, axis=1)
+    
+    # Print learning curve information
+    print("\nLearning Curve Analysis for Dataset 1 (Simple Linear Pattern):")
+    print("Training sizes:", train_sizes1)
+    print("Initial validation MSE (few samples):", val_mse1[0])
+    print("Final validation MSE (maximum samples):", val_mse1[-1])
+    print("Improvement with more data:", (val_mse1[0] - val_mse1[-1]) / val_mse1[0] * 100, "%")
+    
+    # Check if the validation error is still decreasing or has plateaued
+    improvement_rate1 = (val_mse1[-2] - val_mse1[-1]) / val_mse1[-2] * 100
+    print(f"Recent improvement rate: {improvement_rate1:.4f}%")
+    if improvement_rate1 < 1:
+        print("The learning curve has plateaued (< 1% improvement).")
+        print("Adding more data is unlikely to significantly improve model performance.")
+    else:
+        print("The learning curve is still showing improvements.")
+        print("Adding more data may continue to improve model performance.")
+    
+    print("\nLearning Curve Analysis for Dataset 2 (Complex Nonlinear Pattern):")
+    print("Training sizes:", train_sizes2)
+    print("Initial validation MSE (few samples):", val_mse2[0])
+    print("Final validation MSE (maximum samples):", val_mse2[-1])
+    print("Improvement with more data:", (val_mse2[0] - val_mse2[-1]) / val_mse2[0] * 100, "%")
+    
+    # Check if the validation error is still decreasing or has plateaued
+    improvement_rate2 = (val_mse2[-2] - val_mse2[-1]) / val_mse2[-2] * 100
+    print(f"Recent improvement rate: {improvement_rate2:.4f}%")
+    if improvement_rate2 < 1:
+        print("The learning curve has plateaued (< 1% improvement).")
+        print("Adding more data is unlikely to significantly improve model performance.")
+    else:
+        print("The learning curve is still showing improvements.")
+        print("Adding more data may continue to improve model performance.")
+    
+    # Plot 1: Learning curves for Dataset 1
+    plt.figure(figsize=(10, 6))
+    plt.plot(train_sizes1, train_mse1, 'o-', color='blue', label='Training error')
+    plt.plot(train_sizes1, val_mse1, 'o-', color='red', label='Validation error')
+    
+    # Add trend line to see where validation error is going
+    from scipy.optimize import curve_fit
+    
+    def exponential_decay(x, a, b, c):
+        return a * np.exp(-b * x) + c
+    
+    try:
+        # Fit an exponential decay curve to validation error
+        popt, _ = curve_fit(exponential_decay, train_sizes1, val_mse1, p0=[1, 0.01, 1])
         
-        # Convert to positive MSE
-        train_scores_mean = -np.mean(train_scores, axis=1)
-        val_scores_mean = -np.mean(val_scores, axis=1)
+        # Project future performance with more data
+        future_sizes = np.linspace(train_sizes1[-1], train_sizes1[-1] * 2, 10)
+        future_val_mse = exponential_decay(future_sizes, *popt)
         
-        # Calculate slope of validation curve at the end
-        end_idx = len(val_scores_mean) - 1
-        start_idx = max(0, end_idx - 3)  # Look at the last few points
-        
-        # Calculate slope using linear regression on the last few points
-        x_points = train_sizes[start_idx:end_idx+1]
-        y_points = val_scores_mean[start_idx:end_idx+1]
-        slope, _ = np.polyfit(x_points, y_points, 1)
-        
-        # Calculate error ratio and gap
-        error_ratio = val_scores_mean[-1] / train_scores_mean[-1] if train_scores_mean[-1] > 0 else float('inf')
-        error_gap = val_scores_mean[-1] - train_scores_mean[-1]
-        
-        # Determine trend
-        if slope < -0.01 * val_scores_mean[start_idx]:  # Decreasing significantly
-            trend = "Decreasing"
-            more_data_help = "Likely to help"
-        elif abs(slope) < 0.01 * val_scores_mean[start_idx]:  # Flat (close to zero slope)
-            trend = "Plateaued"
-            more_data_help = "Unlikely to help"
-        else:  # Slope is positive (unusual)
-            trend = "Increasing"
-            more_data_help = "Will not help (investigate issues)"
-        
-        # Store results
-        scenario_results.append({
-            'name': name,
-            'train_sizes': train_sizes,
-            'train_scores_mean': train_scores_mean,
-            'val_scores_mean': val_scores_mean,
-            'color': color,
-            'slope': slope,
-            'trend': trend,
-            'more_data_help': more_data_help,
-            'error_gap': error_gap,
-            'error_ratio': error_ratio
-        })
+        # Plot the projection
+        plt.plot(future_sizes, future_val_mse, '--', color='red', alpha=0.5, label='Projected validation error')
+    except:
+        print("Could not fit exponential decay to validation error for Dataset 1")
     
-    # Print analysis for each scenario
-    print("\nScenario Analysis:")
-    for result in scenario_results:
-        print(f"\n{result['name']}:")
-        print(f"  - Final training error: {result['train_scores_mean'][-1]:.2f}")
-        print(f"  - Final validation error: {result['val_scores_mean'][-1]:.2f}")
-        print(f"  - Error gap: {result['error_gap']:.2f} (ratio: {result['error_ratio']:.2f}x)")
-        print(f"  - Validation curve trend: {result['trend']}")
-        print(f"  - Will more data help? {result['more_data_help']}")
-    
-    # Plot 1: Learning curves for all scenarios
-    plt.figure(figsize=(12, 8))
-    
-    # Set up colors for consistent labeling
-    colors = {'train': 'darkblue', 'val1': 'blue', 'val2': 'green', 'val3': 'red'}
-    
-    # Plot training error curves
-    for i, result in enumerate(scenario_results):
-        # Only label the first training curve to avoid legend duplication
-        if i == 0:
-            plt.plot(result['train_sizes'], result['train_scores_mean'], 'o-', color=colors['train'], 
-                    alpha=0.7, label='Training error')
-        else:
-            plt.plot(result['train_sizes'], result['train_scores_mean'], 'o-', color=colors['train'], 
-                    alpha=0.7)
-    
-    # Plot validation error curves
-    for i, result in enumerate(scenario_results):
-        label = f"Validation error: {result['trend']}"
-        plt.plot(result['train_sizes'], result['val_scores_mean'], 'o-', color=result['color'], 
-                label=label)
-        
-        # Add projected trend
-        x_extend = np.linspace(result['train_sizes'][-1], result['train_sizes'][-1] * 1.3, 10)
-        y_extend = result['slope'] * (x_extend - result['train_sizes'][-1]) + result['val_scores_mean'][-1]
-        plt.plot(x_extend, y_extend, linestyle='--', color=result['color'], alpha=0.7)
-    
-    # Add vertical line at last training size
-    plt.axvline(x=scenario_results[0]['train_sizes'][-1], color='gray', linestyle='--', 
-               label='Current data size')
-    
-    plt.title('Learning Curves: Effect of Training Set Size', fontsize=14)
-    plt.xlabel('Training Set Size', fontsize=12)
+    plt.title('Learning Curves: Simple Linear Dataset', fontsize=14)
+    plt.xlabel('Number of training samples', fontsize=12)
     plt.ylabel('Mean Squared Error', fontsize=12)
-    plt.legend(loc='best')
+    plt.legend(fontsize=12)
     plt.grid(True)
     
-    # Add LaTeX annotation explaining the concept
-    plt.figtext(0.5, 0.01, r'$\text{If } \frac{d\text{ValidationError}}{d\text{TrainingSize}} < 0 \text{ at current size} \Rightarrow \text{More data will help}$', 
-                ha='center', fontsize=12)
+    # Annotate convergence point
+    plt.annotate('Convergence: Low Error Gap', 
+                xy=(train_sizes1[-1], (train_mse1[-1] + val_mse1[-1])/2),
+                xytext=(train_sizes1[-1]*0.6, val_mse1[0]*0.7),
+                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5),
+                fontsize=12,
+                bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8))
     
-    plt.tight_layout(rect=[0, 0.03, 1, 0.97])
-    plt.savefig(os.path.join(save_dir, 'statement8_learning_curves.png'), dpi=300, bbox_inches='tight')
+    # Add interpretive text
+    plt.figtext(0.5, 0.01, 
+               "Analysis: The validation error has plateaued and is close to the training error.\nAdding more data is unlikely to significantly improve model performance.",
+               ha="center", fontsize=12, 
+               bbox=dict(boxstyle='round,pad=0.5', facecolor='lightblue', alpha=0.5))
     
-    # Plot 2: Pattern recognition guide for learning curves
-    plt.figure(figsize=(12, 10))
+    plt.tight_layout(rect=[0, 0.05, 1, 1])
+    plt.savefig(os.path.join(save_dir, 'statement8_learning_curve_convergent.png'), dpi=300, bbox_inches='tight')
     
-    # Create example learning curve patterns
-    n_points = 10
-    train_sizes = np.linspace(100, 1000, n_points)
+    # Plot 2: Learning curves for Dataset 2
+    plt.figure(figsize=(10, 6))
+    plt.plot(train_sizes2, train_mse2, 'o-', color='blue', label='Training error')
+    plt.plot(train_sizes2, val_mse2, 'o-', color='red', label='Validation error')
     
-    # Pattern 1: High bias (underfitting) - both errors high, small gap
-    train_error1 = 70 - 10 * np.log(train_sizes/100)
-    val_error1 = 80 - 8 * np.log(train_sizes/100)
+    try:
+        # Fit an exponential decay curve to validation error
+        popt, _ = curve_fit(exponential_decay, train_sizes2, val_mse2)
+        
+        # Project future performance with more data
+        future_sizes = np.linspace(train_sizes2[-1], train_sizes2[-1] * 2, 10)
+        future_val_mse = exponential_decay(future_sizes, *popt)
+        
+        # Plot the projection
+        plt.plot(future_sizes, future_val_mse, '--', color='red', alpha=0.5, label='Projected validation error')
+    except:
+        print("Could not fit exponential decay to validation error for Dataset 2")
     
-    # Pattern 2: High variance (overfitting) - low training, high validation
-    train_error2 = 10 * np.ones_like(train_sizes)
-    val_error2 = 60 - 5 * np.log(train_sizes/100)
+    plt.title('Learning Curves: Complex Nonlinear Dataset', fontsize=14)
+    plt.xlabel('Number of training samples', fontsize=12)
+    plt.ylabel('Mean Squared Error', fontsize=12)
+    plt.legend(fontsize=12)
+    plt.grid(True)
     
-    # Pattern 3: Needs more data - both decreasing, validation not plateaued
-    train_error3 = 40 * np.exp(-0.001 * train_sizes)
-    val_error3 = 80 * np.exp(-0.0008 * train_sizes)
+    # Annotate divergence point
+    plt.annotate('Still Improving: Validation Error Decreasing', 
+                xy=(train_sizes2[-1], val_mse2[-1]),
+                xytext=(train_sizes2[-1]*0.6, val_mse2[-1]*1.5),
+                arrowprops=dict(facecolor='black', shrink=0.05, width=1.5),
+                fontsize=12,
+                bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8))
     
-    # Pattern 4: Optimal capacity - both errors plateaued with small gap
-    train_error4 = 20 * np.ones_like(train_sizes)
-    val_error4 = np.concatenate([30 - 5 * np.log(train_sizes[:6]/100), 25 * np.ones(n_points-6)])
+    # Add interpretive text
+    plt.figtext(0.5, 0.01, 
+               "Analysis: The validation error continues to decrease as training samples increase.\nAdding more data is likely to improve model performance.",
+               ha="center", fontsize=12, 
+               bbox=dict(boxstyle='round,pad=0.5', facecolor='lightgreen', alpha=0.5))
     
-    # Create 2x2 grid of subplots
+    plt.tight_layout(rect=[0, 0.05, 1, 1])
+    plt.savefig(os.path.join(save_dir, 'statement8_learning_curve_improving.png'), dpi=300, bbox_inches='tight')
+    
+    # Add comparison plot showing different learning curve scenarios
+    plt.figure(figsize=(12, 8))
+    
+    # Create a grid of 4 scenarios
     fig, axes = plt.subplots(2, 2, figsize=(12, 10))
-    axes = axes.flatten()
     
-    # Titles, descriptions and colors
-    patterns = [
-        "Pattern 1: High Bias (Underfitting)",
-        "Pattern 2: High Variance (Overfitting)",
-        "Pattern 3: Needs More Data",
-        "Pattern 4: Optimal Model Capacity"
-    ]
+    # Add titles and labels
+    axes[0, 0].set_title('Scenario 1: High Bias (Underfitting)', fontsize=12)
+    axes[0, 1].set_title('Scenario 2: Optimal Model', fontsize=12)
+    axes[1, 0].set_title('Scenario 3: High Variance (Overfitting)', fontsize=12)
+    axes[1, 1].set_title('Scenario 4: Still Learning', fontsize=12)
     
-    descriptions = [
-        "Both errors high with small gap\nAction: Increase model complexity",
-        "Low training error, high validation error\nAction: Add regularization or reduce complexity",
-        "Both errors decreasing, validation not plateaued\nAction: Collect more training data",
-        "Both errors plateaued with small gap\nAction: Try different model architecture"
-    ]
-    
-    colors = ['red', 'blue', 'green', 'purple']
-    train_errors = [train_error1, train_error2, train_error3, train_error4]
-    val_errors = [val_error1, val_error2, val_error3, val_error4]
-    
-    # Plot each pattern
-    for i in range(4):
-        ax = axes[i]
-        
-        # Plot curves
-        ax.plot(train_sizes, train_errors[i], 'o-', color='darkblue', label='Training error')
-        ax.plot(train_sizes, val_errors[i], 'o-', color=colors[i], label='Validation error')
-        
-        # Add current data size line
-        ax.axvline(x=train_sizes[-1], color='gray', linestyle='--')
-        
-        # Add future projection region
-        extended_sizes = np.linspace(train_sizes[-1], train_sizes[-1] * 1.3, 5)
-        ax.fill_between([train_sizes[-1], extended_sizes[-1]], 0, 100, 
-                       color='lightgray', alpha=0.2)
-        
-        # Annotation for projection region
-        ax.text(extended_sizes[-1] - 50, 90, 'Future\ndata', ha='right', fontsize=8, 
-               bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
-        
-        # Will more data help?
-        if i == 2:  # Needs more data pattern
-            will_help = "YES - More data will help"
-            color = 'green'
-        else:
-            will_help = "NO - Other actions needed first"
-            color = 'red'
-        
-        # Add annotation
-        ax.text(0.5, 0.05, will_help, transform=ax.transAxes, ha='center',
-               color=color, fontweight='bold', fontsize=12,
-               bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
-        
-        # Add pattern description
-        ax.text(0.05, 0.95, descriptions[i], transform=ax.transAxes, ha='left', va='top',
-               fontsize=10, bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
-        
-        ax.set_title(patterns[i], fontsize=12, color=colors[i])
+    for ax in axes.flatten():
         ax.set_xlabel('Training Set Size', fontsize=10)
         ax.set_ylabel('Error', fontsize=10)
         ax.grid(True)
-        ax.legend(loc='upper right', fontsize=9)
     
-    plt.tight_layout()
+    # Scenario 1: High Bias (Underfitting)
+    train_sizes = np.linspace(0.1, 1.0, 100)
+    train_error = np.ones_like(train_sizes) * 0.6 + np.random.normal(0, 0.03, 100)
+    val_error = np.ones_like(train_sizes) * 0.7 + np.random.normal(0, 0.05, 100)
     
-    # Add main title
-    plt.suptitle('Learning Curve Patterns and When More Data Helps', fontsize=16, y=1.02)
+    axes[0, 0].plot(train_sizes, train_error, color='blue', label='Training Error')
+    axes[0, 0].plot(train_sizes, val_error, color='red', label='Validation Error')
+    axes[0, 0].legend(fontsize=9)
     
-    # Add LaTeX formula at the bottom explaining how to diagnose bias vs variance
+    # Add annotation
+    axes[0, 0].text(0.5, 0.7, "• Both errors high\n• Small gap between errors\n• Both plateau early\n\n➔ More data won't help\n➔ Need a more complex model", 
+            transform=axes[0, 0].transAxes, fontsize=10,
+            bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8))
+    
+    # Add more data projection
+    axes[0, 0].plot(np.linspace(1.0, 1.5, 20), 
+                   np.ones(20) * train_error[-1] + np.random.normal(0, 0.01, 20), 
+                   '--', color='blue', alpha=0.5)
+    axes[0, 0].plot(np.linspace(1.0, 1.5, 20), 
+                   np.ones(20) * val_error[-1] + np.random.normal(0, 0.01, 20), 
+                   '--', color='red', alpha=0.5)
+    
+    # Scenario 2: Optimal Model
+    train_sizes = np.linspace(0.1, 1.0, 100)
+    train_error = 0.5 * np.exp(-2*train_sizes) + 0.1 + np.random.normal(0, 0.01, 100)
+    val_error = 0.7 * np.exp(-1.8*train_sizes) + 0.15 + np.random.normal(0, 0.02, 100)
+    
+    axes[0, 1].plot(train_sizes, train_error, color='blue', label='Training Error')
+    axes[0, 1].plot(train_sizes, val_error, color='red', label='Validation Error')
+    axes[0, 1].legend(fontsize=9)
+    
+    # Add annotation
+    axes[0, 1].text(0.5, 0.7, "• Both errors low\n• Small gap between errors\n• Both have converged\n\n➔ More data won't help significantly\n➔ Model is well-tuned", 
+            transform=axes[0, 1].transAxes, fontsize=10,
+            bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8))
+    
+    # Add more data projection
+    axes[0, 1].plot(np.linspace(1.0, 1.5, 20), 
+                   np.ones(20) * train_error[-1] + np.random.normal(0, 0.01, 20), 
+                   '--', color='blue', alpha=0.5)
+    axes[0, 1].plot(np.linspace(1.0, 1.5, 20), 
+                   np.ones(20) * val_error[-1] + np.random.normal(0, 0.01, 20), 
+                   '--', color='red', alpha=0.5)
+    
+    # Scenario 3: High Variance (Overfitting)
+    train_sizes = np.linspace(0.1, 1.0, 100)
+    train_error = 0.3 * np.exp(-3*train_sizes) + 0.05 + np.random.normal(0, 0.01, 100)
+    val_error = 0.5 * np.exp(-0.5*train_sizes) + 0.3 + np.random.normal(0, 0.03, 100)
+    
+    axes[1, 0].plot(train_sizes, train_error, color='blue', label='Training Error')
+    axes[1, 0].plot(train_sizes, val_error, color='red', label='Validation Error')
+    axes[1, 0].legend(fontsize=9)
+    
+    # Add annotation
+    axes[1, 0].text(0.5, 0.7, "• Low training error\n• High validation error\n• Large gap between errors\n\n➔ More data may help somewhat\n➔ Consider regularization", 
+            transform=axes[1, 0].transAxes, fontsize=10,
+            bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8))
+    
+    # Add more data projection
+    axes[1, 0].plot(np.linspace(1.0, 1.5, 20), 
+                   np.ones(20) * train_error[-1] + np.random.normal(0, 0.01, 20), 
+                   '--', color='blue', alpha=0.5)
+    
+    # Validation error might improve a bit with more data
+    improvement = np.linspace(val_error[-1], val_error[-1]*0.85, 20) + np.random.normal(0, 0.01, 20)
+    axes[1, 0].plot(np.linspace(1.0, 1.5, 20), improvement, '--', color='red', alpha=0.5)
+    
+    # Scenario 4: Still Learning
+    train_sizes = np.linspace(0.1, 1.0, 100)
+    train_error = 0.6 * np.exp(-2*train_sizes) + 0.1 + np.random.normal(0, 0.01, 100)
+    # Validation error still going down
+    val_error = 0.9 * np.exp(-1*train_sizes) + 0.2 + np.random.normal(0, 0.03, 100)
+    
+    axes[1, 1].plot(train_sizes, train_error, color='blue', label='Training Error')
+    axes[1, 1].plot(train_sizes, val_error, color='red', label='Validation Error')
+    axes[1, 1].legend(fontsize=9)
+    
+    # Add annotation
+    axes[1, 1].text(0.5, 0.7, "• Training error stabilized\n• Validation error still decreasing\n• Gap still narrowing\n\n➔ More data will help\n➔ Model still learning", 
+            transform=axes[1, 1].transAxes, fontsize=10,
+            bbox=dict(boxstyle='round,pad=0.5', facecolor='white', alpha=0.8))
+    
+    # Add more data projection
+    axes[1, 1].plot(np.linspace(1.0, 1.5, 20), 
+                   np.ones(20) * train_error[-1] + np.random.normal(0, 0.01, 20), 
+                   '--', color='blue', alpha=0.5)
+    
+    # Continuing improvement with more data
+    improvement = np.linspace(val_error[-1], val_error[-1]*0.6, 20) + np.random.normal(0, 0.02, 20)
+    axes[1, 1].plot(np.linspace(1.0, 1.5, 20), improvement, '--', color='red', alpha=0.5)
+    
+    # Add overall title
+    plt.suptitle('Learning Curve Scenarios & When More Data Helps', fontsize=16, y=0.98)
+    
+    # Add conclusions
     plt.figtext(0.5, 0.01, 
-                r'$\text{High Bias: High } E_{train} \approx E_{val}$ vs '
-                r'$\text{High Variance: Low } E_{train} \ll E_{val}$ vs '
-                r'$\text{Need More Data: Decreasing } \frac{dE_{val}}{d\text{size}} < 0$', 
-                ha='center', fontsize=12)
+               "Key Takeaway: When validation error is still decreasing with available training data, adding more data will likely improve performance.",
+               ha="center", fontsize=12, 
+               bbox=dict(boxstyle='round,pad=0.5', facecolor='yellow', alpha=0.5))
     
-    plt.savefig(os.path.join(save_dir, 'statement8_learning_curve_patterns.png'), dpi=300, bbox_inches='tight')
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    plt.savefig(os.path.join(save_dir, 'statement8_learning_curve_scenarios.png'), dpi=300, bbox_inches='tight')
     
-    # Print key conclusions about when more data helps
-    print("\nKey Conclusions:")
-    print("1. More data helps when validation error is still decreasing")
-    print("2. More data helps when the model isn't yet overfitting or underfitting")
-    print("3. Learning curves help diagnose why a model isn't performing well")
-    print("4. High bias (underfitting) and high variance (overfitting) should be addressed before collecting more data")
-    print("5. The slope of the validation curve at the current training size is the key indicator")
+    # Create an additional visualization showing learning curves with multiple models
+    # This demonstrates when more data helps different types of models
     
+    # Generate a more complex dataset where complex models need more data
+    np.random.seed(42)
+    n_samples = 1000
+    X_multi = np.linspace(0, 10, n_samples).reshape(-1, 1)
+    y_multi = 0.1 * X_multi.squeeze()**3 - 0.5 * X_multi.squeeze()**2 + 2 * X_multi.squeeze() + np.random.normal(0, 10, n_samples)
+    
+    # Create train/val/test splits
+    X_train, X_temp, y_train, y_temp = train_test_split(X_multi, y_multi, test_size=0.4, random_state=42)
+    X_val, X_test, y_val, y_test = train_test_split(X_temp, y_temp, test_size=0.5, random_state=42)
+    
+    # Create models of increasing complexity
+    models = {
+        'Linear Regression': LinearRegression(),
+        'Polynomial (degree=2)': Pipeline([
+            ('poly', PolynomialFeatures(degree=2)),
+            ('linear', LinearRegression())
+        ]),
+        'Polynomial (degree=3)': Pipeline([
+            ('poly', PolynomialFeatures(degree=3)),
+            ('linear', LinearRegression())
+        ]),
+        'Random Forest': RandomForestRegressor(n_estimators=100, random_state=42)
+    }
+    
+    # Function to simulate learning with different amounts of data
+    def evaluate_with_increasing_data(models, X_train, y_train, X_val, y_val, fractions):
+        results = {model_name: {'train_mse': [], 'val_mse': []} for model_name in models}
+        training_sizes = []
+        
+        for fraction in fractions:
+            n_samples = int(len(X_train) * fraction)
+            training_sizes.append(n_samples)
+            
+            # Use a subset of the training data
+            X_subset = X_train[:n_samples]
+            y_subset = y_train[:n_samples]
+            
+            for model_name, model in models.items():
+                # Train model on subset
+                model.fit(X_subset, y_subset)
+                
+                # Evaluate on training subset
+                y_train_pred = model.predict(X_subset)
+                train_mse = np.mean((y_subset - y_train_pred) ** 2)
+                
+                # Evaluate on validation set
+                y_val_pred = model.predict(X_val)
+                val_mse = np.mean((y_val - y_val_pred) ** 2)
+                
+                # Store results
+                results[model_name]['train_mse'].append(train_mse)
+                results[model_name]['val_mse'].append(val_mse)
+        
+        return results, training_sizes
+    
+    # Evaluate models with increasing data
+    fractions = np.linspace(0.1, 1.0, 10)
+    model_results, training_sizes = evaluate_with_increasing_data(
+        models, X_train, y_train, X_val, y_val, fractions
+    )
+    
+    # Plot results for each model
+    plt.figure(figsize=(15, 10))
+    
+    # Create a 2x2 grid for the models
+    fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+    axes = axes.flatten()
+    
+    # Define colors for consistency
+    colors = {
+        'train': 'blue',
+        'val': 'red'
+    }
+    
+    for i, (model_name, results) in enumerate(model_results.items()):
+        ax = axes[i]
+        
+        # Plot training and validation curves
+        ax.plot(training_sizes, results['train_mse'], 'o-', color=colors['train'], label='Training MSE')
+        ax.plot(training_sizes, results['val_mse'], 'o-', color=colors['val'], label='Validation MSE')
+        
+        # Project future performance if validation error is still decreasing
+        if results['val_mse'][-1] < results['val_mse'][-2]:
+            # Simple linear projection for illustration
+            slope = (results['val_mse'][-1] - results['val_mse'][-2]) / (training_sizes[-1] - training_sizes[-2])
+            future_sizes = np.linspace(training_sizes[-1], training_sizes[-1] * 1.5, 5)
+            future_val_mse = results['val_mse'][-1] + slope * (future_sizes - training_sizes[-1])
+            ax.plot(future_sizes, future_val_mse, '--', color=colors['val'], alpha=0.5, label='Projected val MSE')
+        
+        ax.set_title(f'Learning Curve: {model_name}', fontsize=12)
+        ax.set_xlabel('Number of Training Samples', fontsize=10)
+        ax.set_ylabel('Mean Squared Error', fontsize=10)
+        ax.grid(True)
+        ax.legend(fontsize=9)
+        
+        # Add analysis text
+        val_change = (results['val_mse'][-2] - results['val_mse'][-1]) / results['val_mse'][-2] * 100
+        
+        if val_change > 5:
+            conclusion = "Still improving significantly.\nMore data will likely help."
+            color = 'lightgreen'
+        elif val_change > 1:
+            conclusion = "Still improving slightly.\nMore data may help."
+            color = 'lightyellow'
+        else:
+            conclusion = "Plateaued.\nMore data unlikely to help."
+            color = 'lightcoral'
+        
+        ax.text(0.05, 0.95, f"Recent improvement: {val_change:.1f}%\n{conclusion}", 
+                transform=ax.transAxes, fontsize=10, va='top',
+                bbox=dict(boxstyle='round,pad=0.5', facecolor=color, alpha=0.5))
+    
+    plt.suptitle('Impact of More Data on Different Model Types', fontsize=16, y=0.98)
+    
+    # Add key takeaways at the bottom
+    plt.figtext(0.5, 0.01, 
+               "Key Takeaways:\n- Simple models (linear) may converge with less data\n"
+               "- Complex models (polynomial, tree-based) often benefit more from additional data\n"
+               "- When validation error is still decreasing, more data will likely improve performance",
+               ha="center", fontsize=12, bbox=dict(boxstyle='round,pad=0.5', facecolor='lightblue', alpha=0.5))
+    
+    plt.tight_layout(rect=[0, 0.05, 1, 0.95])
+    plt.savefig(os.path.join(save_dir, 'statement8_model_comparison.png'), dpi=300, bbox_inches='tight')
+    
+    # Return the results
     result = {
         'statement': "In learning curves, if the validation error continues to decrease as more training samples are added, adding more data is likely to improve model performance.",
         'is_true': True,
-        'explanation': "This statement is TRUE. When the validation error continues to decrease as the training set size increases, it indicates that the model is still learning from additional data and has not yet reached its full capacity. In this scenario, collecting and adding more training data is likely to further improve model performance. The analysis of our learning curve scenarios confirms this: when the validation curve shows a negative slope at the current training size, more data will help; when it has plateaued, other actions like addressing bias or variance should be prioritized first.",
-        'image_path': ['statement8_learning_curves.png', 'statement8_learning_curve_patterns.png']
+        'explanation': "This statement is TRUE. When a learning curve shows validation error decreasing as training set size increases, it indicates the model is still learning from the data and has not yet plateaued. This is a clear signal that providing more training examples would likely lead to better model performance. In contrast, when validation error flattens out, additional data is unlikely to help significantly. As demonstrated in our scenarios, different model types (simple vs. complex) and different problem types (low noise vs. high noise) can show distinct learning curve patterns, but the principle remains: a decreasing validation error curve suggests more data will improve performance, while a flat validation error curve suggests the model has extracted all possible information from the available features.",
+        'image_path': ['statement8_learning_curve_convergent.png', 'statement8_learning_curve_improving.png', 'statement8_learning_curve_scenarios.png', 'statement8_model_comparison.png']
     }
     
     return result

@@ -203,6 +203,269 @@ def statement6_cross_validation():
     
     plt.savefig(os.path.join(save_dir, 'statement6_stability_comparison.png'), dpi=300, bbox_inches='tight')
     
+    # NEW VISUALIZATION: Cross-validation for preventing overfitting across models of different complexity
+    plt.figure(figsize=(14, 10))
+    
+    # Generate a dataset with a known nonlinear pattern
+    np.random.seed(42)
+    n_data = 100
+    X_full = np.linspace(-3, 3, n_data).reshape(-1, 1)
+    # True function: y = 1 + 2x + 0.5x^2
+    y_true = 1 + 2 * X_full.squeeze() + 0.5 * X_full.squeeze()**2
+    y_full = y_true + np.random.normal(0, 3, n_data)
+    
+    # Create a held-out test set (not used in training or cross-validation)
+    X_train_val, X_test, y_train_val, y_test = train_test_split(X_full, y_full, test_size=0.2, random_state=42)
+    
+    # Create a figure with 2 rows and 2 columns
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    
+    # Polynomial degrees to try
+    degrees = [1, 2, 5, 15]
+    
+    # Setup for the training, validation, and test scores
+    train_scores = []
+    cv_scores = []
+    test_scores = []
+    
+    # For the plot of all scores vs. complexity
+    for degree in degrees:
+        # Use polynomial features
+        from sklearn.preprocessing import PolynomialFeatures
+        from sklearn.pipeline import Pipeline
+        
+        # Create polynomial features and a model pipeline
+        model = Pipeline([
+            ('poly', PolynomialFeatures(degree=degree)),
+            ('linear', LinearRegression())
+        ])
+        
+        # Get cross-validation score
+        cv_score = np.mean(cross_val_score(model, X_train_val, y_train_val, cv=5, scoring='r2'))
+        cv_scores.append(cv_score)
+        
+        # Train on all training data
+        model.fit(X_train_val, y_train_val)
+        
+        # Get training score
+        train_score = model.score(X_train_val, y_train_val)
+        train_scores.append(train_score)
+        
+        # Get test score
+        test_score = model.score(X_test, y_test)
+        test_scores.append(test_score)
+    
+    # 1. Top-left: Model fits to data
+    ax = axes[0, 0]
+    
+    # Plot the training data
+    ax.scatter(X_train_val, y_train_val, alpha=0.5, label='Training data')
+    
+    # Plot the test data
+    ax.scatter(X_test, y_test, color='red', alpha=0.5, label='Test data')
+    
+    # Plot the true function
+    x_plot = np.linspace(-3, 3, 100).reshape(-1, 1)
+    y_true_plot = 1 + 2 * x_plot.squeeze() + 0.5 * x_plot.squeeze()**2
+    ax.plot(x_plot, y_true_plot, 'k--', label='True function')
+    
+    # Create and plot models with different complexities
+    colors = ['blue', 'green', 'orange', 'red']
+    for i, degree in enumerate(degrees):
+        # Create and fit the model
+        model = Pipeline([
+            ('poly', PolynomialFeatures(degree=degree)),
+            ('linear', LinearRegression())
+        ])
+        model.fit(X_train_val, y_train_val)
+        
+        # Make predictions on a grid
+        y_pred = model.predict(x_plot)
+        
+        # Plot the model prediction
+        ax.plot(x_plot, y_pred, color=colors[i], lw=2, 
+                label=f'Degree {degree}')
+    
+    ax.set_title('Model Fits of Different Complexity', fontsize=12)
+    ax.set_xlabel('X', fontsize=10)
+    ax.set_ylabel('y', fontsize=10)
+    ax.legend(fontsize=9, loc='upper left')
+    ax.grid(True)
+    
+    # 2. Top-right: Examination of a specific model (degree 15) with CV
+    ax = axes[0, 1]
+    
+    # Pick the highest degree model for demonstration
+    high_degree = 15
+    model = Pipeline([
+        ('poly', PolynomialFeatures(degree=high_degree)),
+        ('linear', LinearRegression())
+    ])
+    
+    # Setup K-fold CV
+    kf = KFold(n_splits=5, shuffle=True, random_state=42)
+    
+    # Plot the data
+    ax.scatter(X_train_val, y_train_val, alpha=0.3, color='gray', label='All data')
+    
+    # Plot the true function
+    ax.plot(x_plot, y_true_plot, 'k--', label='True function')
+    
+    # Plot each fold's model
+    cv_predictions = []
+    for i, (train_idx, val_idx) in enumerate(kf.split(X_train_val)):
+        # Get train and validation data for this fold
+        X_fold_train, X_fold_val = X_train_val[train_idx], X_train_val[val_idx]
+        y_fold_train, y_fold_val = y_train_val[train_idx], y_train_val[val_idx]
+        
+        # Fit the model
+        model.fit(X_fold_train, y_fold_train)
+        
+        # Make predictions
+        y_fold_pred = model.predict(x_plot)
+        
+        # Store predictions
+        cv_predictions.append(y_fold_pred)
+        
+        # Plot the fold's model
+        ax.plot(x_plot, y_fold_pred, alpha=0.5, lw=1, color='red')
+        
+        # Plot training and validation data for first fold only to avoid clutter
+        if i == 0:
+            ax.scatter(X_fold_train, y_fold_train, alpha=0.7, color='blue', s=20, label='Fold 1: Train')
+            ax.scatter(X_fold_val, y_fold_val, alpha=0.7, color='red', s=40, label='Fold 1: Validation')
+    
+    # Calculate and plot the average model across folds
+    cv_predictions = np.array(cv_predictions)
+    mean_cv_prediction = np.mean(cv_predictions, axis=0)
+    ax.plot(x_plot, mean_cv_prediction, color='purple', lw=2, label='CV average')
+    
+    # Final model trained on all data
+    model.fit(X_train_val, y_train_val)
+    y_final_pred = model.predict(x_plot)
+    ax.plot(x_plot, y_final_pred, color='red', lw=2, label=f'Degree {high_degree} (all data)')
+    
+    ax.set_title(f'Cross-Validation of Complex Model (Degree {high_degree})', fontsize=12)
+    ax.set_xlabel('X', fontsize=10)
+    ax.set_ylabel('y', fontsize=10)
+    ax.legend(fontsize=8, loc='upper left')
+    ax.grid(True)
+    
+    # Add explanation of overfitting
+    ax.text(0.05, 0.95, "Complex model overfits each fold differently\nCV helps identify overfitting",
+           transform=ax.transAxes, fontsize=10, va='top',
+           bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+    
+    # 3. Bottom-left: Performance metrics on train, validation, and test sets
+    ax = axes[1, 0]
+    
+    width = 0.25
+    x = np.arange(len(degrees))
+    
+    # Plot grouped bars
+    ax.bar(x - width, train_scores, width, label='Training R²', color='blue', alpha=0.7)
+    ax.bar(x, cv_scores, width, label='CV R²', color='green', alpha=0.7)
+    ax.bar(x + width, test_scores, width, label='Test R²', color='red', alpha=0.7)
+    
+    # Label the x-axis with degrees
+    ax.set_xticks(x)
+    ax.set_xticklabels([f'Degree {d}' for d in degrees])
+    
+    # Add score values
+    for i, (tr, cv, te) in enumerate(zip(train_scores, cv_scores, test_scores)):
+        ax.text(i - width, tr + 0.02, f'{tr:.2f}', ha='center', va='bottom', fontsize=9)
+        ax.text(i, cv + 0.02, f'{cv:.2f}', ha='center', va='bottom', fontsize=9)
+        ax.text(i + width, te + 0.02, f'{te:.2f}', ha='center', va='bottom', fontsize=9)
+    
+    ax.set_title('Performance Comparison Across Model Complexity', fontsize=12)
+    ax.set_xlabel('Model Complexity', fontsize=10)
+    ax.set_ylabel('R-squared Score', fontsize=10)
+    ax.legend(fontsize=9)
+    ax.grid(True, axis='y')
+    
+    # Add explanation text about overfitting detection
+    ax.text(0.05, 0.05, 
+           "Signs of overfitting:\n- Training R² increases with complexity\n- Test R² decreases for complex models\n- CV R² helps detect optimal complexity",
+           transform=ax.transAxes, fontsize=10, 
+           bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+    
+    # 4. Bottom-right: Decision flowchart with CV
+    ax = axes[1, 1]
+    ax.axis('off')  # Turn off the axes
+    
+    # Draw a flowchart explaining the role of CV in model selection
+    # Create a conceptual illustration
+    from matplotlib.patches import Rectangle, Arrow, FancyArrowPatch
+    
+    # Define some positions
+    start_x, start_y = 0.1, 0.9
+    box_width, box_height = 0.3, 0.1
+    h_space, v_space = 0.4, 0.2
+    
+    # Function to draw a box with text
+    def draw_box(x, y, text, color='lightblue'):
+        box = Rectangle((x, y), box_width, box_height, facecolor=color, alpha=0.7, edgecolor='black')
+        ax.add_patch(box)
+        ax.text(x + box_width/2, y + box_height/2, text, ha='center', va='center', fontsize=10)
+        return x, y
+    
+    # Function to draw an arrow between boxes
+    def draw_arrow(start, end, label=None):
+        arrow = FancyArrowPatch(start, end, arrowstyle='->', connectionstyle='arc3,rad=0.1', 
+                               color='gray', linewidth=1.5)
+        ax.add_patch(arrow)
+        if label:
+            mid_x = (start[0] + end[0]) / 2
+            mid_y = (start[1] + end[1]) / 2
+            ax.text(mid_x, mid_y, label, ha='center', va='center', fontsize=9,
+                  bbox=dict(boxstyle='round', facecolor='white', alpha=0.7))
+    
+    # Create the flowchart
+    box1 = draw_box(start_x, start_y, "Collect Data")
+    box2 = draw_box(start_x + h_space, start_y, "Split into K Folds")
+    box3 = draw_box(start_x + h_space, start_y - v_space, "Train Multiple Models\nof Different Complexity")
+    box4 = draw_box(start_x, start_y - v_space, "Evaluate Each Model\nwith Cross-Validation")
+    box5 = draw_box(start_x, start_y - 2*v_space, "Select Best Model\nBased on CV Score")
+    box6 = draw_box(start_x + h_space, start_y - 2*v_space, "Evaluate Final Model\non Test Set")
+    box7 = draw_box(start_x + h_space/2, start_y - 3*v_space, "Deploy Model")
+    
+    # Draw arrows
+    draw_arrow((box1[0] + box_width, box1[1] + box_height/2), 
+              (box2[0], box2[1] + box_height/2))
+    
+    draw_arrow((box2[0] + box_width/2, box2[1]), 
+              (box3[0] + box_width/2, box3[1] + box_height))
+    
+    draw_arrow((box3[0], box3[1] + box_height/2), 
+              (box4[0] + box_width, box4[1] + box_height/2))
+    
+    draw_arrow((box4[0] + box_width/2, box4[1]), 
+              (box5[0] + box_width/2, box5[1] + box_height))
+    
+    draw_arrow((box5[0] + box_width, box5[1] + box_height/2), 
+              (box6[0], box6[1] + box_height/2))
+    
+    draw_arrow((box6[0] + box_width/2, box6[1]), 
+              (box7[0] + box_width/2, box7[1] + box_height))
+    
+    # Add cycle for model tuning
+    draw_arrow((box5[0], box5[1] + box_height/2), 
+              (box3[0], box3[1] + box_height/2), "Tune hyperparameters")
+    
+    # Add a title to the flowchart
+    ax.set_title('Cross-Validation in Machine Learning Workflow', fontsize=12)
+    
+    # Add explanation of CV benefits
+    ax.text(0.02, 0.02, 
+           "Benefits of Cross-Validation:\n1. More reliable performance estimate\n2. Helps detect overfitting\n3. Works well with limited data\n4. Guides model selection\n5. Reduces selection bias",
+           transform=ax.transAxes, fontsize=10, 
+           bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.3))
+    
+    # Add a title for the entire figure
+    plt.suptitle('Cross-Validation: A Resampling Technique for Model Assessment', fontsize=16, y=0.98)
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+    plt.savefig(os.path.join(save_dir, 'statement6_cv_overfitting.png'), dpi=300, bbox_inches='tight')
+    
     # Print the main advantages of cross-validation
     print("\nKey Advantages of Cross-Validation:")
     print("1. EFFICIENCY: Uses all data for both training and validation")
@@ -215,7 +478,7 @@ def statement6_cross_validation():
         'statement': "Cross-validation is a resampling technique used to assess the performance of a model on unseen data.",
         'is_true': True,
         'explanation': "This statement is TRUE. Cross-validation is a resampling method that provides a more reliable estimate of model performance on unseen data compared to a single train-test split. It works by dividing the dataset into multiple subsets or 'folds,' training the model on some folds, and validating it on the remaining folds. This process is repeated multiple times with different fold combinations, and the performance metrics are averaged. Cross-validation helps detect overfitting and provides a more robust assessment of how well a model will generalize to new, unseen data.",
-        'image_path': ['statement6_cv_pattern.png', 'statement6_method_comparison.png', 'statement6_stability_comparison.png']
+        'image_path': ['statement6_cv_pattern.png', 'statement6_method_comparison.png', 'statement6_stability_comparison.png', 'statement6_cv_overfitting.png']
     }
     
     return result

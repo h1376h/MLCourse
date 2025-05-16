@@ -295,6 +295,136 @@ def statement5_residual_analysis():
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'statement5_assumption_violations.png'), dpi=300, bbox_inches='tight')
     
+    # NEW VISUALIZATION: Comprehensive residual analysis diagnostic framework
+    fig, axes = plt.subplots(3, 2, figsize=(14, 12))
+    
+    # Generate a dataset with good properties
+    np.random.seed(42)
+    x_good = np.linspace(0, 10, 100)
+    y_good = 3 + 2*x_good + np.random.normal(0, 3, 100)
+    X_good = x_good.reshape(-1, 1)
+    
+    # Fit a linear model
+    model_good = LinearRegression().fit(X_good, y_good)
+    y_pred_good = model_good.predict(X_good)
+    residuals_good = y_good - y_pred_good
+    
+    # 1. Original Data and Model Fit (top-left)
+    ax = axes[0, 0]
+    ax.scatter(x_good, y_good, alpha=0.6, label='Data')
+    ax.plot(x_good, y_pred_good, 'r-', linewidth=2, label='Model Fit')
+    ax.set_title('1. Data and Model Fit', fontsize=12)
+    ax.set_xlabel('X', fontsize=10)
+    ax.set_ylabel('y', fontsize=10)
+    ax.legend(fontsize=9)
+    
+    # Annotation
+    ax.text(0.05, 0.95, "Check: Does the model fit appear\nreasonable for the data pattern?",
+           transform=ax.transAxes, fontsize=9, va='top',
+           bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.3))
+    
+    # 2. Residuals vs. Fitted (top-right) - Check Linearity and Homoscedasticity
+    ax = axes[0, 1]
+    ax.scatter(y_pred_good, residuals_good, alpha=0.6)
+    ax.axhline(y=0, color='r', linestyle='--')
+    # Add a smooth line
+    sorted_idx = np.argsort(y_pred_good)
+    sorted_pred = y_pred_good[sorted_idx]
+    sorted_resid = residuals_good[sorted_idx]
+    smooth_resid = np.convolve(sorted_resid, np.ones(10)/10, mode='valid')
+    smooth_pred = sorted_pred[5:-4]  # Adjust for kernel size
+    ax.plot(smooth_pred, smooth_resid, 'g-', linewidth=2)
+    
+    ax.set_title('2. Residuals vs. Fitted Values', fontsize=12)
+    ax.set_xlabel('Fitted Values', fontsize=10)
+    ax.set_ylabel('Residuals', fontsize=10)
+    
+    # Annotations
+    ax.text(0.05, 0.95, "Checks:\n- Linearity: Trend line should be flat\n- Homoscedasticity: Equal scatter at all X",
+           transform=ax.transAxes, fontsize=9, va='top',
+           bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.3))
+    
+    # 3. Scale-Location (middle-left) - Check Homoscedasticity more clearly
+    ax = axes[1, 0]
+    # Standardized residuals
+    std_residuals = residuals_good / np.std(residuals_good)
+    ax.scatter(y_pred_good, np.sqrt(np.abs(std_residuals)), alpha=0.6)
+    
+    # Add a smooth line
+    sorted_idx = np.argsort(y_pred_good)
+    sorted_pred = y_pred_good[sorted_idx]
+    sorted_sqrt_resid = np.sqrt(np.abs(std_residuals[sorted_idx]))
+    smooth_sqrt_resid = np.convolve(sorted_sqrt_resid, np.ones(10)/10, mode='valid')
+    smooth_pred = sorted_pred[5:-4]  # Adjust for kernel size
+    ax.plot(smooth_pred, smooth_sqrt_resid, 'g-', linewidth=2)
+    
+    ax.set_title('3. Scale-Location Plot', fontsize=12)
+    ax.set_xlabel('Fitted Values', fontsize=10)
+    ax.set_ylabel('√|Standardized Residuals|', fontsize=10)
+    
+    # Annotations
+    ax.text(0.05, 0.95, "Check: Homoscedasticity\n- Line should be flat\n- Points equally spread",
+           transform=ax.transAxes, fontsize=9, va='top',
+           bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.3))
+    
+    # 4. Normal Q-Q Plot (middle-right) - Check Normality
+    ax = axes[1, 1]
+    # Create a Q-Q plot
+    stats.probplot(residuals_good, dist="norm", plot=ax)
+    ax.set_title('4. Normal Q-Q Plot', fontsize=12)
+    
+    # Annotation
+    ax.text(0.05, 0.95, "Check: Normality\n- Points should follow the line\n- Deviations at tails are common",
+           transform=ax.transAxes, fontsize=9, va='top',
+           bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.3))
+    
+    # 5. Residuals vs. X (bottom-left) - Check Independent Errors and Linearity
+    ax = axes[2, 0]
+    ax.scatter(x_good, residuals_good, alpha=0.6)
+    ax.axhline(y=0, color='r', linestyle='--')
+    
+    # Add a smooth line
+    sorted_idx = np.argsort(x_good)
+    sorted_x = x_good[sorted_idx]
+    sorted_resid = residuals_good[sorted_idx]
+    smooth_resid = np.convolve(sorted_resid, np.ones(10)/10, mode='valid')
+    smooth_x = sorted_x[5:-4]  # Adjust for kernel size
+    ax.plot(smooth_x, smooth_resid, 'g-', linewidth=2)
+    
+    ax.set_title('5. Residuals vs. X', fontsize=12)
+    ax.set_xlabel('X', fontsize=10)
+    ax.set_ylabel('Residuals', fontsize=10)
+    
+    # Annotation
+    ax.text(0.05, 0.95, "Checks:\n- Linearity: No pattern against X\n- Independence: No systematic pattern",
+           transform=ax.transAxes, fontsize=9, va='top',
+           bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.3))
+    
+    # 6. Residual Histogram (bottom-right) - Check Normality
+    ax = axes[2, 1]
+    ax.hist(residuals_good, bins=20, alpha=0.7, color='skyblue')
+    ax.axvline(x=0, color='r', linestyle='--')
+    
+    # Add a normal curve for reference
+    from scipy.stats import norm
+    xmin, xmax = ax.get_xlim()
+    x = np.linspace(xmin, xmax, 100)
+    p = norm.pdf(x, np.mean(residuals_good), np.std(residuals_good))
+    ax.plot(x, p * len(residuals_good) * (xmax-xmin)/20, 'k-', linewidth=2)
+    
+    ax.set_title('6. Residual Histogram', fontsize=12)
+    ax.set_xlabel('Residual Value', fontsize=10)
+    ax.set_ylabel('Frequency', fontsize=10)
+    
+    # Annotation
+    ax.text(0.05, 0.95, "Check: Normality\n- Bell-shaped distribution\n- Centered at zero",
+           transform=ax.transAxes, fontsize=9, va='top',
+           bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.3))
+    
+    plt.suptitle('Comprehensive Residual Analysis Framework', fontsize=16, y=0.98)
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+    plt.savefig(os.path.join(save_dir, 'statement5_comprehensive_residuals.png'), dpi=300, bbox_inches='tight')
+    
     # Print the overall importance of residual analysis
     print("\nWhy Residual Analysis is Essential:")
     print("1. It verifies that model assumptions are met, ensuring reliable inference")
@@ -308,7 +438,7 @@ def statement5_residual_analysis():
         'statement': "Residual analysis is essential to ensure that the assumptions of a linear regression model are met.",
         'is_true': True,
         'explanation': "This statement is TRUE. Residual analysis is a crucial step in linear regression to ensure that the model's assumptions are met. By examining the residuals (the differences between the actual and predicted values), we can assess whether key assumptions like linearity, independence, homoscedasticity (constant variance), and normality are satisfied. The visualizations demonstrate how residual plots can reveal patterns that indicate assumption violations. When assumptions are met, residuals should be randomly scattered around zero with no discernible pattern, have constant variance, and follow a normal distribution. Violations of these assumptions can lead to unreliable inference, predictions, and confidence intervals.",
-        'image_path': ['statement5_residual_comparison.png', 'statement5_qq_plots.png', 'statement5_assumption_violations.png']
+        'image_path': ['statement5_residual_comparison.png', 'statement5_qq_plots.png', 'statement5_assumption_violations.png', 'statement5_comprehensive_residuals.png']
     }
     
     return result

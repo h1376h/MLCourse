@@ -173,11 +173,100 @@ def statement4_r2_negative():
     
     plt.savefig(os.path.join(save_dir, 'statement4_r2_function.png'), dpi=300, bbox_inches='tight')
     
+    # NEW VISUALIZATION: Side-by-side comparison showing prediction errors visually
+    plt.figure(figsize=(12, 8))
+    
+    # Create 2x2 subplots
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    
+    # First row: scatter plots with models
+    # Left: Positive R² model
+    ax = axes[0, 0]
+    ax.scatter(X, y, color='black', alpha=0.5)
+    ax.plot(X, y_pred_positive, color='green', linewidth=2, label=f'R² = {r2_positive:.2f}')
+    ax.axhline(y=y_mean, color='blue', linestyle='--', linewidth=1, label='Mean')
+    ax.set_title('Good Model (Positive R²)', fontsize=12)
+    ax.set_xlabel('X', fontsize=10)
+    ax.set_ylabel('y', fontsize=10)
+    ax.legend(fontsize=9)
+    
+    # Right: Negative R² model
+    ax = axes[0, 1]
+    ax.scatter(X, y, color='black', alpha=0.5)
+    ax.plot(X, y_pred_negative, color='red', linewidth=2, label=f'R² = {r2_negative:.2f}')
+    ax.axhline(y=y_mean, color='blue', linestyle='--', linewidth=1, label='Mean')
+    ax.set_title('Bad Model (Negative R²)', fontsize=12)
+    ax.set_xlabel('X', fontsize=10)
+    ax.set_ylabel('y', fontsize=10)
+    ax.legend(fontsize=9)
+    
+    # Second row: error visualizations
+    # Left: Positive R² model errors
+    ax = axes[1, 0]
+    # Get a subset of points for clarity
+    indices = np.linspace(0, n_samples-1, 15, dtype=int)
+    X_subset = X[indices]
+    y_subset = y[indices]
+    y_pred_pos_subset = y_pred_positive[indices]
+    y_mean_subset = np.full_like(y_subset, y_mean)
+    
+    # Plot data points
+    ax.scatter(X_subset, y_subset, color='black', s=50, zorder=10)
+    
+    # Plot model prediction and mean
+    ax.plot(X, y_pred_positive, color='green', linewidth=2, label='Model')
+    ax.axhline(y=y_mean, color='blue', linestyle='--', linewidth=1, label='Mean')
+    
+    # Draw error lines from points to model prediction
+    for i in range(len(X_subset)):
+        ax.plot([X_subset[i], X_subset[i]], [y_subset[i], y_pred_pos_subset[i]], 'g-', alpha=0.5)
+        ax.plot([X_subset[i], X_subset[i]], [y_subset[i], y_mean_subset[i]], 'b--', alpha=0.5)
+    
+    ax.set_title('Errors: Good Model vs Mean', fontsize=12)
+    ax.set_xlabel('X', fontsize=10)
+    ax.set_ylabel('y', fontsize=10)
+    ax.legend(fontsize=9)
+    
+    # Add text with R² interpretation
+    ax.text(0.05, 0.05, f'R² = {r2_positive:.2f} > 0\nModel errors < Mean errors\nModel better than baseline',
+            transform=ax.transAxes, fontsize=9,
+            bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.3))
+    
+    # Right: Negative R² model errors
+    ax = axes[1, 1]
+    # Calculate predictions for subset
+    y_pred_neg_subset = y_pred_negative[indices]
+    
+    # Plot data points
+    ax.scatter(X_subset, y_subset, color='black', s=50, zorder=10)
+    
+    # Plot model prediction and mean
+    ax.plot(X, y_pred_negative, color='red', linewidth=2, label='Model')
+    ax.axhline(y=y_mean, color='blue', linestyle='--', linewidth=1, label='Mean')
+    
+    # Draw error lines from points to model prediction
+    for i in range(len(X_subset)):
+        ax.plot([X_subset[i], X_subset[i]], [y_subset[i], y_pred_neg_subset[i]], 'r-', alpha=0.5)
+        ax.plot([X_subset[i], X_subset[i]], [y_subset[i], y_mean_subset[i]], 'b--', alpha=0.5)
+    
+    ax.set_title('Errors: Bad Model vs Mean', fontsize=12)
+    ax.set_xlabel('X', fontsize=10)
+    ax.set_ylabel('y', fontsize=10)
+    ax.legend(fontsize=9)
+    
+    # Add text with R² interpretation
+    ax.text(0.05, 0.05, f'R² = {r2_negative:.2f} < 0\nModel errors > Mean errors\nModel worse than baseline',
+            transform=ax.transAxes, fontsize=9,
+            bbox=dict(boxstyle='round', facecolor='lightcoral', alpha=0.3))
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'statement4_error_visualization.png'), dpi=300, bbox_inches='tight')
+    
     result = {
         'statement': "A negative R-squared value indicates that the model is worse than a horizontal line at predicting the target variable.",
         'is_true': True,
         'explanation': "This statement is TRUE. R-squared measures the proportion of variance in the dependent variable that is predictable from the independent variables. It is calculated as 1 - (Sum of Squared Residuals / Total Sum of Squares). When R-squared is negative, it means the model performs worse than simply predicting the mean value (horizontal line) for all observations. In other words, the sum of squared errors for the model is greater than the sum of squared errors for the baseline model, which just predicts the mean for every input.",
-        'image_path': ['statement4_r2_negative.png', 'statement4_sse_comparison.png', 'statement4_r2_function.png']
+        'image_path': ['statement4_r2_negative.png', 'statement4_sse_comparison.png', 'statement4_r2_function.png', 'statement4_error_visualization.png']
     }
     
     return result

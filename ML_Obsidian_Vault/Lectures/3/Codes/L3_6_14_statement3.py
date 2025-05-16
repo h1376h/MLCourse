@@ -222,11 +222,176 @@ def statement3_high_bias():
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'statement3_gap_ratio.png'), dpi=300, bbox_inches='tight')
     
+    # NEW VISUALIZATION: Comprehensive bias-variance trade-off visualization
+    plt.figure(figsize=(12, 10))
+    
+    # Generate a new dataset with more models to show the full trade-off
+    more_degrees = np.array([1, 2, 3, 4, 5, 7, 10, 15, 20])
+    more_train_errors = []
+    more_test_errors = []
+    
+    # Generate true function values (no noise) for bias calculation
+    y_true = true_func(X.squeeze())
+    y_true_train = y_true[:train_size]
+    y_true_test = y_true[train_size:]
+    
+    # Train models and calculate errors
+    for degree in more_degrees:
+        model = Pipeline([
+            ('poly', PolynomialFeatures(degree=degree)),
+            ('linear', LinearRegression())
+        ])
+        model.fit(X_train, y_train)
+        
+        # Predict and calculate errors
+        y_train_pred = model.predict(X_train)
+        y_test_pred = model.predict(X_test)
+        
+        train_mse = mean_squared_error(y_train, y_train_pred)
+        test_mse = mean_squared_error(y_test, y_test_pred)
+        
+        more_train_errors.append(train_mse)
+        more_test_errors.append(test_mse)
+    
+    # Create a figure with 4 subplots
+    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
+    
+    # Plot 1: Training and test errors vs model complexity (top left)
+    ax = axes[0, 0]
+    ax.plot(more_degrees, more_train_errors, 'o-', color='blue', label='Training error')
+    ax.plot(more_degrees, more_test_errors, 'o-', color='red', label='Test error')
+    
+    # Highlight the gap
+    for i, degree in enumerate(more_degrees):
+        if i % 2 == 0:  # Skip some to avoid clutter
+            ax.plot([degree, degree], 
+                   [more_train_errors[i], more_test_errors[i]], 
+                   'k--', alpha=0.3)
+            
+    ax.set_xlabel('Model Complexity (Polynomial Degree)')
+    ax.set_ylabel('Mean Squared Error')
+    ax.set_title('Error vs. Model Complexity')
+    ax.legend()
+    ax.grid(True)
+    
+    # Add annotations for bias and variance
+    ax.annotate('High Bias\nSmall Gap', xy=(1.5, np.mean([more_train_errors[0], more_test_errors[0]])),
+                xytext=(2, more_test_errors[0] * 1.2),
+                arrowprops=dict(arrowstyle='->'), fontsize=9)
+    
+    ax.annotate('High Variance\nLarge Gap', xy=(15, np.mean([more_train_errors[-2], more_test_errors[-2]])),
+                xytext=(10, more_test_errors[-2] * 0.5),
+                arrowprops=dict(arrowstyle='->'), fontsize=9)
+    
+    # Plot 2: Error gap vs model complexity (top right)
+    ax = axes[0, 1]
+    error_gaps = [test - train for train, test in zip(more_train_errors, more_test_errors)]
+    ax.plot(more_degrees, error_gaps, 'o-', color='purple')
+    
+    # Add reference line at 0 (no gap)
+    ax.axhline(y=0, color='black', linestyle='--', alpha=0.3)
+    
+    ax.set_xlabel('Model Complexity (Polynomial Degree)')
+    ax.set_ylabel('Error Gap (Test - Train)')
+    ax.set_title('Error Gap vs. Model Complexity')
+    
+    # Add annotations
+    ax.annotate('High Bias Region\nSmall Gap', xy=(2, error_gaps[1]),
+                xytext=(2, error_gaps[1] + 0.2 * max(error_gaps)),
+                arrowprops=dict(arrowstyle='->'), fontsize=9)
+    
+    ax.annotate('High Variance Region\nLarge Gap', xy=(15, error_gaps[-2]),
+                xytext=(12, error_gaps[-2] * 0.8),
+                arrowprops=dict(arrowstyle='->'), fontsize=9)
+    
+    ax.grid(True)
+    
+    # Plot 3: Model fits (bottom left)
+    ax = axes[1, 0]
+    
+    # Plot the data and true function
+    ax.scatter(X_train, y_train, color='gray', alpha=0.3, label='Training data')
+    ax.plot(x_plot, true_func(x_plot.squeeze()), color='black', linewidth=2, label='True function')
+    
+    # Plot high bias model
+    high_bias_model = Pipeline([
+        ('poly', PolynomialFeatures(degree=1)),
+        ('linear', LinearRegression())
+    ]).fit(X_train, y_train)
+    y_high_bias = high_bias_model.predict(x_plot)
+    ax.plot(x_plot, y_high_bias, color='blue', linewidth=2, label='High Bias (Degree 1)')
+    
+    # Plot high variance model
+    high_variance_model = Pipeline([
+        ('poly', PolynomialFeatures(degree=15)),
+        ('linear', LinearRegression())
+    ]).fit(X_train, y_train)
+    y_high_variance = high_variance_model.predict(x_plot)
+    ax.plot(x_plot, y_high_variance, color='red', linewidth=2, label='High Variance (Degree 15)')
+    
+    # Plot optimal model
+    optimal_model = Pipeline([
+        ('poly', PolynomialFeatures(degree=4)),  # Assume degree 4 is optimal
+        ('linear', LinearRegression())
+    ]).fit(X_train, y_train)
+    y_optimal = optimal_model.predict(x_plot)
+    ax.plot(x_plot, y_optimal, color='green', linewidth=2, label='Optimal (Degree 4)')
+    
+    ax.set_xlabel('X')
+    ax.set_ylabel('y')
+    ax.set_title('Model Fits: Bias vs. Variance')
+    ax.legend(fontsize=8)
+    ax.grid(True)
+    
+    # Plot 4: Bias-Variance conceptual diagram (bottom right)
+    ax = axes[1, 1]
+    
+    # Generate data for conceptual bias-variance tradeoff curve
+    x_concept = np.linspace(0, 10, 100)
+    bias_curve = 50 * np.exp(-0.5 * x_concept)
+    variance_curve = 3 * np.exp(0.3 * x_concept)
+    total_error = bias_curve + variance_curve
+    
+    # Plot the curves
+    ax.plot(x_concept, bias_curve, 'b-', label='Bias²')
+    ax.plot(x_concept, variance_curve, 'r-', label='Variance')
+    ax.plot(x_concept, total_error, 'k-', linewidth=2, label='Total Error')
+    
+    # Add optimal point
+    optimal_idx = np.argmin(total_error)
+    ax.scatter([x_concept[optimal_idx]], [total_error[optimal_idx]], color='green', s=100, 
+              zorder=5, label='Optimal Complexity')
+    
+    # Add regions
+    ax.fill_between([0, x_concept[optimal_idx]], 0, 100, color='blue', alpha=0.1, label='High Bias Region')
+    ax.fill_between([x_concept[optimal_idx], 10], 0, 100, color='red', alpha=0.1, label='High Variance Region')
+    
+    # Add text
+    ax.text(1, 60, 'High Bias Region\n- Simple Models\n- Small Gap\n- Underfitting',
+           fontsize=9, bbox=dict(facecolor='white', alpha=0.7))
+    
+    ax.text(7, 60, 'High Variance Region\n- Complex Models\n- Large Gap\n- Overfitting',
+           fontsize=9, bbox=dict(facecolor='white', alpha=0.7))
+    
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 100)
+    ax.set_xlabel('Model Complexity')
+    ax.set_ylabel('Error')
+    ax.set_title('Bias-Variance Tradeoff')
+    ax.legend(loc='upper center', fontsize=8)
+    ax.grid(True)
+    
+    # Add title for the whole figure
+    plt.suptitle('The Bias-Variance Tradeoff and Error Gap', fontsize=16, y=0.98)
+    
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+    plt.savefig(os.path.join(save_dir, 'statement3_bias_variance_tradeoff.png'), dpi=300, bbox_inches='tight')
+    
     result = {
         'statement': "A model with high bias will typically show a large gap between training and test error.",
         'is_true': False,
         'explanation': "A model with high bias (underfitting) typically shows a SMALL gap between training and test error, not a large one. High-bias models perform poorly on both training and test data. In contrast, high-variance models (overfitting) show a LARGE gap between training and test error, with low training error but high test error. The visualization shows that the simplest model (Degree 1) has high bias but a small train-test error gap, while the most complex model (Degree 15) has low bias but high variance, resulting in a much larger error gap.",
-        'image_path': ['statement3_train_test_errors.png', 'statement3_bias_variance_models.png', 'statement3_gap_ratio.png']
+        'image_path': ['statement3_train_test_errors.png', 'statement3_bias_variance_models.png', 'statement3_gap_ratio.png', 'statement3_bias_variance_tradeoff.png']
     }
     
     return result
