@@ -27,7 +27,9 @@ The symptoms described suggest systematic issues with the model that need to be 
 
 ## Solution
 
-### Step 1: Identifying the problem(s) mathematically
+### Task 1: Identifying the Problem(s)
+
+#### Step 1: Diagnosing overfitting and model misspecification
 Based on the symptoms described, we can identify two primary issues:
 
 1. **Overfitting**: The very low training error compared to much higher test error is a classic symptom of overfitting. Mathematically, if we denote the training error as $\text{MSE}_{\text{train}}$ and the test error as $\text{MSE}_{\text{test}}$, we observe:
@@ -45,15 +47,15 @@ To demonstrate these issues, let's examine a synthetic house price prediction sc
 ![Actual vs Predicted](../Images/L3_6_Quiz_18/actual_vs_predicted_overfit.png)
 
 In this visualization, we can see how the training predictions fit almost perfectly to the actual values, while test predictions show significant deviations. The quantitative results confirm this extreme overfitting:
-- Training MSE ≈ 0.00
-- Test MSE ≈ 1.46 × 10^12
-- Training R² ≈ 1.00
-- Test R² ≈ -8.78 × 10^10
-- Error ratio (Test/Train) ≈ 9.57 × 10^30
+- Training MSE $\approx 0.00$
+- Test MSE $\approx 1.46 \times 10^{12}$
+- Training $R^2 \approx 1.00$
+- Test $R^2 \approx -8.78 \times 10^{10}$
+- Error ratio (Test/Train) $\approx 9.57 \times 10^{30}$
 
-### Step 2: Formal diagnosis of overfitting through bias-variance decomposition
+#### Step 2: Mathematical analysis through bias-variance decomposition
 
-Let's analyze overfitting mathematically through the bias-variance decomposition. The expected test error for any model can be decomposed as:
+The expected test error for any model can be decomposed as:
 
 $$\mathbb{E}[(y - \hat{f}(x))^2] = \text{Bias}[\hat{f}(x)]^2 + \text{Var}[\hat{f}(x)] + \sigma^2_{\epsilon}$$
 
@@ -62,45 +64,9 @@ Where:
 - $\text{Var}[\hat{f}(x)] = \mathbb{E}[\hat{f}(x)^2] - \mathbb{E}[\hat{f}(x)]^2$ is the variance of our model's predictions
 - $\sigma^2_{\epsilon}$ is the irreducible error due to noise
 
-In linear regression, we model:
+In our overfit model, the variance term dominates, causing poor generalization performance.
 
-$$y = X\beta + \epsilon$$
-
-Where:
-- $X \in \mathbb{R}^{n \times p}$ is the feature matrix
-- $\beta \in \mathbb{R}^p$ is the coefficient vector
-- $\epsilon \sim \mathcal{N}(0, \sigma^2 I)$ is the error term
-- $y \in \mathbb{R}^n$ is the target variable (house prices)
-
-The ordinary least squares (OLS) estimator minimizes:
-
-$$\hat{\beta}_{\text{OLS}} = \arg\min_{\beta} \sum_{i=1}^{n} (y_i - x_i^T\beta)^2 = \arg\min_{\beta} ||y - X\beta||^2$$
-
-The closed-form solution is:
-
-$$\hat{\beta}_{\text{OLS}} = (X^TX)^{-1}X^Ty$$
-
-For high-dimensional or ill-posed problems (such as polynomial regression with high degree), the matrix $X^TX$ can be nearly singular, leading to extremely large coefficient values. This is mathematically demonstrated by the condition number:
-
-$$\kappa(X^TX) = \frac{\lambda_{\max}(X^TX)}{\lambda_{\min}(X^TX)}$$
-
-Where $\lambda_{\max}$ and $\lambda_{\min}$ are the maximum and minimum eigenvalues of $X^TX$. A high condition number means small changes in the data can lead to large changes in the coefficients, a hallmark of overfitting.
-
-When we overfit, the model finds coefficients $\hat{\beta}_{\text{OLS}}$ that make the training error extremely small:
-
-$$\text{MSE}_{\text{train}} = \frac{1}{n_{\text{train}}} \sum_{i=1}^{n_{\text{train}}} (y_i - x_i^T\hat{\beta}_{\text{OLS}})^2 \approx 0$$
-
-However, these coefficients perform poorly on unseen data:
-
-$$\text{MSE}_{\text{test}} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{n_{\text{test}}} (y_i - x_i^T\hat{\beta}_{\text{OLS}})^2 \gg \text{MSE}_{\text{train}}$$
-
-For our observed data, the ratio $\frac{\text{MSE}_{\text{test}}}{\text{MSE}_{\text{train}}}$ is approximately $9.57 \times 10^{30}$, which is astronomically high and confirms severe overfitting.
-
-### Step 3: Rigorous analysis of residual patterns
-
-The pattern in residuals provides further evidence of model misspecification. Let's analyze this mathematically:
-
-![Residual Pattern](../Images/L3_6_Quiz_18/residuals_vs_predicted.png)
+#### Step 3: Analysis of residual patterns
 
 In a well-specified model, the residuals $\hat{\epsilon}_i = y_i - \hat{y}_i$ should be:
 
@@ -108,125 +74,96 @@ In a well-specified model, the residuals $\hat{\epsilon}_i = y_i - \hat{y}_i$ sh
 2. Homoscedastic: $\text{Var}(\hat{\epsilon}_i | \hat{y}_i) = \sigma^2$ (constant)
 3. Normally distributed: $\hat{\epsilon}_i \sim \mathcal{N}(0, \sigma^2)$
 
-We can formally test for independence by calculating the correlation coefficient:
+![Residual Pattern](../Images/L3_6_Quiz_18/residuals_vs_predicted.png)
 
-$$\rho = \frac{\text{Cov}(\hat{\epsilon}, \hat{y})}{\sqrt{\text{Var}(\hat{\epsilon}) \cdot \text{Var}(\hat{y})}}$$
-
-A significant non-zero correlation indicates model misspecification.
-
-Visually, the clear curved pattern in the residuals plot suggests a systematic relationship between residuals and predictions. This can be modeled as:
+The clear curved pattern in this residuals plot suggests a systematic relationship between residuals and predictions:
 
 $$\hat{\epsilon}_i = g(\hat{y}_i) + \nu_i$$
 
-Where $g$ is some non-zero function and $\nu_i$ is random noise. The presence of function $g$ means:
+Where $g$ is some non-zero function and $\nu_i$ is random noise. This indicates that important non-linear relationships are missing from our model.
 
-$$\mathbb{E}[\hat{\epsilon}_i | \hat{y}_i] = g(\hat{y}_i) \neq 0$$
-
-This violates a key assumption of linear regression and indicates that important non-linear relationships are missing from our model.
-
-### Step 4: Learning curve analysis with formal convergence properties
-
-The learning curve confirms our diagnosis:
+#### Step 4: Learning curve analysis
 
 ![Learning Curve](../Images/L3_6_Quiz_18/learning_curve_overfit.png)
 
-Mathematically, learning curves for linear models have well-established convergence properties. For a well-specified model with $n$ training samples:
+In a properly specified model with $n$ training samples, we expect:
 
 $$\mathbb{E}[\text{MSE}_{\text{train}}(n)] = \sigma^2 \left(1 - \frac{p}{n}\right)$$
 $$\mathbb{E}[\text{MSE}_{\text{validation}}(n)] = \sigma^2 \left(1 + \frac{p}{n}\right)$$
 
-Where $p$ is the number of parameters and $\sigma^2$ is the noise variance.
-
-As $n \to \infty$, both errors converge to $\sigma^2$, the irreducible error:
-
-$$\lim_{n \to \infty} \mathbb{E}[\text{MSE}_{\text{train}}(n)] = \lim_{n \to \infty} \mathbb{E}[\text{MSE}_{\text{validation}}(n)] = \sigma^2$$
-
-The convergence rate is $\mathcal{O}(1/n)$, meaning the gap between training and validation error should decrease proportionally to $1/n$.
-
-However, in misspecified models, we observe:
-
+Our learning curve shows:
 1. A plateauing validation error: $\frac{d}{dn}\text{MSE}_{\text{validation}}(n) \approx 0$ for large $n$
-2. A persistent gap: $\text{MSE}_{\text{validation}}(n) - \text{MSE}_{\text{train}}(n) \gg 0$ for large $n$
+2. A persistent gap: $\text{MSE}_{\text{validation}}(n) - \text{MSE}_{\text{train}}(n) \gg 0$ 
 
-This behavior indicates that increasing the sample size alone will not resolve the underlying issues.
+This confirms that our model suffers from both overfitting and misspecification.
 
-### Step 5: Regularization - Theoretical foundation and calculations
+### Task 2: Strategies to Address the Problems
 
-To address overfitting, we apply ridge regression, which adds a penalty term to the loss function:
+#### Strategy 1: Regularization to address overfitting
 
-$$\hat{\beta}_{\text{ridge}} = \arg\min_{\beta} \left\{ ||y - X\beta||^2 + \alpha ||\beta||^2_2 \right\}$$
+Ridge regression adds a penalty term to the loss function:
 
-Where $\alpha > 0$ is the regularization parameter controlling the strength of the penalty. The closed-form solution is:
+$$\hat{\beta}_{\text{ridge}} = \arg\min_{\beta} \left\{ \|y - X\beta\|^2 + \alpha \|\beta\|^2_2 \right\}$$
+
+Where $\alpha > 0$ is the regularization parameter. The closed-form solution is:
 
 $$\hat{\beta}_{\text{ridge}} = (X^TX + \alpha I)^{-1}X^Ty$$
 
-Mathematically, ridge regression works by improving the conditioning of the $X^TX$ matrix. The effective condition number becomes:
+Ridge regression improves the conditioning of the $X^TX$ matrix:
 
 $$\kappa_{\text{ridge}} = \frac{\lambda_{\max}(X^TX) + \alpha}{\lambda_{\min}(X^TX) + \alpha}$$
 
-As $\alpha$ increases, $\kappa_{\text{ridge}}$ decreases, making the estimation more stable.
-
-The bias-variance tradeoff for ridge regression is:
+As $\alpha$ increases, variance decreases at the cost of increased bias:
 
 $$\text{Bias}[\hat{\beta}_{\text{ridge}}] = \alpha (X^TX + \alpha I)^{-1} \beta$$
 $$\text{Var}[\hat{\beta}_{\text{ridge}}] = \sigma^2 (X^TX + \alpha I)^{-1} X^TX (X^TX + \alpha I)^{-1}$$
 
-As $\alpha$ increases, bias increases but variance decreases. The optimal $\alpha$ balances this tradeoff to minimize expected test error.
-
-For our model with $\alpha = 10.0$, ridge regression dramatically improves performance:
-- Training MSE increases from approximately 0 to 3.78 (good, as it indicates less overfitting)
-- Test MSE decreases from approximately 1.46 × 10^12 to 4.47
-- Error ratio decreases from approximately 9.57 × 10^30 to 1.18
+Applied to our model with $\alpha = 10.0$, ridge regression dramatically improves performance:
+- Training MSE increases from $\approx 0$ to $3.78$ (indicating less overfitting)
+- Test MSE decreases from $\approx 1.46 \times 10^{12}$ to $4.47$
+- Error ratio decreases from $\approx 9.57 \times 10^{30}$ to $1.18$
 
 The residuals also show significant improvement:
 
 ![Residuals Comparison](../Images/L3_6_Quiz_18/residuals_comparison.png)
 
-### Step 6: Feature engineering - Mathematical formulation and polynomial expansion
+#### Strategy 2: Feature engineering to address model misspecification
 
-To address model misspecification, we add non-linear transformations of our features. If the true relationship is non-linear:
+To capture non-linear relationships, we add transformed features. If the true relationship is:
 
 $$y = f(X) + \epsilon$$
 
-where $f$ is a non-linear function, we can approximate it using a Taylor series expansion or basis function expansion:
+We can approximate it using basis function expansion:
 
 $$f(X) \approx \sum_{j=1}^{m} \beta_j \phi_j(X)$$
 
-Where $\phi_j$ are basis functions. For polynomial features, these basis functions are:
+Where $\phi_j$ are basis functions. For polynomial features:
 
 $$\phi_j(X) = \prod_{k=1}^{p} X_k^{a_{jk}}$$
 
 With $\sum_{k=1}^{p} a_{jk} \leq d$, where $d$ is the polynomial degree.
 
-For our house price example with three features ($X_1$, $X_2$, $X_3$), a second-degree polynomial expansion would include:
-
-1. Original features: $X_1, X_2, X_3$
-2. Squared terms: $X_1^2, X_2^2, X_3^2$
-3. Interaction terms: $X_1X_2, X_1X_3, X_2X_3$
-
-For a third-degree expansion, we would add:
-4. Cubic terms: $X_1^3, X_2^3, X_3^3$
-5. Higher interactions: $X_1^2X_2, X_1^2X_3, X_1X_2^2, X_1X_3^2, X_2^2X_3, X_2X_3^2, X_1X_2X_3$
-
-Based on domain knowledge and the observed data pattern, we select specific non-linear terms:
-- $X_1^2$ (square footage squared) - captures diminishing returns on size
-- $X_1X_2$ (size × bedrooms interaction) - captures how bedroom count affects price differently for different sizes
-- $X_1X_3^2$ (size × age² interaction) - captures how the effect of age varies non-linearly with size
+Based on our analysis of the residual patterns, we added specific non-linear terms:
+- $X_1^2$ (square footage squared)
+- $X_1X_2$ (size × bedrooms interaction)
+- $X_1X_3^2$ (size × age² interaction)
 
 Our new feature matrix becomes:
 
 $$X_{\text{new}} = [X_1, X_2, X_3, X_1^2, X_1X_2, X_1X_3^2]$$
 
 After feature engineering, we observe:
-- Training MSE: 4.07
-- Test MSE: 4.24
-- Error ratio drops to 1.04
+- Training MSE: $4.07$
+- Test MSE: $4.24$
+- Error ratio: $1.04$
 
-This indicates that our model is now well-specified and not overfitting.
+This indicates our model is now well-specified and not overfitting.
 
-### Step 7: Cross-validation - Mathematical formulation and optimality properties
+### Task 3: Evaluation Technique
 
-To rigorously evaluate our models, we use K-fold cross-validation. This divides the training data into K subsets (folds) of approximately equal size. For each $k \in \{1,2,...,K\}$, we train on all folds except the $k$-th fold, and validate on the $k$-th fold.
+#### Cross-validation as the optimal evaluation strategy
+
+K-fold cross-validation divides the training data into $K$ subsets (folds). For each $k \in \{1,2,...,K\}$, we train on all folds except the $k$-th fold, and validate on the $k$-th fold.
 
 Formally, let $\kappa: \{1,2,...,n\} \mapsto \{1,2,...,K\}$ be a function that indicates the fold assignment for each observation. The K-fold cross-validation error is:
 
@@ -234,27 +171,25 @@ $$\text{CV}(K) = \frac{1}{n} \sum_{i=1}^{n} \left(y_i - \hat{f}^{-\kappa(i)}(x_i
 
 Where $\hat{f}^{-\kappa(i)}$ is the model trained on all folds except $\kappa(i)$.
 
-The expected cross-validation error approximates the expected test error:
-
-$$\mathbb{E}[\text{CV}(K)] \approx \mathbb{E}[\text{MSE}_{\text{test}}]$$
-
-With the approximation improving as $K$ increases. The standard choice $K=5$ or $K=10$ balances computational cost with estimation accuracy.
-
-The statistical properties of cross-validation make it particularly suitable for model selection and evaluation:
+Cross-validation is the most appropriate evaluation technique because:
 
 1. **Unbiasedness**: $\mathbb{E}[\text{CV}(K)]$ is approximately unbiased for expected test error
 2. **Consistency**: As $n \to \infty$, CV selects the optimal model with probability approaching 1
 3. **Efficiency**: CV makes efficient use of limited data
+4. **Robustness**: It provides reliable estimates for both simple and complex models
 
-For our models with $K=5$, cross-validation provides reliable estimates of generalization performance.
+For our models, we used $K=5$ cross-validation to obtain reliable estimates of generalization performance.
 
-### Step 8: Optimal sample size vs. model complexity - Theoretical analysis
+Additionally, the combination of:
+- Residual analysis (to verify homoscedasticity and normality)
+- Learning curve analysis (to verify convergence properties)
+- Model comparison metrics (MSE, $R^2$, error ratio)
 
-To address the question of whether more data or better features would be more effective, we need to understand the relationship between sample size and model complexity.
+Provides a comprehensive evaluation of model improvements.
 
-The learning curves for different models reveal this relationship:
+### Task 4: More Data vs. More Features
 
-![Training Size Comparison](../Images/L3_6_Quiz_18/training_size_comparison.png)
+#### Theoretical analysis of sample size vs. model complexity
 
 For a model with complexity (number of parameters) $p$ and training size $n$, the expected test error can be approximated as:
 
@@ -271,21 +206,25 @@ $$\lim_{n \to \infty} \mathbb{E}[\text{MSE}_{\text{test}}(n,p)] = \sigma^2 + \te
 
 Thus, increasing $n$ cannot reduce error below $\sigma^2 + \text{Bias}^2(p)$.
 
-For a well-specified model (adequate complexity), as $n$ increases:
+The comparison of our learning curves shows:
 
-$$\mathbb{E}[\text{MSE}_{\text{test}}(n,p)] \approx \sigma^2 + \frac{p\sigma^2}{n} \xrightarrow{n \to \infty} \sigma^2$$
+![Training Size Comparison](../Images/L3_6_Quiz_18/training_size_comparison.png)
 
-The comparison of our regularized and feature-engineered models shows:
+From the analysis and empirical results, **adding more features** would be more beneficial than collecting more data because:
 
-1. Both models approach lower asymptotic error than the original
-2. The feature-engineered model achieves lower error with the same data
-3. The rate of convergence (slope of the learning curve) is similar for both improved models
+1. The plateau in the learning curve indicates that additional data will not significantly improve model performance
+2. The bias term from model misspecification dominates: $\text{Bias}^2(p) \gg \frac{p\sigma^2}{n}$
+3. Empirical results show better performance with feature engineering: $4.24$ vs. $4.47$ MSE
 
-This supports the conclusion that in this case, improving model specification is more effective than simply increasing sample size.
+Empirical results support this conclusion:
+- Feature-engineered model: Test MSE = $4.24$
+- Regularized model with original features: Test MSE = $4.47$
+
+The properly specified model with appropriate features outperforms the regularized model on the same dataset, confirming that addressing model specification is more important than increasing sample size in this scenario.
 
 ## Visual Explanations
 
-### Model comparison with optimality criteria
+### Model performance comparison
 
 ![Model Comparison](../Images/L3_6_Quiz_18/model_comparison.png)
 
@@ -293,45 +232,24 @@ This visualization shows the performance of all models according to the optimali
 
 $$\mathcal{M}^* = \arg\min_{\mathcal{M} \in \mathfrak{M}} \mathbb{E}_{(X,y) \sim \mathcal{D}}[(y - \mathcal{M}(X))^2]$$
 
-Where $\mathfrak{M}$ is the set of all models and $\mathcal{D}$ is the data distribution.
-
 Both improved models significantly outperform the original overfit model, with feature engineering providing slightly better results than regularization alone.
 
-## Key Insights
-
-### Task 1: Problem diagnosis with formal criteria
-- **Overfitting**: Formally detected when $\text{MSE}_{\text{train}} \ll \text{MSE}_{\text{test}}$ and $R^2_{\text{train}} \approx 1$ while $R^2_{\text{test}} \ll 0$
-- **Model misspecification**: Formally detected when $\text{Cov}(\hat{\epsilon}, \hat{y}) \neq 0$ and residual plots show systematic patterns
-
-### Task 2: Solution strategies with theoretical justification
-- **Regularization**: Implements the optimality criterion:
-  $$\hat{\beta}_{\text{ridge}} = \arg\min_{\beta} \left\{ ||y - X\beta||^2 + \alpha ||\beta||^2_2 \right\}$$
-  Resulting in a bias-variance tradeoff that reduces overall test error
-
-- **Feature engineering**: Implements the function approximation:
-  $$f(X) \approx \sum_{j=1}^{m} \beta_j \phi_j(X)$$
-  Where $\phi_j$ are carefully chosen basis functions to capture the true underlying relationship
-
-### Task 3: Evaluation technique with statistical properties
-- **Cross-validation**: Implements the estimate:
-  $$\text{CV}(K) = \frac{1}{n} \sum_{i=1}^{n} \left(y_i - \hat{f}^{-\kappa(i)}(x_i)\right)^2$$
-  With optimal properties of unbiasedness, consistency, and efficiency
-
-- **Residual analysis**: Implements the diagnostic:
-  $$\hat{\epsilon}_i = y_i - \hat{y}_i$$
-  With the criterion that $\text{Cov}(\hat{\epsilon}, \hat{y}) \approx 0$ for a well-specified model
-
-### Task 4: Data vs. features tradeoff with asymptotic properties
-- **Theoretical foundation**:
-  $$\mathbb{E}[\text{MSE}_{\text{test}}(n,p)] \approx \sigma^2 + \text{Bias}^2(p) + \frac{p\sigma^2}{n}$$
-  For a misspecified model, $\text{Bias}^2(p)$ dominates and increasing $n$ has limited benefit
-
-- **Empirical evidence**:
-  The learning curves show that for our house price prediction task, feature engineering provides greater error reduction than increasing sample size, with a lower asymptotic error.
-
 ## Conclusion
-- The original model suffered from overfitting and misspecification, with training MSE ≈ 0 but test MSE ≈ 1.46 × 10^12, giving an error ratio of approximately 9.57 × 10^30.
-- Regularization addressed overfitting by adding a penalty term to the loss function, reducing the error ratio to approximately 1.18.
-- Feature engineering addressed model misspecification by incorporating appropriate non-linear terms, further reducing the error ratio to approximately 1.04.
-- Cross-validation provides the most reliable evaluation technique, with formal statistical guarantees of approximating the true test error.
-- In this scenario, addressing model specification through feature engineering is more beneficial than collecting more training data, as demonstrated by the asymptotic properties of the learning curves. 
+
+### Task 1: Problem diagnosis
+- **Overfitting**: Formalized by $\text{MSE}_{\text{train}} \ll \text{MSE}_{\text{test}}$ ($0.00$ vs. $1.46 \times 10^{12}$)
+- **Model misspecification**: Characterized by systematic patterns in residuals with $\text{Cov}(\hat{\epsilon}, \hat{y}) \neq 0$
+
+### Task 2: Solution strategies
+- **Regularization**: Implemented ridge regression with $\alpha = 10.0$, reducing test MSE to $4.47$
+- **Feature engineering**: Added non-linear terms ($X_1^2, X_1X_2, X_1X_3^2$), reducing test MSE to $4.24$
+
+### Task 3: Evaluation technique
+- **Cross-validation**: Provides unbiased, consistent, and efficient estimates of generalization performance
+- **Comprehensive evaluation framework**: Combines residual analysis, learning curves, and comparative metrics
+
+### Task 4: Data vs. features recommendation
+- **Adding more features** is preferable because:
+  - The learning curve plateaus, indicating limited benefit from more data
+  - The bias term from model misspecification dominates: $\text{Bias}^2(p) \gg \frac{p\sigma^2}{n}$
+  - Empirical results show better performance with feature engineering: $4.24$ vs. $4.47$ MSE 
