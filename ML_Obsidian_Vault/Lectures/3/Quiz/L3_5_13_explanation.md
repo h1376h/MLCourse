@@ -169,6 +169,10 @@ However, there's an important numerical consideration:
 
 When features have vastly different scales, the matrix $\mathbf{X}^T\mathbf{X}$ can become ill-conditioned, affecting numerical stability.
 
+![Parameter Comparison](../Images/L3_5_Quiz_13/statement5_normal_equations_scaling.png)
+
+The image above shows that while the parameter estimates are similar when transformed to the same scale, and the RMSE values are identical (bottom panel), there are computational differences between the scaled and unscaled approaches.
+
 ![Condition Number](../Images/L3_5_Quiz_13/statement5_condition_number.png)
 
 Our experiment shows that while the RMSE remains identical with or without scaling, the condition number of the matrix improves dramatically with scaling (from 10^8 to ~1), indicating better numerical stability.
