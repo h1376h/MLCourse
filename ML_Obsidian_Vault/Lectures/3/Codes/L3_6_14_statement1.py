@@ -80,8 +80,8 @@ def statement1_kfold_vs_loo():
         for i, (_, test_idx) in enumerate(cv.split(X)):
             fold_matrix[i, test_idx[0]] = 1
         
-        # Plot the matrix
-        im = ax.imshow(fold_matrix, cmap='Blues', aspect='auto')
+        # Plot the matrix with grayscale
+        im = ax.imshow(fold_matrix, cmap='gray', aspect='auto')
         ax.set_title(title)
         ax.set_xlabel('Sample Index')
         ax.set_ylabel('Fold Number')
@@ -117,20 +117,20 @@ def statement1_kfold_vs_loo():
     
     # Fill the matrix: 1 for test, 0.5 for train
     for i in range(n_folds_to_show):
-        fold_matrix[i, :] = 0.5  # All samples start as training
-        fold_matrix[i, i] = 1    # The ith sample becomes test for fold i
+        fold_matrix[i, :] = 0.3  # All samples start as training (light gray)
+        fold_matrix[i, i] = 0.9  # The ith sample becomes test for fold i (dark gray)
     
-    # Create a heatmap
-    im = ax.imshow(fold_matrix, cmap='coolwarm', aspect='auto', vmin=0, vmax=1)
+    # Create a simpler grayscale heatmap
+    im = ax.imshow(fold_matrix, cmap='gray', aspect='auto', vmin=0, vmax=1)
     
     # Annotate cells
     for i in range(n_folds_to_show):
         for j in range(n_samples_to_show):
-            if fold_matrix[i, j] == 1:
+            if fold_matrix[i, j] > 0.5:
                 text = 'Test'
             else:
                 text = 'Train'
-            ax.text(j, i, text, ha="center", va="center", color="black", fontsize=8)
+            ax.text(j, i, text, ha="center", va="center", color="black", fontsize=9, fontweight='bold')
     
     # Add labels
     ax.set_title('First 3 Folds: Sample Usage in K-fold (K=n) and LOOCV')
@@ -139,7 +139,6 @@ def statement1_kfold_vs_loo():
     ax.set_yticks(range(n_folds_to_show))
     ax.set_xticks(range(n_samples_to_show))
     
-    plt.colorbar(im, label='Sample Usage (Train/Test)')
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'statement1_fold_visualization.png'), dpi=300, bbox_inches='tight')
     

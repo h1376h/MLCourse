@@ -81,33 +81,34 @@ def statement6_cross_validation():
     # Plot 1: Simplified visualization of cross-validation
     kf = KFold(n_splits=cv_folds, shuffle=True, random_state=42)
     
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(10, 6))
     
     # Create a matrix to visualize fold assignments
     # Rows = folds, Columns = samples
     fold_matrix = np.zeros((cv_folds, n_viz_samples))
     
-    # Fill the matrix: 1 for test, 0.5 for train
+    # Fill the matrix: 0.8 for test (dark gray), 0.3 for train (light gray)
     for i, (train_idx, test_idx) in enumerate(kf.split(X_viz)):
-        fold_matrix[i, :] = 0.5  # All samples start as training
-        fold_matrix[i, test_idx] = 1  # Validation samples
+        fold_matrix[i, :] = 0.3  # All samples start as training
+        fold_matrix[i, test_idx] = 0.8  # Validation samples
     
-    # Create a heatmap
-    plt.imshow(fold_matrix, cmap='coolwarm', aspect='auto')
-    plt.colorbar(label='Sample Usage (Training/Validation)')
+    # Create a simplified grayscale heatmap
+    plt.imshow(fold_matrix, cmap='gray', aspect='auto', vmin=0, vmax=1)
     
-    # Add annotations to cells
+    # Add annotations to cells with bold text for better visibility
     for i in range(cv_folds):
         for j in range(n_viz_samples):
-            if fold_matrix[i, j] == 1:
+            if fold_matrix[i, j] > 0.5:
                 text = 'Val'
             else:
                 text = 'Train'
-            plt.text(j, i, text, ha="center", va="center", color="black", fontsize=7)
+            plt.text(j, i, text, ha="center", va="center", color="black", 
+                     fontsize=9, fontweight='bold')
     
     plt.xlabel('Sample Index')
     plt.ylabel('Fold Number')
     plt.title('5-Fold Cross-Validation: Data Usage Pattern')
+    plt.grid(False)  # Remove grid for cleaner look
     plt.tight_layout()
     
     plt.savefig(os.path.join(save_dir, 'statement6_cv_pattern.png'), dpi=300, bbox_inches='tight')

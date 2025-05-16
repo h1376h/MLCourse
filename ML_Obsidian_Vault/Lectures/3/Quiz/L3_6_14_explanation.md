@@ -58,11 +58,11 @@ As we can see from the output, when comparing K-fold CV with K=n and LOOCV:
 
 ![K-fold vs LOOCV](../Images/L3_6_Quiz_14/statement1_kfold_vs_loo.png)
 
-The visualization shows the equivalence between K-fold CV with $K=n$ (top) and LOOCV (bottom). Each column represents a data point, and each sample gets used exactly once as a test sample (colored regions).
+The visualization shows the equivalence between K-fold CV with $K=n$ (top) and LOOCV (bottom) using a simple grayscale representation. Each column represents a data point, and white squares indicate test samples while gray squares indicate training samples.
 
 ![K-fold LOOCV Examples](../Images/L3_6_Quiz_14/statement1_fold_visualization.png)
 
-The second visualization demonstrates how in each fold, exactly one point (in red) is held out for testing, while all other points (in blue) are used for training. This is consistent in both K-fold with $K=n$ and LOOCV approaches.
+The second visualization demonstrates how in each fold, exactly one point is held out for testing (labeled "Test"), while all other points (labeled "Train") are used for training. This pattern is consistent in both K-fold with $K=n$ and LOOCV approaches.
 
 ![K-fold LOOCV Model Fitting](../Images/L3_6_Quiz_14/statement1_kfold_vs_loo_examples.png)
 
@@ -416,7 +416,7 @@ Key Advantages of Cross-Validation:
 
 ![Cross-Validation Data Usage Pattern](../Images/L3_6_Quiz_14/statement6_cv_pattern.png)
 
-The above visualization shows how each data point is used in a 5-fold cross-validation scheme, alternating between training and validation roles across different folds.
+The above visualization shows how each data point is used in a 5-fold cross-validation scheme in a simplified grayscale representation. Dark squares represent validation samples (labeled "Val") while light squares represent training samples (labeled "Train"). Each sample alternates between training and validation roles across different folds.
 
 Cross-validation also provides more stable performance metrics compared to a single train-test split. While a particular train-test split might give an overly optimistic or pessimistic view depending on which samples happen to be in the test set, cross-validation uses all samples for both training and testing, resulting in a more balanced assessment.
 
