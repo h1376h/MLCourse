@@ -74,37 +74,6 @@ L2 constraint region is a circle in 2D (or a hypersphere in higher dimensions):
 - When the loss contour touches the L2 constraint region, the point of contact is rarely on an axis
 - This results in small but non-zero values for most or all coefficients
 
-## Practical Implementation
-
-To demonstrate these concepts, we implemented a simulation using synthetic data:
-
-1. We generated a dataset with 1000 samples and 100 features, where only 20 features were truly informative
-2. We trained Ridge, Lasso, and Elastic Net models with varying regularization strengths
-3. We compared their performance, feature selection capabilities, and computational efficiency
-
-### Performance metrics ($\alpha=1.0$):
-```
-Ridge Regression:
-  MSE: 28.9745
-  R²: 0.7567
-  Non-zero coefficients: 100 out of 100
-  Training time: 0.0007 seconds
-
-Lasso Regression:
-  MSE: 45.2153
-  R²: 0.6203
-  Non-zero coefficients: 32 out of 100
-  Training time: 0.0102 seconds
-
-Elastic Net (L1_ratio=0.5):
-  MSE: 35.3553
-  R²: 0.7031
-  Non-zero coefficients: 94 out of 100
-  Training time: 0.0091 seconds
-```
-
-These results show that Ridge achieved the lowest MSE and highest $R^2$ but retained all features. Lasso performed feature selection effectively but with some cost to predictive performance. Elastic Net struck a balance between the two.
-
 ## Visual Explanations
 
 ### Coefficient Comparison
