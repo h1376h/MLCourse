@@ -40,10 +40,10 @@ In this problem:
 - The learning rate is $\alpha = 0.1$
 
 #### Task
-1. Write down the update rule for stochastic gradient descent
-2. Calculate the gradient for the first training example
-3. Perform one parameter update using this gradient
-4. Explain the key differences between stochastic gradient descent and batch gradient descent
+1. [📚] Write down the update rule for stochastic gradient descent
+2. [📚] Calculate the gradient for the first training example
+3. [📚] Perform one parameter update using this gradient
+4. [🔍] Explain the key differences between stochastic gradient descent and batch gradient descent
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 2: Stochastic Gradient Descent](L3_5_2_explanation.md).
 
