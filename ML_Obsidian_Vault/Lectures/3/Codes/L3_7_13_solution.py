@@ -3,6 +3,14 @@ import matplotlib.pyplot as plt
 import os
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.patches import Circle, Polygon
+import matplotlib
+
+# Use LaTeX for all text in matplotlib
+matplotlib.rcParams.update({
+    'font.family': 'serif',
+    'text.usetex': True,
+    'text.latex.preamble': r'\usepackage{amsmath}'
+})
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -59,12 +67,12 @@ l2_x = np.cos(theta)
 l2_y = np.sin(theta)
 
 # Plot L2 norm unit circle
-plt.plot(l2_x, l2_y, 'b-', linewidth=2, label='L2 norm ||w||₂ = 1')
+plt.plot(l2_x, l2_y, 'b-', linewidth=2, label=r'$L_2$ norm $\|\mathbf{w}\|_2 = 1$')
 # Plot L1 norm diamond
 l1_points = np.array([
     [1, 0], [0, 1], [-1, 0], [0, -1], [1, 0]
 ])
-plt.plot(l1_points[:, 0], l1_points[:, 1], 'r-', linewidth=2, label='L1 norm ||w||₁ = 1')
+plt.plot(l1_points[:, 0], l1_points[:, 1], 'r-', linewidth=2, label=r'$L_1$ norm $\|\mathbf{w}\|_1 = 1$')
 
 # Add contours of the loss function (assumed to be circular for illustration)
 for r in [0.5, 1.0, 1.5, 2.0]:
@@ -72,22 +80,22 @@ for r in [0.5, 1.0, 1.5, 2.0]:
     plt.gca().add_patch(circle)
 
 # Show where L1 and L2 norms typically intersect with loss function
-plt.plot([0], [1.9], 'ro', markersize=10, label='L1 solution (sparse)')
-plt.plot([1.2], [1.5], 'bo', markersize=10, label='L2 solution')
+plt.plot([0], [1.9], 'ro', markersize=10, label=r'$L_1$ solution (sparse)')
+plt.plot([1.2], [1.5], 'bo', markersize=10, label=r'$L_2$ solution')
 
 # Draw coordinate axes
 plt.axhline(y=0, color='k', linestyle='-', alpha=0.3)
 plt.axvline(x=0, color='k', linestyle='-', alpha=0.3)
 
 # Annotate axes
-plt.text(2.1, 0, 'w₁', fontsize=12)
-plt.text(0, 2.1, 'w₂', fontsize=12)
+plt.text(2.1, 0, r'$w_1$', fontsize=12)
+plt.text(0, 2.1, r'$w_2$', fontsize=12)
 
 plt.grid(True)
 plt.axis('equal')
 plt.xlim(-2.5, 2.5)
 plt.ylim(-2.5, 2.5)
-plt.title('Geometric Interpretation of L1 vs L2 Regularization', fontsize=14)
+plt.title(r'Geometric Interpretation of $L_1$ vs $L_2$ Regularization', fontsize=14)
 plt.legend(loc='best')
 plt.savefig(os.path.join(save_dir, "l1_vs_l2_geometry.png"), dpi=300, bbox_inches='tight')
 plt.close()
@@ -98,8 +106,8 @@ l1_penalties = np.abs(w_range)
 l2_penalties = w_range**2
 
 plt.figure(figsize=(10, 6))
-plt.plot(w_range, l1_penalties, 'r-', linewidth=2, label='L1 penalty: |w|')
-plt.plot(w_range, l2_penalties, 'b-', linewidth=2, label='L2 penalty: w²')
+plt.plot(w_range, l1_penalties, 'r-', linewidth=2, label=r'$L_1$ penalty: $|w|$')
+plt.plot(w_range, l2_penalties, 'b-', linewidth=2, label=r'$L_2$ penalty: $w^2$')
 
 plt.axhline(y=0, color='k', linestyle='-', alpha=0.3)
 plt.axvline(x=0, color='k', linestyle='-', alpha=0.3)
@@ -107,9 +115,9 @@ plt.axvline(x=0, color='k', linestyle='-', alpha=0.3)
 plt.grid(True)
 plt.xlim(-2.1, 2.1)
 plt.ylim(-0.1, 4.1)
-plt.title('Comparison of L1 and L2 Penalty Functions', fontsize=14)
-plt.xlabel('Weight value w', fontsize=12)
-plt.ylabel('Penalty', fontsize=12)
+plt.title(r'Comparison of $L_1$ and $L_2$ Penalty Functions', fontsize=14)
+plt.xlabel(r'Weight value $w$', fontsize=12)
+plt.ylabel(r'Penalty', fontsize=12)
 plt.legend(loc='best')
 plt.savefig(os.path.join(save_dir, "l1_vs_l2_penalties.png"), dpi=300, bbox_inches='tight')
 plt.close()
@@ -131,18 +139,18 @@ fig = plt.figure(figsize=(15, 7))
 # L2 penalty surface
 ax1 = fig.add_subplot(121, projection='3d')
 surf1 = ax1.plot_surface(X, Y, Z_l2, cmap='viridis', alpha=0.8)
-ax1.set_title('L2 Penalty Surface: ||w||₂²', fontsize=14)
-ax1.set_xlabel('w₁', fontsize=12)
-ax1.set_ylabel('w₂', fontsize=12)
-ax1.set_zlabel('Penalty', fontsize=12)
+ax1.set_title(r'$L_2$ Penalty Surface: $\|\mathbf{w}\|_2^2$', fontsize=14)
+ax1.set_xlabel(r'$w_1$', fontsize=12)
+ax1.set_ylabel(r'$w_2$', fontsize=12)
+ax1.set_zlabel(r'Penalty', fontsize=12)
 
 # L1 penalty surface
 ax2 = fig.add_subplot(122, projection='3d')
 surf2 = ax2.plot_surface(X, Y, Z_l1, cmap='plasma', alpha=0.8)
-ax2.set_title('L1 Penalty Surface: ||w||₁', fontsize=14)
-ax2.set_xlabel('w₁', fontsize=12)
-ax2.set_ylabel('w₂', fontsize=12)
-ax2.set_zlabel('Penalty', fontsize=12)
+ax2.set_title(r'$L_1$ Penalty Surface: $\|\mathbf{w}\|_1$', fontsize=14)
+ax2.set_xlabel(r'$w_1$', fontsize=12)
+ax2.set_ylabel(r'$w_2$', fontsize=12)
+ax2.set_zlabel(r'Penalty', fontsize=12)
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, "l1_vs_l2_3d_surfaces.png"), dpi=300, bbox_inches='tight')
@@ -189,20 +197,20 @@ plt.figure(figsize=(15, 6))
 
 plt.subplot(1, 2, 1)
 for j in range(n_features):
-    plt.semilogx(lambda_values, l1_weights[:, j], '-', linewidth=1.5, label=f'w{j+1}')
+    plt.semilogx(lambda_values, l1_weights[:, j], '-', linewidth=1.5, label=f'$w_{{{j+1}}}$')
 plt.axhline(y=0, color='k', linestyle='--', alpha=0.3)
-plt.xlabel('Regularization parameter λ', fontsize=12)
-plt.ylabel('Coefficient value', fontsize=12)
-plt.title('L1 Regularization Path (Lasso)', fontsize=14)
+plt.xlabel(r'Regularization parameter $\lambda$', fontsize=12)
+plt.ylabel(r'Coefficient value', fontsize=12)
+plt.title(r'$L_1$ Regularization Path (Lasso)', fontsize=14)
 plt.grid(True)
 
 plt.subplot(1, 2, 2)
 for j in range(n_features):
-    plt.semilogx(lambda_values, l2_weights[:, j], '-', linewidth=1.5, label=f'w{j+1}')
+    plt.semilogx(lambda_values, l2_weights[:, j], '-', linewidth=1.5, label=f'$w_{{{j+1}}}$')
 plt.axhline(y=0, color='k', linestyle='--', alpha=0.3)
-plt.xlabel('Regularization parameter λ', fontsize=12)
-plt.ylabel('Coefficient value', fontsize=12)
-plt.title('L2 Regularization Path (Ridge)', fontsize=14)
+plt.xlabel(r'Regularization parameter $\lambda$', fontsize=12)
+plt.ylabel(r'Coefficient value', fontsize=12)
+plt.title(r'$L_2$ Regularization Path (Ridge)', fontsize=14)
 plt.grid(True)
 
 plt.tight_layout()
@@ -214,14 +222,43 @@ l1_nonzero = np.sum(np.abs(l1_weights) > 1e-4, axis=1)
 l2_nonzero = np.sum(np.abs(l2_weights) > 1e-4, axis=1)
 
 plt.figure(figsize=(10, 6))
-plt.semilogx(lambda_values, l1_nonzero, 'r-', linewidth=2, marker='o', label='L1 (Lasso)')
-plt.semilogx(lambda_values, l2_nonzero, 'b-', linewidth=2, marker='s', label='L2 (Ridge)')
-plt.xlabel('Regularization parameter λ', fontsize=12)
-plt.ylabel('Number of non-zero coefficients', fontsize=12)
-plt.title('Sparsity Effect: Non-zero Coefficients vs Regularization Strength', fontsize=14)
+plt.semilogx(lambda_values, l1_nonzero, 'r-', linewidth=2, marker='o', label=r'$L_1$ (Lasso)')
+plt.semilogx(lambda_values, l2_nonzero, 'b-', linewidth=2, marker='s', label=r'$L_2$ (Ridge)')
+plt.xlabel(r'Regularization parameter $\lambda$', fontsize=12)
+plt.ylabel(r'Number of non-zero coefficients', fontsize=12)
+plt.title(r'Sparsity Effect: Non-zero Coefficients vs Regularization Strength', fontsize=14)
 plt.legend(loc='best')
 plt.grid(True)
 plt.savefig(os.path.join(save_dir, "l1_vs_l2_sparsity.png"), dpi=300, bbox_inches='tight')
+plt.close()
+
+# NEW VISUALIZATION: Soft Thresholding vs. Ridge Shrinkage
+# This shows how L1 and L2 regularization affect a single coefficient
+beta_original = np.linspace(-3, 3, 1000)
+beta_l1 = np.sign(beta_original) * np.maximum(np.abs(beta_original) - 1.0, 0)  # Soft thresholding
+beta_l2 = beta_original / (1 + 1.0)  # Ridge shrinkage
+
+plt.figure(figsize=(10, 6))
+plt.plot(beta_original, beta_original, 'k--', label=r'Original $\beta$')
+plt.plot(beta_original, beta_l1, 'r-', linewidth=2, label=r'$L_1$ (Lasso) shrinkage')
+plt.plot(beta_original, beta_l2, 'b-', linewidth=2, label=r'$L_2$ (Ridge) shrinkage')
+
+plt.axhline(y=0, color='k', linestyle='-', alpha=0.3)
+plt.axvline(x=0, color='k', linestyle='-', alpha=0.3)
+plt.grid(True)
+plt.xlim(-3.1, 3.1)
+plt.ylim(-3.1, 3.1)
+
+plt.plot([-1, 1], [0, 0], 'ro', markersize=6)  # Highlight the "dead zone" for L1
+plt.annotate(r'Dead zone', xy=(0, -0.2), xytext=(0, -0.8), 
+             arrowprops=dict(facecolor='red', shrink=0.05),
+             ha='center', va='top', color='red')
+
+plt.title(r'Coefficient Shrinkage: $L_1$ vs $L_2$ Regularization', fontsize=14)
+plt.xlabel(r'Original coefficient $\beta$', fontsize=12)
+plt.ylabel(r'Regularized coefficient $\hat{\beta}$', fontsize=12)
+plt.legend(loc='best')
+plt.savefig(os.path.join(save_dir, "l1_vs_l2_shrinkage.png"), dpi=300, bbox_inches='tight')
 plt.close()
 
 print(f"\nVisualizations saved to: {save_dir}")
