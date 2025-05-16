@@ -95,9 +95,9 @@ Elastic Net combines both L1 and L2 penalties:
 $$J_{\text{elastic}}(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda_1\|\boldsymbol{w}\|_1 + \lambda_2\|\boldsymbol{w}\|_2^2$$
 
 #### Task
-1. Describe the advantage of Elastic Net over Lasso when features are highly correlated
+1. [🔍] Describe the advantage of Elastic Net over Lasso when features are highly correlated
 2. Explain how Elastic Net balances the properties of Ridge and Lasso regression
-3. In what scenario would you prefer Elastic Net over both Ridge and Lasso?
+3. [🔍] In what scenario would you prefer Elastic Net over both Ridge and Lasso?
 4. Describe how you would approach selecting both regularization parameters $\lambda_1$ and $\lambda_2$
 
 For a detailed explanation of this problem, including the benefits of Elastic Net, see [Question 6: Elastic Net Regularization](L3_7_6_explanation.md).
@@ -149,10 +149,10 @@ For a detailed explanation of this problem, including validation strategies, see
 Early stopping in iterative optimization methods (like gradient descent) can be viewed as a form of implicit regularization.
 
 #### Task
-1. Explain how early stopping acts as a regularization technique
-2. Compare early stopping to explicit regularization methods like Ridge and Lasso
-3. Describe the relationship between the number of iterations and the effective model complexity
-4. Explain how you would determine the optimal stopping point in practice
+1. [🔍] Explain how early stopping acts as a regularization technique
+2. [🔍] Compare early stopping to explicit regularization methods like Ridge and Lasso
+3. [🔍] Describe the relationship between the number of iterations and the effective model complexity
+4. [🔍] Explain how you would determine the optimal stopping point in practice
 
 For a detailed explanation of this problem, including the regularization effect of early stopping, see [Question 10: Early Stopping as Regularization](L3_7_10_explanation.md).
 
@@ -192,10 +192,10 @@ $$J_A(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - \boldsymbol{w}^T \boldsymbol{x
 $$J_B(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - \boldsymbol{w}^T \boldsymbol{x}^{(i)})^2 + 2\|\boldsymbol{w}\|_1$$
 
 #### Task
-1. If we have a weight vector $\boldsymbol{w} = [0.5, -1.5, 2.0]$, calculate the penalty term for both Models A and B
-2. Which model would likely produce more zero coefficients and why?
-3. Describe one advantage of Model A over Model B
-4. If we double $\lambda$ to 4, how would the penalty terms change for both models?
+1. [📚] If we have a weight vector $\boldsymbol{w} = [0.5, -1.5, 2.0]$, calculate the penalty term for both Models A and B
+2. [🔍] Which model would likely produce more zero coefficients and why?
+3. [📚] Describe one advantage of Model A over Model B
+4. [📚] If we double $\lambda$ to 4, how would the penalty terms change for both models?
 
 For a detailed explanation of this problem, including penalty calculations, see [Question 13: Comparing Regularization Penalties](L3_7_13_explanation.md).
 
@@ -322,7 +322,7 @@ Short Answer Questions on Regularization Methods.
 #### Task
 Provide brief answers (1-3 sentences) to each of the following questions:
 
-1. [📚] Why might you choose Elastic Net over pure Lasso or Ridge regression?
+1. Why might you choose Elastic Net over pure Lasso or Ridge regression?
 2. [📚] How does early stopping in gradient descent function as a form of regularization?
 3. [📚] What is the relationship between the regularization parameter and the variance of the prior distribution in the Bayesian interpretation?
 4. [📚] Why does L1 regularization (Lasso) tend to produce sparse coefficients while L2 regularization (Ridge) does not?

@@ -224,14 +224,14 @@ For a detailed explanation of this problem, including step-by-step calculations,
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 #### Task
-1. K-fold cross-validation with $K=n$ (where $n$ is the number of samples) is equivalent to leave-one-out cross-validation.
-2. When comparing models using information criteria, the model with the highest AIC value should be selected.
-3. A model with high bias will typically show a large gap between training and test error.
-4. The $R^2$ (coefficient of determination) metric can be negative for poorly performing models.
-5. In residual analysis, randomly distributed residuals around zero suggest that the linear regression assumptions are violated.
-6. Cross-validation is primarily used to prevent overfitting during model training.
-7. The Mean Absolute Error (MAE) is more sensitive to outliers than the Mean Squared Error (MSE).
-8. In learning curves, if the validation error continues to decrease as more training samples are added, adding more data is likely to improve model performance.
+1. [🔍] K-fold cross-validation with $K=n$ (where $n$ is the number of samples) is equivalent to leave-one-out cross-validation.
+2. [🔍] When comparing models using information criteria, the model with the highest AIC value should be selected.
+3. [🔍] A model with high bias will typically show a large gap between training and test error.
+4. [🔍] The $R^2$ (coefficient of determination) metric can be negative for poorly performing models.
+5. [🔍] In residual analysis, randomly distributed residuals around zero suggest that the linear regression assumptions are violated.
+6. [🔍] Cross-validation is primarily used to prevent overfitting during model training.
+7. [🔍] The Mean Absolute Error (MAE) is more sensitive to outliers than the Mean Squared Error (MSE).
+8. [🔍] In learning curves, if the validation error continues to decrease as more training samples are added, adding more data is likely to improve model performance.
 
 For a detailed explanation of these true/false questions, see [Question 14: TRUE/FALSE Evaluation Concepts](L3_6_14_explanation.md).
 
