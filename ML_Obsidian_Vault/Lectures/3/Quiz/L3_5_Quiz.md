@@ -226,10 +226,10 @@ In this problem:
 - You have limited computational resources
 
 #### Task
-1. Write down the LMS update rule that you would use for online learning
-2. A new data point $(x=3, y=7)$ arrives. If your current model is $$h(x) = 1 + 1.5x$$, calculate the prediction error
-3. If you use learning rate $\alpha = 0.1$, calculate the updated parameters after seeing this data point
-4. Compare this online learning approach with batch retraining in terms of computational efficiency and model quality
+1. [📚] Write down the LMS update rule that you would use for online learning
+2. [📚] A new data point $(x=3, y=7)$ arrives. If your current model is $h(x) = 1 + 1.5x$, calculate the prediction error
+3. [📚] If you use learning rate $\alpha = 0.1$, calculate the updated parameters after seeing this data point
+4. [🔍] Compare this online learning approach with batch retraining in terms of computational efficiency and model quality
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: Online Learning Implementation](L3_5_12_explanation.md).
 
