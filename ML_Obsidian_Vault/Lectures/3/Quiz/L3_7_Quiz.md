@@ -192,10 +192,10 @@ $$J_A(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - \boldsymbol{w}^T \boldsymbol{x
 $$J_B(\boldsymbol{w}) = \sum_{i=1}^{n} (y^{(i)} - \boldsymbol{w}^T \boldsymbol{x}^{(i)})^2 + 2\|\boldsymbol{w}\|_1$$
 
 #### Task
-1. If we have a weight vector $\boldsymbol{w} = [0.5, -1.5, 2.0]$, calculate the penalty term for both Models A and B
-2. Which model would likely produce more zero coefficients and why?
-3. Describe one advantage of Model A over Model B
-4. If we double $\lambda$ to 4, how would the penalty terms change for both models?
+1. [📚] If we have a weight vector $\boldsymbol{w} = [0.5, -1.5, 2.0]$, calculate the penalty term for both Models A and B
+2. [🔍] Which model would likely produce more zero coefficients and why?
+3. [📚] Describe one advantage of Model A over Model B
+4. [📚] If we double $\lambda$ to 4, how would the penalty terms change for both models?
 
 For a detailed explanation of this problem, including penalty calculations, see [Question 13: Comparing Regularization Penalties](L3_7_13_explanation.md).
 
