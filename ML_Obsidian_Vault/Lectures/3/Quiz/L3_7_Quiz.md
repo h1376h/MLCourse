@@ -253,13 +253,13 @@ Select the best answer for each question:
    c) L0 norm penalty
    d) Elastic Net
    
-2. As the regularization parameter in ridge regression increases, what happens to the model?
+2. [🔍] As the regularization parameter in ridge regression increases, what happens to the model?
    a) Bias decreases, variance increases
    b) Bias increases, variance decreases
    c) Both bias and variance increase
    d) Both bias and variance decrease
    
-3. Which regularization method is most likely to produce exactly zero coefficients?
+3. [🔍] Which regularization method is most likely to produce exactly zero coefficients?
    a) Ridge regression
    b) Lasso regression
    c) Both produce the same number of zero coefficients
