@@ -74,7 +74,7 @@ ax.text(0.5, 0.8, parameter_text, transform=ax.transAxes, fontsize=10,
         verticalalignment='center', horizontalalignment='center', bbox=props)
 
 # Add alpha guidance
-plt.figtext(0.5, 0.01, 
+plt.figtext(0.5, 0.18, 
            "$\\alpha$ (total regularization strength) should be selected via cross-validation\n"
            "and depends on noise level, sample size, and number of features",
            ha="center", fontsize=10, bbox={"facecolor":"lightgray", "alpha":0.5, "pad":5})
