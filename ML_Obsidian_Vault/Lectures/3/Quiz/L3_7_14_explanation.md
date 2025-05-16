@@ -123,4 +123,15 @@ This visualization directly compares the number of non-zero coefficients for Las
 - Statement 1 is FALSE: Increasing regularization doesn't always increase bias; the relationship depends on model complexity and data characteristics
 - Statement 2 is TRUE: Unregularized models will always have lower or equal training error compared to their regularized counterparts
 - Statement 3 is TRUE: Models with smaller coefficient magnitudes typically generalize better when training performance is similar
-- Statement 4 is TRUE: Lasso regression produces more sparse models than Ridge regression with the same regularization strength 
+- Statement 4 is TRUE: Lasso regression produces more sparse models than Ridge regression with the same regularization strength
+
+## Summary
+
+| Statement | Verdict | Explanation |
+|-----------|---------|-------------|
+| 1 | FALSE | Increasing regularization doesn't always increase bias; the relationship depends on model complexity and data characteristics. |
+| 2 | TRUE | Unregularized models will always have lower or equal training error compared to their regularized counterparts. |
+| 3 | TRUE | Models with smaller coefficient magnitudes typically generalize better when training performance is similar. |
+| 4 | TRUE | Lasso regression produces more sparse models than Ridge regression with the same regularization strength. |
+
+The false statement is 1. The true statements are 2, 3, and 4. 
