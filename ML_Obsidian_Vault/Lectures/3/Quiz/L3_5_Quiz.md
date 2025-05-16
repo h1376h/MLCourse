@@ -135,10 +135,10 @@ In this problem:
 - You're using a fixed learning rate $\alpha = 0.1$
 
 #### Task
-1. Write down the update rule for the LMS algorithm
-2. Explain why LMS is well-suited for online learning scenarios
-3. Describe the relationship between LMS and stochastic gradient descent
-4. Discuss the trade-offs between immediately updating parameters with each new example versus collecting batches of examples
+1. [📚] Write down the update rule for the LMS algorithm
+2. [🔍] Explain why LMS is well-suited for online learning scenarios
+3. [🔍] Describe the relationship between LMS and stochastic gradient descent
+4. [🔍] Discuss the trade-offs between immediately updating parameters with each new example versus collecting batches of examples
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 7: Least Mean Squares Algorithm](L3_5_7_explanation.md).
 
