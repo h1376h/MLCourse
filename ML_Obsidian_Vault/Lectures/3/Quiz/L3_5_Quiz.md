@@ -98,10 +98,10 @@ In this problem:
 - You're using batch gradient descent with a learning rate of $\alpha = 0.01$
 
 #### Task
-1. Explain why the different feature scales can cause problems for gradient descent
-2. Describe two common feature scaling techniques to address this issue
-3. For each technique, show how you would transform the features in this example
-4. Explain how feature scaling affects the interpretation of the learned parameters
+1. [🔍] Explain why the different feature scales can cause problems for gradient descent
+2. [🔍] Describe two common feature scaling techniques to address this issue
+3. [🔍] For each technique, show how you would transform the features in this example
+4. [🔍] Explain how feature scaling affects the interpretation of the learned parameters
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: Feature Scaling for Optimization](L3_5_5_explanation.md).
 
