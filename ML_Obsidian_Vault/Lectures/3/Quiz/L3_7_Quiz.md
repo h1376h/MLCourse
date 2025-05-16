@@ -322,7 +322,7 @@ Short Answer Questions on Regularization Methods.
 #### Task
 Provide brief answers (1-3 sentences) to each of the following questions:
 
-1. [📚] Why might you choose Elastic Net over pure Lasso or Ridge regression?
+1. Why might you choose Elastic Net over pure Lasso or Ridge regression?
 2. [📚] How does early stopping in gradient descent function as a form of regularization?
 3. [📚] What is the relationship between the regularization parameter and the variance of the prior distribution in the Bayesian interpretation?
 4. [📚] Why does L1 regularization (Lasso) tend to produce sparse coefficients while L2 regularization (Ridge) does not?
