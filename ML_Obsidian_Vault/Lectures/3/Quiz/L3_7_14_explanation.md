@@ -1,10 +1,9 @@
 # Question 14: Evaluating Statements about Regularization
 
 ## Problem Statement
-Regularization is a critical concept in machine learning that helps prevent overfitting by adding constraints to the learning process. This question evaluates your understanding of regularization concepts, particularly how regularization affects model bias, variance, and generalization ability.
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 ### Task
-Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 1. Increasing the regularization parameter always increases the bias
 2. An unregularized model will always have lower training error than a regularized version of the same model
 3. If two models have the same training error, the one with smaller coefficient magnitudes will likely generalize better
