@@ -95,9 +95,9 @@ Elastic Net combines both L1 and L2 penalties:
 $$J_{\text{elastic}}(\boldsymbol{w}) = \|\boldsymbol{y} - \boldsymbol{X}\boldsymbol{w}\|_2^2 + \lambda_1\|\boldsymbol{w}\|_1 + \lambda_2\|\boldsymbol{w}\|_2^2$$
 
 #### Task
-1. Describe the advantage of Elastic Net over Lasso when features are highly correlated
+1. [🔍] Describe the advantage of Elastic Net over Lasso when features are highly correlated
 2. Explain how Elastic Net balances the properties of Ridge and Lasso regression
-3. In what scenario would you prefer Elastic Net over both Ridge and Lasso?
+3. [🔍] In what scenario would you prefer Elastic Net over both Ridge and Lasso?
 4. Describe how you would approach selecting both regularization parameters $\lambda_1$ and $\lambda_2$
 
 For a detailed explanation of this problem, including the benefits of Elastic Net, see [Question 6: Elastic Net Regularization](L3_7_6_explanation.md).
