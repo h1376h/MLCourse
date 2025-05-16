@@ -382,8 +382,6 @@ Statement 5 is **TRUE**. Residual analysis is indeed essential to ensure that th
 
 ### Statement 6: Cross-validation is a resampling technique used to assess the performance of a model on unseen data.
 
-**TRUE**
-
 Cross-validation is indeed a resampling technique used to assess model performance on unseen data. Unlike a single train-test split, cross-validation provides a more robust estimate of how well a model will generalize by using multiple training and validation sets.
 
 The core principle of cross-validation is to divide the dataset into K equally sized folds, then iteratively use K-1 folds for training and the remaining fold for validation. This process is repeated K times, with each fold serving as the validation set exactly once. The performance metrics from all iterations are then averaged to give a more reliable estimate.
@@ -446,8 +444,6 @@ In conclusion, cross-validation is a fundamental resampling technique in machine
 
 ### Statement 7: Mean Absolute Error (MAE) is less sensitive to outliers than Mean Squared Error (MSE).
 
-**TRUE**
-
 Mean Absolute Error (MAE) is indeed less sensitive to outliers than Mean Squared Error (MSE), and this has important implications for model selection in the presence of outliers.
 
 The key difference between these metrics lies in how they penalize errors:
@@ -509,8 +505,6 @@ The figure above illustrates practical applications and considerations when choo
 In summary, the statement is **TRUE**. MAE is demonstrably less sensitive to outliers than MSE due to its linear scaling with error magnitude. This property makes MAE a better choice when working with datasets that contain outliers that should not unduly influence the model.
 
 ### Statement 8: In learning curves, if the validation error continues to decrease as more training samples are added, adding more data is likely to improve model performance.
-
-**TRUE**
 
 Learning curves are a diagnostic tool that show how model performance changes as the training dataset size increases. When the validation error continues to decrease as more samples are added, it indicates that the model has not yet extracted all possible information from the data and has room for improvement.
 
