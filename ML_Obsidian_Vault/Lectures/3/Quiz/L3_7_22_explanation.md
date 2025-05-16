@@ -171,7 +171,14 @@ This visualization compares the ridge solution path in the eigenbasis of $\bolds
 
 ![Ridge in Eigenbasis](../Images/L3_7_Quiz_22/ridge_eigenbasis.png)
 
-In the eigenbasis, the shrinkage is aligned with the coordinate axes, demonstrating how ridge regression shrinks each eigendirection independently. In the original basis, the path is curved, reflecting the conversion between the two bases.
+In the eigenbasis, the shrinkage occurs along a direct path toward the origin, showing how ridge regression shrinks each eigendirection independently. In the original basis, the path is curved, reflecting the conversion between the two coordinate systems and the different rates of shrinkage in each eigendirection.
+
+### Ridge Predictions
+This visualization shows how predictions change with different regularization parameters:
+
+![Ridge Predictions](../Images/L3_7_Quiz_22/ridge_predictions.png)
+
+As $\lambda$ increases, the predictions become more conservative (closer to the mean). The OLS predictions (blue) show the most extreme values, while higher $\lambda$ values produce predictions that are less sensitive to the input features, illustrating the bias-variance tradeoff inherent in ridge regression.
 
 ### Variance Reduction with Ridge Regression
 This plot illustrates how ridge regression reduces the variance of coefficient estimates:
