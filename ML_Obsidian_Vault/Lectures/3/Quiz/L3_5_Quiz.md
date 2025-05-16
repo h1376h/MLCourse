@@ -239,11 +239,11 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 #### Task
-1. The computational complexity of solving linear regression using normal equations is O($n^3$), where $n$ is the number of features.
-2. Stochastic gradient descent uses all training examples to compute the gradient in each iteration.
-3. Mini-batch gradient descent combines the advantages of both batch and stochastic gradient descent.
-4. A learning rate that is too small in gradient descent will always result in divergence (i.e., the parameters moving away from the optimum).
-5. Feature scaling is generally unnecessary when using the normal equations method to solve linear regression.
+1. [🔍] The computational complexity of solving linear regression using normal equations is O($n^3$), where $n$ is the number of features.
+2. [🔍] Stochastic gradient descent uses all training examples to compute the gradient in each iteration.
+3. [🔍] Mini-batch gradient descent combines the advantages of both batch and stochastic gradient descent.
+4. [🔍] A learning rate that is too small in gradient descent will always result in divergence (i.e., the parameters moving away from the optimum).
+5. [🔍] Feature scaling is generally unnecessary when using the normal equations method to solve linear regression.
 
 For detailed explanations and solutions, see [Question 13: TRUE/FALSE Questions](L3_5_13_explanation.md).
 
