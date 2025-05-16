@@ -13,8 +13,13 @@ images_dir = os.path.join(os.path.dirname(script_dir), "Images")
 save_dir = os.path.join(images_dir, "L3_5_Quiz_19")
 os.makedirs(save_dir, exist_ok=True)
 
-# Set a nice style for the plots
+# Set a nice style for the plots and enable LaTeX for matplotlib
 plt.style.use('seaborn-v0_8-whitegrid')
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer Modern Roman"],
+})
 
 print("Question 19: Normal Equations vs. Gradient Descent for Linear Regression")
 print("-" * 80)
@@ -43,11 +48,11 @@ def normal_equations_solution():
     plt.title("Normal Equations Method Process", fontsize=16)
     
     # Create a flow diagram-like visualization
-    steps = ["Design Matrix\nX (n×d)", 
-             "Compute\nX^T X (d×d)", 
-             "Invert Matrix\n(X^T X)^(-1) (d×d)", 
-             "Compute\nX^T y (d×1)", 
-             "Compute\nw = (X^T X)^(-1) X^T y"]
+    steps = [r"Design Matrix\\$\mathbf{X}$ $(n \times d)$", 
+             r"Compute\\$\mathbf{X}^T \mathbf{X}$ $(d \times d)$", 
+             r"Invert Matrix\\$(\mathbf{X}^T \mathbf{X})^{-1}$ $(d \times d)$", 
+             r"Compute\\$\mathbf{X}^T \mathbf{y}$ $(d \times 1)$", 
+             r"Compute\\$\mathbf{w} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$"]
     
     # Horizontal positions
     x_pos = np.linspace(0, 1, len(steps))
@@ -55,7 +60,7 @@ def normal_equations_solution():
     y_pos = np.ones_like(x_pos) * 0.5
     
     # Plot nodes
-    plt.scatter(x_pos, y_pos, s=3000, c='skyblue', alpha=0.6, zorder=1)
+    plt.scatter(x_pos, y_pos, s=10000, c='skyblue', alpha=0.6, zorder=1)
     
     # Add text
     for i, step in enumerate(steps):
@@ -63,7 +68,7 @@ def normal_equations_solution():
     
     # Connect nodes with arrows
     for i in range(len(steps)-1):
-        plt.arrow(x_pos[i] + 0.08, y_pos[i], x_pos[i+1] - x_pos[i] - 0.16, 0,
+        plt.arrow(x_pos[i] + 0.10, y_pos[i], x_pos[i+1] - x_pos[i] - 0.22, 0,
                  head_width=0.02, head_length=0.02, fc='k', ec='k', zorder=0)
     
     plt.xlim(-0.1, 1.1)
@@ -128,18 +133,18 @@ def gradient_descent_solution():
     plt.title("Gradient Descent Method Process", fontsize=16)
     
     # Create a flow diagram with iteration
-    steps = ["Initialize\nw randomly", 
-             "Compute\nXw (n×1)", 
-             "Compute\nXw - y (n×1)", 
-             "Compute\nX^T(Xw - y) (d×1)", 
-             "Update\nw := w - α∇J(w)"]
+    steps = [r"Initialize\\$\mathbf{w}$ randomly", 
+             r"Compute\\$\mathbf{X}\mathbf{w}$ $(n \times 1)$", 
+             r"Compute\\$\mathbf{X}\mathbf{w} - \mathbf{y}$ $(n \times 1)$", 
+             r"Compute\\$\mathbf{X}^T(\mathbf{X}\mathbf{w} - \mathbf{y})$ $(d \times 1)$", 
+             r"Update\\$\mathbf{w} := \mathbf{w} - \alpha \nabla J(\mathbf{w})$"]
     
     # Circular arrangement for iteration visualization
     x_pos = np.linspace(0, 1, len(steps))
     y_pos = np.ones_like(x_pos) * 0.5
     
     # Plot nodes
-    plt.scatter(x_pos, y_pos, s=3000, c='lightgreen', alpha=0.6, zorder=1)
+    plt.scatter(x_pos, y_pos, s=10000, c='lightgreen', alpha=0.6, zorder=1)
     
     # Add text
     for i, step in enumerate(steps):
@@ -147,7 +152,7 @@ def gradient_descent_solution():
     
     # Connect nodes with arrows
     for i in range(len(steps)-1):
-        plt.arrow(x_pos[i] + 0.08, y_pos[i], x_pos[i+1] - x_pos[i] - 0.16, 0,
+        plt.arrow(x_pos[i] + 0.10, y_pos[i], x_pos[i+1] - x_pos[i] - 0.22, 0,
                  head_width=0.02, head_length=0.02, fc='k', ec='k', zorder=0)
     
     # Show iteration (connect last to second node)
@@ -223,11 +228,11 @@ def compare_complexity():
     
     # Create comparison table
     methods = ["Normal Equations", "Gradient Descent"]
-    time_complexity = ["O(n*d^2 + d^3)", "O(k*n*d)"]
-    space_complexity = ["O(d^2) for X^T X", "O(d) for weights"]
+    time_complexity = ["$O(n \\cdot d^2 + d^3)$", "$O(k \\cdot n \\cdot d)$"]
+    space_complexity = ["$O(d^2)$ for $\\mathbf{X}^T\\mathbf{X}$", "$O(d)$ for weights"]
     pros = ["Direct solution, no iterations or hyperparameters", 
             "Works well with large datasets, scales linearly with n"]
-    cons = ["Scales poorly with features (d^3)", 
+    cons = ["Scales poorly with features $(d^3)$", 
             "Requires iterations and hyperparameter tuning"]
     
     comparison_data = {
@@ -259,23 +264,25 @@ def compare_complexity():
         k = 100
         gd_complexity = k * n * d_values
         
-        plt.loglog(d_values, ne_complexity, 'b-', label=f"Normal Equations: O(n*d^2 + d^3), n={n}")
-        plt.loglog(d_values, gd_complexity, 'g-', label=f"Gradient Descent: O(k*n*d), k={k}, n={n}")
+        plt.loglog(d_values, ne_complexity, 'b-', 
+                 label=r"Normal Equations: $O(n \cdot d^2 + d^3)$, $n=10,000$")
+        plt.loglog(d_values, gd_complexity, 'g-', 
+                 label=r"Gradient Descent: $O(k \cdot n \cdot d)$, $k=100$, $n=10,000$")
     
     # Highlight regions with n=10,000, d=1,000 (given case)
-    plt.axvline(x=1000, color='r', linestyle='--', alpha=0.5, label="d=1,000 (given case)")
+    plt.axvline(x=1000, color='r', linestyle='--', alpha=0.5, label="$d=1,000$ (given case)")
     
     # Highlight crossover point
     crossover_idx = np.argmin(np.abs(ne_complexity - gd_complexity))
     crossover_d = d_values[crossover_idx]
     plt.scatter([crossover_d], [ne_complexity[crossover_idx]], color='red', s=100, zorder=5)
-    plt.annotate(f'Crossover point\nd ≈ {crossover_d:.0f}', 
+    plt.annotate(f'Crossover point\n$d \\approx {crossover_d:.0f}$', 
                  xy=(crossover_d, ne_complexity[crossover_idx]),
                  xytext=(crossover_d*0.5, ne_complexity[crossover_idx]*0.3),
                  arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=8),
                  fontsize=12)
     
-    plt.xlabel('Number of Features (d)', fontsize=14)
+    plt.xlabel('Number of Features $(d)$', fontsize=14)
     plt.ylabel('Computational Complexity (operations)', fontsize=14)
     plt.grid(True, which="both", ls="--", alpha=0.7)
     plt.legend(fontsize=12)
@@ -286,7 +293,7 @@ def compare_complexity():
     # Create bar chart comparing execution times from previous simulations
     data_sizes = [(100, 10), (1000, 100), (10000, 1000)]
     x_pos = np.arange(len(data_sizes))
-    labels = [f"n={n}, d={d}" for n, d in data_sizes]
+    labels = [f"$n={n}$, $d={d}$" for n, d in data_sizes]
     
     # Create a DataFrame for plotting
     exec_times_df = pd.DataFrame({
@@ -344,7 +351,7 @@ def recommendation_initial_case():
     
     # Create a visualization for the recommendation
     plt.figure(figsize=(12, 7))
-    plt.title("Decision Factors for n=10,000, d=1,000", fontsize=16)
+    plt.title("Decision Factors for $n=10,000$, $d=1,000$", fontsize=16, y=1.05)
     
     # Data for radar chart
     categories = ['Computational\nEfficiency', 'Memory\nEfficiency', 
@@ -386,7 +393,7 @@ def recommendation_initial_case():
     plt.grid(True)
     
     # Add an explanatory textbox
-    plt.figtext(0.5, 0.01, "For n=10,000 and d=1,000 with limited resources, Gradient Descent is recommended\n"
+    plt.figtext(0.5, 0.01, "For $n=10,000$ and $d=1,000$ with limited resources, Gradient Descent is recommended\n"
                "due to better computational and memory efficiency despite requiring hyperparameter tuning.",
                ha="center", fontsize=12, bbox={"facecolor":"lightgray", "alpha":0.5, "pad":5})
     
@@ -428,12 +435,12 @@ def recommendation_changed_case():
     
     # Visualization for the changed scenario
     plt.figure(figsize=(12, 6))
-    plt.title("Comparing Methods for n=10,000,000, d=100", fontsize=16)
+    plt.title("Comparing Methods for $n=10,000,000$, $d=100$", fontsize=16)
     
     # Create a diagram showing advantages/disadvantages
     feature_names = ["Computational\nEfficiency", "Memory\nEfficiency", 
                     "Batch\nProcessing", "Implementation\nSimplicity", 
-                    "Works for\nVery Large n"]
+                    "Works for\nVery Large $n$"]
     
     ne_scores = [2, 3, 1, 5, 1]  # Normal Equations
     gd_scores = [4, 5, 5, 3, 5]  # Gradient Descent
@@ -506,9 +513,9 @@ def recommendation_changed_case():
     plt.axhline(y=64, color='purple', linestyle='--', alpha=0.5, label='64 GB RAM')
     
     # Highlight the n=10 million point
-    plt.axvline(x=10**7, color='r', linestyle='--', alpha=0.5, label='n=10 million')
+    plt.axvline(x=10**7, color='r', linestyle='--', alpha=0.5, label='$n=10$ million')
     
-    plt.xlabel('Number of Examples (n)', fontsize=14)
+    plt.xlabel('Number of Examples $(n)$', fontsize=14)
     plt.ylabel('Memory Required (GB)', fontsize=14)
     plt.grid(True, which="both", ls="--", alpha=0.7)
     plt.legend(fontsize=12)
