@@ -15,8 +15,8 @@ In this problem:
 - The learning rate is $\alpha = 0.1$
 
 #### Task
-1. Write down the gradient descent update rule for linear regression with batch gradient descent
-2. Give the formula for computing the gradient $\nabla_{\boldsymbol{w}}J(\boldsymbol{w})$ for linear regression
+1. [🔍] Write down the gradient descent update rule for linear regression with batch gradient descent
+2. [🔍] Give the formula for computing the gradient $\nabla_{\boldsymbol{w}}J(\boldsymbol{w})$ for linear regression
 3. Explain how many training examples are used in each iteration of batch gradient descent
 4. Describe the convergence criteria you would use to determine when to stop the gradient descent algorithm
 
