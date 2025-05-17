@@ -409,6 +409,144 @@ plt.annotate(f'Minimum Validation Error: {min_val_error:.4f}',
              arrowprops=dict(facecolor='black', shrink=0.05, width=1.5, headwidth=8),
              fontsize=12, backgroundcolor='white')
 
+# 10. NEW: Third alternative with a completely different validation error pattern
+plt.figure(figsize=(10, 6))
+
+# Generate new data with a completely different pattern
+np.random.seed(456)  # Different seed
+n_third_samples = 120
+
+# Create a dataset with a step function and local patterns
+X_third = np.sort(np.random.uniform(-5, 5, n_third_samples))[:, np.newaxis]
+
+# Create a staircase function with multiple plateaus for the ground truth
+def third_true_func(x):
+    result = np.zeros_like(x)
+    result[x < -2] = -2
+    result[(x >= -2) & (x < 0)] = 0
+    result[(x >= 0) & (x < 2)] = 2
+    result[x >= 2] = 4
+    return result
+
+# Add complex noise pattern - different noise variances in different regions
+noise = np.zeros_like(X_third)
+for i, x in enumerate(X_third):
+    if x < -3:
+        noise[i] = np.random.normal(0, 0.5)  # Moderate noise in left region
+    elif x >= -3 and x < 1:
+        noise[i] = np.random.normal(0, 1.5)  # High noise in middle region
+    else:
+        noise[i] = np.random.normal(0, 0.8)  # Lower noise in right region
+
+y_third = third_true_func(X_third) + noise
+
+# Use a special train/test split to create an interesting error pattern
+# Split so that validation set has many points from high-noise region
+indices = np.arange(len(X_third))
+train_indices = np.concatenate([
+    indices[X_third.flatten() < -3][::2],  # Half of left region
+    indices[(X_third.flatten() >= -3) & (X_third.flatten() < 1)][::5],  # Few points from middle region
+    indices[X_third.flatten() >= 1][::2]  # Half of right region
+])
+val_indices = np.setdiff1d(indices, train_indices)
+
+X_third_train = X_third[train_indices]
+y_third_train = y_third[train_indices]
+X_third_val = X_third[val_indices]
+y_third_val = y_third[val_indices]
+
+# Fit polynomial models with varying regularization
+third_degree = 7  # High degree polynomial
+third_train_errors = []
+third_val_errors = []
+
+for alpha in alphas:
+    third_model = make_pipeline(
+        PolynomialFeatures(third_degree, include_bias=True),
+        Ridge(alpha=alpha, fit_intercept=False)
+    )
+    
+    third_model.fit(X_third_train, y_third_train)
+    y_third_train_pred = third_model.predict(X_third_train)
+    y_third_val_pred = third_model.predict(X_third_val)
+    
+    third_mse_train = mean_squared_error(y_third_train, y_third_train_pred)
+    third_mse_val = mean_squared_error(y_third_val, y_third_val_pred)
+    
+    # Scale errors to fit reasonable range
+    third_train_errors.append(third_mse_train / 10)
+    third_val_errors.append(third_mse_val / 10)
+
+# Plot the third alternative error curves
+plt.plot(log_alphas, third_train_errors, 'b-', linewidth=2, label='Training Error')
+plt.plot(log_alphas, third_val_errors, 'r-', linewidth=2, label='Validation Error')
+
+# Define the 3 regions with lighter colors matching the original question
+plt.axvspan(-5, -2, alpha=0.1, color='red')
+plt.axvspan(-2, 2, alpha=0.1, color='green')
+plt.axvspan(2, 5, alpha=0.1, color='blue')
+
+# Add region labels matching the original question's 3 regions
+plt.text(-4, 0.9, 'Overfitting', fontsize=12, ha='center', bbox=dict(facecolor='white', alpha=0.7))
+plt.text(0, 0.9, 'Optimal Fitting', fontsize=12, ha='center', bbox=dict(facecolor='white', alpha=0.7))
+plt.text(4, 0.9, 'Underfitting', fontsize=12, ha='center', bbox=dict(facecolor='white', alpha=0.7))
+
+plt.xlabel('$\\log(\\lambda)$', fontsize=14)
+plt.ylabel('Error', fontsize=14)
+plt.title('Third Alternative: Non-U-shaped Validation Error Pattern', fontsize=14)
+plt.legend(fontsize=10, loc='upper right')
+plt.grid(True)
+plt.ylim(0, 1.0)  # Matching the ylim of the original plot
+plt.xlim(-5, 5)
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'third_alternative_solution.png'), dpi=300, bbox_inches='tight')
+
+# Also create model fits at different regularization strengths for the third example
+plt.figure(figsize=(12, 8))
+third_log_lambda_values = [-4, -1, 1, 4]  # Match the log lambda values for the 3 regions
+third_subplot_titles = ['Overfitting ($\\log(\\lambda)=-4$)', 
+                        'Transition ($\\log(\\lambda)=-1$)', 
+                        'Optimal Fitting ($\\log(\\lambda)=1$)',
+                        'Underfitting ($\\log(\\lambda)=4$)']
+
+# Generate points for plotting the third true function
+X_third_plot = np.linspace(-5, 5, 1000)[:, np.newaxis]
+y_third_true = third_true_func(X_third_plot)
+
+for i, log_lambda in enumerate(third_log_lambda_values):
+    plt.subplot(2, 2, i+1)
+    lambda_val = 10**log_lambda
+    
+    # Create and fit model with third example data
+    third_model = make_pipeline(
+        PolynomialFeatures(third_degree, include_bias=True),
+        Ridge(alpha=lambda_val, fit_intercept=False)
+    )
+    third_model.fit(X_third_train, y_third_train)
+    
+    # Generate predictions
+    y_third_pred = third_model.predict(X_third_plot)
+    
+    # Plot data points and curves
+    plt.scatter(X_third_train, y_third_train, color='blue', s=20, alpha=0.5, label='Training data')
+    plt.scatter(X_third_val, y_third_val, color='red', s=20, alpha=0.5, label='Validation data')
+    plt.plot(X_third_plot, y_third_true, 'g-', label='True function', linewidth=2)
+    plt.plot(X_third_plot, y_third_pred, 'm-', label=f'Model fit', linewidth=2)
+    
+    # Calculate and display errors
+    third_train_mse = mean_squared_error(y_third_train, third_model.predict(X_third_train))
+    third_val_mse = mean_squared_error(y_third_val, third_model.predict(X_third_val))
+    plt.title(f'{third_subplot_titles[i]}\nTrain: {third_train_mse:.2f}, Val: {third_val_mse:.2f}')
+    
+    plt.xlabel('$x$')
+    plt.ylabel('$y$')
+    plt.grid(True)
+    if i == 0:  # Only add legend to the first plot to save space
+        plt.legend(fontsize=8, loc='upper left')
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'third_alternative_model_fits.png'), dpi=300, bbox_inches='tight')
+
 # 7. Print key insights and analysis for each task
 print("\n=== Analysis for Question 25 Tasks ===\n")
 

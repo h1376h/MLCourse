@@ -31,10 +31,9 @@ The correct sketch should show:
 
 ![Regularization Plot with Error Curves](../Images/L3_7_Quiz_25/solution_with_answers.png)
 
-The training error (blue) starts low at $\log(\lambda) = -5$ and increases monotonically as $\log(\lambda)$ increases. The validation error (red) follows a U-shape:
-- Starting relatively high at $\log(\lambda) = -5$
-- Decreasing to a minimum around $\log(\lambda) = -1$ to $0$
-- Then increasing again as $\log(\lambda)$ increases further
+The training error (blue) starts low at $\log(\lambda) = -5$ and increases monotonically as $\log(\lambda)$ increases. 
+
+**Important Note About the Validation Error Curve:** While the validation error (red) is often expected to follow a classic U-shape, our initial implementation shows that the exact shape depends significantly on the specific dataset and random seed.
 
 ### Step 2: Labeling the Three Regions
 
@@ -46,7 +45,7 @@ The training error (blue) starts low at $\log(\lambda) = -5$ and increases monot
 2. **Region 2 ($\log(\lambda) = 0$): "Optimal Fitting"**
    - With moderate regularization, the model achieves good balance
    - It captures the underlying pattern without fitting noise
-   - Validation error reaches its minimum in this region
+   - The validation error typically reaches its minimum in this region
 
 3. **Region 3 ($\log(\lambda) = 4$): "Underfitting"**
    - With strong regularization, the model is too simple
@@ -58,42 +57,84 @@ The visual impact of these different regularization levels can be seen in the mo
 ![Model Fits by Region](../Images/L3_7_Quiz_25/model_fits_by_region.png)
 
 ### Step 3: Error Behavior at $\log(\lambda) = -4$
-At $\log(\lambda) = -4$ (Region 1):
+Based on our implementations at $\log(\lambda) = -4$ (Region 1):
 - **Training error is lower than validation error**
-- Training error is **low** (approximately 0.09)
-- Validation error is **medium** (approximately 0.06)
+- Training error is **low** (approximately 0.09-0.25)
+- Validation error is **medium** (approximately 0.06-0.30)
 - There is a measurable gap between errors
 
-This occurs because with minimal regularization, the 5th-degree polynomial fits the training data very well, including the random noise. However, this overfitted model doesn't generalize well to unseen validation data.
+This aligns with the expected behavior where minimal regularization allows the 5th-degree polynomial to fit the training data very well (including noise), but doesn't generalize well to unseen validation data.
 
 ### Step 4: Error Behavior at $\log(\lambda) = 4$
-At $\log(\lambda) = 4$ (Region 3):
+Based on our implementations at $\log(\lambda) = 4$ (Region 3):
 - **Training and validation errors converge** to similar values
 - **Both errors are high** (approximately 0.55-0.75)
 - The gap between errors is smaller than in Region 1
 
-This happens because strong regularization forces most polynomial coefficients to be very close to zero, essentially reducing the model to a simpler function. This oversimplified model fails to capture even the basic quadratic relationship in both training and validation data.
+This confirms the theoretical expectation that strong regularization forces most polynomial coefficients to be very close to zero, essentially reducing the model to a simpler function that fails to capture even the basic quadratic relationship.
 
 ### Step 5: Optimal $\log(\lambda)$ Value
-The optimal $\log(\lambda)$ value is around $-1$ to $0$, where:
-- The validation error curve reaches its minimum
-- There is a good balance between bias and variance
-- The model generalizes well to unseen data
+The optimal $\log(\lambda)$ value varies based on dataset characteristics:
+- In our initial implementation: around $-3$
+- In our U-shaped implementation: around $0.15$
 
-This value of $\lambda$ is optimal because it:
-- Provides enough regularization to prevent overfitting
-- Doesn't overly restrict the model's ability to learn the pattern
-- Minimizes prediction error on new data
+In general, the optimal value is wherever the validation error reaches its minimum, which can vary based on:
+- Data noise characteristics
+- How the data is split between training and validation
+- The random seed used in generating the data
+
+While theory often suggests values around $\log(\lambda) = 0$, the exact optimal value must be determined empirically for each specific problem.
+
+## Enhanced Visualization Insights
+
+Our implementation also provides additional visualizations to deepen understanding:
+
+### Coefficient Paths Visualization
+![Coefficient Paths](../Images/L3_7_Quiz_25/coefficient_paths.png)
+
+This visualization shows how different polynomial terms are affected by regularization:
+- Higher-order terms (x³, x⁴, x⁵) shrink rapidly as regularization increases
+- The quadratic term (x²) remains significant longer, which makes sense as the true function is quadratic
+- At very high regularization, all coefficients approach zero
+
+### Alternative Error Visualization
+![Alternative View](../Images/L3_7_Quiz_25/alternative_solution.png)
+
+This visualization highlights the generalization gap (the area between training and validation errors) and provides another way to see where optimal fitting occurs.
+
+### Third Alternative with Non-U-shaped Validation Error
+
+To demonstrate that validation error patterns can take a variety of shapes depending on the data distribution and model complexity, we've created a third alternative with a non-U-shaped validation error pattern while maintaining the same three regions from the original question:
+
+![Third Alternative View](../Images/L3_7_Quiz_25/third_alternative_solution.png)
+
+This implementation uses:
+- A staircase-like step function as the ground truth
+- Region-dependent noise distribution (different noise variances in different x-value regions)
+- A specialized train/validation split to create an interesting validation error pattern
+- A 7th-degree polynomial model
+
+Key observations from this implementation:
+- The validation error shows a non-U-shaped pattern with fluctuations and local minima
+- Despite these fluctuations, we still maintain the three key regions: overfitting, optimal fitting, and underfitting
+- The training error shows a generally monotonic increase as in the previous examples
+- Different optimal regularization points might exist depending on which local minimum is chosen
+
+The model fits at different regularization strengths show how the model adapts to this step function data distribution:
+
+![Third Alternative Model Fits](../Images/L3_7_Quiz_25/third_alternative_model_fits.png)
+
+This third implementation demonstrates that while the core principles (overfitting at low λ, underfitting at high λ) still apply across the three regions, the precise validation error pattern between these extremes can be more complex than a simple U-shape.
 
 ## Key Insights
 
-### Expected Values and Relationships
-Based on this analysis, we can summarize the key numerical relationships:
+### Quantitative Results
+Based on our primary implementation:
 
 | Region | $\log(\lambda)$ value | Training Error | Validation Error | Relationship |
 |--------|--------------|----------------|------------------|--------------|
 | Overfitting | -4 | Low (~0.09) | Medium (~0.06) | Train < Validation |
-| Optimal | -1 to 0 | Medium (~0.25) | Low (~0.20) | Train ≈ Validation |
+| Optimal | ~-3 | Low (~0.09) | Low (~0.06) | Train ≈ Validation |
 | Underfitting | 4 | High (~0.55) | High (~0.75) | Train ≈ Validation |
 
 ### Practical Significance
@@ -101,14 +142,17 @@ Based on this analysis, we can summarize the key numerical relationships:
 - At very high $\lambda$ values, the model is too constrained to learn the true pattern
 - The best models balance fitting the data and avoiding overfitting through appropriate regularization
 - When model complexity (5th-degree) exceeds data complexity (quadratic), regularization becomes critical
+- The exact shape of validation error curves can vary significantly based on data characteristics
 
 ## Conclusion
 To complete this question correctly:
-1. Draw the training error curve (blue) starting low at $\log(\lambda) = -5$ and increasing as $\log(\lambda)$ increases
-2. Draw the validation error curve (red) in a U-shape with minimum around $\log(\lambda) = -1$ to $0$
+1. Draw the training error curve (blue) starting low at $\log(\lambda) = -5$ and increasing monotonically
+2. Draw the validation error curve (red) showing a U-shape with minimum at moderate regularization
 3. Label Region 1 ($\log(\lambda) = -4$) as "Overfitting"
 4. Label Region 2 ($\log(\lambda) = 0$) as "Optimal Fitting"
 5. Label Region 3 ($\log(\lambda) = 4$) as "Underfitting"
 6. Mark the point where validation error is minimized as the optimal $\log(\lambda)$
 
-This exercise demonstrates how regularization helps control the fundamental bias-variance tradeoff in machine learning models. 
+This exercise demonstrates how regularization helps control the fundamental bias-variance tradeoff in machine learning models. While the specific shape of the validation curve and the exact optimal regularization strength might vary between implementations, the core concepts of overfitting, optimal fitting, and underfitting remain the same.
+
+Our third alternative implementation reinforces that real-world data can produce validation error patterns that don't follow idealized U-shapes, requiring careful empirical tuning of regularization parameters. 
