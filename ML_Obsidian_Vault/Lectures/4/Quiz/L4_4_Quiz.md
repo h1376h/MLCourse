@@ -51,10 +51,10 @@ Consider Linear Discriminant Analysis (LDA) for a binary classification problem 
 - Both classes share the covariance matrix $\Sigma = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$
 
 #### Task
-1. Calculate the direction of the LDA projection ($w = \Sigma^{-1}(\mu_1 - \mu_2)$)
-2. What is the threshold value for classification in the projected space?
-3. For a new data point $x_1 = [2, 1]^T$, which class would LDA assign it to?
-4. For another new data point $x_2 = [0, 3]^T$, which class would LDA assign it to?
+1. [📚] Calculate the direction of the LDA projection ($w = \Sigma^{-1}(\mu_1 - \mu_2)$)
+2. [📚] What is the threshold value for classification in the projected space?
+3. [📚] For a new data point $x_1 = [2, 1]^T$, which class would LDA assign it to?
+4. [📚] For another new data point $x_2 = [0, 3]^T$, which class would LDA assign it to?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 3: Linear Discriminant Analysis](L4_4_3_explanation.md).
 
@@ -80,10 +80,10 @@ Consider the margin concept in linear classifiers. The following statements rela
 For each statement, identify whether it applies to: (a) Perceptron, (b) Logistic Regression, (c) Linear Discriminant Analysis (LDA), or (d) Support Vector Machine (SVM)
 
 1. Finds a decision boundary that maximizes the margin between classes
-2. Uses a probabilistic approach based on class-conditional densities and Bayes' rule
-3. Simply tries to find any decision boundary that separates the classes
+2. [🔍] Uses a probabilistic approach based on class-conditional densities and Bayes' rule
+3. [🔍] Simply tries to find any decision boundary that separates the classes
 4. Directly models the posterior probability $P(y|x)$ using the sigmoid function
-5. Is a discriminative model that maximizes the ratio of between-class to within-class scatter
+5. [🔍] Is a discriminative model that maximizes the ratio of between-class to within-class scatter
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: Classifier Characteristics](L4_4_5_explanation.md).
 
