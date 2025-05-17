@@ -145,8 +145,8 @@ Linear Discriminant Analysis (LDA) makes several assumptions about the underlyin
 #### Task
 1. [🔍] List two key assumptions of LDA
 2. [📚] Given two classes with equal covariance matrices $\Sigma = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$ and equal prior probabilities, if the means are $\mu_1 = [2, 3]^T$ and $\mu_2 = [4, 1]^T$, at what point would the posterior probabilities $P(C_1|x) = P(C_2|x) = 0.5$?
-3. For a two-class LDA with shared covariance matrix $\Sigma = I$ (identity matrix), write the decision boundary equation in terms of the class means $\mu_1$ and $\mu_2$
-4. How does LDA differ from the Perceptron in terms of how it finds the decision boundary? Answer in one sentence
+3. [📚] For a two-class LDA with shared covariance matrix $\Sigma = I$ (identity matrix), write the decision boundary equation in terms of the class means $\mu_1$ and $\mu_2$
+4. [🔍] How does LDA differ from the Perceptron in terms of how it finds the decision boundary? Answer in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: LDA Assumptions and Decision Boundary](L4_4_9_explanation.md).
 
@@ -157,8 +157,8 @@ Consider a simple 2D dataset with points that are not linearly separable, and yo
 
 #### Task
 1. Explain the goal of the Pocket Algorithm in one sentence
-2. If after 100 iterations, your Pocket weights are $w = [3, -1, 2]^T$ (including bias term), write the equation of the corresponding decision boundary
-3. For a perceptron with learning rate $\eta = 0.1$, calculate the weight update for a misclassified point $x = [2, 1]^T$ with true label $y = 1$
+2. [📚] If after 100 iterations, your Pocket weights are $w = [3, -1, 2]^T$ (including bias term), write the equation of the corresponding decision boundary
+3. [🔍] For a perceptron with learning rate $\eta = 0.1$, calculate the weight update for a misclassified point $x = [2, 1]^T$ with true label $y = 1$
 4. Why does the Pocket Algorithm perform better than the standard Perceptron for non-separable data? Explain in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Pocket Algorithm Applications](L4_4_10_explanation.md).

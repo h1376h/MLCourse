@@ -171,8 +171,8 @@ Our comparison shows:
 - Different orientations reflect different optimization objectives
 
 The quantitative differences in our experiment:
-- LDA projection vector: [-0.635, -0.773]
-- LSE regression vector: [0.635, 0.773] (opposite direction)
+- LDA projection vector: $[-0.635, -0.773]$
+- LSE regression vector: $[0.635, 0.773]$ (opposite direction)
 - Different classification accuracies (LDA: 0.055, LSE: 0.610)
 
 While both methods produce linear decision boundaries, they are generally not equivalent. The difference is particularly pronounced when classes have different covariance structures or when the data doesn't satisfy the assumptions of either method.
