@@ -456,8 +456,8 @@ Linear discriminant analysis has many applications, such as dimensionality reduc
 Note that in this problem we use column vectors for the data points to simplify the calculation.
 
 #### Task
-1. Compute the mean vector for each class, $\mu_0$ and $\mu_1$.
-2. Compute the covariance matrix for each class, $\Sigma_0$ and $\Sigma_1$.
+1. [📚] Compute the mean vector for each class, $\mu_0$ and $\mu_1$.
+2. [📚] Compute the covariance matrix for each class, $\Sigma_0$ and $\Sigma_1$.
 
 The Fisher's linear discriminant analysis is defined to maximize criterion function:
 
@@ -467,7 +467,7 @@ An optimal solution $\mathbf{w}^*$ is:
 
 $$\mathbf{w}^* = (\Sigma_0 + \Sigma_1)^{-1}(\mu_0 - \mu_1)$$
 
-3. Find the optimal $\mathbf{w}^*$ with unit length.
+3. [📚] Find the optimal $\mathbf{w}^*$ with unit length.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 26: Linear Discriminant Analysis with Simple Data](L4_4_26_explanation.md).
 
