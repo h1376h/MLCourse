@@ -1,7 +1,7 @@
 # Lecture 2.1: Probability Fundamentals Quiz
 
 ## Overview
-This quiz contains 35 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
+This quiz contains 36 questions from different topics covered in section 2.1 of the lectures on Probability Fundamentals.
 
 ## Question 1
 
@@ -608,3 +608,13 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 13. [🔍] In a multivariate normal distribution, the angle of rotation of probability density contours in a 2D plane is always given by $\theta = \frac{1}{2}\tan^{-1}\left(\frac{2\sigma_{xy}}{\sigma_x^2-\sigma_y^2}\right)$, regardless of whether $\sigma_x^2 = \sigma_y^2$.
 
 For a detailed explanation of these true/false questions about covariance and contours, see [Question 35: Covariance Concepts True/False](L2_1_35_explanation.md).
+
+## [⭐] Question 36
+
+### Problem Statement
+Prove the following property of conditional independence.
+
+#### Task
+Show that $P(X,Y|Z) = P(X|Z)P(Y|Z)$ if $P(X|Y,Z) = P(X|Z)$.
+
+For a detailed explanation of this problem, see [Question 36: Conditional Independence Property](L2_1_36_explanation.md).
