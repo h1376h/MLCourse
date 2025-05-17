@@ -8,7 +8,7 @@ Consider a 2D feature space with the following four data points:
 ### Task
 1. Sketch these points in a 2D coordinate system
 2. Draw a linear decision boundary that separates these two classes
-3. Write the equation of this decision boundary in the form $w_1x_1 + w_2x_2 + b = 0$
+3. Write the equation of this decision boundary in the form $$w_1x_1 + w_2x_2 + b = 0$$
 4. Is this dataset linearly separable? Explain why or why not in one sentence
 
 ## Understanding the Problem
@@ -29,38 +29,42 @@ Looking at the plot, we can see that the points from Class A are located in the 
 
 ### Step 2: Find a linear decision boundary
 To find a linear decision boundary, we need to determine parameters $w_1$, $w_2$, and $b$ for the equation:
-$w_1x_1 + w_2x_2 + b = 0$
+$$w_1x_1 + w_2x_2 + b = 0$$
 
 We can use basic geometry to find this boundary:
 
 1. First, calculate the center (centroid) of each class:
-   - Center of Class A: (1.5, 2.0)
-   - Center of Class B: (-0.5, -1.0)
+   - Center of Class A: $(1.5, 2.0)$
+   - Center of Class B: $(-0.5, -1.0)$
 
 2. Find the slope of the line connecting these centroids:
-   - $m_{centroids} = \frac{y_B - y_A}{x_B - x_A} = \frac{-1.0 - 2.0}{-0.5 - 1.5} = \frac{-3.0}{-2.0} = 1.5$
+   $$m_{centroids} = \frac{y_B - y_A}{x_B - x_A} = \frac{-1.0 - 2.0}{-0.5 - 1.5} = \frac{-3.0}{-2.0} = 1.5$$
 
 3. The decision boundary should be perpendicular to this line, so its slope is:
-   - $m_{boundary} = -\frac{1}{m_{centroids}} = -\frac{1}{1.5} = -0.6667$
+   $$m_{boundary} = -\frac{1}{m_{centroids}} = -\frac{1}{1.5} = -0.6667$$
 
 4. Find the midpoint between the centroids:
-   - Midpoint = ((1.5 + (-0.5))/2, (2.0 + (-1.0))/2) = (0.5, 0.5)
+   - Midpoint = $\left(\frac{1.5 + (-0.5)}{2}, \frac{2.0 + (-1.0)}{2}\right) = (0.5, 0.5)$
 
 5. Use the point-slope form to get the equation of the decision boundary:
-   - $y - y_1 = m(x - x_1)$
-   - $y - 0.5 = -0.6667(x - 0.5)$
-   - $y - 0.5 = -0.6667x + 0.3333$
-   - $y = -0.6667x + 0.8333$
+   $$\begin{align}
+   y - y_1 &= m(x - x_1) \\
+   y - 0.5 &= -0.6667(x - 0.5) \\
+   y - 0.5 &= -0.6667x + 0.3333 \\
+   y &= -0.6667x + 0.8333
+   \end{align}$$
 
 6. Convert to the standard form $w_1x_1 + w_2x_2 + b = 0$:
-   - $-0.6667x + y - 0.8333 = 0$
-   - $0.6667x + 1.0y - 0.8333 = 0$
+   $$\begin{align}
+   -0.6667x + y - 0.8333 &= 0 \\
+   0.6667x + 1.0y - 0.8333 &= 0
+   \end{align}$$
 
 Therefore, the parameters are:
-$w_1 = 0.6667$, $w_2 = 1.0000$, $b = -0.8333$
+$$w_1 = 0.6667, \quad w_2 = 1.0000, \quad b = -0.8333$$
 
 This gives us the decision boundary equation:
-$0.6667x_1 + 1.0000x_2 - 0.8333 = 0$
+$$0.6667x_1 + 1.0000x_2 - 0.8333 = 0$$
 
 ### Step 3: Verify the classification
 Let's check if this decision boundary correctly classifies all points:
@@ -72,24 +76,38 @@ For linear classifiers, a point is classified as:
 - Class B (negative class) if $w_1x_1 + w_2x_2 + b < 0$
 
 Checking each point:
-1. Point $(1, 1)$ from Class A: $0.6667×1 + 1.0×1 - 0.8333 = 0.8333 > 0$ → Correctly classified as Class A
-2. Point $(2, 3)$ from Class A: $0.6667×2 + 1.0×3 - 0.8333 = 3.5000 > 0$ → Correctly classified as Class A
-3. Point $(-1, 0)$ from Class B: $0.6667×(-1) + 1.0×0 - 0.8333 = -1.5000 < 0$ → Correctly classified as Class B
-4. Point $(0, -2)$ from Class B: $0.6667×0 + 1.0×(-2) - 0.8333 = -2.8333 < 0$ → Correctly classified as Class B
+1. Point $(1, 1)$ from Class A: 
+   $$0.6667 \times 1 + 1.0 \times 1 - 0.8333 = 0.8333 > 0 \implies \text{Correctly classified as Class A}$$
+   
+2. Point $(2, 3)$ from Class A: 
+   $$0.6667 \times 2 + 1.0 \times 3 - 0.8333 = 3.5000 > 0 \implies \text{Correctly classified as Class A}$$
+   
+3. Point $(-1, 0)$ from Class B: 
+   $$0.6667 \times (-1) + 1.0 \times 0 - 0.8333 = -1.5000 < 0 \implies \text{Correctly classified as Class B}$$
+   
+4. Point $(0, -2)$ from Class B: 
+   $$0.6667 \times 0 + 1.0 \times (-2) - 0.8333 = -2.8333 < 0 \implies \text{Correctly classified as Class B}$$
 
 All points are correctly classified by our decision boundary.
 
 ### Step 4: Demonstrate alternative boundaries
 To further illustrate that the dataset is linearly separable, we can show that different linear boundaries can also separate the classes. Let's try an alternative boundary:
-$x_1 + x_2 - 1.5 = 0$
+$$x_1 + x_2 - 1.5 = 0$$
 
 ![Multiple Boundaries](../Images/L4_4_Quiz_1/multiple_boundaries.png)
 
 This alternative boundary also correctly classifies all points:
-1. Point $(1, 1)$ from Class A: $1×1 + 1×1 - 1.5 = 0.5 > 0$ → Correctly classified as Class A
-2. Point $(2, 3)$ from Class A: $1×2 + 1×3 - 1.5 = 3.5 > 0$ → Correctly classified as Class A
-3. Point $(-1, 0)$ from Class B: $1×(-1) + 1×0 - 1.5 = -2.5 < 0$ → Correctly classified as Class B
-4. Point $(0, -2)$ from Class B: $1×0 + 1×(-2) - 1.5 = -3.5 < 0$ → Correctly classified as Class B
+1. Point $(1, 1)$ from Class A: 
+   $$1 \times 1 + 1 \times 1 - 1.5 = 0.5 > 0 \implies \text{Correctly classified as Class A}$$
+   
+2. Point $(2, 3)$ from Class A: 
+   $$1 \times 2 + 1 \times 3 - 1.5 = 3.5 > 0 \implies \text{Correctly classified as Class A}$$
+   
+3. Point $(-1, 0)$ from Class B: 
+   $$1 \times (-1) + 1 \times 0 - 1.5 = -2.5 < 0 \implies \text{Correctly classified as Class B}$$
+   
+4. Point $(0, -2)$ from Class B: 
+   $$1 \times 0 + 1 \times (-2) - 1.5 = -3.5 < 0 \implies \text{Correctly classified as Class B}$$
 
 The fact that we can find multiple linear boundaries that perfectly separate the classes confirms that the dataset is linearly separable.
 
@@ -116,7 +134,7 @@ The fact that we can find multiple linear boundaries that perfectly separate the
 The dataset is linearly separable because we can find a linear decision boundary (in the form $w_1x_1 + w_2x_2 + b = 0$) that perfectly separates the two classes, with all points from Class A on one side of the boundary and all points from Class B on the other side.
 
 Specifically, we found two different linear boundaries that achieve perfect separation:
-1. Geometric boundary: $0.6667x_1 + 1.0000x_2 - 0.8333 = 0$
-2. Alternative boundary: $x_1 + x_2 - 1.5 = 0$
+1. Geometric boundary: $$0.6667x_1 + 1.0000x_2 - 0.8333 = 0$$
+2. Alternative boundary: $$x_1 + x_2 - 1.5 = 0$$
 
 This confirms that the dataset is linearly separable, meaning a linear classifier can achieve perfect classification on this dataset. 
