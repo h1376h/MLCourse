@@ -487,7 +487,7 @@ The figure below shows how different polynomial models (Linear, Cubic, and Degre
 2. [🔍] Explain the bias-variance tradeoff for the degree 10 polynomial as regularization strength increases.
 3. [🔍] Why does the linear model (blue) change relatively little across different regularization strengths compared to the higher-order polynomials?
 4. [🔍] For the cubic model (green), which regularization level provides the optimal balance between bias and variance? Justify your answer.
-5. [🔍] ree 10 polynomial shows poor generalization despite fitting the training points well.
+5. [🔍] For the case with very low regularization ($\lambda = 0.0001$), explain why the degree 10 polynomial shows poor generalization despite fitting the training points well.
 6. [🔍] If you were given a new dataset and had to choose one combination of model complexity and regularization strength, which would you select based on these visualizations? Justify your answer.
 
 For a detailed explanation of this problem, including model analysis, see [Question 28: Bias-Variance Regularization Analysis](L3_7_28_explanation.md). 
