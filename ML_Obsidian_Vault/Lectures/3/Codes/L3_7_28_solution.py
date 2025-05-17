@@ -5,6 +5,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error
 from matplotlib.patches import Patch
+import scipy.linalg
 
 def create_directories():
     """Create necessary directories for saving plots"""
@@ -224,6 +225,74 @@ def plot_learning_curves(lambda_values, save_dir):
     plt.savefig(os.path.join(save_dir, 'learning_curves.png'), dpi=300)
     plt.close()
 
+def plot_effective_degrees_of_freedom(lambda_values, save_dir):
+    """Visualize the effective degrees of freedom for each model as regularization strength increases"""
+    # Set random seed for reproducibility
+    np.random.seed(42)
+    
+    # Generate training data
+    x_train = np.random.uniform(-4, 4, 50)
+    y_train = true_function(x_train) + 0.5 * np.random.randn(len(x_train))
+    
+    # Degrees to analyze
+    degrees = [1, 3, 10]
+    model_names = ['Linear Model', 'Cubic Model', 'Degree 10 Polynomial']
+    colors = ['blue', 'green', 'red']
+    markers = ['o', 's', '^']
+    
+    # More fine-grained lambda values for smoother curve
+    lambda_range = np.logspace(-4, 3, 100)
+    
+    # Create figure
+    fig, ax = plt.subplots(figsize=(12, 8))
+    
+    # For each model complexity
+    for i, degree in enumerate(degrees):
+        # Create polynomial features
+        poly = PolynomialFeatures(degree=degree)
+        X_poly = poly.fit_transform(x_train.reshape(-1, 1))
+        
+        # Calculate effective degrees of freedom for each lambda
+        effective_df = []
+        
+        for lam in lambda_range:
+            # Calculate the hat matrix diagonal for ridge regression
+            # For ridge regression, the effective degrees of freedom is:
+            # df = trace(X(X^TX + λI)^(-1)X^T)
+            X = X_poly
+            n, p = X.shape
+            XTX = X.T @ X
+            
+            # Use SVD to calculate effective df more stably
+            U, s, Vt = np.linalg.svd(X, full_matrices=False)
+            df = np.sum(s**2 / (s**2 + lam))
+            
+            effective_df.append(df)
+        
+        # Plot effective df versus lambda
+        ax.semilogx(lambda_range, effective_df, color=colors[i], marker=markers[i],
+                   label=f"{model_names[i]} (max df: {poly.n_output_features_})",
+                   alpha=0.7, markersize=4, markevery=10)
+    
+    # Add reference lines for original lambda values
+    for lam in lambda_values:
+        ax.axvline(x=lam, color='grey', linestyle='--', alpha=0.5)
+        ax.text(lam, 1, f'λ={lam}', rotation=90, alpha=0.7, ha='right')
+    
+    # Set labels and title
+    ax.set_title('Effective Degrees of Freedom vs. Regularization Strength', fontsize=14)
+    ax.set_xlabel('Regularization Strength (λ)', fontsize=12)
+    ax.set_ylabel('Effective Degrees of Freedom', fontsize=12)
+    ax.legend(fontsize=10)
+    ax.grid(True, which='both', linestyle='--', alpha=0.7)
+    
+    # Set y-axis limits
+    ax.set_ylim(0, max(degrees) + 5)
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'effective_degrees_of_freedom.png'), dpi=300)
+    plt.close()
+
 def bias_variance_regularization_analysis():
     """Analyze the impact of regularization on bias and variance for different model complexities"""
     save_dir = create_directories()
@@ -268,8 +337,11 @@ def bias_variance_regularization_analysis():
     # 6. Generate multiple datasets to show variance
     show_variance_across_datasets(lambda_values, save_dir)
     
-    # 7. New visualization: Learning curves
+    # 7. Learning curves visualization
     plot_learning_curves(lambda_values, save_dir)
+    
+    # 8. New visualization: Effective degrees of freedom
+    plot_effective_degrees_of_freedom(lambda_values, save_dir)
     
     print(f"Analysis complete. All plots saved to {save_dir}")
     
@@ -443,7 +515,7 @@ def show_variance_across_datasets(lambda_values, save_dir):
         Patch(facecolor='k', label='True Function'),
         Patch(facecolor='r', alpha=0.3, label='Model Predictions')
     ]
-    fig.legend(handles=legend_elements, loc='upper center', ncol=2, fontsize=12)
+    fig.legend(handles=legend_elements, loc='upper right', ncol=2, fontsize=12)
     
     # Add title
     fig.suptitle('Model Variance: Multiple Fits with Different Training Datasets', fontsize=16)
