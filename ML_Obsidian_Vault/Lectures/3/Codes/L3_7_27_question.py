@@ -94,63 +94,6 @@ def regularization_paths_visualization():
     plt.savefig(os.path.join(save_dir, 'regularization_paths.png'), dpi=300)
     plt.close()
     
-    # Create a version with annotations
-    plt.figure(figsize=(10, 12))
-    gs = GridSpec(2, 1, height_ratios=[1, 1])
-    
-    # Plot Ridge coefficients with annotations
-    ax1 = plt.subplot(gs[0])
-    for i in range(n_features):
-        if i < 3:  # Relevant features
-            ax1.plot(np.log10(lambda_values), ridge_coefficients[:, i], 
-                    linewidth=2, label=f'Feature {i+1} (Relevant)')
-        else:  # Irrelevant features
-            ax1.plot(np.log10(lambda_values), ridge_coefficients[:, i], 
-                    'k--', alpha=0.3, linewidth=1)
-    
-    # Add annotations for Ridge
-    ax1.annotate('Coefficients shrink proportionally\nbut never reach exactly zero', 
-                xy=(1, 0.5), xytext=(0, 1),
-                arrowprops=dict(facecolor='black', shrink=0.05, width=1),
-                fontsize=10, ha='center')
-    
-    ax1.set_title('Ridge Regression (L2): Coefficient Paths', fontsize=14)
-    ax1.set_xlabel(r'log($\lambda$)', fontsize=12)
-    ax1.set_ylabel('Coefficient Value', fontsize=12)
-    ax1.grid(True, linestyle='--', alpha=0.7)
-    ax1.legend(loc='upper right')
-    
-    # Plot Lasso coefficients with annotations
-    ax2 = plt.subplot(gs[1])
-    for i in range(n_features):
-        if i < 3:  # Relevant features
-            ax2.plot(np.log10(lambda_values), lasso_coefficients[:, i], 
-                    linewidth=2, label=f'Feature {i+1} (Relevant)')
-        else:  # Irrelevant features
-            ax2.plot(np.log10(lambda_values), lasso_coefficients[:, i], 
-                    'k--', alpha=0.3, linewidth=1)
-    
-    # Add annotations for Lasso
-    ax2.annotate('Coefficients can be\nexactly zero', 
-                xy=(0.5, 0), xytext=(0, -1),
-                arrowprops=dict(facecolor='black', shrink=0.05, width=1),
-                fontsize=10, ha='center')
-    
-    ax2.annotate('Feature selection occurs\nas λ increases', 
-                xy=(1, -0.5), xytext=(1, -1.5),
-                arrowprops=dict(facecolor='black', shrink=0.05, width=1),
-                fontsize=10, ha='center')
-    
-    ax2.set_title('Lasso Regression (L1): Coefficient Paths', fontsize=14)
-    ax2.set_xlabel(r'log($\lambda$)', fontsize=12)
-    ax2.set_ylabel('Coefficient Value', fontsize=12)
-    ax2.grid(True, linestyle='--', alpha=0.7)
-    ax2.legend(loc='upper right')
-    
-    plt.tight_layout()
-    plt.savefig(os.path.join(save_dir, 'regularization_paths_annotated.png'), dpi=300)
-    plt.close()
-    
     print(f"Regularization path plots saved to {save_dir}")
 
 if __name__ == "__main__":
