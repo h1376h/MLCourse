@@ -463,15 +463,15 @@ The following figure shows regularization paths for Ridge (L2) and Lasso (L1) re
 ![Regularization Paths](../Images/L3_7_Quiz_27/regularization_paths.png)
 
 #### Task
-1. Explain the key differences you observe between Ridge and Lasso regularization paths.
-2. Why do the coefficients in Lasso regression reach exactly zero as $\lambda$ increases, while Ridge coefficients only approach zero?
-3. Based on the regularization paths, at what approximate value of $\log(\lambda)$ would you set the regularization parameter for:
+1. [🔍] Explain the key differences you observe between Ridge and Lasso regularization paths.
+2. [🔍] Why do the coefficients in Lasso regression reach exactly zero as $\lambda$ increases, while Ridge coefficients only approach zero?
+3. [🔍] Based on the regularization paths, at what approximate value of $\log(\lambda)$ would you set the regularization parameter for:
    a. Ridge regression
    b. Lasso regression
    Justify your choices.
-4. If your goal is feature selection, which method would you use and why?
-5. For the Ridge regression plot, explain why all coefficients decrease at approximately the same rate proportionally to their original magnitudes.
-6. In the Lasso plot, explain which features are eliminated first and why this occurs.
+4. [🔍] If your goal is feature selection, which method would you use and why?
+5. [🔍] For the Ridge regression plot, explain why all coefficients decrease at approximately the same rate proportionally to their original magnitudes.
+6. [🔍] In the Lasso plot, explain which features are eliminated first and why this occurs.
 
 For a detailed explanation of this problem, including path analysis, see [Question 27: Regularization Path Analysis](L3_7_27_explanation.md).
 
