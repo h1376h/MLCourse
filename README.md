@@ -38,6 +38,7 @@ This repository requires the following Python packages:
 ```
 ipython>=9.2.0
 matplotlib>=3.10.1
+matplotlib-venn>=1.1.2
 networkx>=3.4.2
 numpy>=2.2.3
 pandas>=2.2.3

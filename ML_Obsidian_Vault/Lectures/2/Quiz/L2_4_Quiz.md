@@ -1,7 +1,7 @@
 # Lecture 2.4: Maximum Likelihood Estimation Quiz
 
 ## Overview
-This quiz contains 29 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
+This quiz contains 30 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
 
 ## [⭐] Question 1
 
@@ -503,3 +503,35 @@ Two encoding schemes are proposed for representing these categories:
 6. Discuss how properties of MLE (consistency, asymptotic normality) relate to this example as we increase the sample size.
 
 For a detailed explanation, see [Question 29: Maximum Likelihood Estimation for Categorical Data](L2_4_29_explanation.md).
+
+## [⭐] Question 30
+
+### Problem Statement
+If a data point $y$ follows the Poisson distribution with rate parameter $\theta$, then the probability of a single observation $y$ is:
+
+$$p(y|\theta) = \frac{\theta^y e^{-\theta}}{y!}, \text{ for } y = 0, 1, 2, \ldots$$
+
+You are given data points $y_1, y_2, \ldots, y_n$ independently drawn from a Poisson distribution with parameter $\theta$.
+
+#### Task
+1. Write down the log-likelihood of the data as a function of $\theta$.
+2. Derive the maximum likelihood estimator $\hat{\theta}_{\text{MLE}}$ for $\theta$.
+3. A data scientist collected the following daily counts of website errors over $10$ consecutive days:
+   
+| Day | Error Count |
+| --- | --- |
+| 1 | 3 |
+| 2 | 1 |
+| 3 | 2 |
+| 4 | 0 |
+| 5 | 4 |
+| 6 | 2 |
+| 7 | 3 |
+| 8 | 1 |
+| 9 | 2 |
+| 10 | 2 |
+   
+Calculate the MLE of $\theta$ for this dataset.
+4. Using your MLE estimate from part 3, calculate the probability $P(Y \geq 5)$ of observing $5$ or more errors on a given day.
+
+For a detailed explanation, see [Question 30: MLE for Poisson Distribution in Error Analysis](L2_4_30_explanation.md).

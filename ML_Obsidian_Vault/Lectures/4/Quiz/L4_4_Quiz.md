@@ -11,10 +11,10 @@ Consider a 2D feature space with the following four data points:
 - Class B: $(-1, 0)$, $(0, -2)$
 
 #### Task
-1. Sketch these points in a 2D coordinate system
-2. Draw a linear decision boundary that separates these two classes
-3. Write the equation of this decision boundary in the form $w_1x_1 + w_2x_2 + b = 0$
-4. Is this dataset linearly separable? Explain why or why not in one sentence
+1. [📚] Sketch these points in a 2D coordinate system
+2. [📚] Draw a linear decision boundary that separates these two classes
+3. [📚] Write the equation of this decision boundary in the form $w_1x_1 + w_2x_2 + b = 0$
+4. [📚] Is this dataset linearly separable? Explain why or why not in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: Linear Separability in 2D](L4_4_1_explanation.md).
 
@@ -51,10 +51,10 @@ Consider Linear Discriminant Analysis (LDA) for a binary classification problem 
 - Both classes share the covariance matrix $\Sigma = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$
 
 #### Task
-1. Calculate the direction of the LDA projection ($w = \Sigma^{-1}(\mu_1 - \mu_2)$)
-2. What is the threshold value for classification in the projected space?
-3. For a new data point $x_1 = [2, 1]^T$, which class would LDA assign it to?
-4. For another new data point $x_2 = [0, 3]^T$, which class would LDA assign it to?
+1. [📚] Calculate the direction of the LDA projection ($w = \Sigma^{-1}(\mu_1 - \mu_2)$)
+2. [📚] What is the threshold value for classification in the projected space?
+3. [📚] For a new data point $x_1 = [2, 1]^T$, which class would LDA assign it to?
+4. [📚] For another new data point $x_2 = [0, 3]^T$, which class would LDA assign it to?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 3: Linear Discriminant Analysis](L4_4_3_explanation.md).
 
@@ -80,10 +80,10 @@ Consider the margin concept in linear classifiers. The following statements rela
 For each statement, identify whether it applies to: (a) Perceptron, (b) Logistic Regression, (c) Linear Discriminant Analysis (LDA), or (d) Support Vector Machine (SVM)
 
 1. Finds a decision boundary that maximizes the margin between classes
-2. Uses a probabilistic approach based on class-conditional densities and Bayes' rule
-3. Simply tries to find any decision boundary that separates the classes
+2. [🔍] Uses a probabilistic approach based on class-conditional densities and Bayes' rule
+3. [🔍] Simply tries to find any decision boundary that separates the classes
 4. Directly models the posterior probability $P(y|x)$ using the sigmoid function
-5. Is a discriminative model that maximizes the ratio of between-class to within-class scatter
+5. [🔍] Is a discriminative model that maximizes the ratio of between-class to within-class scatter
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: Classifier Characteristics](L4_4_5_explanation.md).
 
@@ -97,7 +97,7 @@ The XOR problem is a classic example that demonstrates the limitations of linear
 #### Task
 1. Sketch these points in a 2D coordinate system
 2. Prove that this dataset is not linearly separable in one sentence
-3. If you add a new feature $x_3 = x_1 \cdot x_2$, write down the transformed data points
+3. [📚] If you add a new feature $x_3 = x_1 \cdot x_2$, write down the transformed data points
 4. Show that the transformed data is now linearly separable by providing a separating hyperplane equation
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 6: XOR and Feature Transformation](L4_4_6_explanation.md).
@@ -108,8 +108,8 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the Pocket Algorithm, which is an improvement over the standard Perceptron for non-separable data.
 
 #### Task
-1. In one sentence, explain the key difference between the standard Perceptron and Pocket Algorithm
-2. Given the following sequence of weight vectors and their respective number of correctly classified points:
+1. [🔍] In one sentence, explain the key difference between the standard Perceptron and Pocket Algorithm
+2. [🔍] Given the following sequence of weight vectors and their respective number of correctly classified points:
    - $w_1 = [1, 2]$, correctly classifies 6/10 points
    - $w_2 = [0, 3]$, correctly classifies 7/10 points
    - $w_3 = [2, 1]$, correctly classifies 5/10 points
@@ -117,7 +117,7 @@ Consider the Pocket Algorithm, which is an improvement over the standard Percept
    - $w_5 = [3, 0]$, correctly classifies 7/10 points
    
    What weight vector would the Pocket Algorithm retain after these iterations?
-3. What weight vector would the standard Perceptron have after these iterations?
+3. [🔍] What weight vector would the standard Perceptron have after these iterations?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 7: Pocket Algorithm](L4_4_7_explanation.md).
 
@@ -143,10 +143,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Linear Discriminant Analysis (LDA) makes several assumptions about the underlying data distributions.
 
 #### Task
-1. List two key assumptions of LDA
-2. Given two classes with equal covariance matrices and equal prior probabilities, if the means are $\mu_1 = [2, 3]^T$ and $\mu_2 = [4, 1]^T$, at what point would the posterior probabilities $P(C_1|x) = P(C_2|x) = 0.5$?
-3. For a two-class LDA with shared covariance matrix $\Sigma = I$ (identity matrix), write the decision boundary equation in terms of the class means $\mu_1$ and $\mu_2$
-4. How does LDA differ from the Perceptron in terms of how it finds the decision boundary? Answer in one sentence
+1. [🔍] List two key assumptions of LDA
+2. [📚] Given two classes with equal covariance matrices $\Sigma = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$ and equal prior probabilities, if the means are $\mu_1 = [2, 3]^T$ and $\mu_2 = [4, 1]^T$, at what point would the posterior probabilities $P(C_1|x) = P(C_2|x) = 0.5$?
+3. [📚] For a two-class LDA with shared covariance matrix $\Sigma = I$ (identity matrix), write the decision boundary equation in terms of the class means $\mu_1$ and $\mu_2$
+4. [🔍] How does LDA differ from the Perceptron in terms of how it finds the decision boundary? Answer in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: LDA Assumptions and Decision Boundary](L4_4_9_explanation.md).
 
@@ -157,8 +157,8 @@ Consider a simple 2D dataset with points that are not linearly separable, and yo
 
 #### Task
 1. Explain the goal of the Pocket Algorithm in one sentence
-2. If after 100 iterations, your Pocket weights are $w = [3, -1, 2]^T$ (including bias term), write the equation of the corresponding decision boundary
-3. For a perceptron with learning rate $\eta = 0.1$, calculate the weight update for a misclassified point $x = [2, 1]^T$ with true label $y = 1$
+2. [📚] If after 100 iterations, your Pocket weights are $w = [3, -1, 2]^T$ (including bias term), write the equation of the corresponding decision boundary
+3. [🔍] For a perceptron with learning rate $\eta = 0.1$, calculate the weight update for a misclassified point $x = [2, 1]^T$ with true label $y = 1$
 4. Why does the Pocket Algorithm perform better than the standard Perceptron for non-separable data? Explain in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Pocket Algorithm Applications](L4_4_10_explanation.md).
@@ -436,11 +436,11 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 ![LDA Visualization](../Images/L4_4_Quiz_25/lda_visualization.png)
 
 #### Task
-1. LDA method projects p-dimensional data into a one-dimensional space and then compares it with a threshold to determine the class label
-2. LDA method is more appropriate for linearly separable data.
-3. In developing LDA, the mean values of both classes $m_1 = \sum_{i=1}^{N_1} x_i$ and $m_2 = \sum_{i=1}^{N_2} x_i$ play essential roles.
-4. The main objective of this approach is to transform data into a space such that the resulting data points demonstrate minimum within-class variations and maximum between-class variations.
-5. The resulting model using LDA is always equivalent to that of linear classification with LSE.
+1. [🔍]  LDA method projects p-dimensional data into a one-dimensional space and then compares it with a threshold to determine the class label
+2. [🔍] LDA method is more appropriate for linearly separable data.
+3. [🔍] In developing LDA, the mean values of both classes $m_1 = \sum_{i=1}^{N_1} x_i$ and $m_2 = \sum_{i=1}^{N_2} x_i$ play essential roles.
+4. [🔍] The main objective of this approach is to transform data into a space such that the resulting data points demonstrate minimum within-class variations and maximum between-class variations.
+5. [🔍] The resulting model using LDA is always equivalent to that of linear classification with LSE.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 25: Fisher's Linear Discriminant Analysis](L4_4_25_explanation.md).
 
@@ -456,8 +456,8 @@ Linear discriminant analysis has many applications, such as dimensionality reduc
 Note that in this problem we use column vectors for the data points to simplify the calculation.
 
 #### Task
-1. Compute the mean vector for each class, $\mu_0$ and $\mu_1$.
-2. Compute the covariance matrix for each class, $\Sigma_0$ and $\Sigma_1$.
+1. [📚] Compute the mean vector for each class, $\mu_0$ and $\mu_1$.
+2. [📚] Compute the covariance matrix for each class, $\Sigma_0$ and $\Sigma_1$.
 
 The Fisher's linear discriminant analysis is defined to maximize criterion function:
 
@@ -467,7 +467,7 @@ An optimal solution $\mathbf{w}^*$ is:
 
 $$\mathbf{w}^* = (\Sigma_0 + \Sigma_1)^{-1}(\mu_0 - \mu_1)$$
 
-3. Find the optimal $\mathbf{w}^*$ with unit length.
+3. [📚] Find the optimal $\mathbf{w}^*$ with unit length.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 26: Linear Discriminant Analysis with Simple Data](L4_4_26_explanation.md).
 
@@ -483,8 +483,8 @@ Linear discriminant analysis has many applications, such as dimensionality reduc
 Note that in this problem we use column vectors for the data points to simplify the calculation.
 
 #### Task
-1. Compute the mean vector for each class, $\mu_A$ and $\mu_B$.
-2. Compute the covariance matrix for each class, $\Sigma_A$ and $\Sigma_B$.
+1. [📚] Compute the mean vector for each class, $\mu_A$ and $\mu_B$.
+2. [📚] Compute the covariance matrix for each class, $\Sigma_A$ and $\Sigma_B$.
 
 Fisher's linear discriminant analysis aims to maximize the criterion function:
 
@@ -494,7 +494,7 @@ An optimal solution $\mathbf{w}^*$ is:
 
 $$\mathbf{w}^* = (\Sigma_A + \Sigma_B)^{-1}(\mu_A - \mu_B)$$
 
-3. Find the optimal $\mathbf{w}^*$ with unit length.
+3. [📚] Find the optimal $\mathbf{w}^*$ with unit length.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 27: Linear Discriminant Analysis with Singular Scatter Matrix](L4_4_27_explanation.md).
 
@@ -513,7 +513,7 @@ You are a fruit vendor trying to automatically sort fruits. You have data for tw
 #### Task
 1. Sketch these points in a 2D coordinate system (Sweetness as x-axis, Sourness as y-axis), labeling each point with its Fruit ID and class.
 2. Draw a linear decision boundary that separates these two classes and write its equation in the form $w_1x_1 + w_2x_2 + b = 0$.
-3. Consider a Perceptron algorithm with learning rate $\eta = 1$ and initial weights $w_1=0, w_2=0, b=0$. The Perceptron updates its weights if $y \cdot (w_1x_1 + w_2x_2 + b) \leq 0$. If the points are processed in the order SA1, SA2, SO1, SO2, what are the weights $(w_1, w_2, b)$ after the *first* update? Show your calculation for the first point processed.
+3. [📚] Consider a Perceptron algorithm with learning rate $\eta = 1$ and initial weights $w_1=0, w_2=0, b=0$. The Perceptron updates its weights if $y \cdot (w_1x_1 + w_2x_2 + b) \leq 0$. If the points are processed in the order SA1, SA2, SO1, SO2, what are the weights $(w_1, w_2, b)$ after the *first* update? Show your calculation for the first point processed.
 4. Is this dataset linearly separable? Explain why or why not in one sentence.
 5. Apply Fisher's Linear Discriminant Analysis (LDA) to find the optimal projection direction for this dataset.
 
