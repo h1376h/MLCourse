@@ -518,20 +518,20 @@ You are given data points $y_1, y_2, \ldots, y_n$ independently drawn from a Poi
 2. Derive the maximum likelihood estimator $\hat{\theta}_{\text{MLE}}$ for $\theta$.
 3. A data scientist collected the following daily counts of website errors over $10$ consecutive days:
    
-   | Day | Error Count |
-   | --- | ----------- |
-   | 1   | 3           |
-   | 2   | 1           |
-   | 3   | 2           |
-   | 4   | 0           |
-   | 5   | 4           |
-   | 6   | 2           |
-   | 7   | 3           |
-   | 8   | 1           |
-   | 9   | 2           |
-   | 10  | 2           |
+| Day | Error Count |
+| --- | --- |
+| 1 | 3 |
+| 2 | 1 |
+| 3 | 2 |
+| 4 | 0 |
+| 5 | 4 |
+| 6 | 2 |
+| 7 | 3 |
+| 8 | 1 |
+| 9 | 2 |
+| 10 | 2 |
    
-   Calculate the MLE of $\theta$ for this dataset.
+Calculate the MLE of $\theta$ for this dataset.
 4. Using your MLE estimate from part 3, calculate the probability $P(Y \geq 5)$ of observing $5$ or more errors on a given day.
 
 For a detailed explanation, see [Question 30: MLE for Poisson Distribution in Error Analysis](L2_4_30_explanation.md).
