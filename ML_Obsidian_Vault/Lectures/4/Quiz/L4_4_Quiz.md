@@ -97,7 +97,7 @@ The XOR problem is a classic example that demonstrates the limitations of linear
 #### Task
 1. Sketch these points in a 2D coordinate system
 2. Prove that this dataset is not linearly separable in one sentence
-3. If you add a new feature $x_3 = x_1 \cdot x_2$, write down the transformed data points
+3. [📚] If you add a new feature $x_3 = x_1 \cdot x_2$, write down the transformed data points
 4. Show that the transformed data is now linearly separable by providing a separating hyperplane equation
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 6: XOR and Feature Transformation](L4_4_6_explanation.md).
@@ -108,8 +108,8 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the Pocket Algorithm, which is an improvement over the standard Perceptron for non-separable data.
 
 #### Task
-1. In one sentence, explain the key difference between the standard Perceptron and Pocket Algorithm
-2. Given the following sequence of weight vectors and their respective number of correctly classified points:
+1. [🔍] In one sentence, explain the key difference between the standard Perceptron and Pocket Algorithm
+2. [🔍] Given the following sequence of weight vectors and their respective number of correctly classified points:
    - $w_1 = [1, 2]$, correctly classifies 6/10 points
    - $w_2 = [0, 3]$, correctly classifies 7/10 points
    - $w_3 = [2, 1]$, correctly classifies 5/10 points
@@ -117,7 +117,7 @@ Consider the Pocket Algorithm, which is an improvement over the standard Percept
    - $w_5 = [3, 0]$, correctly classifies 7/10 points
    
    What weight vector would the Pocket Algorithm retain after these iterations?
-3. What weight vector would the standard Perceptron have after these iterations?
+3. [🔍] What weight vector would the standard Perceptron have after these iterations?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 7: Pocket Algorithm](L4_4_7_explanation.md).
 
