@@ -9,7 +9,7 @@ You are given data points $y_1, y_2, \ldots, y_n$ independently drawn from a Poi
 
 ### Task
 1. Write down the log-likelihood of the data as a function of $\theta$.
-2. Derive the maximum likelihood estimator $\hat{\theta}_{\text{MLE}}$ for $\theta$.
+2. Derive the maximum likelihood estimator $\hat{\theta}_{MLE}$ for $\theta$.
 3. A data scientist collected the following daily counts of website errors over $10$ consecutive days:
    
 | Day | Error Count |
@@ -32,9 +32,9 @@ Calculate the MLE of $\theta$ for this dataset.
 The Poisson distribution models the number of events occurring in a fixed time interval, where events occur with a known constant mean rate and independently of the time since the last event. The parameter $\theta$ represents the average number of events per interval.
 
 Key aspects of this problem:
-- We have 10 independent observations of daily error counts
+- We have $10$ independent observations of daily error counts
 - We need to find the most likely value of the rate parameter $\theta$
-- Using this estimate, we need to calculate the probability of seeing 5 or more errors in a day
+- Using this estimate, we need to calculate the probability of seeing $5$ or more errors in a day
 - The MLE approach requires maximizing the likelihood function (or log-likelihood for computational convenience)
 
 ## Solution
@@ -44,7 +44,7 @@ Key aspects of this problem:
 Let's begin by defining our variables:
 - $\theta$: The rate parameter of the Poisson distribution (to be estimated)
 - $y_i$: An individual observation (error count for day $i$)
-- $n$: The number of observations (10 days in our case)
+- $n$: The number of observations ($10$ days in our case)
 - $\sum y_i$: The sum of all observations
 
 For a single observation $y_i$, the Poisson probability mass function is:
@@ -120,22 +120,22 @@ Given the data $[3, 1, 2, 0, 4, 2, 3, 1, 2, 2]$, we calculate the MLE as follows
 Number of observations: $n = 10$
 
 Sum of observations: 
-$\sum_{i=1}^{10} y_i = 3 + 1 + 2 + 0 + 4 + 2 + 3 + 1 + 2 + 2 = 20$
+$$\sum_{i=1}^{10} y_i = 3 + 1 + 2 + 0 + 4 + 2 + 3 + 1 + 2 + 2 = 20$$
 
 MLE estimate: 
-$\hat{\theta}_{MLE} = \frac{\sum_{i=1}^{10} y_i}{n} = \frac{20}{10} = 2.0$
+$$\hat{\theta}_{MLE} = \frac{\sum_{i=1}^{10} y_i}{n} = \frac{20}{10} = 2.0$$
 
 We can verify this is a maximum by checking the log-likelihood values around the MLE:
-- Log-likelihood at $\theta = 1.999$: -15.671220
-- Log-likelihood at $\theta = 2.000$: -15.671218
-- Log-likelihood at $\theta = 2.001$: -15.671220
+- Log-likelihood at $\theta = 1.999$: $-15.671220$
+- Log-likelihood at $\theta = 2.000$: $-15.671218$
+- Log-likelihood at $\theta = 2.001$: $-15.671220$
 
 Since the log-likelihood at $\theta = 2.0$ is higher than at nearby values, this confirms it is a local maximum.
 
 The derivative of the log-likelihood at the MLE should be approximately zero:
-$\frac{d\ell(\theta)}{d\theta}\big|_{\theta=2.0} = \frac{20}{2.0} - 10 = 10 - 10 = 0$
+$$\frac{d\ell(\theta)}{d\theta}\bigg|_{\theta=2.0} = \frac{20}{2.0} - 10 = 10 - 10 = 0$$
 
-Therefore, the maximum likelihood estimate for $\theta$ is 2.0, meaning that the estimated average number of website errors per day is 2.
+Therefore, the maximum likelihood estimate for $\theta$ is $2.0$, meaning that the estimated average number of website errors per day is $2$.
 
 ### Step 4: Calculate the probability P(Y ≥ 5)
 
@@ -168,7 +168,7 @@ $$P(Y < 5) = 0.135335 + 0.270671 + 0.270671 + 0.180447 + 0.090224 = 0.947347$$
 Therefore:
 $$P(Y \geq 5) = 1 - 0.947347 = 0.052653$$
 
-The probability of observing 5 or more website errors on a given day is approximately 0.052653 or about 5.27%.
+The probability of observing $5$ or more website errors on a given day is approximately $0.052653$ or about $5.27\%$.
 
 ## Visual Explanations
 
@@ -212,21 +212,21 @@ This figure shows the 95% confidence interval for the Poisson parameter $\theta$
 
 ### Statistical Properties
 - The MLE for the Poisson distribution parameter is the sample mean ($\hat{\theta}_{MLE} = \bar{y}$)
-- The second derivative of the log-likelihood is -n²/Σy_i, which is always negative (confirming a maximum)
+- The second derivative of the log-likelihood is $-n^2/\sum y_i$, which is always negative (confirming a maximum)
 - The MLE is consistent, unbiased, and asymptotically efficient
 - For the Poisson distribution, the variance equals the mean, which affects the precision of our estimate
 
 ### Practical Considerations
-- With $\theta = 2.0$, we expect about 2 website errors per day on average
-- The probability of 5 or more errors in a day is only 5.27%, making such occurrences statistically unusual
-- The 95% confidence interval $[1.12, 2.88]$ provides bounds for the plausible values of θ
-- The width of this interval reflects the uncertainty due to the limited sample size (n=10)
+- With $\theta = 2.0$, we expect about $2$ website errors per day on average
+- The probability of $5$ or more errors in a day is only $5.27\%$, making such occurrences statistically unusual
+- The 95% confidence interval $[1.12, 2.88]$ provides bounds for the plausible values of $\theta$
+- The width of this interval reflects the uncertainty due to the limited sample size ($n=10$)
 
 ### Applications in Software Engineering
 - This model helps establish "normal" vs. "abnormal" website error patterns
-- A day with 5+ errors would warrant investigation as it represents a statistically unusual occurrence
+- A day with $5+$ errors would warrant investigation as it represents a statistically unusual occurrence
 - The model could be used to set alert thresholds in monitoring systems
-- If error rates decrease over time due to improvements, a new lower θ would be estimated
+- If error rates decrease over time due to improvements, a new lower $\theta$ would be estimated
 
 ## Conclusion
 
@@ -234,8 +234,8 @@ The maximum likelihood estimate for the rate parameter $\theta$ in the Poisson d
 
 $$\hat{\theta}_{MLE} = \bar{y} = \frac{\sum_{i=1}^{n} y_i}{n}$$
 
-For the given dataset of daily website errors, the MLE is $\hat{\theta} = 2.0$, indicating an average of 2 errors per day.
+For the given dataset of daily website errors, the MLE is $\hat{\theta} = 2.0$, indicating an average of $2$ errors per day.
 
-Using this estimate, the probability of observing 5 or more errors on a given day is $P(Y \geq 5) = 0.052653$, or approximately 5.27%.
+Using this estimate, the probability of observing $5$ or more errors on a given day is $P(Y \geq 5) = 0.052653$, or approximately $5.27\%$.
 
-This analysis provides valuable information for setting expectations about normal website error patterns and establishing thresholds for when intervention might be necessary. 
+This analysis provides valuable information for setting expectations about normal website error patterns and establishing thresholds for when intervention might be necessary.
