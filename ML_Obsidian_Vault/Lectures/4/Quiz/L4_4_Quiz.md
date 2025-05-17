@@ -11,10 +11,10 @@ Consider a 2D feature space with the following four data points:
 - Class B: $(-1, 0)$, $(0, -2)$
 
 #### Task
-1. Sketch these points in a 2D coordinate system
-2. Draw a linear decision boundary that separates these two classes
-3. Write the equation of this decision boundary in the form $w_1x_1 + w_2x_2 + b = 0$
-4. Is this dataset linearly separable? Explain why or why not in one sentence
+1. [📚] Sketch these points in a 2D coordinate system
+2. [📚] Draw a linear decision boundary that separates these two classes
+3. [📚] Write the equation of this decision boundary in the form $w_1x_1 + w_2x_2 + b = 0$
+4. [📚] Is this dataset linearly separable? Explain why or why not in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: Linear Separability in 2D](L4_4_1_explanation.md).
 
