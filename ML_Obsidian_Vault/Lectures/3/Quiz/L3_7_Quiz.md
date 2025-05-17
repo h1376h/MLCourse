@@ -391,7 +391,7 @@ For a detailed explanation of this problem, including bias-variance analysis, se
 You're analyzing a dataset with 8 features, but suspect only 3 of them are truly relevant. You decide to explore different regularization techniques.
 
 #### Task
-1. Complete the table below by indicating how each regularization method would likely affect the coefficients:
+1. [🔍] Complete the table below by indicating how each regularization method would likely affect the coefficients:
 
 | Regularization Method | Most coefficients approach zero? | Some coefficients exactly zero? | All non-zero coefficients shrink proportionally? |
 | --------------------- | -------------------------------- | ------------------------------- | ------------------------------------------------ |
@@ -400,9 +400,9 @@ You're analyzing a dataset with 8 features, but suspect only 3 of them are truly
 | Lasso Regression (L1) | Yes / No                         | Yes / No                        | Yes / No                                         |
 | Elastic Net           | Yes / No                         | Yes / No                        | Yes / No                                         |
 
-2. Explain why Lasso is particularly useful for the scenario described above.
-3. For a specific feature with true coefficient $w_3 = 0$, compare how Ridge and Lasso would estimate this coefficient as the regularization strength increases.
-4. If two features are highly correlated, how would Ridge and Lasso behave differently in their treatment of these features? Which would you recommend in this case?
+2. [🔍] Explain why Lasso is particularly useful for the scenario described above.
+3. [🔍] For a specific feature with true coefficient $w_3 = 0$, compare how Ridge and Lasso would estimate this coefficient as the regularization strength increases.
+4. [🔍] If two features are highly correlated, how would Ridge and Lasso behave differently in their treatment of these features? Which would you recommend in this case?
 
 For a detailed explanation of this problem, including coefficient behavior analysis, see [Question 24: Regularization Methods Comparison](L3_7_24_explanation.md).
 
@@ -439,7 +439,6 @@ $$\boldsymbol{w} = [0.8, 2.1, 0.05, 3.7, -1.2, 0.02, 4.5, -2.3, 0.09, 0.01, 1.4,
 
 #### Task
 1. When strong regularization is applied, which coefficients are most likely to be shrunk to exactly zero by Lasso? Why?
-
 2. Complete the table below with your predictions about what would happen to coefficients with different magnitudes:
 
 | Original coefficient magnitude | Effect with Ridge (L2) | Effect with Lasso (L1) |
@@ -449,11 +448,9 @@ $$\boldsymbol{w} = [0.8, 2.1, 0.05, 3.7, -1.2, 0.02, 4.5, -2.3, 0.09, 0.01, 1.4,
 | Very small (e.g., 0.02)       |                        |                        |
 
 3. Mathematically explain why Ridge regression tends to shrink coefficients proportionally to their magnitudes while Lasso can produce exactly zero coefficients.
-
 4. For this specific coefficient vector, calculate:
    a. The L1 norm: $\|\boldsymbol{w}\|_1 = \sum_{i=1}^{12} |w_i|$
    b. The L2 norm: $\|\boldsymbol{w}\|_2 = \sqrt{\sum_{i=1}^{12} w_i^2}$
-
 5. If you needed an interpretable model that emphasizes the most important features, which regularization method would you choose for this dataset? Justify your answer.
 
 For a detailed explanation of this problem, including coefficient analysis, see [Question 26: Coefficient Behavior Under Regularization](L3_7_26_explanation.md).
