@@ -5,7 +5,7 @@ Linear Discriminant Analysis (LDA) makes several assumptions about the underlyin
 
 ### Task
 1. List two key assumptions of LDA
-2. Given two classes with equal covariance matrices and equal prior probabilities, if the means are $\mu_1 = [2, 3]^T$ and $\mu_2 = [4, 1]^T$, at what point would the posterior probabilities $P(C_1|x) = P(C_2|x) = 0.5$?
+2. Given two classes with equal covariance matrices $\Sigma = \begin{bmatrix} 2 & 0 \\ 0 & 1 \end{bmatrix}$ and equal prior probabilities, if the means are $\mu_1 = [2, 3]^T$ and $\mu_2 = [4, 1]^T$, at what point would the posterior probabilities $P(C_1|x) = P(C_2|x) = 0.5$?
 3. For a two-class LDA with shared covariance matrix $\Sigma = I$ (identity matrix), write the decision boundary equation in terms of the class means $\mu_1$ and $\mu_2$
 4. How does LDA differ from the Perceptron in terms of how it finds the decision boundary? Answer in one sentence
 
