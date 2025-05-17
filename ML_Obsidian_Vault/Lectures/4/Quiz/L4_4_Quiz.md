@@ -436,11 +436,11 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 ![LDA Visualization](../Images/L4_4_Quiz_25/lda_visualization.png)
 
 #### Task
-1. LDA method projects p-dimensional data into a one-dimensional space and then compares it with a threshold to determine the class label
-2. LDA method is more appropriate for linearly separable data.
-3. In developing LDA, the mean values of both classes $m_1 = \sum_{i=1}^{N_1} x_i$ and $m_2 = \sum_{i=1}^{N_2} x_i$ play essential roles.
-4. The main objective of this approach is to transform data into a space such that the resulting data points demonstrate minimum within-class variations and maximum between-class variations.
-5. The resulting model using LDA is always equivalent to that of linear classification with LSE.
+1. [🔍]  LDA method projects p-dimensional data into a one-dimensional space and then compares it with a threshold to determine the class label
+2. [🔍] LDA method is more appropriate for linearly separable data.
+3. [🔍] In developing LDA, the mean values of both classes $m_1 = \sum_{i=1}^{N_1} x_i$ and $m_2 = \sum_{i=1}^{N_2} x_i$ play essential roles.
+4. [🔍] The main objective of this approach is to transform data into a space such that the resulting data points demonstrate minimum within-class variations and maximum between-class variations.
+5. [🔍] The resulting model using LDA is always equivalent to that of linear classification with LSE.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 25: Fisher's Linear Discriminant Analysis](L4_4_25_explanation.md).
 
