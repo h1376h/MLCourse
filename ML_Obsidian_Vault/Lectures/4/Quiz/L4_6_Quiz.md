@@ -128,7 +128,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ## Question 8
 
 ### Problem Statement
-Consider Maximum Likelihood Estimation (MLE) for softmax regression.
+Consider Maximum Likelihood Estimation (MLE) for softmax regression in multi-class classification problems.
 
 #### Task
 1. [🔍] How does MLE relate to minimizing cross-entropy loss? Answer in one sentence
