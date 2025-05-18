@@ -42,13 +42,42 @@ When data is linearly separable, the perceptron convergence theorem guarantees t
 1. **Focused Updates**: Perceptron only updates when necessary (misclassifications), ignoring correctly classified points and making larger steps toward the solution.
 2. **Direct Optimization**: It directly optimizes the decision boundary position rather than a surrogate loss function.
 
-![Convergence Comparison](../Images/L4_5_Quiz_5/convergence_comparison.png)
+#### Current Data Being Processed: Linearly Separable Dataset
 
-The convergence plots from our code execution show that the perceptron (left) achieves zero misclassifications after just a few epochs, while logistic regression (right) continues to optimize its loss function even after finding a reasonable decision boundary.
+![Linearly Separable Dataset](../Images/L4_5_Quiz_5/separable_dataset.png)
 
-![Decision Boundaries Evolution](../Images/L4_5_Quiz_5/boundary_evolution.gif)
+The above visualization shows the linearly separable dataset used in our experiments. The blue circles represent class +1, and the red crosses represent class -1. As shown, a clear linear decision boundary (green dashed line) perfectly separates the two classes. We've engineered the dataset specifically to ensure linear separability by maintaining a margin between the classes.
 
-The animation above shows how the decision boundaries evolve over 100 epochs of training. You can observe that the perceptron (left) quickly finds a good separation boundary, while logistic regression (right) makes more gradual adjustments. This visualization clearly demonstrates the perceptron's faster convergence for linearly separable data.
+#### Linearly Separable Data Results
+
+![Convergence Comparison - Separable](../Images/L4_5_Quiz_5/convergence_comparison_separable.png)
+
+The convergence plots for linearly separable data show that the perceptron (left) achieves zero misclassifications after just a few epochs, while logistic regression (right) continues to optimize its loss function even after finding a reasonable decision boundary.
+
+![Final Decision Boundaries - Separable](../Images/L4_5_Quiz_5/decision_boundaries_epoch_50_separable.png)
+
+With linearly separable data, both algorithms eventually find good decision boundaries, but the perceptron converges much faster and directly reaches zero misclassifications. Both the perceptron boundary (blue) and logistic regression boundary (red) correctly separate all data points, with the true boundary shown as a dashed green line.
+
+#### Current Data Being Processed: Non-Linearly Separable Dataset
+
+![Non-Linearly Separable Dataset](../Images/L4_5_Quiz_5/non_separable_dataset.png)
+
+This visualization shows the non-linearly separable dataset where points of opposite classes overlap in the boundary region, making perfect separation impossible. We specifically created this dataset by flipping the labels of points near the decision boundary to ensure it cannot be perfectly classified by any linear model. This represents a more realistic scenario for many real-world applications.
+
+#### Non-Separable Data Results
+
+![Convergence Comparison - Non-Separable](../Images/L4_5_Quiz_5/convergence_comparison_non_separable.png)
+
+For non-separable data, the perceptron algorithm cannot find a perfect separation and continues to oscillate, while logistic regression still converges to a solution that minimizes the cross-entropy loss. Notice how the perceptron's error count never reaches zero and continues to fluctuate.
+
+![Final Decision Boundaries - Non-Separable](../Images/L4_5_Quiz_5/decision_boundaries_epoch_50_non_separable.png)
+
+**Comparison between separable and non-separable scenarios:**
+- For linearly separable data, the perceptron converges to a perfect decision boundary
+- For non-separable data, the perceptron continues to oscillate as it cannot find a perfect solution
+- Logistic regression converges in both scenarios, though it may not achieve zero misclassifications in the non-separable case
+
+This comparison clearly demonstrates the limitations of the perceptron algorithm when dealing with non-separable data. While it performs exceptionally well for clean, separable data, it struggles with overlapping classes. In contrast, logistic regression provides more stable performance in both scenarios by minimizing a continuous loss function.
 
 ### Task 3: Calculate Updated Weights for the Specific Example
 
@@ -67,11 +96,11 @@ $$w_{t+1} = w_t = [0, 1, -1]^T$$
 
 ![Specific Example Visualization 2D](../Images/L4_5_Quiz_5/specific_example_2d.png)
 
-The 2D visualization confirms that the point lies in the correctly classified region (blue area). The decision boundary is already oriented such that the point is on the correct side. The updated visualization includes clearer labels and improved region coloring to better distinguish the positive and negative classification regions.
+The 2D visualization confirms that the point lies in the correctly classified region (blue area). The decision boundary is already oriented such that the point is on the correct side. The visualization includes clear labels and color coding to distinguish the positive and negative classification regions.
 
 ![3D Weight Update Visualization](../Images/L4_5_Quiz_5/specific_example_update.png)
 
-The 3D visualization provides a spatial perspective of how the weight vector and decision boundary would change if an update were needed. In this case, since the point is correctly classified, the weight vector remains unchanged. The visualization shows the original weights (blue arrow) and the decision boundary plane (blue surface), with better visibility and clarity compared to previous versions.
+The 3D visualization provides a spatial perspective of how the weight vector and decision boundary change after a perceptron update. In this case, since the point is correctly classified, the weight vector remains unchanged. The visualization shows the original weights (blue arrow) and the decision boundary plane (blue surface), with optimal viewing angles to make the 3D relationships apparent.
 
 ### Task 4: Will This Update Always Reduce the Number of Misclassified Points?
 
@@ -83,31 +112,33 @@ In our example:
 - Before update (left): Both points are misclassified (2 total misclassifications)
 - After updating with respect to the first point (right): The first point becomes correctly classified, but the second point remains misclassified (1 total misclassification)
 
-The improved visualization uses distinct markers for each point and consistent coloring of the decision regions, making it easier to see how the update affects each point's classification status. This demonstrates that while a single update might reduce the overall number of misclassifications, it's not guaranteed to do so for every possible dataset configuration. This is why perceptron learning may oscillate on non-linearly separable data.
+The visualization uses distinct markers for each point and consistent coloring of the decision regions, making it easy to see how the update affects each point's classification status. While the total number of misclassifications decreased in this specific example (from 2 to 1), this is not guaranteed in all cases. In some scenarios, correcting one point might misclassify multiple other points that were previously correct.
+
+This limitation becomes even more apparent with non-separable data, as shown in our non-separable data experiment. In such cases, the perceptron algorithm may oscillate indefinitely, repeatedly fixing some misclassifications while introducing others, never reaching a perfect solution.
 
 ## Visual Explanations
 
 ### Perceptron vs. Logistic Regression Convergence
-![Convergence Comparison](../Images/L4_5_Quiz_5/convergence_comparison.png)
 
-This visualization compares the convergence behavior of perceptron and logistic regression:
+#### For Linearly Separable Data:
+![Convergence Comparison - Separable](../Images/L4_5_Quiz_5/convergence_comparison_separable.png)
+
+#### For Non-Linearly Separable Data:
+![Convergence Comparison - Non-Separable](../Images/L4_5_Quiz_5/convergence_comparison_non_separable.png)
+
+These visualizations compare the convergence behavior of perceptron and logistic regression:
 - The left plot shows the number of misclassifications per epoch for perceptron learning
 - The right plot shows the binary cross-entropy loss per epoch for logistic regression
 
-Notice how the perceptron achieves zero misclassifications rapidly, while logistic regression continues to optimize its loss function incrementally.
-
-### Decision Boundary Evolution
-![Decision Boundary Animation](../Images/L4_5_Quiz_5/boundary_evolution.gif)
-
-This animation captures the complete evolution of decision boundaries for both algorithms across 100 epochs:
-- The perceptron (left) makes direct, large updates toward the optimal boundary
-- Logistic regression (right) makes smaller, continuous adjustments
-- The animation clearly demonstrates how the perceptron finds a reasonable boundary much earlier in the training process
+Notice the key differences between separable and non-separable data:
+- With separable data, perceptron reaches zero misclassifications and stabilizes
+- With non-separable data, perceptron continues to oscillate and cannot reach zero misclassifications
+- Logistic regression shows smooth convergence in both cases
 
 ### 3D Visualization of Weight Update Process
 ![3D Weight Update](../Images/L4_5_Quiz_5/specific_example_update.png)
 
-This 3D visualization shows how the weight vector and decision boundary change after a perceptron update. For correctly classified points (as in Task 3), no update occurs. For misclassified points, the weight vector would move in the direction that pushes the decision boundary to correctly classify the point. The improved visualization uses better camera angles and clearer labels to make the 3D relationships more apparent.
+This 3D visualization shows how the weight vector and decision boundary change after a perceptron update. For correctly classified points (as in Task 3), no update occurs. For misclassified points, the weight vector would move in the direction that pushes the decision boundary to correctly classify the point. The visualization uses optimal camera angles and clear labels to make the 3D relationships more apparent.
 
 ## Key Insights
 
@@ -130,4 +161,5 @@ This 3D visualization shows how the weight vector and decision boundary change a
 - The perceptron update rule differs from logistic regression's gradient descent update by being conditional and having a fixed update magnitude that doesn't depend on prediction confidence.
 - Perceptron convergence is typically faster for linearly separable data because it makes direct, focused updates only when needed.
 - For the given example with $x = [1, 2, 1]^T$, $y = 1$, $w = [0, 1, -1]^T$, and $\eta = 0.5$, no update is needed since the point is already correctly classified.
-- The perceptron update does not guarantee a reduction in the total number of misclassifications across all data points, though it will correct the single misclassification it's updating for. 
+- The perceptron update does not guarantee a reduction in the total number of misclassifications across all data points, though it will correct the single misclassification it's updating for.
+- Our experiments with both linearly separable and non-separable data demonstrate the strengths and limitations of the perceptron algorithm compared to logistic regression in different scenarios. 
