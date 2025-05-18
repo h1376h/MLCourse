@@ -91,7 +91,6 @@ Consider the multi-class perceptron algorithm, which directly extends the binary
    - $w_3 = [0, 1]^T$
    
    which class would be predicted for a new point $x = [2, 2]^T$?
-
 4. [📚] If the true label for this point is class $1$, write the update rule for the multi-class perceptron (which weight vectors would be updated and how)
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: Multi-class Perceptron](L4_6_5_explanation.md).
