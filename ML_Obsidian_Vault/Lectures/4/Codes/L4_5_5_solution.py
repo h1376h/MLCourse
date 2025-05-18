@@ -216,10 +216,13 @@ def _draw_subplot_boundary(ax, X_features, y_data, w_model, true_w, model_name, 
     """
     ax.cla() # Clear the axis for the new frame
 
-    # Predict based on model type - both perceptron and logistic regression 
-    # use the sign of w^T*x for decision boundaries
-    Z_model = np.array([1 if np.dot(w_model, x_mp) > 0 else -1 for x_mp in mesh_points])
-    Z_model = Z_model.reshape(xx.shape)
+    # Calculate prediction for each point in the mesh using the model weights
+    # Create a prediction function
+    def predict(X, weights):
+        return np.sign(np.dot(X, weights))
+    
+    # Reshape mesh points for prediction and reshape back
+    Z_model = predict(mesh_points, w_model).reshape(xx.shape)
 
     ax.pcolormesh(xx, yy, Z_model, cmap=cmap, alpha=0.3, shading='auto')
 
@@ -227,22 +230,35 @@ def _draw_subplot_boundary(ax, X_features, y_data, w_model, true_w, model_name, 
     ax.scatter(X_features[y_data == 1, 0], X_features[y_data == 1, 1], c='blue', marker='o', s=50, edgecolor='k', label='Class +1')
     ax.scatter(X_features[y_data == -1, 0], X_features[y_data == -1, 1], c='red', marker='x', s=50, label='Class -1')
 
-    x_boundary_plot_range = np.array([x_min, x_max])
-
-    # Model boundary - determine by solving w[0] + w[1]*x1 + w[2]*x2 = 0 for x2
+    # Create a more detailed boundary for the line
+    x_boundary_plot_range = np.linspace(x_min, x_max, 100)
+    
+    # For a more accurate line display, create boundary line points from the mesh
+    # This ensures consistency between the mesh coloring and the line
+    x_line_pts = np.linspace(x_min, x_max, 100)
+    # Create a set of points very close to the boundary by finding where w[0] + w[1]*x1 + w[2]*x2 = 0
     line_color = 'b' if is_perceptron else 'r'
+    
     if abs(w_model[2]) > 1e-10:  # Check if w[2] is effectively non-zero
-        y_model = -(w_model[0] + w_model[1] * x_boundary_plot_range) / w_model[2]
-        ax.plot(x_boundary_plot_range, np.clip(y_model, y_min, y_max), color=line_color, linestyle='-', linewidth=2, label=model_name)
+        # Solve w[0] + w[1]*x1 + w[2]*x2 = 0 for x2
+        y_model = -(w_model[0] + w_model[1] * x_line_pts) / w_model[2]
+        # Only plot points within the visible range
+        valid_indices = (y_model >= y_min) & (y_model <= y_max)
+        if np.any(valid_indices):
+            ax.plot(x_line_pts[valid_indices], y_model[valid_indices], color=line_color, 
+                    linestyle='-', linewidth=2, label=model_name)
     elif abs(w_model[1]) > 1e-10:  # If w[2] is zero but w[1] is not
+        # The boundary is a vertical line where w[0] + w[1]*x1 = 0 => x1 = -w[0]/w[1]
         x_intercept_model = -w_model[0] / w_model[1]
         if x_min <= x_intercept_model <= x_max:
             ax.axvline(x=x_intercept_model, color=line_color, linestyle='-', linewidth=2, label=model_name)
 
-    # True boundary
+    # True boundary - use the same approach for consistency
     if abs(true_w[2]) > 1e-10:
-        y_true = -(true_w[0] + true_w[1] * x_boundary_plot_range) / true_w[2]
-        ax.plot(x_boundary_plot_range, np.clip(y_true, y_min, y_max), 'g--', linewidth=2, label='True Boundary')
+        y_true = -(true_w[0] + true_w[1] * x_line_pts) / true_w[2]
+        valid_indices = (y_true >= y_min) & (y_true <= y_max)
+        if np.any(valid_indices):
+            ax.plot(x_line_pts[valid_indices], y_true[valid_indices], 'g--', linewidth=2, label='True Boundary')
     elif abs(true_w[1]) > 1e-10:
         x_intercept_true = -true_w[0] / true_w[1]
         if x_min <= x_intercept_true <= x_max:
