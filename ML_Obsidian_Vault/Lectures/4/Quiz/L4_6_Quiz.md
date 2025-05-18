@@ -29,11 +29,8 @@ Consider a multi-class classification problem with 4 classes: A, B, C, and D. Yo
    - $f_D(x) = 0.8$
    
    which class would be predicted for a new data point $x$?
-
 2. [📚] Convert these scores to probabilities using the sigmoid function $\sigma(z) = \frac{1}{1 + e^{-z}}$ and verify that your prediction is the class with highest probability
-
 3. [🔍] When might the OVA approach fail to provide a clear decision for a data point? Explain in one sentence
-
 4. [🔍] How would you resolve ambiguities or conflicts in predictions from different binary classifiers in OVA? Suggest one approach
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 2: One-vs-All Strategy](L4_6_2_explanation.md).
