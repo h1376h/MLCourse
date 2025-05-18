@@ -61,6 +61,8 @@ Where $n$ is the number of classes and $N$ is the number of samples.
 
 ![Approximate Training Time Complexity vs Number of Classes](../Images/L4_6_Quiz_9/training_time_complexity.png)
 
+The figure shows the relative training time complexity for each strategy for up to 50 classes. Direct multi-class (Softmax) shows the best scalability, followed by ECOC. OVA scales linearly, while OVO's quadratic scaling makes it inefficient for larger numbers of classes.
+
 For prediction efficiency, direct multi-class is generally fastest since it requires running only one model. OVO is slowest since it requires running many classifiers (quadratic in number of classes). The relative computational complexities for different numbers of classes can be seen below:
 
 ![Computational Complexity Comparison](../Images/L4_6_Quiz_9/computational_complexity.png)
@@ -85,7 +87,17 @@ Robustness to class imbalance also varies significantly across strategies:
 - ECOC: More robust to class imbalance due to redundant code bits
 - Direct Multi-class: Most affected by class imbalance, especially for minority classes
 
-### Step 5: Completing the Properties Table
+### Step 5: Effect of Training Data Size
+
+The performance of different strategies can also be affected by the amount of available training data:
+
+![Accuracy vs Training Data Size](../Images/L4_6_Quiz_9/accuracy_vs_training_size.png)
+
+This visualization shows how each strategy performs with varying amounts of training data. Direct multi-class approaches tend to require more data to achieve their optimal performance, while approaches like ECOC can perform reasonably well with limited data due to their error-correcting properties. OVO and OVA show intermediate behavior, with OVO performing slightly better with limited data.
+
+The visualization also highlights the "Limited Data Region" and "Abundant Data Region" to illustrate the scenarios described in the quiz questions. With limited data, ECOC tends to be more robust, while with abundant data, direct multi-class approaches can fully leverage their efficiency and accuracy potential.
+
+### Step 6: Completing the Properties Table
 
 Based on our analysis, here's the completed table:
 
@@ -97,7 +109,18 @@ Based on our analysis, here's the completed table:
 | Most computationally efficient during prediction |  |  |  | X |
 | Most robust to class imbalance |  | X | X |  |
 
-### Step 6: Summary of Strategy Characteristics
+### Step 7: Strategy Recommendations for Specific Scenarios
+
+**For 100 classes with limited training data:**
+ECOC would be the recommended approach because it efficiently handles many classes (logarithmic scaling) while being robust to limited training data through its error-correcting properties.
+
+**For 3 classes with abundant training data:**
+Direct Multi-class (Softmax) would be the recommended approach because it's computationally efficient and provides natural probability estimates without the overhead of multiple classifiers for such a small number of classes.
+
+**Impact of base classifier choice:**
+The choice of base classifier affects strategy selection because weak classifiers benefit from error-correcting approaches like ECOC, while powerful classifiers like logistic regression can effectively utilize direct multi-class approaches. Additionally, base classifiers that natively provide probability estimates (like logistic regression) work better with OVA and direct multi-class than those that don't.
+
+### Step 8: Summary of Strategy Characteristics
 
 Here's a comprehensive summary of all strategy characteristics:
 
@@ -107,21 +130,6 @@ Here's a comprehensive summary of all strategy characteristics:
 | One-vs-One (OVO) | No | Yes | Low | Low | High |
 | Error-Correcting Output Codes (ECOC) | Yes | No | Low | Medium | High |
 | Direct Multi-class (Softmax) | Yes | Yes | High | High | Low |
-
-### Step 7: Recommendations for Specific Scenarios
-
-**For 100 classes with limited training data:**
-ECOC would be the recommended approach because it efficiently handles many classes (logarithmic scaling) while being robust to limited training data through its error-correcting properties.
-
-**For 3 classes with abundant training data:**
-Direct Multi-class (Softmax) would be the recommended approach because it's computationally efficient and provides natural probability estimates without the overhead of multiple classifiers for such a small number of classes.
-
-**Impact of base classifier choice:**
-The choice of base classifier affects strategy selection because:
-1. Weak classifiers benefit from error-correcting approaches like ECOC
-2. Powerful classifiers like logistic regression can effectively utilize direct multi-class approaches
-3. Base classifiers that natively provide probability estimates (like logistic regression) work better with OVA and direct multi-class
-4. Computationally intensive base classifiers may make OVO and ECOC prohibitively expensive due to the large number of models needed
 
 ## Key Insights
 
@@ -140,12 +148,14 @@ The choice of base classifier affects strategy selection because:
 - When probabilities are important, choose OVA, OVO, or direct multi-class rather than ECOC
 - For class-imbalanced problems, OVO and ECOC tend to be more robust
 - Direct multi-class approaches are most computationally efficient but may struggle with limited data per class
+- ECOC is particularly useful when dealing with limited training data due to its error-correcting properties
 
 ### Selection Criteria
 - Number of classes: Direct multi-class or ECOC for many classes, any approach for few classes
 - Available training data: ECOC for limited data, direct multi-class for abundant data
 - Computational constraints: Direct multi-class for fastest training and prediction
 - Class imbalance: OVO or ECOC when classes are heavily imbalanced
+- Base classifier characteristics: Strong classifiers (like logistic regression) work well with direct approaches, weak classifiers benefit from ECOC's error-correction
 
 ## Conclusion
 

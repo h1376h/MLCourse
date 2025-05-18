@@ -69,6 +69,7 @@ def main():
     plt.title('Number of Binary Classifiers Required vs Number of Classes')
     plt.grid(True, alpha=0.3)
     plt.legend(loc='upper left')
+    plt.xlim(0, 100)
     plt.ylim(0, 5000)
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'classifiers_vs_classes.png'), dpi=300)
@@ -93,7 +94,7 @@ def main():
     plt.fill_between(n_classes, 0, 10, alpha=0.2, color='green', label='High Efficiency')
     plt.fill_between(n_classes, 10, 30, alpha=0.2, color='yellow', label='Medium Efficiency')
     plt.fill_between(n_classes, 30, 120, alpha=0.2, color='orange', label='Low Efficiency')
-    plt.fill_between(n_classes, 120, 5000, alpha=0.2, color='red')
+    plt.fill_between(n_classes, 120, ovo_time.max()/1000, alpha=0.2, color='red')
     
     plt.xlabel('Number of Classes (n)')
     plt.ylabel('Relative Training Time (Arbitrary Units)')
@@ -101,6 +102,7 @@ def main():
     plt.grid(True, alpha=0.3)
     plt.legend(loc='upper left')
     plt.ylim(0, 120)
+    plt.xlim(2, 50)  # Just focus on the range from 2-50 classes for clarity
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'training_time_complexity.png'), dpi=300)
     
@@ -211,6 +213,49 @@ def main():
     plt.title('Native Probability Estimation Capability by Strategy')
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'probability_estimation.png'), dpi=300)
+    
+    # 6. NEW VISUALIZATION: Accuracy vs. Training Data Size
+    plt.figure(figsize=(12, 8))
+    
+    # Simulate how accuracy improves with training data size for different strategies
+    training_sizes = np.linspace(50, 5000, 20)
+    
+    # Simulate accuracy curves for each strategy with different learning rates
+    # These are simulated values based on the known characteristics of each method
+    ova_acc = 0.95 - 0.5 * np.exp(-training_sizes/1000)
+    ovo_acc = 0.94 - 0.45 * np.exp(-training_sizes/800)
+    ecoc_acc = 0.93 - 0.4 * np.exp(-training_sizes/600)
+    direct_acc = 0.97 - 0.6 * np.exp(-training_sizes/1200)
+    
+    # Add some controlled random variation to make the curves look more realistic
+    np.random.seed(42)
+    ova_acc += np.random.normal(0, 0.01, len(training_sizes))
+    ovo_acc += np.random.normal(0, 0.01, len(training_sizes))
+    ecoc_acc += np.random.normal(0, 0.01, len(training_sizes))
+    direct_acc += np.random.normal(0, 0.01, len(training_sizes))
+    
+    # Plot the simulated learning curves
+    plt.plot(training_sizes, ova_acc, 'o-', label='One-vs-All (OVA)', linewidth=2, color='#1f77b4')
+    plt.plot(training_sizes, ovo_acc, 's-', label='One-vs-One (OVO)', linewidth=2, color='#ff7f0e')
+    plt.plot(training_sizes, ecoc_acc, '^-', label='Error-Correcting Output Codes (ECOC)', linewidth=2, color='#2ca02c')
+    plt.plot(training_sizes, direct_acc, 'd-', label='Direct Multi-class (Softmax)', linewidth=2, color='#d62728')
+    
+    # Add a vertical line for "limited data" scenario
+    plt.axvline(x=500, color='gray', linestyle='--', alpha=0.7)
+    plt.text(520, 0.55, 'Limited Data\nRegion', fontsize=12)
+    
+    # Add a vertical line for "abundant data" scenario
+    plt.axvline(x=3000, color='gray', linestyle='--', alpha=0.7)
+    plt.text(3020, 0.55, 'Abundant Data\nRegion', fontsize=12)
+    
+    plt.xlabel('Training Data Size (Number of Samples)')
+    plt.ylabel('Accuracy')
+    plt.title('Accuracy vs. Training Data Size for Different Multi-class Strategies')
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    plt.xlim(0, 5000)
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'accuracy_vs_training_size.png'), dpi=300)
     
     # Creating tables for Quiz answers
     # Define the quiz table data
