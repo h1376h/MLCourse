@@ -5,6 +5,7 @@ from sklearn.datasets import make_classification
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 import time
+from matplotlib import cm
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -39,6 +40,87 @@ def binary_cross_entropy(y_true, y_pred):
     epsilon = 1e-15  # Small constant to avoid log(0)
     y_pred = np.clip(y_pred, epsilon, 1 - epsilon)  # Clip to avoid numerical issues
     return -np.mean(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
+
+# Function to create learning dynamics visualization
+def create_learning_dynamics(filename="learning_dynamics.png"):
+    """Create a visualization showing how batch and online learning traverse the loss landscape."""
+    # Create a toy 2D problem for visualization
+    np.random.seed(42)
+    n = 100
+    X = np.random.randn(n, 2)
+    w_true = np.array([2.0, -1.0])
+    z = np.dot(X, w_true)
+    y = (sigmoid(z) > 0.5).astype(int)
+    
+    # Define the grid for contour plot
+    w1 = np.linspace(-4, 4, 100)
+    w2 = np.linspace(-4, 4, 100)
+    W1, W2 = np.meshgrid(w1, w2)
+    Z = np.zeros(W1.shape)
+    
+    # Compute loss values for each point in the grid
+    for i in range(W1.shape[0]):
+        for j in range(W1.shape[1]):
+            w = np.array([W1[i,j], W2[i,j]])
+            y_pred = sigmoid(np.dot(X, w))
+            Z[i,j] = binary_cross_entropy(y, y_pred)
+    
+    # Run batch gradient descent and store path
+    batch_w = np.array([-3.0, 3.0])  # Starting point
+    batch_path = [batch_w.copy()]
+    learning_rate = 0.1
+    
+    for _ in range(50):
+        y_pred = sigmoid(np.dot(X, batch_w))
+        gradient = (1/n) * np.dot(X.T, (y_pred - y))
+        batch_w = batch_w - learning_rate * gradient
+        batch_path.append(batch_w.copy())
+    
+    # Run stochastic gradient descent and store path
+    np.random.seed(42)
+    sgd_w = np.array([-3.0, 3.0])  # Same starting point
+    sgd_path = [sgd_w.copy()]
+    sgd_lr = 0.02  # Smaller learning rate for stability
+    
+    for epoch in range(3):
+        indices = np.random.permutation(n)
+        for i in indices:
+            xi = X[i:i+1]
+            yi = np.array([y[i]])
+            y_pred = sigmoid(np.dot(xi, sgd_w))
+            gradient = np.dot(xi.T, (y_pred - yi))
+            sgd_w = sgd_w - sgd_lr * gradient
+            sgd_path.append(sgd_w.copy())
+    
+    # Convert paths to arrays for easier plotting
+    batch_path = np.array(batch_path)
+    sgd_path = np.array(sgd_path)
+    
+    # Create the visualization
+    fig, ax = plt.subplots(figsize=(12, 10))
+    
+    # Plot the contour
+    contour = ax.contour(W1, W2, Z, levels=20, cmap='viridis', alpha=0.7)
+    plt.colorbar(contour, ax=ax, label='Loss')
+    
+    # Plot the paths
+    ax.plot(batch_path[:,0], batch_path[:,1], 'b.-', linewidth=2, markersize=8, label='Batch Learning Path')
+    ax.plot(sgd_path[:,0], sgd_path[:,1], 'r.-', linewidth=1, markersize=4, alpha=0.7, label='Online Learning Path')
+    
+    # Mark the starting and ending points
+    ax.plot(batch_path[0,0], batch_path[0,1], 'ko', markersize=10, label='Starting Point')
+    ax.plot(batch_path[-1,0], batch_path[-1,1], 'go', markersize=10, label='Batch End Point')
+    ax.plot(sgd_path[-1,0], sgd_path[-1,1], 'mo', markersize=10, label='Online End Point')
+    ax.plot(w_true[0], w_true[1], 'y*', markersize=15, label='True Parameters')
+    
+    ax.set_xlabel('Weight 1', fontsize=14)
+    ax.set_ylabel('Weight 2', fontsize=14)
+    ax.set_title('Optimization Paths in Loss Landscape', fontsize=16)
+    ax.legend(fontsize=12)
+    ax.grid(True)
+    
+    plt.savefig(os.path.join(save_dir, filename), dpi=300, bbox_inches='tight')
+    plt.close()
 
 # Batch Learning - Logistic Regression with Gradient Descent
 class BatchLogisticRegression:
@@ -450,6 +532,10 @@ def main():
     print("\nGenerating dataset...")
     X, y = generate_data(n_samples=1000, noise=0.1)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    # Create learning dynamics visualization
+    print("\nCreating learning dynamics visualization...")
+    create_learning_dynamics()
     
     # Train batch model
     print("\nTraining batch logistic regression model...")
