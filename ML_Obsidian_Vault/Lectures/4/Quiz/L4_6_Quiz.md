@@ -70,10 +70,10 @@ Consider a $4$-class classification problem using Error-Correcting Output Codes 
 | D     | -1    | -1    | +1    | -1    | +1    |
 
 #### Task
-1. [📚] How many binary classifiers need to be trained for this ECOC scheme?
-2. [📚] For a new data point, the binary classifiers output: $[+1, +1, -1, +1, -1]$. Calculate the Hamming distance between this output and each class codeword
-3. [📚] Based on the Hamming distances, which class would be predicted for this data point?
-4. [🔍] How does ECOC provide error correction capability? Explain in 1-2 sentences
+1. How many binary classifiers need to be trained for this ECOC scheme?
+2. For a new data point, the binary classifiers output: $[+1, +1, -1, +1, -1]$. Calculate the Hamming distance between this output and each class codeword
+3. Based on the Hamming distances, which class would be predicted for this data point?
+4. How does ECOC provide error correction capability? Explain in 1-2 sentences
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: Error-Correcting Output Codes](L4_6_4_explanation.md).
 
