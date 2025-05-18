@@ -132,7 +132,7 @@ $$\Sigma_0 = \Sigma_1 = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Gaussian Mixtures with Shifted Means](L4_3_8_explanation.md).
 
-## Question 9
+## [📕] Question 9
 
 ### Problem Statement
 Consider a three-class classification problem with equal priors $P(y=0) = P(y=1) = P(y=2) = \frac{1}{3}$ and Gaussian class-conditional densities with parameters:
