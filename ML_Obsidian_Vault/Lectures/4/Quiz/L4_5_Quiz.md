@@ -46,7 +46,7 @@ Consider training a linear classifier on a dataset with 10,000 examples using di
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 3: Optimization Methods Comparison](L4_5_3_explanation.md).
 
-## [⭐] Question 4
+## Question 4
 
 ### Problem Statement
 Consider the following dataset for binary classification:
