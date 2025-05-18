@@ -95,10 +95,10 @@ $$p(x|y=1) = \mathcal{N}(x|\mu_1, \Sigma)$$
 Assume equal prior probabilities: $P(y=0) = P(y=1) = 0.5$.
 
 #### Task
-1. Derive the form of the posterior probability $P(y=1|x)$
-2. Show that this posterior probability has the same form as a linear classifier with a sigmoid function
-3. Express the weights of the equivalent linear classifier in terms of $\mu_0$, $\mu_1$, and $\Sigma$
-4. What happens to the decision boundary if $\mu_0 = [1, 1]^T$, $\mu_1 = [3, 3]^T$, and $\Sigma = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$?
+1. [📚] Derive the form of the posterior probability $P(y=1|x)$
+2. [🔍] Show that this posterior probability has the same form as a linear classifier with a sigmoid function
+3. [📚] Express the weights of the equivalent linear classifier in terms of $\mu_0$, $\mu_1$, and $\Sigma$
+4. [📚] What happens to the decision boundary if $\mu_0 = [1, 1]^T$, $\mu_1 = [3, 3]^T$, and $\Sigma = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 6: Gaussian Generative Models](L4_3_6_explanation.md).
 
@@ -125,10 +125,10 @@ $$\mu_0 = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \mu_1 = \begin{bmatrix} 2 \\ 2 \
 $$\Sigma_0 = \Sigma_1 = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$
 
 #### Task
-1. Draw the contours of the level sets for both classes
-2. Derive and sketch the decision boundary 
-3. How does the unequal prior shift the boundary compared to the case where priors are equal?
-4. If a new data point is located at $(1, 1)$, which class would it be assigned to?
+1. [📚] Draw the contours of the level sets for both classes
+2. [📚] Derive and sketch the decision boundary 
+3. [📚] How does the unequal prior shift the boundary compared to the case where priors are equal?
+4. [📚] If a new data point is located at $(1, 1)$, which class would it be assigned to?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Gaussian Mixtures with Shifted Means](L4_3_8_explanation.md).
 
