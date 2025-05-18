@@ -42,10 +42,10 @@ Consider a binary classification problem with two features $x_1$ and $x_2$. You'
 $$P(y=1|x) = \frac{1}{1 + \exp(-w_0 - w_1x_1 - w_2x_2)}$$
 
 #### Task
-1. If $w_0 = -3$, $w_1 = 2$, and $w_2 = -1$, write the equation of the decision boundary where $P(y=1|x) = P(y=0|x) = 0.5$
-2. Sketch this decision boundary in the $(x_1, x_2)$ plane
-3. For a point $(x_1, x_2) = (2, 1)$, determine which class it belongs to and calculate the posterior probability
-4. If we change the threshold from 0.5 to 0.7 (i.e., predict class 1 if $P(y=1|x) > 0.7$), how would the decision boundary change?
+1. [📚] If $w_0 = -3$, $w_1 = 2$, and $w_2 = -1$, write the equation of the decision boundary where $P(y=1|x) = P(y=0|x) = 0.5$
+2. [📚] Sketch this decision boundary in the $(x_1, x_2)$ plane
+3. [📚] For a point $(x_1, x_2) = (2, 1)$, determine which class it belongs to and calculate the posterior probability
+4. [📚] If we change the threshold from 0.5 to 0.7 (i.e., predict class 1 if $P(y=1|x) > 0.7$), how would the decision boundary change?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 3: Decision Boundaries in Probabilistic Classification](L4_3_3_explanation.md).
 
