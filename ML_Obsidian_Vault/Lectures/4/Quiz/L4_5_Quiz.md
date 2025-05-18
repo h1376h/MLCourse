@@ -12,7 +12,7 @@ Compare and contrast batch learning and online learning approaches for optimizin
 1. [🔍] Define batch learning and online learning in one sentence each
 2. [🔍] List two advantages of online learning over batch learning
 3. [🔍] List two advantages of batch learning over online learning
-4. [🔍] Name one algorithm that is inherently online and one that is inherently batch
+4. Name one algorithm that is inherently online and one that is inherently batch
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: Batch vs Online Learning](L4_5_1_explanation.md).
 
