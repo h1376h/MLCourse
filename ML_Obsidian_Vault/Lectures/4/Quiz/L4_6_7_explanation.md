@@ -105,16 +105,25 @@ When there are only two classes (K=2), the multi-class cross-entropy reduces to 
 
 The visualization demonstrates how multi-class classification with K=3 classes (left) and binary classification with K=2 classes (right) both use cross-entropy loss. In the binary case, the loss calculation simplifies because we only need a single probability value, as the other class's probability is its complement.
 
-![Formula Reduction](../Images/L4_6_Quiz_7/task4_formula_reduction.png)
-
 Mathematically, for K=2, we can rewrite the general multi-class formula:
 
-1. Start with the multi-class formula: $L(w) = -\sum_{i=1}^{n} \sum_{k=1}^{K} y_{ik} \log(p_{ik})$
-2. For K=2, this becomes: $L(w) = -\sum_{i=1}^{n} [y_{i1} \log(p_{i1}) + y_{i2} \log(p_{i2})]$
-3. Using the binary notation $y_{i1} = 1-y_i$, $y_{i2} = y_i$, $p_{i1} = 1-p_i$, $p_{i2} = p_i$:
-4. We get: $L(w) = -\sum_{i=1}^{n} [(1-y_i) \log(1-p_i) + y_i \log(p_i)]$
+1. Start with the multi-class formula:
+   $$L(w) = -\sum_{i=1}^{n} \sum_{k=1}^{K} y_{ik} \log(p_{ik})$$
 
-This is the standard binary cross-entropy loss formula used in logistic regression.
+2. For K=2, this becomes:
+   $$L(w) = -\sum_{i=1}^{n} [y_{i1} \log(p_{i1}) + y_{i2} \log(p_{i2})]$$
+
+3. Using the binary notation where:
+   * $y_{i1} = 1-y_i$ (probability of class 1)
+   * $y_{i2} = y_i$ (probability of class 2)
+   * $p_{i1} = 1-p_i$ (predicted probability of class 1) 
+   * $p_{i2} = p_i$ (predicted probability of class 2)
+
+4. We get:
+   $$L(w) = -\sum_{i=1}^{n} [(1-y_i) \log(1-p_i) + y_i \log(p_i)]$$
+
+This is the standard binary cross-entropy loss formula used in logistic regression. For a single example, it simplifies to:
+$$L(w) = -(1-y)\log(1-p) - y\log(p)$$
 
 ## Visual Explanations
 
@@ -142,11 +151,6 @@ This detailed comparison shows both the loss functions (left) and their gradient
 ![Multi-class to Binary Cross-Entropy Reduction](../Images/L4_6_Quiz_7/task4_mc_to_binary_reduction.png)
 
 This visualization compares multi-class cross-entropy (K=3) and binary cross-entropy (K=2), showing how both use the same fundamental principle but with different dimensionality. In the binary case (right), we only need to represent one probability since the other is its complement.
-
-### Formula Reduction
-![Formula Reduction](../Images/L4_6_Quiz_7/task4_formula_reduction.png)
-
-This mathematical derivation shows step-by-step how the multi-class cross-entropy formula reduces to the binary cross-entropy formula when K=2, using the constraint that probabilities must sum to 1.
 
 ## Key Insights
 

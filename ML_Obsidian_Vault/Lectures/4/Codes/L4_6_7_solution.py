@@ -273,28 +273,24 @@ plt.suptitle('Multi-class to Binary Cross-Entropy Reduction')
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'task4_mc_to_binary_reduction.png'), dpi=300, bbox_inches='tight')
 
-# Create another visualization focusing on the formula reduction
-plt.figure(figsize=(12, 6))
-
-# Create a visual showing the mathematical transformation
-plt.text(0.5, 0.9, 'Multi-class Cross-Entropy: $L(w) = -\\sum_{i=1}^{n} \\sum_{k=1}^{K} y_{ik} \\log(p_{ik})$',
-         ha='center', fontsize=14, transform=plt.gca().transAxes)
-
-plt.text(0.5, 0.7, 'For $K=2$ classes with $y_{i1} = 1-y_{i2}$, $p_{i1} = 1-p_{i2}$:',
-         ha='center', fontsize=14, transform=plt.gca().transAxes)
-
-plt.text(0.5, 0.5, '$L(w) = -\\sum_{i=1}^{n} [y_{i1} \\log(p_{i1}) + y_{i2} \\log(p_{i2})]$',
-         ha='center', fontsize=14, transform=plt.gca().transAxes)
-
-plt.text(0.5, 0.3, 'Substituting: $y_{i1} = 1-y_i$, $y_{i2} = y_i$, $p_{i1} = 1-p_i$, $p_{i2} = p_i$:',
-         ha='center', fontsize=14, transform=plt.gca().transAxes)
-
-plt.text(0.5, 0.1, '$L(w) = -\\sum_{i=1}^{n} [(1-y_i) \\log(1-p_i) + y_i \\log(p_i)]$',
-         ha='center', fontsize=14, transform=plt.gca().transAxes)
-
-plt.axis('off')
-plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'task4_formula_reduction.png'), dpi=300, bbox_inches='tight')
+# Instead of creating an image, print the mathematical transformation
+print("Step-by-step reduction of multi-class cross-entropy to binary cross-entropy:")
+print("1. Multi-class formula: L(w) = -∑ᵢ∑ₖ yᵢₖ log(pᵢₖ)")
+print()
+print("2. For K=2 classes, this becomes:")
+print("   L(w) = -∑ᵢ [yᵢ₁ log(pᵢ₁) + yᵢ₂ log(pᵢ₂)]")
+print()
+print("3. For binary classification with K=2 classes:")
+print("   • yᵢ₁ = 1-yᵢ (probability of class 1)")
+print("   • yᵢ₂ = yᵢ (probability of class 2)")
+print("   • pᵢ₁ = 1-pᵢ (predicted probability of class 1)")
+print("   • pᵢ₂ = pᵢ (predicted probability of class 2)")
+print()
+print("4. Substituting these values:")
+print("   L(w) = -∑ᵢ [(1-yᵢ)log(1-pᵢ) + yᵢlog(pᵢ)]")
+print()
+print("This is the standard binary cross-entropy formula used in logistic regression")
+print("For a single example, we have L(w) = -(1-y)log(1-p) - ylog(p)")
 
 print("Multi-class cross-entropy reduction to binary cross-entropy:")
 print("For a multi-class problem with K=2 classes:")
