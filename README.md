@@ -54,8 +54,8 @@ textblob>=0.19.0
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/ML.git
-   cd ML
+   git clone https://github.com/h1376h/MLCourse.git
+   cd MLCourse
    ```
 
 2. Create and activate a virtual environment:

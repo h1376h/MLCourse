@@ -89,19 +89,19 @@
   - ⭐ Quiz: [[L4_1_Quiz]]
   - 📚 Examples: Coming Soon
 - 4.2: The Perceptron Algorithm
-  - ⭐ Quiz: L4_2_Quiz
+  - ⭐ Quiz: [[L4_2_Quiz]]
   - 📚 Examples: Coming Soon
 - 4.3: Probabilistic Linear Classifiers
-  - ⭐ Quiz: L4_3_Quiz
+  - ⭐ Quiz: [[L4_3_Quiz]]
   - 📚 Examples: Coming Soon
 - 4.4: Linear Separability and Loss Functions
   - ⭐ Quiz: [[L4_4_Quiz]]
   - 📚 Examples: Coming Soon
 - 4.5: Optimization for Linear Classifiers
-  - ⭐ Quiz: L4_5_Quiz
+  - ⭐ Quiz: [[L4_5_Quiz]]
   - 📚 Examples: Coming Soon
 - 4.6: Multi-class Classification Strategies
-  - ⭐ Quiz: L4_6_Quiz
+  - ⭐ Quiz: [[L4_6_Quiz]]
   - 📚 Examples: Coming Soon
 - 4.7: Advanced Linear Classifiers and Applications
   - ⭐ Quiz: L4_7_Quiz
