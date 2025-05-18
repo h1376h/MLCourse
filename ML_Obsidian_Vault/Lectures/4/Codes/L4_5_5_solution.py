@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import os
 from matplotlib.colors import ListedColormap
 from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.animation import FuncAnimation
+from PIL import Image
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -76,9 +78,9 @@ def generate_linearly_separable_data(n_samples=100, noise=0.1):
     
     return X_with_bias, y, true_w
 
-def train_models_and_compare(X, y, n_epochs=50):
+def train_models_and_compare(X, y, n_epochs=100):
     """
-    Train perceptron and logistic regression models, track convergence
+    Train perceptron and logistic regression models, track convergence and weights
     """
     n_samples = X.shape[0]
     n_features = X.shape[1]
@@ -93,6 +95,10 @@ def train_models_and_compare(X, y, n_epochs=50):
     # Track misclassifications and loss
     perceptron_errors = []
     logistic_loss = []
+    
+    # Store weights at each epoch
+    perceptron_weights = [w_perceptron.copy()]
+    logistic_weights = [w_logistic.copy()]
     
     # Convert y for logistic regression
     y_binary = (y + 1) / 2
@@ -124,103 +130,130 @@ def train_models_and_compare(X, y, n_epochs=50):
         
         perceptron_errors.append(perceptron_epoch_errors)
         logistic_loss.append(logistic_epoch_loss / n_samples)
+        
+        # Save weights at this epoch
+        perceptron_weights.append(w_perceptron.copy())
+        logistic_weights.append(w_logistic.copy())
     
-    return w_perceptron, w_logistic, perceptron_errors, logistic_loss
+    return w_perceptron, w_logistic, perceptron_errors, logistic_loss, perceptron_weights, logistic_weights
 
-def plot_decision_boundaries(X, y, w_perceptron, w_logistic, true_w, iteration):
+def _draw_subplot_boundary(ax, X_features, y_data, w_model, true_w, model_name, cmap, xx, yy, mesh_points, x_min, x_max, y_min, y_max, epoch_num, is_perceptron):
     """
-    Plot decision boundaries for perceptron and logistic regression
+    Helper function to draw one subplot for decision boundary visualization.
     """
-    # Extract features (without bias)
+    ax.cla() # Clear the axis for the new frame
+
+    # Predict based on model type
+    if is_perceptron:
+        Z_model = np.array([np.sign(np.dot(w_model, x_mp)) for x_mp in mesh_points])
+    else: # Logistic Regression (decision based on sign of w^T*x for boundary)
+        Z_model = np.array([1 if np.dot(w_model, x_mp) > 0 else -1 for x_mp in mesh_points])
+    Z_model = Z_model.reshape(xx.shape)
+
+    ax.pcolormesh(xx, yy, Z_model, cmap=cmap, alpha=0.3, shading='auto')
+
+    # Plot data points
+    ax.scatter(X_features[y_data == 1, 0], X_features[y_data == 1, 1], c='blue', marker='o', s=50, edgecolor='k', label='Class +1')
+    ax.scatter(X_features[y_data == -1, 0], X_features[y_data == -1, 1], c='red', marker='x', s=50, label='Class -1')
+
+    x_boundary_plot_range = np.array([x_min, x_max])
+
+    # Model boundary
+    line_color = 'b' if is_perceptron else 'r'
+    if w_model[2] != 0:
+        y_model = -(w_model[0] + w_model[1] * x_boundary_plot_range) / w_model[2]
+        ax.plot(x_boundary_plot_range, np.clip(y_model, y_min, y_max), color=line_color, linestyle='-', linewidth=2, label=model_name)
+    elif w_model[1] != 0:
+        x_intercept_model = -w_model[0] / w_model[1]
+        if x_min <= x_intercept_model <= x_max:
+            ax.axvline(x=x_intercept_model, color=line_color, linestyle='-', linewidth=2, label=model_name)
+
+    # True boundary
+    if true_w[2] != 0:
+        y_true = -(true_w[0] + true_w[1] * x_boundary_plot_range) / true_w[2]
+        ax.plot(x_boundary_plot_range, np.clip(y_true, y_min, y_max), 'g--', linewidth=2, label='True Boundary')
+    elif true_w[1] != 0:
+        x_intercept_true = -true_w[0] / true_w[1]
+        if x_min <= x_intercept_true <= x_max:
+            ax.axvline(x=x_intercept_true, color='g', linestyle='--', linewidth=2, label='True Boundary')
+
+    ax.set_title(f'{model_name} (Epoch {epoch_num})')
+    ax.set_xlabel('Feature 1')
+    ax.set_ylabel('Feature 2')
+    ax.set_xlim(x_min, x_max)
+    ax.set_ylim(y_min, y_max)
+    ax.legend(loc='upper left')
+
+
+def plot_decision_boundaries(X, y, w_perceptron, w_logistic, true_w, iteration, static_image_dir=None):
+    """
+    Plot and save a static image of decision boundaries for a specific iteration.
+    """
     X_features = X[:, 1:]
-    
-    # Create mesh grid with more extended range to ensure full coverage
-    h = 0.02  # Step size
-    x_min, x_max = X_features[:, 0].min() - 2, X_features[:, 0].max() + 2
-    y_min, y_max = X_features[:, 1].min() - 2, X_features[:, 1].max() + 2
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h),
-                         np.arange(y_min, y_max, h))
-    
-    # Plot figure
-    plt.figure(figsize=(12, 5))
-    
-    # Define colormap - using ListedColormap ensures exactly two colors
-    cmap = ListedColormap(['#FFAAAA', '#AAAAFF'])
-    
-    # Plot perceptron decision boundary
-    plt.subplot(1, 2, 1)
-    
-    # Add bias term to mesh grid
+    h = 0.02
+    x_min, x_max = X_features[:, 0].min() - 1, X_features[:, 0].max() + 1 # Adjusted margin slightly
+    y_min, y_max = X_features[:, 1].min() - 1, X_features[:, 1].max() + 1 # Adjusted margin slightly
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
     mesh_points = np.c_[np.ones(xx.ravel().shape), xx.ravel(), yy.ravel()]
-    
-    # Predict using perceptron
-    Z_perceptron = np.array([np.sign(np.dot(w_perceptron, x)) for x in mesh_points])
-    Z_perceptron = Z_perceptron.reshape(xx.shape)
-    
-    # Using pcolormesh for consistent coloring across the entire plot
-    # Swap color order to ensure consistent coloring with decision boundary
-    plt.pcolormesh(xx, yy, Z_perceptron, cmap=cmap, alpha=0.3, shading='auto')
-    
-    # Plot data points
-    plt.scatter(X_features[y == 1, 0], X_features[y == 1, 1], c='blue', marker='o', s=50, edgecolor='k', label='Class +1')
-    plt.scatter(X_features[y == -1, 0], X_features[y == -1, 1], c='red', marker='x', s=50, label='Class -1')
-    
-    # Plot the true and learned decision boundaries
-    x_boundary = np.array([x_min, x_max])
-    
-    # Perceptron boundary: w[0] + w[1]*x + w[2]*y = 0 -> y = -(w[0] + w[1]*x) / w[2]
-    if w_perceptron[2] != 0:  # Check to avoid division by zero
-        y_perceptron = -(w_perceptron[0] + w_perceptron[1] * x_boundary) / w_perceptron[2]
-        y_perceptron = np.clip(y_perceptron, y_min, y_max)  # Clip to visible area
-        plt.plot(x_boundary, y_perceptron, 'b-', linewidth=2, label='Perceptron')
-    
-    # True boundary
-    if true_w[2] != 0:
-        y_true = -(true_w[0] + true_w[1] * x_boundary) / true_w[2]
-        y_true = np.clip(y_true, y_min, y_max)  # Clip to visible area
-        plt.plot(x_boundary, y_true, 'g--', linewidth=2, label='True Boundary')
-    
-    plt.title(f'Perceptron Decision Boundary (Epoch {iteration})')
-    plt.xlabel('Feature 1')
-    plt.ylabel('Feature 2')
-    plt.xlim(x_min, x_max)
-    plt.ylim(y_min, y_max)
-    plt.legend(loc='upper left')
-    
-    # Plot logistic regression decision boundary
-    plt.subplot(1, 2, 2)
-    
-    # Predict using logistic regression
-    Z_logistic = np.array([1 if np.dot(w_logistic, x) > 0 else -1 for x in mesh_points])
-    Z_logistic = Z_logistic.reshape(xx.shape)
-    
-    # Using pcolormesh for consistent coloring across the entire plot
-    plt.pcolormesh(xx, yy, Z_logistic, cmap=cmap, alpha=0.3, shading='auto')
-    
-    # Plot data points
-    plt.scatter(X_features[y == 1, 0], X_features[y == 1, 1], c='blue', marker='o', s=50, edgecolor='k', label='Class +1')
-    plt.scatter(X_features[y == -1, 0], X_features[y == -1, 1], c='red', marker='x', s=50, label='Class -1')
-    
-    # Logistic regression boundary
-    if w_logistic[2] != 0:
-        y_logistic = -(w_logistic[0] + w_logistic[1] * x_boundary) / w_logistic[2]
-        y_logistic = np.clip(y_logistic, y_min, y_max)  # Clip to visible area
-        plt.plot(x_boundary, y_logistic, 'r-', linewidth=2, label='Logistic Regression')
-    
-    # True boundary
-    if true_w[2] != 0:
-        plt.plot(x_boundary, y_true, 'g--', linewidth=2, label='True Boundary')
-    
-    plt.title(f'Logistic Regression Decision Boundary (Epoch {iteration})')
-    plt.xlabel('Feature 1')
-    plt.ylabel('Feature 2')
-    plt.xlim(x_min, x_max)
-    plt.ylim(y_min, y_max)
-    plt.legend(loc='upper left')
+    cmap = ListedColormap(['#FFAAAA', '#AAAAFF'])
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+    _draw_subplot_boundary(ax1, X_features, y, w_perceptron, true_w, "Perceptron", cmap, xx, yy, mesh_points, x_min, x_max, y_min, y_max, iteration, is_perceptron=True)
+    _draw_subplot_boundary(ax2, X_features, y, w_logistic, true_w, "Logistic Regression", cmap, xx, yy, mesh_points, x_min, x_max, y_min, y_max, iteration, is_perceptron=False)
     
     plt.tight_layout()
-    plt.savefig(os.path.join(save_dir, f'decision_boundaries_epoch_{iteration}.png'), dpi=300)
-    plt.close()
+    
+    if static_image_dir:
+        os.makedirs(static_image_dir, exist_ok=True)
+        plt.savefig(os.path.join(static_image_dir, f'decision_boundaries_epoch_{iteration}.png'), dpi=300)
+    
+    plt.close(fig)
+
+
+def animate_decision_boundaries_funcanimation(X, y_data, perceptron_weights_history, logistic_weights_history, true_w, filename="boundary_evolution.gif"):
+    """
+    Create GIF showing the evolution of decision boundaries using FuncAnimation.
+    """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+    X_features = X[:, 1:]
+    h = 0.02
+    x_min, x_max = X_features[:, 0].min() - 1, X_features[:, 0].max() + 1 # Adjusted margin slightly
+    y_min, y_max = X_features[:, 1].min() - 1, X_features[:, 1].max() + 1 # Adjusted margin slightly
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
+    mesh_points = np.c_[np.ones(xx.ravel().shape), xx.ravel(), yy.ravel()]
+    cmap = ListedColormap(['#FFAAAA', '#AAAAFF'])
+
+    num_frames = len(perceptron_weights_history)
+
+    def update(frame_num):
+        w_p = perceptron_weights_history[frame_num]
+        w_l = logistic_weights_history[frame_num]
+        
+        # Determine epoch number for display (frame 0 is initial state)
+        epoch_display_num = frame_num 
+        
+        _draw_subplot_boundary(ax1, X_features, y_data, w_p, true_w, "Perceptron", cmap, xx, yy, mesh_points, x_min, x_max, y_min, y_max, epoch_display_num, is_perceptron=True)
+        _draw_subplot_boundary(ax2, X_features, y_data, w_l, true_w, "Logistic Regression", cmap, xx, yy, mesh_points, x_min, x_max, y_min, y_max, epoch_display_num, is_perceptron=False)
+        
+        fig.tight_layout() # Ensure layout is good for each frame
+        print(f"Processing frame {frame_num + 1}/{num_frames} for GIF")
+        return fig, # FuncAnimation expects an iterable of artists
+
+    ani = FuncAnimation(fig, update, frames=num_frames, interval=200, blit=False) # interval in ms
+
+    gif_path = os.path.join(save_dir, filename)
+    print(f"Saving animation to {gif_path}...")
+    try:
+        ani.save(gif_path, writer='pillow', fps=5) # Using pillow as a common GIF writer
+        print(f"GIF saved successfully to: {gif_path}")
+    except Exception as e:
+        print(f"Error saving GIF: {e}")
+        print("Make sure you have a GIF writer like 'pillow' installed (pip install pillow).")
+        print("Alternatively, 'imagemagick' can be used if installed and configured.")
+    
+    plt.close(fig)
 
 def plot_convergence(perceptron_errors, logistic_loss):
     """
@@ -543,39 +576,34 @@ def visualize_update_non_reduction():
     plt.savefig(os.path.join(save_dir, 'non_reduction_example.png'), dpi=300)
     plt.close()
 
+# Main execution block
 def main():
-    """Main execution function"""
-    print("Running Task 1: Compare perceptron update rule with gradient descent for logistic regression")
-    print("\nTheoretically, the perceptron update rule is:")
-    print("w_{t+1} = w_t + η*y*x  (if y*w^T*x ≤ 0)")
-    print("\nWhile the gradient descent update for logistic regression is:")
-    print("w_{t+1} = w_t + η*(y - sigmoid(w^T*x))*x")
+    # Generate data
+    X_data, y_data, true_weights_actual = generate_linearly_separable_data(n_samples=100, noise=0.1)
     
-    print("\n----------------------------------------------------------------")
-    print("Running Task 2: Visualize why perceptron might converge faster for linearly separable data")
-    np.random.seed(42)
-    X, y, true_w = generate_linearly_separable_data(n_samples=100, noise=0.01)
-    w_perceptron, w_logistic, perceptron_errors, logistic_loss = train_models_and_compare(X, y, n_epochs=20)
+    # Train models
+    num_epochs_training = 50 # Example: number of epochs
+    final_w_p, final_w_l, errors_p, loss_l, history_p_w, history_l_w = \
+        train_models_and_compare(X_data, y_data, n_epochs=num_epochs_training)
     
-    # Plot decision boundaries at different iterations
-    for i in [0, 1, 5, 19]:
-        # Train models up to iteration i
-        w_p_i, w_l_i, _, _ = train_models_and_compare(X, y, n_epochs=i+1)
-        plot_decision_boundaries(X, y, w_p_i, w_l_i, true_w, i)
+    # Plot convergence
+    plot_convergence(errors_p, loss_l)
     
-    # Plot convergence comparison
-    plot_convergence(perceptron_errors, logistic_loss)
+    # Plot final decision boundaries (static image)
+    # Ensure plot_decision_boundaries is defined and correctly uses _draw_subplot_boundary
+    plot_decision_boundaries(X_data, y_data, final_w_p, final_w_l, true_weights_actual, num_epochs_training, static_image_dir=save_dir)
     
-    print("\n----------------------------------------------------------------")
-    print("Running Task 3: Calculate updated weights for a specific example")
+    # Create GIF of boundary evolution using FuncAnimation
+    # This is the corrected call, replacing create_boundary_evolution_gif
+    animate_decision_boundaries_funcanimation(X_data, y_data, history_p_w, history_l_w, true_weights_actual, filename="boundary_evolution_animated.gif")
+    
+    # Visualize specific example for Task 3
     visualize_specific_example()
-    
-    print("\n----------------------------------------------------------------")
-    print("Running Task 4: Whether the update always reduces the number of misclassified points")
-    visualize_update_non_reduction()
-    
-    print("\n----------------------------------------------------------------")
-    print("All visualizations saved to:", save_dir)
 
-if __name__ == "__main__":
-    main() 
+    # Visualize non-reduction case for Task 4
+    visualize_update_non_reduction()
+
+    print(f"All visualizations saved in: {save_dir}")
+
+if __name__ == '__main__':
+    main() # Corrected the call within main

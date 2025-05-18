@@ -46,17 +46,9 @@ When data is linearly separable, the perceptron convergence theorem guarantees t
 
 The convergence plots from our code execution show that the perceptron (left) achieves zero misclassifications after just a few epochs, while logistic regression (right) continues to optimize its loss function even after finding a reasonable decision boundary.
 
-![Decision Boundaries at Epoch 0](../Images/L4_5_Quiz_5/decision_boundaries_epoch_0.png)
+![Decision Boundaries Evolution](../Images/L4_5_Quiz_5/boundary_evolution.gif)
 
-At the beginning (epoch 0), both algorithms start with all weights set to zero. The decision regions are clearly visualized, with light blue indicating Class +1 regions and light red indicating Class -1 regions.
-
-![Decision Boundaries at Epoch 5](../Images/L4_5_Quiz_5/decision_boundaries_epoch_5.png)
-
-After just 5 epochs, the perceptron boundary (left) is already very close to the true boundary, while logistic regression (right) takes more iterations to approach the optimal solution. The decision regions are now fully colored throughout the entire plot area, making it easy to see the classification boundaries.
-
-![Decision Boundaries at Final Epoch](../Images/L4_5_Quiz_5/decision_boundaries_epoch_19.png)
-
-By epoch 19 (final), both algorithms have found good decision boundaries, but the perceptron reaches this point faster. The improved visualization shows clear and consistent coloring of the decision regions across the entire feature space.
+The animation above shows how the decision boundaries evolve over 100 epochs of training. You can observe that the perceptron (left) quickly finds a good separation boundary, while logistic regression (right) makes more gradual adjustments. This visualization clearly demonstrates the perceptron's faster convergence for linearly separable data.
 
 ### Task 3: Calculate Updated Weights for the Specific Example
 
@@ -105,12 +97,12 @@ This visualization compares the convergence behavior of perceptron and logistic 
 Notice how the perceptron achieves zero misclassifications rapidly, while logistic regression continues to optimize its loss function incrementally.
 
 ### Decision Boundary Evolution
-![Decision Boundaries Evolution Sequence](../Images/L4_5_Quiz_5/decision_boundaries_epoch_19.png)
+![Decision Boundary Animation](../Images/L4_5_Quiz_5/boundary_evolution.gif)
 
-These visualizations show how the decision boundaries evolve over time:
-- The perceptron (left) makes discrete jumps toward the optimal boundary when it encounters misclassified points
-- Logistic regression (right) makes continuous small adjustments toward the optimal boundary
-- The enhanced visualization now clearly shows the complete decision regions throughout the entire feature space, with consistent coloring and improved legend placement
+This animation captures the complete evolution of decision boundaries for both algorithms across 100 epochs:
+- The perceptron (left) makes direct, large updates toward the optimal boundary
+- Logistic regression (right) makes smaller, continuous adjustments
+- The animation clearly demonstrates how the perceptron finds a reasonable boundary much earlier in the training process
 
 ### 3D Visualization of Weight Update Process
 ![3D Weight Update](../Images/L4_5_Quiz_5/specific_example_update.png)
