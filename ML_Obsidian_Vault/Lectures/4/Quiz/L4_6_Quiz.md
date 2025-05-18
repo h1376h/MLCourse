@@ -10,7 +10,7 @@ Compare different strategies for extending binary classifiers to handle multi-cl
 
 #### Task
 1. [🔍] Define the One-vs-All (OVA) and One-vs-One (OVO) approaches in one sentence each
-2. [🔍] If we have a dataset with 10 classes, how many binary classifiers would we need to train for OVA and OVO approaches?
+2. [🔍] If we have a dataset with $10$ classes, how many binary classifiers would we need to train for OVA and OVO approaches?
 3. [🔍] List one advantage and one disadvantage of OVA compared to OVO
 4. [🔍] For what types of base classifiers would the OVO approach be particularly beneficial? Explain in one sentence
 
@@ -19,10 +19,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ## Question 2
 
 ### Problem Statement
-Consider a multi-class classification problem with 4 classes: A, B, C, and D. You decide to use the One-vs-All (OVA) approach with logistic regression as the base classifier.
+Consider a multi-class classification problem with $4$ classes: A, B, C, and D. You decide to use the One-vs-All (OVA) approach with logistic regression as the base classifier.
 
 #### Task
-1. [📚] If you train 4 logistic regression models with the following score functions, 
+1. [📚] If you train $4$ logistic regression models with the following score functions, 
    - $f_A(x) = 2.1$
    - $f_B(x) = 1.7$
    - $f_C(x) = -0.5$
@@ -38,7 +38,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ## Question 3
 
 ### Problem Statement
-Consider a multi-class classification problem with 4 classes: A, B, C, and D. You decide to use the One-vs-One (OVO) approach with Support Vector Machines (SVMs) as the base classifier.
+Consider a multi-class classification problem with $4$ classes: A, B, C, and D. You decide to use the One-vs-One (OVO) approach with Logistic Regression as the base classifier.
 
 #### Task
 1. [📚] How many binary classifiers will you need to train for the OVO approach? List all pairs
@@ -60,7 +60,7 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ## Question 4
 
 ### Problem Statement
-Consider a 4-class classification problem using Error-Correcting Output Codes (ECOC). You design a code matrix as follows:
+Consider a $4$-class classification problem using Error-Correcting Output Codes (ECOC). You design a code matrix as follows:
 
 | Class | Bit 1 | Bit 2 | Bit 3 | Bit 4 | Bit 5 |
 |-------|-------|-------|-------|-------|-------|
@@ -71,7 +71,7 @@ Consider a 4-class classification problem using Error-Correcting Output Codes (E
 
 #### Task
 1. [📚] How many binary classifiers need to be trained for this ECOC scheme?
-2. [📚] For a new data point, the binary classifiers output: [+1, +1, -1, +1, -1]. Calculate the Hamming distance between this output and each class codeword
+2. [📚] For a new data point, the binary classifiers output: $[+1, +1, -1, +1, -1]$. Calculate the Hamming distance between this output and each class codeword
 3. [📚] Based on the Hamming distances, which class would be predicted for this data point?
 4. [🔍] How does ECOC provide error correction capability? Explain in 1-2 sentences
 
@@ -84,15 +84,15 @@ Consider the multi-class perceptron algorithm, which directly extends the binary
 
 #### Task
 1. [🔍] How does the multi-class perceptron differ from the binary perceptron? Explain in one sentence
-2. [🔍] If we have K classes and d features, how many weight vectors and parameters do we need to learn?
-3. [📚] For a 3-class problem with 2 features, if the weight vectors are:
+2. [🔍] If we have $K$ classes and $d$ features, how many weight vectors and parameters do we need to learn?
+3. [📚] For a $3$-class problem with $2$ features, if the weight vectors are:
    - $w_1 = [1, 2]^T$
    - $w_2 = [3, -1]^T$
    - $w_3 = [0, 1]^T$
    
    which class would be predicted for a new point $x = [2, 2]^T$?
 
-4. [📚] If the true label for this point is class 1, write the update rule for the multi-class perceptron (which weight vectors would be updated and how)
+4. [📚] If the true label for this point is class $1$, write the update rule for the multi-class perceptron (which weight vectors would be updated and how)
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: Multi-class Perceptron](L4_6_5_explanation.md).
 
@@ -104,8 +104,8 @@ Consider softmax regression for multi-class classification.
 #### Task
 1. [🔍] What is the difference between softmax regression and logistic regression? Answer in one sentence
 2. [📚] Write the softmax function that converts raw scores to class probabilities
-3. [📚] For a 3-class problem with scores $z_1 = 2$, $z_2 = 0$, and $z_3 = 1$, calculate the softmax probabilities
-4. [🔍] How does softmax regression ensure that the predicted probabilities sum to 1? Explain in one sentence
+3. [📚] For a $3$-class problem with scores $z_1 = 2$, $z_2 = 0$, and $z_3 = 1$, calculate the softmax probabilities
+4. [🔍] How does softmax regression ensure that the predicted probabilities sum to $1$? Explain in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 6: Softmax Regression](L4_6_6_explanation.md).
 
@@ -116,10 +116,10 @@ Consider the multi-class cross-entropy loss function for softmax regression:
 
 $$L(w) = -\sum_{i=1}^{n} \sum_{k=1}^{K} y_{ik} \log(p_{ik})$$
 
-where $y_{ik}$ is 1 if example $i$ belongs to class $k$ and 0 otherwise, and $p_{ik}$ is the predicted probability of example $i$ belonging to class $k$.
+where $y_{ik}$ is $1$ if example $i$ belongs to class $k$ and $0$ otherwise, and $p_{ik}$ is the predicted probability of example $i$ belonging to class $k$.
 
 #### Task
-1. [📚] For a single data point with true class 2 out of 3 classes, and predicted probabilities $p_1 = 0.2$, $p_2 = 0.5$, $p_3 = 0.3$, calculate the cross-entropy loss
+1. [📚] For a single data point with true class $2$ out of $3$ classes, and predicted probabilities $p_1 = 0.2$, $p_2 = 0.5$, $p_3 = 0.3$, calculate the cross-entropy loss
 2. [📚] Derive the gradient of the cross-entropy loss with respect to the model parameters for a single data point
 3. [🔍] Why is cross-entropy a more appropriate loss function for multi-class classification than squared error? Answer in one or two sentences
 4. [🔍] How does the multi-class cross-entropy loss reduce to binary cross-entropy when there are only two classes? Explain in one or two sentences
@@ -155,9 +155,9 @@ Compare different multi-class classification strategies in terms of various metr
 | Most computationally efficient during prediction |     |     |      |                                  |
 | Most robust to class imbalance |     |     |      |                                  |
 
-2. [🔍] Which approach would you recommend for a problem with 100 classes but limited training data? Explain why in one sentence
-3. [🔍] Which approach would you recommend for a problem with 3 classes and abundant training data? Explain why in one sentence
-4. [🔍] How does the choice of base classifier (e.g., SVM vs. logistic regression) affect the selection of multi-class strategy? Explain in two sentences
+2. [🔍] Which approach would you recommend for a problem with $100$ classes but limited training data? Explain why in one sentence
+3. [🔍] Which approach would you recommend for a problem with $3$ classes and abundant training data? Explain why in one sentence
+4. [🔍] How does the choice of base classifier (e.g., Perceptron vs. logistic regression) affect the selection of multi-class strategy? Explain in two sentences
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: Strategy Comparison](L4_6_9_explanation.md).
 
@@ -169,7 +169,7 @@ Consider multi-class Linear Discriminant Analysis (LDA).
 #### Task
 1. [🔍] How does LDA naturally handle multi-class problems? Answer in one sentence
 2. [🔍] What assumption does LDA make about the class-conditional densities? Answer in one sentence
-3. [📚] For a 3-class problem with class means $\mu_1 = [1, 0]^T$, $\mu_2 = [0, 2]^T$, $\mu_3 = [2, 1]^T$, and shared covariance matrix $\Sigma = I$ (identity matrix), write the discriminant function for each class
+3. [📚] For a $3$-class problem with class means $\mu_1 = [1, 0]^T$, $\mu_2 = [0, 2]^T$, $\mu_3 = [2, 1]^T$, and shared covariance matrix $\Sigma = I$ (identity matrix), write the discriminant function for each class
 4. [📚] For a new data point $x = [1, 1]^T$, determine which class LDA would assign to it
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Multi-class LDA](L4_6_10_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Multi-class LDA](L4_6_10_explanation.md).

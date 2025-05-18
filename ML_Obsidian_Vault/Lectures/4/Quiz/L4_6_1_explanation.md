@@ -5,7 +5,7 @@ Compare different strategies for extending binary classifiers to handle multi-cl
 
 ### Task
 1. Define the One-vs-All (OVA) and One-vs-One (OVO) approaches in one sentence each
-2. If we have a dataset with 10 classes, how many binary classifiers would we need to train for OVA and OVO approaches?
+2. If we have a dataset with $10$ classes, how many binary classifiers would we need to train for OVA and OVO approaches?
 3. List one advantage and one disadvantage of OVA compared to OVO
 4. For what types of base classifiers would the OVO approach be particularly beneficial? Explain in one sentence
 
