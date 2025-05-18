@@ -128,7 +128,7 @@ $$\Sigma_0 = \Sigma_1 = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$
 1. Draw the contours of the level sets for both classes
 2. Derive and sketch the decision boundary 
 3. How does the unequal prior shift the boundary compared to the case where priors are equal?
-4. If a new data point is located at (1,1), which class would it be assigned to?
+4. If a new data point is located at $(1, 1)$, which class would it be assigned to?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Gaussian Mixtures with Shifted Means](L4_3_8_explanation.md).
 
