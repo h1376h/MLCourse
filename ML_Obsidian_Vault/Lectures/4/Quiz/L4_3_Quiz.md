@@ -1,22 +1,23 @@
 # Lecture 4.3: Probabilistic Linear Classifiers Quiz
 
 ## Overview
-This quiz contains 8 questions from different topics covered in section 4.3 of the lectures on Probabilistic Linear Classifiers, including discriminative vs. generative approaches, logistic regression, sigmoid functions, MLE and MAP estimation, and regularization techniques.
+This quiz contains 13 questions from different topics covered in section 4.3 of the lectures on Probabilistic Linear Classifiers, including discriminative vs. generative approaches, logistic regression, sigmoid functions, MLE and MAP estimation, and regularization techniques.
 
 ## Question 1
 
 ### Problem Statement
-Now consider the regular 0/1 loss $\ell$, and assume that $P(y = 0) = P(y = 1) = 1/2$. Also, assume that the class-conditional densities are Gaussian with mean $\mu_0$ and co-variance $\Sigma_0$ under class 0, and mean $\mu_1$ and co-variance $\Sigma_1$ under class 1. Further, assume that $\mu_0 = \mu_1$.
+Consider a binary classification problem where the class-conditional densities are Gaussian. Assume that $P(y = 0) = P(y = 1) = \frac{1}{2}$ (equal prior probabilities). The class-conditional densities are Gaussian with mean $\mu_0$ and covariance $\Sigma_0$ under class 0, and mean $\mu_1$ and covariance $\Sigma_1$ under class 1. Further, assume that $\mu_0 = \mu_1$ (the means are equal).
 
-For the following case, draw contours of the level sets of the class conditional densities and label them with $p(x|y = 0)$ and $p(x|y = 1)$. Also, draw the decision boundaries obtained using the Bayes optimal classifier in each case and indicate the regions where the classifier will predict class 0 and where it will predict class 1.
+The covariance matrices for the two classes are:
 
 $$\Sigma_0 = \begin{bmatrix} 1 & 0 \\ 0 & 4 \end{bmatrix}, \Sigma_1 = \begin{bmatrix} 4 & 0 \\ 0 & 1 \end{bmatrix}$$
 
 #### Task
 1. Draw the contours of the level sets of $p(x|y = 0)$ and $p(x|y = 1)$
 2. Identify the decision boundary for the Bayes optimal classifier in this scenario
-3. Explain why the decision boundary has this shape despite equal means
-4. Describe how the decision boundary would change if the prior probabilities were not equal
+3. Indicate the regions where the classifier will predict class 0 and where it will predict class 1
+4. Explain why the decision boundary has this shape despite equal means
+5. Describe how the decision boundary would change if the prior probabilities were not equal
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: Bayes Optimal Classifier with Equal Means](L4_3_1_explanation.md).
 
@@ -76,10 +77,10 @@ The following table shows 5 training examples:
 | 5   | 1   |
 
 #### Task
-1. [📚] Write down the likelihood function for this dataset
-2. [📚] Write down the log-likelihood function
-3. [📚] Calculate the gradient of the log-likelihood with respect to $w_0$ and $w_1$
-4. [🔍] If after training we get $w_0 = -6$ and $w_1 = 2$, what is the probability $P(y=1|x=2.5)$?
+1. Write down the likelihood function for this dataset
+2. Write down the log-likelihood function
+3. Calculate the gradient of the log-likelihood with respect to $w_0$ and $w_1$
+4. If after training we get $w_0 = -6$ and $w_1 = 2$, what is the probability $P(y=1|x=2.5)$?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: MLE for Logistic Regression](L4_3_5_explanation.md).
 
@@ -130,4 +131,78 @@ Consider the following dataset for binary classification:
 3. For a logistic regression model with parameters $w_0 = -5$, $w_1 = 1$, and $w_2 = 1$, draw the decision boundary on your sketch
 4. Calculate the predicted probability $P(y=1|x)$ for the point $(x_1,x_2) = (2,2)$ using this model
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Decision Boundaries in Logistic Regression](L4_3_8_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Decision Boundaries in Logistic Regression](L4_3_8_explanation.md).
+
+## Question 9
+
+### Problem Statement
+Consider Newton's method and gradient descent for optimizing logistic regression.
+
+#### Task
+1. Write the update rule for gradient descent in logistic regression
+2. Write the update rule for Newton's method in logistic regression
+3. Explain one advantage and one disadvantage of Newton's method compared to gradient descent
+4. Under what circumstances would you prefer gradient descent over Newton's method?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: Optimization Methods for Logistic Regression](L4_3_9_explanation.md).
+
+## Question 10
+
+### Problem Statement
+Consider a logistic regression model with two features:
+$$P(y=1|x) = \sigma(w_0 + w_1x_1 + w_2x_2)$$
+
+If the fitted coefficients are $w_0 = -3$, $w_1 = 2$, and $w_2 = -1$:
+
+#### Task
+1. What is the effect of increasing $x_1$ by one unit on the log-odds ratio?
+2. What combination of $x_1$ and $x_2$ values would give a predicted probability of exactly 0.5?
+3. Sketch the decision boundary in the feature space
+4. If a data point has $x_1 = 2$ and $x_2 = 1$, calculate the predicted probability $P(y=1|x)$
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Interpreting Logistic Regression Coefficients](L4_3_10_explanation.md).
+
+## Question 11
+
+### Problem Statement
+The sigmoid function is defined as $\sigma(z) = \frac{1}{1+e^{-z}}$.
+
+#### Task
+1. Calculate $\sigma(0)$, $\sigma(1)$, and $\sigma(-2)$ by hand
+2. If $\sigma(z) = 0.8$, what is the value of $z$?
+3. Show that $\frac{d\sigma(z)}{dz} = \sigma(z)(1-\sigma(z))$
+4. If $\sigma(w^Tx) = 0.7$, what is the value of $\sigma(-w^Tx)$?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Sigmoid Function Mathematics](L4_3_11_explanation.md).
+
+## Question 12
+
+### Problem Statement
+Consider L1 and L2 regularization in logistic regression:
+
+$$J_{L1}(w) = -\sum_{i=1}^{n}[y_i\log(\sigma(w^Tx_i)) + (1-y_i)\log(1-\sigma(w^Tx_i))] + \lambda\sum_{j=1}^{d}|w_j|$$
+
+$$J_{L2}(w) = -\sum_{i=1}^{n}[y_i\log(\sigma(w^Tx_i)) + (1-y_i)\log(1-\sigma(w^Tx_i))] + \lambda\sum_{j=1}^{d}w_j^2$$
+
+#### Task
+1. Draw a contour plot of the L1 penalty term in 2D (for $w_1$ and $w_2$)
+2. Draw a contour plot of the L2 penalty term in 2D (for $w_1$ and $w_2$)
+3. Which regularization is more likely to produce sparse models (many zero weights)?
+4. If you know that only a few features are relevant for your classification task, would you prefer L1 or L2 regularization?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: L1 vs L2 Regularization](L4_3_12_explanation.md).
+
+## Question 13
+
+### Problem Statement
+Consider a binary classification problem with three features. You're comparing two approaches:
+- A generative approach using LDA with Gaussian class-conditional densities
+- A discriminative approach using logistic regression
+
+#### Task
+1. What parameters need to be estimated for the LDA model?
+2. What parameters need to be estimated for the logistic regression model?
+3. If the true class-conditional distributions are not Gaussian, which model is likely to perform better?
+4. If you have very few training samples but know the data is approximately Gaussian, which approach would you recommend?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 13: Generative vs Discriminative Models in Practice](L4_3_13_explanation.md). 
