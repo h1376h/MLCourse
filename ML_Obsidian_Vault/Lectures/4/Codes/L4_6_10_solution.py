@@ -12,8 +12,15 @@ os.makedirs(save_dir, exist_ok=True)
 
 # Set the style for the plots
 plt.style.use('seaborn-v0_8-whitegrid')
-# Disable LaTeX to avoid font issues
-plt.rcParams['text.usetex'] = False
+# Enable LaTeX for better mathematical notation
+plt.rcParams['text.usetex'] = True
+plt.rcParams['font.family'] = 'serif'
+plt.rcParams['font.serif'] = ['Computer Modern Roman']
+plt.rcParams['axes.labelsize'] = 12
+plt.rcParams['font.size'] = 11
+plt.rcParams['legend.fontsize'] = 10
+plt.rcParams['xtick.labelsize'] = 10
+plt.rcParams['ytick.labelsize'] = 10
 
 # Step 1: Define the problem parameters
 # Class means for the 3 classes
@@ -78,18 +85,18 @@ plt.figure(figsize=(10, 8))
 # Plot decision regions
 plt.contourf(x1_grid, x2_grid, Z, levels=[0, 1, 2, 3], alpha=0.3, cmap=plt.cm.Set1)
 
-# Plot the means of the classes
-plt.scatter(mu1[0], mu1[1], c='r', marker='o', s=100, label='mu_1 = [1, 0]^T')
-plt.scatter(mu2[0], mu2[1], c='g', marker='o', s=100, label='mu_2 = [0, 2]^T')
-plt.scatter(mu3[0], mu3[1], c='b', marker='o', s=100, label='mu_3 = [2, 1]^T')
+# Plot the means of the classes - Fixed LaTeX syntax
+plt.scatter(mu1[0], mu1[1], c='r', marker='o', s=100, label=r'$\mu_1 = [1, 0]^\top$')
+plt.scatter(mu2[0], mu2[1], c='g', marker='o', s=100, label=r'$\mu_2 = [0, 2]^\top$')
+plt.scatter(mu3[0], mu3[1], c='b', marker='o', s=100, label=r'$\mu_3 = [2, 1]^\top$')
 
 # Plot the test point
-plt.scatter(x_test[0], x_test[1], c='black', marker='X', s=150, label='Test point x = [1, 1]^T')
+plt.scatter(x_test[0], x_test[1], c='black', marker='X', s=150, label=r'Test point $\mathbf{x} = [1, 1]^\top$')
 
 # Add labels and legend
-plt.xlabel('x_1')
-plt.ylabel('x_2')
-plt.title('LDA Decision Regions for 3-Class Problem')
+plt.xlabel(r'$x_1$')
+plt.ylabel(r'$x_2$')
+plt.title(r'LDA Decision Regions for 3-Class Problem')
 plt.legend()
 plt.grid(True)
 
@@ -118,17 +125,17 @@ plt.contour(x1_grid, x2_grid, Z3_density, levels=5, colors='blue', alpha=0.7, li
 plt.contour(x1_grid, x2_grid, Z, levels=[0.5, 1.5, 2.5], colors='black', linestyles='dashed', linewidths=2)
 
 # Plot class means
-plt.scatter(mu1[0], mu1[1], c='red', marker='o', s=100, label='mu_1 = [1, 0]^T')
-plt.scatter(mu2[0], mu2[1], c='green', marker='o', s=100, label='mu_2 = [0, 2]^T')
-plt.scatter(mu3[0], mu3[1], c='blue', marker='o', s=100, label='mu_3 = [2, 1]^T')
+plt.scatter(mu1[0], mu1[1], c='red', marker='o', s=100, label=r'$\mu_1 = [1, 0]^\top$')
+plt.scatter(mu2[0], mu2[1], c='green', marker='o', s=100, label=r'$\mu_2 = [0, 2]^\top$')
+plt.scatter(mu3[0], mu3[1], c='blue', marker='o', s=100, label=r'$\mu_3 = [2, 1]^\top$')
 
 # Plot the test point
-plt.scatter(x_test[0], x_test[1], c='black', marker='X', s=150, label='Test point x = [1, 1]^T')
+plt.scatter(x_test[0], x_test[1], c='black', marker='X', s=150, label=r'Test point $\mathbf{x} = [1, 1]^\top$')
 
 # Add labels and legend
-plt.xlabel('x_1')
-plt.ylabel('x_2')
-plt.title('Class Probability Densities and Decision Boundaries')
+plt.xlabel(r'$x_1$')
+plt.ylabel(r'$x_2$')
+plt.title(r'Class Probability Densities and Decision Boundaries')
 plt.legend()
 plt.grid(True)
 
@@ -150,17 +157,17 @@ c3 = plt.contour(x1_grid, x2_grid, Z3.reshape(x1_grid.shape), levels=5, colors='
 plt.contour(x1_grid, x2_grid, Z, levels=[0.5, 1.5, 2.5], colors='black', linestyles='dashed', linewidths=2)
 
 # Plot the test point
-plt.scatter(x_test[0], x_test[1], c='black', marker='X', s=150, label='Test point x = [1, 1]^T')
+plt.scatter(x_test[0], x_test[1], c='black', marker='X', s=150, label=r'Test point $\mathbf{x} = [1, 1]^\top$')
 
-# Plot class means
-plt.scatter(mu1[0], mu1[1], c='red', marker='o', s=100, label='mu_1 = [1, 0]^T')
-plt.scatter(mu2[0], mu2[1], c='green', marker='o', s=100, label='mu_2 = [0, 2]^T')
-plt.scatter(mu3[0], mu3[1], c='blue', marker='o', s=100, label='mu_3 = [2, 1]^T')
+# Plot class means - Fixed LaTeX syntax
+plt.scatter(mu1[0], mu1[1], c='red', marker='o', s=100, label=r'$\mu_1 = [1, 0]^\top$')
+plt.scatter(mu2[0], mu2[1], c='green', marker='o', s=100, label=r'$\mu_2 = [0, 2]^\top$')
+plt.scatter(mu3[0], mu3[1], c='blue', marker='o', s=100, label=r'$\mu_3 = [2, 1]^\top$')
 
 # Add labels and legend
-plt.xlabel('x_1')
-plt.ylabel('x_2')
-plt.title('LDA Discriminant Function Values')
+plt.xlabel(r'$x_1$')
+plt.ylabel(r'$x_2$')
+plt.title(r'LDA Discriminant Function Values')
 plt.legend()
 plt.grid(True)
 
@@ -206,4 +213,4 @@ print(f"delta_3(x) = term1 - term2 + term3 = {np.dot(x_test, mu3)} - {0.5 * np.d
 print("\nSince delta_3(x) = delta_1(x) > delta_2(x), the test point x = [1, 1]^T is assigned to either class 1 or class 3.")
 print("In this case with equal scores, the classifier would typically select the first class with maximum score, which is class 1.")
 
-print("\nFigures saved to:", save_dir) 
+print("\nFigures saved to:", save_dir)
