@@ -64,10 +64,10 @@ Consider the following dataset for binary classification:
 | 3     | 4     | 1   |
 
 #### Task
-1. Sketch these points in a 2D coordinate system and indicate the two classes
-2. Write down the form of the decision boundary for a linear probabilistic classifier in this 2D space
-3. For a model with parameters $w_0 = -5$, $w_1 = 1$, and $w_2 = 1$, draw the decision boundary on your sketch
-4. Calculate the log-odds ratio for the point $(x_1,x_2) = (2,2)$ using this model
+1. [📚] Sketch these points in a 2D coordinate system and indicate the two classes
+2. [📚] Write down the form of the decision boundary for a linear probabilistic classifier in this 2D space
+3. [📚] For a model with parameters $w_0 = -5$, $w_1 = 1$, and $w_2 = 1$, draw the decision boundary on your sketch
+4. [📚] Calculate the log-odds ratio for the point $(x_1,x_2) = (2,2)$ using this model
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: Decision Boundaries in 2D Space](L4_3_4_explanation.md).
 
