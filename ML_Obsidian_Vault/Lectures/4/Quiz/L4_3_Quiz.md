@@ -159,9 +159,9 @@ $$\mu_0 = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \mu_1 = \begin{bmatrix} 0 \\ 0 \
 $$\Sigma_0 = \begin{bmatrix} 1 & 0.8 \\ 0.8 & 1 \end{bmatrix}, \Sigma_1 = \begin{bmatrix} 1 & -0.8 \\ -0.8 & 1 \end{bmatrix}$$
 
 #### Task
-1. Draw the contours of the level sets for both classes
-2. Derive the decision boundary equation
-3. Explain how the correlation between features influences the decision boundary shape
-4. Would a linear classifier be able to separate these classes effectively? Why or why not?
+1. [📚] Draw the contours of the level sets for both classes
+2. [📚] Derive the decision boundary equation
+3. [📚] Explain how the correlation between features influences the decision boundary shape
+4. [📚] Would a linear classifier be able to separate these classes effectively? Why or why not?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Gaussian Classification with Correlated Features](L4_3_10_explanation.md).
