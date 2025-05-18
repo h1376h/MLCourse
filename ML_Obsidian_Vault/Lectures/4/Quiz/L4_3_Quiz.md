@@ -1,7 +1,7 @@
 # Lecture 4.3: Probabilistic Linear Classifiers Quiz
 
 ## Overview
-This quiz contains 7 questions covering different topics from section 4.3 of the lectures on Probabilistic Linear Classifiers, including discriminative vs. generative approaches, decision boundaries, and probabilistic classification concepts.
+This quiz contains 10 questions covering different topics from section 4.3 of the lectures on Probabilistic Linear Classifiers, including discriminative vs. generative approaches, decision boundaries, and probabilistic classification concepts.
 
 ## [⭐] Question 1
 
@@ -114,3 +114,54 @@ Consider Newton's method and gradient descent for optimizing probabilistic linea
 4. Under what circumstances would you prefer gradient descent over Newton's method?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 7: Optimization Methods for Probabilistic Classifiers](L4_3_7_explanation.md).
+
+## Question 8
+
+### Problem Statement
+Consider a binary classification problem with Gaussian class-conditional densities. The prior probabilities are $P(y = 0) = 0.7$ and $P(y = 1) = 0.3$. The class-conditional densities have the following parameters:
+
+$$\mu_0 = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \mu_1 = \begin{bmatrix} 2 \\ 2 \end{bmatrix}$$
+
+$$\Sigma_0 = \Sigma_1 = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$
+
+#### Task
+1. Draw the contours of the level sets for both classes
+2. Derive and sketch the decision boundary 
+3. How does the unequal prior shift the boundary compared to the case where priors are equal?
+4. If a new data point is located at (1,1), which class would it be assigned to?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Gaussian Mixtures with Shifted Means](L4_3_8_explanation.md).
+
+## Question 9
+
+### Problem Statement
+Consider a three-class classification problem with equal priors $P(y=0) = P(y=1) = P(y=2) = \frac{1}{3}$ and Gaussian class-conditional densities with parameters:
+
+$$\mu_0 = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \mu_1 = \begin{bmatrix} 4 \\ 0 \end{bmatrix}, \mu_2 = \begin{bmatrix} 2 \\ 3 \end{bmatrix}$$
+
+$$\Sigma_0 = \Sigma_1 = \Sigma_2 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
+
+#### Task
+1. Sketch the three Gaussian distributions in the 2D feature space
+2. Derive the form of the decision boundaries between classes
+3. Draw the regions where each class would be predicted
+4. If we change $\Sigma_2$ to $\begin{bmatrix} 3 & 0 \\ 0 & 3 \end{bmatrix}$, how would the decision boundaries change?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: Three-Class Gaussian Classification](L4_3_9_explanation.md).
+
+## Question 10
+
+### Problem Statement
+Consider a binary classification problem where the class-conditional densities are Gaussian with equal priors. The parameters are:
+
+$$\mu_0 = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \mu_1 = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$$
+
+$$\Sigma_0 = \begin{bmatrix} 1 & 0.8 \\ 0.8 & 1 \end{bmatrix}, \Sigma_1 = \begin{bmatrix} 1 & -0.8 \\ -0.8 & 1 \end{bmatrix}$$
+
+#### Task
+1. Draw the contours of the level sets for both classes
+2. Derive the decision boundary equation
+3. Explain how the correlation between features influences the decision boundary shape
+4. Would a linear classifier be able to separate these classes effectively? Why or why not?
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Gaussian Classification with Correlated Features](L4_3_10_explanation.md).
