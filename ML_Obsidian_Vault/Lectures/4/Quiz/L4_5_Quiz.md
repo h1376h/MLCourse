@@ -97,10 +97,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the Voted Perceptron algorithm, an ensemble approach to perceptron learning.
 
 #### Task
-1. [🔍] Explain the main idea behind the Voted Perceptron algorithm in one sentence
-2. [🔍] How does the Voted Perceptron address the limitations of the standard perceptron for non-separable data? Answer in one sentence
-3. [📚] Given a sequence of weight vectors $w_1, w_2, w_3, w_4$ with survival times (counts) $c_1 = 3, c_2 = 2, c_3 = 5, c_4 = 1$, how would the Voted Perceptron make a prediction for a new point $x$?
-4. [🔍] How does the Voted Perceptron differ from the Averaged Perceptron? Answer in one sentence
+1. Explain the main idea behind the Voted Perceptron algorithm in one sentence
+2. How does the Voted Perceptron address the limitations of the standard perceptron for non-separable data? Answer in one sentence
+3. Given a sequence of weight vectors $w_1, w_2, w_3, w_4$ with survival times (counts) $c_1 = 3, c_2 = 2, c_3 = 5, c_4 = 1$, how would the Voted Perceptron make a prediction for a new point $x$?
+4. How does the Voted Perceptron differ from the Averaged Perceptron? Answer in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 6: Voted Perceptron](L4_5_6_explanation.md).
 
@@ -110,10 +110,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the Passive-Aggressive algorithm for online learning.
 
 #### Task
-1. [🔍] What is the main idea behind Passive-Aggressive algorithms? Answer in one sentence
-2. [🔍] How does the Passive-Aggressive algorithm differ from the perceptron? Answer in one sentence
-3. [🔍] When is the algorithm "passive" and when is it "aggressive"? Explain in one sentence each
-4. [📚] For a point $x = [2, 1]^T$ with true label $y = 1$, current weights $w = [1, 0]^T$, and hinge loss margin parameter $\gamma = 1$, determine whether the algorithm will be passive or aggressive, and calculate the new weights if an update is needed
+1. What is the main idea behind Passive-Aggressive algorithms? Answer in one sentence
+2. How does the Passive-Aggressive algorithm differ from the perceptron? Answer in one sentence
+3. When is the algorithm "passive" and when is it "aggressive"? Explain in one sentence each
+4. For a point $x = [2, 1]^T$ with true label $y = 1$, current weights $w = [1, 0]^T$, and hinge loss margin parameter $\gamma = 1$, determine whether the algorithm will be passive or aggressive, and calculate the new weights if an update is needed
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 7: Passive-Aggressive Learning](L4_5_7_explanation.md).
 
@@ -123,10 +123,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the Coordinate Descent optimization approach for training linear classifiers.
 
 #### Task
-1. [🔍] Explain the main idea behind Coordinate Descent in one sentence
-2. [🔍] How does Coordinate Descent differ from Gradient Descent? Answer in one sentence
-3. [🔍] What are the advantages of Coordinate Descent for sparse features? Answer in 1-2 sentences
-4. [📚] For a simple squared error loss function $J(w) = (w_1 - 3)^2 + (w_2 + 2)^2$, perform two iterations of coordinate descent starting from $w = [0, 0]^T$, optimizing $w_1$ first
+1. Explain the main idea behind Coordinate Descent in one sentence
+2. How does Coordinate Descent differ from Gradient Descent? Answer in one sentence
+3. What are the advantages of Coordinate Descent for sparse features? Answer in 1-2 sentences
+4. For a simple squared error loss function $J(w) = (w_1 - 3)^2 + (w_2 + 2)^2$, perform two iterations of coordinate descent starting from $w = [0, 0]^T$, optimizing $w_1$ first
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Coordinate Descent](L4_5_8_explanation.md).
 
@@ -136,10 +136,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the Averaged Perceptron algorithm, a modification of the standard perceptron for improved generalization.
 
 #### Task
-1. [🔍] How does the Averaged Perceptron differ from the standard perceptron? Answer in one sentence
-2. [🔍] What problem does the Averaged Perceptron address? Answer in one sentence
-3. [📚] If a perceptron algorithm generates weight vectors $w_1 = [1, 0]^T$, $w_2 = [1, 1]^T$, $w_3 = [2, 1]^T$, and $w_4 = [2, 2]^T$ in sequence during training, what would be the averaged weight vector?
-4. [🔍] When would you prefer using an Averaged Perceptron over a standard perceptron? Answer in one sentence
+1. How does the Averaged Perceptron differ from the standard perceptron? Answer in one sentence
+2. What problem does the Averaged Perceptron address? Answer in one sentence
+3. If a perceptron algorithm generates weight vectors $w_1 = [1, 0]^T$, $w_2 = [1, 1]^T$, $w_3 = [2, 1]^T$, and $w_4 = [2, 2]^T$ in sequence during training, what would be the averaged weight vector?
+4. When would you prefer using an Averaged Perceptron over a standard perceptron? Answer in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: Averaged Perceptron](L4_5_9_explanation.md).
 
