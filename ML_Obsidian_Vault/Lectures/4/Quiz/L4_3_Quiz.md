@@ -27,10 +27,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Compare the discriminative and generative approaches to classification.
 
 #### Task
-1. Define discriminative and generative models in one sentence each
+1. [🔍] Define discriminative and generative models in one sentence each
 2. Explain how Logistic Regression and LDA differ in their approach to the same classification problem
-3. List one advantage and one disadvantage of generative models compared to discriminative models
-4. When would you prefer to use a generative model over a discriminative model? Give one specific scenario
+3. [🔍] List one advantage and one disadvantage of generative models compared to discriminative models
+4. [🔍] When would you prefer to use a generative model over a discriminative model? Give one specific scenario
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 2: Discriminative vs Generative Models](L4_3_2_explanation.md).
 
