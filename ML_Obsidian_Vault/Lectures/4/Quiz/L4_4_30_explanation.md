@@ -59,7 +59,7 @@ Pocket weights: pocket_w = $[0, 0, 0]^T$
 
 Misclassified examples: All 7 examples
 
-Randomly selected example: Example 5 (x = [2, 2], y = 1)
+Randomly selected example: Example 5 (x = $[2, 2]$, y = 1)
 - Activation: $w \cdot x = [0, 0, 0] \cdot [2, 2, 1] = 0$
 - Prediction: sign(0) = 0, Actual: 1
 - Misclassified!
@@ -80,7 +80,7 @@ Pocket weights: pocket_w = $[2, 2, 1]^T$
 
 Misclassified examples: 1/7 (only example 7)
 
-Randomly selected example: Example 7 (x = [4, 0], y = -1)
+Randomly selected example: Example 7 (x = $[4, 0]$, y = -1)
 - Activation: $w \cdot x = [2, 2, 1] \cdot [4, 0, 1] = 9$
 - Prediction: sign(9) = 1, Actual: -1
 - Misclassified!
@@ -101,7 +101,7 @@ Pocket weights: pocket_w = $[2, 2, 1]^T$
 
 Misclassified examples: 3/7
 
-Randomly selected example: Example 5 (x = [2, 2], y = 1)
+Randomly selected example: Example 5 (x = $[2, 2]$, y = 1)
 - Activation: $w \cdot x = [-2, 2, 0] \cdot [2, 2, 1] = 0$
 - Prediction: sign(0) = 0, Actual: 1
 - Misclassified!
@@ -122,7 +122,7 @@ Pocket weights: pocket_w = $[2, 2, 1]^T$
 
 Misclassified examples: 2/7
 
-Randomly selected example: Example 7 (x = [4, 0], y = -1)
+Randomly selected example: Example 7 (x = $[4, 0]$, y = -1)
 - Activation: $w \cdot x = [0, 4, 1] \cdot [4, 0, 1] = 1$
 - Prediction: sign(1) = 1, Actual: -1
 - Misclassified!
