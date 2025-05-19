@@ -8,10 +8,10 @@ We are exploring the properties of least squares solutions in linear regression.
 
 | Statement | True? |
 | --------- | ----- |
-| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) y_i = 0$ | Not proven |
-| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(y_i - \bar{y}) = 0$ | Not proven |
-| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(x_i - \bar{x}) = 0$ | TRUE |
-| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(w_0^* + w_1^* x_i) = 0$ | FALSE |
+| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) y_i = 0$ |  |
+| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(y_i - \bar{y}) = 0$ |  |
+| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(x_i - \bar{x}) = 0$ |  |
+| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(w_0^* + w_1^* x_i) = 0$ |  |
 
 2. Consider a dataset with just $3$ points: $(1,2)$, $(2,3)$, and $(3,5)$. Plot these points on graph paper, and visually estimate the best-fit line. Then calculate the actual least squares solution using the formulas for $w_1^*$ and $w_0^*$ Compare your visual estimate with the calculated result.
 
@@ -87,12 +87,10 @@ Based on our comprehensive analysis, we can fill in the table:
 
 | Statement | True? |
 | --------- | ----- |
-| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) y_i = 0$ | FALSE |
-| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(y_i - \bar{y}) = 0$ | FALSE |
+| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) y_i = 0$ | Not proven |
+| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(y_i - \bar{y}) = 0$ | Not proven |
 | $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(x_i - \bar{x}) = 0$ | TRUE |
 | $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(w_0^* + w_1^* x_i) = 0$ | TRUE |
-
-![Statement Verification Table](../Images/L3_2_Quiz_37/statement_verification_table.png)
 
 ### Step 2: Calculating the Least Squares Solution for the Dataset
 For the dataset $(1,2)$, $(2,3)$, and $(3,5)$, we can calculate the least squares solution using the formulas:

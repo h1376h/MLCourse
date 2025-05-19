@@ -6,6 +6,7 @@ from scipy.stats import pearsonr
 import sympy as sp
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
+import matplotlib as mpl
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,6 +17,14 @@ os.makedirs(save_dir, exist_ok=True)
 # Set a nice style for the plots
 plt.style.use('seaborn-v0_8-whitegrid')
 
+# Use LaTeX for all text in figures
+mpl.rcParams.update({
+    'font.family': 'serif',
+    'text.usetex': True,
+    'font.serif': ['Computer Modern Roman'],
+    'mathtext.fontset': 'cm',
+})
+
 def print_step_header(step_number, step_title):
     """Print a formatted step header."""
     print(f"\n{'=' * 80}")
@@ -25,18 +34,18 @@ def print_step_header(step_number, step_title):
 # Part 1: Verify which statements are true for least squares solutions
 print_step_header(1, "Verifying Properties of Least Squares Solutions")
 
-print("For a least squares solution w* = [w0*, w1*], we need to verify which statements must be true.")
-print("Let's derive the expressions by taking the derivative of the loss function J(w):")
+print("For a least squares solution $\\mathbf{w}^* = [w_0^*, w_1^*]^T$, we need to verify which statements must be true.")
+print("Let's derive the expressions by taking the derivative of the loss function $J(\\mathbf{w})$:")
 
-print("\nLoss function: J(w) = (1/n) * sum((yi - w0 - w1*xi)^2)")
-print("\nDerivative with respect to w0:")
-print("∂J/∂w0 = -(2/n) * sum(yi - w0 - w1*xi)")
-print("\nDerivative with respect to w1:")
-print("∂J/∂w1 = -(2/n) * sum((yi - w0 - w1*xi) * xi)")
+print("\nLoss function: $J(\\mathbf{w}) = \\frac{1}{n} \\sum_{i=1}^n (y_i - w_0 - w_1 x_i)^2$")
+print("\nDerivative with respect to $w_0$:")
+print("$\\frac{\\partial J}{\\partial w_0} = -\\frac{2}{n} \\sum_{i=1}^n (y_i - w_0 - w_1 x_i)$")
+print("\nDerivative with respect to $w_1$:")
+print("$\\frac{\\partial J}{\\partial w_1} = -\\frac{2}{n} \\sum_{i=1}^n (y_i - w_0 - w_1 x_i) x_i$")
 
-print("\nSetting derivatives to zero for w0* and w1*:")
-print("sum(yi - w0* - w1*xi) = 0        ... (1)")
-print("sum((yi - w0* - w1*xi) * xi) = 0  ... (2)")
+print("\nSetting derivatives to zero for $w_0^*$ and $w_1^*$:")
+print("$\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) = 0$        ... (1)")
+print("$\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) x_i = 0$     ... (2)")
 
 print("\nNow let's analyze each given statement:")
 
@@ -45,60 +54,60 @@ w0, w1, y, x, y_bar, x_bar = sp.symbols('w0 w1 y x y_bar x_bar')
 residual = y - w0 - w1*x
 
 # Statement 1: (1/n)∑(yi - w0* - w1*xi)yi = 0
-print("\nStatement 1: (1/n)∑(yi - w0* - w1*xi)yi = 0")
+print("\nStatement 1: $\\frac{1}{n}\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) y_i = 0$")
 expression1 = residual * y
-print(f"Expanding: {expression1}")
+print(f"Expanding: ${expression1}$")
 expanded1 = sp.expand(expression1)
-print(f"Expanded: {expanded1}")
+print(f"Expanded: ${expanded1}$")
 print("For proper verification, let's rewrite this:")
-print("∑(yi - w0* - w1*xi)yi = ∑yi²- w0*∑yi - w1*∑xiyi")
+print("$\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)y_i = \\sum_{i=1}^n y_i^2 - w_0^*\\sum_{i=1}^n y_i - w_1^*\\sum_{i=1}^n x_i y_i$")
 print("To determine if this is always true, we need to check if it follows from our optimality conditions.")
 print("Unfortunately, we cannot directly derive this from our optimality conditions (1) and (2).")
 print("So we cannot prove that this statement is always true for any dataset.")
 
 # Statement 2: (1/n)∑(yi - w0* - w1*xi)(yi - y_bar) = 0
-print("\nStatement 2: (1/n)∑(yi - w0* - w1*xi)(yi - y_bar) = 0")
+print("\nStatement 2: $\\frac{1}{n}\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(y_i - \\bar{y}) = 0$")
 expression2 = residual * (y - y_bar)
-print(f"Expanding: {expression2}")
+print(f"Expanding: ${expression2}$")
 expanded2 = sp.expand(expression2)
-print(f"Expanded: {expanded2}")
+print(f"Expanded: ${expanded2}$")
 print("After rearranging:")
-print("∑(yi - w0* - w1*xi)(yi - y_bar) = ∑yi(yi - y_bar) - w0*∑(yi - y_bar) - w1*∑xi(yi - y_bar)")
-print("From optimality condition (1), we know that ∑(yi - w0* - w1*xi) = 0")
-print("This means w0*∑1 + w1*∑xi = ∑yi, or w0*n + w1*∑xi = ∑yi")
-print("Therefore, w0* = (∑yi - w1*∑xi)/n = y_bar - w1*x_bar")
+print("$\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(y_i - \\bar{y}) = \\sum_{i=1}^n y_i(y_i - \\bar{y}) - w_0^*\\sum_{i=1}^n (y_i - \\bar{y}) - w_1^*\\sum_{i=1}^n x_i(y_i - \\bar{y})$")
+print("From optimality condition (1), we know that $\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) = 0$")
+print("This means $w_0^*\\sum 1 + w_1^*\\sum x_i = \\sum y_i$, or $w_0^*n + w_1^*\\sum x_i = \\sum y_i$")
+print("Therefore, $w_0^* = (\\sum y_i - w_1^*\\sum x_i)/n = \\bar{y} - w_1^*\\bar{x}$")
 print("However, we still can't directly derive statement 2 from our optimality conditions.")
 print("So we cannot conclusively prove that statement 2 is always true.")
 
 # Statement 3: (1/n)∑(yi - w0* - w1*xi)(xi - x_bar) = 0
-print("\nStatement 3: (1/n)∑(yi - w0* - w1*xi)(xi - x_bar) = 0")
+print("\nStatement 3: $\\frac{1}{n}\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(x_i - \\bar{x}) = 0$")
 expression3 = residual * (x - x_bar)
-print(f"Expanding: {expression3}")
+print(f"Expanding: ${expression3}$")
 expanded3 = sp.expand(expression3)
-print(f"Expanded: {expanded3}")
+print(f"Expanded: ${expanded3}$")
 print("Let's rearrange to see if this matches our conditions:")
-print("∑(yi - w0* - w1*xi)(xi - x_bar) = ∑(yi - w0* - w1*xi)xi - x_bar∑(yi - w0* - w1*xi)")
+print("$\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(x_i - \\bar{x}) = \\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)x_i - \\bar{x}\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)$")
 print("From our optimality conditions:")
-print("(1) ∑(yi - w0* - w1*xi) = 0")
-print("(2) ∑(yi - w0* - w1*xi)xi = 0")
+print("(1) $\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) = 0$")
+print("(2) $\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)x_i = 0$")
 print("Substituting these into our expression:")
-print("∑(yi - w0* - w1*xi)(xi - x_bar) = 0 - x_bar*0 = 0")
+print("$\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(x_i - \\bar{x}) = 0 - \\bar{x} \\cdot 0 = 0$")
 print("Therefore, statement 3 is TRUE. It directly follows from our optimality conditions.")
 
 # Statement 4: (1/n)∑(yi - w0* - w1*xi)(w0* + w1*xi) = 0
-print("\nStatement 4: (1/n)∑(yi - w0* - w1*xi)(w0* + w1*xi) = 0")
+print("\nStatement 4: $\\frac{1}{n}\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(w_0^* + w_1^* x_i) = 0$")
 expression4 = residual * (w0 + w1*x)
-print(f"Expanding: {expression4}")
+print(f"Expanding: ${expression4}$")
 expanded4 = sp.expand(expression4)
-print(f"Expanded: {expanded4}")
+print(f"Expanded: ${expanded4}$")
 print("Let's rewrite this more carefully:")
-print("∑(yi - w0* - w1*xi)(w0* + w1*xi) = ")
-print("w0*∑(yi - w0* - w1*xi) + w1*∑(yi - w0* - w1*xi)xi")
+print("$\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(w_0^* + w_1^* x_i) = $")
+print("$w_0^*\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) + w_1^*\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)x_i$")
 print("From our optimality conditions (1) and (2):")
-print("∑(yi - w0* - w1*xi) = 0")
-print("∑(yi - w0* - w1*xi)xi = 0")
+print("$\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) = 0$")
+print("$\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)x_i = 0$")
 print("Substituting these values:")
-print("w0*∑(yi - w0* - w1*xi) + w1*∑(yi - w0* - w1*xi)xi = w0*·0 + w1*·0 = 0")
+print("$w_0^*\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) + w_1^*\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)x_i = w_0^* \\cdot 0 + w_1^* \\cdot 0 = 0$")
 print("Therefore, statement 4 is actually TRUE. It follows directly from our optimality conditions.")
 
 print("\nSummary of Part 1:")
@@ -107,10 +116,9 @@ print("Statement 2: FALSE (cannot be proven to be always true)")
 print("Statement 3: TRUE (follows directly from the least squares optimality conditions)")
 print("Statement 4: TRUE (follows directly from the least squares optimality conditions)")
 
-# Create a table visualization for statement verification
+# Create a summary table for statements that can be easily copied to Obsidian
 print_step_header(1.1, "Creating Summary Table for Statements")
 
-plt.figure(figsize=(10, 6))
 statements = [
     "$\\frac{1}{n}\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) y_i = 0$",
     "$\\frac{1}{n}\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(y_i - \\bar{y}) = 0$",
@@ -118,30 +126,12 @@ statements = [
     "$\\frac{1}{n}\\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(w_0^* + w_1^* x_i) = 0$"
 ]
 results = ["FALSE", "FALSE", "TRUE", "TRUE"]
-colors = ["red", "red", "green", "green"]
 
-# Create a table plot
-table_data = [
-    [statements[i], results[i]] for i in range(len(statements))
-]
-table = plt.table(cellText=table_data, 
-                 colLabels=["Statement", "True?"],
-                 cellLoc='center',
-                 loc='center',
-                 cellColours=[[None, colors[i]] for i in range(len(statements))],
-                 colWidths=[0.8, 0.2])
-
-table.auto_set_font_size(False)
-table.set_fontsize(9)
-table.scale(1, 2)
-plt.axis('off')
-plt.title('Summary of Least Squares Properties', fontsize=14)
-
-# Save the figure
-file_path = os.path.join(save_dir, "statement_verification_table.png")
-plt.savefig(file_path, dpi=300, bbox_inches='tight')
-plt.close()
-print(f"\nTable visualization saved to: {file_path}")
+# Print in Obsidian table format
+print("| Statement | True? |")
+print("| --------- | ----- |")
+for i in range(len(statements)):
+    print(f"| {statements[i]} | {results[i]} |")
 
 # Part 2: Calculate least squares for the given dataset
 print_step_header(2, "Least Squares Solution for the Dataset")
