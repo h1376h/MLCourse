@@ -1,7 +1,7 @@
 # Lecture 4.2: The Perceptron Algorithm Quiz
 
 ## Overview
-This quiz contains 10 questions covering different topics from section 4.2 of the lectures on The Perceptron Algorithm, including the model structure, learning rules, convergence, limitations, and applications of the perceptron.
+This quiz contains 11 questions covering different topics from section 4.2 of the lectures on The Perceptron Algorithm, including the model structure, learning rules, convergence, limitations, and applications of the perceptron.
 
 ## Question 1
 
