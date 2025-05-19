@@ -19,7 +19,12 @@ $$\Sigma_0 = \begin{bmatrix} 1 & 0 \\ 0 & 4 \end{bmatrix}, \Sigma_1 = \begin{bma
 4. Explain why the decision boundary has this shape despite equal means
 5. Describe how the decision boundary would change if the prior probabilities were not equal
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: Bayes Optimal Classifier with Equal Means](L4_3_1_explanation.md).
+#### Solution Approaches
+This problem can be tackled using multiple approaches:
+
+For a detailed explanation with extensive mathematical derivations and visualizations, including 3D probability density plots and heatmaps, see [Question 1: Bayes Optimal Classifier with Equal Means](L4_3_1_explanation.md).
+
+For an alternative approach with more concise mathematical explanations focused on the core concepts and decision boundary derivation, see [Alternative Solution: Concise Mathematical Approach](L4_3_1_explanation_alternative.md).
 
 ## Question 2
 
