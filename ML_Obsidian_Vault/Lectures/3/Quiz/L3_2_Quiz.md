@@ -1,7 +1,7 @@
 # Lecture 3.2: Simple Linear Regression Quiz
 
 ## Overview
-This quiz contains 36 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
+This quiz contains 37 questions from different topics covered in section 3.2 of the lectures on Simple Linear Regression.
 
 ## Question 1
 
@@ -648,7 +648,7 @@ $$J(\mathbf{w}) = \frac{1}{n}\sum_{i=1}^n (y_i - w_0 - w_1 x_i)^2$$
 You can assume for our purposes here that the solution is unique.
 
 #### Task
-Check each statement that must be true if $\mathbf{w}^* = [w_0^*, w_1^*]^T$ is indeed the least squares solution.
+1. Check each statement that must be true if $\mathbf{w}^* = [w_0^*, w_1^*]^T$ is indeed the least squares solution.
 
 | Statement | True? |
 | --------- | ----- |
@@ -658,5 +658,9 @@ Check each statement that must be true if $\mathbf{w}^* = [w_0^*, w_1^*]^T$ is i
 | $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(w_0^* + w_1^* x_i) = 0$ |  |
 
 where $\bar{x}$ and $\bar{y}$ are the sample means based on the same dataset. (hint: take the derivative of $J(\mathbf{w})$ with respect to $w_0^*$ and $w_1^*$)
+
+2. Consider a dataset with just $3$ points: $(1,2)$, $(2,3)$, and $(3,5)$. Plot these points on graph paper, and visually estimate the best-fit line. Then calculate the actual least squares solution using the formulas for $w_1^*$ and $w_0^*$ Compare your visual estimate with the calculated result.
+3. For a dataset where the least squares solution is $w_0^* = 1$ and $w_1^* = 2$, calculate the residuals for the points $(0,0)$, $(1,2)$, $(2,5)$, and $(3,9)$. Then verify that the sum of residuals equals zero, and the sum of residuals multiplied by their corresponding $x$-values equals zero.
+
 
 For a detailed explanation of this problem, see [Question 37: Least Squares Solution Properties](L3_2_37_explanation.md).
