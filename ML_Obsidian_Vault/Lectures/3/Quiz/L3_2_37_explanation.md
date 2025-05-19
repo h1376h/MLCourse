@@ -148,8 +148,8 @@ For the model with $w_0^* = 1$ and $w_1^* = 2$, we calculate the residuals for t
    - Residual: $r = 9 - 7 = 2$
 
 Now we verify the two properties:
-- Sum of residuals: $-1 + (-1) + 0 + 2 = 0$ ✓
-- Sum of residuals × x-values: $-1 \times 0 + (-1) \times 1 + 0 \times 2 + 2 \times 3 = 0 + (-1) + 0 + 6 = 5$ ≠ 0 ❌
+- Sum of residuals: $-1 + (-1) + 0 + 2 = 0$ $\checkmark$
+- Sum of residuals × x-values: $-1 \times 0 + (-1) \times 1 + 0 \times 2 + 2 \times 3 = 0 + (-1) + 0 + 6 = 5$ $\neq 0$
 
 The sum of residuals equals zero, but the sum of residuals multiplied by their corresponding x-values does not equal zero (it equals 5). This indicates that the model $w_0^* = 1$ and $w_1^* = 2$ is not actually the least squares solution for this dataset.
 
@@ -159,8 +159,8 @@ To verify this, we calculated the actual least squares solution for this specifi
 - Actual best fit line: $y = -0.5 + 3.0x$
 
 With this actual least squares solution, both properties are satisfied:
-- Sum of residuals: $0.5 + (-0.5) + (-0.5) + 0.5 = 0$ ✓
-- Sum of residuals × x-values: $0.5 \times 0 + (-0.5) \times 1 + (-0.5) \times 2 + 0.5 \times 3 = 0 + (-0.5) + (-1) + 1.5 = 0$ ✓
+- Sum of residuals: $0.5 + (-0.5) + (-0.5) + 0.5 = 0$ $\checkmark$
+- Sum of residuals × x-values: $0.5 \times 0 + (-0.5) \times 1 + (-0.5) \times 2 + 0.5 \times 3 = 0 + (-0.5) + (-1) + 1.5 = 0$ $\checkmark$
 
 ![Residuals Plot](../Images/L3_2_Quiz_37/residuals_plot.png)
 
