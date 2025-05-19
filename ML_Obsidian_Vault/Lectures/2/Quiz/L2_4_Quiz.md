@@ -544,11 +544,11 @@ The double exponential distribution is
 $$f(x|\theta) = \frac{1}{2}e^{-|x-\theta|}, -\infty < x < \infty$$
 
 #### Task
-1. For an i.i.d. sample of size $n = 2m + 1$, show that the mle of $\theta$ is the median of the sample. (The observation such that half of the rest of the observations are smaller and half are larger.)
+1. [📚] For an i.i.d. sample of size $n = 2m + 1$, show that the mle of $\theta$ is the median of the sample. (The observation such that half of the rest of the observations are smaller and half are larger.)
 
 > **Hint**: The function $g(x) = |x|$ is not differentiable. Draw a picture for a small value of $n$ to try to understand what is going on.
 
-2. Consider the following data sample of 11 measurements from a double exponential distribution:
+2. [📚] Consider the following data sample of 11 measurements from a double exponential distribution:
 
 | Observation | Value |
 |-------------|-------|
