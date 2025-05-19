@@ -1,7 +1,7 @@
 # Lecture 4.2: The Perceptron Algorithm Quiz
 
 ## Overview
-This quiz contains 10 questions covering different topics from section 4.2 of the lectures on The Perceptron Algorithm, including the model structure, learning rules, convergence, limitations, and applications of the perceptron.
+This quiz contains 16 questions covering different topics from section 4.2 of the lectures on The Perceptron Algorithm, including the model structure, learning rules, convergence, limitations, and applications of the perceptron.
 
 ## Question 1
 
@@ -10,8 +10,8 @@ Consider the historical context and basic structure of the perceptron model.
 
 #### Task
 1. [🔍] Define the perceptron model in one sentence
-2. [🔍] How does the perceptron relate to biological neurons? Describe in two sentences
-3. [🔍] What are the key limitations of the perceptron as described by Minsky and Papert?
+2. How does the perceptron relate to biological neurons? Describe in two sentences
+3. What are the key limitations of the perceptron as described by Minsky and Papert?
 4. [🔍] Why is the perceptron still studied today despite these limitations? Answer in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: Perceptron History and Structure](L4_2_1_explanation.md).
@@ -157,4 +157,133 @@ Consider applying the perceptron algorithm to the following dataset:
 3. [📚] Draw an approximate final decision boundary that would separate these classes
 4. [🔍] Would a single perceptron be able to learn a circular decision boundary? Explain why or why not in one sentence
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Perceptron Examples](L4_2_10_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Perceptron Examples](L4_2_10_explanation.md).
+
+## Question 11
+
+### Problem Statement
+Consider the effect of learning rate on the perceptron algorithm's convergence and performance.
+
+#### Task
+1. [🔍] How does choosing an excessively high learning rate affect the perceptron algorithm? Answer in two sentences
+2. [📚] For the dataset below, apply the perceptron algorithm with two different learning rates: $\eta = 0.1$ and $\eta = 2.0$. Show the first three iterations for each case.
+
+| $x_1$ | $x_2$ | $y$ (target) |
+|-------|-------|--------------|
+| 1     | 1     | 1            |
+| 3     | 1     | 1            |
+| 2     | 4     | 1            |
+| -1    | 1     | -1           |
+| 0     | -2    | -1           |
+| -2    | -1    | -1           |
+
+3. [📚] Compare the trajectories of the weight vectors for both learning rates and explain which one would likely converge faster to a stable solution
+4. [🔍] Is there a maximum learning rate beyond which the perceptron is guaranteed to not converge, even for linearly separable data? Explain your answer in one or two sentences
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Learning Rate Effects](L4_2_11_explanation.md).
+
+## Question 12
+
+### Problem Statement
+Consider the differences between online (stochastic) perceptron and batch perceptron algorithms.
+
+#### Task
+1. [🔍] Explain the key difference between online and batch perceptron algorithms in one or two sentences
+2. [🔍] List one advantage and one disadvantage of online perceptron compared to batch perceptron
+3. [📚] For the dataset below, perform the first 2 iterations of both online perceptron and batch perceptron with initial weights $w = [0, 0, 0]^T$ and learning rate $\eta = 1$. Show your calculations for each.
+
+| $x_1$ | $x_2$ | $y$ (target) |
+|-------|-------|--------------|
+| 2     | 1     | 1            |
+| 0     | 3     | 1            |
+| -1    | 0     | -1           |
+| -2    | -2    | -1           |
+
+4. [🔍] In what scenarios would you prefer to use online perceptron over batch perceptron? Answer in one or two sentences
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: Online vs Batch Perceptron](L4_2_12_explanation.md).
+
+## Question 13
+
+### Problem Statement
+Consider the Voted Perceptron algorithm, an extension to the standard perceptron.
+
+#### Task
+1. Explain how the Voted Perceptron algorithm differs from the standard perceptron in one or two sentences
+2. What problem does the Voted Perceptron algorithm attempt to solve? Answer in one sentence
+3. If we have the following sequence of perceptron weight vectors during training with their survival times (number of correct predictions before a mistake):
+   - $w_1 = [1, 1, 0]^T$ with survival time $c_1 = 2$
+   - $w_2 = [1, 2, -1]^T$ with survival time $c_2 = 4$
+   - $w_3 = [2, 2, -1]^T$ with survival time $c_3 = 1$
+   
+   How would the Voted Perceptron make a prediction for a new point $x = [2, 1, 1]^T$? Show your calculations.
+
+4. [🔍] How does the Voted Perceptron potentially improve generalization compared to the standard perceptron? Answer in one or two sentences
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 13: Voted Perceptron](L4_2_13_explanation.md).
+
+## Question 14
+
+### Problem Statement
+Consider the Averaged Perceptron algorithm, another popular variant of the perceptron.
+
+#### Task
+1. Describe the Averaged Perceptron algorithm in one or two sentences
+2. How does the Averaged Perceptron differ from the Voted Perceptron? Answer in one sentence
+3. Given the following sequence of weight vectors from an online perceptron training process:
+   - $w_1 = [0, 0, 0]^T$
+   - $w_2 = [1, 0, 0]^T$
+   - $w_3 = [1, 1, 0]^T$
+   - $w_4 = [1, 1, -1]^T$
+   - $w_5 = [2, 1, -1]^T$
+   
+   Calculate the averaged weight vector. Show your work.
+
+4. Why might the Averaged Perceptron be more robust than the standard perceptron in practice? Answer in one or two sentences
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: Averaged Perceptron](L4_2_14_explanation.md).
+
+## Question 15
+
+### Problem Statement
+Consider the Pocket Algorithm, a modification of the perceptron algorithm for dealing with non-linearly separable data.
+
+#### Task
+1. [🔍] Describe how the Pocket Algorithm works in one or two sentences
+2. [🔍] What problem does the Pocket Algorithm attempt to solve? Answer in one sentence
+3. [📚] For the following non-linearly separable dataset:
+
+| $x_1$ | $x_2$ | $y$ (target) |
+|-------|-------|--------------|
+| 1     | 1     | 1            |
+| 2     | 2     | 1            |
+| 3     | 1     | 1            |
+| 2     | 3     | -1           |
+| 1     | 2     | -1           |
+| 3     | 3     | 1            |
+
+   Run 3 iterations of the Pocket Algorithm with initial weights $w = [0, 0, 0]^T$ and learning rate $\eta = 1$. Show your work, including which weight vector is kept in the "pocket" at each step.
+
+4. [🔍] In what practical scenarios would the Pocket Algorithm be particularly useful? Answer in one or two sentences
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 15: Pocket Algorithm](L4_2_15_explanation.md).
+
+## Question 16
+
+### Problem Statement
+Consider the Margin Perceptron, a variant that tries to find a decision boundary with a large margin.
+
+#### Task
+1. Explain how the Margin Perceptron differs from the standard perceptron in one or two sentences
+2. How does the update rule for the Margin Perceptron differ from the standard perceptron? Answer using mathematical notation
+3. Given a dataset where all points are correctly classified but some points are very close to the decision boundary, would a standard perceptron continue to update its weights? Explain why or why not and contrast this with the behavior of the Margin Perceptron
+4. For the dataset below with margin parameter $\gamma = 1.5$, perform 2 iterations of the Margin Perceptron algorithm with initial weights $w = [1, 0, 0]^T$ and learning rate $\eta = 1$. Show your calculations.
+
+| $x_1$ | $x_2$ | $y$ (target) |
+|-------|-------|--------------|
+| 2     | 2     | 1            |
+| 3     | 1     | 1            |
+| -2    | -1    | -1           |
+| -1    | -2    | -1           |
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 16: Margin Perceptron](L4_2_16_explanation.md). 

@@ -31,11 +31,12 @@ This module introduces fundamental concepts of linear classification methods, fr
 - Required Reading: Chapter 4.1.7 of "Pattern Recognition and Machine Learning" by Bishop
 - Quiz: [[L4_2_Quiz]]: Test your understanding of the perceptron algorithm
 
-### Lecture 4.3: Probabilistic Linear Classifiers
+### Lecture 4.3: Probabilistic Linear Classifiers and Logistic Regression
 - [[L4_3_Discriminative_vs_Generative|Discriminative vs Generative]]: Approaches to classification
 - [[L4_3_Logistic_Regression|Logistic Regression]]: Probabilistic linear classification
-- [[L4_3_Sigmoid_Function|Sigmoid Function]]: Converting linear outputs to probabilities
+- [[L4_3_Sigmoid_Function|Sigmoid Function]]: Converting linear outputs to probabilities / Mathematical properties and role in logistic regression
 - [[L4_3_MLE_Logistic_Regression|MLE for Logistic Regression]]: Maximum likelihood approach
+- [[L4_3_Logistic_vs_LDA|Logistic Regression vs. LDA]]: Probabilistic approaches compared
 - [[L4_3_Cross_Entropy_Loss|Cross Entropy Loss]]: Proper scoring rule for classification
 - [[L4_3_MAP_Logistic_Regression|MAP for Logistic Regression]]: Bayesian perspective
 - [[L4_3_Regularized_Logistic|Regularized Logistic Regression]]: Preventing overfitting
@@ -43,6 +44,9 @@ This module introduces fundamental concepts of linear classification methods, fr
 - [[L4_3_Newton_Method|Newton's Method]]: Second-order optimization
 - [[L4_3_Implementation|Logistic Regression Implementation]]: Practical coding example
 - [[L4_3_Probabilistic_Examples|Probabilistic Examples]]: Applications with code
+- [[L4_3_Binary_vs_Multiclass|Binary vs Multiclass Logistic Regression]]: Extensions to multiple classes
+- [[L4_3_Softmax_Function|Softmax Function]]: Generalizing sigmoid for multiclass problems
+- [[L4_3_Advanced_Logistic|Advanced Logistic Regression Topics]]: Specialized techniques
 - Required Reading: Chapter 4.3.2 of "Pattern Recognition and Machine Learning" by Bishop
 - Quiz: [[L4_3_Quiz]]: Test your understanding of probabilistic linear classifiers
 
@@ -82,6 +86,7 @@ This module introduces fundamental concepts of linear classification methods, fr
 - [[L4_6_One_vs_One|One-vs-One (OVO)]]: Training N(N-1)/2 binary classifiers
 - [[L4_6_Error_Correcting_Codes|Error-Correcting Output Codes]]: Robust multi-class approach
 - [[L4_6_Multiclass_Perceptron|Multiclass Perceptron]]: Direct extension to multiple classes
+- [[L4_6_Softmax_Function|Softmax Function]]: Generalizing sigmoid to multiple classes
 - [[L4_6_Softmax_Regression|Softmax Regression]]: Multinomial logistic regression
 - [[L4_6_Cross_Entropy_Multiclass|Multiclass Cross Entropy]]: Loss function for multiple classes
 - [[L4_6_MLE_Softmax|MLE for Softmax Regression]]: Maximum likelihood estimation
@@ -114,6 +119,8 @@ This module introduces fundamental concepts of linear classification methods, fr
 - [[L4_Visualizing_Decision_Boundaries|Visualizing Decision Boundaries]]: Plotting techniques
 - [[L4_Multi_Class_Implementation|Multi-class Classification in Python]]: Code examples
 - [[L4_Advanced_Classification_Code|Advanced Classification Techniques]]: Implementation
+- [[L4_Regularized_Logistic_Implementation|Regularized Logistic Regression]]: Implementation tutorial
+- [[L4_Evaluation_Metrics_Code|Evaluation Metrics in Python]]: Implementation of metrics
 
 ## Related Slides
 *(not included in the repo)*
@@ -124,6 +131,7 @@ This module introduces fundamental concepts of linear classification methods, fr
 - Optimization_for_Classifiers.pdf
 - Multi_Class_Classification_Strategies.pdf
 - Advanced_Linear_Classifiers.pdf
+- Logistic_Regression_Fundamentals.pdf
 
 ## Related Videos
 - [Introduction to Linear Classification](https://www.youtube.com/watch?v=hCOIMkcsm_g)
@@ -138,7 +146,7 @@ This module introduces fundamental concepts of linear classification methods, fr
 Test your understanding with these quizzes:
 - [[L4_1_Quiz]]: Foundations of Linear Classification
 - [[L4_2_Quiz]]: The Perceptron Algorithm
-- [[L4_3_Quiz]]: Probabilistic Linear Classifiers
+- [[L4_3_Quiz]]: Probabilistic Linear Classifiers and Logistic Regression
 - [[L4_4_Quiz]]: Linear Separability and Loss Functions
 - [[L4_5_Quiz]]: Optimization for Linear Classifiers
 - [[L4_6_Quiz]]: Multi-class Classification Strategies
