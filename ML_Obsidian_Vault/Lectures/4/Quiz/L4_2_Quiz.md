@@ -10,8 +10,8 @@ Consider the historical context and basic structure of the perceptron model.
 
 #### Task
 1. [🔍] Define the perceptron model in one sentence
-2. [🔍] How does the perceptron relate to biological neurons? Describe in two sentences
-3. [🔍] What are the key limitations of the perceptron as described by Minsky and Papert?
+2. How does the perceptron relate to biological neurons? Describe in two sentences
+3. What are the key limitations of the perceptron as described by Minsky and Papert?
 4. [🔍] Why is the perceptron still studied today despite these limitations? Answer in one sentence
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: Perceptron History and Structure](L4_2_1_explanation.md).
@@ -157,4 +157,27 @@ Consider applying the perceptron algorithm to the following dataset:
 3. [📚] Draw an approximate final decision boundary that would separate these classes
 4. [🔍] Would a single perceptron be able to learn a circular decision boundary? Explain why or why not in one sentence
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Perceptron Examples](L4_2_10_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Perceptron Examples](L4_2_10_explanation.md).
+
+## Question 11
+
+### Problem Statement
+Consider the effect of learning rate on the perceptron algorithm's convergence and performance.
+
+#### Task
+1. [🔍] How does choosing an excessively high learning rate affect the perceptron algorithm? Answer in two sentences
+2. [📚] For the dataset below, apply the perceptron algorithm with two different learning rates: $\eta = 0.1$ and $\eta = 2.0$. Show the first three iterations for each case.
+
+| $x_1$ | $x_2$ | $y$ (target) |
+|-------|-------|--------------|
+| 1     | 1     | 1            |
+| 3     | 1     | 1            |
+| 2     | 4     | 1            |
+| -1    | 1     | -1           |
+| 0     | -2    | -1           |
+| -2    | -1    | -1           |
+
+3. [📚] Compare the trajectories of the weight vectors for both learning rates and explain which one would likely converge faster to a stable solution
+4. [🔍] Is there a maximum learning rate beyond which the perceptron is guaranteed to not converge, even for linearly separable data? Explain your answer in one or two sentences
+
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Learning Rate Effects](L4_2_11_explanation.md). 
