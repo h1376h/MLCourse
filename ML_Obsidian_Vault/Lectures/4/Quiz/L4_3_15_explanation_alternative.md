@@ -43,13 +43,13 @@ Logistic regression is a binary classification method that models the probabilit
 
 The dataset consists of 8 patients, with 4 benign cases and 4 malignant cases. The feature matrix has shape $(8, 2)$, representing 8 examples with 2 features each (age and tumor size).
 
-![Tumor Classification Dataset](../Images/L5_2_Quiz_5/dataset_visualization.png)
+![Tumor Classification Dataset](../Images/L4_3_Quiz_15/dataset_visualization.png)
 
 As shown in the dataset visualization above, there's a clear visual pattern where malignant tumors (red X's) tend to occur with larger tumor sizes and/or in older patients, compared to benign tumors (blue circles). This suggests that a linear decision boundary might be effective for separating the classes.
 
 The core of logistic regression is the sigmoid function, which maps any real-valued number to the range $[0,1]$, making it suitable for representing probabilities:
 
-![Sigmoid Function](../Images/L5_2_Quiz_5/sigmoid_function.png)
+![Sigmoid Function](../Images/L4_3_Quiz_15/sigmoid_function.png)
 
 The sigmoid function has the following important properties:
 - When $z = 0$: $g(0) = \frac{1}{1+e^0} = \frac{1}{2} = 0.5$
@@ -291,7 +291,7 @@ $$\theta^{(2)} = \begin{bmatrix}
 
 After the second iteration, the parameters are $\theta^{(2)} = [-0.00403519, -0.14438857, -0.06520612]$ and the cost is $J(\theta^{(2)}) = 4.9025$.
 
-![Cost Function over Gradient Descent Iterations](../Images/L5_2_Quiz_5/gradient_descent_cost.png)
+![Cost Function over Gradient Descent Iterations](../Images/L4_3_Quiz_15/gradient_descent_cost.png)
 
 The standard cost function (negative log-likelihood) decreases with each iteration, showing that the model is gradually improving its ability to correctly classify the training examples. This is expected behavior for gradient descent with an appropriate learning rate.
 
@@ -365,7 +365,7 @@ Given the final optimized parameters $\theta = [-136.95, 1.1, 2.2]$, we can deri
 
 This equation gives us the line in the feature space that separates the benign and malignant predictions.
 
-![Decision Boundary for Tumor Classification](../Images/L5_2_Quiz_5/decision_boundary.png)
+![Decision Boundary for Tumor Classification](../Images/L4_3_Quiz_15/decision_boundary.png)
 
 The decision boundary shows that there's a trade-off between age and tumor size in determining malignancy. For each additional 2 years of age, the decision boundary lowers the tumor size threshold by 1mm. This means that for older patients, even smaller tumors might be classified as malignant, while younger patients would need larger tumors to receive a malignant classification.
 
@@ -407,14 +407,14 @@ $$h(x) \approx \frac{1}{1 + e^{15.95}} \approx 0$$
 
 With a properly implemented numerically stable sigmoid function, we can calculate the exact probability as approximately $1.18 \times 10^{-7}$, which is effectively 0.
 
-![New Patient Prediction](../Images/L5_2_Quiz_5/new_patient_prediction.png)
+![New Patient Prediction](../Images/L4_3_Quiz_15/new_patient_prediction.png)
 
 #### Step 6.4: Make the classification decision
 Since $h(x) \approx 0 < 0.5$ (the classification threshold), we classify this tumor as **benign (y=0)**.
 
 The model is extremely confident in this prediction, with approximately 99.9999% certainty that the tumor is benign. This high confidence stems from the large negative value of $z = -15.95$, which is far from the decision boundary at $z = 0$.
 
-![Probability Visualization](../Images/L5_2_Quiz_5/probability_visualization.png)
+![Probability Visualization](../Images/L4_3_Quiz_15/probability_visualization.png)
 
 ### Step 7: Interpretation of Coefficients
 The coefficients in logistic regression represent the change in log-odds of the outcome for a one-unit increase in the corresponding feature, holding other features constant.
@@ -454,29 +454,29 @@ The learning rate $\alpha$ controls the step size in parameter updates during gr
   * May get stuck in local minima or plateau regions
   * Very small rates may make progress imperceptibly slow
 
-![Effect of Learning Rate on Convergence](../Images/L5_2_Quiz_5/learning_rate_effect.png)
+![Effect of Learning Rate on Convergence](../Images/L4_3_Quiz_15/learning_rate_effect.png)
 
 The learning rate plot shows how different learning rates affect convergence. With too small a learning rate (0.001), progress is very slow. With appropriate rates (0.005-0.05), we see steady convergence. Using a learning rate that's too high would cause oscillations or divergence, as the algorithm would overshoot the minimum.
 
 ## Visual Explanations
 
 ### Logistic Regression Cost Function Surface
-![Logistic Regression Cost Function Surface](../Images/L5_2_Quiz_5/cost_function_surface.png)
+![Logistic Regression Cost Function Surface](../Images/L4_3_Quiz_15/cost_function_surface.png)
 
 The cost function surface shows how the cost varies with different values of $\theta_1$ and $\theta_2$ (with $\theta_0$ fixed). The convex shape confirms that the logistic regression cost function has a single global minimum, making it amenable to gradient-based optimization methods. This visualization helps us understand why gradient descent can reliably find the optimal parameters - there are no local minima to get trapped in.
 
 ### Tumor Dataset Visualization
-![Tumor Classification Dataset](../Images/L5_2_Quiz_5/dataset_visualization.png)
+![Tumor Classification Dataset](../Images/L4_3_Quiz_15/dataset_visualization.png)
 
 The scatter plot shows the distribution of benign (blue circles) and malignant (red X's) tumors in the feature space. There's a clear pattern where malignant tumors tend to be larger and/or occur in older patients, which the logistic regression model aims to capture.
 
 ### 3D Probability Surface
-![Probability Surface for Tumor Classification](../Images/L5_2_Quiz_5/probability_surface.png)
+![Probability Surface for Tumor Classification](../Images/L4_3_Quiz_15/probability_surface.png)
 
 The 3D probability surface shows how the probability of malignancy changes across different combinations of age and tumor size. The steep gradient in the tumor size direction visually confirms its stronger influence on the prediction.
 
 ### Decision Regions with Confidence Levels
-![Decision Regions with Confidence Levels](../Images/L5_2_Quiz_5/decision_regions_confidence.png)
+![Decision Regions with Confidence Levels](../Images/L4_3_Quiz_15/decision_regions_confidence.png)
 
 This visualization shows not just the decision boundary but also the confidence of the model in different regions of the feature space. The regions close to the decision boundary represent areas of higher uncertainty, where the model's predictions are less confident (probability close to 0.5). As we move away from the boundary, the model becomes more confident in its predictions, showing high certainty benign regions (blue) and high certainty malignant regions (red). This type of visualization is particularly valuable in medical contexts, where understanding prediction uncertainty can inform clinical decision-making.
 

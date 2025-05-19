@@ -34,8 +34,9 @@ This module introduces fundamental concepts of linear classification methods, fr
 ### Lecture 4.3: Probabilistic Linear Classifiers
 - [[L4_3_Discriminative_vs_Generative|Discriminative vs Generative]]: Approaches to classification
 - [[L4_3_Logistic_Regression|Logistic Regression]]: Probabilistic linear classification
-- [[L4_3_Sigmoid_Function|Sigmoid Function]]: Converting linear outputs to probabilities
+- [[L4_3_Sigmoid_Function|Sigmoid Function]]: Converting linear outputs to probabilities /  Mathematical properties and role in logistic regression
 - [[L4_3_MLE_Logistic_Regression|MLE for Logistic Regression]]: Maximum likelihood approach
+- [[L4_3_Logistic_vs_LDA|Logistic Regression vs. LDA]]: Probabilistic approaches compared
 - [[L4_3_Cross_Entropy_Loss|Cross Entropy Loss]]: Proper scoring rule for classification
 - [[L4_3_MAP_Logistic_Regression|MAP for Logistic Regression]]: Bayesian perspective
 - [[L4_3_Regularized_Logistic|Regularized Logistic Regression]]: Preventing overfitting
@@ -82,6 +83,7 @@ This module introduces fundamental concepts of linear classification methods, fr
 - [[L4_6_One_vs_One|One-vs-One (OVO)]]: Training N(N-1)/2 binary classifiers
 - [[L4_6_Error_Correcting_Codes|Error-Correcting Output Codes]]: Robust multi-class approach
 - [[L4_6_Multiclass_Perceptron|Multiclass Perceptron]]: Direct extension to multiple classes
+- [[L4_6_Softmax_Function|Softmax Function]]: Generalizing sigmoid to multiple classes
 - [[L4_6_Softmax_Regression|Softmax Regression]]: Multinomial logistic regression
 - [[L4_6_Cross_Entropy_Multiclass|Multiclass Cross Entropy]]: Loss function for multiple classes
 - [[L4_6_MLE_Softmax|MLE for Softmax Regression]]: Maximum likelihood estimation
