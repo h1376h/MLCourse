@@ -662,5 +662,4 @@ where $\bar{x}$ and $\bar{y}$ are the sample means based on the same dataset. (h
 2. Consider a dataset with just $3$ points: $(1,2)$, $(2,3)$, and $(3,5)$. Plot these points on graph paper, and visually estimate the best-fit line. Then calculate the actual least squares solution using the formulas for $w_1^*$ and $w_0^*$ Compare your visual estimate with the calculated result.
 3. For a dataset where the least squares solution is $w_0^* = 1$ and $w_1^* = 2$, calculate the residuals for the points $(0,0)$, $(1,2)$, $(2,5)$, and $(3,9)$. Then verify that the sum of residuals equals zero, and the sum of residuals multiplied by their corresponding $x$-values equals zero.
 
-
 For a detailed explanation of this problem, see [Question 37: Least Squares Solution Properties](L3_2_37_explanation.md).
