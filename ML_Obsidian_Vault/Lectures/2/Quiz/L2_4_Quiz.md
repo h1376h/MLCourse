@@ -536,7 +536,7 @@ Calculate the MLE of $\theta$ for this dataset.
 
 For a detailed explanation, see [Question 30: MLE for Poisson Distribution in Error Analysis](L2_4_30_explanation.md).
 
-## [⭐] Question 31
+## Question 31
 
 ### Problem Statement
 The double exponential distribution is
