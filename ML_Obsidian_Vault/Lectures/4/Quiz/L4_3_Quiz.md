@@ -1,4 +1,4 @@
-# Lecture 4.3: Probabilistic Linear Classifiers Quiz
+# Lecture 4.3: Probabilistic Linear Classifiers and Logistic Regression Quiz
 
 ## Overview
 This quiz contains 10 questions covering different topics from section 4.3 of the lectures on Probabilistic Linear Classifiers, including discriminative vs. generative approaches, decision boundaries, and probabilistic classification concepts.

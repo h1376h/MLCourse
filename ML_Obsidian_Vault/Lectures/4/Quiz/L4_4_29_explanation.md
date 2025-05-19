@@ -31,7 +31,7 @@ The basic idea is to run the perceptron algorithm as usual, but every time we fi
 ### Step 1: Initialize Weights and Define the "Pocket"
 We start by initializing both the current weight vector and the pocket weight vector to $w = [w_1, w_2, w_0]^T = [0, 0, 0]^T$ and set the learning rate $\eta = 1$. We also set the initial number of errors for the pocket weights to the maximum possible (in this case, 6).
 
-![Initial State](../Images/L4_2_Quiz_15/pocket_initial.png)
+![Initial State](../Images/L4_4_Quiz_29/pocket_initial.png)
 
 ### Step 2: Iteration 1
 Current weights: $w = [0, 0, 0]^T$
@@ -48,14 +48,14 @@ Pocket errors: 6
    
    $$\mathbf{w}_{new} = [0, 0, 0]^T + 1 \cdot 1 \cdot [1, 1, 1]^T = [1, 1, 1]^T$$
 
-   ![Iteration 1, Sample 1](../Images/L4_2_Quiz_15/pocket_iteration_1_sample_1.png)
+   ![Iteration 1, Sample 1](../Images/L4_4_Quiz_29/pocket_iteration_1_sample_1.png)
    
    - Current errors: 2, Pocket errors: 6
    - **Better solution found!** Update pocket weights:
    - $\mathbf{w}_{pocket} = [1, 1, 1]^T$
    - Pocket errors = 2
 
-   ![Iteration 1, Sample 1 Pocket Update](../Images/L4_2_Quiz_15/pocket_iteration_1_sample_1_pocket_update.png)
+   ![Iteration 1, Sample 1 Pocket Update](../Images/L4_4_Quiz_29/pocket_iteration_1_sample_1_pocket_update.png)
 
 2. Sample 2: $\mathbf{x} = [2, 2]^T$, $y = 1$
    - Correctly classified!
@@ -72,7 +72,7 @@ Pocket errors: 6
    
    $$\mathbf{w}_{new} = [1, 1, 1]^T + 1 \cdot (-1) \cdot [2, 3, 1]^T = [-1, -2, 0]^T$$
 
-   ![Iteration 1, Sample 4](../Images/L4_2_Quiz_15/pocket_iteration_1_sample_4.png)
+   ![Iteration 1, Sample 4](../Images/L4_4_Quiz_29/pocket_iteration_1_sample_4.png)
    
    - Current errors: 4, Pocket errors: 2
    - Not better than pocket, so keep pocket weights unchanged
@@ -89,7 +89,7 @@ Pocket errors: 6
    
    $$\mathbf{w}_{new} = [-1, -2, 0]^T + 1 \cdot 1 \cdot [3, 3, 1]^T = [2, 1, 1]^T$$
 
-   ![Iteration 1, Sample 6](../Images/L4_2_Quiz_15/pocket_iteration_1_sample_6.png)
+   ![Iteration 1, Sample 6](../Images/L4_4_Quiz_29/pocket_iteration_1_sample_6.png)
    
    - Current errors: 2, Pocket errors: 2
    - Same number of errors as pocket, so keep pocket weights unchanged
@@ -99,7 +99,7 @@ At the end of Iteration 1:
 - Pocket weights: $w_{pocket} = [1, 1, 1]^T$
 - Pocket errors: 2
 
-![End of Iteration 1](../Images/L4_2_Quiz_15/pocket_iteration_1_end.png)
+![End of Iteration 1](../Images/L4_4_Quiz_29/pocket_iteration_1_end.png)
 
 ### Step 3: Iteration 2
 Current weights: $w = [2, 1, 1]^T$
@@ -124,7 +124,7 @@ Pocket errors: 2
    
    $$\mathbf{w}_{new} = [2, 1, 1]^T + 1 \cdot (-1) \cdot [2, 3, 1]^T = [0, -2, 0]^T$$
 
-   ![Iteration 2, Sample 4](../Images/L4_2_Quiz_15/pocket_iteration_2_sample_4.png)
+   ![Iteration 2, Sample 4](../Images/L4_4_Quiz_29/pocket_iteration_2_sample_4.png)
    
    - Current errors: 4, Pocket errors: 2
    - Not better than pocket, so keep pocket weights unchanged
@@ -141,7 +141,7 @@ Pocket errors: 2
    
    $$\mathbf{w}_{new} = [0, -2, 0]^T + 1 \cdot 1 \cdot [3, 3, 1]^T = [3, 1, 1]^T$$
 
-   ![Iteration 2, Sample 6](../Images/L4_2_Quiz_15/pocket_iteration_2_sample_6.png)
+   ![Iteration 2, Sample 6](../Images/L4_4_Quiz_29/pocket_iteration_2_sample_6.png)
    
    - Current errors: 2, Pocket errors: 2
    - Same number of errors as pocket, so keep pocket weights unchanged
@@ -151,7 +151,7 @@ At the end of Iteration 2:
 - Pocket weights: $w_{pocket} = [1, 1, 1]^T$
 - Pocket errors: 2
 
-![End of Iteration 2](../Images/L4_2_Quiz_15/pocket_iteration_2_end.png)
+![End of Iteration 2](../Images/L4_4_Quiz_29/pocket_iteration_2_end.png)
 
 ### Step 4: Iteration 3
 Current weights: $w = [3, 1, 1]^T$
@@ -176,7 +176,7 @@ Pocket errors: 2
    
    $$\mathbf{w}_{new} = [3, 1, 1]^T + 1 \cdot (-1) \cdot [2, 3, 1]^T = [1, -2, 0]^T$$
 
-   ![Iteration 3, Sample 4](../Images/L4_2_Quiz_15/pocket_iteration_3_sample_4.png)
+   ![Iteration 3, Sample 4](../Images/L4_4_Quiz_29/pocket_iteration_3_sample_4.png)
    
    - Current errors: 3, Pocket errors: 2
    - Not better than pocket, so keep pocket weights unchanged
@@ -193,7 +193,7 @@ Pocket errors: 2
    
    $$\mathbf{w}_{new} = [1, -2, 0]^T + 1 \cdot 1 \cdot [3, 3, 1]^T = [4, 1, 1]^T$$
 
-   ![Iteration 3, Sample 6](../Images/L4_2_Quiz_15/pocket_iteration_3_sample_6.png)
+   ![Iteration 3, Sample 6](../Images/L4_4_Quiz_29/pocket_iteration_3_sample_6.png)
    
    - Current errors: 2, Pocket errors: 2
    - Same number of errors as pocket, so keep pocket weights unchanged
@@ -203,7 +203,7 @@ At the end of Iteration 3:
 - Pocket weights: $w_{pocket} = [1, 1, 1]^T$
 - Pocket errors: 2
 
-![End of Iteration 3](../Images/L4_2_Quiz_15/pocket_iteration_3_end.png)
+![End of Iteration 3](../Images/L4_4_Quiz_29/pocket_iteration_3_end.png)
 
 ### Final Decision Boundary
 
@@ -223,13 +223,13 @@ The final decision boundary is a line with slope $-1$ and y-intercept $-1$.
 
 ### Data Distribution and Final Decision Boundary
 
-![Final Decision Boundary](../Images/L4_2_Quiz_15/pocket_final.png)
+![Final Decision Boundary](../Images/L4_4_Quiz_29/pocket_final.png)
 
 The plot shows the data points (blue circles for class +1 and red x's for class -1) and the final decision boundary found by the Pocket Algorithm. The green highlighted points represent misclassified samples. This dataset is not linearly separable, as evident from the persistent misclassifications even with the best possible linear boundary.
 
 ### Pocket Decision Boundary Evolution
 
-![Pocket Evolution](../Images/L4_2_Quiz_15/pocket_evolution.png)
+![Pocket Evolution](../Images/L4_4_Quiz_29/pocket_evolution.png)
 
 This visualization shows how the pocket decision boundary evolved through the iterations. Interestingly, the best boundary was found in the first iteration and remained unchanged in the subsequent iterations.
 

@@ -1,7 +1,7 @@
 # Lecture 4.2: The Perceptron Algorithm Quiz
 
 ## Overview
-This quiz contains 16 questions covering different topics from section 4.2 of the lectures on The Perceptron Algorithm, including the model structure, learning rules, convergence, limitations, and applications of the perceptron.
+This quiz contains 15 questions covering different topics from section 4.2 of the lectures on The Perceptron Algorithm, including the model structure, learning rules, convergence, limitations, and applications of the perceptron.
 
 ## Question 1
 
@@ -246,31 +246,6 @@ For a detailed explanation of this problem, including step-by-step solutions and
 ## Question 15
 
 ### Problem Statement
-Consider the Pocket Algorithm, a modification of the perceptron algorithm for dealing with non-linearly separable data.
-
-#### Task
-1. [🔍] Describe how the Pocket Algorithm works in one or two sentences
-2. [🔍] What problem does the Pocket Algorithm attempt to solve? Answer in one sentence
-3. [📚] For the following non-linearly separable dataset:
-
-| $x_1$ | $x_2$ | $y$ (target) |
-|-------|-------|--------------|
-| 1     | 1     | 1            |
-| 2     | 2     | 1            |
-| 3     | 1     | 1            |
-| 2     | 3     | -1           |
-| 1     | 2     | -1           |
-| 3     | 3     | 1            |
-
-   Run 3 iterations of the Pocket Algorithm with initial weights $w = [0, 0, 0]^T$ and learning rate $\eta = 1$. Show your work, including which weight vector is kept in the "pocket" at each step.
-
-4. [🔍] In what practical scenarios would the Pocket Algorithm be particularly useful? Answer in one or two sentences
-
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 15: Pocket Algorithm](L4_2_15_explanation.md).
-
-## Question 16
-
-### Problem Statement
 Consider the Margin Perceptron, a variant that tries to find a decision boundary with a large margin.
 
 #### Task
@@ -286,4 +261,4 @@ Consider the Margin Perceptron, a variant that tries to find a decision boundary
 | -2    | -1    | -1           |
 | -1    | -2    | -1           |
 
-For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 16: Margin Perceptron](L4_2_16_explanation.md). 
+For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 15: Margin Perceptron](L4_2_15_explanation.md).

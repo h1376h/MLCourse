@@ -535,3 +535,57 @@ Calculate the MLE of $\theta$ for this dataset.
 4. Using your MLE estimate from part 3, calculate the probability $P(Y \geq 5)$ of observing $5$ or more errors on a given day.
 
 For a detailed explanation, see [Question 30: MLE for Poisson Distribution in Error Analysis](L2_4_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+The double exponential distribution is
+
+$$f(x|\theta) = \frac{1}{2}e^{-|x-\theta|}, -\infty < x < \infty$$
+
+#### Task
+1. [📚] For an i.i.d. sample of size $n = 2m + 1$, show that the mle of $\theta$ is the median of the sample. (The observation such that half of the rest of the observations are smaller and half are larger.)
+
+> **Hint**: The function $g(x) = |x|$ is not differentiable. Draw a picture for a small value of $n$ to try to understand what is going on.
+
+2. [📚] Consider the following data sample of 11 measurements from a double exponential distribution:
+
+| Observation | Value |
+|-------------|-------|
+| 1           | -1.2  |
+| 2           | 0.5   |
+| 3           | 2.1   |
+| 4           | -0.7  |
+| 5           | 1.5   |
+| 6           | 0.3   |
+| 7           | -0.2  |
+| 8           | 1.8   |
+| 9           | 0.1   |
+| 10          | -1.0  |
+| 11          | 0.9   |
+
+   a. Calculate the maximum likelihood estimate $\hat{\theta}_{MLE}$ for this dataset.
+   b. What is the estimated probability density at $x = 0$ using your MLE estimate?
+   c. Calculate the probability that a future observation will be greater than 2.0, given your MLE estimate.
+
+For a detailed explanation, see [Question 31: MLE for Double Exponential Distribution](L2_4_31_explanation.md).
+
+## [⭐] Question 32
+
+### Problem Statement
+Let $X_1,X_2, \ldots ,X_n$ be a random sample from distributions with the given probability density functions. In each case, find the maximum likelihood estimator $\hat{\theta}$.
+
+$$(a) \quad f(x;\theta) = \frac{1}{\theta^2}x e^{-x/\theta}, \quad 0 < x < \infty, \quad 0 < \theta < \infty$$
+
+$$(b) \quad f(x;\theta) = \frac{1}{2\theta^3}x^2 e^{-x/\theta}, \quad 0 < x < \infty, \quad 0 < \theta < \infty$$
+
+$$(c) \quad f(x;\theta) = \frac{1}{2}e^{-|x-\theta|}, \quad -\infty < x < \infty, \quad -\infty < \theta < \infty$$
+
+#### Task
+1. Derive the maximum likelihood estimator $\hat{\theta}$ for each probability density function.
+2. For case $(c)$, note that finding $\hat{\theta}$ involves minimizing $\sum_{i=1}^n |x_i - \theta|$, which is a difficult problem. 
+3. When $n = 5$, work through the example with $x_1 = 6.1$, $x_2 = -1.1$, $x_3 = 3.2$, $x_4 = 0.7$, and $x_5 = 1.7$ to find the answer.
+
+> **Hint**: For case $(c)$, the function $g(\theta) = |x - \theta|$ is not differentiable at $\theta = x$. Try different values of $\theta$ and observe how the sum $\sum_{i=1}^n |x_i - \theta|$ changes. Consider what happens when $\theta$ equals one of the data points, and think about how many points are above versus below $\theta$. The solution is related to a common robust statistic that minimizes the sum of absolute deviations.
+
+For a detailed explanation, see [Question 32: MLE for Various Probability Distributions](L2_4_32_explanation.md).
