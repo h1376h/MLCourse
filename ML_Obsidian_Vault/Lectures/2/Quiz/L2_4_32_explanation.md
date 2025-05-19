@@ -11,7 +11,10 @@ $$(c) \quad f(x;\theta) = \frac{1}{2}e^{-|x-\theta|}, \quad -\infty < x < \infty
 
 ### Task
 1. Derive the maximum likelihood estimator $\hat{\theta}$ for each probability density function.
-2. For case $(c)$, work through the example with $x_1 = 6.1$, $x_2 = -1.1$, $x_3 = 3.2$, $x_4 = 0.7$, and $x_5 = 1.7$ to find the answer.
+2. For case $(c)$, note that finding $\hat{\theta}$ involves minimizing $\sum_{i=1}^n |x_i - \theta|$, which is a difficult problem. 
+3. When $n = 5$, work through the example with $x_1 = 6.1$, $x_2 = -1.1$, $x_3 = 3.2$, $x_4 = 0.7$, and $x_5 = 1.7$ to find the answer.
+
+> **Hint**: For case $(c)$, the function $g(\theta) = |x - \theta|$ is not differentiable at $\theta = x$. Try different values of $\theta$ and observe how the sum $\sum_{i=1}^n |x_i - \theta|$ changes. Consider what happens when $\theta$ equals one of the data points, and think about how many points are above versus below $\theta$. The solution is related to a common robust statistic that minimizes the sum of absolute deviations.
 
 ## Understanding the Problem
 
@@ -27,10 +30,6 @@ For the first two PDFs, we can use calculus to find a closed-form solution. For 
 ## Solution
 
 ### Step 1: MLE for $f(x;\theta) = \frac{1}{\theta^2}x e^{-x/\theta}$
-
-First, let's look at the shape of this PDF:
-
-![PDF for case (a)](../Images/L2_4_Quiz_32/all_pdfs.png)
 
 To find the MLE, we start with the likelihood function:
 
@@ -142,7 +141,7 @@ $$\frac{d|x_i-\theta|}{d\theta} = \begin{cases} -1 & \text{if } x_i > \theta \\ 
 
 Setting the derivative of the log-likelihood to zero:
 
-$$\frac{d\ell(\theta)}{d\theta} = -\sum_{i: x_i > \theta} (-1) + \sum_{i: x_i < \theta} 1 = 0$$
+$$\frac{d\ell(\theta)}{d\theta} = -\sum_{i: x_i > \theta} (-1) - \sum_{i: x_i < \theta} 1 = 0$$
 
 $$\sum_{i: x_i > \theta} 1 = \sum_{i: x_i < \theta} 1$$
 
@@ -185,27 +184,38 @@ The graph displays the sum of absolute deviations for different values of $\thet
 
 The log-likelihood function also confirms that the maximum occurs at the median.
 
-### Comparison of All Three Distributions
+## Visual Explanations
 
-To better understand the differences between these probability distributions, let's compare them visually:
+### Probability Density Functions for Case (a)
+![PDF for case (a)](../Images/L2_4_Quiz_32/pdf_case_a.png)
 
-![Comparison of all PDFs](../Images/L2_4_Quiz_32/pdf_comparison.png)
+This visualization shows the shape of the probability density function for case (a) with different values of $\theta$. The PDF is given by $f(x;\theta) = \frac{1}{\theta^2}x e^{-x/\theta}$. As $\theta$ increases, the distribution becomes more spread out, and the peak shifts to the right.
 
-This graph shows all three probability density functions with the same parameter value $\theta = 5$. The case (a) distribution has its mode at $\theta$, case (b) has a more right-skewed shape, and case (c) (Laplace distribution) is symmetric around $\theta$.
+### Probability Density Functions for Case (b)
+![PDF for case (b)](../Images/L2_4_Quiz_32/pdf_case_b.png)
 
-### Sampling Distributions of the MLEs
+This visualization shows the shape of the probability density function for case (b) with different values of $\theta$. The PDF is given by $f(x;\theta) = \frac{1}{2\theta^3}x^2 e^{-x/\theta}$. Similar to case (a), as $\theta$ increases, the distribution becomes more spread out, and the peak shifts to the right.
 
-The MLEs we've derived are themselves random variables because they depend on our sample data. Their distributions are important for understanding estimation uncertainty:
+### Probability Density Functions for Case (c)
+![PDF for case (c)](../Images/L2_4_Quiz_32/pdf_case_c.png)
 
-![MLE Sampling Distributions](../Images/L2_4_Quiz_32/mle_sampling_distributions.png)
+This visualization shows the shape of the probability density function for case (c) with different values of $\theta$. The PDF is given by $f(x;\theta) = \frac{1}{2}e^{-|x-\theta|}$. This is the Laplace distribution, which is symmetrical around $\theta$. As $\theta$ changes, the entire distribution shifts horizontally.
 
-These histograms show the distributions of the MLEs for each case from 500 simulated samples. All three MLEs are approximately normally distributed around the true parameter values, which is expected from asymptotic theory. The spread of these distributions reflects the precision of our estimators.
+### All PDFs Combined
+![All PDFs Combined](../Images/L2_4_Quiz_32/all_pdfs.png)
+
+This combined visualization shows all three probability density functions side by side, allowing for easy comparison of their shapes and parameter effects.
+
+### MLE Convergence Across Distributions
+![MLE Convergence Heatmap](../Images/L2_4_Quiz_32/mle_convergence_heatmap.png)
+
+This heatmap visualization shows how quickly the MLE estimators converge for each distribution as the sample size increases. Each row represents a different distribution, and each column represents a different sample size. Brighter colors indicate higher mean squared error (MSE) relative to the true parameter value, illustrating how estimation precision improves with larger sample sizes.
 
 ## Key Insights
 
 ### Relationship Between Distribution and Estimator
-- For the first distribution, the MLE is $\hat{\theta} = \bar{x}/2$
-- For the second distribution, the MLE is $\hat{\theta} = \bar{x}/3$
+- For the first distribution, the MLE is $\hat{\theta} = \frac{\bar{x}}{2}$
+- For the second distribution, the MLE is $\hat{\theta} = \frac{\bar{x}}{3}$
 - For the third distribution, the MLE is $\hat{\theta} = \text{median}$
 - The denominators in the first two cases (2 and 3) correspond to the exponent of $x$ in the respective PDFs ($x^1$ and $x^2$)
 

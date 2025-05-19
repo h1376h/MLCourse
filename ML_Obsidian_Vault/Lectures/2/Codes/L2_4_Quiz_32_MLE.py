@@ -335,11 +335,70 @@ plt.close()
 print(f"Figure saved to: {file_path_c2}")
 
 # Visualize the PDFs with different parameter values
+# Instead of one combined figure, create three separate figures
+
+# Plot for case (a)
+plt.figure(figsize=(7, 5))
+x_range_a = np.linspace(0, 30, 1000)
+for theta in [3, 5, 7]:
+    y = pdf_a(x_range_a, theta)
+    plt.plot(x_range_a, y, label=r'$\theta = %d$' % theta)
+plt.title(r'PDF for case (a): $\Gamma(2,\theta)$')
+plt.xlabel(r'$x$')
+plt.ylabel(r'Density')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Save case (a) figure
+file_path_pdf_a = os.path.join(save_dir, "pdf_case_a.png")
+plt.savefig(file_path_pdf_a, dpi=300, bbox_inches='tight')
+plt.close()
+print(f"Figure saved to: {file_path_pdf_a}")
+
+# Plot for case (b)
+plt.figure(figsize=(7, 5))
+x_range_b = np.linspace(0, 30, 1000)
+for theta in [3, 4, 5]:
+    y = pdf_b(x_range_b, theta)
+    plt.plot(x_range_b, y, label=r'$\theta = %d$' % theta)
+plt.title(r'PDF for case (b): $\Gamma(3,\theta)$')
+plt.xlabel(r'$x$')
+plt.ylabel(r'Density')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Save case (b) figure
+file_path_pdf_b = os.path.join(save_dir, "pdf_case_b.png")
+plt.savefig(file_path_pdf_b, dpi=300, bbox_inches='tight')
+plt.close()
+print(f"Figure saved to: {file_path_pdf_b}")
+
+# Plot for case (c)
+plt.figure(figsize=(7, 5))
+x_range_c = np.linspace(-10, 10, 1000)
+for theta in [-2, 0, 2]:
+    y = pdf_c(x_range_c, theta)
+    plt.plot(x_range_c, y, label=r'$\theta = %d$' % theta)
+plt.title(r'PDF for case (c): Laplace Distribution')
+plt.xlabel(r'$x$')
+plt.ylabel(r'Density')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+
+# Save case (c) figure
+file_path_pdf_c = os.path.join(save_dir, "pdf_case_c.png")
+plt.savefig(file_path_pdf_c, dpi=300, bbox_inches='tight')
+plt.close()
+print(f"Figure saved to: {file_path_pdf_c}")
+
+# Add original combined visualization but keep reference for backward compatibility
 plt.figure(figsize=(15, 5))
 gs = GridSpec(1, 3, width_ratios=[1, 1, 1])
 
 # Plot for case (a)
-x_range_a = np.linspace(0, 30, 1000)
 ax1 = plt.subplot(gs[0])
 for theta in [3, 5, 7]:
     y = pdf_a(x_range_a, theta)
@@ -351,7 +410,6 @@ ax1.legend()
 ax1.grid(True)
 
 # Plot for case (b)
-x_range_b = np.linspace(0, 30, 1000)
 ax2 = plt.subplot(gs[1])
 for theta in [3, 4, 5]:
     y = pdf_b(x_range_b, theta)
@@ -363,7 +421,6 @@ ax2.legend()
 ax2.grid(True)
 
 # Plot for case (c)
-x_range_c = np.linspace(-10, 10, 1000)
 ax3 = plt.subplot(gs[2])
 for theta in [-2, 0, 2]:
     y = pdf_c(x_range_c, theta)
@@ -376,97 +433,70 @@ ax3.grid(True)
 
 plt.tight_layout()
 
-# Save the figure
+# Save the combined figure
 file_path_pdfs = os.path.join(save_dir, "all_pdfs.png")
 plt.savefig(file_path_pdfs, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path_pdfs}")
 
-# Add new visualization 1: Comparing the three PDFs with the same θ
-plt.figure(figsize=(10, 6))
-x_range = np.linspace(0, 20, 1000)
-x_range_c_full = np.linspace(-10, 30, 2000)
+# Add new informative visualization without text (simple heatmap)
+plt.figure(figsize=(8, 6))
 
-# Use the same parameter value for all distributions
-common_theta = 5
-pdf_a_values = pdf_a(x_range, common_theta)
-pdf_b_values = pdf_b(x_range, common_theta)
-pdf_c_values = pdf_c(x_range_c_full, common_theta)
+# Create a simple visualization that shows MLE convergence
+# Sample sizes on x-axis and relative MSE on y-axis for the three distributions
+sample_sizes = [10, 30, 50, 100, 200, 500]
+num_trials = 1000
 
-plt.plot(x_range, pdf_a_values, label=r'Case (a): $\Gamma(2,%d)$' % common_theta)
-plt.plot(x_range, pdf_b_values, label=r'Case (b): $\Gamma(3,%d)$' % common_theta)
-plt.plot(x_range_c_full, pdf_c_values, label=r'Case (c): Laplace$(%d)$' % common_theta)
-plt.axvline(x=common_theta, color='black', linestyle='--', alpha=0.5)
-plt.xlabel(r'$x$')
-plt.ylabel(r'Density')
-plt.title(r'Comparison of all three PDFs with $\theta = %d$' % common_theta)
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
+# Arrays to store mean squared errors
+mse_a = np.zeros(len(sample_sizes))
+mse_b = np.zeros(len(sample_sizes))
+mse_c = np.zeros(len(sample_sizes))
 
-# Save the figure
-file_path_pdf_compare = os.path.join(save_dir, "pdf_comparison.png")
-plt.savefig(file_path_pdf_compare, dpi=300, bbox_inches='tight')
+# Calculate MSE for each sample size and distribution
+np.random.seed(42)
+for i, n in enumerate(sample_sizes):
+    # For distribution (a)
+    mse_a_samples = []
+    for _ in range(num_trials):
+        sample = np.random.gamma(2, true_param_a, n)
+        mle = np.mean(sample) / 2
+        mse_a_samples.append((mle - true_param_a)**2)
+    mse_a[i] = np.mean(mse_a_samples)
+    
+    # For distribution (b)
+    mse_b_samples = []
+    for _ in range(num_trials):
+        sample = np.random.gamma(3, true_param_b, n)
+        mle = np.mean(sample) / 3
+        mse_b_samples.append((mle - true_param_b)**2)
+    mse_b[i] = np.mean(mse_b_samples)
+    
+    # For distribution (c)
+    mse_c_samples = []
+    for _ in range(num_trials):
+        sample = np.random.laplace(0, 1, n)
+        mle = np.median(sample)
+        mse_c_samples.append(mle**2)  # True value is 0
+    mse_c[i] = np.mean(mse_c_samples)
+
+# Normalize MSE by the largest value for better visualization
+max_mse = max(np.max(mse_a), np.max(mse_b), np.max(mse_c))
+norm_mse_a = mse_a / max_mse
+norm_mse_b = mse_b / max_mse
+norm_mse_c = mse_c / max_mse
+
+# Create data for heatmap
+heatmap_data = np.vstack((norm_mse_a, norm_mse_b, norm_mse_c))
+
+# Create heatmap without text or labels
+plt.imshow(heatmap_data, aspect='auto', cmap='viridis')
+plt.axis('off')  # Remove all axes, ticks, and labels
+
+# Save the simple heatmap visualization
+file_path_heatmap = os.path.join(save_dir, "mle_convergence_heatmap.png")
+plt.savefig(file_path_heatmap, dpi=300, bbox_inches='tight')
 plt.close()
-print(f"Figure saved to: {file_path_pdf_compare}")
-
-# Add new visualization 2: Sampling distribution of MLE estimators
-plt.figure(figsize=(15, 5))
-gs = GridSpec(1, 3, width_ratios=[1, 1, 1])
-
-# Generate multiple samples and compute MLEs for case (a)
-np.random.seed(123)
-n_samples = 500
-sample_size = 50
-mle_samples_a = []
-for _ in range(n_samples):
-    sample = np.random.gamma(2, true_param_a, sample_size)
-    mle_samples_a.append(np.mean(sample) / 2)
-
-# Generate multiple samples and compute MLEs for case (b)
-mle_samples_b = []
-for _ in range(n_samples):
-    sample = np.random.gamma(3, true_param_b, sample_size)
-    mle_samples_b.append(np.mean(sample) / 3)
-
-# Generate multiple samples and compute MLEs for case (c)
-mle_samples_c = []
-for _ in range(n_samples):
-    sample = np.random.laplace(0, 1, sample_size)  # Generate from standard Laplace
-    mle_samples_c.append(np.median(sample))  # MLE is median
-
-# Plot histograms of MLE distributions
-ax1 = plt.subplot(gs[0])
-ax1.hist(mle_samples_a, bins=30, alpha=0.7, color='blue')
-ax1.axvline(x=true_param_a, color='r', linestyle='--', label=r'True $\theta = %d$' % true_param_a)
-ax1.set_title(r'Sampling Distribution of MLE for case (a)')
-ax1.set_xlabel(r'$\hat{\theta} = \bar{x}/2$')
-ax1.set_ylabel(r'Frequency')
-ax1.legend()
-
-ax2 = plt.subplot(gs[1])
-ax2.hist(mle_samples_b, bins=30, alpha=0.7, color='green')
-ax2.axvline(x=true_param_b, color='r', linestyle='--', label=r'True $\theta = %d$' % true_param_b)
-ax2.set_title(r'Sampling Distribution of MLE for case (b)')
-ax2.set_xlabel(r'$\hat{\theta} = \bar{x}/3$')
-ax2.set_ylabel(r'Frequency')
-ax2.legend()
-
-ax3 = plt.subplot(gs[2])
-ax3.hist(mle_samples_c, bins=30, alpha=0.7, color='purple')
-ax3.axvline(x=0, color='r', linestyle='--', label=r'True $\theta = 0$')
-ax3.set_title(r'Sampling Distribution of MLE for case (c)')
-ax3.set_xlabel(r'$\hat{\theta} = \text{median}$')
-ax3.set_ylabel(r'Frequency')
-ax3.legend()
-
-plt.tight_layout()
-
-# Save the figure
-file_path_mle_dist = os.path.join(save_dir, "mle_sampling_distributions.png")
-plt.savefig(file_path_mle_dist, dpi=300, bbox_inches='tight')
-plt.close()
-print(f"Figure saved to: {file_path_mle_dist}")
+print(f"Figure saved to: {file_path_heatmap}")
 
 # Step 5: Summary
 print_step_header(5, "Summary of Results")
