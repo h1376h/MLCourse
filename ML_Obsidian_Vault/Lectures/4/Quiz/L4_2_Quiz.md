@@ -228,9 +228,9 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the Averaged Perceptron algorithm, another popular variant of the perceptron.
 
 #### Task
-1. [🔍] Describe the Averaged Perceptron algorithm in one or two sentences
-2. [🔍] How does the Averaged Perceptron differ from the Voted Perceptron? Answer in one sentence
-3. [📚] Given the following sequence of weight vectors from an online perceptron training process:
+1. Describe the Averaged Perceptron algorithm in one or two sentences
+2. How does the Averaged Perceptron differ from the Voted Perceptron? Answer in one sentence
+3. Given the following sequence of weight vectors from an online perceptron training process:
    - $w_1 = [0, 0, 0]^T$
    - $w_2 = [1, 0, 0]^T$
    - $w_3 = [1, 1, 0]^T$
@@ -239,7 +239,7 @@ Consider the Averaged Perceptron algorithm, another popular variant of the perce
    
    Calculate the averaged weight vector. Show your work.
 
-4. [🔍] Why might the Averaged Perceptron be more robust than the standard perceptron in practice? Answer in one or two sentences
+4. Why might the Averaged Perceptron be more robust than the standard perceptron in practice? Answer in one or two sentences
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: Averaged Perceptron](L4_2_14_explanation.md).
 
@@ -274,10 +274,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the Margin Perceptron, a variant that tries to find a decision boundary with a large margin.
 
 #### Task
-1. [🔍] Explain how the Margin Perceptron differs from the standard perceptron in one or two sentences
-2. [🔍] How does the update rule for the Margin Perceptron differ from the standard perceptron? Answer using mathematical notation
-3. [📚] Given a dataset where all points are correctly classified but some points are very close to the decision boundary, would a standard perceptron continue to update its weights? Explain why or why not and contrast this with the behavior of the Margin Perceptron
-4. [📚] For the dataset below with margin parameter $\gamma = 1.5$, perform 2 iterations of the Margin Perceptron algorithm with initial weights $w = [1, 0, 0]^T$ and learning rate $\eta = 1$. Show your calculations.
+1. Explain how the Margin Perceptron differs from the standard perceptron in one or two sentences
+2. How does the update rule for the Margin Perceptron differ from the standard perceptron? Answer using mathematical notation
+3. Given a dataset where all points are correctly classified but some points are very close to the decision boundary, would a standard perceptron continue to update its weights? Explain why or why not and contrast this with the behavior of the Margin Perceptron
+4. For the dataset below with margin parameter $\gamma = 1.5$, perform 2 iterations of the Margin Perceptron algorithm with initial weights $w = [1, 0, 0]^T$ and learning rate $\eta = 1$. Show your calculations.
 
 | $x_1$ | $x_2$ | $y$ (target) |
 |-------|-------|--------------|
