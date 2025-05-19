@@ -535,3 +535,37 @@ Calculate the MLE of $\theta$ for this dataset.
 4. Using your MLE estimate from part 3, calculate the probability $P(Y \geq 5)$ of observing $5$ or more errors on a given day.
 
 For a detailed explanation, see [Question 30: MLE for Poisson Distribution in Error Analysis](L2_4_30_explanation.md).
+
+## [⭐] Question 31
+
+### Problem Statement
+The double exponential distribution is
+
+$$f(x|\theta) = \frac{1}{2}e^{-|x-\theta|}, -\infty < x < \infty$$
+
+#### Task
+1. For an i.i.d. sample of size $n = 2m + 1$, show that the mle of $\theta$ is the median of the sample. (The observation such that half of the rest of the observations are smaller and half are larger.)
+
+> **Note**: Hint: The function $g(x) = |x|$ is not differentiable. Draw a picture for a small value of $n$ to try to understand what is going on.
+
+2. Consider the following data sample of 11 measurements from a double exponential distribution:
+
+| Observation | Value |
+|-------------|-------|
+| 1           | -1.2  |
+| 2           | 0.5   |
+| 3           | 2.1   |
+| 4           | -0.7  |
+| 5           | 1.5   |
+| 6           | 0.3   |
+| 7           | -0.2  |
+| 8           | 1.8   |
+| 9           | 0.1   |
+| 10          | -1.0  |
+| 11          | 0.9   |
+
+   a. Calculate the maximum likelihood estimate $\hat{\theta}_{MLE}$ for this dataset.
+   b. What is the estimated probability density at $x = 0$ using your MLE estimate?
+   c. Calculate the probability that a future observation will be greater than 2.0, given your MLE estimate.
+
+For a detailed explanation, see [Question 31: MLE for Double Exponential Distribution](L2_4_31_explanation.md).
