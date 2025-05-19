@@ -69,9 +69,15 @@ Since the second derivative is negative, this confirms that $\hat{\theta} = \fra
 
 So the MLE for the first distribution is half of the sample mean.
 
+In our numerical verification using 1000 randomly generated samples with true $\theta = 5$:
+- Sample mean: $\bar{x} = 10.2997$
+- MLE: $\hat{\theta} = \frac{\bar{x}}{2} = 5.1498$
+- Theoretical expected value: $2\theta = 10.0000$
+- Theoretical MLE: $\frac{2\theta}{2} = 5.0000$
+
 ![Log-likelihood for case (a)](../Images/L2_4_Quiz_32/case_a_log_likelihood.png)
 
-The graph shows the log-likelihood function for different values of $\theta$. The vertical red dashed line indicates the MLE ($\hat{\theta} = \bar{x}/2$), and the green dotted line shows the true parameter value. The peak of the log-likelihood function confirms our analytical solution.
+The graph shows the log-likelihood function for different values of $\theta$. The vertical red dashed line indicates the MLE ($\hat{\theta} = \bar{x}/2 = 5.1498$), and the green dotted line shows the true parameter value ($\theta = 5$). The peak of the log-likelihood function confirms our analytical solution.
 
 ### Step 2: MLE for $f(x;\theta) = \frac{1}{2\theta^3}x^2 e^{-x/\theta}$
 
@@ -115,9 +121,15 @@ Since the second derivative is negative, this confirms that $\hat{\theta} = \fra
 
 So the MLE for the second distribution is one-third of the sample mean.
 
+In our numerical verification using 1000 randomly generated samples with true $\theta = 4$:
+- Sample mean: $\bar{x} = 12.4552$
+- MLE: $\hat{\theta} = \frac{\bar{x}}{3} = 4.1517$
+- Theoretical expected value: $3\theta = 12.0000$
+- Theoretical MLE: $\frac{3\theta}{3} = 4.0000$
+
 ![Log-likelihood for case (b)](../Images/L2_4_Quiz_32/case_b_log_likelihood.png)
 
-The graph shows the log-likelihood function for different values of $\theta$. The peak occurs at $\hat{\theta} = \bar{x}/3$, confirming our analytical solution.
+The graph shows the log-likelihood function for different values of $\theta$. The peak occurs at $\hat{\theta} = \bar{x}/3 = 4.1517$, confirming our analytical solution.
 
 ### Step 3: MLE for $f(x;\theta) = \frac{1}{2}e^{-|x-\theta|}$
 
@@ -152,7 +164,7 @@ $x_1 = 6.1$, $x_2 = -1.1$, $x_3 = 3.2$, $x_4 = 0.7$, $x_5 = 1.7$
 
 Sorting the data: $-1.1, 0.7, 1.7, 3.2, 6.1$
 
-Since $n = 5$ is odd, the median is at position $(n+1)/2 = 3$, which is $1.7$. This is our MLE.
+Since $n = 5$ is odd, the median is at position $\frac{n+1}{2} = 3$, which is $1.7$. This is our MLE.
 
 Let's verify this by calculating the sum of absolute deviations at different points:
 
@@ -214,9 +226,9 @@ This heatmap visualization shows how quickly the MLE estimators converge for eac
 ## Key Insights
 
 ### Relationship Between Distribution and Estimator
-- For the first distribution, the MLE is $\hat{\theta} = \frac{\bar{x}}{2}$
-- For the second distribution, the MLE is $\hat{\theta} = \frac{\bar{x}}{3}$
-- For the third distribution, the MLE is $\hat{\theta} = \text{median}$
+- For the first distribution, the MLE is $\hat{\theta} = \frac{\bar{x}}{2}$ (numerically calculated as 5.1498)
+- For the second distribution, the MLE is $\hat{\theta} = \frac{\bar{x}}{3}$ (numerically calculated as 4.1517)
+- For the third distribution, the MLE is $\hat{\theta} = \text{median}$ (calculated as 1.7 for our example)
 - The denominators in the first two cases (2 and 3) correspond to the exponent of $x$ in the respective PDFs ($x^1$ and $x^2$)
 
 ### Statistical Properties
@@ -235,9 +247,9 @@ This heatmap visualization shows how quickly the MLE estimators converge for eac
 
 The maximum likelihood estimators for the three distributions are:
 
-- For distribution (a): $\hat{\theta} = \frac{\bar{x}}{2}$
-- For distribution (b): $\hat{\theta} = \frac{\bar{x}}{3}$
-- For distribution (c): $\hat{\theta} = \text{median}$
+- For distribution (a): $\hat{\theta} = \frac{\bar{x}}{2}$ = 5.1498 (with true θ = 5)
+- For distribution (b): $\hat{\theta} = \frac{\bar{x}}{3}$ = 4.1517 (with true θ = 4)
+- For distribution (c): $\hat{\theta} = \text{median}$ = 1.7 (for our specific dataset)
 
 For the specific example in case (c) with the given data points, the MLE is $\hat{\theta} = 1.7$.
 
