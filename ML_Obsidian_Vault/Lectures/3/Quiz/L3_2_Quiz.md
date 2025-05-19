@@ -637,3 +637,26 @@ Given the following data:
 3. [📚] Are they appropriate predictions?
 
 For a detailed explanation of this problem, including regression analysis and prediction evaluation, see [Question 36: Age and Glucose Level Prediction](L3_2_36_explanation.md).
+
+## Question 37
+
+### Problem Statement
+We are interested here in a particular 1-dimensional linear regression problem. The dataset corresponding to this problem has $n$ examples $(x_1; y_1), \ldots, (x_n; y_n)$ where $x_i$ and $y_i$ are real numbers for all $i$. Let $\mathbf{w}^* = [w_0^*, w_1^*]^T$ be the least squares solution we are after. In other words, $\mathbf{w}^*$ minimizes
+
+$$J(\mathbf{w}) = \frac{1}{n}\sum_{i=1}^n (y_i - w_0 - w_1 x_i)^2$$
+
+You can assume for our purposes here that the solution is unique.
+
+#### Task
+Check each statement that must be true if $\mathbf{w}^* = [w_0^*, w_1^*]^T$ is indeed the least squares solution.
+
+| Statement | True? |
+| --------- | ----- |
+| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i) y_i = 0$ |  |
+| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(y_i - \bar{y}) = 0$ |  |
+| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(x_i - \bar{x}) = 0$ |  |
+| $\frac{1}{n}\sum_{i=1}^n (y_i - w_0^* - w_1^* x_i)(w_0^* + w_1^* x_i) = 0$ |  |
+
+where $\bar{x}$ and $\bar{y}$ are the sample means based on the same dataset. (hint: take the derivative of $J(\mathbf{w})$ with respect to $w_0^*$ and $w_1^*$)
+
+For a detailed explanation of this problem, see [Question 37: Least Squares Solution Properties](L3_2_37_explanation.md).
