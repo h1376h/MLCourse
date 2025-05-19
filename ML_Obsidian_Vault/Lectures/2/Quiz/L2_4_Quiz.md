@@ -1,7 +1,7 @@
 # Lecture 2.4: Maximum Likelihood Estimation Quiz
 
 ## Overview
-This quiz contains 30 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
+This quiz contains 32 questions from different topics covered in section 2.4 of the lectures on Maximum Likelihood Estimation.
 
 ## [⭐] Question 1
 

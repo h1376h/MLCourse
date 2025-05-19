@@ -221,7 +221,12 @@ This combined visualization shows all three probability density functions side b
 ### MLE Convergence Across Distributions
 ![MLE Convergence Heatmap](../Images/L2_4_Quiz_32/mle_convergence_heatmap.png)
 
-This heatmap visualization shows how quickly the MLE estimators converge for each distribution as the sample size increases. Each row represents a different distribution, and each column represents a different sample size. Brighter colors indicate higher mean squared error (MSE) relative to the true parameter value, illustrating how estimation precision improves with larger sample sizes.
+This heatmap visualization shows how quickly the MLE estimators converge for each distribution as the sample size increases. Each row represents a different distribution, and each column represents a different sample size. Brighter colors indicate higher mean squared error (MSE) relative to the true parameter value, illustrating how estimation precision improves with larger sample sizes. The colorbar indicates the normalized MSE values, with lower values (darker colors) representing better estimator performance.
+
+### MLE Convergence Rate Comparison
+![MLE Convergence Line Plot](../Images/L2_4_Quiz_32/mle_convergence_line.png)
+
+This minimalist line plot provides a clear comparison of how the mean squared error decreases for each distribution's MLE as sample size increases. The logarithmic scales on both axes highlight the asymptotic convergence rates. Each line represents one of the three different distributions, with different markers and colors for easy differentiation. This visual clearly demonstrates that all estimators improve with larger sample sizes, though at different rates.
 
 ## Key Insights
 

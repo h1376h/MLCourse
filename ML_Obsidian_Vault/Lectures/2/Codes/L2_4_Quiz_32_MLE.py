@@ -440,7 +440,7 @@ plt.close()
 print(f"Figure saved to: {file_path_pdfs}")
 
 # Add new informative visualization without text (simple heatmap)
-plt.figure(figsize=(8, 6))
+plt.figure(figsize=(10, 6))
 
 # Create a simple visualization that shows MLE convergence
 # Sample sizes on x-axis and relative MSE on y-axis for the three distributions
@@ -488,15 +488,47 @@ norm_mse_c = mse_c / max_mse
 # Create data for heatmap
 heatmap_data = np.vstack((norm_mse_a, norm_mse_b, norm_mse_c))
 
-# Create heatmap without text or labels
-plt.imshow(heatmap_data, aspect='auto', cmap='viridis')
-plt.axis('off')  # Remove all axes, ticks, and labels
+# Create heatmap with labels and colorbar
+fig, ax = plt.subplots(figsize=(10, 6))
+im = ax.imshow(heatmap_data, aspect='auto', cmap='viridis')
 
-# Save the simple heatmap visualization
+# Add labels and ticks
+ax.set_yticks([0, 1, 2])
+ax.set_yticklabels([r'(a) $\frac{x}{\theta^2}e^{-x/\theta}$', 
+                    r'(b) $\frac{x^2}{2\theta^3}e^{-x/\theta}$', 
+                    r'(c) $\frac{1}{2}e^{-|x-\theta|}$'])
+ax.set_xticks(range(len(sample_sizes)))
+ax.set_xticklabels(sample_sizes)
+ax.set_xlabel('Sample Size')
+ax.set_title('MLE Convergence: Normalized Mean Squared Error')
+
+# Add colorbar
+cbar = fig.colorbar(im)
+cbar.set_label('Normalized MSE (lower is better)')
+
+plt.tight_layout()
+
+# Save the heatmap visualization
 file_path_heatmap = os.path.join(save_dir, "mle_convergence_heatmap.png")
 plt.savefig(file_path_heatmap, dpi=300, bbox_inches='tight')
 plt.close()
 print(f"Figure saved to: {file_path_heatmap}")
+
+# Add a simple line plot showing convergence (without text)
+plt.figure(figsize=(8, 5))
+plt.plot(sample_sizes, mse_a, 'o-', color='#1f77b4', linewidth=2, markersize=8)
+plt.plot(sample_sizes, mse_b, 's-', color='#ff7f0e', linewidth=2, markersize=8)
+plt.plot(sample_sizes, mse_c, '^-', color='#2ca02c', linewidth=2, markersize=8)
+plt.xscale('log')
+plt.yscale('log')
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+
+# Save the line plot visualization
+file_path_line = os.path.join(save_dir, "mle_convergence_line.png")
+plt.savefig(file_path_line, dpi=300, bbox_inches='tight')
+plt.close()
+print(f"Figure saved to: {file_path_line}")
 
 # Step 5: Summary
 print_step_header(5, "Summary of Results")
