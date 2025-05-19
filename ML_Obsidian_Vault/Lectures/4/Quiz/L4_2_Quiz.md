@@ -209,9 +209,9 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Consider the Voted Perceptron algorithm, an extension to the standard perceptron.
 
 #### Task
-1. [🔍] Explain how the Voted Perceptron algorithm differs from the standard perceptron in one or two sentences
-2. [🔍] What problem does the Voted Perceptron algorithm attempt to solve? Answer in one sentence
-3. [📚] If we have the following sequence of perceptron weight vectors during training with their survival times (number of correct predictions before a mistake):
+1. Explain how the Voted Perceptron algorithm differs from the standard perceptron in one or two sentences
+2. What problem does the Voted Perceptron algorithm attempt to solve? Answer in one sentence
+3. If we have the following sequence of perceptron weight vectors during training with their survival times (number of correct predictions before a mistake):
    - $w_1 = [1, 1, 0]^T$ with survival time $c_1 = 2$
    - $w_2 = [1, 2, -1]^T$ with survival time $c_2 = 4$
    - $w_3 = [2, 2, -1]^T$ with survival time $c_3 = 1$
