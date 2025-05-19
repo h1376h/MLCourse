@@ -91,7 +91,7 @@
 - 4.2: The Perceptron Algorithm
   - ⭐ Quiz: [[L4_2_Quiz]]
   - 📚 Examples: Coming Soon
-- 4.3: Probabilistic Linear Classifiers
+- 4.3: Probabilistic Linear Classifiers and Logistic Regression
   - ⭐ Quiz: [[L4_3_Quiz]]
   - 📚 Examples: Coming Soon
 - 4.4: Linear Separability and Loss Functions
@@ -107,53 +107,27 @@
   - ⭐ Quiz: L4_7_Quiz
   - 📚 Examples: Coming Soon
 
-### Lecture 5: Logistic Regression
-- 5.1: Binary Logistic Regression Foundations
+### Lecture 5: Support Vector Machines
+- 5.1: Maximum Margin Classifiers
   - ⭐ Quiz: L5_1_Quiz
   - 📚 Examples: Coming Soon
-- 5.2: Maximum Likelihood for Logistic Regression
-  - ⭐ Quiz: [[L5_2_Quiz]]
+- 5.2: Hard Margin and Soft Margin SVMs
+  - ⭐ Quiz: L5_2_Quiz
   - 📚 Examples: Coming Soon
-- 5.3: Optimization Methods for Logistic Regression
+- 5.3: Kernel Trick for Nonlinear Classification
   - ⭐ Quiz: L5_3_Quiz
   - 📚 Examples: Coming Soon
-- 5.4: Multi-class Logistic Regression
+- 5.4: Multi-class SVM Approaches
   - ⭐ Quiz: L5_4_Quiz
   - 📚 Examples: Coming Soon
-- 5.5: Regularized Logistic Regression
+- 5.5: SVM Regression
   - ⭐ Quiz: L5_5_Quiz
   - 📚 Examples: Coming Soon
-- 5.6: Evaluation Metrics for Logistic Regression
+- 5.6: Computational Considerations
   - ⭐ Quiz: L5_6_Quiz
-  - 📚 Examples: Coming Soon
-- 5.7: Comparison with Other Classifiers
-  - ⭐ Quiz: L5_7_Quiz
-  - 📚 Examples: Coming Soon
-- 5.8: Advanced Logistic Regression Topics
-  - ⭐ Quiz: L5_8_Quiz
-  - 📚 Examples: Coming Soon
-
-### Lecture 6: Support Vector Machines
-- 6.1: Maximum Margin Classifiers
-  - ⭐ Quiz: L6_1_Quiz
-  - 📚 Examples: Coming Soon
-- 6.2: Hard Margin and Soft Margin SVMs
-  - ⭐ Quiz: L6_2_Quiz
-  - 📚 Examples: Coming Soon
-- 6.3: Kernel Trick for Nonlinear Classification
-  - ⭐ Quiz: L6_3_Quiz
-  - 📚 Examples: Coming Soon
-- 6.4: Multi-class SVM Approaches
-  - ⭐ Quiz: L6_4_Quiz
-  - 📚 Examples: Coming Soon
-- 6.5: SVM Regression
-  - ⭐ Quiz: L6_5_Quiz
-  - 📚 Examples: Coming Soon
-- 6.6: Computational Considerations
-  - ⭐ Quiz: L6_6_Quiz
   - 📚 Examples: Coming Soon
 
 ## Practice Materials
-- ⭐ Practice_Exam_1: Lectures 1-5
-- ⭐ Practice_Exam_2: Lectures 6-7
+- ⭐ Practice_Exam_1: Lectures 1-4
+- ⭐ Practice_Exam_2: Lectures 5-6
 - ⭐ Final_Exam_Practice: Comprehensive Review
