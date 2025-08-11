@@ -653,11 +653,11 @@ Create a "Tree Surgery" simulation where you practice pruning decisions.
 **Given Tree Structure**:
 
 ```
-Root: Age $\leq 30$ (Training Acc: $85\%$, Validation Acc: $78\%$)
-├── Left: Income $\leq \$40K$ (Training Acc: $90\%$, Validation Acc: $72\%$)
+Root: Age ≤ 30 (Training Acc: 85%, Validation Acc: 78%)
+├── Left: Income ≤ $40K (Training Acc: 90%, Validation Acc: 72%)
 │   ├── Low Risk (Leaf): [Safe: 8, Risk: 1]
 │   └── Medium Risk (Leaf): [Safe: 3, Risk: 4]
-└── Right: Experience $> 2$ years (Training Acc: $88\%$, Validation Acc: $81\%$)
+└── Right: Experience > 2 years (Training Acc: 88%, Validation Acc: 81%)
     ├── High Risk (Leaf): [Safe: 2, Risk: 6]
     └── Safe (Leaf): [Safe: 7, Risk: 1]
 ```
@@ -676,7 +676,7 @@ Root: Age $\leq 30$ (Training Acc: $85\%$, Validation Acc: $78\%$)
    - Tree with left subtree pruned
 4. What does the validation performance pattern suggest about overfitting?
 5. Write the final decision rule after optimal pruning
-6. Compute the misclassification cost for each pruning option if Safe=0 cost, Risk=10 cost
+6. Compute the misclassification cost for each pruning option if $Safe=0$ cost, $Risk=10$ cost
 
 For a detailed explanation of this question, see [Question 38: Tree Pruning Simulation](L6_3_38_explanation.md).
 
@@ -748,11 +748,8 @@ You run a consulting company that recommends the best decision tree algorithm fo
 - Priority: Avoiding bias toward high-cardinality features
 
 1. **Matching Game**: Connect each client (A, B, C, D) with their ideal algorithm (ID3, C4.5, CART). Draw lines or write pairs.
-
 2. **Consultation Notes**: For each match, write a one-sentence business justification that you'd tell the client.
-
 3. **The Plot Twist**: Client D mentions they also need to predict continuous insurance claim amounts. Does this change your recommendation? Explain.
-
 4. **Elevator Pitch**: You have 30 seconds in an elevator to explain to a non-technical CEO why different algorithms exist. Write your pitch (2-3 sentences max).
 
 For a detailed explanation of this question, see [Question 40: Algorithm Matchmaker](L6_3_40_explanation.md).
