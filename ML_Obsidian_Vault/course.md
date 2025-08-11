@@ -127,7 +127,164 @@
   - ⭐ Quiz: L5_6_Quiz
   - 📚 Examples: Coming Soon
 
+### Lecture 6: Decision Trees
+- 6.1: Foundations of Decision Trees
+  - ⭐ Quiz: [[L6_1_Quiz]]
+  - 📚 Examples: Coming Soon
+- 6.2: Entropy and Information Gain in Trees
+  - ⭐ Quiz: [[L6_2_Quiz]]
+  - 📚 Examples: Coming Soon
+- 6.3: ID3 Algorithm
+  - ⭐ Quiz: [[L6_3_Quiz]]
+  - 📚 Examples: Coming Soon
+- 6.4: C4.5 Algorithm
+  - ⭐ Quiz: [[L6_4_Quiz]]
+  - 📚 Examples: Coming Soon
+- 6.5: Overfitting and Underfitting in Trees
+  - ⭐ Quiz: [[L6_5_Quiz]]
+  - 📚 Examples: Coming Soon
+- 6.6: Tree Pruning Techniques
+  - ⭐ Quiz: [[L6_6_Quiz]]
+  - 📚 Examples: Coming Soon
+- 6.7: Random Forest
+  - ⭐ Quiz: [[L6_7_Quiz]]
+  - 📚 Examples: Coming Soon
+- 6.8: Advanced Decision Tree Topics
+  - ⭐ Quiz: [[L6_8_Quiz]]
+  - 📚 Examples: Coming Soon
+
+### Lecture 7: Ensemble Methods
+- 7.1: Foundations of Ensemble Learning
+  - ⭐ Quiz: [[L7_1_Quiz]]
+  - 📚 Examples: Coming Soon
+- 7.2: Bagging (Bootstrap Aggregating)
+  - ⭐ Quiz: [[L7_2_Quiz]]
+  - 📚 Examples: Coming Soon
+- 7.3: AdaBoost Algorithm
+  - ⭐ Quiz: [[L7_3_Quiz]]
+  - 📚 Examples: Coming Soon
+- 7.4: Advanced Boosting Algorithms
+  - ⭐ Quiz: [[L7_4_Quiz]]
+  - 📚 Examples: Coming Soon
+- 7.5: Random Forest Deep Dive
+  - ⭐ Quiz: [[L7_5_Quiz]]
+  - 📚 Examples: Coming Soon
+- 7.6: Stacking and Blending
+  - ⭐ Quiz: [[L7_6_Quiz]]
+  - 📚 Examples: Coming Soon
+- 7.7: Ensemble Model Selection and Tuning
+  - ⭐ Quiz: [[L7_7_Quiz]]
+  - 📚 Examples: Coming Soon
+- 7.8: Advanced Ensemble Topics and Applications
+  - ⭐ Quiz: [[L7_8_Quiz]]
+  - 📚 Examples: Coming Soon
+
+### Lecture 8: Clustering and Unsupervised Learning
+- 8.1: Foundations of Unsupervised Learning
+  - ⭐ Quiz: [[L8_1_Quiz]]
+  - 📚 Examples: Coming Soon
+- 8.2: K-Means Clustering
+  - ⭐ Quiz: [[L8_2_Quiz]]
+  - 📚 Examples: Coming Soon
+- 8.3: Hierarchical Clustering
+  - ⭐ Quiz: [[L8_3_Quiz]]
+  - 📚 Examples: Coming Soon
+- 8.4: Density-Based Clustering
+  - ⭐ Quiz: [[L8_4_Quiz]]
+  - 📚 Examples: Coming Soon
+- 8.5: Model-Based Clustering
+  - ⭐ Quiz: [[L8_5_Quiz]]
+  - 📚 Examples: Coming Soon
+- 8.6: Clustering Evaluation and Validation
+  - ⭐ Quiz: [[L8_6_Quiz]]
+  - 📚 Examples: Coming Soon
+- 8.7: Advanced Clustering Techniques
+  - ⭐ Quiz: [[L8_7_Quiz]]
+  - 📚 Examples: Coming Soon
+- 8.8: Clustering Applications and Case Studies
+  - ⭐ Quiz: [[L8_8_Quiz]]
+  - 📚 Examples: Coming Soon
+
+### Lecture 9: Feature Engineering and Selection
+- 9.1: Foundations of Feature Engineering
+  - ⭐ Quiz: [[L9_1_Quiz]]
+  - 📚 Examples: Coming Soon
+- 9.2: Univariate Feature Selection
+  - ⭐ Quiz: [[L9_2_Quiz]]
+  - 📚 Examples: Coming Soon
+- 9.3: Multivariate Feature Selection
+  - ⭐ Quiz: [[L9_3_Quiz]]
+  - 📚 Examples: Coming Soon
+- 9.4: Correlation Criteria and Analysis
+  - ⭐ Quiz: [[L9_4_Quiz]]
+  - 📚 Examples: Coming Soon
+- 9.5: Filter Methods
+  - ⭐ Quiz: [[L9_5_Quiz]]
+  - 📚 Examples: Coming Soon
+- 9.6: Wrapper Methods
+  - ⭐ Quiz: [[L9_6_Quiz]]
+  - 📚 Examples: Coming Soon
+- 9.7: Search Strategies and Methods
+  - ⭐ Quiz: [[L9_7_Quiz]]
+  - 📚 Examples: Coming Soon
+- 9.8: Feature Extraction and Dimensionality Reduction
+  - ⭐ Quiz: [[L9_8_Quiz]]
+  - 📚 Examples: Coming Soon
+
+### Lecture 10: Model Evaluation and Validation
+- 10.1: Foundations of Model Evaluation
+  - ⭐ Quiz: [[L10_1_Quiz]]
+  - 📚 Examples: Coming Soon
+- 10.2: Classification Evaluation Metrics
+  - ⭐ Quiz: [[L10_2_Quiz]]
+  - 📚 Examples: Coming Soon
+- 10.3: Regression Evaluation Metrics
+  - ⭐ Quiz: [[L10_3_Quiz]]
+  - 📚 Examples: Coming Soon
+- 10.4: ROC Curves and AUC
+  - ⭐ Quiz: [[L10_4_Quiz]]
+  - 📚 Examples: Coming Soon
+- 10.5: Validation Methods
+  - ⭐ Quiz: [[L10_5_Quiz]]
+  - 📚 Examples: Coming Soon
+- 10.6: Sampling Techniques and Strategies
+  - ⭐ Quiz: [[L10_6_Quiz]]
+  - 📚 Examples: Coming Soon
+- 10.7: Bootstrap and Resampling Methods
+  - ⭐ Quiz: [[L10_7_Quiz]]
+  - 📚 Examples: Coming Soon
+- 10.8: Advanced Evaluation Topics
+  - ⭐ Quiz: [[L10_8_Quiz]]
+  - 📚 Examples: Coming Soon
+
+### Lecture 11: Handling Imbalanced Data
+- 11.1: Understanding Class Imbalance
+  - ⭐ Quiz: [[L11_1_Quiz]]
+  - 📚 Examples: Coming Soon
+- 11.2: Evaluation Metrics for Imbalanced Data
+  - ⭐ Quiz: [[L11_2_Quiz]]
+  - 📚 Examples: Coming Soon
+- 11.3: Random Oversampling
+  - ⭐ Quiz: [[L11_3_Quiz]]
+  - 📚 Examples: Coming Soon
+- 11.4: Random Undersampling
+  - ⭐ Quiz: [[L11_4_Quiz]]
+  - 📚 Examples: Coming Soon
+- 11.5: SMOTE and Synthetic Data Generation
+  - ⭐ Quiz: [[L11_5_Quiz]]
+  - 📚 Examples: Coming Soon
+- 11.6: Advanced Synthetic Data Methods
+  - ⭐ Quiz: [[L11_6_Quiz]]
+  - 📚 Examples: Coming Soon
+- 11.7: Hybrid and Ensemble Methods
+  - ⭐ Quiz: [[L11_7_Quiz]]
+  - 📚 Examples: Coming Soon
+- 11.8: Cost-Sensitive Learning and Best Practices
+  - ⭐ Quiz: [[L11_8_Quiz]]
+  - 📚 Examples: Coming Soon
+
 ## Practice Materials
 - ⭐ Practice_Exam_1: Lectures 1-4
-- ⭐ Practice_Exam_2: Lectures 5-6
+- ⭐ Practice_Exam_2: Lectures 5-7
+- ⭐ Practice_Exam_3: Lectures 8-11
 - ⭐ Final_Exam_Practice: Comprehensive Review
