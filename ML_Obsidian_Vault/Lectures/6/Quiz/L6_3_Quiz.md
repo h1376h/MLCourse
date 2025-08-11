@@ -1,7 +1,7 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 38 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, and modern extensions with detailed numerical examples.
+This quiz contains 40 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, and algorithm selection strategies with detailed numerical examples.
 
 ## Question 1
 
@@ -27,9 +27,8 @@ Consider a binary classification dataset with the following class distribution:
 | No    | 4     |
 
 #### Task
-1. Calculate the entropy of this dataset using $H(S) = -\sum_{i=1}^{c} p_i \log_2(p_i)$ (show your work)
-2. If a feature splits this into two branches with distributions $[6,2]$ and $[2,2]$, calculate the information gain using the formula:
-   $$\text{Information Gain} = H(S) - \sum_{i} \frac{|S_i|}{|S|} H(S_i)$$
+1. Calculate the entropy of this dataset
+2. If a feature splits this into two branches with distributions $[6,2]$ and $[2,2]$, calculate the information gain
 3. Would this be considered a good split according to ID3? Justify your answer
 4. What is the next step in the ID3 algorithm after finding the best split?
 
@@ -99,7 +98,7 @@ Consider C4.5's improvement over ID3 in handling feature selection bias.
 3. If the information gain for this split is $0.8$, calculate the gain ratio using:
    $$\text{Gain Ratio} = \frac{\text{Information Gain}}{\text{Split Information}}$$
 4. Explain in one sentence why split information corrects the bias
-5. **Comparison task**: Calculate gain ratio for a binary feature splitting the same dataset into $\{7, 5\}$ with information gain $0.6$. Which feature would C4.5 prefer?
+5. Calculate gain ratio for a binary feature splitting the same dataset into $\{7, 5\}$ with information gain $0.6$. Which feature would C4.5 prefer?
 
 For a detailed explanation of this question, see [Question 6: C4.5 Gain Ratio Analysis](L6_3_6_explanation.md).
 
@@ -153,7 +152,7 @@ CART's binary splitting strategy differs fundamentally from ID3 and C4.5.
 1. For a categorical feature "Grade" with values $\{A, B, C, D\}$, list all possible binary splits CART would consider
 2. Calculate the number of binary splits for a categorical feature with $k$ values (Formula: $2^{k-1} - 1$)
 3. What does CART stand for and why can it handle regression problems?
-4. Given class distributions: A(3,1), B(2,2), C(1,3), D(4,0), find the optimal binary split using Gini impurity
+4. Given class distributions: A$(3,1)$, B$(2,2)$, C$(1,3)$, D$(4,0)$, find the optimal binary split using Gini impurity
 
 For a detailed explanation of this question, see [Question 9: CART Binary Splitting Strategy](L6_3_9_explanation.md).
 
@@ -163,7 +162,7 @@ For a detailed explanation of this question, see [Question 9: CART Binary Splitt
 Compare splitting criteria used by different decision tree algorithms.
 
 #### Task
-1. For class distribution $[6, 2]$, calculate both entropy $H(S) = -\sum_{i=1}^{c} p_i \log_2(p_i)$ and Gini impurity $\text{Gini}(S) = 1 - \sum_{i=1}^{c} p_i^2$
+1. For class distribution $[6, 2]$, calculate both entropy $$H(S) = -\sum_{i=1}^{c} p_i \log_2(p_i)$$ and Gini impurity $$\text{Gini}(S) = 1 - \sum_{i=1}^{c} p_i^2$$
 2. For class distribution $[4, 4]$, calculate both measures
 3. Which measure (entropy or Gini) reaches its maximum value for balanced distributions?
 4. In practice, do entropy and Gini impurity usually lead to significantly different trees?
@@ -193,7 +192,7 @@ Consider how C4.5 handles continuous features through optimal threshold selectio
 #### Task
 1. Why can't ID3 handle continuous features directly? Answer in one sentence
 2. For ages $\{22, 25, 30, 35, 40\}$ with classes $\{No, No, Yes, Yes, No\}$, list all candidate threshold values
-3. Calculate information gain for the threshold Age $≤ 27.5$
+3. Calculate information gain for the threshold Age $\leq 27.5$
 4. How does C4.5's approach to continuous features differ from manual discretization?
 5. Find the optimal threshold that maximizes information gain for this age dataset
 
@@ -249,7 +248,7 @@ Consider CART's approach to regression problems.
 | Medium   | B        | 16.5   |
 
 #### Task
-1. Calculate the variance of the entire dataset using $\text{Var}(S) = \frac{1}{n}\sum_{i=1}^{n}(y_i - \bar{y})^2$
+1. Calculate the variance of the entire dataset using $$\text{Var}(S) = \frac{1}{n}\sum_{i=1}^{n}(y_i - \bar{y})^2$$
 2. Calculate variance reduction for splitting on Feature1 (Low vs {Medium, High}) using:
    $$\text{Variance Reduction} = \text{Var}(S) - \sum_{i} \frac{|S_i|}{|S|} \text{Var}(S_i)$$
 3. What would be the predicted value for each leaf node after this split?
@@ -316,7 +315,7 @@ Consider the computational complexity of each algorithm.
 #### Task
 1. Which algorithm has the highest computational complexity for categorical features? Why?
 2. How does handling continuous features affect C4.5's time complexity?
-3. For a dataset with 1000 samples and 10 features (5 categorical with avg 4 values, 5 continuous), rank the algorithms by expected training time
+3. For a dataset with $1000$ samples and $10$ features ($5$ categorical with avg $4$ values, $5$ continuous), rank the algorithms by expected training time
 4. What makes CART more computationally expensive than ID3 for categorical features?
 
 For a detailed explanation of this question, see [Question 19: Computational Complexity](L6_3_19_explanation.md).
@@ -342,10 +341,10 @@ Compare tree interpretability across algorithms.
 #### Task
 The geometric interpretation of decision trees helps understand their decision-making process. Which statement correctly describes decision boundaries?
 
-A) ID3 creates axis-parallel rectangular regions in feature space
-B) C4.5 can create diagonal decision boundaries due to continuous feature handling  
-C) CART's binary splits always create more complex boundaries than multi-way splits
-D) All decision tree algorithms create identical decision boundaries for the same dataset
+**A)** ID3 creates axis-parallel rectangular regions in feature space
+**B)** C4.5 can create diagonal decision boundaries due to continuous feature handling  
+**C)** CART's binary splits always create more complex boundaries than multi-way splits
+**D)** All decision tree algorithms create identical decision boundaries for the same dataset
 
 For a detailed explanation of this question, see [Question 21: Decision Tree Interpretability](L6_3_21_explanation.md).
 
@@ -507,7 +506,7 @@ Analyze stopping criteria across algorithms.
 1. List three stopping criteria used by ID3
 2. What additional stopping criterion does C4.5 add beyond ID3's criteria?
 3. Name two stopping criteria specific to CART
-4. For a node with 5 samples (3 positive, 2 negative), should ID3 continue splitting? Consider minimum samples and purity thresholds
+4. For a node with $5$ samples ($3$ positive, $2$ negative), should ID3 continue splitting? Consider minimum samples and purity thresholds
 
 For a detailed explanation of this question, see [Question 30: Algorithm Stopping Criteria](L6_3_30_explanation.md).
 
@@ -575,7 +574,7 @@ Consider CART's cost function approach to optimization.
 1. Write the cost function that CART minimizes when choosing splits:
    $$\text{Cost}(T) = \sum_{\text{leaves}} N_t \cdot \text{Impurity}(t) + \alpha \cdot |\text{leaves}|$$
 2. For a categorical feature "Color" with values $\{Red, Blue, Green, Yellow\}$, list all possible binary splits
-3. Given class distributions: Red(2,1), Blue(1,2), Green(3,0), Yellow(1,1), find the optimal binary split using Gini impurity
+3. Given class distributions: Red$(2,1)$, Blue$(1,2)$, Green$(3,0)$, Yellow$(1,1)$, find the optimal binary split using Gini impurity
 4. Compare this result with what information gain would choose
 
 For a detailed explanation of this question, see [Question 34: CART Cost Function](L6_3_34_explanation.md).
@@ -633,9 +632,9 @@ Design a "Split Quality Detective" game where you analyze suspicious splitting d
 - ID_301-400: $[+: 2, -: 0]$
 - ID_401-500: $[+: 2, -: 6]$
 
-**Split C** (Feature: Purchase_Amount ≤ $50)
-- ≤ $50: $[+: 6, -: 4]$
-- > $50: $[+: 4, -: 2]$
+**Split C** (Feature: Purchase_Amount $\leq \$50$)
+- $\leq \$50$: $[+: 6, -: 4]$
+- $> \$50$: $[+: 4, -: 2]$
 
 #### Task
 1. Calculate information gain for each split
@@ -654,11 +653,11 @@ Create a "Tree Surgery" simulation where you practice pruning decisions.
 **Given Tree Structure**:
 
 ```
-Root: Age ≤ 30 (Training Acc: 85%, Validation Acc: 78%)
-├── Left: Income ≤ $40K (Training Acc: 90%, Validation Acc: 72%)
+Root: Age $\leq 30$ (Training Acc: $85\%$, Validation Acc: $78\%$)
+├── Left: Income $\leq \$40K$ (Training Acc: $90\%$, Validation Acc: $72\%$)
 │   ├── Low Risk (Leaf): [Safe: 8, Risk: 1]
 │   └── Medium Risk (Leaf): [Safe: 3, Risk: 4]
-└── Right: Experience > 2 years (Training Acc: 88%, Validation Acc: 81%)
+└── Right: Experience $> 2$ years (Training Acc: $88\%$, Validation Acc: $81\%$)
     ├── High Risk (Leaf): [Safe: 2, Risk: 6]
     └── Safe (Leaf): [Safe: 7, Risk: 1]
 ```
@@ -680,3 +679,80 @@ Root: Age ≤ 30 (Training Acc: 85%, Validation Acc: 78%)
 6. Compute the misclassification cost for each pruning option if Safe=0 cost, Risk=10 cost
 
 For a detailed explanation of this question, see [Question 38: Tree Pruning Simulation](L6_3_38_explanation.md).
+
+## Question 39
+
+### Problem Statement
+You are teaching decision trees to a friend using only pen and paper. Draw and explain how each algorithm would structure its first split differently.
+
+#### Task
+Given this simple dataset about movie preferences:
+
+| Person | Age_Group | Genre_Preference | Has_Netflix | Likes_Movie |
+|--------|-----------|------------------|-------------|-------------|
+| Alice  | Young     | Action          | Yes         | Yes         |
+| Bob    | Young     | Comedy          | No          | No          |
+| Carol  | Old       | Drama           | Yes         | Yes         |
+| David  | Old       | Action          | No          | Yes         |
+| Eve    | Young     | Drama           | Yes         | No          |
+| Frank  | Old       | Comedy          | Yes         | Yes         |
+
+1. **Visual Design**: Draw three simple tree diagrams showing how ID3, C4.5, and CART would approach the first split. Use boxes for nodes and arrows for branches.
+
+2. **Algorithm Personality**: If these algorithms were people, describe their "splitting personality" in one sentence each:
+   - ID3's personality: ________
+   - C4.5's personality: ________  
+   - CART's personality: ________
+
+3. **Teaching Moment**: Without any calculations, explain to your friend why CART might split "Age_Group" into {Young} vs {Old} while ID3 might split it into {Young, Old} branches.
+
+4. **Quick Check**: Circle the correct answer: If a feature has 10 possible values, how many splits would CART consider?
+   - A) 1 split (binary only)
+   - B) 10 splits (one per value)  
+   - C) $511$ splits ($2^9 - 1$)
+   - D) $1023$ splits ($2^{10} - 1$)
+
+For a detailed explanation of this question, see [Question 39: Visual Tree Construction](L6_3_39_explanation.md).
+
+## Question 40
+
+### Problem Statement
+You run a consulting company that recommends the best decision tree algorithm for different clients. Match each client scenario with the most suitable algorithm using only logical reasoning.
+
+#### Task
+
+**Your Client Portfolio:**
+
+**Client A - Elementary School Teacher**: 
+- Wants to teach kids how computers make decisions
+- Needs the simplest possible explanation
+- Dataset: $20$ students, $3$ features (all yes/no), no missing data
+- Priority: Maximum interpretability
+
+**Client B - Medical Researcher**:
+- Studying patient diagnosis patterns  
+- Has mixed data types and some missing patient records
+- Needs to handle uncertainty gracefully
+- Priority: Robust handling of real-world messiness
+
+**Client C - Tech Startup**:
+- Building a recommendation system
+- Large dataset with user IDs, timestamps, and continuous ratings
+- Needs both classification AND regression capabilities
+- Priority: Versatility and performance
+
+**Client D - Insurance Company**:
+- Analyzing risk factors with many categorical variables
+- Some features have $50+$ categories (like zip codes)
+- Worried about overfitting to irrelevant details
+- Priority: Avoiding bias toward high-cardinality features
+
+1. **Matching Game**: Connect each client (A, B, C, D) with their ideal algorithm (ID3, C4.5, CART). Draw lines or write pairs.
+
+2. **Consultation Notes**: For each match, write a one-sentence business justification that you'd tell the client.
+
+3. **The Plot Twist**: Client D mentions they also need to predict continuous insurance claim amounts. Does this change your recommendation? Explain.
+
+4. **Elevator Pitch**: You have 30 seconds in an elevator to explain to a non-technical CEO why different algorithms exist. Write your pitch (2-3 sentences max).
+
+For a detailed explanation of this question, see [Question 40: Algorithm Matchmaker](L6_3_40_explanation.md).

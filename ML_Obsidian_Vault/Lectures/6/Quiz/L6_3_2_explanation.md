@@ -9,7 +9,7 @@ Consider a binary classification dataset with the following class distribution:
 | No    | 4     |
 
 ### Task
-1. Calculate the entropy of this dataset (show your work)
+1. Calculate the entropy of this dataset
 2. If a feature splits this into two branches with distributions $[6,2]$ and $[2,2]$, calculate the information gain
 3. Would this be considered a good split according to ID3? Justify your answer
 4. What is the next step in the ID3 algorithm after finding the best split?
