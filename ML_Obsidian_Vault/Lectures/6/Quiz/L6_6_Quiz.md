@@ -1,250 +1,238 @@
-# Lecture 6.6: Overfitting and Underfitting in Trees Quiz
+# Lecture 6.6: Advanced Decision Tree Topics Quiz
 
 ## Overview
-This quiz contains 18 questions covering different topics from section 6.5 of the lectures on Overfitting and Underfitting in Trees, including overfitting causes, underfitting detection, model complexity, generalization issues, learning curves, regularization techniques, advanced detection methods, and prevention strategies.
+This quiz contains 18 questions covering different topics from section 6.6 of the lectures on Advanced Decision Tree Topics, including multi-output trees, online learning, streaming data, interpretability, visualization, and real-world applications.
 
 ## Question 1
 
 ### Problem Statement
-Consider a decision tree trained on a dataset with the following performance metrics:
-
-| Metric | Training Set | Test Set |
-|--------|--------------|----------|
-| Accuracy | 98%          | 75%      |
-| Depth   | 15           | -        |
-| Nodes   | 127          | -        |
+Multi-output decision trees can handle problems with multiple target variables.
 
 #### Task
-1. [🔍] What phenomenon is occurring in this tree?
-2. [🔍] What is the generalization gap?
-3. [🔍] Why does the training accuracy differ so much from test accuracy?
-4. [🔍] What are the signs of overfitting in this tree?
+1. [🔍] What are multi-output decision trees and how do they differ from single-output trees?
+2. [🔍] How do you modify splitting criteria for multi-output problems?
+3. [🔍] What are the applications of multi-output decision trees?
+4. [🔍] How do you evaluate multi-output tree performance?
 
-For a detailed explanation of this question, see [Question 1: Overfitting Detection](L6_5_1_explanation.md).
+For a detailed explanation of this question, see [Question 1: Multi-Output Decision Trees](L6_6_1_explanation.md).
 
 ## Question 2
 
 ### Problem Statement
-Overfitting occurs when a tree becomes too complex for the data.
+Online learning with decision trees enables incremental model updates.
 
 #### Task
-1. [📚] What are the main causes of overfitting in decision trees?
-2. [📚] How does tree depth relate to overfitting?
-3. [📚] What happens to the bias-variance tradeoff as trees grow deeper?
-4. [📚] Why do deep trees often perform poorly on unseen data?
+1. [📚] What are the challenges of online decision tree learning?
+2. [📚] How do you update a decision tree with new data points?
+3. [📚] What is the Hoeffding tree algorithm?
+4. [📚] How do you handle concept drift in online decision trees?
 
-For a detailed explanation of this question, see [Question 2: Causes of Overfitting](L6_5_2_explanation.md).
+For a detailed explanation of this question, see [Question 2: Online Decision Tree Learning](L6_6_2_explanation.md).
 
 ## Question 3
 
 ### Problem Statement
-Underfitting occurs when a tree is too simple to capture the data patterns.
+Streaming data presents unique challenges for decision tree algorithms.
 
 #### Task
-1. [🔍] What are the signs of underfitting in a decision tree?
-2. [🔍] How does underfitting affect training and test performance?
-3. [🔍] What is the relationship between model complexity and underfitting?
-4. [🔍] When might a very shallow tree lead to underfitting?
+1. [🔍] How do you build decision trees on streaming data?
+2. [🔍] What memory constraints must be considered?
+3. [🔍] How do you handle infinite data streams?
+4. [🔍] What is the VFDT (Very Fast Decision Tree) algorithm?
 
-For a detailed explanation of this question, see [Question 3: Underfitting in Trees](L6_5_3_explanation.md).
+For a detailed explanation of this question, see [Question 3: Streaming Data Decision Trees](L6_6_3_explanation.md).
 
 ## Question 4
 
 ### Problem Statement
-The optimal tree complexity balances overfitting and underfitting.
+Decision tree interpretability is both a strength and a complex topic.
 
 #### Task
-1. [📚] How do you find the optimal tree depth?
-2. [📚] What is the relationship between training set size and optimal complexity?
-3. [📚] How does cross-validation help determine optimal complexity?
-4. [📚] What is the "sweet spot" in the bias-variance tradeoff?
+1. [📚] What makes decision trees interpretable compared to other ML methods?
+2. [📚] How does tree size affect interpretability?
+3. [📚] What are the trade-offs between accuracy and interpretability?
+4. [📚] How can you improve the interpretability of large trees?
 
-For a detailed explanation of this question, see [Question 4: Optimal Tree Complexity](L6_5_4_explanation.md).
+For a detailed explanation of this question, see [Question 4: Decision Tree Interpretability](L6_6_4_explanation.md).
 
 ## Question 5
 
 ### Problem Statement
-Consider different scenarios for tree complexity:
-
-| Scenario | Training Accuracy | Test Accuracy | Tree Depth |
-|----------|-------------------|---------------|------------|
-| A        | 85%               | 83%           | 3          |
-| B        | 95%               | 78%           | 8          |
-| C        | 70%               | 68%           | 2          |
+**Advanced Tree Visualization**: Create comprehensive visualizations for decision trees.
 
 #### Task
-1. [📚] Which scenario shows overfitting?
-2. [📚] Which scenario shows underfitting?
-3. [📚] Which scenario has the best generalization?
-4. [📚] How would you adjust the tree complexity for each scenario?
+1. [📚] **Tree structure**: Implement various tree structure visualization methods
+2. [📚] **Decision boundaries**: Visualize decision boundaries for 2D datasets
+3. [📚] **Feature importance**: Create visualizations for feature importance analysis
+4. [📚] **Interactive plots**: Develop interactive tree exploration tools
 
-For a detailed explanation of this question, see [Question 5: Complexity Analysis](L6_5_5_explanation.md).
+For a detailed explanation of this question, see [Question 5: Advanced Tree Visualization](L6_6_5_explanation.md).
 
 ## Question 6
 
 ### Problem Statement
-Learning curves help visualize the relationship between training set size and model performance.
+Decision trees have specific advantages and disadvantages in different domains.
 
 #### Task
-1. [🔍] What does a learning curve plot show on the x-axis and y-axis?
-2. [🔍] What does it mean if training and validation curves are close together but both have low accuracy?
-3. [🔍] What does it mean if training accuracy is high but validation accuracy is low?
-4. [🔍] How can learning curves help you decide whether to collect more data?
+1. [🔍] In which domains are decision trees particularly effective?
+2. [🔍] What types of problems are poorly suited for decision trees?
+3. [🔍] How do decision trees compare to neural networks in interpretability?
+4. [🔍] When should you choose decision trees over linear models?
 
-For a detailed explanation of this question, see [Question 6: Learning Curves](L6_5_6_explanation.md).
+For a detailed explanation of this question, see [Question 6: Domain-Specific Applications](L6_6_6_explanation.md).
 
 ## Question 7
 
 ### Problem Statement
-Regularization techniques help control tree complexity and prevent overfitting.
+Modern decision tree implementations include many advanced features.
 
 #### Task
-1. [📚] What is the purpose of setting a maximum tree depth?
-2. [📚] How does setting a minimum number of samples per leaf help with regularization?
-3. [📚] What is the effect of setting a minimum number of samples for splitting?
-4. [📚] How do these parameters relate to the bias-variance tradeoff?
+1. [📚] What advanced features are available in scikit-learn's decision trees?
+2. [📚] How do modern implementations handle large datasets efficiently?
+3. [📚] What GPU acceleration options exist for decision trees?
+4. [📚] How do distributed decision tree implementations work?
 
-For a detailed explanation of this question, see [Question 7: Regularization Techniques](L6_5_7_explanation.md).
+For a detailed explanation of this question, see [Question 7: Modern Implementation Features](L6_6_7_explanation.md).
 
 ## Question 8
 
 ### Problem Statement
-Different regularization parameters have different effects on tree complexity.
+**Concept Drift Detection**: Implement methods to detect when decision trees need updating.
 
 #### Task
-1. [📚] **Parameter 1**: If you increase max_depth from 3 to 10, what happens to bias and variance?
-2. [📚] **Parameter 2**: If you increase min_samples_leaf from 1 to 10, what happens to tree size?
-3. [📚] **Parameter 3**: If you increase min_samples_split from 2 to 20, what happens to overfitting?
-4. [📚] How do you choose the optimal values for these regularization parameters?
+1. [🔍] **Statistical tests**: Implement statistical tests for concept drift detection
+2. [🔍] **Performance monitoring**: Monitor tree performance over time
+3. [🔍] **Adaptive mechanisms**: Implement adaptive tree updating mechanisms
+4. [🔍] **Evaluation**: Evaluate drift detection methods on synthetic datasets
 
-For a detailed explanation of this question, see [Question 8: Regularization Parameter Effects](L6_5_8_explanation.md).
+For a detailed explanation of this question, see [Question 8: Concept Drift Detection](L6_6_8_explanation.md).
 
 ## Question 9
 
 ### Problem Statement
-Advanced overfitting detection methods can identify subtle overfitting patterns.
+Incremental learning allows decision trees to adapt to new data efficiently.
 
 #### Task
-1. [🔍] What is the "validation curve" and how does it help detect overfitting?
-2. [🔍] How can you use the "gap" between training and validation performance?
-3. [🔍] What is the "stability" test for detecting overfitting?
-4. [🔍] How do you distinguish between overfitting and data leakage?
+1. [📚] What are the main approaches to incremental decision tree learning?
+2. [📚] How do you maintain tree structure while adding new data?
+3. [📚] What is the trade-off between adaptation speed and stability?
+4. [📚] How do you handle conflicting information in incremental learning?
 
-For a detailed explanation of this question, see [Question 9: Advanced Overfitting Detection](L6_5_9_explanation.md).
+For a detailed explanation of this question, see [Question 9: Incremental Learning Strategies](L6_6_9_explanation.md).
 
 ## Question 10
 
 ### Problem Statement
-Underfitting can be more subtle than overfitting and harder to detect.
+**Fairness and Bias in Decision Trees**: Address algorithmic fairness issues.
 
 #### Task
-1. [📚] What are the early warning signs of underfitting?
-2. [📚] How does underfitting manifest in learning curves?
-3. [📚] What is the relationship between underfitting and model capacity?
-4. [📚] How do you distinguish between underfitting and poor data quality?
+1. [🔍] **Bias detection**: Identify potential sources of bias in decision trees
+2. [🔍] **Fairness metrics**: Implement fairness metrics for tree evaluation
+3. [🔍] **Mitigation strategies**: Develop strategies to reduce bias in tree construction
+4. [🔍] **Case study**: Analyze a real dataset for fairness issues
 
-For a detailed explanation of this question, see [Question 10: Underfitting Detection](L6_5_10_explanation.md).
+For a detailed explanation of this question, see [Question 10: Fairness and Bias](L6_6_10_explanation.md).
 
 ## Question 11
 
 ### Problem Statement
-The bias-variance tradeoff is fundamental to understanding model complexity.
+Decision trees can be combined with other machine learning techniques.
 
 #### Task
-1. [🔍] What is the mathematical relationship between bias, variance, and total error?
-2. [🔍] How does tree depth affect bias and variance?
-3. [🔍] What is the "sweet spot" in the bias-variance tradeoff?
-4. [🔍] How do you visualize the bias-variance tradeoff?
+1. [📚] How can decision trees be used for feature selection in other algorithms?
+2. [📚] How can you use decision trees to initialize neural networks?
+3. [📚] What is the role of decision trees in ensemble methods beyond Random Forest?
+4. [📚] How can decision trees be used in hybrid machine learning systems?
 
-For a detailed explanation of this question, see [Question 11: Bias-Variance Mathematics](L6_5_11_explanation.md).
+For a detailed explanation of this question, see [Question 11: Hybrid ML Systems](L6_6_11_explanation.md).
 
 ## Question 12
 
 ### Problem Statement
-Cross-validation provides robust estimates of generalization performance.
+**Rule Extraction and Generation**: Convert decision trees to interpretable rules.
 
 #### Task
-1. [📚] What are the different types of cross-validation for decision trees?
-2. [📚] How do you choose the number of folds for cross-validation?
-3. [📚] What is stratified cross-validation and when is it important?
-4. [📚] How do you interpret cross-validation results?
+1. [🔍] **Rule extraction**: Extract IF-THEN rules from decision trees
+2. [🔍] **Rule simplification**: Simplify extracted rules while maintaining accuracy
+3. [🔍] **Rule ranking**: Rank rules by importance and coverage
+4. [🔍] **Natural language**: Convert rules to natural language descriptions
 
-For a detailed explanation of this question, see [Question 12: Cross-Validation Methods](L6_5_12_explanation.md).
+For a detailed explanation of this question, see [Question 12: Rule Extraction and Generation](L6_6_12_explanation.md).
 
 ## Question 13
 
 ### Problem Statement
-Learning curves provide insights into model behavior and data requirements.
+Robustness and security are important considerations for deployed decision trees.
 
 #### Task
-1. [🔍] What are the different types of learning curves for decision trees?
-2. [🔍] How do you interpret learning curves with different shapes?
-3. [🔍] What do learning curves tell you about data collection needs?
-4. [🔍] How do learning curves help with hyperparameter tuning?
+1. [📚] How robust are decision trees to adversarial attacks?
+2. [📚] What privacy concerns exist with decision tree models?
+3. [📚] How can you make decision trees more robust to input perturbations?
+4. [📚] What are the security implications of interpretable models?
 
-For a detailed explanation of this question, see [Question 13: Learning Curve Analysis](L6_5_13_explanation.md).
+For a detailed explanation of this question, see [Question 13: Robustness and Security](L6_6_13_explanation.md).
 
 ## Question 14
 
 ### Problem Statement
-Regularization techniques can be combined for better results.
+**Performance Optimization for Large-Scale Trees**: Optimize decision trees for big data.
 
 #### Task
-1. [📚] How do you combine multiple regularization parameters?
-2. [📚] What is the relationship between different regularization techniques?
-3. [📚] How do you tune multiple regularization parameters simultaneously?
-4. [📚] What are the trade-offs of different regularization combinations?
+1. [🔍] **Memory optimization**: Implement memory-efficient tree storage
+2. [🔍] **Parallel processing**: Parallelize tree construction and prediction
+3. [🔍] **Approximate methods**: Implement approximate algorithms for large datasets
+4. [🔍] **Benchmarking**: Compare different optimization strategies
 
-For a detailed explanation of this question, see [Question 14: Combined Regularization](L6_5_14_explanation.md).
+For a detailed explanation of this question, see [Question 14: Large-Scale Optimization](L6_6_14_explanation.md).
 
 ## Question 15
 
 ### Problem Statement
-Model complexity can be measured in different ways.
+Probabilistic decision trees provide uncertainty estimates with predictions.
 
 #### Task
-1. [🔍] What are the different measures of tree complexity?
-2. [🔍] How do you measure the "effective" complexity of a tree?
-3. [🔍] What is the relationship between complexity and interpretability?
-4. [🔍] How do you balance complexity with performance requirements?
+1. [📚] How do you add probabilistic elements to decision trees?
+2. [📚] How do you estimate prediction uncertainty in trees?
+3. [📚] What are the applications of probabilistic decision trees?
+4. [📚] How do you calibrate probability estimates from trees?
 
-For a detailed explanation of this question, see [Question 15: Complexity Measurement](L6_5_15_explanation.md).
+For a detailed explanation of this question, see [Question 15: Probabilistic Decision Trees](L6_6_15_explanation.md).
 
 ## Question 16
 
 ### Problem Statement
-Early stopping can prevent overfitting during tree construction.
+**Automated Machine Learning (AutoML) for Trees**: Implement automated tree optimization.
 
 #### Task
-1. [📚] What is early stopping and how does it work?
-2. [📚] How do you implement early stopping in decision trees?
-3. [📚] What are the advantages and disadvantages of early stopping?
-4. [📚] How do you choose the optimal stopping point?
+1. [🔍] **Hyperparameter optimization**: Implement automated hyperparameter tuning
+2. [🔍] **Architecture search**: Automatically determine optimal tree structure
+3. [🔍] **Feature engineering**: Automated feature engineering for tree-based models
+4. [🔍] **Model selection**: Automated selection between different tree algorithms
 
-For a detailed explanation of this question, see [Question 16: Early Stopping](L6_5_16_explanation.md).
+For a detailed explanation of this question, see [Question 16: AutoML for Trees](L6_6_16_explanation.md).
 
 ## Question 17
 
 ### Problem Statement
-Data quality affects the overfitting-underfitting balance.
+**Explainable AI (XAI) with Decision Trees**: Leverage trees for model explanation.
 
 #### Task
-1. [🔍] How does data quality affect the optimal model complexity?
-2. [🔍] What is the relationship between noise and overfitting?
-3. [🔍] How do you handle noisy data in decision trees?
-4. [🔍] What is the impact of feature quality on model complexity?
+1. [📚] **Local explanations**: Use trees to explain individual predictions
+2. [📚] **Global explanations**: Extract global patterns from tree models
+3. [📚] **Counterfactual explanations**: Generate counterfactual examples using trees
+4. [📚] **Explanation quality**: Evaluate the quality of tree-based explanations
 
-For a detailed explanation of this question, see [Question 17: Data Quality Impact](L6_5_17_explanation.md).
+For a detailed explanation of this question, see [Question 17: Explainable AI with Trees](L6_6_17_explanation.md).
 
 ## Question 18
 
 ### Problem Statement
-Practical strategies help balance overfitting and underfitting.
+**Comprehensive Advanced Project**: Implement a complete advanced decision tree system.
 
 #### Task
-1. [📚] **Strategy 1**: How do you use validation sets effectively?
-2. [📚] **Strategy 2**: How do you implement progressive complexity testing?
-3. [📚] **Strategy 3**: How do you use ensemble methods to balance complexity?
-4. [📚] What is the iterative process for finding optimal complexity?
+1. [🔍] **System design**: Design a comprehensive decision tree system with advanced features
+2. [🔍] **Implementation**: Implement online learning, visualization, and interpretability features
+3. [🔍] **Evaluation**: Conduct thorough evaluation on multiple datasets and scenarios
+4. [🔍] **Production deployment**: Address production concerns like scalability, monitoring, and maintenance
 
-For a detailed explanation of this question, see [Question 18: Practical Strategies](L6_5_18_explanation.md).
+For a detailed explanation of this question, see [Question 18: Comprehensive Advanced Project](L6_6_18_explanation.md).

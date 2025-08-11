@@ -131,29 +131,20 @@
 - 6.1: Foundations of Decision Trees
   - ⭐ Quiz: [[L6_1_Quiz]]
   - 📚 Examples: Coming Soon
-- 6.2: Entropy and Information Gain in Trees
+- 6.2: Entropy and Information Gain
   - ⭐ Quiz: [[L6_2_Quiz]]
   - 📚 Examples: Coming Soon
-- 6.3: ID3 Algorithm
+- 6.3: Decision Tree Algorithms (ID3, C4.5, CART)
   - ⭐ Quiz: [[L6_3_Quiz]]
   - 📚 Examples: Coming Soon
-- 6.4: C4.5 Algorithm
+- 6.4: Tree Pruning and Regularization
   - ⭐ Quiz: [[L6_4_Quiz]]
   - 📚 Examples: Coming Soon
-- 6.5: CART Algorithm
+- 6.5: Ensemble Methods - Random Forest
   - ⭐ Quiz: [[L6_5_Quiz]]
   - 📚 Examples: Coming Soon
-- 6.6: Overfitting and Underfitting in Trees
-  - ⭐ Quiz: [[L6_7_Quiz]]
-  - 📚 Examples: Coming Soon
-- 6.7: Tree Pruning Techniques
-  - ⭐ Quiz: [[L6_8_Quiz]]
-  - 📚 Examples: Coming Soon
-- 6.8: Random Forest
-  - ⭐ Quiz: [[L6_9_Quiz]]
-  - 📚 Examples: Coming Soon
-- 6.9: Advanced Decision Tree Topics
-  - ⭐ Quiz: [[L6_9_Quiz]]
+- 6.6: Advanced Decision Tree Topics
+  - ⭐ Quiz: [[L6_6_Quiz]]
   - 📚 Examples: Coming Soon
 
 ### Lecture 7: Ensemble Methods

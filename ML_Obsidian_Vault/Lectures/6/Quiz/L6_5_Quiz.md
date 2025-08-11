@@ -1,245 +1,243 @@
-# Lecture 6.5: CART Algorithm Quiz
+# Lecture 6.5: Ensemble Methods - Random Forest Quiz
 
 ## Overview
-This quiz contains 18 questions covering different topics from section 6.5 of the lectures on CART Algorithm, including CART fundamentals, binary splits, Gini impurity, regression capabilities, pruning techniques, and practical implementation.
+This quiz contains 18 questions covering different topics from section 6.5 of the lectures on Random Forest, including ensemble foundations, bagging, random feature selection, out-of-bag evaluation, feature importance, and practical implementation.
 
 ## Question 1
 
 ### Problem Statement
-CART (Classification and Regression Trees) is a fundamental decision tree algorithm.
+Random Forest is an ensemble method based on decision trees.
 
 #### Task
-1. [🔍] What does CART stand for and what makes it unique?
-2. [🔍] How does CART differ from ID3 and C4.5 in its approach?
-3. [🔍] What are the two main types of problems CART can solve?
-4. [🔍] Why is CART considered more versatile than ID3?
+1. [🔍] What is the core principle behind Random Forest?
+2. [🔍] How does Random Forest address the overfitting problem of individual decision trees?
+3. [🔍] What are the two main sources of randomness in Random Forest?
+4. [🔍] Why is Random Forest called a "forest" of trees?
 
-For a detailed explanation of this question, see [Question 1: CART Fundamentals](L6_5_1_explanation.md).
+For a detailed explanation of this question, see [Question 1: Random Forest Foundations](L6_5_1_explanation.md).
 
 ## Question 2
 
 ### Problem Statement
-CART uses binary splits instead of multi-way splits.
+Bagging (Bootstrap Aggregating) is fundamental to Random Forest.
 
 #### Task
-1. [📚] What is a binary split and how does it differ from multi-way splits?
-2. [📚] How does CART create binary splits for categorical features?
-3. [📚] What are the advantages of binary splits over multi-way splits?
-4. [📚] How do binary splits affect tree depth and interpretability?
+1. [📚] What is bootstrap sampling and how does it work?
+2. [📚] How does bagging reduce variance in predictions?
+3. [📚] What is the typical size of each bootstrap sample?
+4. [📚] How do you aggregate predictions from multiple trees?
 
-For a detailed explanation of this question, see [Question 2: Binary Split Strategy](L6_5_2_explanation.md).
+For a detailed explanation of this question, see [Question 2: Bagging in Random Forest](L6_5_2_explanation.md).
 
 ## Question 3
 
 ### Problem Statement
-CART uses Gini impurity as its primary splitting criterion.
+Random feature selection is a key component of Random Forest.
 
 #### Task
-1. [🔍] What is the mathematical formula for Gini impurity?
-2. [🔍] How does Gini impurity differ from entropy?
-3. [🔍] What is the range of possible values for Gini impurity?
-4. [🔍] Why might Gini impurity be preferred over entropy in some cases?
+1. [🔍] How many features are typically selected at each split?
+2. [🔍] What is the effect of the number of random features on model performance?
+3. [🔍] How does random feature selection help with correlated features?
+4. [🔍] What happens if you use all features at each split?
 
-For a detailed explanation of this question, see [Question 3: Gini Impurity in CART](L6_5_3_explanation.md).
+For a detailed explanation of this question, see [Question 3: Random Feature Selection](L6_5_3_explanation.md).
 
 ## Question 4
 
 ### Problem Statement
-CART can handle both classification and regression problems.
+Out-of-Bag (OOB) estimation provides a unique validation approach for Random Forest.
 
 #### Task
-1. [📚] How does CART handle classification problems differently from regression?
-2. [📚] What splitting criterion does CART use for regression problems?
-3. [📚] How do leaf node predictions differ between classification and regression?
-4. [📚] What are the advantages of having a unified algorithm for both problem types?
+1. [📚] What are out-of-bag samples and how are they created?
+2. [📚] How do you calculate OOB error?
+3. [📚] Why is OOB estimation unbiased?
+4. [📚] How does OOB error compare to cross-validation?
 
-For a detailed explanation of this question, see [Question 4: CART for Classification and Regression](L6_5_4_explanation.md).
+For a detailed explanation of this question, see [Question 4: Out-of-Bag Estimation](L6_5_4_explanation.md).
 
 ## Question 5
 
 ### Problem Statement
-**CART vs. ID3 and C4.5 Comparison**: Compare the three algorithms using a concrete dataset:
+**Random Forest Implementation**: Build a Random Forest from scratch with the following specifications:
 
-| Feature1 | Feature2 | Feature3 | Target |
-|----------|----------|----------|--------|
-| A        | X        | 1.2      | Class1 |
-| B        | Y        | 2.1      | Class2 |
-| A        | Z        | 1.8      | Class1 |
-| C        | X        | 3.0      | Class2 |
+- 100 trees
+- Bootstrap sampling with replacement
+- √p features per split (where p is total features)
+- Majority voting for classification
 
 #### Task
-1. [📚] **Algorithm comparison**: Implement CART, ID3, and C4.5 on the same dataset
-2. [📚] **Performance metrics**: Compare accuracy, tree depth, and training time
-3. [📚] **Feature handling**: Show how each algorithm handles different feature types
-4. [📚] **Practical recommendations**: Provide specific guidance on when to use each algorithm
+1. [📚] **Core algorithm**: Implement the complete Random Forest training algorithm
+2. [📚] **Prediction**: Implement prediction with proper aggregation
+3. [📚] **OOB calculation**: Calculate out-of-bag error during training
+4. [📚] **Feature importance**: Implement feature importance calculation
 
-For a detailed explanation of this question, see [Question 5: CART vs. ID3 and C4.5 Comparison](L6_5_5_explanation.md).
+For a detailed explanation of this question, see [Question 5: Random Forest Implementation](L6_5_5_explanation.md).
 
 ## Question 6
 
 ### Problem Statement
-CART implements sophisticated pruning techniques.
+Feature importance in Random Forest provides insights into data structure.
 
 #### Task
-1. [🔍] What is cost-complexity pruning and how does it work?
-2. [🔍] How does CART determine the optimal pruning parameter α?
-3. [🔍] What is the relationship between α and tree complexity?
-4. [🔍] How do you validate the optimal pruning level?
+1. [🔍] How is feature importance calculated in Random Forest?
+2. [🔍] What is the difference between impurity-based and permutation-based importance?
+3. [🔍] How do you interpret feature importance values?
+4. [🔍] What are the limitations of Random Forest feature importance?
 
-For a detailed explanation of this question, see [Question 6: CART Pruning Techniques](L6_5_6_explanation.md).
+For a detailed explanation of this question, see [Question 6: Feature Importance](L6_5_6_explanation.md).
 
 ## Question 7
 
 ### Problem Statement
-CART handles continuous features through binary splits.
+Hyperparameter tuning is crucial for optimal Random Forest performance.
 
 #### Task
-1. [📚] How does CART find optimal split points for continuous features?
-2. [📚] What is the computational complexity of finding optimal splits?
-3. [📚] How does CART handle features with many unique values?
-4. [📚] What are the advantages of binary splits for continuous features?
+1. [📚] What are the main hyperparameters in Random Forest?
+2. [📚] How do you choose the optimal number of trees?
+3. [📚] How do you tune the number of features per split?
+4. [📚] What is the effect of tree depth on Random Forest performance?
 
-For a detailed explanation of this question, see [Question 7: Continuous Feature Handling in CART](L6_5_7_explanation.md).
+For a detailed explanation of this question, see [Question 7: Hyperparameter Tuning](L6_5_7_explanation.md).
 
 ## Question 8
 
 ### Problem Statement
-CART provides robust error estimation and validation.
+Random Forest handles different types of data and problems effectively.
 
 #### Task
-1. [🔍] How does CART estimate prediction error?
-2. [🔍] What is cross-validation in the context of CART?
-3. [🔍] How do you interpret confidence intervals in CART?
-4. [🔍] What are the limitations of CART's error estimation?
+1. [🔍] How does Random Forest handle categorical features?
+2. [🔍] How does Random Forest handle missing values?
+3. [🔍] Can Random Forest be used for regression problems?
+4. [🔍] How does Random Forest perform with high-dimensional data?
 
-For a detailed explanation of this question, see [Question 8: CART Error Estimation](L6_5_8_explanation.md).
+For a detailed explanation of this question, see [Question 8: Data Handling in Random Forest](L6_5_8_explanation.md).
 
 ## Question 9
 
 ### Problem Statement
-CART implementation requires specific data structures.
+**Performance Analysis**: Compare Random Forest with single decision trees and other ensemble methods.
 
 #### Task
-1. [🔍] What are the key data structures needed for CART implementation?
-2. [🔍] How do you represent binary splits efficiently?
-3. [🔍] What is the memory complexity of storing a CART tree?
-4. [🔍] How do you implement efficient tree traversal?
+1. [📚] **Bias-variance analysis**: How does Random Forest affect bias and variance compared to single trees?
+2. [📚] **Computational complexity**: Compare training and prediction time complexity
+3. [📚] **Memory requirements**: Analyze space complexity of Random Forest
+4. [📚] **Scalability**: How does Random Forest scale with dataset size and dimensionality?
 
-For a detailed explanation of this question, see [Question 9: CART Implementation Details](L6_5_9_explanation.md).
+For a detailed explanation of this question, see [Question 9: Performance Analysis](L6_5_9_explanation.md).
 
 ## Question 10
 
 ### Problem Statement
-CART can be extended with additional functionality.
+Proximity measures in Random Forest provide additional insights.
 
 #### Task
-1. [📚] How can you add cost-sensitive learning to CART?
-2. [📚] How can you implement multi-output CART?
-3. [📚] How can you add feature importance to CART?
-4. [📚] What are the trade-offs of these extensions?
+1. [🔍] What are proximity measures in Random Forest?
+2. [🔍] How do you calculate the proximity between two samples?
+3. [🔍] How can proximity measures be used for outlier detection?
+4. [🔍] How can proximity be used for data visualization?
 
-For a detailed explanation of this question, see [Question 10: CART Extensions](L6_5_10_explanation.md).
+For a detailed explanation of this question, see [Question 10: Proximity Measures](L6_5_10_explanation.md).
 
 ## Question 11
 
 ### Problem Statement
-CART has specific parameter tuning requirements.
+Random Forest can be extended and modified in various ways.
 
 #### Task
-1. [🔍] What are the main parameters that need tuning in CART?
-2. [🔍] How do you tune the complexity parameter α?
-3. [🔍] How do you tune the minimum samples per leaf?
-4. [🔍] What is the relationship between parameters and tree performance?
+1. [📚] What is Extremely Randomized Trees (Extra Trees) and how does it differ from Random Forest?
+2. [📚] How can you implement class balancing in Random Forest?
+3. [📚] What is the effect of using different base learners instead of decision trees?
+4. [📚] How can you implement online/streaming Random Forest?
 
-For a detailed explanation of this question, see [Question 11: CART Parameter Tuning](L6_5_11_explanation.md).
+For a detailed explanation of this question, see [Question 11: Random Forest Extensions](L6_5_11_explanation.md).
 
 ## Question 12
 
 ### Problem Statement
-CART provides feature importance measures.
+**Feature Selection with Random Forest**: Use Random Forest for feature selection.
 
 #### Task
-1. [📚] How does CART calculate feature importance?
-2. [📚] What is the interpretation of feature importance values?
-3. [📚] How do you use feature importance for feature selection?
-4. [📚] What are the limitations of CART's feature importance?
+1. [🔍] **Importance-based selection**: Implement feature selection using feature importance
+2. [🔍] **Recursive elimination**: Implement recursive feature elimination with Random Forest
+3. [🔍] **Stability analysis**: Analyze the stability of feature importance across different runs
+4. [🔍] **Comparison**: Compare different feature selection approaches using Random Forest
 
-For a detailed explanation of this question, see [Question 12: CART Feature Importance](L6_5_12_explanation.md).
+For a detailed explanation of this question, see [Question 12: Feature Selection with Random Forest](L6_5_12_explanation.md).
 
 ## Question 13
 
 ### Problem Statement
-CART can handle missing values through surrogate splits.
+Random Forest interpretability is different from single tree interpretability.
 
 #### Task
-1. [🔍] What are surrogate splits and how do they work?
-2. [🔍] How does CART choose the best surrogate split?
-3. [🔍] What is the computational cost of surrogate splits?
-4. [🔍] When are surrogate splits most beneficial?
+1. [📚] How do you interpret Random Forest predictions?
+2. [📚] What are partial dependence plots and how do you create them?
+3. [📚] How can you extract decision rules from Random Forest?
+4. [📚] What are the trade-offs between ensemble accuracy and interpretability?
 
-For a detailed explanation of this question, see [Question 13: CART Missing Value Handling](L6_5_13_explanation.md).
+For a detailed explanation of this question, see [Question 13: Random Forest Interpretability](L6_5_13_explanation.md).
 
 ## Question 14
 
 ### Problem Statement
-CART provides interpretable decision rules.
+**Optimal Forest Size**: Determine the optimal number of trees in a Random Forest.
 
 #### Task
-1. [📚] How do you extract decision rules from a CART tree?
-2. [📚] What is the format of CART decision rules?
-3. [📚] How do you handle rule conflicts in CART?
-4. [📚] What are the advantages of rule-based interpretation?
+1. [🔍] **Convergence analysis**: Plot OOB error vs. number of trees
+2. [🔍] **Diminishing returns**: Identify the point of diminishing returns
+3. [🔍] **Computational trade-offs**: Balance accuracy improvement vs. computational cost
+4. [🔍] **Different datasets**: Analyze how optimal forest size varies with dataset characteristics
 
-For a detailed explanation of this question, see [Question 14: CART Decision Rules](L6_5_14_explanation.md).
+For a detailed explanation of this question, see [Question 14: Optimal Forest Size](L6_5_14_explanation.md).
 
 ## Question 15
 
 ### Problem Statement
-CART can be used for ensemble methods.
+Random Forest can be optimized for specific performance requirements.
 
 #### Task
-1. [🔍] How does CART work as a base learner in bagging?
-2. [🔍] How does CART work as a base learner in random forests?
-3. [🔍] How does CART work as a base learner in boosting?
-4. [🔍] What are the advantages of using CART in ensembles?
+1. [📚] **Speed optimization**: How can you optimize Random Forest for faster training?
+2. [📚] **Memory optimization**: How can you reduce memory usage in Random Forest?
+3. [📚] **Prediction speed**: How can you optimize Random Forest for faster predictions?
+4. [📚] **Parallel implementation**: How can you parallelize Random Forest training and prediction?
 
-For a detailed explanation of this question, see [Question 15: CART in Ensemble Methods](L6_5_15_explanation.md).
+For a detailed explanation of this question, see [Question 15: Random Forest Optimization](L6_5_15_explanation.md).
 
 ## Question 16
 
 ### Problem Statement
-CART has specific computational considerations.
+**Imbalanced Data with Random Forest**: Handle class imbalance effectively.
 
 #### Task
-1. [📚] What is the time complexity of building a CART tree?
-2. [📚] What is the space complexity of storing a CART tree?
-3. [📚] How does CART performance scale with dataset size?
-4. [📚] What are the computational bottlenecks in CART?
+1. [🔍] **Balanced sampling**: Implement balanced bootstrap sampling
+2. [🔍] **Class weights**: Use class weights to handle imbalance
+3. [🔍] **Evaluation metrics**: Use appropriate metrics for imbalanced datasets
+4. [🔍] **Comparison**: Compare different approaches for handling imbalance
 
-For a detailed explanation of this question, see [Question 16: CART Computational Analysis](L6_5_16_explanation.md).
+For a detailed explanation of this question, see [Question 16: Imbalanced Data with Random Forest](L6_5_16_explanation.md).
 
 ## Question 17
 
 ### Problem Statement
-CART can be adapted for different problem domains.
+**Advanced Random Forest Applications**: Explore specialized applications of Random Forest.
 
 #### Task
-1. [🔍] How do you adapt CART for time series data?
-2. [🔍] How do you adapt CART for survival analysis?
-3. [🔍] How do you adapt CART for ordinal classification?
-4. [🔍] What modifications are needed for each adaptation?
+1. [📚] **Time series**: How can Random Forest be adapted for time series forecasting?
+2. [📚] **Multi-output**: How can Random Forest handle multi-output problems?
+3. [📚] **Survival analysis**: How can Random Forest be used for survival analysis?
+4. [📚] **Anomaly detection**: How can Random Forest be used for anomaly detection?
 
-For a detailed explanation of this question, see [Question 17: CART Problem Adaptations](L6_5_17_explanation.md).
+For a detailed explanation of this question, see [Question 17: Advanced Random Forest Applications](L6_5_17_explanation.md).
 
 ## Question 18
 
 ### Problem Statement
-CART represents a significant advancement in decision tree algorithms.
+**Comprehensive Random Forest Project**: Implement and evaluate Random Forest on a real-world problem.
 
 #### Task
-1. [📚] **Advancement 1**: How does CART handle both classification and regression better than ID3?
-2. [📚] **Advancement 2**: How does CART's binary split strategy improve over multi-way splits?
-3. [📚] **Advancement 3**: How does CART's pruning approach prevent overfitting?
-4. [📚] What are the remaining limitations of CART that led to modern tree algorithms?
+1. [🔍] **Problem selection**: Choose a suitable real-world dataset and problem
+2. [🔍] **Implementation**: Build a complete Random Forest solution with proper preprocessing
+3. [🔍] **Evaluation**: Conduct thorough evaluation including comparison with other methods
+4. [🔍] **Analysis**: Provide detailed analysis of results, feature importance, and model insights
 
-For a detailed explanation of this question, see [Question 18: CART Algorithm Evolution](L6_5_18_explanation.md).
+For a detailed explanation of this question, see [Question 18: Comprehensive Random Forest Project](L6_5_18_explanation.md).
