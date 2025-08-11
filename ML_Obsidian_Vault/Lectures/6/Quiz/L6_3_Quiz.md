@@ -1,9 +1,73 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 18 questions covering different topics from section 6.3 of the lectures on Decision Tree Algorithms, including ID3 foundations, C4.5 improvements, CART capabilities, algorithm comparisons, and practical implementations.
+This quiz contains 22 questions covering different topics from section 6.3 of the lectures on Decision Tree Algorithms, including ID3 foundations, C4.5 improvements, CART capabilities, algorithm comparisons, and practical implementations.
 
 ## Question 1
+
+### Problem Statement
+The ID3 algorithm follows a recursive approach to build decision trees.
+
+#### Task
+1. [🔍] What are the main steps of the ID3 algorithm?
+2. [🔍] How does ID3 choose the best feature for splitting at each node?
+3. [🔍] What is the base case for stopping recursion?
+4. [🔍] Why is ID3 considered a greedy algorithm?
+
+For a detailed explanation of this question, see [Question 1: ID3 Algorithm Overview](L6_3_1_explanation.md).
+
+## Question 2
+
+### Problem Statement
+Consider a dataset with the following class distribution:
+
+| Class | Count |
+|-------|-------|
+| Yes   | 8     |
+| No    | 4     |
+
+#### Task
+1. [📚] Calculate the entropy of this dataset
+2. [📚] If a feature splits this into two branches with distributions [6,2] and [2,2], calculate the information gain
+3. [📚] Would this be a good split according to ID3?
+4. [📚] What is the next step in ID3 after finding the best split?
+
+For a detailed explanation of this question, see [Question 2: ID3 Split Selection](L6_3_2_explanation.md).
+
+## Question 3
+
+### Problem Statement
+ID3 uses stopping criteria to prevent infinite recursion.
+
+#### Task
+1. [🔍] What are the three main stopping criteria in ID3?
+2. [🔍] Why is it important to have stopping criteria?
+3. [🔍] What happens when all features have been used?
+4. [🔍] How do you handle cases where no features remain but the node is not pure?
+
+For a detailed explanation of this question, see [Question 3: ID3 Stopping Criteria](L6_3_3_explanation.md).
+
+## Question 4
+
+### Problem Statement
+Consider building a decision tree for a weather dataset with features:
+
+| Feature | Values |
+|---------|--------|
+| Outlook | Sunny, Rainy, Cloudy |
+| Temperature | Hot, Mild, Cool |
+| Humidity | High, Normal |
+| Windy | True, False |
+
+#### Task
+1. [📚] How many possible leaf nodes could this tree have?
+2. [📚] What is the maximum depth of the tree?
+3. [📚] How would ID3 handle categorical features with many values?
+4. [📚] What are the limitations of ID3 for this dataset?
+
+For a detailed explanation of this question, see [Question 4: ID3 Tree Construction](L6_3_4_explanation.md).
+
+## Question 5
 
 ### Problem Statement
 The ID3 algorithm is the foundation of decision tree learning.
@@ -14,9 +78,9 @@ The ID3 algorithm is the foundation of decision tree learning.
 3. [🔍] What is the base case for stopping recursion in ID3?
 4. [🔍] Why is ID3 considered a greedy algorithm?
 
-For a detailed explanation of this question, see [Question 1: ID3 Algorithm Foundations](L6_3_1_explanation.md).
+For a detailed explanation of this question, see [Question 5: ID3 Algorithm Foundations](L6_3_5_explanation.md).
 
-## Question 2
+## Question 6
 
 ### Problem Statement
 C4.5 addresses several key limitations of the ID3 algorithm.
@@ -27,9 +91,9 @@ C4.5 addresses several key limitations of the ID3 algorithm.
 3. [🔍] What is gain ratio and how does it differ from information gain?
 4. [🔍] How does C4.5 handle continuous features differently from ID3?
 
-For a detailed explanation of this question, see [Question 2: C4.5 Improvements](L6_3_2_explanation.md).
+For a detailed explanation of this question, see [Question 6: C4.5 Improvements](L6_3_6_explanation.md).
 
-## Question 3
+## Question 7
 
 ### Problem Statement
 CART (Classification and Regression Trees) represents a significant advancement in decision tree algorithms.
@@ -40,9 +104,9 @@ CART (Classification and Regression Trees) represents a significant advancement 
 3. [🔍] What splitting criterion does CART use and why?
 4. [🔍] How can CART handle both classification and regression problems?
 
-For a detailed explanation of this question, see [Question 3: CART Algorithm Features](L6_3_3_explanation.md).
+For a detailed explanation of this question, see [Question 7: CART Algorithm Features](L6_3_7_explanation.md).
 
-## Question 4
+## Question 8
 
 ### Problem Statement
 **Algorithm Comparison**: Compare ID3, C4.5, and CART using a concrete dataset:
@@ -60,9 +124,9 @@ For a detailed explanation of this question, see [Question 3: CART Algorithm Fea
 3. [📚] **Tree structure**: Compare the resulting tree structures from each algorithm
 4. [📚] **Performance analysis**: Discuss the advantages and disadvantages of each approach
 
-For a detailed explanation of this question, see [Question 4: Algorithm Comparison](L6_3_4_explanation.md).
+For a detailed explanation of this question, see [Question 8: Algorithm Comparison](L6_3_8_explanation.md).
 
-## Question 5
+## Question 9
 
 ### Problem Statement
 Consider a dataset with the following class distribution:
@@ -74,13 +138,13 @@ Consider a dataset with the following class distribution:
 
 #### Task
 1. [📚] Calculate the entropy of this dataset
-2. [📚] If a feature splits this into two branches with distributions [6,2] and [2,2], calculate the information gain
+2. [📚] If a feature splits this into two branches with distributions $[6,2]$ and $[2,2]$, calculate the information gain
 3. [📚] Calculate the gain ratio for this split
 4. [📚] How would CART evaluate this split using Gini impurity?
 
-For a detailed explanation of this question, see [Question 5: Splitting Metrics Comparison](L6_3_5_explanation.md).
+For a detailed explanation of this question, see [Question 9: Splitting Metrics Comparison](L6_3_9_explanation.md).
 
-## Question 6
+## Question 10
 
 ### Problem Statement
 **Continuous Feature Handling**: Each algorithm handles continuous features differently.
@@ -97,9 +161,9 @@ For a detailed explanation of this question, see [Question 5: Splitting Metrics 
 3. [🔍] How does CART's approach to continuous features differ from C4.5?
 4. [🔍] What are the computational complexities of finding optimal splits?
 
-For a detailed explanation of this question, see [Question 6: Continuous Feature Handling](L6_3_6_explanation.md).
+For a detailed explanation of this question, see [Question 10: Continuous Feature Handling](L6_3_10_explanation.md).
 
-## Question 7
+## Question 11
 
 ### Problem Statement
 **Missing Value Strategies**: Different algorithms handle missing values differently.
@@ -110,9 +174,9 @@ For a detailed explanation of this question, see [Question 6: Continuous Feature
 3. [🔍] How does CART use surrogate splits for missing values?
 4. [🔍] Which approach is most robust and why?
 
-For a detailed explanation of this question, see [Question 7: Missing Value Strategies](L6_3_7_explanation.md).
+For a detailed explanation of this question, see [Question 11: Missing Value Strategies](L6_3_11_explanation.md).
 
-## Question 8
+## Question 12
 
 ### Problem Statement
 **Splitting Criteria Comparison**: Compare the different splitting criteria used by each algorithm.
@@ -129,9 +193,9 @@ For a detailed explanation of this question, see [Question 7: Missing Value Stra
 3. [📚] Which criterion is most suitable for different types of data?
 4. [📚] How do computational costs compare between these criteria?
 
-For a detailed explanation of this question, see [Question 8: Splitting Criteria Analysis](L6_3_8_explanation.md).
+For a detailed explanation of this question, see [Question 12: Splitting Criteria Analysis](L6_3_12_explanation.md).
 
-## Question 9
+## Question 13
 
 ### Problem Statement
 **Pruning Capabilities**: Compare pruning approaches across algorithms.
@@ -142,9 +206,9 @@ For a detailed explanation of this question, see [Question 8: Splitting Criteria
 3. [🔍] What is CART's cost-complexity pruning approach?
 4. [🔍] Which algorithm provides the most sophisticated pruning?
 
-For a detailed explanation of this question, see [Question 9: Pruning Approaches](L6_3_9_explanation.md).
+For a detailed explanation of this question, see [Question 13: Pruning Approaches](L6_3_13_explanation.md).
 
-## Question 10
+## Question 14
 
 ### Problem Statement
 **Implementation Complexity**: Analyze the implementation requirements for each algorithm.
@@ -155,9 +219,9 @@ For a detailed explanation of this question, see [Question 9: Pruning Approaches
 3. [📚] What makes CART implementation more complex than ID3 and C4.5?
 4. [📚] Compare the time and space complexities of all three algorithms?
 
-For a detailed explanation of this question, see [Question 10: Implementation Analysis](L6_3_10_explanation.md).
+For a detailed explanation of this question, see [Question 14: Implementation Analysis](L6_3_14_explanation.md).
 
-## Question 11
+## Question 15
 
 ### Problem Statement
 **Regression Capabilities**: Only CART can handle regression problems directly.
@@ -168,9 +232,9 @@ For a detailed explanation of this question, see [Question 10: Implementation An
 3. [🔍] How does CART handle regression problems?
 4. [🔍] What splitting criterion does CART use for regression?
 
-For a detailed explanation of this question, see [Question 11: Regression Handling](L6_3_11_explanation.md).
+For a detailed explanation of this question, see [Question 15: Regression Handling](L6_3_15_explanation.md).
 
-## Question 12
+## Question 16
 
 ### Problem Statement
 **Algorithm Selection Criteria**: When should you choose each algorithm?
@@ -181,9 +245,9 @@ For a detailed explanation of this question, see [Question 11: Regression Handli
 3. [📚] When is CART the most appropriate choice?
 4. [📚] How do dataset characteristics influence algorithm selection?
 
-For a detailed explanation of this question, see [Question 12: Algorithm Selection](L6_3_12_explanation.md).
+For a detailed explanation of this question, see [Question 16: Algorithm Selection](L6_3_16_explanation.md).
 
-## Question 13
+## Question 17
 
 ### Problem Statement
 **Performance Comparison**: Analyze computational performance across algorithms.
@@ -194,9 +258,9 @@ For a detailed explanation of this question, see [Question 12: Algorithm Selecti
 3. [📚] Compare memory requirements
 4. [📚] How does performance scale with dataset size and dimensionality?
 
-For a detailed explanation of this question, see [Question 13: Performance Analysis](L6_3_13_explanation.md).
+For a detailed explanation of this question, see [Question 17: Performance Analysis](L6_3_17_explanation.md).
 
-## Question 14
+## Question 18
 
 ### Problem Statement
 **Bias and Variance**: Different algorithms have different bias-variance characteristics.
@@ -207,9 +271,9 @@ For a detailed explanation of this question, see [Question 13: Performance Analy
 3. [🔍] How do the different splitting criteria affect bias-variance tradeoff?
 4. [🔍] Which algorithm generalizes best and why?
 
-For a detailed explanation of this question, see [Question 14: Bias-Variance Analysis](L6_3_14_explanation.md).
+For a detailed explanation of this question, see [Question 18: Bias-Variance Analysis](L6_3_18_explanation.md).
 
-## Question 15
+## Question 19
 
 ### Problem Statement
 **Feature Selection Bias**: Analyze how each algorithm handles features with different characteristics.
@@ -220,9 +284,9 @@ For a detailed explanation of this question, see [Question 14: Bias-Variance Ana
 3. [📚] How does CART's binary splitting strategy affect feature selection?
 4. [📚] Which algorithm is most robust to irrelevant features?
 
-For a detailed explanation of this question, see [Question 15: Feature Selection Bias](L6_3_15_explanation.md).
+For a detailed explanation of this question, see [Question 19: Feature Selection Bias](L6_3_19_explanation.md).
 
-## Question 16
+## Question 20
 
 ### Problem Statement
 **Interpretability Comparison**: Compare the interpretability of trees produced by each algorithm.
@@ -233,9 +297,9 @@ For a detailed explanation of this question, see [Question 15: Feature Selection
 3. [🔍] Which algorithm's decision rules are easiest to understand?
 4. [🔍] How does splitting strategy affect interpretability?
 
-For a detailed explanation of this question, see [Question 16: Interpretability Analysis](L6_3_16_explanation.md).
+For a detailed explanation of this question, see [Question 20: Interpretability Analysis](L6_3_20_explanation.md).
 
-## Question 17
+## Question 21
 
 ### Problem Statement
 **Modern Extensions**: How have these classic algorithms influenced modern decision tree methods?
@@ -246,9 +310,9 @@ For a detailed explanation of this question, see [Question 16: Interpretability 
 3. [📚] How have ensemble methods extended these basic algorithms?
 4. [📚] What are the current limitations that modern algorithms address?
 
-For a detailed explanation of this question, see [Question 17: Modern Extensions](L6_3_17_explanation.md).
+For a detailed explanation of this question, see [Question 21: Modern Extensions](L6_3_21_explanation.md).
 
-## Question 18
+## Question 22
 
 ### Problem Statement
 **Comprehensive Implementation**: Implement and compare all three algorithms on a real dataset.
@@ -259,4 +323,4 @@ For a detailed explanation of this question, see [Question 17: Modern Extensions
 3. [🔍] **Evaluation**: Compare accuracy, tree size, training time, and interpretability
 4. [🔍] **Analysis**: Provide recommendations for when to use each algorithm
 
-For a detailed explanation of this question, see [Question 18: Comprehensive Implementation](L6_3_18_explanation.md).
+For a detailed explanation of this question, see [Question 22: Comprehensive Implementation](L6_3_22_explanation.md).
