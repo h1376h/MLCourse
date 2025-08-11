@@ -1,7 +1,7 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 33 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, and modern extensions with detailed numerical examples.
+This quiz contains 38 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, and modern extensions with detailed numerical examples.
 
 ## Question 1
 
@@ -27,8 +27,9 @@ Consider a binary classification dataset with the following class distribution:
 | No    | 4     |
 
 #### Task
-1. Calculate the entropy of this dataset (show your work)
-2. If a feature splits this into two branches with distributions $[6,2]$ and $[2,2]$, calculate the information gain
+1. Calculate the entropy of this dataset using $H(S) = -\sum_{i=1}^{c} p_i \log_2(p_i)$ (show your work)
+2. If a feature splits this into two branches with distributions $[6,2]$ and $[2,2]$, calculate the information gain using the formula:
+   $$\text{Information Gain} = H(S) - \sum_{i} \frac{|S_i|}{|S|} H(S_i)$$
 3. Would this be considered a good split according to ID3? Justify your answer
 4. What is the next step in the ID3 algorithm after finding the best split?
 
@@ -93,9 +94,12 @@ Consider C4.5's improvement over ID3 in handling feature selection bias.
 
 #### Task
 1. What is the main problem with ID3's information gain regarding features with many values?
-2. For a feature with values $\{A, B, C\}$ splitting a dataset of $12$ samples into subsets of size $\{3, 5, 4\}$, calculate the split information
-3. If the information gain for this split is $0.8$, calculate the gain ratio
+2. For a feature with values $\{A, B, C\}$ splitting a dataset of $12$ samples into subsets of size $\{3, 5, 4\}$, calculate the split information using:
+   $$\text{Split Info} = -\sum_{i=1}^{k} \frac{|S_i|}{|S|} \log_2\left(\frac{|S_i|}{|S|}\right)$$
+3. If the information gain for this split is $0.8$, calculate the gain ratio using:
+   $$\text{Gain Ratio} = \frac{\text{Information Gain}}{\text{Split Information}}$$
 4. Explain in one sentence why split information corrects the bias
+5. **Comparison task**: Calculate gain ratio for a binary feature splitting the same dataset into $\{7, 5\}$ with information gain $0.6$. Which feature would C4.5 prefer?
 
 For a detailed explanation of this question, see [Question 6: C4.5 Gain Ratio Analysis](L6_3_6_explanation.md).
 
@@ -121,6 +125,7 @@ For a detailed explanation of this question, see [Question 7: Algorithm Selectio
 Create a "Decision Tree Construction Race" where you manually trace through the first split decision for all three algorithms on the same tiny dataset.
 
 **Dataset: Restaurant Recommendation**
+
 | Cuisine | Price | Rating | Busy | Recommend |
 |---------|-------|--------|------|-----------|
 | Italian | Low   | Good   | No   | Yes       |
@@ -134,7 +139,8 @@ Create a "Decision Tree Construction Race" where you manually trace through the 
 1. **ID3 approach**: Calculate information gain for each feature and identify the best split
 2. **C4.5 approach**: Calculate gain ratio for each feature and compare with ID3's choice
 3. **CART approach**: For the Cuisine feature, evaluate all possible binary splits using Gini impurity
-4. **Final comparison**: Which feature would each algorithm choose as the root? Explain any differences
+4. Which feature would each algorithm choose as the root? Explain any differences
+5. Draw the first level of the decision tree that each algorithm would construct
 
 For a detailed explanation of this question, see [Question 8: Multi-Algorithm Construction Trace](L6_3_8_explanation.md).
 
@@ -145,7 +151,7 @@ CART's binary splitting strategy differs fundamentally from ID3 and C4.5.
 
 #### Task
 1. For a categorical feature "Grade" with values $\{A, B, C, D\}$, list all possible binary splits CART would consider
-2. Calculate the number of binary splits for a categorical feature with $k$ values
+2. Calculate the number of binary splits for a categorical feature with $k$ values (Formula: $2^{k-1} - 1$)
 3. What does CART stand for and why can it handle regression problems?
 4. Given class distributions: A(3,1), B(2,2), C(1,3), D(4,0), find the optimal binary split using Gini impurity
 
@@ -157,7 +163,7 @@ For a detailed explanation of this question, see [Question 9: CART Binary Splitt
 Compare splitting criteria used by different decision tree algorithms.
 
 #### Task
-1. For class distribution $[6, 2]$, calculate both entropy and Gini impurity
+1. For class distribution $[6, 2]$, calculate both entropy $H(S) = -\sum_{i=1}^{c} p_i \log_2(p_i)$ and Gini impurity $\text{Gini}(S) = 1 - \sum_{i=1}^{c} p_i^2$
 2. For class distribution $[4, 4]$, calculate both measures
 3. Which measure (entropy or Gini) reaches its maximum value for balanced distributions?
 4. In practice, do entropy and Gini impurity usually lead to significantly different trees?
@@ -189,6 +195,7 @@ Consider how C4.5 handles continuous features through optimal threshold selectio
 2. For ages $\{22, 25, 30, 35, 40\}$ with classes $\{No, No, Yes, Yes, No\}$, list all candidate threshold values
 3. Calculate information gain for the threshold Age $≤ 27.5$
 4. How does C4.5's approach to continuous features differ from manual discretization?
+5. Find the optimal threshold that maximizes information gain for this age dataset
 
 For a detailed explanation of this question, see [Question 12: Continuous Feature Handling](L6_3_12_explanation.md).
 
@@ -242,8 +249,9 @@ Consider CART's approach to regression problems.
 | Medium   | B        | 16.5   |
 
 #### Task
-1. Calculate the variance of the entire dataset
-2. Calculate variance reduction for splitting on Feature1 (Low vs {Medium, High})
+1. Calculate the variance of the entire dataset using $\text{Var}(S) = \frac{1}{n}\sum_{i=1}^{n}(y_i - \bar{y})^2$
+2. Calculate variance reduction for splitting on Feature1 (Low vs {Medium, High}) using:
+   $$\text{Variance Reduction} = \text{Var}(S) - \sum_{i} \frac{|S_i|}{|S|} \text{Var}(S_i)$$
 3. What would be the predicted value for each leaf node after this split?
 4. How does CART's regression criterion differ from classification criteria?
 
@@ -408,14 +416,17 @@ Consider ID3's behavior when all features have been used but nodes remain impure
 #### Task
 1. Describe the scenario where ID3 exhausts all features but has impure nodes
 2. Given this partially constructed tree where all features are used:
-   ```
-   Root: Outlook
-   ├── Sunny → $[Yes: 2, No: 3]$
-   ├── Cloudy → $[Yes: 4, No: 0]$  
-   └── Rain → $[Yes: 1, No: 2]$
-   ```
+
+```
+Root: Outlook
+├── Sunny → [Yes: 2, No: 3]
+├── Cloudy → [Yes: 4, No: 0]  
+└── Rain → [Yes: 1, No: 2]
+```
+
 3. How should ID3 handle the impure "Sunny" and "Rain" nodes?
 4. What is the decision rule for leaf node class assignment in this case?
+5. Calculate the entropy of each impure leaf and determine which majority class rule to apply
 
 For a detailed explanation of this question, see [Question 25: ID3 Feature Exhaustion](L6_3_25_explanation.md).
 
@@ -467,7 +478,7 @@ Examine entropy calculation edge cases and mathematical properties.
    - Empty node: $[0, 0]$
 2. Explain how to handle the empty node case mathematically
 3. Show that entropy is maximized for balanced distributions
-4. Derive the maximum possible entropy for $k$ classes
+4. Derive the maximum possible entropy for $k$ classes (Hint: Maximum entropy = $\log_2(k)$)
 
 For a detailed explanation of this question, see [Question 28: Entropy Edge Cases](L6_3_28_explanation.md).
 
@@ -531,30 +542,58 @@ For a detailed explanation of this question, see [Question 32: Multi-way vs Bina
 ## Question 33
 
 ### Problem Statement
+Design a "Decision Tree Card Game" where you must build the best tree using limited information and strategic choices.
+
+**Game Setup**: You have a deck of "Data Cards" and must build a decision tree by making strategic splitting choices. Each card represents a training sample, and you can only look at one feature at a time before deciding.
+
+**Your Hand of Data Cards**:
+
+| Card | Weather | Temperature | Humidity | Activity |
+|------|---------|-------------|----------|----------|
+| 1    | Sunny   | Warm        | Low      | Hike     |
+| 2    | Sunny   | Cool        | High     | Read     |
+| 3    | Rainy   | Cool        | High     | Read     |
+| 4    | Cloudy  | Warm        | Low      | Hike     |
+| 5    | Rainy   | Warm        | Low      | Read     |
+| 6    | Cloudy  | Cool        | Low      | Hike     |
+
+#### Task
+1. **Feature Analysis**: Without calculating entropy, rank the three features by how "useful" they appear for predicting Activity. Explain your intuitive reasoning.
+2. **Split Strategy**: If you could only use ONE feature to split the data, which would you choose and why? Draw the resulting tree.
+3. **Verification**: Now calculate the information gain for your chosen feature to verify your intuition was correct.
+4. **Tree Construction**: Build the complete decision tree using ID3 algorithm (show your work for the first two levels).
+5. **Creative Challenge**: Design a new data card that would make your tree misclassify. What does this reveal about decision tree limitations?
+
+For a detailed explanation of this question, see [Question 33: Decision Tree Card Game](L6_3_33_explanation.md).
+
+## Question 34
+
+### Problem Statement
 Consider CART's cost function approach to optimization.
 
 #### Task
-1. Write the cost function that CART minimizes when choosing splits
+1. Write the cost function that CART minimizes when choosing splits:
+   $$\text{Cost}(T) = \sum_{\text{leaves}} N_t \cdot \text{Impurity}(t) + \alpha \cdot |\text{leaves}|$$
 2. For a categorical feature "Color" with values $\{Red, Blue, Green, Yellow\}$, list all possible binary splits
 3. Given class distributions: Red(2,1), Blue(1,2), Green(3,0), Yellow(1,1), find the optimal binary split using Gini impurity
 4. Compare this result with what information gain would choose
 
-For a detailed explanation of this question, see [Question 33: CART Cost Function](L6_3_33_explanation.md).
+For a detailed explanation of this question, see [Question 34: CART Cost Function](L6_3_34_explanation.md).
 
-## Question 34
+## Question 35
 
 ### Problem Statement
 Analyze computational complexity across ID3, C4.5, and CART algorithms.
 
 #### Task
-1. Derive the time complexity for ID3 given $n$ samples, $m$ features, and average branching factor $b$
+1. Derive the time complexity for ID3 given $n$ samples, $m$ features, and average branching factor $b$ (Answer should be in the form $O(...)$)
 2. How does C4.5's complexity differ due to continuous feature handling?
 3. Analyze CART's complexity considering binary splits and surrogate computation
 4. For a dataset with $1000$ samples, $20$ features ($10$ categorical with avg $4$ values, $10$ continuous), estimate relative computation time
 
-For a detailed explanation of this question, see [Question 34: Algorithm Complexity Analysis](L6_3_34_explanation.md).
+For a detailed explanation of this question, see [Question 35: Algorithm Complexity Analysis](L6_3_35_explanation.md).
 
-## Question 35
+## Question 36
 
 ### Problem Statement
 Evaluate whether each of the following statements about advanced decision tree concepts is TRUE or FALSE. Provide a brief justification for each answer.
@@ -571,9 +610,9 @@ Evaluate whether each of the following statements about advanced decision tree c
 9. Feature bagging in Random Forest reduces correlation between individual trees in the ensemble
 10. Decision tree algorithms guarantee finding the globally optimal tree structure
 
-For a detailed explanation of this question, see [Question 35: Advanced Decision Tree Properties](L6_3_35_explanation.md).
+For a detailed explanation of this question, see [Question 36: Advanced Decision Tree Properties](L6_3_36_explanation.md).
 
-## Question 36
+## Question 37
 
 ### Problem Statement
 Design a "Split Quality Detective" game where you analyze suspicious splitting decisions.
@@ -605,27 +644,28 @@ Design a "Split Quality Detective" game where you analyze suspicious splitting d
 4. Identify which split shows signs of overfitting and explain why
 5. What makes Split B problematic for real-world deployment?
 
-For a detailed explanation of this question, see [Question 36: Split Quality Analysis](L6_3_36_explanation.md).
+For a detailed explanation of this question, see [Question 37: Split Quality Analysis](L6_3_37_explanation.md).
 
-## Question 37
+## Question 38
 
 ### Problem Statement
 Create a "Tree Surgery" simulation where you practice pruning decisions.
 
 **Given Tree Structure**:
+
 ```
-Root: Age $≤ 30$ (Training Acc: $85\%$, Validation Acc: $78\%$)
-├── Left: Income $≤ \$40K$ (Training Acc: $90\%$, Validation Acc: $72\%$)
-│   ├── Low Risk (Leaf): $[Safe: 8, Risk: 1]$
-│   └── Medium Risk (Leaf): $[Safe: 3, Risk: 4]$
-└── Right: Experience $> 2$ years (Training Acc: $88\%$, Validation Acc: $81\%$)
-    ├── High Risk (Leaf): $[Safe: 2, Risk: 6]$
-    └── Safe (Leaf): $[Safe: 7, Risk: 1]$
+Root: Age ≤ 30 (Training Acc: 85%, Validation Acc: 78%)
+├── Left: Income ≤ $40K (Training Acc: 90%, Validation Acc: 72%)
+│   ├── Low Risk (Leaf): [Safe: 8, Risk: 1]
+│   └── Medium Risk (Leaf): [Safe: 3, Risk: 4]
+└── Right: Experience > 2 years (Training Acc: 88%, Validation Acc: 81%)
+    ├── High Risk (Leaf): [Safe: 2, Risk: 6]
+    └── Safe (Leaf): [Safe: 7, Risk: 1]
 ```
 
 **Validation Performance**:
 - Full tree: $75\%$ accuracy
-- Pruning left subtree: $79\%$ accuracy
+- Pruning left subtree: $79\%$ accuracy  
 - Pruning right subtree: $71\%$ accuracy
 - Pruning both subtrees (root only): $73\%$ accuracy
 
@@ -637,5 +677,6 @@ Root: Age $≤ 30$ (Training Acc: $85\%$, Validation Acc: $78\%$)
    - Tree with left subtree pruned
 4. What does the validation performance pattern suggest about overfitting?
 5. Write the final decision rule after optimal pruning
+6. Compute the misclassification cost for each pruning option if Safe=0 cost, Risk=10 cost
 
-For a detailed explanation of this question, see [Question 37: Tree Pruning Simulation](L6_3_37_explanation.md).
+For a detailed explanation of this question, see [Question 38: Tree Pruning Simulation](L6_3_38_explanation.md).
