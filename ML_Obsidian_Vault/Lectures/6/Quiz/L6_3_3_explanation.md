@@ -1,13 +1,13 @@
 # Question 3: ID3 Stopping Criteria
 
 ## Problem Statement
-ID3 uses stopping criteria to prevent infinite recursion.
+ID3 employs specific stopping criteria to prevent infinite recursion and ensure proper tree termination.
 
 ### Task
-1. What are the three main stopping criteria in ID3?
-2. Why is it important to have stopping criteria?
-3. What happens when all features have been used?
-4. How do you handle cases where no features remain but the node is not pure?
+1. List the three main stopping criteria used by ID3
+2. Explain why stopping criteria are essential for the algorithm
+3. What happens when all available features have been used in the path from root to current node?
+4. How should ID3 handle cases where no features remain but the node contains mixed classes?
 
 ## Understanding the Problem
 Stopping criteria are fundamental to the ID3 algorithm's success. Without them, the recursive tree-building process would continue indefinitely, leading to infinite recursion, computational inefficiency, and ultimately algorithm failure. Understanding these criteria is essential for implementing ID3 correctly and ensuring robust decision tree construction.

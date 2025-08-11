@@ -1,13 +1,13 @@
 # Question 1: ID3 Algorithm Overview
 
 ## Problem Statement
-The ID3 algorithm follows a recursive approach to build decision trees.
+The ID3 (Iterative Dichotomiser 3) algorithm forms the foundation of decision tree learning through its recursive partitioning approach.
 
 ### Task
-1. What are the main steps of the ID3 algorithm?
-2. How does ID3 choose the best feature for splitting at each node?
-3. What is the base case for stopping recursion?
-4. Why is ID3 considered a greedy algorithm?
+1. List the main steps of the ID3 algorithm in order
+2. Explain how ID3 chooses the best feature for splitting at each node
+3. What are the base cases for stopping recursion in ID3?
+4. Why is ID3 considered a greedy algorithm? Provide a concise explanation
 
 ## Understanding the Problem
 The ID3 (Iterative Dichotomiser 3) algorithm is a fundamental decision tree learning algorithm that uses information theory concepts to recursively partition datasets. It's important to understand how ID3 works because it forms the foundation for more advanced algorithms like C4.5 and CART. The algorithm demonstrates how entropy and information gain can be used to make intelligent decisions about feature selection during tree construction.

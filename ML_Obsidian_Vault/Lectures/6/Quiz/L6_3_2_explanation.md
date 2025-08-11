@@ -1,7 +1,7 @@
 # Question 2: ID3 Split Selection
 
 ## Problem Statement
-Consider a dataset with the following class distribution:
+Consider a binary classification dataset with the following class distribution:
 
 | Class | Count |
 |-------|-------|
@@ -9,10 +9,10 @@ Consider a dataset with the following class distribution:
 | No    | 4     |
 
 ### Task
-1. Calculate the entropy of this dataset
+1. Calculate the entropy of this dataset (show your work)
 2. If a feature splits this into two branches with distributions $[6,2]$ and $[2,2]$, calculate the information gain
-3. Would this be a good split according to ID3?
-4. What is the next step in ID3 after finding the best split?
+3. Would this be considered a good split according to ID3? Justify your answer
+4. What is the next step in the ID3 algorithm after finding the best split?
 
 ## Understanding the Problem
 This question tests our understanding of how ID3 evaluates potential splits using information theory. We need to calculate the initial entropy of the dataset, then determine how much a proposed split reduces that uncertainty. This is fundamental to understanding how ID3 makes decisions about which features to use for splitting and in what order.

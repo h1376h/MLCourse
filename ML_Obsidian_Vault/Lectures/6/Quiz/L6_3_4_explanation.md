@@ -1,20 +1,21 @@
 # Question 4: ID3 Tree Construction
 
 ## Problem Statement
-Consider building a decision tree for a weather dataset with features:
+Consider building a decision tree using ID3 for a weather prediction dataset with the following feature specifications:
 
-| Feature | Values |
-|---------|--------|
+| Feature | Possible Values |
+|---------|----------------|
 | Outlook | Sunny, Rainy, Cloudy |
 | Temperature | Hot, Mild, Cool |
 | Humidity | High, Normal |
 | Windy | True, False |
 
 ### Task
-1. How many possible leaf nodes could this tree have?
-2. What is the maximum depth of the tree?
-3. How would ID3 handle categorical features with many values?
-4. What are the limitations of ID3 for this dataset?
+1. Calculate the maximum number of possible leaf nodes this tree could have
+2. Determine the maximum depth the tree could reach
+3. Explain how ID3 handles categorical features with different numbers of values
+4. Identify the main limitations of ID3 when applied to this type of dataset
+
 
 ## Understanding the Problem
 This question explores the theoretical boundaries and practical limitations of ID3 when applied to a specific dataset structure. Understanding these limits is crucial for:
