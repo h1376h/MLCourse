@@ -140,17 +140,20 @@
 - 6.4: C4.5 Algorithm
   - ⭐ Quiz: [[L6_4_Quiz]]
   - 📚 Examples: Coming Soon
-- 6.5: Overfitting and Underfitting in Trees
+- 6.5: CART Algorithm
   - ⭐ Quiz: [[L6_5_Quiz]]
   - 📚 Examples: Coming Soon
-- 6.6: Tree Pruning Techniques
-  - ⭐ Quiz: [[L6_6_Quiz]]
-  - 📚 Examples: Coming Soon
-- 6.7: Random Forest
+- 6.6: Overfitting and Underfitting in Trees
   - ⭐ Quiz: [[L6_7_Quiz]]
   - 📚 Examples: Coming Soon
-- 6.8: Advanced Decision Tree Topics
+- 6.7: Tree Pruning Techniques
   - ⭐ Quiz: [[L6_8_Quiz]]
+  - 📚 Examples: Coming Soon
+- 6.8: Random Forest
+  - ⭐ Quiz: [[L6_9_Quiz]]
+  - 📚 Examples: Coming Soon
+- 6.9: Advanced Decision Tree Topics
+  - ⭐ Quiz: [[L6_9_Quiz]]
   - 📚 Examples: Coming Soon
 
 ### Lecture 7: Ensemble Methods

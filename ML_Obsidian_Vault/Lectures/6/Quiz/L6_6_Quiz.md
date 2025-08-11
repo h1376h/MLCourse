@@ -1,249 +1,250 @@
-# Lecture 6.6: Tree Pruning Techniques Quiz
+# Lecture 6.6: Overfitting and Underfitting in Trees Quiz
 
 ## Overview
-This quiz contains 18 questions covering different topics from section 6.6 of the lectures on Tree Pruning Techniques, including pruning methods, cost-complexity pruning, reduced error pruning, minimum description length, pruning parameter tuning, advanced pruning methods, and practical implementation.
+This quiz contains 18 questions covering different topics from section 6.5 of the lectures on Overfitting and Underfitting in Trees, including overfitting causes, underfitting detection, model complexity, generalization issues, learning curves, regularization techniques, advanced detection methods, and prevention strategies.
 
 ## Question 1
 
 ### Problem Statement
-Pruning removes unnecessary branches from decision trees to improve generalization.
+Consider a decision tree trained on a dataset with the following performance metrics:
+
+| Metric | Training Set | Test Set |
+|--------|--------------|----------|
+| Accuracy | 98%          | 75%      |
+| Depth   | 15           | -        |
+| Nodes   | 127          | -        |
 
 #### Task
-1. [🔍] What is the main goal of tree pruning?
-2. [🔍] What is the difference between pre-pruning and post-pruning?
-3. [🔍] When in the tree-building process does each type occur?
-4. [🔍] Why is post-pruning generally preferred over pre-pruning?
+1. [🔍] What phenomenon is occurring in this tree?
+2. [🔍] What is the generalization gap?
+3. [🔍] Why does the training accuracy differ so much from test accuracy?
+4. [🔍] What are the signs of overfitting in this tree?
 
-For a detailed explanation of this question, see [Question 1: Pruning Overview](L6_6_1_explanation.md).
+For a detailed explanation of this question, see [Question 1: Overfitting Detection](L6_5_1_explanation.md).
 
 ## Question 2
 
 ### Problem Statement
-Cost-complexity pruning balances tree accuracy and complexity.
+Overfitting occurs when a tree becomes too complex for the data.
 
 #### Task
-1. [📚] What is the cost-complexity function?
-2. [📚] How does the $\alpha$ parameter control pruning?
-3. [📚] What happens when $\alpha = 0$?
-4. [📚] What happens when $\alpha$ is very large?
+1. [📚] What are the main causes of overfitting in decision trees?
+2. [📚] How does tree depth relate to overfitting?
+3. [📚] What happens to the bias-variance tradeoff as trees grow deeper?
+4. [📚] Why do deep trees often perform poorly on unseen data?
 
-For a detailed explanation of this question, see [Question 2: Cost-Complexity Pruning](L6_6_2_explanation.md).
+For a detailed explanation of this question, see [Question 2: Causes of Overfitting](L6_5_2_explanation.md).
 
 ## Question 3
 
 ### Problem Statement
-Reduced error pruning uses validation data to guide pruning decisions.
+Underfitting occurs when a tree is too simple to capture the data patterns.
 
 #### Task
-1. [🔍] How does reduced error pruning work?
-2. [🔍] What is the pruning criterion in this method?
-3. [🔍] Why is a separate validation set needed?
-4. [🔍] What are the advantages of reduced error pruning?
+1. [🔍] What are the signs of underfitting in a decision tree?
+2. [🔍] How does underfitting affect training and test performance?
+3. [🔍] What is the relationship between model complexity and underfitting?
+4. [🔍] When might a very shallow tree lead to underfitting?
 
-For a detailed explanation of this question, see [Question 3: Reduced Error Pruning](L6_6_3_explanation.md).
+For a detailed explanation of this question, see [Question 3: Underfitting in Trees](L6_5_3_explanation.md).
 
 ## Question 4
 
 ### Problem Statement
-Consider a subtree that can be pruned to a leaf node:
-
-| Node Type | Training Samples | Misclassifications | Error Rate |
-|-----------|------------------|-------------------|------------|
-| Subtree    | 100             | 15                | 15%        |
-| Leaf       | 100             | 20                | 20%        |
+The optimal tree complexity balances overfitting and underfitting.
 
 #### Task
-1. [📚] Should this subtree be pruned according to reduced error pruning?
-2. [📚] What is the error reduction if pruning occurs?
-3. [📚] How would cost-complexity pruning evaluate this decision?
-4. [📚] What factors besides error rate should be considered?
+1. [📚] How do you find the optimal tree depth?
+2. [📚] What is the relationship between training set size and optimal complexity?
+3. [📚] How does cross-validation help determine optimal complexity?
+4. [📚] What is the "sweet spot" in the bias-variance tradeoff?
 
-For a detailed explanation of this question, see [Question 4: Pruning Decision Analysis](L6_6_4_explanation.md).
+For a detailed explanation of this question, see [Question 4: Optimal Tree Complexity](L6_5_4_explanation.md).
 
 ## Question 5
 
 ### Problem Statement
-Different pruning methods have different characteristics:
+Consider different scenarios for tree complexity:
 
-| Method | Validation Required | Computational Cost | Pruning Quality |
-|--------|-------------------|-------------------|-----------------|
-| Pre-pruning | No | Low | Variable |
-| Post-pruning | Yes | High | Good |
-| Cost-complexity | Yes | Medium | Good |
+| Scenario | Training Accuracy | Test Accuracy | Tree Depth |
+|----------|-------------------|---------------|------------|
+| A        | 85%               | 83%           | 3          |
+| B        | 95%               | 78%           | 8          |
+| C        | 70%               | 68%           | 2          |
 
 #### Task
-1. [📚] **Method A**: When would you use pre-pruning?
-2. [📚] **Method B**: When would you use post-pruning?
-3. [📚] **Method C**: When would you use cost-complexity pruning?
-4. [📚] How do you choose the best pruning method for your problem?
+1. [📚] Which scenario shows overfitting?
+2. [📚] Which scenario shows underfitting?
+3. [📚] Which scenario has the best generalization?
+4. [📚] How would you adjust the tree complexity for each scenario?
 
-For a detailed explanation of this question, see [Question 5: Pruning Method Selection](L6_6_5_explanation.md).
+For a detailed explanation of this question, see [Question 5: Complexity Analysis](L6_5_5_explanation.md).
 
 ## Question 6
 
 ### Problem Statement
-Minimum Description Length (MDL) is an information-theoretic approach to pruning.
+Learning curves help visualize the relationship between training set size and model performance.
 
 #### Task
-1. [🔍] What is the principle behind MDL pruning?
-2. [🔍] How does MDL balance model complexity with data encoding?
-3. [🔍] What are the two components of the MDL criterion?
-4. [🔍] When would MDL pruning be preferred over other methods?
+1. [🔍] What does a learning curve plot show on the x-axis and y-axis?
+2. [🔍] What does it mean if training and validation curves are close together but both have low accuracy?
+3. [🔍] What does it mean if training accuracy is high but validation accuracy is low?
+4. [🔍] How can learning curves help you decide whether to collect more data?
 
-For a detailed explanation of this question, see [Question 6: Minimum Description Length](L6_6_6_explanation.md).
+For a detailed explanation of this question, see [Question 6: Learning Curves](L6_5_6_explanation.md).
 
 ## Question 7
 
 ### Problem Statement
-Pruning parameters control the aggressiveness of tree pruning.
+Regularization techniques help control tree complexity and prevent overfitting.
 
 #### Task
-1. [📚] What is the confidence factor in C4.5 pruning and how does it affect pruning?
-2. [📚] How does the minimum error rate threshold affect pruning decisions?
-3. [📚] What is the relationship between pruning parameters and tree size?
-4. [📚] How do you tune pruning parameters using validation data?
+1. [📚] What is the purpose of setting a maximum tree depth?
+2. [📚] How does setting a minimum number of samples per leaf help with regularization?
+3. [📚] What is the effect of setting a minimum number of samples for splitting?
+4. [📚] How do these parameters relate to the bias-variance tradeoff?
 
-For a detailed explanation of this question, see [Question 7: Pruning Parameters](L6_6_7_explanation.md).
+For a detailed explanation of this question, see [Question 7: Regularization Techniques](L6_5_7_explanation.md).
 
 ## Question 8
 
 ### Problem Statement
-Different pruning methods require different parameter tuning strategies.
+Different regularization parameters have different effects on tree complexity.
 
 #### Task
-1. [📚] **Method A**: How do you choose the optimal α value for cost-complexity pruning?
-2. [📚] **Method B**: How do you determine the best confidence factor for C4.5 pruning?
-3. [📚] **Method C**: How do you set the validation set size for reduced error pruning?
-4. [📚] What are the trade-offs between automated and manual parameter selection?
+1. [📚] **Parameter 1**: If you increase max_depth from 3 to 10, what happens to bias and variance?
+2. [📚] **Parameter 2**: If you increase min_samples_leaf from 1 to 10, what happens to tree size?
+3. [📚] **Parameter 3**: If you increase min_samples_split from 2 to 20, what happens to overfitting?
+4. [📚] How do you choose the optimal values for these regularization parameters?
 
-For a detailed explanation of this question, see [Question 8: Pruning Parameter Tuning](L6_6_8_explanation.md).
+For a detailed explanation of this question, see [Question 8: Regularization Parameter Effects](L6_5_8_explanation.md).
 
 ## Question 9
 
 ### Problem Statement
-Advanced pruning methods can provide better results than basic techniques.
+Advanced overfitting detection methods can identify subtle overfitting patterns.
 
 #### Task
-1. [🔍] What is "critical value pruning" and how does it work?
-2. [🔍] What is "pessimistic error pruning" and when is it used?
-3. [🔍] What is "error-based pruning" and how does it differ from reduced error pruning?
-4. [🔍] What are the advantages of these advanced methods?
+1. [🔍] What is the "validation curve" and how does it help detect overfitting?
+2. [🔍] How can you use the "gap" between training and validation performance?
+3. [🔍] What is the "stability" test for detecting overfitting?
+4. [🔍] How do you distinguish between overfitting and data leakage?
 
-For a detailed explanation of this question, see [Question 9: Advanced Pruning Methods](L6_6_9_explanation.md).
+For a detailed explanation of this question, see [Question 9: Advanced Overfitting Detection](L6_5_9_explanation.md).
 
 ## Question 10
 
 ### Problem Statement
-Pruning evaluation requires multiple metrics and considerations.
+Underfitting can be more subtle than overfitting and harder to detect.
 
 #### Task
-1. [📚] What are the main metrics for evaluating pruning quality?
-2. [📚] How do you balance accuracy loss vs. complexity reduction?
-3. [📚] What is the relationship between pruning and interpretability?
-4. [📚] How do you measure the "efficiency" of pruning?
+1. [📚] What are the early warning signs of underfitting?
+2. [📚] How does underfitting manifest in learning curves?
+3. [📚] What is the relationship between underfitting and model capacity?
+4. [📚] How do you distinguish between underfitting and poor data quality?
 
-For a detailed explanation of this question, see [Question 10: Pruning Evaluation](L6_6_10_explanation.md).
+For a detailed explanation of this question, see [Question 10: Underfitting Detection](L6_5_10_explanation.md).
 
 ## Question 11
 
 ### Problem Statement
-Pruning can be applied at different stages of tree construction.
+The bias-variance tradeoff is fundamental to understanding model complexity.
 
 #### Task
-1. [🔍] What is "incremental pruning" and how does it work?
-2. [🔍] What is "selective pruning" and when is it beneficial?
-3. [🔍] How do you implement "adaptive pruning"?
-4. [🔍] What are the trade-offs of different pruning timing strategies?
+1. [🔍] What is the mathematical relationship between bias, variance, and total error?
+2. [🔍] How does tree depth affect bias and variance?
+3. [🔍] What is the "sweet spot" in the bias-variance tradeoff?
+4. [🔍] How do you visualize the bias-variance tradeoff?
 
-For a detailed explanation of this question, see [Question 11: Pruning Timing](L6_6_11_explanation.md).
+For a detailed explanation of this question, see [Question 11: Bias-Variance Mathematics](L6_5_11_explanation.md).
 
 ## Question 12
 
 ### Problem Statement
-Pruning parameters can be optimized using different strategies.
+Cross-validation provides robust estimates of generalization performance.
 
 #### Task
-1. [📚] What is "grid search" for pruning parameter optimization?
-2. [📚] What is "Bayesian optimization" for pruning parameters?
-3. [📚] How do you use "cross-validation" for pruning parameter selection?
-4. [📚] What are the computational costs of different optimization methods?
+1. [📚] What are the different types of cross-validation for decision trees?
+2. [📚] How do you choose the number of folds for cross-validation?
+3. [📚] What is stratified cross-validation and when is it important?
+4. [📚] How do you interpret cross-validation results?
 
-For a detailed explanation of this question, see [Question 12: Parameter Optimization](L6_6_12_explanation.md).
+For a detailed explanation of this question, see [Question 12: Cross-Validation Methods](L6_5_12_explanation.md).
 
 ## Question 13
 
 ### Problem Statement
-Pruning can be combined with other regularization techniques.
+Learning curves provide insights into model behavior and data requirements.
 
 #### Task
-1. [🔍] How do you combine pruning with early stopping?
-2. [🔍] How do you combine pruning with feature selection?
-3. [🔍] How do you combine pruning with ensemble methods?
-4. [🔍] What are the benefits of combining multiple regularization techniques?
+1. [🔍] What are the different types of learning curves for decision trees?
+2. [🔍] How do you interpret learning curves with different shapes?
+3. [🔍] What do learning curves tell you about data collection needs?
+4. [🔍] How do learning curves help with hyperparameter tuning?
 
-For a detailed explanation of this question, see [Question 13: Combined Regularization](L6_6_13_explanation.md).
+For a detailed explanation of this question, see [Question 13: Learning Curve Analysis](L6_5_13_explanation.md).
 
 ## Question 14
 
 ### Problem Statement
-Pruning implementation requires efficient algorithms and data structures.
+Regularization techniques can be combined for better results.
 
 #### Task
-1. [📚] What data structures are needed for efficient pruning?
-2. [📚] How do you implement pruning without rebuilding the tree?
-3. [📚] What is the computational complexity of different pruning methods?
-4. [📚] How do you handle memory constraints during pruning?
+1. [📚] How do you combine multiple regularization parameters?
+2. [📚] What is the relationship between different regularization techniques?
+3. [📚] How do you tune multiple regularization parameters simultaneously?
+4. [📚] What are the trade-offs of different regularization combinations?
 
-For a detailed explanation of this question, see [Question 14: Implementation Efficiency](L6_6_14_explanation.md).
+For a detailed explanation of this question, see [Question 14: Combined Regularization](L6_5_14_explanation.md).
 
 ## Question 15
 
 ### Problem Statement
-Pruning can be applied to different types of decision trees.
+Model complexity can be measured in different ways.
 
 #### Task
-1. [🔍] How do you prune regression trees differently from classification trees?
-2. [🔍] How do you prune multi-output trees?
-3. [🔍] How do you prune trees with different impurity measures?
-4. [🔍] What are the specific considerations for each tree type?
+1. [🔍] What are the different measures of tree complexity?
+2. [🔍] How do you measure the "effective" complexity of a tree?
+3. [🔍] What is the relationship between complexity and interpretability?
+4. [🔍] How do you balance complexity with performance requirements?
 
-For a detailed explanation of this question, see [Question 15: Tree Type Pruning](L6_6_15_explanation.md).
+For a detailed explanation of this question, see [Question 15: Complexity Measurement](L6_5_15_explanation.md).
 
 ## Question 16
 
 ### Problem Statement
-Pruning can be evaluated using different validation strategies.
+Early stopping can prevent overfitting during tree construction.
 
 #### Task
-1. [📚] What is "holdout validation" for pruning evaluation?
-2. [📚] What is "k-fold cross-validation" for pruning evaluation?
-3. [📚] What is "nested cross-validation" and when is it needed?
-4. [📚] How do you choose the best validation strategy for your data?
+1. [📚] What is early stopping and how does it work?
+2. [📚] How do you implement early stopping in decision trees?
+3. [📚] What are the advantages and disadvantages of early stopping?
+4. [📚] How do you choose the optimal stopping point?
 
-For a detailed explanation of this question, see [Question 16: Validation Strategies](L6_6_16_explanation.md).
+For a detailed explanation of this question, see [Question 16: Early Stopping](L6_5_16_explanation.md).
 
 ## Question 17
 
 ### Problem Statement
-Pruning can be adapted for specific application domains.
+Data quality affects the overfitting-underfitting balance.
 
 #### Task
-1. [🔍] How do you adapt pruning for medical diagnosis applications?
-2. [🔍] How do you adapt pruning for financial risk assessment?
-3. [🔍] How do you adapt pruning for real-time applications?
-4. [🔍] What are the domain-specific considerations for pruning?
+1. [🔍] How does data quality affect the optimal model complexity?
+2. [🔍] What is the relationship between noise and overfitting?
+3. [🔍] How do you handle noisy data in decision trees?
+4. [🔍] What is the impact of feature quality on model complexity?
 
-For a detailed explanation of this question, see [Question 17: Domain Adaptation](L6_6_17_explanation.md).
+For a detailed explanation of this question, see [Question 17: Data Quality Impact](L6_5_17_explanation.md).
 
 ## Question 18
 
 ### Problem Statement
-Practical pruning requires understanding trade-offs and limitations.
+Practical strategies help balance overfitting and underfitting.
 
 #### Task
-1. [📚] **Trade-off 1**: What is the trade-off between pruning aggressiveness and accuracy?
-2. [📚] **Trade-off 2**: What is the trade-off between pruning speed and quality?
-3. [📚] **Limitation 1**: What are the limitations of automatic pruning?
-4. [📚] **Limitation 2**: When might manual pruning be preferred over automatic methods?
+1. [📚] **Strategy 1**: How do you use validation sets effectively?
+2. [📚] **Strategy 2**: How do you implement progressive complexity testing?
+3. [📚] **Strategy 3**: How do you use ensemble methods to balance complexity?
+4. [📚] What is the iterative process for finding optimal complexity?
 
-For a detailed explanation of this question, see [Question 18: Practical Considerations](L6_6_18_explanation.md).
+For a detailed explanation of this question, see [Question 18: Practical Strategies](L6_5_18_explanation.md).

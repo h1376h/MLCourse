@@ -1,7 +1,7 @@
 # Lecture 6.3: ID3 Algorithm Quiz
 
 ## Overview
-This quiz contains 18 questions covering different topics from section 6.3 of the lectures on ID3 Algorithm, including ID3 steps, recursive tree construction, stopping criteria, categorical feature handling, algorithm limitations, implementation details, and optimization.
+This quiz contains 18 questions covering different topics from section 6.3 of the lectures on ID3 Algorithm, including ID3 steps, recursive tree construction, stopping criteria, categorical feature handling, algorithm limitations, implementation details, and optimization. The questions include numerical examples, practical implementations, and comprehensive coverage of ID3 concepts.
 
 ## Question 1
 
@@ -70,181 +70,222 @@ For a detailed explanation of this question, see [Question 4: ID3 Tree Construct
 ## Question 5
 
 ### Problem Statement
-ID3 has several advantages and limitations compared to other algorithms.
+**Complete ID3 Tree Construction Example**: Given the following dataset for predicting whether to play tennis:
+
+| Outlook | Temperature | Humidity | Windy | Play |
+|---------|-------------|----------|-------|------|
+| Sunny   | Hot         | High     | False | No   |
+| Sunny   | Hot         | High     | True  | No   |
+| Overcast| Hot         | High     | False | Yes  |
+| Rain    | Mild        | High     | False | Yes  |
+| Rain    | Cool        | Normal   | False | Yes  |
+| Rain    | Cool        | Normal   | True  | No   |
+| Overcast| Cool        | Normal   | True  | Yes  |
+| Sunny   | Mild        | High     | False | No   |
+| Sunny   | Cool        | Normal   | False | Yes  |
+| Rain    | Mild        | Normal   | False | Yes  |
+| Sunny   | Mild        | Normal   | True  | Yes  |
+| Overcast| Mild        | High     | True  | Yes  |
+| Overcast| Hot         | Normal   | False | Yes  |
+| Rain    | Mild        | High     | True  | No   |
 
 #### Task
-1. [📚] **Advantage 1**: How does ID3 handle missing values?
-2. [📚] **Advantage 2**: Why is ID3 computationally efficient?
-3. [📚] **Limitation 1**: How does ID3 handle continuous features?
-4. [📚] **Limitation 2**: What happens when ID3 encounters noise in the data?
+1. [📚] **Step-by-step calculation**: Calculate the initial entropy of the dataset
+2. [📚] **Feature evaluation**: Calculate information gain for each feature (Outlook, Temperature, Humidity, Windy)
+3. [📚] **Tree construction**: Show the first two levels of the ID3 tree with exact entropy and information gain values
+4. [📚] **Analysis**: Explain why ID3 chose the root feature and what the next steps would be
 
-For a detailed explanation of this question, see [Question 5: ID3 Advantages and Limitations](L6_3_5_explanation.md).
+For a detailed explanation of this question, see [Question 5: Complete ID3 Tree Construction](L6_3_5_explanation.md).
 
 ## Question 6
 
 ### Problem Statement
-ID3 builds trees recursively by partitioning the dataset at each node.
+**Numerical Analysis of ID3 Splits**: Consider a binary classification problem with the following dataset:
+
+| Feature_A | Feature_B | Feature_C | Target |
+|-----------|-----------|-----------|--------|
+| 0         | 0         | 0         | Class1 |
+| 0         | 0         | 1         | Class1 |
+| 0         | 1         | 0         | Class2 |
+| 0         | 1         | 1         | Class2 |
+| 1         | 0         | 0         | Class1 |
+| 1         | 0         | 1         | Class2 |
+| 1         | 1         | 0         | Class2 |
+| 1         | 1         | 1         | Class1 |
 
 #### Task
-1. [🔍] Explain the recursive partitioning process in ID3 step by step
-2. [🔍] What happens to the dataset size as you go deeper in the tree?
-3. [🔍] How does ID3 ensure that each recursive call works on a subset of the original data?
-4. [🔍] Why is the recursive approach computationally efficient?
+1. [📚] **Entropy calculation**: Calculate the entropy of the entire dataset
+2. [📚] **Information gain analysis**: Calculate information gain for each feature and rank them
+3. [📚] **Split evaluation**: Show the exact entropy values for each split and explain which feature ID3 would choose
+4. [📚] **Recursive analysis**: Demonstrate how ID3 would recursively partition the data after the first split
 
-For a detailed explanation of this question, see [Question 6: Recursive Partitioning](L6_3_6_explanation.md).
+For a detailed explanation of this question, see [Question 6: Numerical Analysis of ID3 Splits](L6_3_6_explanation.md).
 
 ## Question 7
 
 ### Problem Statement
-ID3 handles categorical features by creating multi-way splits.
+**ID3 with High-Cardinality Features**: Consider a dataset with the following characteristics:
+
+| Feature | Cardinality | Values |
+|---------|-------------|--------|
+| City    | 50          | City1, City2, ..., City50 |
+| Age     | 3           | Young, Middle, Old |
+| Income  | 4           | Low, Medium, High, Very_High |
+| Target  | 2           | Yes, No |
 
 #### Task
-1. [📚] How does ID3 create splits for a categorical feature with 4 values?
-2. [📚] What is the maximum number of branches a single categorical feature can create?
-3. [📚] Why might multi-way splits be problematic for some datasets?
-4. [📚] How would you handle a categorical feature with 20 different values?
+1. [📚] **Cardinality analysis**: Calculate the maximum possible information gain for each feature
+2. [📚] **Bias demonstration**: Show why ID3 would prefer high-cardinality features and calculate the exact bias
+3. [📚] **Mitigation strategies**: Propose and implement solutions to handle the high-cardinality problem
+4. [📚] **Practical impact**: Analyze how this bias affects tree depth and overfitting
 
-For a detailed explanation of this question, see [Question 7: Handling Categorical Features](L6_3_7_explanation.md).
+For a detailed explanation of this question, see [Question 7: ID3 with High-Cardinality Features](L6_3_7_explanation.md).
 
 ## Question 8
 
 ### Problem Statement
-ID3 has several limitations that affect its practical use.
+**ID3 Performance and Complexity Analysis**: Given a dataset with n samples and m features:
 
 #### Task
-1. [📚] **Limitation 1**: Why does ID3 struggle with continuous features?
-2. [📚] **Limitation 2**: How does ID3 handle noise in the data?
-3. [📚] **Limitation 3**: What happens when ID3 encounters missing values?
-4. [📚] **Limitation 4**: Why might ID3 create overly complex trees?
+1. [📚] **Time complexity**: Derive the exact time complexity for building a complete ID3 tree
+2. [📚] **Space complexity**: Calculate the space requirements for storing the tree structure
+3. [📚] **Performance comparison**: Compare ID3 performance with different dataset sizes (n=100, n=1000, n=10000)
+4. [📚] **Optimization analysis**: Identify bottlenecks and propose specific optimization strategies
 
-For a detailed explanation of this question, see [Question 8: ID3 Limitations](L6_3_8_explanation.md).
+For a detailed explanation of this question, see [Question 8: ID3 Performance and Complexity Analysis](L6_3_8_explanation.md).
 
 ## Question 9
 
 ### Problem Statement
-ID3 implementation requires careful handling of edge cases.
+**ID3 Edge Cases and Error Handling**: Consider these problematic scenarios:
+
+**Scenario 1**: A feature that creates empty branches
+**Scenario 2**: All features provide zero information gain
+**Scenario 3**: Missing values in the dataset
+**Scenario 4**: Features with constant values
 
 #### Task
-1. [🔍] What happens if all features have been used but the node is not pure?
-2. [🔍] How do you handle a feature that creates empty branches?
-3. [🔍] What is the "majority class" rule and when is it used?
-4. [🔍] How do you handle cases where no features provide positive information gain?
+1. [🔍] **Empty branch handling**: Implement and demonstrate how to handle features that create empty branches
+2. [🔍] **Zero information gain**: Show what happens when no feature provides positive information gain
+3. [🔍] **Missing value strategies**: Implement three different approaches for handling missing values
+4. [🔍] **Constant feature detection**: Create a robust method to identify and handle constant features
 
-For a detailed explanation of this question, see [Question 9: Edge Case Handling](L6_3_9_explanation.md).
+For a detailed explanation of this question, see [Question 9: ID3 Edge Cases and Error Handling](L6_3_9_explanation.md).
 
 ## Question 10
 
 ### Problem Statement
-ID3 can be optimized for better performance.
+**ID3 Algorithm Optimization and Performance Analysis**: Analyze and optimize ID3 performance on different dataset characteristics.
 
 #### Task
-1. [📚] What is the time complexity of building a decision tree with ID3?
-2. [📚] How can you optimize feature selection in ID3?
-3. [📚] What is the space complexity of storing a decision tree?
-4. [📚] How does the dataset size affect ID3 performance?
+1. [📚] **Performance profiling**: Profile ID3 performance on datasets with varying feature cardinalities
+2. [📚] **Memory optimization**: Implement memory-efficient data structures for large ID3 trees
+3. [📚] **Computational optimization**: Optimize entropy and information gain calculations
+4. [📚] **Scalability analysis**: Measure how ID3 performance scales with dataset size and dimensionality
 
-For a detailed explanation of this question, see [Question 10: Performance Optimization](L6_3_10_explanation.md).
+For a detailed explanation of this question, see [Question 10: ID3 Algorithm Optimization and Performance Analysis](L6_3_10_explanation.md).
 
 ## Question 11
 
 ### Problem Statement
-ID3 has specific requirements for data preprocessing.
+**ID3 Implementation in Python**: Create a complete, production-ready ID3 implementation.
 
 #### Task
-1. [🔍] What data types can ID3 handle without preprocessing?
-2. [🔍] How do you handle numerical features in ID3?
-3. [🔍] What happens if you have duplicate samples in your dataset?
-4. [🔍] How do you handle features with constant values?
+1. [🔍] **Core implementation**: Implement the complete ID3 algorithm with proper error handling
+2. [🔍] **Data structures**: Design efficient data structures for tree representation and traversal
+3. [🔍] **Testing**: Create comprehensive test cases with known expected outputs
+4. [🔍] **Documentation**: Provide detailed API documentation and usage examples
 
-For a detailed explanation of this question, see [Question 11: Data Preprocessing](L6_3_11_explanation.md).
+For a detailed explanation of this question, see [Question 11: ID3 Implementation in Python](L6_3_11_explanation.md).
 
 ## Question 12
 
 ### Problem Statement
-ID3 tree construction follows a specific order.
+**ID3 for Multi-class Classification**: Extend ID3 to handle datasets with more than two classes.
 
 #### Task
-1. [📚] Why does ID3 choose the feature with highest information gain first?
-2. [📚] What is the relationship between feature selection order and tree depth?
-3. [📚] How does the order of feature selection affect the final tree structure?
-4. [📚] Can the order of feature selection affect tree performance?
+1. [📚] **Entropy extension**: Modify entropy calculation for multi-class problems
+2. [📚] **Information gain**: Adapt information gain calculation for multiple classes
+3. [📚] **Implementation**: Implement and test on a 3-class dataset
+4. [📚] **Performance analysis**: Compare multi-class performance with binary classification
 
-For a detailed explanation of this question, see [Question 12: Feature Selection Order](L6_3_12_explanation.md).
+For a detailed explanation of this question, see [Question 12: ID3 for Multi-class Classification](L6_3_12_explanation.md).
 
 ## Question 13
 
 ### Problem Statement
-ID3 can be extended with additional stopping criteria.
+**ID3 Pruning and Regularization**: Implement post-pruning techniques for ID3 trees.
 
 #### Task
-1. [🔍] What is the minimum samples per leaf stopping criterion?
-2. [🔍] What is the maximum depth stopping criterion?
-3. [🔍] What is the minimum information gain threshold?
-4. [🔍] How do these criteria affect tree size and performance?
+1. [🔍] **Pruning strategies**: Implement reduced error pruning and cost-complexity pruning
+2. [🔍] **Cross-validation**: Use k-fold cross-validation to determine optimal pruning parameters
+3. [🔍] **Overfitting analysis**: Demonstrate how pruning reduces overfitting on training data
+4. [🔍] **Performance comparison**: Compare pruned vs. unpruned tree performance
 
-For a detailed explanation of this question, see [Question 13: Extended Stopping Criteria](L6_3_13_explanation.md).
+For a detailed explanation of this question, see [Question 13: ID3 Pruning and Regularization](L6_3_13_explanation.md).
 
 ## Question 14
 
 ### Problem Statement
-ID3 implementation can vary in different programming languages.
+**ID3 for Regression Problems**: Adapt ID3 to handle continuous target variables.
 
 #### Task
-1. [📚] What are the key data structures needed for ID3 implementation?
-2. [📚] How do you represent a decision tree node in code?
-3. [📚] What is the recursive function signature for ID3?
-4. [📚] How do you handle the return value from recursive calls?
+1. [📚] **Variance reduction**: Replace entropy with variance as the splitting criterion
+2. [📚] **Leaf node prediction**: Implement mean-based prediction for leaf nodes
+3. [📚] **Implementation**: Create a complete regression tree implementation
+4. [📚] **Evaluation**: Compare with linear regression on a simple dataset
 
-For a detailed explanation of this question, see [Question 14: Implementation Details](L6_3_14_explanation.md).
+For a detailed explanation of this question, see [Question 14: ID3 for Regression Problems](L6_3_14_explanation.md).
 
 ## Question 15
 
 ### Problem Statement
-ID3 has specific memory and storage requirements.
+**ID3 Ensemble Methods**: Implement and analyze ensemble techniques using ID3.
 
 #### Task
-1. [🔍] How much memory does a decision tree node typically require?
-2. [🔍] What is the relationship between dataset size and tree memory usage?
-3. [🔍] How do you estimate the total memory needed for a complete tree?
-4. [🔍] What happens if you run out of memory during tree construction?
+1. [🔍] **Bagging implementation**: Create a bagging ensemble of ID3 trees
+2. [🔍] **Random Forest**: Implement random feature selection for ID3
+3. [🔍] **Performance analysis**: Compare single tree vs. ensemble performance
+4. [🔍] **Hyperparameter tuning**: Optimize ensemble size and feature selection
 
-For a detailed explanation of this question, see [Question 15: Memory Requirements](L6_3_15_explanation.md).
+For a detailed explanation of this question, see [Question 15: ID3 Ensemble Methods](L6_3_15_explanation.md).
 
 ## Question 16
 
 ### Problem Statement
-ID3 can be parallelized for better performance.
+**ID3 Scalability and Big Data**: Analyze ID3 performance on large datasets.
 
 #### Task
-1. [📚] Which parts of ID3 can be parallelized?
-2. [📚] How do you parallelize feature evaluation?
-3. [📚] What are the challenges of parallelizing recursive tree construction?
-4. [📚] When is parallelization most beneficial for ID3?
+1. [📚] **Memory analysis**: Calculate memory requirements for datasets of different sizes
+2. [📚] **Parallelization**: Implement parallel feature evaluation for ID3
+3. [📚] **Streaming adaptation**: Modify ID3 to handle streaming data
+4. [📚] **Performance profiling**: Identify and optimize bottlenecks in large-scale ID3
 
-For a detailed explanation of this question, see [Question 16: Parallelization](L6_3_16_explanation.md).
+For a detailed explanation of this question, see [Question 16: ID3 Scalability and Big Data](L6_3_16_explanation.md).
 
 ## Question 17
 
 ### Problem Statement
-ID3 can be adapted for different types of problems.
+**ID3 Feature Engineering and Selection**: Analyze the impact of feature engineering on ID3 performance.
 
 #### Task
-1. [🔍] How do you adapt ID3 for multi-class classification?
-2. [🔍] How do you adapt ID3 for regression problems?
-3. [🔍] How do you adapt ID3 for multi-output problems?
-4. [🔍] What modifications are needed for each adaptation?
+1. [🔍] **Feature creation**: Create new features from existing ones and measure impact
+2. [🔍] **Feature selection**: Implement forward and backward feature selection for ID3
+3. [🔍] **Dimensionality reduction**: Apply PCA and measure its effect on ID3 performance
+4. [🔍] **Optimal feature set**: Find the optimal subset of features for maximum performance
 
-For a detailed explanation of this question, see [Question 17: Problem Adaptations](L6_3_17_explanation.md).
+For a detailed explanation of this question, see [Question 17: ID3 Feature Engineering and Selection](L6_3_17_explanation.md).
 
 ## Question 18
 
 ### Problem Statement
-ID3 has evolved into more advanced algorithms.
+**ID3 in Real-World Applications**: Apply ID3 to solve practical machine learning problems.
 
 #### Task
-1. [📚] **Evolution 1**: What improvements does C4.5 make over ID3?
-2. [📚] **Evolution 2**: What improvements does CART make over ID3?
-3. [📚] **Evolution 3**: What improvements do modern tree algorithms make?
-4. [📚] Why is ID3 still important to understand despite its limitations?
+1. [📚] **Dataset selection**: Choose a real-world dataset (e.g., medical diagnosis, credit scoring)
+2. [📚] **Preprocessing**: Implement comprehensive data preprocessing for the chosen dataset
+3. [📚] **Model training**: Train ID3 and evaluate performance using appropriate metrics
+4. [📚] **Business insights**: Extract and interpret business rules from the trained tree
+5. [📚] **Limitations analysis**: Identify specific limitations of ID3 for the chosen problem
 
-For a detailed explanation of this question, see [Question 18: Algorithm Evolution](L6_3_18_explanation.md).
+For a detailed explanation of this question, see [Question 18: ID3 in Real-World Applications](L6_3_18_explanation.md).

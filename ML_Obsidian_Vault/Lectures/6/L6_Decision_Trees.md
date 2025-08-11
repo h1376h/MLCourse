@@ -50,52 +50,63 @@ This module introduces decision tree learning algorithms, from basic concepts to
 - Required Reading: "C4.5: Programs for Machine Learning" by Quinlan (1993)
 - Quiz: [[L6_4_Quiz]]: Test your understanding of the C4.5 algorithm
 
-### Lecture 6.5: Overfitting and Underfitting in Trees
-- [[L6_5_Overfitting_Concept|Overfitting Concept]]: When trees become too complex
-- [[L6_5_Underfitting_Concept|Underfitting Concept]]: When trees are too simple
-- [[L6_5_Bias_Variance_Tradeoff|Bias-Variance Tradeoff]]: Fundamental tradeoff in tree learning
-- [[L6_5_Cross_Validation|Cross Validation]]: Estimating generalization error
-- [[L6_5_Learning_Curves|Learning Curves]]: Understanding model behavior
-- [[L6_5_Regularization_Techniques|Regularization Techniques]]: Controlling tree complexity
-- [[L6_5_Examples|Overfitting Examples]]: Visual examples and detection
+### Lecture 6.5: CART Algorithm
+- [[L6_5_CART_Algorithm|CART Algorithm]]: Classification and Regression Trees
+- [[L6_5_Binary_Splits|Binary Splits]]: CART's splitting strategy
+- [[L6_5_Gini_Impurity|Gini Impurity]]: CART's splitting criterion
+- [[L6_5_Regression_Trees|Regression Trees]]: CART for continuous targets
+- [[L6_5_Pruning_Techniques|Pruning Techniques]]: Cost-complexity pruning
+- [[L6_5_Missing_Values|Missing Values]]: Surrogate splits
+- [[L6_5_CART_vs_Others|CART vs ID3/C4.5]]: Algorithm comparisons
+- [[L6_5_Examples|CART Examples]]: Implementation and applications
+- Required Reading: "Classification and Regression Trees" by Breiman et al. (1984)
+- Quiz: [[L6_5_Quiz]]: Test your understanding of the CART algorithm
+
+### Lecture 6.6: Overfitting and Underfitting in Trees
+- [[L6_6_Overfitting_Concept|Overfitting Concept]]: When trees become too complex
+- [[L6_6_Underfitting_Concept|Underfitting Concept]]: When trees are too simple
+- [[L6_6_Bias_Variance_Tradeoff|Bias-Variance Tradeoff]]: Fundamental tradeoff in tree learning
+- [[L6_6_Cross_Validation|Cross Validation]]: Estimating generalization error
+- [[L6_6_Learning_Curves|Learning Curves]]: Understanding model behavior
+- [[L6_6_Regularization_Techniques|Regularization Techniques]]: Controlling tree complexity
+- [[L6_6_Examples|Overfitting Examples]]: Visual examples and detection
 - Required Reading: Chapter 7.10 of "Pattern Recognition and Machine Learning" by Bishop
-- Quiz: [[L6_5_Quiz]]: Test your understanding of overfitting and underfitting
+- Quiz: [[L6_7_Quiz]]: Test your understanding of overfitting and underfitting
 
-### Lecture 6.6: Tree Pruning Techniques
-- [[L6_6_Pruning_Concept|Pruning Concept]]: Why and when to prune trees
-- [[L6_6_Pre_Pruning|Pre-Pruning]]: Early stopping during tree construction
-- [[L6_6_Post_Pruning|Post-Pruning]]: Pruning after full tree construction
-- [[L6_6_Cost_Complexity_Pruning|Cost-Complexity Pruning]]: Balancing accuracy and complexity
-- [[L6_6_Reduced_Error_Pruning|Reduced Error Pruning]]: Validation-based approach
-- [[L6_6_Minimum_Description_Length|Minimum Description Length]]: Information-theoretic pruning
-- [[L6_6_Pruning_Parameters|Pruning Parameters]]: Tuning pruning strategies
-- [[L6_6_Examples|Pruning Examples]]: Implementation and results
+### Lecture 6.7: Tree Pruning Techniques
+- [[L6_7_Pruning_Concept|Pruning Concept]]: Why and when to prune trees
+- [[L6_7_Pre_Pruning|Pre-Pruning]]: Early stopping during tree construction
+- [[L6_7_Post_Pruning|Post-Pruning]]: Pruning after full tree construction
+- [[L6_7_Cost_Complexity_Pruning|Cost-Complexity Pruning]]: Balancing accuracy and complexity
+- [[L6_7_Reduced_Error_Pruning|Reduced Error Pruning]]: Validation-based approach
+- [[L6_7_Minimum_Description_Length|Minimum Description Length]]: Information-theoretic pruning
+- [[L6_7_Pruning_Parameters|Pruning Parameters]]: Tuning pruning strategies
+- [[L6_7_Examples|Pruning Examples]]: Implementation and results
 - Required Reading: Chapter 3.4.2 of "Pattern Recognition and Machine Learning" by Bishop
-- Quiz: [[L6_6_Quiz]]: Test your understanding of tree pruning
+- Quiz: [[L6_8_Quiz]]: Test your understanding of tree pruning
 
-### Lecture 6.7: Random Forest
-- [[L6_7_Random_Forest_Concept|Random Forest Concept]]: Ensemble of decision trees
-- [[L6_7_Bagging|Bagging]]: Bootstrap aggregating for trees
-- [[L6_7_Feature_Subsampling|Feature Subsampling]]: Random feature selection
-- [[L6_7_Tree_Diversity|Tree Diversity]]: Ensuring different trees
-- [[L6_7_Voting_Strategies|Voting Strategies]]: Combining tree predictions
-- [[L6_7_Out_of_Bag_Estimation|Out-of-Bag Estimation]]: Internal validation
-- [[L6_7_Feature_Importance|Feature Importance]]: Understanding variable importance
-- [[L6_7_Examples|Random Forest Examples]]: Implementation and applications
+### Lecture 6.8: Random Forest
+- [[L6_8_Random_Forest_Concept|Random Forest Concept]]: Ensemble of decision trees
+- [[L6_8_Bagging|Bagging]]: Bootstrap aggregating for trees
+- [[L6_8_Feature_Subsampling|Feature Subsampling]]: Random feature selection
+- [[L6_8_Tree_Diversity|Tree Diversity]]: Ensuring different trees
+- [[L6_8_Voting_Strategies|Voting Strategies]]: Combining tree predictions
+- [[L6_8_Out_of_Bag_Estimation|Out-of-Bag Estimation]]: Internal validation
+- [[L6_8_Feature_Importance|Feature Importance]]: Understanding variable importance
+- [[L6_8_Examples|Random Forest Examples]]: Implementation and applications
 - Required Reading: "Random Forests" by Breiman (2001)
-- Quiz: [[L6_7_Quiz]]: Test your understanding of Random Forest
+- Quiz: [[L6_9_Quiz]]: Test your understanding of Random Forest
 
-### Lecture 6.8: Advanced Decision Tree Topics
-- [[L6_8_Regression_Trees|Regression Trees]]: Trees for continuous output
-- [[L6_8_Multi_Output_Trees|Multi-Output Trees]]: Handling multiple targets
-- [[L6_8_Online_Learning_Trees|Online Learning Trees]]: Incremental tree construction
-- [[L6_8_Streaming_Data|Streaming Data]]: Trees for data streams
-- [[L6_8_Interpretability|Interpretability]]: Making trees understandable
-- [[L6_8_Visualization|Tree Visualization]]: Effective tree plotting
-- [[L6_8_Real_World_Applications|Real-World Applications]]: Case studies
-- [[L6_8_Advanced_Examples|Advanced Examples]]: Complex implementations
+### Lecture 6.9: Advanced Decision Tree Topics
+- [[L6_9_Multi_Output_Trees|Multi-Output Trees]]: Handling multiple targets
+- [[L6_9_Online_Learning_Trees|Online Learning Trees]]: Incremental tree construction
+- [[L6_9_Streaming_Data|Streaming Data]]: Trees for data streams
+- [[L6_9_Interpretability|Interpretability]]: Making trees understandable
+- [[L6_9_Visualization|Tree Visualization]]: Effective tree plotting
+- [[L6_9_Real_World_Applications|Real-World Applications]]: Case studies
+- [[L6_9_Advanced_Examples|Advanced Examples]]: Complex implementations
 - Required Reading: Chapter 14.4 of "Elements of Statistical Learning" by Hastie et al.
-- Quiz: [[L6_8_Quiz]]: Test your understanding of advanced decision tree topics
+- Quiz: [[L6_9_Quiz]]: Test your understanding of advanced decision tree topics
 
 ## Programming Resources
 - [[L6_Decision_Trees_Python_Guide|Python Implementation Guide]]: Step-by-step implementation
@@ -133,7 +144,8 @@ Test your understanding with these quizzes:
 - [[L6_2_Quiz]]: Entropy and Information Gain in Trees
 - [[L6_3_Quiz]]: ID3 Algorithm
 - [[L6_4_Quiz]]: C4.5 Algorithm
-- [[L6_5_Quiz]]: Overfitting and Underfitting in Trees
-- [[L6_6_Quiz]]: Tree Pruning Techniques
-- [[L6_7_Quiz]]: Random Forest
-- [[L6_8_Quiz]]: Advanced Decision Tree Topics
+- [[L6_5_Quiz]]: CART Algorithm
+- [[L6_7_Quiz]]: Overfitting and Underfitting in Trees
+- [[L6_8_Quiz]]: Tree Pruning Techniques
+- [[L6_9_Quiz]]: Random Forest
+- [[L6_9_Quiz]]: Advanced Decision Tree Topics
