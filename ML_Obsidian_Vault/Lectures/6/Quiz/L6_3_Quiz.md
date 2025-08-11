@@ -93,8 +93,8 @@ Consider C4.5's improvement over ID3 in handling feature selection bias.
 
 #### Task
 1. What is the main problem with ID3's information gain regarding features with many values?
-2. For a feature with values $\{A, B, C\}$ splitting a dataset of 12 samples into subsets of size $\{3, 5, 4\}$, calculate the split information
-3. If the information gain for this split is 0.8, calculate the gain ratio
+2. For a feature with values $\{A, B, C\}$ splitting a dataset of $12$ samples into subsets of size $\{3, 5, 4\}$, calculate the split information
+3. If the information gain for this split is $0.8$, calculate the gain ratio
 4. Explain in one sentence why split information corrects the bias
 
 For a detailed explanation of this question, see [Question 6: C4.5 Gain Ratio Analysis](L6_3_6_explanation.md).
@@ -107,9 +107,9 @@ Design a simple "Algorithm Selection Game" where you must choose the most approp
 #### Task
 For each scenario below, select the most suitable algorithm (ID3, C4.5, or CART) and explain your reasoning in 1-2 sentences:
 
-1. **Small educational dataset**: 50 samples, 4 categorical features (2-3 values each), no missing data, interpretability is crucial
-2. **Mixed-type dataset**: 1000 samples, 6 categorical features, 4 continuous features, 15% missing values
-3. **High-cardinality problem**: 500 samples, features include customer ID, zip code, and product category with 50+ unique values
+1. **Small educational dataset**: $50$ samples, $4$ categorical features ($2$-$3$ values each), no missing data, interpretability is crucial
+2. **Mixed-type dataset**: $1000$ samples, $6$ categorical features, $4$ continuous features, $15\%$ missing values
+3. **High-cardinality problem**: $500$ samples, features include customer ID, zip code, and product category with $50+$ unique values
 4. **Regression task**: Predicting house prices using both categorical (neighborhood, style) and continuous (size, age) features
 5. **Noisy environment**: Dataset with many irrelevant features and some measurement errors
 
@@ -187,7 +187,7 @@ Consider how C4.5 handles continuous features through optimal threshold selectio
 #### Task
 1. Why can't ID3 handle continuous features directly? Answer in one sentence
 2. For ages $\{22, 25, 30, 35, 40\}$ with classes $\{No, No, Yes, Yes, No\}$, list all candidate threshold values
-3. Calculate information gain for the threshold Age ≤ 27.5
+3. Calculate information gain for the threshold Age $≤ 27.5$
 4. How does C4.5's approach to continuous features differ from manual discretization?
 
 For a detailed explanation of this question, see [Question 12: Continuous Feature Handling](L6_3_12_explanation.md).
@@ -201,7 +201,7 @@ Consider missing value handling strategies across different algorithms.
 1. How does ID3 typically handle missing values in practice?
 2. Describe C4.5's "fractional instance" method in one sentence
 3. What are CART's surrogate splits and why are they useful?
-4. Given a dataset where 30% of samples have missing values for Feature A, which algorithm would be most robust?
+4. Given a dataset where $30\%$ of samples have missing values for Feature A, which algorithm would be most robust?
 
 For a detailed explanation of this question, see [Question 13: Missing Value Strategies](L6_3_13_explanation.md).
 
@@ -258,7 +258,7 @@ Which of the following scenarios would benefit most from each algorithm? Choose 
 For each scenario, select ID3, C4.5, or CART and justify your choice:
 
 1. Small dataset with only categorical features and no missing values
-2. Large dataset with mixed feature types and 20% missing values  
+2. Large dataset with mixed feature types and $20\%$ missing values  
 3. Medical diagnosis requiring highly interpretable rules
 4. Predicting house prices (continuous target variable)
 5. Dataset with many categorical features having 10+ values each
@@ -274,7 +274,7 @@ Consider pruning approaches across the three algorithms.
 1. Does ID3 include built-in pruning capabilities? Why or why not?
 2. Describe C4.5's pessimistic error pruning in one sentence
 3. What is the purpose of CART's cost-complexity pruning parameter $\alpha$?
-4. If a subtree has training accuracy 90% but validation accuracy 75%, which algorithms would likely prune it?
+4. If a subtree has training accuracy $90\%$ but validation accuracy $75\%$, which algorithms would likely prune it?
 
 For a detailed explanation of this question, see [Question 17: Pruning Strategies](L6_3_17_explanation.md).
 
@@ -348,10 +348,10 @@ Consider CART's surrogate splits for missing value handling.
 
 #### Task
 1. Define surrogate splits in one sentence
-2. Given primary split "Income > 50K" with 80% accuracy, rank these surrogates by quality:
-   - "Education = Graduate": 70% agreement
-   - "Age > 40": 65% agreement
-   - "Experience > 8": 75% agreement
+2. Given primary split "Income $> \$50K$" with $80\%$ accuracy, rank these surrogates by quality:
+   - "Education = Graduate": $70\%$ agreement
+   - "Age $> 40$": $65\%$ agreement
+   - "Experience $> 8$": $75\%$ agreement
 3. Why are surrogate splits more robust than simple imputation methods?
 4. How would you use the best surrogate when Income is missing for a new sample?
 
@@ -550,6 +550,92 @@ Analyze computational complexity across ID3, C4.5, and CART algorithms.
 1. Derive the time complexity for ID3 given $n$ samples, $m$ features, and average branching factor $b$
 2. How does C4.5's complexity differ due to continuous feature handling?
 3. Analyze CART's complexity considering binary splits and surrogate computation
-4. For a dataset with 1000 samples, 20 features (10 categorical with avg 4 values, 10 continuous), estimate relative computation time
+4. For a dataset with $1000$ samples, $20$ features ($10$ categorical with avg $4$ values, $10$ continuous), estimate relative computation time
 
 For a detailed explanation of this question, see [Question 34: Algorithm Complexity Analysis](L6_3_34_explanation.md).
+
+## Question 35
+
+### Problem Statement
+Evaluate whether each of the following statements about advanced decision tree concepts is TRUE or FALSE. Provide a brief justification for each answer.
+
+#### Task
+1. CART's surrogate splits help maintain tree performance when primary splitting features are unavailable
+2. C4.5's pessimistic error pruning uses validation data to determine which subtrees to remove
+3. Information gain can be negative when a split reduces the overall purity of child nodes
+4. Decision trees with deeper maximum depth always achieve better training accuracy than shallower trees
+5. CART's cost-complexity pruning parameter $\alpha$ controls the trade-off between tree complexity and training error
+6. Multi-way splits in ID3 always create more interpretable decision boundaries than binary splits
+7. C4.5's gain ratio is always less than or equal to the corresponding information gain value
+8. Regression trees use mean squared error reduction as their default splitting criterion
+9. Feature bagging in Random Forest reduces correlation between individual trees in the ensemble
+10. Decision tree algorithms guarantee finding the globally optimal tree structure
+
+For a detailed explanation of this question, see [Question 35: Advanced Decision Tree Properties](L6_3_35_explanation.md).
+
+## Question 36
+
+### Problem Statement
+Design a "Split Quality Detective" game where you analyze suspicious splitting decisions.
+
+**Scenario**: You're auditing a decision tree and found these three competing splits for the root node:
+
+**Dataset**: $16$ samples with classes $[+: 10, -: 6]$
+
+**Split A** (Feature: Weather)
+- Sunny: $[+: 4, -: 1]$
+- Cloudy: $[+: 3, -: 2]$  
+- Rainy: $[+: 3, -: 3]$
+
+**Split B** (Feature: Customer_ID)
+- ID_001-100: $[+: 2, -: 0]$
+- ID_101-200: $[+: 2, -: 0]$
+- ID_201-300: $[+: 2, -: 0]$
+- ID_301-400: $[+: 2, -: 0]$
+- ID_401-500: $[+: 2, -: 6]$
+
+**Split C** (Feature: Purchase_Amount ≤ $50)
+- ≤ $50: $[+: 6, -: 4]$
+- > $50: $[+: 4, -: 2]$
+
+#### Task
+1. Calculate information gain for each split
+2. Calculate gain ratio for Split A and Split B
+3. Which split would each algorithm (ID3, C4.5, CART) prefer? Explain your reasoning
+4. Identify which split shows signs of overfitting and explain why
+5. What makes Split B problematic for real-world deployment?
+
+For a detailed explanation of this question, see [Question 36: Split Quality Analysis](L6_3_36_explanation.md).
+
+## Question 37
+
+### Problem Statement
+Create a "Tree Surgery" simulation where you practice pruning decisions.
+
+**Given Tree Structure**:
+```
+Root: Age $≤ 30$ (Training Acc: $85\%$, Validation Acc: $78\%$)
+├── Left: Income $≤ \$40K$ (Training Acc: $90\%$, Validation Acc: $72\%$)
+│   ├── Low Risk (Leaf): $[Safe: 8, Risk: 1]$
+│   └── Medium Risk (Leaf): $[Safe: 3, Risk: 4]$
+└── Right: Experience $> 2$ years (Training Acc: $88\%$, Validation Acc: $81\%$)
+    ├── High Risk (Leaf): $[Safe: 2, Risk: 6]$
+    └── Safe (Leaf): $[Safe: 7, Risk: 1]$
+```
+
+**Validation Performance**:
+- Full tree: $75\%$ accuracy
+- Pruning left subtree: $79\%$ accuracy
+- Pruning right subtree: $71\%$ accuracy
+- Pruning both subtrees (root only): $73\%$ accuracy
+
+#### Task
+1. Calculate the training accuracy for each subtree and the full tree
+2. Which pruning decision would **reduced error pruning** make? Explain
+3. If using **cost-complexity pruning** with $\alpha = 0.1$, calculate the cost-complexity for:
+   - Full tree
+   - Tree with left subtree pruned
+4. What does the validation performance pattern suggest about overfitting?
+5. Write the final decision rule after optimal pruning
+
+For a detailed explanation of this question, see [Question 37: Tree Pruning Simulation](L6_3_37_explanation.md).
