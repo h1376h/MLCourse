@@ -1,7 +1,7 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 22 questions covering different topics from section 6.3 of the lectures on Decision Tree Algorithms, including ID3 foundations, C4.5 improvements, CART capabilities, algorithm comparisons, and practical implementations.
+This quiz contains 35 questions covering different topics from section 6.3 of the lectures on Decision Tree Algorithms, including ID3 foundations, C4.5 improvements, CART capabilities, algorithm comparisons, practical implementations, numerical examples, and comprehensive coverage of all three algorithms.
 
 ## Question 1
 
@@ -324,3 +324,253 @@ For a detailed explanation of this question, see [Question 21: Modern Extensions
 4. [🔍] **Analysis**: Provide recommendations for when to use each algorithm
 
 For a detailed explanation of this question, see [Question 22: Comprehensive Implementation](L6_3_22_explanation.md).
+
+## Question 23
+
+### Problem Statement
+**C4.5 Gain Ratio Calculation**: Consider the following dataset for predicting loan approval:
+
+| Income Level | Age Group | Credit Score | Loan Approved |
+|--------------|-----------|--------------|---------------|
+| High         | Young     | Good         | Yes           |
+| High         | Young     | Poor         | No            |
+| Medium       | Middle    | Good         | Yes           |
+| Low          | Old       | Good         | Yes           |
+| Low          | Young     | Poor         | No            |
+| Medium       | Old       | Good         | Yes           |
+| High         | Middle    | Poor         | No            |
+| Low          | Middle    | Good         | Yes           |
+
+#### Task
+1. [📚] Calculate the entropy of the entire dataset
+2. [📚] Calculate information gain for each feature using ID3 method
+3. [📚] Calculate gain ratio for each feature using C4.5 method
+4. [📚] Compare which feature ID3 vs C4.5 would choose and explain why
+
+For a detailed explanation of this question, see [Question 23: C4.5 Gain Ratio Analysis](L6_3_23_explanation.md).
+
+## Question 24
+
+### Problem Statement
+**C4.5 Continuous Feature Handling**: Consider this dataset with a continuous age feature:
+
+| Age | Income | Credit | Loan Approved |
+|-----|--------|---------|---------------|
+| 22  | Low    | Poor    | No            |
+| 25  | High   | Good    | Yes           |
+| 35  | Medium | Good    | Yes           |
+| 45  | High   | Poor    | No            |
+| 30  | Low    | Good    | No            |
+| 55  | Medium | Good    | Yes           |
+| 28  | High   | Good    | Yes           |
+| 40  | Low    | Poor    | No            |
+
+#### Task
+1. [📚] **Threshold identification**: Find all possible threshold values for the Age feature
+2. [📚] **Binary split evaluation**: Calculate information gain for Age ≤ 30 vs Age > 30
+3. [📚] **Optimal threshold**: Find the optimal threshold that maximizes information gain
+4. [📚] **C4.5 advantage**: Explain how C4.5 handles this better than ID3
+
+For a detailed explanation of this question, see [Question 24: C4.5 Continuous Features](L6_3_24_explanation.md).
+
+## Question 25
+
+### Problem Statement
+**CART Gini Impurity Calculation**: Using the same loan dataset from Question 23:
+
+| Income Level | Age Group | Credit Score | Loan Approved |
+|--------------|-----------|--------------|---------------|
+| High         | Young     | Good         | Yes           |
+| High         | Young     | Poor         | No            |
+| Medium       | Middle    | Good         | Yes           |
+| Low          | Old       | Good         | Yes           |
+| Low          | Young     | Poor         | No            |
+| Medium       | Old       | Good         | Yes           |
+| High         | Middle    | Poor         | No            |
+| Low          | Middle    | Good         | Yes           |
+
+#### Task
+1. [📚] Calculate the Gini impurity of the entire dataset
+2. [📚] For Income Level feature, calculate Gini impurity for each possible binary split
+3. [📚] Find the binary split with lowest Gini impurity
+4. [📚] Compare CART's choice with ID3 and C4.5 results from previous questions
+
+For a detailed explanation of this question, see [Question 25: CART Gini Impurity](L6_3_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+**CART Binary Split Strategy**: Consider a feature "City" with values [NYC, LA, Chicago, Miami, Boston]. CART must create binary splits.
+
+#### Task
+1. [🔍] How many possible binary splits can CART create for this feature?
+2. [📚] Calculate the number of binary splits for a categorical feature with n values
+3. [📚] If the target distribution for each city is: NYC(3,1), LA(2,2), Chicago(1,3), Miami(4,0), Boston(2,2), find the optimal binary split
+4. [🔍] Why does CART prefer binary splits over multi-way splits?
+
+For a detailed explanation of this question, see [Question 26: CART Binary Splits](L6_3_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+**Algorithm Efficiency Comparison**: Compare the computational efficiency of ID3, C4.5, and CART.
+
+#### Task
+1. [🔍] Compare the time complexity of evaluating all possible splits for a categorical feature with k values
+2. [🔍] How does the complexity change when handling continuous features?
+3. [📚] Calculate the number of operations needed for each algorithm on a dataset with 1000 samples and 10 features
+4. [🔍] Which algorithm scales best with increasing feature cardinality and why?
+
+For a detailed explanation of this question, see [Question 27: Algorithm Efficiency](L6_3_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+**Missing Value Handling Comparison**: Consider this dataset with missing values (shown as ?):
+
+| Feature1 | Feature2 | Feature3 | Target |
+|----------|----------|----------|--------|
+| A        | X        | 1        | Yes    |
+| B        | ?        | 2        | No     |
+| ?        | Y        | 3        | Yes    |
+| A        | Z        | ?        | No     |
+| C        | X        | 1        | Yes    |
+
+#### Task
+1. [🔍] How would ID3 typically handle these missing values?
+2. [🔍] Explain C4.5's fractional instance method for the sample with Feature2 = ?
+3. [🔍] How would CART use surrogate splits for missing values?
+4. [📚] Demonstrate one missing value handling approach with calculations
+
+For a detailed explanation of this question, see [Question 28: Missing Value Strategies](L6_3_28_explanation.md).
+
+## Question 29
+
+### Problem Statement
+**C4.5 vs ID3 Bias Demonstration**: Consider features with different cardinalities:
+
+| Sample | Feature_A (2 values) | Feature_B (4 values) | Feature_C (8 values) | Target |
+|--------|---------------------|---------------------|---------------------|---------|
+| 1      | 0                   | 0                   | 0                   | Class1  |
+| 2      | 1                   | 1                   | 1                   | Class2  |
+| 3      | 0                   | 2                   | 2                   | Class1  |
+| 4      | 1                   | 3                   | 3                   | Class2  |
+| 5      | 0                   | 0                   | 4                   | Class1  |
+| 6      | 1                   | 1                   | 5                   | Class2  |
+| 7      | 0                   | 2                   | 6                   | Class1  |
+| 8      | 1                   | 3                   | 7                   | Class2  |
+
+#### Task
+1. [📚] Calculate information gain for each feature using ID3
+2. [📚] Calculate gain ratio for each feature using C4.5
+3. [📚] Demonstrate the bias toward high-cardinality features in ID3
+4. [📚] Show how C4.5's gain ratio corrects this bias
+
+For a detailed explanation of this question, see [Question 29: Feature Cardinality Bias](L6_3_29_explanation.md).
+
+## Question 30
+
+### Problem Statement
+**CART Regression Tree**: CART can handle regression problems. Consider this dataset:
+
+| Feature1 | Feature2 | Target (continuous) |
+|----------|----------|-------------------|
+| Low      | A        | 10.5              |
+| High     | A        | 15.2              |
+| Low      | B        | 12.8              |
+| High     | B        | 18.1              |
+| Medium   | A        | 13.0              |
+| Medium   | B        | 16.5              |
+
+#### Task
+1. [📚] Calculate the variance of the entire dataset
+2. [📚] Calculate variance reduction for splitting on Feature1
+3. [📚] Calculate variance reduction for splitting on Feature2
+4. [🔍] How does CART determine the predicted value for each leaf node in regression?
+
+For a detailed explanation of this question, see [Question 30: CART Regression](L6_3_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+**Multi-Algorithm Decision Tree Construction**: Apply all three algorithms to the same small dataset:
+
+| Weather | Temperature | Humidity | Wind | Play Tennis |
+|---------|-------------|----------|------|-------------|
+| Sunny   | Hot         | High     | Weak | No          |
+| Sunny   | Hot         | High     | Strong | No        |
+| Overcast| Hot         | High     | Weak | Yes         |
+| Rain    | Mild        | High     | Weak | Yes         |
+| Rain    | Cool        | Normal   | Weak | Yes         |
+| Rain    | Cool        | Normal   | Strong | No        |
+
+#### Task
+1. [📚] **ID3 approach**: Build the first level using information gain
+2. [📚] **C4.5 approach**: Build the first level using gain ratio
+3. [📚] **CART approach**: Build the first level using Gini impurity with binary splits
+4. [📚] **Comparison**: Compare the root node choices and explain differences
+
+For a detailed explanation of this question, see [Question 31: Multi-Algorithm Comparison](L6_3_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
+**Pruning Capabilities Across Algorithms**: Compare pruning approaches in ID3, C4.5, and CART.
+
+#### Task
+1. [🔍] Why doesn't ID3 include built-in pruning capabilities?
+2. [🔍] Explain C4.5's pessimistic error pruning approach
+3. [🔍] Describe CART's cost-complexity pruning with the alpha parameter
+4. [📚] Given a tree with 5 nodes and training errors [0, 1, 0, 2, 1], demonstrate one pruning calculation
+
+For a detailed explanation of this question, see [Question 32: Pruning Comparison](L6_3_32_explanation.md).
+
+## Question 33
+
+### Problem Statement
+**Feature Selection Robustness**: Analyze how each algorithm handles irrelevant features.
+
+Dataset with one relevant and two irrelevant features:
+
+| Relevant_Feature | Noise_Feature1 | Noise_Feature2 | Target |
+|-----------------|----------------|----------------|--------|
+| A               | X              | 1              | Yes    |
+| A               | Y              | 2              | Yes    |
+| B               | Z              | 3              | No     |
+| B               | X              | 1              | No     |
+| A               | Z              | 2              | Yes    |
+| B               | Y              | 3              | No     |
+
+#### Task
+1. [📚] Calculate information gain for all features using ID3
+2. [📚] Calculate gain ratio for all features using C4.5
+3. [🔍] Which algorithm is most likely to select the relevant feature first?
+4. [🔍] How do the splitting criteria affect robustness to noise?
+
+For a detailed explanation of this question, see [Question 33: Feature Selection Robustness](L6_3_33_explanation.md).
+
+## Question 34
+
+### Problem Statement
+**Tree Interpretability Analysis**: Compare the interpretability of trees produced by each algorithm.
+
+#### Task
+1. [🔍] Which algorithm typically produces the most compact trees?
+2. [🔍] How does CART's binary splitting affect rule interpretability compared to ID3's multi-way splits?
+3. [🔍] Why might C4.5 trees be easier to interpret than ID3 trees?
+4. [📚] Given a business context (loan approval), rank the algorithms by interpretability and justify
+
+For a detailed explanation of this question, see [Question 34: Tree Interpretability](L6_3_34_explanation.md).
+
+## Question 35
+
+### Problem Statement
+**Overfitting Susceptibility**: Analyze which algorithm is most prone to overfitting.
+
+#### Task
+1. [🔍] Which algorithm has the highest risk of overfitting and why?
+2. [🔍] How do the different splitting criteria affect overfitting tendency?
+3. [🔍] Which algorithm provides the best built-in overfitting protection?
+4. [📚] Design a small example where one algorithm overfits but another doesn't
+
+For a detailed explanation of this question, see [Question 35: Overfitting Analysis](L6_3_35_explanation.md).
