@@ -1,7 +1,7 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 25 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, and practical implementations with detailed numerical examples.
+This quiz contains 29 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, and modern extensions with detailed numerical examples.
 
 ## Question 1
 
@@ -323,7 +323,26 @@ Write pseudocode for the ID3 algorithm and trace its execution.
 
 For a detailed explanation of this question, see [Question 20: ID3 Algorithm Implementation](L6_3_20_explanation.md).
 
-## [⭐] Question 21
+## Question 21
+
+### Problem Statement
+Consider ID3's behavior when all features have been used but nodes remain impure.
+
+#### Task
+1. [🔍] Describe the scenario where ID3 exhausts all features but has impure nodes
+2. [📚] Given this partially constructed tree where all features are used:
+   ```
+   Root: Outlook
+   ├── Sunny → [Yes: 2, No: 3]
+   ├── Cloudy → [Yes: 4, No: 0]  
+   └── Rain → [Yes: 1, No: 2]
+   ```
+3. [📚] How should ID3 handle the impure "Sunny" and "Rain" nodes?
+4. [🔍] What is the decision rule for leaf node class assignment in this case?
+
+For a detailed explanation of this question, see [Question 21: ID3 Feature Exhaustion](L6_3_21_explanation.md).
+
+## [⭐] Question 22
 
 ### Problem Statement
 Compare all three algorithms on the same dataset to understand their differences:
@@ -343,9 +362,9 @@ Compare all three algorithms on the same dataset to understand their differences
 3. [📚] **CART Analysis**: Find the best binary split for Size feature using Gini impurity
 4. [📚] **Comparison**: Which feature would each algorithm choose as the root? Explain any differences
 
-For a detailed explanation of this question, see [Question 21: Comprehensive Algorithm Comparison](L6_3_21_explanation.md).
+For a detailed explanation of this question, see [Question 22: Comprehensive Algorithm Comparison](L6_3_22_explanation.md).
 
-## Question 22
+## Question 23
 
 ### Problem Statement
 Consider entropy edge cases and mathematical properties.
@@ -359,9 +378,9 @@ Consider entropy edge cases and mathematical properties.
 3. [📚] Prove that entropy is maximized when classes are equally distributed
 4. [🔍] How should you handle the log(0) case when calculating entropy?
 
-For a detailed explanation of this question, see [Question 22: Entropy Mathematical Properties](L6_3_22_explanation.md).
+For a detailed explanation of this question, see [Question 23: Entropy Mathematical Properties](L6_3_23_explanation.md).
 
-## Question 23
+## Question 24
 
 ### Problem Statement
 Analyze stopping criteria across algorithms.
@@ -372,9 +391,9 @@ Analyze stopping criteria across algorithms.
 3. [🔍] Name two stopping criteria specific to CART
 4. [📚] For a node with 5 samples (3 positive, 2 negative), should ID3 continue splitting? Consider minimum samples and purity thresholds
 
-For a detailed explanation of this question, see [Question 23: Algorithm Stopping Criteria](L6_3_23_explanation.md).
+For a detailed explanation of this question, see [Question 24: Algorithm Stopping Criteria](L6_3_24_explanation.md).
 
-## Question 24
+## Question 25
 
 ### Problem Statement
 Consider how modern machine learning libraries implement these classic algorithms.
@@ -385,9 +404,54 @@ Consider how modern machine learning libraries implement these classic algorithm
 3. [🔍] How have ensemble methods like Random Forest extended these basic algorithms?
 4. [🔍] What limitations of classic algorithms do modern methods address?
 
-For a detailed explanation of this question, see [Question 24: Modern Algorithm Extensions](L6_3_24_explanation.md).
+For a detailed explanation of this question, see [Question 25: Modern Algorithm Extensions](L6_3_25_explanation.md).
 
-## [📕] Question 25
+## Question 26
+
+### Problem Statement
+Analyze multi-way vs binary splits as a fundamental difference between algorithms.
+
+#### Task
+1. [📚] For feature "Grade" with values {A, B, C, D, F}, show all splits that:
+   - ID3 would consider (1 multi-way split)
+   - CART would consider (list all binary combinations)
+2. [📚] Calculate the number of binary splits for a categorical feature with k values
+3. [🔍] Discuss advantages and disadvantages of each approach
+4. [🔍] When might binary splits be preferred over multi-way splits?
+
+For a detailed explanation of this question, see [Question 26: Multi-way vs Binary Splits](L6_3_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+Consider CART's cost function approach to optimization.
+
+#### Task
+1. [📚] Write the cost function that CART minimizes when choosing splits
+2. [📚] For a categorical feature "Color" with values {Red, Blue, Green, Yellow}, list all possible binary splits
+3. [📚] Given class distributions: Red(2,1), Blue(1,2), Green(3,0), Yellow(1,1), find the optimal binary split using Gini impurity
+4. [🔍] Compare this result with what information gain would choose
+
+For a detailed explanation of this question, see [Question 27: CART Cost Function](L6_3_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+Examine entropy calculation edge cases and mathematical properties.
+
+#### Task
+1. [📚] Calculate entropy for these distributions:
+   - Pure node: [10, 0]
+   - Balanced node: [5, 5]
+   - Skewed node: [9, 1]
+   - Empty node: [0, 0]
+2. [🔍] Explain how to handle the empty node case mathematically
+3. [📚] Show that entropy is maximized for balanced distributions
+4. [📚] Derive the maximum possible entropy for k classes
+
+For a detailed explanation of this question, see [Question 28: Entropy Edge Cases](L6_3_28_explanation.md).
+
+## [📕] Question 29
 
 ### Problem Statement
 Design a unified decision tree framework that demonstrates the key differences between ID3, C4.5, and CART.
@@ -408,4 +472,4 @@ Design a unified decision tree framework that demonstrates the key differences b
 5. [🔍] Explain why different algorithms might choose different root features
 6. [🔍] Which algorithm would be most suitable for production deployment and why?
 
-For a detailed explanation of this question, see [Question 25: Unified Decision Tree Framework](L6_3_25_explanation.md).
+For a detailed explanation of this question, see [Question 29: Unified Decision Tree Framework](L6_3_29_explanation.md).
