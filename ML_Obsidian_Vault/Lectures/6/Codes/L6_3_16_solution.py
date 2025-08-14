@@ -362,9 +362,6 @@ plt.close()
 # Create scenario summary table
 fig, ax = plt.subplots(figsize=(32, 20))
 
-# Add title ABOVE the table with proper positioning
-ax.set_title('Algorithm Selection Summary', fontsize=24, weight='bold', pad=30, y=0.95)
-
 # Prepare table data with better text handling and multi-line formatting
 table_data = []
 for scenario_id, scenario in scenarios.items():
