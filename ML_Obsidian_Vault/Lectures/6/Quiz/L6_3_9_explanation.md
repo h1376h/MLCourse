@@ -4,7 +4,7 @@
 CART's binary splitting strategy differs fundamentally from ID3 and C4.5.
 
 ### Task
-1. For a categorical feature "Grade" with values $\{A, B, C, D\}$, list all possible binary splits CART would consider
+1. For a categorical feature "Grade" with values $\{A, B, C, D\}$, list all possible binary splits CART (using Gini impurity) would consider
 2. Calculate the number of binary splits for a categorical feature with $k$ values (Formula: $2^{k-1} - 1$)
 3. What does CART stand for and why can it handle regression problems?
 4. Given class distributions: A$(3,1)$, B$(2,2)$, C$(1,3)$, D$(4,0)$, find the optimal binary split using Gini impurity

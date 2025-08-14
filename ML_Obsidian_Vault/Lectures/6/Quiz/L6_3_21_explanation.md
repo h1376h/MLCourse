@@ -8,7 +8,7 @@ The geometric interpretation of decision trees helps understand their decision-m
 
 **A)** ID3 creates axis-parallel rectangular regions in feature space
 **B)** C4.5 can create diagonal decision boundaries due to continuous feature handling  
-**C)** CART's binary splits always create more complex boundaries than multi-way splits
+**C)** CART's binary splits (using Gini impurity) always create more complex boundaries than multi-way splits
 **D)** All decision tree algorithms create identical decision boundaries for the same dataset
 
 ## Understanding the Problem

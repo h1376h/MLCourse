@@ -6,7 +6,7 @@ Analyze bias-variance trade-offs in decision tree algorithms.
 ### Task
 1. Which algorithm typically has the highest bias? Explain why
 2. Which algorithm is most prone to overfitting without pruning?
-3. How does CART's binary splitting strategy affect the bias-variance trade-off?
+3. How does CART's binary splitting strategy (using Gini impurity) affect the bias-variance trade-off?
 4. Which algorithm provides the best built-in protection against overfitting?
 
 ## Understanding the Problem

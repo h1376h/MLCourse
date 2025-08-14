@@ -6,7 +6,7 @@ Consider missing value handling strategies across different algorithms.
 ### Task
 1. How does ID3 typically handle missing values in practice?
 2. Describe C4.5's "fractional instance" method in one sentence
-3. What are CART's surrogate splits and why are they useful?
+3. What are CART's surrogate splits (using Gini impurity) and why are they useful?
 4. Given a dataset where $30\%$ of samples have missing values for Feature A, which algorithm would be most robust?
 
 ## Understanding the Problem

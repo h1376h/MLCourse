@@ -7,7 +7,7 @@ Consider the computational complexity of each algorithm.
 1. Which algorithm has the highest computational complexity for categorical features? Why?
 2. How does handling continuous features affect C4.5's time complexity?
 3. For a dataset with $1000$ samples and $10$ features ($5$ categorical with avg $4$ values, $5$ continuous), rank the algorithms by expected training time
-4. What makes CART more computationally expensive than ID3 for categorical features?
+4. What makes CART (using Gini impurity) more computationally expensive than ID3 for categorical features?
 
 ## Understanding the Problem
 Computational complexity analysis is crucial for understanding the scalability and practical applicability of different decision tree algorithms. Each algorithm has different approaches to feature handling, splitting strategies, and pruning, which significantly impact their runtime performance. Understanding these complexities helps in algorithm selection for different dataset sizes and feature types.

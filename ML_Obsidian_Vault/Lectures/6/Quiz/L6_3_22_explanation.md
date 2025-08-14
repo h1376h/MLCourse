@@ -1,7 +1,7 @@
 # Question 22: CART Surrogate Splits
 
 ## Problem Statement
-Consider CART's surrogate splits for missing value handling.
+Consider CART's surrogate splits (using Gini impurity) for missing value handling.
 
 ### Task
 1. Define surrogate splits in one sentence

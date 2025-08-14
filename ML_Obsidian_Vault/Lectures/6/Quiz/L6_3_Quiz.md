@@ -1,7 +1,7 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 40 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, and algorithm selection strategies with detailed numerical examples.
+This quiz contains 41 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, and detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples.
 
 ## Question 1
 
@@ -82,7 +82,7 @@ Evaluate whether each of the following statements about decision tree algorithms
 7. ID3 includes built-in pruning mechanisms to prevent overfitting
 8. C4.5's handling of missing values is more sophisticated than ID3's approach
 9. Information gain and Gini impurity always select the same feature for splitting
-10. CART's binary splits always result in more interpretable trees than multi-way splits
+10. CART's binary splits (using Gini impurity) always result in more interpretable trees than multi-way splits
 
 For a detailed explanation of this question, see [Question 5: Decision Tree Algorithm Properties](L6_3_5_explanation.md).
 
@@ -137,9 +137,11 @@ Create a "Decision Tree Construction Race" where you manually trace through the 
 #### Task
 1. **ID3 approach**: Calculate information gain for each feature and identify the best split
 2. **C4.5 approach**: Calculate gain ratio for each feature and compare with ID3's choice
-3. **CART approach**: For the Cuisine feature, evaluate all possible binary splits using Gini impurity
-4. Which feature would each algorithm choose as the root? Explain any differences
-5. Draw the first level of the decision tree that each algorithm would construct
+3. **CART approach (using Gini impurity)**: For the Cuisine feature, evaluate all possible binary splits using Gini impurity
+4. **CART approach (using Entropy)**: For the Cuisine feature, evaluate all possible binary splits using entropy-based information gain
+5. Which feature would each algorithm choose as the root? Explain any differences
+6. Compare the results between CART using Gini vs CART using Entropy - are they the same? Why or why not?
+7. Draw the first level of the decision tree that each algorithm would construct
 
 For a detailed explanation of this question, see [Question 8: Multi-Algorithm Construction Trace](L6_3_8_explanation.md).
 
@@ -149,7 +151,7 @@ For a detailed explanation of this question, see [Question 8: Multi-Algorithm Co
 CART's binary splitting strategy differs fundamentally from ID3 and C4.5.
 
 #### Task
-1. For a categorical feature "Grade" with values $\{A, B, C, D\}$, list all possible binary splits CART would consider
+1. For a categorical feature "Grade" with values $\{A, B, C, D\}$, list all possible binary splits CART (using Gini impurity) would consider
 2. Calculate the number of binary splits for a categorical feature with $k$ values (Formula: $2^{k-1} - 1$)
 3. What does CART stand for and why can it handle regression problems?
 4. Given class distributions: A$(3,1)$, B$(2,2)$, C$(1,3)$, D$(4,0)$, find the optimal binary split using Gini impurity
@@ -206,7 +208,7 @@ Consider missing value handling strategies across different algorithms.
 #### Task
 1. How does ID3 typically handle missing values in practice?
 2. Describe C4.5's "fractional instance" method in one sentence
-3. What are CART's surrogate splits and why are they useful?
+3. What are CART's surrogate splits (using Gini impurity) and why are they useful?
 4. Given a dataset where $30\%$ of samples have missing values for Feature A, which algorithm would be most robust?
 
 For a detailed explanation of this question, see [Question 13: Missing Value Strategies](L6_3_13_explanation.md).
@@ -236,7 +238,7 @@ For a detailed explanation of this question, see [Question 14: ID3 Algorithm App
 ## Question 15
 
 ### Problem Statement
-Consider CART's approach to regression problems.
+Consider CART's approach (using Gini impurity for classification, MSE for regression) to regression problems.
 
 | Feature1 | Feature2 | Target |
 |----------|----------|--------|
@@ -252,7 +254,7 @@ Consider CART's approach to regression problems.
 2. Calculate variance reduction for splitting on Feature1 (Low vs {Medium, High}) using:
    $$\text{Variance Reduction} = \text{Var}(S) - \sum_{i} \frac{|S_i|}{|S|} \text{Var}(S_i)$$
 3. What would be the predicted value for each leaf node after this split?
-4. How does CART's regression criterion differ from classification criteria?
+4. How does CART's regression criterion (MSE) differ from classification criteria (Gini impurity)?
 
 For a detailed explanation of this question, see [Question 15: CART Regression Trees](L6_3_15_explanation.md).
 
@@ -280,7 +282,7 @@ Consider pruning approaches across the three algorithms.
 #### Task
 1. Does ID3 include built-in pruning capabilities? Why or why not?
 2. Describe C4.5's pessimistic error pruning in one sentence
-3. What is the purpose of CART's cost-complexity pruning parameter $\alpha$?
+3. What is the purpose of CART's cost-complexity pruning parameter $\alpha$ (using Gini impurity)?
 4. If a subtree has training accuracy $90\%$ but validation accuracy $75\%$, which algorithms would likely prune it?
 
 For a detailed explanation of this question, see [Question 17: Pruning Strategies](L6_3_17_explanation.md).
@@ -316,7 +318,7 @@ Consider the computational complexity of each algorithm.
 1. Which algorithm has the highest computational complexity for categorical features? Why?
 2. How does handling continuous features affect C4.5's time complexity?
 3. For a dataset with $1000$ samples and $10$ features ($5$ categorical with avg $4$ values, $5$ continuous), rank the algorithms by expected training time
-4. What makes CART more computationally expensive than ID3 for categorical features?
+4. What makes CART (using Gini impurity) more computationally expensive than ID3 for categorical features?
 
 For a detailed explanation of this question, see [Question 19: Computational Complexity](L6_3_19_explanation.md).
 
@@ -328,7 +330,7 @@ Analyze bias-variance trade-offs in decision tree algorithms.
 #### Task
 1. Which algorithm typically has the highest bias? Explain why
 2. Which algorithm is most prone to overfitting without pruning?
-3. How does CART's binary splitting strategy affect the bias-variance trade-off?
+3. How does CART's binary splitting strategy (using Gini impurity) affect the bias-variance trade-off?
 4. Which algorithm provides the best built-in protection against overfitting?
 
 For a detailed explanation of this question, see [Question 20: Bias-Variance Analysis](L6_3_20_explanation.md).
@@ -343,7 +345,7 @@ The geometric interpretation of decision trees helps understand their decision-m
 
 **A)** ID3 creates axis-parallel rectangular regions in feature space
 **B)** C4.5 can create diagonal decision boundaries due to continuous feature handling  
-**C)** CART's binary splits always create more complex boundaries than multi-way splits
+**C)** CART's binary splits (using Gini impurity) always create more complex boundaries than multi-way splits
 **D)** All decision tree algorithms create identical decision boundaries for the same dataset
 
 For a detailed explanation of this question, see [Question 21: Decision Tree Interpretability](L6_3_21_explanation.md).
@@ -351,7 +353,7 @@ For a detailed explanation of this question, see [Question 21: Decision Tree Int
 ## Question 22
 
 ### Problem Statement
-Consider CART's surrogate splits for missing value handling.
+Consider CART's surrogate splits (using Gini impurity) for missing value handling.
 
 #### Task
 1. Define surrogate splits in one sentence
@@ -459,8 +461,10 @@ Compare all three algorithms on the same dataset to understand their differences
 #### Task
 1. **ID3 Analysis**: Calculate information gain for each feature
 2. **C4.5 Analysis**: Calculate gain ratio for each feature  
-3. **CART Analysis**: Find the best binary split for Size feature using Gini impurity
-4. **Comparison**: Which feature would each algorithm choose as the root? Explain any differences
+3. **CART Analysis (using Gini impurity)**: Find the best binary split for Size feature using Gini impurity
+4. **CART Analysis (using Entropy)**: Find the best binary split for Size feature using entropy-based information gain
+5. **Comparison**: Which feature would each algorithm choose as the root? Explain any differences
+6. **CART Comparison**: Compare the binary splits chosen by CART using Gini vs CART using Entropy. Are they identical? Explain any differences.
 
 For a detailed explanation of this question, see [Question 27: Comprehensive Algorithm Comparison](L6_3_27_explanation.md).
 
@@ -513,6 +517,25 @@ For a detailed explanation of this question, see [Question 30: Algorithm Stoppin
 ## Question 31
 
 ### Problem Statement
+Compare CART algorithm performance using different impurity measures: Gini impurity vs Entropy.
+
+#### Task
+1. **Dataset Analysis**: Given a binary classification dataset with features A, B, C and target Y:
+   - Feature A: 3 values, splits data into [8,2], [5,5], [2,8]
+   - Feature B: 2 values, splits data into [10,5], [5,10]  
+   - Feature C: 4 values, splits data into [4,1], [3,2], [2,3], [4,4]
+
+2. **CART with Gini Impurity**: Calculate Gini impurity for each possible binary split and find the optimal split
+3. **CART with Entropy**: Calculate entropy-based information gain for each possible binary split and find the optimal split
+4. **Comparison**: Are the optimal splits identical? If not, explain why they differ
+5. **Theoretical Analysis**: When would Gini impurity and entropy produce different optimal splits?
+6. **Practical Implications**: Which impurity measure would you recommend for this dataset and why?
+
+For a detailed explanation of this question, see [Question 31: CART Gini vs Entropy Comparison](L6_3_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
 Consider how modern machine learning libraries implement these classic algorithms.
 
 #### Task
@@ -521,9 +544,9 @@ Consider how modern machine learning libraries implement these classic algorithm
 3. How have ensemble methods like Random Forest extended these basic algorithms?
 4. What limitations of classic algorithms do modern methods address?
 
-For a detailed explanation of this question, see [Question 31: Modern Algorithm Extensions](L6_3_31_explanation.md).
+For a detailed explanation of this question, see [Question 32: Modern Algorithm Extensions](L6_3_32_explanation.md).
 
-## Question 32
+## Question 33
 
 ### Problem Statement
 Analyze multi-way vs binary splits as a fundamental difference between algorithms.
@@ -531,14 +554,14 @@ Analyze multi-way vs binary splits as a fundamental difference between algorithm
 #### Task
 1. For feature "Grade" with values $\{A, B, C, D, F\}$, show all splits that:
    - ID3 would consider (1 multi-way split)
-   - CART would consider (list all binary combinations)
+   - CART (using Gini impurity) would consider (list all binary combinations)
 2. Calculate the number of binary splits for a categorical feature with $k$ values
 3. Discuss advantages and disadvantages of each approach
 4. When might binary splits be preferred over multi-way splits?
 
-For a detailed explanation of this question, see [Question 32: Multi-way vs Binary Splits](L6_3_32_explanation.md).
+For a detailed explanation of this question, see [Question 33: Multi-way vs Binary Splits](L6_3_33_explanation.md).
 
-## Question 33
+## Question 34
 
 ### Problem Statement
 Design a "Decision Tree Card Game" where you must build the best tree using limited information and strategic choices.
@@ -561,7 +584,8 @@ Design a "Decision Tree Card Game" where you must build the best tree using limi
 2. **Split Strategy**: If you could only use ONE feature to split the data, which would you choose and why? Draw the resulting tree.
 3. **Verification**: Now calculate the information gain for your chosen feature to verify your intuition was correct.
 4. **Tree Construction**: Build the complete decision tree using ID3 algorithm (show your work for the first two levels).
-5. **Creative Challenge**: Design a new data card that would make your tree misclassify. What does this reveal about decision tree limitations?
+5. **CART Comparison**: Now build the tree using CART algorithm with BOTH Gini impurity and entropy. Compare the resulting trees - are they identical? Explain any differences.
+6. **Creative Challenge**: Design a new data card that would make your tree misclassify. What does this reveal about decision tree limitations?
 
 For a detailed explanation of this question, see [Question 33: Decision Tree Card Game](L6_3_33_explanation.md).
 
@@ -571,11 +595,13 @@ For a detailed explanation of this question, see [Question 33: Decision Tree Car
 Consider CART's cost function approach to optimization.
 
 #### Task
-1. Write the cost function that CART minimizes when choosing splits:
+1. Write the cost function that CART (using Gini impurity) minimizes when choosing splits:
    $$\text{Cost}(T) = \sum_{\text{leaves}} N_t \cdot \text{Impurity}(t) + \alpha \cdot |\text{leaves}|$$
 2. For a categorical feature "Color" with values $\{Red, Blue, Green, Yellow\}$, list all possible binary splits
-3. Given class distributions: Red$(2,1)$, Blue$(1,2)$, Green$(3,0)$, Yellow$(1,1)$, find the optimal binary split using Gini impurity
-4. Compare this result with what information gain would choose
+3. Given class distributions: Red$(2,1)$, Blue$(1,2)$, Green$(3,0)$, Yellow$(1,1)$, find the optimal binary split using Gini impurity (CART's default criterion)
+4. **CART with Entropy**: Find the optimal binary split using entropy-based information gain
+5. **Comparison**: Are the optimal splits identical? If not, explain why they differ
+6. **Cost Function Analysis**: How would the cost function change if we used entropy instead of Gini impurity?
 
 For a detailed explanation of this question, see [Question 34: CART Cost Function](L6_3_34_explanation.md).
 
@@ -587,7 +613,7 @@ Analyze computational complexity across ID3, C4.5, and CART algorithms.
 #### Task
 1. Derive the time complexity for ID3 given $n$ samples, $m$ features, and average branching factor $b$ (Answer should be in the form $O(...)$)
 2. How does C4.5's complexity differ due to continuous feature handling?
-3. Analyze CART's complexity considering binary splits and surrogate computation
+3. Analyze CART's complexity (using Gini impurity) considering binary splits and surrogate computation
 4. For a dataset with $1000$ samples, $20$ features ($10$ categorical with avg $4$ values, $10$ continuous), estimate relative computation time
 
 For a detailed explanation of this question, see [Question 35: Algorithm Complexity Analysis](L6_3_35_explanation.md).
@@ -598,11 +624,11 @@ For a detailed explanation of this question, see [Question 35: Algorithm Complex
 Evaluate whether each of the following statements about advanced decision tree concepts is TRUE or FALSE. Provide a brief justification for each answer.
 
 #### Task
-1. CART's surrogate splits help maintain tree performance when primary splitting features are unavailable
+1. CART's surrogate splits (using Gini impurity) help maintain tree performance when primary splitting features are unavailable
 2. C4.5's pessimistic error pruning uses validation data to determine which subtrees to remove
 3. Information gain can be negative when a split reduces the overall purity of child nodes
 4. Decision trees with deeper maximum depth always achieve better training accuracy than shallower trees
-5. CART's cost-complexity pruning parameter $\alpha$ controls the trade-off between tree complexity and training error
+5. CART's cost-complexity pruning parameter $\alpha$ (using Gini impurity) controls the trade-off between tree complexity and training error
 6. Multi-way splits in ID3 always create more interpretable decision boundaries than binary splits
 7. C4.5's gain ratio is always less than or equal to the corresponding information gain value
 8. Regression trees use mean squared error reduction as their default splitting criterion
@@ -639,9 +665,11 @@ Design a "Split Quality Detective" game where you analyze suspicious splitting d
 #### Task
 1. Calculate information gain for each split
 2. Calculate gain ratio for Split A and Split B
-3. Which split would each algorithm (ID3, C4.5, CART) prefer? Explain your reasoning
-4. Identify which split shows signs of overfitting and explain why
-5. What makes Split B problematic for real-world deployment?
+3. Which split would each algorithm (ID3, C4.5, CART using Gini impurity) prefer? Explain your reasoning
+4. **CART with Entropy**: Which split would CART using entropy prefer? Is it the same as CART using Gini impurity?
+5. **Algorithm Comparison**: Compare the preferences of all algorithms. Which ones agree and which ones disagree? Why?
+6. Identify which split shows signs of overfitting and explain why
+7. What makes Split B problematic for real-world deployment?
 
 For a detailed explanation of this question, see [Question 37: Split Quality Analysis](L6_3_37_explanation.md).
 
@@ -697,14 +725,16 @@ Given this simple dataset about movie preferences:
 | Eve    | Young     | Drama           | Yes         | No          |
 | Frank  | Old       | Comedy          | Yes         | Yes         |
 
-1. **Visual Design**: Draw three simple tree diagrams showing how ID3, C4.5, and CART would approach the first split. Use boxes for nodes and arrows for branches.
+1. **Visual Design**: Draw four simple tree diagrams showing how ID3, C4.5, CART (using Gini impurity), and CART (using Entropy) would approach the first split. Use boxes for nodes and arrows for branches.
 
 2. **Algorithm Personality**: If these algorithms were people, describe their "splitting personality" in one sentence each:
    - ID3's personality: ________
    - C4.5's personality: ________  
-   - CART's personality: ________
+   - CART (Gini) personality: ________
+   - CART (Entropy) personality: ________
 
-3. **Teaching Moment**: Without any calculations, explain to your friend why CART might split "Age_Group" into {Young} vs {Old} while ID3 might split it into {Young, Old} branches.
+3. **Teaching Moment**: Without any calculations, explain to your friend why CART (using Gini impurity) might split "Age_Group" into {Young} vs {Old} while ID3 might split it into {Young, Old} branches.
+4. **CART Comparison**: Would CART using entropy make the same split as CART using Gini impurity for "Age_Group"? Explain why or why not.
 
 4. **Quick Check**: Circle the correct answer: If a feature has 10 possible values, how many splits would CART consider?
    - A) 1 split (binary only)
@@ -747,9 +777,46 @@ You run a consulting company that recommends the best decision tree algorithm fo
 - Worried about overfitting to irrelevant details
 - Priority: Avoiding bias toward high-cardinality features
 
-1. **Matching Game**: Connect each client (A, B, C, D) with their ideal algorithm (ID3, C4.5, CART). Draw lines or write pairs.
+1. **Matching Game**: Connect each client (A, B, C, D) with their ideal algorithm (ID3, C4.5, CART using Gini impurity, CART using Entropy). Draw lines or write pairs.
 2. **Consultation Notes**: For each match, write a one-sentence business justification that you'd tell the client.
-3. **The Plot Twist**: Client D mentions they also need to predict continuous insurance claim amounts. Does this change your recommendation? Explain.
-4. **Elevator Pitch**: You have 30 seconds in an elevator to explain to a non-technical CEO why different algorithms exist. Write your pitch (2-3 sentences max).
+3. **CART Comparison**: For clients who could use either CART approach, explain when you'd recommend Gini impurity vs entropy and why.
+4. **The Plot Twist**: Client D mentions they also need to predict continuous insurance claim amounts. Does this change your recommendation? Explain.
+5. **Elevator Pitch**: You have 30 seconds in an elevator to explain to a non-technical CEO why different algorithms exist. Write your pitch (2-3 sentences max).
 
 For a detailed explanation of this question, see [Question 40: Algorithm Matchmaker](L6_3_40_explanation.md).
+
+## Question 41
+
+### Problem Statement
+Deep dive into CART algorithm: Compare and contrast Gini impurity vs Entropy as splitting criteria.
+
+#### Task
+1. **Mathematical Foundation**: 
+   - Write the formula for Gini impurity: $Gini(p) = 1 - \sum_{i=1}^{k} p_i^2$
+   - Write the formula for Entropy: $H(p) = -\sum_{i=1}^{k} p_i \log_2(p_i)$
+   - For a binary classification problem with class probabilities $[p, 1-p]$, show that both measures reach their maximum at $p = 0.5$
+
+2. **Numerical Comparison**: Given a dataset split into two groups:
+   - Group 1: [8 positive, 2 negative]
+   - Group 2: [3 positive, 7 negative]
+   Calculate both Gini impurity and Entropy for each group and for the overall split.
+
+3. **Binary Split Analysis**: For a categorical feature "Size" with values {Small, Medium, Large} and target distribution:
+   - Small: [2, 8] (2 positive, 8 negative)
+   - Medium: [5, 5] (5 positive, 5 negative)  
+   - Large: [8, 2] (8 positive, 2 negative)
+   
+   Find the optimal binary split using:
+   - CART with Gini impurity
+   - CART with Entropy
+   
+4. **Theoretical Differences**: 
+   - When would Gini impurity and entropy produce different optimal splits?
+   - What are the computational advantages of Gini impurity over entropy?
+   - In what scenarios might entropy be preferred over Gini impurity?
+
+5. **Practical Implications**: 
+   - For a real-world dataset with 1000 samples and 20 features, which impurity measure would you choose and why?
+   - How would your choice affect training time, tree interpretability, and final performance?
+
+For a detailed explanation of this question, see [Question 41: CART Impurity Measures Deep Dive](L6_3_41_explanation.md).

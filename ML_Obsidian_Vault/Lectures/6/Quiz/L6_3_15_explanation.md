@@ -1,7 +1,7 @@
 # Question 15: CART Regression Trees
 
 ## Problem Statement
-Consider CART's approach to regression problems.
+Consider CART's approach (using Gini impurity for classification, MSE for regression) to regression problems.
 
 | Feature1 | Feature2 | Target |
 |----------|----------|--------|
@@ -17,7 +17,7 @@ Consider CART's approach to regression problems.
 2. Calculate variance reduction for splitting on Feature1 (Low vs {Medium, High}) using:
    $$\text{Variance Reduction} = \text{Var}(S) - \sum_{i} \frac{|S_i|}{|S|} \text{Var}(S_i)$$
 3. What would be the predicted value for each leaf node after this split?
-4. How does CART's regression criterion differ from classification criteria?
+4. How does CART's regression criterion (MSE) differ from classification criteria (Gini impurity)?
 
 ## Understanding the Problem
 CART's regression trees extend the decision tree framework to handle continuous target variables. Instead of minimizing classification error or impurity measures like Gini or entropy, regression trees minimize the variance (or equivalently, the Mean Squared Error) of the target variable within each node.

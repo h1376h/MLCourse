@@ -6,7 +6,7 @@ Consider pruning approaches across the three algorithms.
 ### Task
 1. Does ID3 include built-in pruning capabilities? Why or why not?
 2. Describe C4.5's pessimistic error pruning in one sentence
-3. What is the purpose of CART's cost-complexity pruning parameter $\alpha$?
+3. What is the purpose of CART's cost-complexity pruning parameter $\alpha$ (using Gini impurity)?
 4. If a subtree has training accuracy $90\%$ but validation accuracy $75\%$, which algorithms would likely prune it?
 
 ## Understanding the Problem
