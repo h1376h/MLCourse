@@ -1,7 +1,7 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 41 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, and detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples.
+This quiz contains 42 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, and detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples.
 
 ## Question 1
 
@@ -640,6 +640,36 @@ For a detailed explanation of this question, see [Question 36: Advanced Decision
 ## Question 37
 
 ### Problem Statement
+You are tasked with analyzing customer purchase behavior using decision tree algorithms. Create a "Decision Tree Construction Race" where you manually trace through the first split decision for all three algorithms on the provided dataset.
+
+**Dataset: Customer Purchase Behavior**
+
+| Row | Product_Category | Purchase_Amount | Customer_Type | Service_Rating | Buy_Again |
+|-----|------------------|-----------------|---------------|----------------|-----------|
+| 1   | Sports          | $51-100         | Regular       | Excellent      | Yes       |
+| 2   | Electronics     | $200+           | Regular       | Excellent      | Yes       |
+| 3   | Books           | $200+           | Regular       | Excellent      | Yes       |
+| 4   | Books           | $101-200        | New           | Fair           | No        |
+| 5   | Electronics     | $200+           | Premium       | Good           | No        |
+| 6   | Sports          | $10-50          | Frequent      | Excellent      | Yes       |
+| 7   | Clothing        | $200+           | Premium       | Good           | Yes       |
+| 8   | Clothing        | $200+           | Premium       | Good           | Yes       |
+
+#### Task
+1. **ID3 approach**: Calculate information gain for each feature and identify the best split
+2. **C4.5 approach**: Calculate gain ratio for each feature and compare with ID3's choice
+3. **CART approach (using Gini impurity)**: For the Product_Category feature, evaluate all possible binary splits using Gini impurity
+4. **CART approach (using Entropy)**: For the Product_Category feature, evaluate all possible binary splits using entropy-based information gain
+5. Which feature would each algorithm choose as the root? Explain any differences
+6. Compare the results between CART using Gini vs CART using Entropy - are they the same? Why or why not?
+7. Draw the first level of the decision tree that each algorithm would construct
+8. Analyze the impact of feature encoding on decision tree performance. How would you handle the categorical features (Product_Category, Customer_Type, Service_Rating) and the ordinal feature (Purchase_Amount) to ensure optimal tree construction?
+
+For a detailed explanation of this question, see [Question 37: Customer Purchase Behavior Analysis](L6_3_37_explanation.md).
+
+## Question 38
+
+### Problem Statement
 Design a "Split Quality Detective" game where you analyze suspicious splitting decisions.
 
 **Scenario**: You're auditing a decision tree and found these three competing splits for the root node:
@@ -671,9 +701,9 @@ Design a "Split Quality Detective" game where you analyze suspicious splitting d
 6. Identify which split shows signs of overfitting and explain why
 7. What makes Split B problematic for real-world deployment?
 
-For a detailed explanation of this question, see [Question 37: Split Quality Analysis](L6_3_37_explanation.md).
+For a detailed explanation of this question, see [Question 38: Split Quality Analysis](L6_3_38_explanation.md).
 
-## Question 38
+## Question 39
 
 ### Problem Statement
 Create a "Tree Surgery" simulation where you practice pruning decisions.
@@ -706,9 +736,9 @@ Root: Age ≤ 30 (Training Acc: 85%, Validation Acc: 78%)
 5. Write the final decision rule after optimal pruning
 6. Compute the misclassification cost for each pruning option if $Safe=0$ cost, $Risk=10$ cost
 
-For a detailed explanation of this question, see [Question 38: Tree Pruning Simulation](L6_3_38_explanation.md).
+For a detailed explanation of this question, see [Question 39: Tree Pruning Simulation](L6_3_39_explanation.md).
 
-## Question 39
+## Question 40
 
 ### Problem Statement
 You are teaching decision trees to a friend using only pen and paper. Draw and explain how each algorithm would structure its first split differently.
@@ -742,9 +772,9 @@ Given this simple dataset about movie preferences:
    - C) $511$ splits ($2^9 - 1$)
    - D) $1023$ splits ($2^{10} - 1$)
 
-For a detailed explanation of this question, see [Question 39: Visual Tree Construction](L6_3_39_explanation.md).
+For a detailed explanation of this question, see [Question 40: Visual Tree Construction](L6_3_40_explanation.md).
 
-## Question 40
+## Question 41
 
 ### Problem Statement
 You run a consulting company that recommends the best decision tree algorithm for different clients. Match each client scenario with the most suitable algorithm using only logical reasoning.
@@ -783,9 +813,9 @@ You run a consulting company that recommends the best decision tree algorithm fo
 4. **The Plot Twist**: Client D mentions they also need to predict continuous insurance claim amounts. Does this change your recommendation? Explain.
 5. **Elevator Pitch**: You have 30 seconds in an elevator to explain to a non-technical CEO why different algorithms exist. Write your pitch (2-3 sentences max).
 
-For a detailed explanation of this question, see [Question 40: Algorithm Matchmaker](L6_3_40_explanation.md).
+For a detailed explanation of this question, see [Question 41: Algorithm Matchmaker](L6_3_41_explanation.md).
 
-## Question 41
+## Question 42
 
 ### Problem Statement
 Deep dive into CART algorithm: Compare and contrast Gini impurity vs Entropy as splitting criteria.
@@ -819,4 +849,4 @@ Deep dive into CART algorithm: Compare and contrast Gini impurity vs Entropy as 
    - For a real-world dataset with 1000 samples and 20 features, which impurity measure would you choose and why?
    - How would your choice affect training time, tree interpretability, and final performance?
 
-For a detailed explanation of this question, see [Question 41: CART Impurity Measures Deep Dive](L6_3_41_explanation.md).
+For a detailed explanation of this question, see [Question 42: CART Impurity Measures Deep Dive](L6_3_42_explanation.md).
