@@ -637,7 +637,7 @@ Evaluate whether each of the following statements about advanced decision tree c
 
 For a detailed explanation of this question, see [Question 36: Advanced Decision Tree Properties](L6_3_36_explanation.md).
 
-## Question 37
+## [⭐] Question 37
 
 ### Problem Statement
 You are tasked with analyzing customer purchase behavior using decision tree algorithms. Create a "Decision Tree Construction Race" where you manually trace through the first split decision for all three algorithms on the provided dataset.
@@ -646,14 +646,14 @@ You are tasked with analyzing customer purchase behavior using decision tree alg
 
 | Product_Category | Purchase_Amount | Customer_Type | Service_Rating | Buy_Again |
 |------------------|-----------------|---------------|----------------|-----------|
-| Sports          | $51-100         | Regular       | Excellent      | Yes       |
-| Electronics     | $200+           | Regular       | Excellent      | Yes       |
-| Books           | $200+           | Regular       | Excellent      | Yes       |
-| Books           | $101-200        | New           | Fair           | No        |
-| Electronics     | $200+           | Premium       | Good           | No        |
-| Sports          | $10-50          | Frequent      | Excellent      | Yes       |
-| Clothing        | $200+           | Premium       | Good           | Yes       |
-| Clothing        | $200+           | Premium       | Good           | Yes       |
+| Sports          | \$51-100         | Regular       | Excellent      | Yes       |
+| Electronics     | \$200+           | Regular       | Excellent      | Yes       |
+| Books           | \$200+           | Regular       | Excellent      | Yes       |
+| Books           | \$101-200        | New           | Fair           | No        |
+| Electronics     | \$200+           | Premium       | Good           | No        |
+| Sports          | \$10-50          | Frequent      | Excellent      | Yes       |
+| Clothing        | \$200+           | Premium       | Good           | Yes       |
+| Clothing        | \$200+           | Premium       | Good           | Yes       |
 
 #### Task
 1. **ID3 approach**: Calculate information gain for each feature and identify the best split

@@ -715,33 +715,104 @@ root_rect = plt.Rectangle((4, 6), 2, 1, facecolor='lightcoral', edgecolor='black
 ax12.add_patch(root_rect)
 ax12.text(5, 6.5, best_cart_feature, ha='center', va='center', fontweight='bold', fontsize=10)
 
-# Child nodes for CART Gini's choice with sample distributions
+# Child nodes for CART Gini's choice with binary splits
 unique_vals_cart = df[best_cart_feature].unique()
-child_positions_cart = calculate_leaf_positions(len(unique_vals_cart))
 
-for i, val in enumerate(unique_vals_cart):  # Show all children
-    if i < len(child_positions_cart):
-        x, y = child_positions_cart[i]
-        
-        # Calculate sample distribution for this value
-        subset = df[df[best_cart_feature] == val]
-        yes_count = len(subset[subset['Buy_Again'] == 'Yes'])
-        total_count = len(subset)
-        percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
-        
-        # Create leaf node
-        child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
-                                 facecolor='#FFCDD2', edgecolor='black')
-        ax12.add_patch(child_rect)
-        ax12.text(x, y, val, ha='center', va='center', fontsize=9, fontweight='bold')
-        
-        # Add sample distribution below leaf
-        distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
-        ax12.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=8,
-                 bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
-        
-        # Draw edge
-        ax12.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+# CART creates binary splits by grouping values into 2 sets
+# Find the best binary split based on Gini gain
+if len(unique_vals_cart) > 2:
+    # For demonstration, group into 2 sets (this should match the actual CART algorithm choice)
+    # In practice, CART would evaluate all possible binary splits and choose the best one
+    if best_cart_feature == 'Purchase_Amount':
+        # Based on our earlier analysis, best split is [$10-200] vs [$200+]
+        left_group = ['$10-50', '$51-100', '$101-200']
+        right_group = ['$200+']
+    elif best_cart_feature == 'Customer_Type':
+        # Best split is [Regular, New, Frequent] vs [Premium]
+        left_group = ['Regular', 'New', 'Frequent']
+        right_group = ['Premium']
+    elif best_cart_feature == 'Service_Rating':
+        # Best split is [Excellent, Fair] vs [Good]
+        left_group = ['Excellent', 'Fair']
+        right_group = ['Good']
+    else:
+        # Default: split in half
+        mid = len(unique_vals_cart) // 2
+        left_group = unique_vals_cart[:mid]
+        right_group = unique_vals_cart[mid:]
+    
+    # Calculate positions for 2 binary branches
+    child_positions_cart = [(2, 3), (8, 3)]  # Left and right positions
+    
+    # Left branch (group 1)
+    x, y = child_positions_cart[0]
+    left_subset = df[df[best_cart_feature].isin(left_group)]
+    yes_count = len(left_subset[left_subset['Buy_Again'] == 'Yes'])
+    total_count = len(left_subset)
+    percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
+    
+    # Create left leaf node
+    child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
+                             facecolor='#FFCDD2', edgecolor='black')
+    ax12.add_patch(child_rect)
+    left_label = f"{', '.join(left_group)}"
+    ax12.text(x, y, left_label, ha='center', va='center', fontsize=8, fontweight='bold')
+    
+    # Add sample distribution below left leaf
+    distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
+    ax12.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=7,
+             bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
+    
+    # Draw edge to left leaf
+    ax12.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+    
+    # Right branch (group 2)
+    x, y = child_positions_cart[1]
+    right_subset = df[df[best_cart_feature].isin(right_group)]
+    yes_count = len(right_subset[right_subset['Buy_Again'] == 'Yes'])
+    total_count = len(right_subset)
+    percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
+    
+    # Create right leaf node
+    child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
+                             facecolor='#FFCDD2', edgecolor='black')
+    ax12.add_patch(child_rect)
+    right_label = f"{', '.join(right_group)}"
+    ax12.text(x, y, right_label, ha='center', va='center', fontsize=8, fontweight='bold')
+    
+    # Add sample distribution below right leaf
+    distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
+    ax12.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=7,
+             bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
+    
+    # Draw edge to right leaf
+    ax12.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+else:
+    # If only 2 values, use them directly
+    child_positions_cart = calculate_leaf_positions(len(unique_vals_cart))
+    for i, val in enumerate(unique_vals_cart):
+        if i < len(child_positions_cart):
+            x, y = child_positions_cart[i]
+            
+            # Calculate sample distribution for this value
+            subset = df[df[best_cart_feature] == val]
+            yes_count = len(subset[subset['Buy_Again'] == 'Yes'])
+            total_count = len(subset)
+            percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
+            
+            # Create leaf node
+            child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
+                                     facecolor='#FFCDD2', edgecolor='black')
+            ax12.add_patch(child_rect)
+            ax12.text(x, y, val, ha='center', va='center', fontsize=9, fontweight='bold')
+            
+            # Add sample distribution below leaf
+            distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
+            ax12.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=8,
+                     bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
+            
+            # Draw edge
+            ax12.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
 
 # Add legend
 ax12.text(8.5, 5, 'Sample Distribution:\nYes = Buy Again', 
@@ -764,33 +835,104 @@ root_rect = plt.Rectangle((4, 6), 2, 1, facecolor='lightblue', edgecolor='black'
 ax13.add_patch(root_rect)
 ax13.text(5, 6.5, best_cart_entropy_feature, ha='center', va='center', fontweight='bold', fontsize=10)
 
-# Child nodes for CART entropy's choice with sample distributions
+# Child nodes for CART entropy's choice with binary splits
 unique_vals_cart_entropy = df[best_cart_entropy_feature].unique()
-child_positions_cart_entropy = calculate_leaf_positions(len(unique_vals_cart_entropy))
 
-for i, val in enumerate(unique_vals_cart_entropy):  # Show all children
-    if i < len(child_positions_cart_entropy):
-        x, y = child_positions_cart_entropy[i]
-        
-        # Calculate sample distribution for this value
-        subset = df[df[best_cart_entropy_feature] == val]
-        yes_count = len(subset[subset['Buy_Again'] == 'Yes'])
-        total_count = len(subset)
-        percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
-        
-        # Create leaf node
-        child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
-                                 facecolor='#E3F2FD', edgecolor='black')
-        ax13.add_patch(child_rect)
-        ax13.text(x, y, val, ha='center', va='center', fontsize=9, fontweight='bold')
-        
-        # Add sample distribution below leaf
-        distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
-        ax13.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=8,
-                 bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
-        
-        # Draw edge
-        ax13.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+# CART creates binary splits by grouping values into 2 sets
+# Find the best binary split based on Entropy gain
+if len(unique_vals_cart_entropy) > 2:
+    # For demonstration, group into 2 sets (this should match the actual CART algorithm choice)
+    # In practice, CART would evaluate all possible binary splits and choose the best one
+    if best_cart_entropy_feature == 'Product_Category':
+        # Based on our earlier analysis, best split is [Sports, Clothing] vs [Electronics, Books]
+        left_group = ['Sports', 'Clothing']
+        right_group = ['Electronics', 'Books']
+    elif best_cart_entropy_feature == 'Customer_Type':
+        # Best split is [Regular, New, Frequent] vs [Premium]
+        left_group = ['Regular', 'New', 'Frequent']
+        right_group = ['Premium']
+    elif best_cart_entropy_feature == 'Service_Rating':
+        # Best split is [Excellent, Fair] vs [Good]
+        left_group = ['Excellent', 'Fair']
+        right_group = ['Good']
+    else:
+        # Default: split in half
+        mid = len(unique_vals_cart_entropy) // 2
+        left_group = unique_vals_cart_entropy[:mid]
+        right_group = unique_vals_cart_entropy[mid:]
+    
+    # Calculate positions for 2 binary branches
+    child_positions_cart_entropy = [(2, 3), (8, 3)]  # Left and right positions
+    
+    # Left branch (group 1)
+    x, y = child_positions_cart_entropy[0]
+    left_subset = df[df[best_cart_entropy_feature].isin(left_group)]
+    yes_count = len(left_subset[left_subset['Buy_Again'] == 'Yes'])
+    total_count = len(left_subset)
+    percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
+    
+    # Create left leaf node
+    child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
+                             facecolor='#E3F2FD', edgecolor='black')
+    ax13.add_patch(child_rect)
+    left_label = f"{', '.join(left_group)}"
+    ax13.text(x, y, left_label, ha='center', va='center', fontsize=8, fontweight='bold')
+    
+    # Add sample distribution below left leaf
+    distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
+    ax13.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=7,
+             bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
+    
+    # Draw edge to left leaf
+    ax13.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+    
+    # Right branch (group 2)
+    x, y = child_positions_cart_entropy[1]
+    right_subset = df[df[best_cart_entropy_feature].isin(right_group)]
+    yes_count = len(right_subset[right_subset['Buy_Again'] == 'Yes'])
+    total_count = len(right_subset)
+    percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
+    
+    # Create right leaf node
+    child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
+                             facecolor='#E3F2FD', edgecolor='black')
+    ax13.add_patch(child_rect)
+    right_label = f"{', '.join(right_group)}"
+    ax13.text(x, y, right_label, ha='center', va='center', fontsize=8, fontweight='bold')
+    
+    # Add sample distribution below right leaf
+    distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
+    ax13.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=7,
+             bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
+    
+    # Draw edge to right leaf
+    ax13.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+else:
+    # If only 2 values, use them directly
+    child_positions_cart_entropy = calculate_leaf_positions(len(unique_vals_cart_entropy))
+    for i, val in enumerate(unique_vals_cart_entropy):
+        if i < len(child_positions_cart_entropy):
+            x, y = child_positions_cart_entropy[i]
+            
+            # Calculate sample distribution for this value
+            subset = df[df[best_cart_entropy_feature] == val]
+            yes_count = len(subset[subset['Buy_Again'] == 'Yes'])
+            total_count = len(subset)
+            percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
+            
+            # Create leaf node
+            child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
+                                     facecolor='#E3F2FD', edgecolor='black')
+            ax13.add_patch(child_rect)
+            ax13.text(x, y, val, ha='center', va='center', fontsize=8, fontweight='bold')
+            
+            # Add sample distribution below leaf
+            distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
+            ax13.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=7,
+                     bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
+            
+            # Draw edge
+            ax13.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
 
 # Add legend
 ax13.text(8.5, 5, 'Sample Distribution:\nYes = Buy Again', 

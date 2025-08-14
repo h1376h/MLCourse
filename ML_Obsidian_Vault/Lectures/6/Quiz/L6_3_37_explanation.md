@@ -253,22 +253,41 @@ Using the same 14 possible binary splits as above:
 ```
            Purchase_Amount
           /                \
-    Low Range          High Range
-   ($10-200)           ($200+)
-      /                    \
-    Mixed                Mixed
-   (3/4)                (3/4)
+    [$10-200]           [$200+]
+         /                    \
+       Mixed                Mixed
+      (3/4)                (4/5)
 ```
 
 **CART (Entropy) Tree:**
 ```
            Product_Category
           /                \
-  {Sports, Clothing}  {Electronics, Books}
+  [Sports, Clothing]  [Electronics, Books]
          /                    \
        Yes                   Mixed
       (4/4)                 (2/4)
 ```
+
+**Key Difference: Multi-way vs Binary Splits**
+
+The algorithms differ fundamentally in how they create splits:
+
+- **ID3 & C4.5:** Create **multi-way splits** (one branch per feature value)
+- **CART:** Creates **binary splits** (always two branches by grouping values)
+
+**Why CART Uses Binary Splits:**
+
+1. **Computational Efficiency:** Binary splits are faster to evaluate
+2. **Tree Stability:** Binary trees are less prone to overfitting
+3. **Interpretability:** Easier to understand "if-then" rules
+4. **Handles Continuous Features:** Can split numeric ranges at any point
+5. **Balanced Growth:** Prevents trees from becoming too deep on one side
+
+**CART Binary Split Examples:**
+- **Purchase_Amount:** `[$10-200]` vs `[$200+]` (creates 2 balanced groups)
+- **Product_Category:** `[Sports, Clothing]` vs `[Electronics, Books]` (groups by similarity)
+- **Customer_Type:** `[Regular, New, Frequent]` vs `[Premium]` (groups by frequency)
 
 **Tree Visualization Files:**
 These visualizations show the first level of decision trees that each algorithm would construct, demonstrating the structural differences that arise from different splitting criteria and methodologies.
@@ -288,10 +307,10 @@ These visualizations show the first level of decision trees that each algorithm 
    - **Service_Rating:** Creates unbalanced splits (4, 1, 3 samples)
 
 2. **Gini Impurity Calculations for Purchase_Amount:**
-   - **Left Branch (\$10-200):** $[Yes, Yes, No, Yes]$ → Gini = $0.375$
-- **Right Branch (\$200+):** $[Yes, Yes, No, Yes, Yes]$ → Gini = $0.320$
-   - **Weighted Gini:** $\frac{4}{8} \times 0.375 + \frac{4}{8} \times 0.320 = 0.3475$
-   - **Gini Gain:** $0.375 - 0.3475 = 0.0275$
+   - **Left Branch (\$10-200):** $[Yes, No, Yes]$ → Gini = $0.4444$
+   - **Right Branch (\$200+):** $[Yes, Yes, No, Yes, Yes]$ → Gini = $0.3200$
+   - **Weighted Gini:** $\frac{4}{8} \times 0.4444 + \frac{4}{8} \times 0.3200 = 0.3822$
+   - **Gini Gain:** $0.3750 - 0.3822 = 0.0072$
 
 3. **Tie-Breaking Criteria:**
    - **Balanced splits** are preferred as they create more stable trees
