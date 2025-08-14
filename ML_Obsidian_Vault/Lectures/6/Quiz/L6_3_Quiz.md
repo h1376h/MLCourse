@@ -644,16 +644,16 @@ You are tasked with analyzing customer purchase behavior using decision tree alg
 
 **Dataset: Customer Purchase Behavior**
 
-| Row | Product_Category | Purchase_Amount | Customer_Type | Service_Rating | Buy_Again |
-|-----|------------------|-----------------|---------------|----------------|-----------|
-| 1   | Sports          | $51-100         | Regular       | Excellent      | Yes       |
-| 2   | Electronics     | $200+           | Regular       | Excellent      | Yes       |
-| 3   | Books           | $200+           | Regular       | Excellent      | Yes       |
-| 4   | Books           | $101-200        | New           | Fair           | No        |
-| 5   | Electronics     | $200+           | Premium       | Good           | No        |
-| 6   | Sports          | $10-50          | Frequent      | Excellent      | Yes       |
-| 7   | Clothing        | $200+           | Premium       | Good           | Yes       |
-| 8   | Clothing        | $200+           | Premium       | Good           | Yes       |
+| Product_Category | Purchase_Amount | Customer_Type | Service_Rating | Buy_Again |
+|------------------|-----------------|---------------|----------------|-----------|
+| Sports          | $51-100         | Regular       | Excellent      | Yes       |
+| Electronics     | $200+           | Regular       | Excellent      | Yes       |
+| Books           | $200+           | Regular       | Excellent      | Yes       |
+| Books           | $101-200        | New           | Fair           | No        |
+| Electronics     | $200+           | Premium       | Good           | No        |
+| Sports          | $10-50          | Frequent      | Excellent      | Yes       |
+| Clothing        | $200+           | Premium       | Good           | Yes       |
+| Clothing        | $200+           | Premium       | Good           | Yes       |
 
 #### Task
 1. **ID3 approach**: Calculate information gain for each feature and identify the best split
