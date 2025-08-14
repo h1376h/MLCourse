@@ -13,7 +13,7 @@ Evaluate whether each of the following statements about decision tree algorithms
 7. ID3 includes built-in pruning mechanisms to prevent overfitting
 8. C4.5's handling of missing values is more sophisticated than ID3's approach
 9. Information gain and Gini impurity always select the same feature for splitting
-10. CART's binary splits always result in more interpretable trees than multi-way splits
+10. CART's binary splits (using Gini impurity) always result in more interpretable trees than multi-way splits
 
 ## Understanding the Problem
 This question tests comprehensive understanding of three major decision tree algorithms: ID3, C4.5, and CART. Each algorithm has unique characteristics regarding feature handling, splitting criteria, tree structure, and advanced capabilities. Understanding these differences is crucial for selecting appropriate algorithms and interpreting their behavior in various scenarios.
