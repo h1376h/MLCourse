@@ -589,6 +589,23 @@ plt.savefig(os.path.join(save_dir, 'algorithm_choices_summary.png'), dpi=300, bb
 plt.close()
 
 # Plot 10: Decision tree sketches for each algorithm
+
+def calculate_leaf_positions(num_leaves, root_x=5, leaf_y=3, total_width=8):
+    """Dynamically calculate leaf positions for any number of leaves, centered around root"""
+    if num_leaves == 1:
+        return [(root_x, leaf_y)]
+    elif num_leaves == 2:
+        return [(root_x - 2, leaf_y), (root_x + 2, leaf_y)]
+    elif num_leaves == 3:
+        return [(root_x - 3, leaf_y), (root_x, leaf_y), (root_x + 3, leaf_y)]
+    elif num_leaves == 4:
+        return [(root_x - 3.5, leaf_y), (root_x - 1.5, leaf_y), (root_x + 1.5, leaf_y), (root_x + 3.5, leaf_y)]
+    else:
+        # For 5+ leaves, calculate evenly spaced positions
+        spacing = total_width / (num_leaves - 1) if num_leaves > 1 else 0
+        start_x = root_x - total_width / 2
+        return [(start_x + i * spacing, leaf_y) for i in range(num_leaves)]
+
 # ID3 Tree
 fig10, ax10 = plt.subplots(figsize=(8, 6))
 ax10.set_xlim(0, 10)
@@ -602,9 +619,9 @@ ax10.text(5, 6.5, best_id3_feature, ha='center', va='center', fontweight='bold',
 
 # Child nodes for ID3's choice with sample distributions
 unique_vals = df[best_id3_feature].unique()
-child_positions = [(1, 3), (5, 3), (8, 3)]
+child_positions = calculate_leaf_positions(len(unique_vals))
 
-for i, val in enumerate(unique_vals[:3]):  # Show up to 3 children
+for i, val in enumerate(unique_vals):  # Show all children
     if i < len(child_positions):
         x, y = child_positions[i]
         
@@ -651,9 +668,11 @@ ax11.text(5, 6.5, best_c45_feature, ha='center', va='center', fontweight='bold',
 
 # Child nodes for C4.5's choice with sample distributions
 unique_vals_c45 = df[best_c45_feature].unique()
-for i, val in enumerate(unique_vals_c45[:3]):  # Show up to 3 children
-    if i < len(child_positions):
-        x, y = child_positions[i]
+child_positions_c45 = calculate_leaf_positions(len(unique_vals_c45))
+
+for i, val in enumerate(unique_vals_c45):  # Show all children
+    if i < len(child_positions_c45):
+        x, y = child_positions_c45[i]
         
         # Calculate sample distribution for this value
         subset = df[df[best_c45_feature] == val]
@@ -698,9 +717,11 @@ ax12.text(5, 6.5, best_cart_feature, ha='center', va='center', fontweight='bold'
 
 # Child nodes for CART Gini's choice with sample distributions
 unique_vals_cart = df[best_cart_feature].unique()
-for i, val in enumerate(unique_vals_cart[:3]):  # Show up to 3 children
-    if i < len(child_positions):
-        x, y = child_positions[i]
+child_positions_cart = calculate_leaf_positions(len(unique_vals_cart))
+
+for i, val in enumerate(unique_vals_cart):  # Show all children
+    if i < len(child_positions_cart):
+        x, y = child_positions_cart[i]
         
         # Calculate sample distribution for this value
         subset = df[df[best_cart_feature] == val]
@@ -745,9 +766,11 @@ ax13.text(5, 6.5, best_cart_entropy_feature, ha='center', va='center', fontweigh
 
 # Child nodes for CART entropy's choice with sample distributions
 unique_vals_cart_entropy = df[best_cart_entropy_feature].unique()
-for i, val in enumerate(unique_vals_cart_entropy[:3]):  # Show up to 3 children
-    if i < len(child_positions):
-        x, y = child_positions[i]
+child_positions_cart_entropy = calculate_leaf_positions(len(unique_vals_cart_entropy))
+
+for i, val in enumerate(unique_vals_cart_entropy):  # Show all children
+    if i < len(child_positions_cart_entropy):
+        x, y = child_positions_cart_entropy[i]
         
         # Calculate sample distribution for this value
         subset = df[df[best_cart_entropy_feature] == val]
