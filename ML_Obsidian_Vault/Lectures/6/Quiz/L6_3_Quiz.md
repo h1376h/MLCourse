@@ -521,9 +521,9 @@ Compare CART algorithm performance using different impurity measures: Gini impur
 
 #### Task
 1. **Dataset Analysis**: Given a binary classification dataset with features A, B, C and target Y:
-   - Feature A: 3 values, splits data into [8,2], [5,5], [2,8]
-   - Feature B: 2 values, splits data into [10,5], [5,10]  
-   - Feature C: 4 values, splits data into [4,1], [3,2], [2,3], [4,4]
+   - Feature A: 3 values, splits data into $[8,2]$, $[5,5]$, $[2,8]$
+   - Feature B: 2 values, splits data into $[10,5]$, $[5,10]$
+   - Feature C: 4 values, splits data into $[4,1]$, $[3,2]$, $[2,3]$, $[4,4]$
 
 2. **CART with Gini Impurity**: Calculate Gini impurity for each possible binary split and find the optimal split
 3. **CART with Entropy**: Calculate entropy-based information gain for each possible binary split and find the optimal split
