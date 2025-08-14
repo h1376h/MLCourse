@@ -497,7 +497,7 @@ Consider entropy edge cases and mathematical properties.
    - Highly skewed: $[7, 1]$
 2. What is the maximum possible entropy for a binary classification problem?
 3. Prove that entropy is maximized when classes are equally distributed
-4. How should you handle the log(0) case when calculating entropy?
+4. How should you handle the $\log(0)$ case when calculating entropy?
 
 For a detailed explanation of this question, see [Question 29: Entropy Mathematical Properties](L6_3_29_explanation.md).
 
