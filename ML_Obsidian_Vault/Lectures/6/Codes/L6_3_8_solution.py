@@ -180,7 +180,97 @@ for feature, gr in sorted(c45_results.items(), key=lambda x: x[1], reverse=True)
 print(f"C4.5 would choose: {best_c45_feature}")
 
 print(f"\n" + "="*80)
-print("3. CART APPROACH - BINARY SPLITS WITH GINI")
+print("4. CART APPROACH - BINARY SPLITS WITH ENTROPY")
+print("="*80)
+
+cart_entropy_results = {}
+
+# For Cuisine feature - demonstrate all binary splits using entropy
+print(f"\nDetailed analysis for Cuisine feature (Entropy-based):")
+print("-" * 50)
+cuisine_values = df['Cuisine'].unique()
+print(f"Cuisine values: {list(cuisine_values)}")
+
+# Generate all possible binary splits for Cuisine
+all_binary_splits = []
+for r in range(1, len(cuisine_values)):
+    for subset in combinations(cuisine_values, r):
+        split_1 = list(subset)
+        split_2 = [v for v in cuisine_values if v not in subset]
+        all_binary_splits.append((split_1, split_2))
+
+print(f"\nAll possible binary splits for Cuisine (Entropy-based):")
+cuisine_entropy_gains = []
+
+for i, (set1, set2) in enumerate(all_binary_splits):
+    print(f"\nSplit {i+1}: {set1} vs {set2}")
+    
+    # Get labels for each split
+    mask1 = df['Cuisine'].isin(set1)
+    mask2 = df['Cuisine'].isin(set2)
+    
+    labels1 = df[mask1]['Recommend'].tolist()
+    labels2 = df[mask2]['Recommend'].tolist()
+    
+    children_labels = [labels1, labels2]
+    entropy_gain, parent_ent, weighted_child_ent = calculate_information_gain(target, children_labels)
+    cuisine_entropy_gains.append(entropy_gain)
+    
+    print(f"  Group 1 ({set1}): {labels1} → {dict(pd.Series(labels1).value_counts())}")
+    print(f"  Group 2 ({set2}): {labels2} → {dict(pd.Series(labels2).value_counts())}")
+    print(f"  Entropy Gain: {entropy_gain:.4f}")
+
+best_cuisine_entropy_split_idx = np.argmax(cuisine_entropy_gains)
+best_cuisine_entropy_split = all_binary_splits[best_cuisine_entropy_split_idx]
+best_cuisine_entropy = cuisine_entropy_gains[best_cuisine_entropy_split_idx]
+
+print(f"\nBest Cuisine entropy split: {best_cuisine_entropy_split[0]} vs {best_cuisine_entropy_split[1]}")
+print(f"Best Cuisine Entropy Gain: {best_cuisine_entropy:.4f}")
+
+cart_entropy_results['Cuisine'] = best_cuisine_entropy
+
+# For other features, calculate best binary split using entropy
+for feature in ['Price', 'Rating', 'Busy']:
+    feature_values = df[feature].unique()
+    
+    if len(feature_values) == 2:
+        # Already binary
+        labels1 = df[df[feature] == feature_values[0]]['Recommend'].tolist()
+        labels2 = df[df[feature] == feature_values[1]]['Recommend'].tolist()
+        children_labels = [labels1, labels2]
+        entropy_gain, _, _ = calculate_information_gain(target, children_labels)
+        cart_entropy_results[feature] = entropy_gain
+    else:
+        # Find best binary split
+        best_entropy = 0
+        for r in range(1, len(feature_values)):
+            for subset in combinations(feature_values, r):
+                set1 = list(subset)
+                set2 = [v for v in feature_values if v not in subset]
+                
+                mask1 = df[feature].isin(set1)
+                mask2 = df[feature].isin(set2)
+                
+                labels1 = df[mask1]['Recommend'].tolist()
+                labels2 = df[mask2]['Recommend'].tolist()
+                
+                children_labels = [labels1, labels2]
+                entropy_gain, _, _ = calculate_information_gain(target, children_labels)
+                
+                if entropy_gain > best_entropy:
+                    best_entropy = entropy_gain
+        
+        cart_entropy_results[feature] = best_entropy
+
+# Find best feature for CART (entropy-based)
+best_cart_entropy_feature = max(cart_entropy_results, key=cart_entropy_results.get)
+print(f"\nCART RESULTS (entropy-based, best binary splits):")
+for feature, entropy_gain in sorted(cart_entropy_results.items(), key=lambda x: x[1], reverse=True):
+    print(f"  {feature}: {entropy_gain:.4f}")
+print(f"CART (entropy) would choose: {best_cart_entropy_feature}")
+
+print(f"\n" + "="*80)
+print("6. CART APPROACH - BINARY SPLITS WITH GINI")
 print("="*80)
 
 cart_results = {}
@@ -270,21 +360,22 @@ for feature, gini_gain in sorted(cart_results.items(), key=lambda x: x[1], rever
 print(f"CART would choose: {best_cart_feature}")
 
 print(f"\n" + "="*80)
-print("4. ALGORITHM COMPARISON")
+print("7. ALGORITHM COMPARISON")
 print("="*80)
 print(f"ID3 choice:  {best_id3_feature} (Information Gain: {id3_results[best_id3_feature]:.4f})")
 print(f"C4.5 choice: {best_c45_feature} (Gain Ratio: {c45_results[best_c45_feature]:.4f})")
-print(f"CART choice: {best_cart_feature} (Gini Gain: {cart_results[best_cart_feature]:.4f})")
+print(f"CART (Gini) choice: {best_cart_feature} (Gini Gain: {cart_results[best_cart_feature]:.4f})")
+print(f"CART (Entropy) choice: {best_cart_entropy_feature} (Entropy Gain: {cart_entropy_results[best_cart_entropy_feature]:.4f})")
 
 # Check if choices are different
-all_choices = [best_id3_feature, best_c45_feature, best_cart_feature]
+all_choices = [best_id3_feature, best_c45_feature, best_cart_feature, best_cart_entropy_feature]
 if len(set(all_choices)) == 1:
     print(f"\nAll algorithms agree on choosing: {best_id3_feature}")
 else:
     print(f"\nAlgorithms disagree! Different splitting criteria lead to different choices.")
 
 # Create visualizations
-fig = plt.figure(figsize=(20, 15))
+fig = plt.figure(figsize=(24, 15))
 
 # Plot 1: Information Gain comparison (ID3)
 ax1 = plt.subplot(2, 4, 1)
@@ -383,15 +474,15 @@ for j in range(len(table_data.columns)):
 
 ax5.set_title('Restaurant Dataset', pad=20)
 
-# Plot 6: Cuisine binary splits for CART
-ax6 = plt.subplot(2, 4, 6)
+# Plot 6: Cuisine binary splits for CART (Gini)
+ax6 = plt.subplot(2, 5, 6)
 split_labels = [f"Split {i+1}" for i in range(len(all_binary_splits))]
 bars6 = ax6.bar(split_labels, cuisine_gini_gains, 
                color=['red' if i == best_cuisine_split_idx else 'lightcoral' 
                      for i in range(len(cuisine_gini_gains))],
                alpha=0.7, edgecolor='black')
 
-ax6.set_title('CART: Cuisine Binary Splits')
+ax6.set_title('CART (Gini): Cuisine Binary Splits')
 ax6.set_ylabel('Gini Gain')
 ax6.set_xlabel('Binary Split')
 ax6.grid(True, alpha=0.3)
@@ -400,19 +491,35 @@ for bar, value in zip(bars6, cuisine_gini_gains):
     ax6.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.005,
              f'{value:.3f}', ha='center', va='bottom', fontsize=8)
 
-# Plot 7 & 8: Decision tree sketches for each algorithm
+# Plot 7: Cuisine binary splits for CART (Entropy)
+ax7 = plt.subplot(2, 5, 7)
+bars7 = ax7.bar(split_labels, cuisine_entropy_gains, 
+               color=['red' if i == best_cuisine_entropy_split_idx else 'lightblue' 
+                     for i in range(len(cuisine_entropy_gains))],
+               alpha=0.7, edgecolor='black')
+
+ax7.set_title('CART (Entropy): Cuisine Binary Splits')
+ax7.set_ylabel('Entropy Gain')
+ax7.set_xlabel('Binary Split')
+ax7.grid(True, alpha=0.3)
+
+for bar, value in zip(bars7, cuisine_entropy_gains):
+    ax7.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.005,
+             f'{value:.3f}', ha='center', va='bottom', fontsize=8)
+
+# Plot 8, 9, 10: Decision tree sketches for each algorithm
 # This would be the first level of trees that each algorithm would construct
 
 # For ID3 tree
-ax7 = plt.subplot(2, 4, 7)
-ax7.set_xlim(0, 10)
-ax7.set_ylim(0, 8)
-ax7.axis('off')
+ax8 = plt.subplot(2, 5, 8)
+ax8.set_xlim(0, 10)
+ax8.set_ylim(0, 8)
+ax8.axis('off')
 
 # Root node
 root_rect = plt.Rectangle((4, 6), 2, 1, facecolor='skyblue', edgecolor='black')
-ax7.add_patch(root_rect)
-ax7.text(5, 6.5, best_id3_feature, ha='center', va='center', fontweight='bold')
+ax8.add_patch(root_rect)
+ax8.text(5, 6.5, best_id3_feature, ha='center', va='center', fontweight='bold')
 
 # Child nodes for ID3's choice
 unique_vals = df[best_id3_feature].unique()
@@ -422,24 +529,24 @@ for i, val in enumerate(unique_vals[:3]):  # Show up to 3 children
         x, y = child_positions[i]
         child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
                                  facecolor='lightblue', edgecolor='black')
-        ax7.add_patch(child_rect)
-        ax7.text(x, y, val, ha='center', va='center', fontsize=9)
+        ax8.add_patch(child_rect)
+        ax8.text(x, y, val, ha='center', va='center', fontsize=9)
         
         # Draw edge
-        ax7.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+        ax8.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
 
-ax7.set_title(f'ID3 Tree\n(Root: {best_id3_feature})', fontweight='bold')
+ax8.set_title(f'ID3 Tree\n(Root: {best_id3_feature})', fontweight='bold')
 
 # For C4.5 tree
-ax8 = plt.subplot(2, 4, 8)
-ax8.set_xlim(0, 10)
-ax8.set_ylim(0, 8)
-ax8.axis('off')
+ax9 = plt.subplot(2, 5, 9)
+ax9.set_xlim(0, 10)
+ax9.set_ylim(0, 8)
+ax9.axis('off')
 
 # Root node
 root_rect = plt.Rectangle((4, 6), 2, 1, facecolor='lightgreen', edgecolor='black')
-ax8.add_patch(root_rect)
-ax8.text(5, 6.5, best_c45_feature, ha='center', va='center', fontweight='bold')
+ax9.add_patch(root_rect)
+ax9.text(5, 6.5, best_c45_feature, ha='center', va='center', fontweight='bold')
 
 # Child nodes for C4.5's choice
 unique_vals_c45 = df[best_c45_feature].unique()
@@ -448,13 +555,39 @@ for i, val in enumerate(unique_vals_c45[:3]):  # Show up to 3 children
         x, y = child_positions[i]
         child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
                                  facecolor='#C8E6C9', edgecolor='black')
-        ax8.add_patch(child_rect)
-        ax8.text(x, y, val, ha='center', va='center', fontsize=9)
+        ax9.add_patch(child_rect)
+        ax9.text(x, y, val, ha='center', va='center', fontsize=9)
         
         # Draw edge
-        ax8.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+        ax9.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
 
-ax8.set_title(f'C4.5 Tree\n(Root: {best_c45_feature})', fontweight='bold')
+ax9.set_title(f'C4.5 Tree\n(Root: {best_c45_feature})', fontweight='bold')
+
+# For CART (Entropy) tree
+ax10 = plt.subplot(2, 5, 10)
+ax10.set_xlim(0, 10)
+ax10.set_ylim(0, 8)
+ax10.axis('off')
+
+# Root node
+root_rect = plt.Rectangle((4, 6), 2, 1, facecolor='lightblue', edgecolor='black')
+ax10.add_patch(root_rect)
+ax10.text(5, 6.5, best_cart_entropy_feature, ha='center', va='center', fontweight='bold')
+
+# Child nodes for CART entropy's choice
+unique_vals_cart_entropy = df[best_cart_entropy_feature].unique()
+for i, val in enumerate(unique_vals_cart_entropy[:3]):  # Show up to 3 children
+    if i < len(child_positions):
+        x, y = child_positions[i]
+        child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
+                                 facecolor='#E3F2FD', edgecolor='black')
+        ax10.add_patch(child_rect)
+        ax10.text(x, y, val, ha='center', va='center', fontsize=9)
+        
+        # Draw edge
+        ax10.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+
+ax10.set_title(f'CART (Entropy) Tree\n(Root: {best_cart_entropy_feature})', fontweight='bold')
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'multi_algorithm_comparison.png'), dpi=300, bbox_inches='tight')
@@ -502,7 +635,13 @@ for feature in features:
     gini_gain = cart_results[feature]
     calculation_text += f"\n{feature}: Gini Gain = {gini_gain:.4f}"
 
-calculation_text += f"\nBest: {best_cart_feature}"
+calculation_text += f"\nBest: {best_cart_feature}\n\nCART (Entropy-based):"
+
+for feature in features:
+    entropy_gain = cart_entropy_results[feature]
+    calculation_text += f"\n{feature}: Entropy Gain = {entropy_gain:.4f}"
+
+calculation_text += f"\nBest: {best_cart_entropy_feature}"
 
 ax.text(0.05, 0.95, calculation_text, transform=ax.transAxes, fontsize=10,
         verticalalignment='top', fontfamily='monospace',
@@ -513,12 +652,13 @@ ax.set_title('Detailed Algorithm Calculations', fontsize=14, fontweight='bold')
 plt.savefig(os.path.join(save_dir, 'detailed_calculations.png'), dpi=300, bbox_inches='tight')
 
 print(f"\n" + "="*80)
-print("5. FIRST LEVEL DECISION TREES")
+print("8. FIRST LEVEL DECISION TREES")
 print("="*80)
-print("All three algorithms would create different tree structures based on their")
+print("All four algorithms would create different tree structures based on their")
 print("chosen root features. The specific splits would be:")
 print(f"- ID3: Split on {best_id3_feature}")
 print(f"- C4.5: Split on {best_c45_feature}") 
-print(f"- CART: Split on {best_cart_feature}")
+print(f"- CART (Gini): Split on {best_cart_feature}")
+print(f"- CART (Entropy): Split on {best_cart_entropy_feature}")
 
 print(f"\nImages saved to: {save_dir}")
