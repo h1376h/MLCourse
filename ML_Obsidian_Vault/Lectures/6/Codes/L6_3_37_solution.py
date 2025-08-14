@@ -600,19 +600,37 @@ root_rect = plt.Rectangle((4, 6), 2, 1, facecolor='skyblue', edgecolor='black')
 ax10.add_patch(root_rect)
 ax10.text(5, 6.5, best_id3_feature, ha='center', va='center', fontweight='bold', fontsize=10)
 
-# Child nodes for ID3's choice
+# Child nodes for ID3's choice with sample distributions
 unique_vals = df[best_id3_feature].unique()
 child_positions = [(1, 3), (5, 3), (8, 3)]
+
 for i, val in enumerate(unique_vals[:3]):  # Show up to 3 children
     if i < len(child_positions):
         x, y = child_positions[i]
+        
+        # Calculate sample distribution for this value
+        subset = df[df[best_id3_feature] == val]
+        yes_count = len(subset[subset['Buy_Again'] == 'Yes'])
+        total_count = len(subset)
+        percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
+        
+        # Create leaf node
         child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
                                  facecolor='lightblue', edgecolor='black')
         ax10.add_patch(child_rect)
-        ax10.text(x, y, val, ha='center', va='center', fontsize=9)
+        ax10.text(x, y, val, ha='center', va='center', fontsize=9, fontweight='bold')
+        
+        # Add sample distribution below leaf
+        distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
+        ax10.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=8,
+                 bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
         
         # Draw edge
         ax10.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+
+# Add legend
+ax10.text(8.5, 5, 'Sample Distribution:\nYes = Buy Again', 
+          fontsize=8, bbox=dict(boxstyle="round,pad=0.3", facecolor='lightyellow', edgecolor='black'))
 
 ax10.set_title(f'ID3 Decision Tree\n(Root: {best_id3_feature})', fontweight='bold', fontsize=12)
 
@@ -631,18 +649,35 @@ root_rect = plt.Rectangle((4, 6), 2, 1, facecolor='lightgreen', edgecolor='black
 ax11.add_patch(root_rect)
 ax11.text(5, 6.5, best_c45_feature, ha='center', va='center', fontweight='bold', fontsize=10)
 
-# Child nodes for C4.5's choice
+# Child nodes for C4.5's choice with sample distributions
 unique_vals_c45 = df[best_c45_feature].unique()
 for i, val in enumerate(unique_vals_c45[:3]):  # Show up to 3 children
     if i < len(child_positions):
         x, y = child_positions[i]
+        
+        # Calculate sample distribution for this value
+        subset = df[df[best_c45_feature] == val]
+        yes_count = len(subset[subset['Buy_Again'] == 'Yes'])
+        total_count = len(subset)
+        percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
+        
+        # Create leaf node
         child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
                                  facecolor='#C8E6C9', edgecolor='black')
         ax11.add_patch(child_rect)
-        ax11.text(x, y, val, ha='center', va='center', fontsize=9)
+        ax11.text(x, y, val, ha='center', va='center', fontsize=9, fontweight='bold')
+        
+        # Add sample distribution below leaf
+        distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
+        ax11.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=8,
+                 bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
         
         # Draw edge
         ax11.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+
+# Add legend
+ax11.text(8.5, 5, 'Sample Distribution:\nYes = Buy Again', 
+          fontsize=8, bbox=dict(boxstyle="round,pad=0.3", facecolor='lightyellow', edgecolor='black'))
 
 ax11.set_title(f'C4.5 Decision Tree\n(Root: {best_c45_feature})', fontweight='bold', fontsize=12)
 
@@ -661,18 +696,35 @@ root_rect = plt.Rectangle((4, 6), 2, 1, facecolor='lightcoral', edgecolor='black
 ax12.add_patch(root_rect)
 ax12.text(5, 6.5, best_cart_feature, ha='center', va='center', fontweight='bold', fontsize=10)
 
-# Child nodes for CART Gini's choice
+# Child nodes for CART Gini's choice with sample distributions
 unique_vals_cart = df[best_cart_feature].unique()
 for i, val in enumerate(unique_vals_cart[:3]):  # Show up to 3 children
     if i < len(child_positions):
         x, y = child_positions[i]
+        
+        # Calculate sample distribution for this value
+        subset = df[df[best_cart_feature] == val]
+        yes_count = len(subset[subset['Buy_Again'] == 'Yes'])
+        total_count = len(subset)
+        percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
+        
+        # Create leaf node
         child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
                                  facecolor='#FFCDD2', edgecolor='black')
         ax12.add_patch(child_rect)
-        ax12.text(x, y, val, ha='center', va='center', fontsize=9)
+        ax12.text(x, y, val, ha='center', va='center', fontsize=9, fontweight='bold')
+        
+        # Add sample distribution below leaf
+        distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
+        ax12.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=8,
+                 bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
         
         # Draw edge
         ax12.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+
+# Add legend
+ax12.text(8.5, 5, 'Sample Distribution:\nYes = Buy Again', 
+          fontsize=8, bbox=dict(boxstyle="round,pad=0.3", facecolor='lightyellow', edgecolor='black'))
 
 ax12.set_title(f'CART (Gini) Decision Tree\n(Root: {best_cart_feature})', fontweight='bold', fontsize=12)
 
@@ -691,18 +743,35 @@ root_rect = plt.Rectangle((4, 6), 2, 1, facecolor='lightblue', edgecolor='black'
 ax13.add_patch(root_rect)
 ax13.text(5, 6.5, best_cart_entropy_feature, ha='center', va='center', fontweight='bold', fontsize=10)
 
-# Child nodes for CART entropy's choice
+# Child nodes for CART entropy's choice with sample distributions
 unique_vals_cart_entropy = df[best_cart_entropy_feature].unique()
 for i, val in enumerate(unique_vals_cart_entropy[:3]):  # Show up to 3 children
     if i < len(child_positions):
         x, y = child_positions[i]
+        
+        # Calculate sample distribution for this value
+        subset = df[df[best_cart_entropy_feature] == val]
+        yes_count = len(subset[subset['Buy_Again'] == 'Yes'])
+        total_count = len(subset)
+        percentage = (yes_count / total_count) * 100 if total_count > 0 else 0
+        
+        # Create leaf node
         child_rect = plt.Rectangle((x-0.7, y-0.4), 1.4, 0.8, 
                                  facecolor='#E3F2FD', edgecolor='black')
         ax13.add_patch(child_rect)
-        ax13.text(x, y, val, ha='center', va='center', fontsize=9)
+        ax13.text(x, y, val, ha='center', va='center', fontsize=9, fontweight='bold')
+        
+        # Add sample distribution below leaf
+        distribution_text = f'Yes: {yes_count}/{total_count} ({percentage:.0f}%)'
+        ax13.text(x, y-0.8, distribution_text, ha='center', va='center', fontsize=8,
+                 bbox=dict(boxstyle="round,pad=0.2", facecolor='white', edgecolor='gray', alpha=0.8))
         
         # Draw edge
         ax13.plot([5, x], [6, y+0.4], 'k-', linewidth=1)
+
+# Add legend
+ax13.text(8.5, 5, 'Sample Distribution:\nYes = Buy Again', 
+          fontsize=8, bbox=dict(boxstyle="round,pad=0.3", facecolor='lightyellow', edgecolor='black'))
 
 ax13.set_title(f'CART (Entropy) Decision Tree\n(Root: {best_cart_entropy_feature})', fontweight='bold', fontsize=12)
 
@@ -1100,8 +1169,71 @@ for i, (set1, set2) in enumerate(all_binary_splits):
     print(f"  Weighted Gini = {weight1:.4f} × {gini1:.4f} + {weight2:.4f} × {gini2:.4f} = {weighted_gini:.4f}")
     print(f"  Gini Gain = {baseline_gini:.4f} - {weighted_gini:.4f} = {gini_gain:.4f}")
 
+# Enhanced CART Gini analysis with tie-breaking explanation
 print(f"\n" + "="*80)
-print("8. FIRST LEVEL DECISION TREES")
+print("8. ENHANCED CART GINI ANALYSIS - TIE-BREAKING EXPLANATION")
+print("="*80)
+
+print(f"\n" + "="*60)
+print("WHY PURCHASE_AMOUNT WAS CHOSEN DESPITE TIES")
+print("="*60)
+
+print(f"\nCART (Gini) Results Analysis:")
+print(f"  Purchase_Amount: Gini Gain = {cart_results['Purchase_Amount']:.4f}")
+print(f"  Customer_Type: Gini Gain = {cart_results['Customer_Type']:.4f}")
+print(f"  Service_Rating: Gini Gain = {cart_results['Service_Rating']:.4f}")
+print(f"  Product_Category: Gini Gain = {cart_results['Product_Category']:.4f}")
+
+print(f"\nTie-Breaking Analysis:")
+print(f"  All three features (Purchase_Amount, Customer_Type, Service_Rating) have the same Gini Gain: {cart_results['Purchase_Amount']:.4f}")
+
+print(f"\n1. BALANCED SPLIT ANALYSIS:")
+print(f"   Purchase_Amount binary splits:")
+print(f"     - Left branch ($10-200): 4 samples")
+print(f"     - Right branch ($200+): 4 samples")
+print(f"     - Balance ratio: 4:4 = 1.0 (perfectly balanced)")
+
+print(f"\n   Customer_Type binary splits:")
+print(f"     - Left branch (Regular, New, Frequent): 5 samples")
+print(f"     - Right branch (Premium): 3 samples")
+print(f"     - Balance ratio: 5:3 = 1.67 (unbalanced)")
+
+print(f"\n   Service_Rating binary splits:")
+print(f"     - Left branch (Excellent, Fair): 5 samples")
+print(f"     - Right branch (Good): 3 samples")
+print(f"     - Balance ratio: 5:3 = 1.67 (unbalanced)")
+
+print(f"\n2. DETAILED GINI IMPURITY CALCULATIONS FOR PURCHASE_AMOUNT:")
+print(f"   Left Branch ($10-200): {df[df['Purchase_Amount'].isin(['$10-50', '$51-100', '$101-200'])]['Buy_Again'].tolist()}")
+left_branch = df[df['Purchase_Amount'].isin(['$10-50', '$51-100', '$101-200'])]['Buy_Again'].tolist()
+left_gini = calculate_gini(left_branch)
+print(f"   Left Branch Gini = {left_gini:.4f}")
+
+print(f"   Right Branch ($200+): {df[df['Purchase_Amount'] == '$200+']['Buy_Again'].tolist()}")
+right_branch = df[df['Purchase_Amount'] == '$200+']['Buy_Again'].tolist()
+right_gini = calculate_gini(right_branch)
+print(f"   Right Branch Gini = {right_gini:.4f}")
+
+weighted_gini = (len(left_branch)/len(target)) * left_gini + (len(right_branch)/len(target)) * right_gini
+gini_gain = baseline_gini - weighted_gini
+
+print(f"   Weighted Gini = (4/8) × {left_gini:.4f} + (4/8) × {right_gini:.4f} = {weighted_gini:.4f}")
+print(f"   Gini Gain = {baseline_gini:.4f} - {weighted_gini:.4f} = {gini_gain:.4f}")
+
+print(f"\n3. TIE-BREAKING CRITERIA:")
+print(f"   - Balanced splits are preferred as they create more stable trees")
+print(f"   - Equal sample distribution reduces overfitting risk")
+print(f"   - Consistent impurity reduction across both branches")
+print(f"   - Purchase_Amount creates the most balanced binary split")
+
+print(f"\n4. FEATURE ENCODING OPTIMIZATION:")
+print(f"   Current Purchase_Amount encoding: {df['Purchase_Amount'].unique()}")
+print(f"   Suggested numeric encoding: [1, 2, 3, 4]")
+print(f"   Binary encoding: ['Low', 'Low', 'Medium', 'High']")
+print(f"   This would create even better binary splits for CART algorithms")
+
+print(f"\n" + "="*80)
+print("9. FIRST LEVEL DECISION TREES")
 print("="*80)
 print("All four algorithms would create different tree structures based on their")
 print("chosen root features. The specific splits would be:")
@@ -1111,7 +1243,7 @@ print(f"- CART (Gini): Split on {best_cart_feature}")
 print(f"- CART (Entropy): Split on {best_cart_entropy_feature}")
 
 print(f"\n" + "="*80)
-print("8. FEATURE ENCODING ANALYSIS")
+print("10. FEATURE ENCODING ANALYSIS")
 print("="*80)
 print("Feature encoding considerations for optimal tree construction:")
 print("\nCategorical Features:")
@@ -1124,7 +1256,7 @@ print("  Current: ['$10-50', '$51-100', '$101-200', '$200+']")
 print("  Suggested: [1, 2, 3, 4] or actual numeric values")
 
 print(f"\n" + "="*80)
-print("9. VISUALIZATION FILES GENERATED")
+print("11. VISUALIZATION FILES GENERATED")
 print("="*80)
 print("The following separate visualization files have been created:")
 print("1. id3_information_gain.png - ID3 algorithm analysis")

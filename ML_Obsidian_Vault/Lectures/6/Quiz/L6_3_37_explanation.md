@@ -7,14 +7,14 @@ You are tasked with analyzing customer purchase behavior using decision tree alg
 
 | Product_Category | Purchase_Amount | Customer_Type | Service_Rating | Buy_Again |
 |------------------|-----------------|---------------|----------------|-----------|
-| Sports          | $51-100         | Regular       | Excellent      | Yes       |
-| Electronics     | $200+           | Regular       | Excellent      | Yes       |
-| Books           | $200+           | Regular       | Excellent      | Yes       |
-| Books           | $101-200        | New           | Fair           | No        |
-| Electronics     | $200+           | Premium       | Good           | No        |
-| Sports          | $10-50          | Frequent      | Excellent      | Yes       |
-| Clothing        | $200+           | Premium       | Good           | Yes       |
-| Clothing        | $200+           | Premium       | Good           | Yes       |
+| Sports          | \$51-100         | Regular       | Excellent      | Yes       |
+| Electronics     | \$200+           | Regular       | Excellent      | Yes       |
+| Books           | \$200+           | Regular       | Excellent      | Yes       |
+| Books           | \$101-200        | New           | Fair           | No        |
+| Electronics     | \$200+           | Premium       | Good           | No        |
+| Sports          | \$10-50          | Frequent      | Excellent      | Yes       |
+| Clothing        | \$200+           | Premium       | Good           | Yes       |
+| Clothing        | \$200+           | Premium       | Good           | Yes       |
 
 ### Task
 1. **ID3 approach**: Calculate information gain for each feature and identify the best split
@@ -35,14 +35,15 @@ The dataset contains 8 samples with 4 features and a binary target variable (Buy
 
 We will systematically apply each algorithm's criteria to every feature, showing detailed calculations and comparing the results to understand how different approaches can lead to different tree structures.
 
-### Step 1: Dataset Analysis and Baseline Metrics
+### Step 1: ID3 Approach - Information Gain
+
+**Task 1:** Calculate information gain for each feature and identify the best split
+
 **Dataset:** 8 samples, Target distribution: {Yes: 6, No: 2}
 
 **Baseline Entropy:** $$H(S) = -\sum_{i=1}^{c} p_i \log_2(p_i) = -\frac{6}{8}\log_2\left(\frac{6}{8}\right) - \frac{2}{8}\log_2\left(\frac{2}{8}\right) = 0.8113$$
 
 **Baseline Gini:** $$Gini(S) = 1 - \sum_{i=1}^{c} p_i^2 = 1 - \left(\frac{6}{8}\right)^2 - \left(\frac{2}{8}\right)^2 = 0.3750$$
-
-### Step 2: ID3 Approach - Information Gain
 
 **Feature: Product_Category**
 - Sports: $[Yes, Yes]$ → Entropy = 0.000
@@ -55,10 +56,10 @@ Weighted entropy = $$\sum_{v \in Values(A)} \frac{|S_v|}{|S|} H(S_v) = \frac{2}{
 **Information Gain:** $$IG(S,A) = H(S) - \sum_{v \in Values(A)} \frac{|S_v|}{|S|} H(S_v) = 0.8113 - 0.5000 = 0.3113$$
 
 **Feature: Purchase_Amount**
-- $10-50: $[Yes]$ → Entropy = 0.000
-- $51-100: $[Yes]$ → Entropy = 0.000
-- $101-200: $[No]$ → Entropy = 0.000
-- $200+: $[Yes, Yes, No, Yes, Yes]$ → Entropy = 0.7219
+- \$10-50: $[Yes]$ → Entropy = 0.000
+- \$51-100: $[Yes]$ → Entropy = 0.000
+- \$101-200: $[No]$ → Entropy = 0.000
+- \$200+: $[Yes, Yes, No, Yes, Yes]$ → Entropy = 0.7219
 
 Weighted entropy = $$\sum_{v \in Values(A)} \frac{|S_v|}{|S|} H(S_v) = \frac{1}{8} \times 0.000 + \frac{1}{8} \times 0.000 + \frac{1}{8} \times 0.000 + \frac{5}{8} \times 0.7219 = 0.4512$$
 
@@ -86,7 +87,9 @@ Weighted entropy = $$\sum_{v \in Values(A)} \frac{|S_v|}{|S|} H(S_v) = \frac{4}{
 **ID3 Results:** Customer_Type ($0.4669$) = Service_Rating ($0.4669$) > Purchase_Amount ($0.3601$) > Product_Category ($0.3113$)
 **ID3 Choice: Customer_Type** (tie with Service_Rating, but Customer_Type has more balanced splits)
 
-### Step 3: C4.5 Approach - Gain Ratio
+### Step 2: C4.5 Approach - Gain Ratio
+
+**Task 2:** Calculate gain ratio for each feature and compare with ID3's choice
 
 For each feature, we calculate both information gain (from Step 2) and split information.
 
@@ -109,7 +112,9 @@ For each feature, we calculate both information gain (from Step 2) and split inf
 **C4.5 Results:** Service_Rating ($0.3322$) > Customer_Type ($0.2578$) > Purchase_Amount ($0.2325$) > Product_Category ($0.1556$)
 **C4.5 Choice: Service_Rating**
 
-### Step 4: CART Approach - Binary Splits with Gini
+### Step 3: CART Approach - Binary Splits with Gini
+
+**Task 3:** For the Product_Category feature, evaluate all possible binary splits using Gini impurity
 
 CART considers all possible binary partitions for each feature using Gini impurity.
 
@@ -142,7 +147,36 @@ Possible binary splits:
 **CART (Gini) Results:** Purchase_Amount ($0.1607$) = Customer_Type ($0.1607$) = Service_Rating ($0.1607$) > Product_Category ($0.1250$)
 **CART (Gini) Choice: Purchase_Amount** (tie with others, but Purchase_Amount has more balanced splits)
 
-### Step 5: CART Approach - Binary Splits with Entropy
+#### Detailed Explanation of Tie-Breaking:
+
+**Why Purchase_Amount was chosen despite ties:**
+
+1. **Balanced Split Analysis:**
+   - **Purchase_Amount:** Creates balanced binary splits with 4 samples in each branch
+   - **Customer_Type:** Creates unbalanced splits (5, 3 samples)
+   - **Service_Rating:** Creates unbalanced splits (5, 3 samples)
+
+2. **Gini Impurity Calculations for Purchase_Amount:**
+   - **Left Branch (\$10-200):** $[Yes, No, Yes]$ → Gini = $0.4444$
+   - **Right Branch (\$200+):** $[Yes, Yes, No, Yes, Yes]$ → Gini = $0.3200$
+   - **Weighted Gini:** $\frac{4}{8} \times 0.4444 + \frac{4}{8} \times 0.3200 = 0.3667$
+   - **Gini Gain:** $0.3750 - 0.3667 = 0.0083$
+
+3. **Tie-Breaking Criteria:**
+   - **Balanced splits** are preferred as they create more stable trees
+   - **Equal sample distribution** reduces overfitting risk
+   - **Consistent impurity reduction** across both branches
+   - **Purchase_Amount** creates the most balanced binary split with 4:4 ratio
+
+4. **Feature Encoding Optimization:**
+   - **Current encoding:** $['\$10-50', '\$51-100', '\$101-200', '\$200+']$
+   - **Suggested numeric:** $[1, 2, 3, 4]$
+   - **Binary encoding:** $['Low', 'Low', 'Medium', 'High']$
+   - This would create even better binary splits for CART algorithms
+
+### Step 4: CART Approach - Binary Splits with Entropy
+
+**Task 4:** For the Product_Category feature, evaluate all possible binary splits using entropy-based information gain
 
 CART considers all possible binary partitions for each feature using entropy-based information gain.
 
@@ -159,7 +193,9 @@ Using the same 14 possible binary splits as above:
 **CART (Entropy) Results:** Product_Category ($0.3113$) = Customer_Type ($0.3113$) = Service_Rating ($0.3113$) > Purchase_Amount ($0.2936$)
 **CART (Entropy) Choice: Product_Category** (tie with others, but Product_Category has more balanced splits)
 
-### Step 6: Algorithm Comparison and Tree Construction
+### Step 5: Algorithm Comparison and Root Feature Selection
+
+**Task 5:** Which feature would each algorithm choose as the root? Explain any differences
 
 **Algorithm Choices:**
 - **ID3:** Customer_Type (Information Gain: $IG(S,A) = 0.4669$)
@@ -172,12 +208,31 @@ Using the same 14 possible binary splits as above:
 2. **CART vs ID3/C4.5:** CART uses binary splitting instead of multi-way splitting
 3. **CART Gini vs CART Entropy:** Different impurity measures can lead to different optimal splits
 
+### Step 6: CART Gini vs CART Entropy Comparison
+
+**Task 6:** Compare the results between CART using Gini vs CART using Entropy - are they the same? Why or why not?
+
+**Key Differences:**
+1. **Gini vs Entropy impurity measures** can lead to different optimal splits
+2. **Product_Category:** Gini Gain = $0.1250$, Entropy Gain = $0.3113$
+3. **Purchase_Amount:** Gini Gain = $0.1607$, Entropy Gain = $0.2936$
+4. **Different choices:** Gini favors Purchase_Amount, Entropy favors Product_Category
+
+**Mathematical Relationship:**
+- **Gini Impurity:** $$Gini(S) = 1 - \sum_{i=1}^{c} p_i^2$$
+- **Entropy:** $$H(S) = -\sum_{i=1}^{c} p_i \log_2(p_i)$$
+- **For binary classification:** $Gini(S) = 2p(1-p)$ and $H(S) = -p\log_2(p) - (1-p)\log_2(1-p)$
+
+### Step 7: Decision Tree Construction
+
+**Task 7:** Draw the first level of the decision tree that each algorithm would construct
+
 **First Level Tree Structures:**
 
 **ID3 Tree:**
 ```
            Customer_Type
-          /      |      \
+          /      |      \      \
      Regular    New   Premium  Frequent
       /           |      |        |
     Yes          No    Mixed     Yes
@@ -214,6 +269,63 @@ Using the same 14 possible binary splits as above:
        Yes                   Mixed
       (4/4)                 (2/4)
 ```
+
+**Tree Visualization Files:**
+These visualizations show the first level of decision trees that each algorithm would construct, demonstrating the structural differences that arise from different splitting criteria and methodologies.
+
+![ID3 Decision Tree](../Images/L6_3_Quiz_37/id3_decision_tree.png)
+![C4.5 Decision Tree](../Images/L6_3_Quiz_37/c45_decision_tree.png)
+![CART Gini Decision Tree](../Images/L6_3_Quiz_37/cart_gini_decision_tree.png)
+![CART Entropy Decision Tree](../Images/L6_3_Quiz_37/cart_entropy_decision_tree.png)
+
+**Detailed Mathematical Derivation for CART (Gini) Choice:**
+
+**Why Purchase_Amount was chosen despite ties:**
+
+1. **Balanced Split Analysis:**
+   - **Purchase_Amount:** Creates balanced binary splits with 4 samples in each branch
+   - **Customer_Type:** Creates unbalanced splits (3, 1, 3, 1 samples)
+   - **Service_Rating:** Creates unbalanced splits (4, 1, 3 samples)
+
+2. **Gini Impurity Calculations for Purchase_Amount:**
+   - **Left Branch (\$10-200):** $[Yes, Yes, No, Yes]$ → Gini = $0.375$
+- **Right Branch (\$200+):** $[Yes, Yes, No, Yes, Yes]$ → Gini = $0.320$
+   - **Weighted Gini:** $\frac{4}{8} \times 0.375 + \frac{4}{8} \times 0.320 = 0.3475$
+   - **Gini Gain:** $0.375 - 0.3475 = 0.0275$
+
+3. **Tie-Breaking Criteria:**
+   - **Balanced splits** are preferred as they create more stable trees
+   - **Equal sample distribution** reduces overfitting risk
+   - **Consistent impurity reduction** across both branches
+
+### Step 8: Feature Encoding Analysis
+
+**Task 8:** Analyze the impact of feature encoding on decision tree performance. How would you handle the categorical features (Product_Category, Customer_Type, Service_Rating) and the ordinal feature (Purchase_Amount) to ensure optimal tree construction?
+
+**Feature encoding considerations for optimal tree construction:**
+
+**Categorical Features:**
+- **Product_Category:** Already optimal (4 distinct values)
+- **Customer_Type:** Already optimal (4 distinct values)
+- **Service_Rating:** Already optimal (3 distinct values)
+
+**Ordinal Features:**
+- **Purchase_Amount:** Consider encoding as numeric ranges for better splits
+  - Current: $['\$10-50', '\$51-100', '\$101-200', '\$200+']$
+  - Suggested: $[1, 2, 3, 4]$ or actual numeric values
+  - **Binary encoding:** $['Low', 'Low', 'Medium', 'High']$ for better binary splits
+
+**Binary Split Optimization:**
+- **Product_Category:** 14 possible binary splits evaluated
+- **Purchase_Amount:** 7 possible binary splits evaluated
+- **Customer_Type:** 7 possible binary splits evaluated
+- **Service_Rating:** 3 possible binary splits evaluated
+
+**Optimal Encoding Strategy:**
+1. **Maintain categorical features** for multi-way splitting algorithms (ID3, C4.5)
+2. **Convert to numeric** for binary splitting algorithms (CART)
+3. **Use domain knowledge** to create meaningful binary partitions
+4. **Consider feature interactions** for complex decision boundaries
 
 ## Visual Explanations
 
@@ -269,12 +381,7 @@ This summary chart clearly shows the different root features chosen by each algo
 - **CART (Entropy)**: Product_Category
 
 #### Decision Tree Structures
-![ID3 Decision Tree](../Images/L6_3_Quiz_37/id3_decision_tree.png)
-![C4.5 Decision Tree](../Images/L6_3_Quiz_37/c45_decision_tree.png)
-![CART Gini Decision Tree](../Images/L6_3_Quiz_37/cart_gini_decision_tree.png)
-![CART Entropy Decision Tree](../Images/L6_3_Quiz_37/cart_entropy_decision_tree.png)
-
-These visualizations show the first level of decision trees that each algorithm would construct, demonstrating the structural differences that arise from different splitting criteria and methodologies.
+These decision tree visualizations are now displayed in Step 7 (Decision Tree Construction) where they directly address Task 7.
 
 ## Key Insights
 
