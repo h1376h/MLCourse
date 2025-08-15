@@ -683,10 +683,11 @@ Design a "Split Quality Detective" game where you analyze suspicious splitting d
 1. Calculate information gain for each split
 2. Calculate gain ratio for Split A and Split B
 3. Which split would each algorithm (ID3, C4.5, CART using Gini impurity) prefer? Explain your reasoning
-4. **CART with Entropy**: Which split would CART using entropy prefer? Is it the same as CART using Gini impurity?
-5. **Algorithm Comparison**: Compare the preferences of all algorithms. Which ones agree and which ones disagree? Why?
+4. Which split would CART using entropy prefer? Is it the same as CART using Gini impurity?
+5. Compare the preferences of all algorithms. Which ones agree and which ones disagree? Why?
 6. Identify which split shows signs of overfitting and explain why
 7. What makes Split B problematic for real-world deployment?
+8. Given the analysis, which split should actually be chosen for production deployment and why?
 
 For a detailed explanation of this question, see [Question 38: Split Quality Analysis](L6_3_38_explanation.md).
 
@@ -814,14 +815,14 @@ Deep dive into CART algorithm: Compare and contrast Gini impurity vs Entropy as 
    - For a binary classification problem with class probabilities $[p, 1-p]$, show that both measures reach their maximum at $p = 0.5$
 
 2. **Numerical Comparison**: Given a dataset split into two groups:
-   - Group 1: [8 positive, 2 negative]
-   - Group 2: [3 positive, 7 negative]
+   - Group 1: $[8 positive, 2 negative]$
+   - Group 2: $[3 positive, 7 negative]$
    Calculate both Gini impurity and Entropy for each group and for the overall split.
 
 3. **Binary Split Analysis**: For a categorical feature "Size" with values {Small, Medium, Large} and target distribution:
-   - Small: [2, 8] (2 positive, 8 negative)
-   - Medium: [5, 5] (5 positive, 5 negative)  
-   - Large: [8, 2] (8 positive, 2 negative)
+   - Small: $[2, 8]$ (2 positive, 8 negative)
+   - Medium: $[5, 5]$ (5 positive, 5 negative)  
+   - Large: $[8, 2]$ (8 positive, 2 negative)
    
    Find the optimal binary split using:
    - CART with Gini impurity
