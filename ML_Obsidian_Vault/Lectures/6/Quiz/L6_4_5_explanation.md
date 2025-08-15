@@ -27,11 +27,11 @@ For a dataset with 1000 samples, we can derive the optimal number of folds mathe
 
 **Mathematical Formulation:**
 - Let $n = 1000$ (total samples), $k =$ number of folds
-- Samples per fold = $n/k$
-- Training samples per fold = $n - n/k = n(1 - 1/k)$
+- Samples per fold = $\frac{n}{k}$
+- Training samples per fold = $n - \frac{n}{k} = n\left(1 - \frac{1}{k}\right)$
 
 **Bias-Variance Trade-off Analysis:**
-- Bias decreases as $k$ increases: $\text{Bias} \propto 1/k$
+- Bias decreases as $k$ increases: $\text{Bias} \propto \frac{1}{k}$
 - Variance increases as $k$ increases: $\text{Variance} \propto k$
 
 **Expected CV Error Formulation:**
@@ -63,11 +63,11 @@ $$k = \sqrt{n} = \sqrt{1000} \approx 31.6$$
 
 The computational analysis confirms our mathematical derivation:
 
-- **3-fold CV**: 0.9300 ± 0.0142 (lower accuracy, more stable)
-- **5-fold CV**: 0.9310 ± 0.0211 (recommended balance)
-- **10-fold CV**: 0.9280 ± 0.0248 (higher accuracy, higher variance)
-- **15-fold CV**: 0.9270 ± 0.0336 (diminishing returns)
-- **20-fold CV**: 0.9200 ± 0.0369 (high variance)
+- **3-fold CV**: $0.9300 \pm 0.0142$ (lower accuracy, more stable)
+- **5-fold CV**: $0.9310 \pm 0.0211$ (recommended balance)
+- **10-fold CV**: $0.9280 \pm 0.0248$ (higher accuracy, higher variance)
+- **15-fold CV**: $0.9270 \pm 0.0336$ (diminishing returns)
+- **20-fold CV**: $0.9200 \pm 0.0369$ (high variance)
 
 ![CV Fold Analysis](../Images/L6_4_Quiz_5/cv_fold_analysis.png)
 
@@ -120,13 +120,13 @@ where $R(T)$ is the training error and $|T|$ is the number of leaf nodes.
 Most useful $\alpha$ values are in $[0.001, 1.0]$
 
 **Logarithmic Spacing Formula:**
-$$\alpha_i = \alpha_{\min} \times \left(\frac{\alpha_{\max}}{\alpha_{\min}}\right)^{i/(n-1)}$$
+$$\alpha_i = \alpha_{\min} \times \left(\frac{\alpha_{\max}}{\alpha_{\min}}\right)^{\frac{i}{n-1}}$$
 
 **For Our Grid:**
 - $\alpha_{\min} = 0.0001$, $\alpha_{\max} = 100$, $n = 20$
-- $\alpha_i = 0.0001 \times (100/0.0001)^{i/19}$
-- $\alpha_i = 0.0001 \times 10^6^{i/19}$
-- $\alpha_i = 10^{(-4 + 6i/19)}$
+- $\alpha_i = 0.0001 \times \left(\frac{100}{0.0001}\right)^{\frac{i}{19}}$
+- $\alpha_i = 0.0001 \times 10^6^{\frac{i}{19}}$
+- $\alpha_i = 10^{-4 + \frac{6i}{19}}$
 
 **Key α Values:**
 - $i = 0$: $\alpha = 0.0001$ (minimal pruning)
@@ -136,7 +136,7 @@ $$\alpha_i = \alpha_{\min} \times \left(\frac{\alpha_{\max}}{\alpha_{\min}}\righ
 #### Computational Verification
 
 The computational implementation confirms our mathematical design:
-- **Alpha grid**: 20 log-spaced values from 0.0001 to 100.0
+- **Alpha grid**: 20 log-spaced values from $0.0001$ to $100.0$
 - **Total values**: 20 different $\alpha$ values
 - **CCP alphas from sklearn**: 33 different values
 - **Range**: Captures both small and large values effectively
@@ -176,11 +176,11 @@ The second term represents the variance introduced by parameter selection.
 #### Computational Verification
 
 The computational implementation demonstrates nested cross-validation:
-- **Fold 1**: Best $\alpha = 0.0001$, Test Score = 0.9500
-- **Fold 2**: Best $\alpha = 0.0001$, Test Score = 0.9400
-- **Fold 3**: Best $\alpha = 0.0001$, Test Score = 0.9350
-- **Fold 4**: Best $\alpha = 0.0001$, Test Score = 0.8900
-- **Fold 5**: Best $\alpha = 0.0001$, Test Score = 0.9400
+- **Fold 1**: Best $\alpha = 0.0001$, Test Score = $0.9500$
+- **Fold 2**: Best $\alpha = 0.0001$, Test Score = $0.9400$
+- **Fold 3**: Best $\alpha = 0.0001$, Test Score = $0.9350$
+- **Fold 4**: Best $\alpha = 0.0001$, Test Score = $0.8900$
+- **Fold 5**: Best $\alpha = 0.0001$, Test Score = $0.9400$
 
 **Final nested CV score**: $0.9310 \pm 0.0211$
 
@@ -208,7 +208,7 @@ If $\text{val\_}\alpha \neq \text{test\_}\alpha$, this indicates:
 
 2. **Insufficient validation set size:**
    $$\text{Var}[\text{val\_error}] \propto \frac{1}{n_{\text{val}}}$$
-   For $n_{\text{val}} = 200$, $\text{Var}[\text{val\_error}] = \sigma^2/200$
+   For $n_{\text{val}} = 200$, $\text{Var}[\text{val\_error}] = \frac{\sigma^2}{200}$
    This may be too high for reliable parameter selection.
 
 3. **High variance in performance estimates:**
@@ -221,8 +221,8 @@ The computational simulation confirms our analysis:
 - **Training set size**: 600 samples
 - **Validation set size**: 200 samples
 - **Test set size**: 200 samples
-- **Best $\alpha$ on validation set**: 0.0100
-- **Best $\alpha$ on test set**: 0.0100
+- **Best $\alpha$ on validation set**: $0.0100$
+- **Best $\alpha$ on test set**: $0.0100$
 
 ![Validation vs Test Performance](../Images/L6_4_Quiz_5/cv_analysis_comprehensive.png)
 
@@ -237,7 +237,7 @@ The computational simulation confirms our analysis:
 **Available CV strategies**: $k \in \{2, 4, 5, 10, 20, 40, 100, 200\}$
 
 **Sample size per fold analysis:**
-For $k$ folds: $\text{samples\_per\_fold} = n/k$
+For $k$ folds: $\text{samples\_per\_fold} = \frac{n}{k}$
 - $k = 2$: 100 samples per fold
 - $k = 4$: 50 samples per fold
 - $k = 5$: 40 samples per fold
@@ -252,8 +252,8 @@ Rule of thumb: $\text{samples\_per\_fold} \geq 30$
 $$\text{Var}[CV\_\text{error}] \propto \frac{k}{n}$$
 
 Higher $k$ increases variance.
-- For $n = 200$, $k = 10$ gives $\text{Var} \propto 10/200 = 0.05$
-- For $n = 200$, $k = 5$ gives $\text{Var} \propto 5/200 = 0.025$
+- For $n = 200$, $k = 10$ gives $\text{Var} \propto \frac{10}{200} = 0.05$
+- For $n = 200$, $k = 5$ gives $\text{Var} \propto \frac{5}{200} = 0.025$
 
 **Recommendation**: Use **3-5 folds** for small datasets because:
 - Each fold has sufficient samples (40-67 samples per fold)
@@ -264,10 +264,10 @@ Higher $k$ increases variance.
 #### Computational Verification
 
 The computational analysis confirms our mathematical reasoning:
-- **3-fold CV**: 0.7748 ± 0.0341 (most stable, lowest std)
-- **5-fold CV**: 0.7850 ± 0.0561 (good balance)
-- **10-fold CV**: 0.8300 ± 0.0600 (best accuracy, higher variance)
-- **Leave-One-Out**: 0.8050 ± 0.3962 (high variance)
+- **3-fold CV**: $0.7748 \pm 0.0341$ (most stable, lowest std)
+- **5-fold CV**: $0.7850 \pm 0.0561$ (good balance)
+- **10-fold CV**: $0.8300 \pm 0.0600$ (best accuracy, higher variance)
+- **Leave-One-Out**: $0.8050 \pm 0.3962$ (high variance)
 
 ![Small Dataset CV Performance](../Images/L6_4_Quiz_5/cv_analysis_comprehensive.png)
 
@@ -353,13 +353,13 @@ This comprehensive visualization includes:
 - **Nested Cross-Validation**: Properly separates parameter selection from performance evaluation
 
 ### Mathematical Formulations
-- **Optimal folds**: $k = \sqrt{n} = \sqrt{1000} \approx 31.6$, practical choice: 5-10
-- **Variance scaling**: $\text{Var}[CV\_\text{error}] \propto k/n$
-- **Statistical significance**: $n = z^2 \times p(1-p)/E^2$ for confidence intervals
-- **Logarithmic spacing**: $\alpha_i = \alpha_{\min} \times (\alpha_{\max}/\alpha_{\min})^{i/(n-1)}$
+- **Optimal folds**: $k = \sqrt{n} = \sqrt{1000} \approx 31.6$, practical choice: $5-10$
+- **Variance scaling**: $\text{Var}[CV\_\text{error}] \propto \frac{k}{n}$
+- **Statistical significance**: $n = \frac{z^2 \times p(1-p)}{E^2}$ for confidence intervals
+- **Logarithmic spacing**: $\alpha_i = \alpha_{\min} \times \left(\frac{\alpha_{\max}}{\alpha_{\min}}\right)^{\frac{i}{n-1}}$
 
 ### Practical Applications
-- **Dataset Size Considerations**: Large datasets (1000+ samples) can use 5-10 folds, small datasets (200 samples) should use 3-5 folds
+- **Dataset Size Considerations**: Large datasets ($1000+$ samples) can use $5-10$ folds, small datasets ($200$ samples) should use $3-5$ folds
 - **Parameter Grid Design**: Logarithmic spacing captures the full range of practical values
 - **Computational Efficiency**: Balance between statistical rigor and computational cost
 - **Robustness**: Multiple validation strategies provide more reliable parameter selection
@@ -379,21 +379,21 @@ This comprehensive visualization includes:
 ## Conclusion
 
 ### Pen and Paper Solutions
-- **Optimal fold selection**: $k = \sqrt{n} = \sqrt{1000} \approx 31.6$, practical choice: 5-10
+- **Optimal fold selection**: $k = \sqrt{n} = \sqrt{1000} \approx 31.6$, practical choice: $5-10$
 - **Sample distribution**: $1000 \div 5 = 200$ samples per fold
-- **Alpha grid**: 20 log-spaced values from 0.0001 to 100.0 using formula $\alpha_i = 10^{(-4 + 6i/19)}$
+- **Alpha grid**: 20 log-spaced values from $0.0001$ to $100.0$ using formula $\alpha_i = 10^{-4 + \frac{6i}{19}}$
 - **Bias handling**: Nested CV eliminates selection bias through mathematical independence
 - **Validation strategy**: Consistent $\alpha$ selection indicates good strategy
 - **Small dataset adaptation**: Reduce fold number to maintain adequate samples per fold
-- **Statistical significance**: $n = 1.96^2 \times 0.25 / 0.05^2 = 385$ samples per fold required for 95% confidence
+- **Statistical significance**: $n = \frac{1.96^2 \times 0.25}{0.05^2} = 385$ samples per fold required for 95% confidence
 
 ### Computational Verification
-- **5-fold CV recommended**: 0.9310 ± 0.0211 accuracy
-- **Sample distribution verified**: [200, 200, 200, 200, 200] samples per fold
+- **5-fold CV recommended**: $0.9310 \pm 0.0211$ accuracy
+- **Sample distribution verified**: $[200, 200, 200, 200, 200]$ samples per fold
 - **Alpha grid generated**: 20 values, 33 CCP alphas from sklearn
-- **Nested CV implemented**: Final score 0.9310 ± 0.0211
+- **Nested CV implemented**: Final score $0.9310 \pm 0.0211$
 - **Validation consistency**: Both validation and test sets select $\alpha = 0.0100$
-- **Small dataset strategy**: 3-fold CV most stable (std: 0.0341)
+- **Small dataset strategy**: 3-fold CV most stable (std: $0.0341$)
 - **Statistical requirements**: Minimum 384 samples per fold verified
 
 The key insight is that cross-validation design must balance statistical rigor with practical constraints, adapting the strategy based on dataset size and computational resources while maintaining proper separation between parameter selection and final evaluation. The pen and paper solutions provide the theoretical foundation, while computational verification confirms practical implementation.
