@@ -1,7 +1,7 @@
 # Lecture 6.4: Tree Pruning and Regularization Quiz
 
 ## Overview
-This quiz contains 25 comprehensive questions covering Tree Pruning and Regularization, including overfitting detection, pre-pruning techniques, post-pruning methods, cost-complexity pruning, cross-validation, and regularization strategies. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 35 comprehensive questions covering Tree Pruning and Regularization, including overfitting detection, pre-pruning techniques, post-pruning methods, cost-complexity pruning, cross-validation, and regularization strategies. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -23,9 +23,8 @@ Netflix uses a decision tree to recommend movies. Their engineers noticed that a
 3. Explain the bias-variance tradeoff demonstrated in this data
 4. Sketch a graph showing training vs validation accuracy
 5. If Netflix wants to keep user complaints below 10%, what's the maximum acceptable tree depth?
-6. What business implications does this overfitting have for Netflix?
-7. Calculate the correlation between training accuracy and user complaints. What does this reveal?
-8. If Netflix has 100 million users and each complaint costs $5 in customer service, calculate the total cost of overfitting at depth 6
+6. If Netflix has 100 million users and each complaint costs $2 in customer service, calculate the total cost of overfitting at depth 6
+
 
 For a detailed explanation of this question, see [Question 1: Overfitting Detection Game](L6_4_1_explanation.md).
 
@@ -243,8 +242,7 @@ You're building a decision tree for a high-frequency trading system where early 
 3. Compare early stopping vs post-pruning approaches
 4. Describe how to implement patience-based early stopping
 5. If your validation performance fluctuates due to market volatility, how would you modify your early stopping criteria?
-6. What are the financial implications of stopping too early vs too late in this trading scenario?
-7. Design an adaptive patience mechanism that increases patience when validation performance is stable.
+6. Design an adaptive patience mechanism that increases patience when validation performance is stable.
 
 For a detailed explanation of this question, see [Question 13: Early Stopping Strategies](L6_4_13_explanation.md).
 
@@ -333,8 +331,7 @@ You're a consultant helping companies choose pruning strategies. Create a decisi
 3. Design a 1-5 scoring system for each method-criteria combination
 4. Recommend the best pruning method for a medical diagnosis application
 5. If you have to add a cost constraint to your matrix, how would you weight it relative to accuracy and interpretability?
-6. You're presenting this to a non-technical CEO. How would you explain the trade-offs in business terms?
-7. Calculate the weighted score for each pruning method if interpretability is twice as important as accuracy.
+6. Calculate the weighted score for each pruning method if interpretability is twice as important as accuracy.
 
 For a detailed explanation of this question, see [Question 18: Pruning Decision Matrix](L6_4_18_explanation.md).
 
@@ -373,8 +370,7 @@ You're building a decision tree for a credit risk assessment system that must sa
 3. Determine which parameters to tune first and explain why
 4. Design a validation plan for your strategy
 5. If you can only satisfy 4 out of 5 constraints, which one would you relax and why?
-6. What are the legal implications if your tree violates the interpretability requirement?
-7. Calculate the minimum training time needed if you want to test 5 different pruning strategies.
+6. Calculate the minimum training time needed if you want to test 5 different pruning strategies.
 
 For a detailed explanation of this question, see [Question 20: Regularization Trade-off Puzzle](L6_4_20_explanation.md).
 
@@ -394,8 +390,6 @@ Tree construction → Training → Validation → Deployment
 3. Identify which pruning method is most computationally efficient
 4. Determine which method offers the most flexibility for parameter tuning
 5. If you discover during deployment that your tree is overfitting, which pruning methods can you still apply?
-6. You're working in an agile development environment with weekly deployments. How does this affect your pruning strategy?
-7. Design a pruning strategy that can adapt to changing data distributions over time.
 
 For a detailed explanation of this question, see [Question 21: Pruning Timeline Challenge](L6_4_21_explanation.md).
 
@@ -410,8 +404,7 @@ Design a comprehensive tool for measuring tree complexity that can be used acros
 3. Set reasonable thresholds for each metric
 4. Apply your metrics to a tree with 7 nodes and depth 4
 5. If you want to create a single "complexity score" that combines all three metrics, how would you weight them?
-6. You're building this tool for a company that builds trees for different industries (finance, healthcare, retail). How would you adapt your metrics for each domain?
-7. Calculate the complexity score for a tree that grows from 3 to 7 nodes over time.
+6. Calculate the complexity score for a tree that grows from 3 to 7 nodes over time.
 
 For a detailed explanation of this question, see [Question 22: Tree Complexity Calculator](L6_4_22_explanation.md).
 
@@ -434,8 +427,7 @@ A research team is comparing different validation strategies for pruning decisio
 3. If you have 30 minutes and need accuracy ≥0.85, which method would you choose?
 4. Plot validation accuracy vs computational cost and identify the Pareto frontier
 5. If you use nested cross-validation, how would you correct for the bias introduced by parameter selection?
-6. For a production system with limited computational resources, which validation strategy would you recommend?
-7. Calculate the minimum number of samples needed for each fold to ensure statistical significance with 90% confidence
+6. Calculate the minimum number of samples needed for each fold to ensure statistical significance with 90% confidence
 
 For a detailed explanation of this question, see [Question 23: Pruning Validation Strategy Analysis](L6_4_23_explanation.md).
 
@@ -491,3 +483,176 @@ A financial services company needs to build an interpretable decision tree for l
 7. If interpretability score decreases exponentially with tree depth, what's the optimal depth for regulatory compliance?
 
 For a detailed explanation of this question, see [Question 25: Pruning for Interpretability Analysis](L6_4_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+You're a decision tree gardener with a special challenge: you have exactly 100 seeds (training samples) and must grow a tree that's both beautiful (accurate) and manageable (interpretable). Each seed can grow into a leaf, and each split costs 2 seeds.
+
+#### Task
+1. If you want a tree with maximum depth 3, what's the maximum number of leaves possible?
+2. Design a pruning strategy that ensures each leaf has at least 8 seeds
+3. Calculate the minimum impurity decrease threshold needed to justify splitting a node with 25 seeds
+4. If your tree naturally grows to 15 leaves but you can only maintain 8, which leaves would you prune first?
+5. Create a "gardening schedule" showing when to apply pre-pruning vs post-pruning techniques
+
+For a detailed explanation of this question, see [Question 26: Tree Gardener's Dilemma](L6_4_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+You're a detective investigating suspicious tree behavior. A company's decision tree suddenly started making terrible predictions after a "routine update." Here are the clues:
+
+**Before Update:**
+- Tree size: 12 nodes, Validation accuracy: 87%
+- Training accuracy: 89%
+
+**After Update:**
+- Tree size: 31 nodes, Validation accuracy: 72%
+- Training accuracy: 98%
+
+#### Task
+1. What crime has been committed? (Identify the problem)
+2. List 3 suspects (pruning methods that could have failed)
+3. What evidence suggests overfitting?
+4. Design an investigation plan to restore the tree's performance
+5. If you had to choose between pre-pruning and post-pruning to fix this, which would you recommend and why?
+
+For a detailed explanation of this question, see [Question 27: Pruning Detective Mystery](L6_4_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+Your decision tree is competing in a "Tree Fitness Challenge" where it must balance multiple performance metrics. The scoring system is:
+- **Accuracy Score**: 40% of total score
+- **Interpretability Score**: 30% of total score  
+- **Efficiency Score**: 20% of total score
+- **Robustness Score**: 10% of total score
+
+#### Task
+1. Design a fitness function that combines all four metrics
+2. If your tree has 85% accuracy, 7/10 interpretability, 8/10 efficiency, and 6/10 robustness, calculate its total fitness score
+3. Your tree is too complex (15 nodes). Design a pruning strategy to improve its fitness
+4. Calculate the expected fitness improvement after pruning
+5. What's the optimal tree size for maximum fitness in this competition?
+
+For a detailed explanation of this question, see [Question 28: Tree Fitness Challenge](L6_4_28_explanation.md).
+
+## Question 29
+
+### Problem Statement
+You're a "Tree Chef" creating pruning recipes for different scenarios. Each recipe must include the right ingredients (pruning methods) and cooking instructions (parameters).
+
+#### Task
+1. **Recipe 1**: Create a pruning recipe for a medical diagnosis tree that must be interpretable and accurate
+2. **Recipe 2**: Create a pruning recipe for a real-time fraud detection system with limited memory
+3. **Recipe 3**: Create a pruning recipe for an educational tool that teaches students about decision trees
+4. For each recipe, specify the main pruning method, key parameters, and expected outcome
+5. Which recipe would be most expensive to implement and why?
+
+For a detailed explanation of this question, see [Question 29: Pruning Recipe Creation](L6_4_29_explanation.md).
+
+## Question 30
+
+### Problem Statement
+You're simulating the evolution of decision trees over time. Each generation, trees can either grow (add nodes) or prune (remove nodes) based on their "fitness" in the environment.
+
+#### Task
+1. Design an evolution rule: trees with validation accuracy > 85% should grow, trees with validation accuracy < 75% should prune
+2. If a tree starts with 5 nodes and 80% validation accuracy, predict its size after 3 generations
+3. What happens to trees that are "just right" (validation accuracy between 75-85%)?
+4. Design a mutation mechanism that occasionally tries different pruning strategies
+5. If the environment becomes more complex (more noise), how would this affect the optimal tree size?
+
+For a detailed explanation of this question, see [Question 30: Tree Evolution Simulation](L6_4_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+Evaluate whether each of the following statements about tree pruning and regularization is TRUE or FALSE. Provide a brief justification for each answer.
+
+#### Task
+1. Pre-pruning always produces smaller trees than post-pruning for the same dataset
+2. Cost-complexity pruning with α = 0 will always result in the full unpruned tree
+3. Reduced error pruning requires a separate validation set to make pruning decisions
+4. Cross-validation can completely eliminate bias in pruning parameter selection
+5. L1 regularization can be directly applied to decision tree nodes like in linear models
+6. Post-pruning is computationally more expensive than pre-pruning during training
+7. The minimum impurity decrease threshold should always be set to 0.01 for optimal results
+8. Early stopping based on validation accuracy will always prevent overfitting
+9. Tree depth limits are more effective than leaf count limits for controlling complexity
+10. Pruning decisions made on training data are always reliable for generalization
+
+For a detailed explanation of this question, see [Question 31: Tree Pruning Properties](L6_4_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
+Match each pruning technique on the left with its correct characteristic on the right:
+
+#### Task
+1. Pre-pruning with max_depth                    A) Most computationally expensive
+2. Reduced error pruning                         B) Requires validation set
+3. Cost-complexity pruning                       C) Stops tree growth early
+4. Confidence-based pruning                      D) Balances error and complexity
+5. MDL-based pruning                             E) Uses statistical significance
+6. Post-pruning with validation                  F) Minimizes description length
+
+For a detailed explanation of this question, see [Question 32: Pruning Technique Matching](L6_4_32_explanation.md).
+
+## Question 33
+
+### Problem Statement
+Design a "Pruning Strategy Selection Game" where you must choose the most appropriate pruning approach for different scenarios.
+
+#### Task
+For each scenario below, select the most suitable pruning method and explain your reasoning in 1-2 sentences:
+
+1. **Real-time fraud detection**: System must make predictions in <10ms, memory is limited to 100MB, interpretability is not required
+2. **Medical diagnosis tool**: Doctors need to understand the decision process, accuracy is critical, training time can be up to 1 hour
+3. **Educational demonstration**: Students need to see how pruning affects tree structure, dataset is small (<100 samples), visual clarity is important
+4. **Production recommendation system**: Must handle 1M+ users, accuracy is important but not critical, maintenance costs should be minimized
+5. **Research prototype**: Exploring different pruning approaches, computational resources are unlimited, need to compare multiple methods
+
+For a detailed explanation of this question, see [Question 33: Pruning Strategy Selection](L6_4_33_explanation.md).
+
+## Question 34
+
+### Problem Statement
+Apply pruning techniques to this decision tree dataset about loan approval:
+
+| Income | Age | Credit_Score | Employment_Years | Loan_Approved |
+|--------|-----|--------------|------------------|---------------|
+| High   | 25  | 750          | 2                | Yes           |
+| High   | 35  | 680          | 8                | Yes           |
+| Medium | 28  | 720          | 3                | No            |
+| Low    | 45  | 650          | 15               | No            |
+| Medium | 32  | 700          | 5                | Yes           |
+| High   | 29  | 780          | 1                | No            |
+| Low    | 38  | 600          | 12               | No            |
+| Medium | 41  | 690          | 7                | No            |
+
+#### Task
+1. Calculate the Gini impurity of the entire dataset
+2. If the tree splits on Income first, calculate the weighted Gini impurity after the split
+3. For a pre-pruning threshold of min_samples_leaf=2, would this split be allowed?
+4. If using cost-complexity pruning with α=0.1, calculate the cost for a tree with 5 nodes and error rate 0.25
+5. Which pruning method would be most appropriate for this dataset and why?
+
+For a detailed explanation of this question, see [Question 34: Loan Approval Pruning Application](L6_4_34_explanation.md).
+
+## Question 35
+
+### Problem Statement
+Which of the following scenarios would benefit most from each pruning approach? Choose the best match.
+
+#### Task
+For each scenario, select the most suitable pruning method and justify your choice:
+
+1. **Financial risk assessment**: Must comply with regulatory requirements, decisions must be explainable, false positives are expensive
+2. **Real-time gaming**: Player behavior changes rapidly, predictions must be made in milliseconds, accuracy can be sacrificed for speed
+3. **Academic research**: Comparing different pruning methods, need statistical rigor, computational resources are available
+4. **Customer service chatbot**: Must explain decisions to users, training data is limited, response time should be under 2 seconds
+5. **Industrial quality control**: High-stakes decisions, false negatives are very expensive, model updates are infrequent
+
+For a detailed explanation of this question, see [Question 35: Pruning Method Scenarios](L6_4_35_explanation.md).
