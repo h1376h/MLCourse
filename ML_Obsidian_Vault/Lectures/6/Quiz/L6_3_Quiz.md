@@ -1,7 +1,7 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 43 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, and detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples.
+This quiz contains 42 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, and detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples.
 
 ## Question 1
 
@@ -536,15 +536,18 @@ For a detailed explanation of this question, see [Question 31: CART Gini vs Entr
 ## Question 32
 
 ### Problem Statement
-Consider how modern machine learning libraries implement these classic algorithms.
+Consider CART's cost function approach to optimization.
 
 #### Task
-1. How does scikit-learn's DecisionTreeClassifier relate to CART?
-2. What features from ID3 and C4.5 are preserved in modern implementations?
-3. How have ensemble methods like Random Forest extended these basic algorithms?
-4. What limitations of classic algorithms do modern methods address?
+1. Write the cost function that CART (using Gini impurity) minimizes when choosing splits:
+   $$\text{Cost}(T) = \sum_{\text{leaves}} N_t \cdot \text{Impurity}(t) + \alpha \cdot |\text{leaves}|$$
+2. For a categorical feature "Color" with values $\{Red, Blue, Green, Yellow\}$, list all possible binary splits
+3. Given class distributions: Red$(2,1)$, Blue$(1,2)$, Green$(3,0)$, Yellow$(1,1)$, find the optimal binary split using Gini impurity (CART's default criterion)
+4. **CART with Entropy**: Find the optimal binary split using entropy-based information gain
+5. **Comparison**: Are the optimal splits identical? If not, explain why they differ
+6. **Cost Function Analysis**: How would the cost function change if we used entropy instead of Gini impurity?
 
-For a detailed explanation of this question, see [Question 32: Modern Algorithm Extensions](L6_3_32_explanation.md).
+For a detailed explanation of this question, see [Question 32: CART Cost Function](L6_3_32_explanation.md).
 
 ## Question 33
 
@@ -834,19 +837,3 @@ Deep dive into CART algorithm: Compare and contrast Gini impurity vs Entropy as 
    - How would your choice affect training time, tree interpretability, and final performance?
 
 For a detailed explanation of this question, see [Question 42: CART Impurity Measures Deep Dive](L6_3_42_explanation.md).
-
-## Question 43
-
-### Problem Statement
-Consider CART's cost function approach to optimization.
-
-#### Task
-1. Write the cost function that CART (using Gini impurity) minimizes when choosing splits:
-   $$\text{Cost}(T) = \sum_{\text{leaves}} N_t \cdot \text{Impurity}(t) + \alpha \cdot |\text{leaves}|$$
-2. For a categorical feature "Color" with values $\{Red, Blue, Green, Yellow\}$, list all possible binary splits
-3. Given class distributions: Red$(2,1)$, Blue$(1,2)$, Green$(3,0)$, Yellow$(1,1)$, find the optimal binary split using Gini impurity (CART's default criterion)
-4. **CART with Entropy**: Find the optimal binary split using entropy-based information gain
-5. **Comparison**: Are the optimal splits identical? If not, explain why they differ
-6. **Cost Function Analysis**: How would the cost function change if we used entropy instead of Gini impurity?
-
-For a detailed explanation of this question, see [Question 43: CART Cost Function](L6_3_34_explanation.md).
