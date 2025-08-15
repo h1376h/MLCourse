@@ -326,7 +326,266 @@ print()
 # Create visualizations
 print("=== Creating Visualizations ===\n")
 
-# Visualization 1: Original vs Pruned Tree Structure
+# Visualization 1: Individual Pruning Scenarios
+print("Creating individual pruning scenario visualizations...")
+
+# Scenario 1: Pruning Left Subtree
+fig, ax = plt.subplots(1, 2, figsize=(16, 6))
+ax[0].set_title('Before Pruning Left Subtree', fontsize=14, fontweight='bold')
+ax[0].set_xlim(0, 10)
+ax[0].set_ylim(0, 10)
+ax[0].axis('off')
+
+# Draw original tree (left panel)
+root_box = FancyBboxPatch((4, 8), 2, 1, boxstyle="round,pad=0.1", 
+                          facecolor='lightblue', edgecolor='black', linewidth=2)
+ax[0].add_patch(root_box)
+ax[0].text(5, 8.5, 'Root\n200 samples\nval_error=0.28', ha='center', va='center', fontsize=10)
+
+# Left subtree (to be pruned)
+ax[0].plot([5, 3], [8, 6], 'k-', linewidth=2)
+left_box = FancyBboxPatch((1.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                          facecolor='red', edgecolor='black', linewidth=2, alpha=0.7)
+ax[0].add_patch(left_box)
+ax[0].text(3, 5.5, 'Left (TO PRUNE)\n120 samples\nval_error=0.25', ha='center', va='center', fontsize=10)
+
+# Right subtree
+ax[0].plot([5, 7], [8, 6], 'k-', linewidth=2)
+right_box = FancyBboxPatch((6.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightgreen', edgecolor='black', linewidth=2)
+ax[0].add_patch(right_box)
+ax[0].text(8, 5.5, 'Right\n80 samples\nval_error=0.40', ha='center', va='center', fontsize=10)
+
+# After pruning (right panel)
+ax[1].set_title('After Pruning Left Subtree', fontsize=14, fontweight='bold')
+ax[1].set_xlim(0, 10)
+ax[1].set_ylim(0, 10)
+ax[1].axis('off')
+
+# Root
+root_box2 = FancyBboxPatch((4, 8), 2, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightblue', edgecolor='black', linewidth=2)
+ax[1].add_patch(root_box2)
+ax[1].text(5, 8.5, 'Root\n200 samples\nval_error=0.28', ha='center', va='center', fontsize=10)
+
+# Only Right subtree remains
+ax[1].plot([5, 7], [8, 6], 'k-', linewidth=2)
+right_box2 = FancyBboxPatch((6.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                            facecolor='lightgreen', edgecolor='black', linewidth=2)
+ax[1].add_patch(right_box2)
+ax[1].text(8, 5.5, 'Right\n80 samples\nval_error=0.40', ha='center', va='center', fontsize=10)
+
+# Add improvement note
+ax[1].text(5, 1, f'Improvement: {pruning_scenarios["Prune_Left"]["improvement"]:.3f}\n(Worse Performance)', 
+            ha='center', va='center', fontsize=12, fontweight='bold', color='red',
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="red", lw=2))
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'pruning_left_scenario.png'), dpi=300, bbox_inches='tight')
+
+# Scenario 2: Pruning Right Subtree
+fig, ax = plt.subplots(1, 2, figsize=(16, 6))
+ax[0].set_title('Before Pruning Right Subtree', fontsize=14, fontweight='bold')
+ax[0].set_xlim(0, 10)
+ax[0].set_ylim(0, 10)
+ax[0].axis('off')
+
+# Draw original tree (left panel)
+root_box = FancyBboxPatch((4, 8), 2, 1, boxstyle="round,pad=0.1", 
+                          facecolor='lightblue', edgecolor='black', linewidth=2)
+ax[0].add_patch(root_box)
+ax[0].text(5, 8.5, 'Root\n200 samples\nval_error=0.28', ha='center', va='center', fontsize=10)
+
+# Left subtree
+ax[0].plot([5, 3], [8, 6], 'k-', linewidth=2)
+left_box = FancyBboxPatch((1.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                          facecolor='lightgreen', edgecolor='black', linewidth=2)
+ax[0].add_patch(left_box)
+ax[0].text(3, 5.5, 'Left\n120 samples\nval_error=0.25', ha='center', va='center', fontsize=10)
+
+# Right subtree (to be pruned)
+ax[0].plot([5, 7], [8, 6], 'k-', linewidth=2)
+right_box = FancyBboxPatch((6.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                           facecolor='red', edgecolor='black', linewidth=2, alpha=0.7)
+ax[0].add_patch(right_box)
+ax[0].text(8, 5.5, 'Right (TO PRUNE)\n80 samples\nval_error=0.40', ha='center', va='center', fontsize=10)
+
+# After pruning (right panel)
+ax[1].set_title('After Pruning Right Subtree', fontsize=14, fontweight='bold')
+ax[1].set_xlim(0, 10)
+ax[1].set_ylim(0, 10)
+ax[1].axis('off')
+
+# Root
+root_box2 = FancyBboxPatch((4, 8), 2, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightblue', edgecolor='black', linewidth=2)
+ax[1].add_patch(root_box2)
+ax[1].text(5, 8.5, 'Root\n200 samples\nval_error=0.28', ha='center', va='center', fontsize=10)
+
+# Only Left subtree remains
+ax[1].plot([5, 3], [8, 6], 'k-', linewidth=2)
+left_box2 = FancyBboxPatch((1.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightgreen', edgecolor='black', linewidth=2)
+ax[1].add_patch(left_box2)
+ax[1].text(3, 5.5, 'Left\n120 samples\nval_error=0.25', ha='center', va='center', fontsize=10)
+
+# Add improvement note
+ax[1].text(5, 1, f'Improvement: {pruning_scenarios["Prune_Right"]["improvement"]:.3f}\n(Better Performance)', 
+            ha='center', va='center', fontsize=12, fontweight='bold', color='green',
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="green", lw=2))
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'pruning_right_scenario.png'), dpi=300, bbox_inches='tight')
+
+# Scenario 3: Pruning LL and LR Subtrees
+fig, ax = plt.subplots(1, 2, figsize=(16, 6))
+ax[0].set_title('Before Pruning LL and LR Subtrees', fontsize=14, fontweight='bold')
+ax[0].set_xlim(0, 10)
+ax[0].set_ylim(0, 10)
+ax[0].axis('off')
+
+# Draw original tree (left panel)
+root_box = FancyBboxPatch((4, 8), 2, 1, boxstyle="round,pad=0.1", 
+                          facecolor='lightblue', edgecolor='black', linewidth=2)
+ax[0].add_patch(root_box)
+ax[0].text(5, 8.5, 'Root\n200 samples\nval_error=0.28', ha='center', va='center', fontsize=10)
+
+# Left subtree
+ax[0].plot([5, 3], [8, 6], 'k-', linewidth=2)
+left_box = FancyBboxPatch((1.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                          facecolor='lightgreen', edgecolor='black', linewidth=2)
+ax[0].add_patch(left_box)
+ax[0].text(3, 5.5, 'Left\n120 samples\nval_error=0.25', ha='center', va='center', fontsize=10)
+
+# LL and LR (to be pruned)
+ax[0].plot([3, 2], [5, 3], 'k-', linewidth=2)
+ax[0].plot([3, 4], [5, 3], 'k-', linewidth=2)
+ll_box = FancyBboxPatch((0.5, 2), 3, 1, boxstyle="round,pad=0.1", 
+                        facecolor='red', edgecolor='black', linewidth=2, alpha=0.7)
+lr_box = FancyBboxPatch((3.5, 2), 3, 1, boxstyle="round,pad=0.1", 
+                        facecolor='red', edgecolor='black', linewidth=2, alpha=0.7)
+ax[0].add_patch(ll_box)
+ax[0].add_patch(lr_box)
+ax[0].text(2, 2.5, 'LL (TO PRUNE)\n60 samples\nval_error=0.20', ha='center', va='center', fontsize=9)
+ax[0].text(5, 2.5, 'LR (TO PRUNE)\n60 samples\nval_error=0.30', ha='center', va='center', fontsize=9)
+
+# Right subtree
+ax[0].plot([5, 7], [8, 6], 'k-', linewidth=2)
+right_box = FancyBboxPatch((6.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightcoral', edgecolor='black', linewidth=2)
+ax[0].add_patch(right_box)
+ax[0].text(8, 5.5, 'Right\n80 samples\nval_error=0.40', ha='center', va='center', fontsize=10)
+
+# After pruning (right panel)
+ax[1].set_title('After Pruning LL and LR Subtrees', fontsize=14, fontweight='bold')
+ax[1].set_xlim(0, 10)
+ax[1].set_ylim(0, 10)
+ax[1].axis('off')
+
+# Root
+root_box2 = FancyBboxPatch((4, 8), 2, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightblue', edgecolor='black', linewidth=2)
+ax[1].add_patch(root_box2)
+ax[1].text(5, 8.5, 'Root\n200 samples\nval_error=0.28', ha='center', va='center', fontsize=10)
+
+# Left subtree (LL and LR removed)
+ax[1].plot([5, 3], [8, 6], 'k-', linewidth=2)
+left_box2 = FancyBboxPatch((1.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightgreen', edgecolor='black', linewidth=2)
+ax[1].add_patch(left_box2)
+ax[1].text(3, 5.5, 'Left\n120 samples\nval_error=0.25', ha='center', va='center', fontsize=10)
+
+# Right subtree
+ax[1].plot([5, 7], [8, 6], 'k-', linewidth=2)
+right_box2 = FancyBboxPatch((6.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                            facecolor='lightcoral', edgecolor='black', linewidth=2)
+ax[1].add_patch(right_box2)
+ax[1].text(8, 5.5, 'Right\n80 samples\nval_error=0.40', ha='center', va='center', fontsize=10)
+
+# Add improvement note
+ax[1].text(5, 1, f'Improvement: {pruning_scenarios["Prune_LL_LR"]["improvement"]:.3f}\n(No Change)', 
+            ha='center', va='center', fontsize=12, fontweight='bold', color='orange',
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="orange", lw=2))
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'pruning_ll_lr_scenario.png'), dpi=300, bbox_inches='tight')
+
+# Scenario 4: Pruning RL and RR Subtrees
+fig, ax = plt.subplots(1, 2, figsize=(16, 6))
+ax[0].set_title('Before Pruning RL and RR Subtrees', fontsize=14, fontweight='bold')
+ax[0].set_xlim(0, 10)
+ax[0].set_ylim(0, 10)
+ax[0].axis('off')
+
+# Draw original tree (left panel)
+root_box = FancyBboxPatch((4, 8), 2, 1, boxstyle="round,pad=0.1", 
+                          facecolor='lightblue', edgecolor='black', linewidth=2)
+ax[0].add_patch(root_box)
+ax[0].text(5, 8.5, 'Root\n200 samples\nval_error=0.28', ha='center', va='center', fontsize=10)
+
+# Left subtree
+ax[0].plot([5, 3], [8, 6], 'k-', linewidth=2)
+left_box = FancyBboxPatch((1.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                          facecolor='lightgreen', edgecolor='black', linewidth=2)
+ax[0].add_patch(left_box)
+ax[0].text(3, 5.5, 'Left\n120 samples\nval_error=0.25', ha='center', va='center', fontsize=10)
+
+# Right subtree
+ax[0].plot([5, 7], [8, 6], 'k-', linewidth=2)
+right_box = FancyBboxPatch((6.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightcoral', edgecolor='black', linewidth=2)
+ax[0].add_patch(right_box)
+ax[0].text(8, 5.5, 'Right\n80 samples\nval_error=0.40', ha='center', va='center', fontsize=10)
+
+# RL and RR (to be pruned)
+ax[0].plot([8, 7], [5, 3], 'k-', linewidth=2)
+ax[0].plot([8, 9], [5, 3], 'k-', linewidth=2)
+rl_box = FancyBboxPatch((5.5, 2), 3, 1, boxstyle="round,pad=0.1", 
+                        facecolor='red', edgecolor='black', linewidth=2, alpha=0.7)
+rr_box = FancyBboxPatch((8.5, 2), 3, 1, boxstyle="round,pad=0.1", 
+                        facecolor='red', edgecolor='black', linewidth=2, alpha=0.7)
+ax[0].add_patch(rl_box)
+ax[0].add_patch(rr_box)
+ax[0].text(7, 2.5, 'RL (TO PRUNE)\n40 samples\nval_error=0.35', ha='center', va='center', fontsize=9)
+ax[0].text(9, 2.5, 'RR (TO PRUNE)\n40 samples\nval_error=0.45', ha='center', va='center', fontsize=9)
+
+# After pruning (right panel)
+ax[1].set_title('After Pruning RL and RR Subtrees', fontsize=14, fontweight='bold')
+ax[1].set_xlim(0, 10)
+ax[1].set_ylim(0, 10)
+ax[1].axis('off')
+
+# Root
+root_box2 = FancyBboxPatch((4, 8), 2, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightblue', edgecolor='black', linewidth=2)
+ax[1].add_patch(root_box2)
+ax[1].text(5, 8.5, 'Root\n200 samples\nval_error=0.28', ha='center', va='center', fontsize=10)
+
+# Left subtree
+ax[1].plot([5, 3], [8, 6], 'k-', linewidth=2)
+left_box2 = FancyBboxPatch((1.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightgreen', edgecolor='black', linewidth=2)
+ax[1].add_patch(left_box2)
+ax[1].text(3, 5.5, 'Left\n120 samples\nval_error=0.25', ha='center', va='center', fontsize=10)
+
+# Right subtree (RL and RR removed)
+ax[1].plot([5, 7], [8, 6], 'k-', linewidth=2)
+right_box2 = FancyBboxPatch((6.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                            facecolor='lightcoral', edgecolor='black', linewidth=2)
+ax[1].add_patch(right_box2)
+ax[1].text(8, 5.5, 'Right\n80 samples\nval_error=0.40', ha='center', va='center', fontsize=10)
+
+# Add improvement note
+ax[1].text(5, 1, f'Improvement: {pruning_scenarios["Prune_RL_RR"]["improvement"]:.3f}\n(No Change)', 
+            ha='center', va='center', fontsize=12, fontweight='bold', color='orange',
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="orange", lw=2))
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'pruning_rl_rr_scenario.png'), dpi=300, bbox_inches='tight')
+
+print("Individual pruning scenario visualizations created!")
+
+# Visualization 2: Original vs Pruned Tree Structure
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 8))
 
 # Original tree

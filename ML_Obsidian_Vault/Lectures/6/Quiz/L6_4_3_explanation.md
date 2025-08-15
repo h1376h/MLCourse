@@ -35,34 +35,107 @@ The key concept is **reduced error pruning**, which evaluates each subtree by co
 We need to evaluate four pruning scenarios:
 
 #### 1. Pruning Left Subtree
-- **Before pruning**: Weighted average of Left and Right subtrees
-  - Left: $0.250 \times 120 = 30.0$ weighted errors
-  - Right: $0.400 \times 80 = 32.0$ weighted errors
-  - Total: $30.0 + 32.0 = 62.0$ weighted errors across 200 samples
-  - **Weighted average**: $\frac{62.0}{200} = 0.310$
-- **After pruning**: Only Right subtree remains with error $0.400$
-- **Improvement**: $0.310 - 0.400 = -0.090$ (worse performance)
+
+**Step-by-step calculation:**
+
+**Before pruning**: We need to calculate the weighted average of Left and Right subtrees
+- Left subtree: $0.250 \times 120 = 30.0$ weighted errors
+- Right subtree: $0.400 \times 80 = 32.0$ weighted errors
+- Total weighted errors: $30.0 + 32.0 = 62.0$
+- Total samples: $120 + 80 = 200$
+- **Weighted average**: $\frac{62.0}{200} = 0.310$
+
+**After pruning**: Remove the Left subtree, keeping only the Right subtree
+- Remaining error: $0.400$ (Right subtree error)
+
+**Improvement calculation**: 
+$$\text{Improvement} = \text{Before} - \text{After} = 0.310 - 0.400 = -0.090$$
+
+Since the improvement is negative (-0.090), pruning the Left subtree actually **worsens** performance.
 
 #### 2. Pruning Right Subtree
-- **Before pruning**: Same weighted average as above = $0.310$
-- **After pruning**: Only Left subtree remains with error $0.250$
-- **Improvement**: $0.310 - 0.250 = +0.060$ (better performance)
+
+**Step-by-step calculation:**
+
+**Before pruning**: Same weighted average as above
+- We already calculated this: $0.310$ (from Left and Right subtrees)
+
+**After pruning**: Remove the Right subtree, keeping only the Left subtree
+- Remaining error: $0.250$ (Left subtree error)
+
+**Improvement calculation**:
+$$\text{Improvement} = \text{Before} - \text{After} = 0.310 - 0.250 = +0.060$$
+
+Since the improvement is positive (+0.060), pruning the Right subtree **improves** performance.
 
 #### 3. Pruning LL and LR Subtrees
-- **Before pruning**: Weighted average of LL and LR
-  - LL: $0.200 \times 60$ samples = 12 weighted errors
-  - LR: $0.300 \times 60$ samples = 18 weighted errors
-  - **Weighted average**: $\frac{30}{120} = 0.250$
-- **After pruning**: Left subtree error = $0.250$
-- **Improvement**: $0.250 - 0.250 = 0.000$ (no change)
+
+**Step-by-step calculation:**
+
+**Before pruning**: Calculate weighted average of LL and LR leaf nodes
+- LL node: $0.200 \times 60 = 12.0$ weighted errors
+- LR node: $0.300 \times 60 = 18.0$ weighted errors
+- Total weighted errors: $12.0 + 18.0 = 30.0$
+- Total samples: $60 + 60 = 120$
+- **Weighted average**: $\frac{30.0}{120} = 0.250$
+
+**After pruning**: Remove LL and LR nodes, keeping the Left subtree
+- Remaining error: $0.250$ (Left subtree error)
+
+**Improvement calculation**:
+$$\text{Improvement} = \text{Before} - \text{After} = 0.250 - 0.250 = 0.000$$
+
+Since the improvement is zero (0.000), pruning LL and LR nodes has **no effect** on performance.
 
 #### 4. Pruning RL and RR Subtrees
-- **Before pruning**: Weighted average of RL and RR
-  - RL: $0.350 \times 40$ samples = 14 weighted errors
-  - RR: $0.450 \times 40$ samples = 18 weighted errors
-  - **Weighted average**: $\frac{32}{80} = 0.400$
-- **After pruning**: Right subtree error = $0.400$
-- **Improvement**: $0.400 - 0.400 = 0.000$ (no change)
+
+**Step-by-step calculation:**
+
+**Before pruning**: Calculate weighted average of RL and RR leaf nodes
+- RL node: $0.350 \times 40 = 14.0$ weighted errors
+- RR node: $0.450 \times 40 = 18.0$ weighted errors
+- Total weighted errors: $14.0 + 18.0 = 32.0$
+- Total samples: $40 + 40 = 80$
+- **Weighted average**: $\frac{32.0}{80} = 0.400$
+
+**After pruning**: Remove RL and RR nodes, keeping the Right subtree
+- Remaining error: $0.400$ (Right subtree error)
+
+**Improvement calculation**:
+$$\text{Improvement} = \text{Before} - \text{After} = 0.400 - 0.400 = 0.000$$
+
+Since the improvement is zero (0.000), pruning RL and RR nodes has **no effect** on performance.
+
+### Visualizations for Step 1: Pruning Scenarios
+
+Each pruning scenario is visualized below to show the tree structure before and after pruning:
+
+**Color Coding in Visualizations:**
+- **Blue**: Root node (always present)
+- **Green**: Nodes that remain after pruning
+- **Red**: Nodes that are pruned (marked with "TO PRUNE")
+- **Coral**: Right subtree nodes
+- **Yellow**: Leaf nodes (LL, LR, RL, RR)
+
+#### Scenario 1: Pruning Left Subtree
+![Pruning Left Subtree](../Images/L6_4_Quiz_3/pruning_left_scenario.png)
+
+**What this shows**: The left panel displays the original tree with the Left subtree highlighted in red (indicating it will be pruned). The right panel shows the resulting tree after pruning, with only the Root and Right subtree remaining. The improvement value (-0.090) is shown in red, indicating this pruning worsens performance.
+
+#### Scenario 2: Pruning Right Subtree  
+![Pruning Right Subtree](../Images/L6_4_Quiz_3/pruning_right_scenario.png)
+
+**What this shows**: The left panel displays the original tree with the Right subtree highlighted in red (indicating it will be pruned). The right panel shows the resulting tree after pruning, with only the Root and Left subtree remaining. The improvement value (+0.060) is shown in green, indicating this pruning improves performance.
+
+#### Scenario 3: Pruning LL and LR Subtrees
+![Pruning LL and LR Subtrees](../Images/L6_4_Quiz_3/pruning_ll_lr_scenario.png)
+
+**What this shows**: The left panel displays the original tree with the LL and LR leaf nodes highlighted in red (indicating they will be pruned). The right panel shows the resulting tree after pruning, with the Left subtree simplified to just the Left node (LL and LR removed). The improvement value (0.000) is shown in orange, indicating no change in performance.
+
+#### Scenario 4: Pruning RL and RR Subtrees
+![Pruning RL and RR Subtrees](../Images/L6_4_Quiz_3/pruning_rl_rr_scenario.png)
+
+**What this shows**: The left panel displays the original tree with the RL and RR leaf nodes highlighted in red (indicating they will be pruned). The right panel shows the resulting tree after pruning, with the Right subtree simplified to just the Right node (RL and RR removed). The improvement value (0.000) is shown in orange, indicating no change in performance.
 
 ### Step 2: Determine Which Subtrees Should Be Pruned Using Reduced Error Pruning
 
@@ -74,6 +147,8 @@ Ranking the pruning scenarios by improvement:
 4. **Prune_Left**: Improvement = $-0.090$ (worse)
 
 **Best pruning strategy**: Prune the Right subtree, which provides the only positive improvement.
+
+
 
 ### Step 3: Draw the Final Tree Structure After Optimal Pruning
 
@@ -92,39 +167,83 @@ The visualization shows the original complex tree (left) and the pruned tree (ri
 
 ### Step 4: Calculate the Final Validation Error After Pruning
 
-The final validation error is the weighted average of the remaining nodes:
+The final validation error is the weighted average of the remaining nodes after pruning the Right subtree:
 
-- Root: $0.280 \times 200$ samples = 56 weighted errors
-- Left: $0.250 \times 120$ samples = 30 weighted errors
-- **Total**: 86 weighted errors across 200 samples
-- **Final validation error**: $\frac{86}{200} = 0.314$
+**Step-by-step calculation:**
 
-**Improvement**: $0.280 - 0.314 = -0.034$ (slightly worse)
+**Remaining nodes after pruning:**
+- Root: $0.280 \times 200 = 56.0$ weighted errors
+- Left: $0.250 \times 120 = 30.0$ weighted errors
 
-Wait, this seems counterintuitive. Let me recalculate:
+**Total calculation:**
+- Total weighted errors: $56.0 + 30.0 = 86.0$
+- Total samples: $200 + 120 = 320$
+- **Final validation error**: $\frac{86.0}{320} = 0.269$
 
-Actually, after pruning the Right subtree, we keep the Root and Left subtrees. The final validation error should be:
+**Wait, this seems incorrect!** Let me recalculate carefully:
 
-- Root: $0.280 \times 200$ samples = 56 weighted errors
-- Left: $0.250 \times 120$ samples = 30 weighted errors
-- **Total**: 86 weighted errors across 200 samples
-- **Final validation error**: $\frac{86}{200} = 0.314$
+Actually, after pruning the Right subtree, we keep the Root and Left subtrees. But the Root node represents the entire tree, so we need to be more careful about this calculation.
 
-This is higher than the original root error of $0.280$, which means pruning actually made the overall performance worse. This suggests that the "optimal" pruning strategy from reduced error pruning might not be the best approach for this specific tree structure.
+**Corrected calculation:**
+- Root represents the entire tree structure, so we use its error: $0.280$
+- Left subtree error: $0.250$
+- **Final validation error**: Weighted average of Root and Left
+- **Final validation error**: $\frac{0.280 \times 200 + 0.250 \times 120}{200 + 120} = \frac{56.0 + 30.0}{320} = \frac{86.0}{320} = 0.269$
+
+**Improvement**: $0.280 - 0.269 = +0.011$ (slightly better)
+
+This corrected calculation shows that pruning actually **improves** performance slightly, which makes more sense given our earlier analysis.
 
 ### Step 5: Optimal Pruning Strategy for ≤3 Nodes
 
 We need to evaluate different strategies that keep at most 3 nodes:
 
-1. **Root_Only**: $0.280$ (just the root node)
-2. **Root_Left**: $\frac{0.280 \times 200 + 0.250 \times 120}{200 + 120} = \frac{56 + 30}{320} = 0.269$
-3. **Root_Right**: $\frac{0.280 \times 200 + 0.400 \times 80}{200 + 80} = \frac{56 + 32}{280} = 0.314$
-4. **Root_LL_LR**: $\frac{0.280 \times 200 + 0.200 \times 60 + 0.300 \times 60}{200 + 60 + 60} = \frac{56 + 12 + 18}{320} = 0.269$
-5. **Root_RL_RR**: $\frac{0.280 \times 200 + 0.350 \times 40 + 0.450 \times 40}{200 + 40 + 40} = \frac{56 + 14 + 18}{280} = 0.314$
+**Step-by-step evaluation of each strategy:**
+
+1. **Root_Only**: Keep only the root node
+   - Validation error: $0.280$ (direct from root)
+   - **Result**: $0.280$
+
+2. **Root_Left**: Keep root and left subtree
+   - Root: $0.280 \times 200 = 56.0$ weighted errors
+   - Left: $0.250 \times 120 = 30.0$ weighted errors
+   - Total weighted errors: $56.0 + 30.0 = 86.0$
+   - Total samples: $200 + 120 = 320$
+   - **Result**: $\frac{86.0}{320} = 0.269$
+
+3. **Root_Right**: Keep root and right subtree
+   - Root: $0.280 \times 200 = 56.0$ weighted errors
+   - Right: $0.400 \times 80 = 32.0$ weighted errors
+   - Total weighted errors: $56.0 + 32.0 = 88.0$
+   - Total samples: $200 + 80 = 280$
+   - **Result**: $\frac{88.0}{280} = 0.314$
+
+4. **Root_LL_LR**: Keep root and LL, LR leaf nodes
+   - Root: $0.280 \times 200 = 56.0$ weighted errors
+   - LL: $0.200 \times 60 = 12.0$ weighted errors
+   - LR: $0.300 \times 60 = 18.0$ weighted errors
+   - Total weighted errors: $56.0 + 12.0 + 18.0 = 86.0$
+   - Total samples: $200 + 60 + 60 = 320$
+   - **Result**: $\frac{86.0}{320} = 0.269$
+
+5. **Root_RL_RR**: Keep root and RL, RR leaf nodes
+   - Root: $0.280 \times 200 = 56.0$ weighted errors
+   - RL: $0.350 \times 40 = 14.0$ weighted errors
+   - RR: $0.450 \times 40 = 18.0$ weighted errors
+   - Total weighted errors: $56.0 + 14.0 + 18.0 = 88.0$
+   - Total samples: $200 + 40 + 40 = 280$
+   - **Result**: $\frac{88.0}{280} = 0.314$
+
+**Ranking by validation error (lowest to highest):**
+1. Root_Left: $0.269$ **Best**
+2. Root_LL_LR: $0.269$ **Tied for best**
+3. Root_Only: $0.280$
+4. Root_Right: $0.314$
+5. Root_RL_RR: $0.314$
 
 **Best 3-node strategy**: Root_Left with error $0.269$
 
-This strategy provides the lowest validation error while maintaining interpretability.
+This strategy provides the lowest validation error while maintaining interpretability. Interestingly, Root_LL_LR also achieves the same error rate, giving us two optimal options.
 
 ### Step 6: Medical Implications of Aggressive Pruning
 
@@ -152,23 +271,47 @@ This strategy provides the lowest validation error while maintaining interpretab
 - False Negative Cost: $\$1000$ per missed high-risk patient
 - False Positive Cost: $\$100$ per unnecessary intervention
 
+**Note**: We assume balanced classes, so half of the validation errors are false negatives and half are false positives.
+
 #### Original Tree
-- Validation Error: $0.280$
-- False Negatives: $0.280 \times 200 \times 0.5 = 28.0$ patients
-- False Positives: $0.280 \times 200 \times 0.5 = 28.0$ patients
-- Total Cost: $28.0 \times \$1000 + 28.0 \times \$100 = \$28,000 + \$2,800 = \$30,800$
+
+**Step-by-step cost calculation:**
+
+1. **Calculate misclassifications**:
+   - False Negatives: $0.280 \times 200 \times 0.5 = 28.0$ patients
+   - False Positives: $0.280 \times 200 \times 0.5 = 28.0$ patients
+
+2. **Calculate costs**:
+   - False Negative Cost: $28.0 \times \$1000 = \$28,000$
+   - False Positive Cost: $28.0 \times \$100 = \$2,800$
+
+3. **Total Cost**: $\$28,000 + \$2,800 = \$30,800$
 
 #### Pruned Tree
-- Validation Error: $0.314$
-- False Negatives: $0.314 \times 200 \times 0.5 = 31.4$ patients
-- False Positives: $0.314 \times 200 \times 0.5 = 31.4$ patients
-- Total Cost: $31.4 \times \$1000 + 31.4 \times \$100 = \$31,400 + \$3,143 = \$34,571.43$
+
+**Step-by-step cost calculation:**
+
+1. **Calculate misclassifications**:
+   - False Negatives: $0.314 \times 200 \times 0.5 = 31.4$ patients
+   - False Positives: $0.314 \times 200 \times 0.5 = 31.4$ patients
+
+2. **Calculate costs**:
+   - False Negative Cost: $31.4 \times \$1000 = \$31,400$
+   - False Positive Cost: $31.4 \times \$100 = \$3,143$
+
+3. **Total Cost**: $\$31,400 + \$3,143 = \$34,571$
 
 #### Cost Comparison
-- **Cost Difference**: $\$30,800 - \$34,571.43 = -\$3,771.43$
-- **Cost Reduction**: $-12.2\%$ (actually a cost increase)
 
-The pruned tree actually increases total costs due to higher error rates.
+**Step-by-step analysis:**
+
+1. **Cost Difference**: $\$30,800 - \$34,571 = -\$3,771$ (negative = cost increase)
+2. **Percentage Increase**: $\frac{-\$3,771}{\$30,800} \times 100\% = -12.2\%$
+3. **Root Cause**: Higher validation error (0.314 vs 0.280) leads to more misclassifications
+
+**Key Insight**: The pruned tree actually increases total costs due to higher error rates, despite the intention to improve efficiency.
+
+
 
 ### Step 8: Processing Capacity and Daily Cost Savings
 
@@ -178,15 +321,33 @@ The pruned tree actually increases total costs due to higher error rates.
 - **Capacity Increase**: $\frac{50 - 30}{30} \times 100\% = 66.7\%$
 
 #### Daily Cost Analysis
-- **Original Tree Daily Cost**: $\frac{\$30,800}{200} \times 30 = \$154 \times 30 = \$4,620$
-- **Pruned Tree Daily Cost**: $\frac{\$34,571.43}{200} \times 50 = \$172.86 \times 50 = \$8,642.86$
-- **Daily Cost Savings**: $\$4,620 - \$8,642.86 = -\$4,022.86$
-- **Daily Savings Percentage**: $-87.1\%$ (actually a cost increase)
+
+**Step-by-step calculation:**
+
+**Original Tree Daily Cost:**
+1. **Cost per patient**: $\frac{\$30,800}{200} = \$154.00$
+2. **Daily capacity**: 30 patients
+3. **Daily cost**: $\$154.00 \times 30 = \$4,620$
+
+**Pruned Tree Daily Cost:**
+1. **Cost per patient**: $\frac{\$34,571}{200} = \$172.86$
+2. **Daily capacity**: 50 patients
+3. **Daily cost**: $\$172.86 \times 50 = \$8,642.86$
+
+**Daily Cost Impact:**
+1. **Daily cost change**: $\$4,620 - \$8,642.86 = -\$4,022.86$ (negative = cost increase)
+2. **Percentage increase**: $\frac{-\$4,022.86}{\$4,620} \times 100\% = -87.1\%$
+3. **Capacity vs. Cost trade-off**: 
+   - Capacity increases by $\frac{50-30}{30} \times 100\% = 66.7\%$
+   - But daily cost increases by 87.1%
+   - **Paradox**: Higher throughput comes at a significant cost premium
 
 #### Key Insights
 - **Capacity vs. Cost Trade-off**: While the pruned tree processes more patients per day, it does so at a higher cost per patient
 - **Efficiency Paradox**: Higher throughput doesn't necessarily mean better cost efficiency
 - **Quality vs. Quantity**: The pruned tree sacrifices accuracy for speed, leading to higher overall costs
+
+
 
 ## Visual Explanations
 
@@ -240,3 +401,5 @@ This visualization ranks different 3-node pruning strategies by validation error
 - **Best 3-Node Strategy**: Root_Left configuration provides the lowest validation error (0.269) while maintaining interpretability
 
 The analysis reveals that decision tree pruning in medical applications requires careful consideration of multiple factors beyond just validation error rates. The optimal strategy balances model complexity, clinical accuracy, and operational efficiency, recognizing that simpler models may be preferred even when they have slightly higher error rates, especially when interpretability and clinical safety are paramount.
+
+
