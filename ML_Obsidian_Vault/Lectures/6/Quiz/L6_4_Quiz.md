@@ -25,7 +25,7 @@ Netflix uses a decision tree to recommend movies. Their engineers noticed that a
 5. If Netflix wants to keep user complaints below 10%, what's the maximum acceptable tree depth?
 6. If Netflix has 100 million users and each complaint costs $2 in customer service, calculate the total cost of overfitting at depth 6
 
-For a detailed explanation of this question, see [Question 1: Overfitting Detection Game](L6_4_1_explanation.md).
+For a detailed explanation of this question, see [Question 1: Netflix Decision Tree](L6_4_1_explanation.md).
 
 ## Question 2
 
