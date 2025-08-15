@@ -60,10 +60,10 @@ Consider building a decision tree using ID3 for a weather prediction dataset wit
 | Windy | True, False |
 
 #### Task
-1. Calculate the maximum number of possible leaf nodes this tree could have
-2. Determine the maximum depth the tree could reach
-3. Explain how ID3 handles categorical features with different numbers of values
-4. Identify the main limitations of ID3 when applied to this type of dataset
+1. [📚] Calculate the maximum number of possible leaf nodes this tree could have
+2. [📚] Determine the maximum depth the tree could reach
+3. [📚] Explain how ID3 handles categorical features with different numbers of values
+4. [📚] Identify the main limitations of ID3 when applied to this type of dataset
 
 For a detailed explanation of this question, see [Question 4: ID3 Tree Structure Analysis](L6_3_4_explanation.md).
 
@@ -92,12 +92,12 @@ For a detailed explanation of this question, see [Question 5: Decision Tree Algo
 Consider C4.5's improvement over ID3 in handling feature selection bias.
 
 #### Task
-1. What is the main problem with ID3's information gain regarding features with many values?
+1. [📚] What is the main problem with ID3's information gain regarding features with many values?
 2. For a feature with values $\{A, B, C\}$ splitting a dataset of $12$ samples into subsets of size $\{3, 5, 4\}$, calculate the split information using:
    $$\text{Split Info} = -\sum_{i=1}^{k} \frac{|S_i|}{|S|} \log_2\left(\frac{|S_i|}{|S|}\right)$$
 3. If the information gain for this split is $0.8$, calculate the gain ratio using:
    $$\text{Gain Ratio} = \frac{\text{Information Gain}}{\text{Split Information}}$$
-4. Explain in one sentence why split information corrects the bias
+4. [📚] Explain in one sentence why split information corrects the bias
 5. Calculate gain ratio for a binary feature splitting the same dataset into $\{7, 5\}$ with information gain $0.6$. Which feature would C4.5 prefer?
 
 For a detailed explanation of this question, see [Question 6: C4.5 Gain Ratio Analysis](L6_3_6_explanation.md).
@@ -404,8 +404,8 @@ Write pseudocode for the ID3 algorithm and trace its execution.
 | B        | X        | -     |
 | B        | Y        | -     |
 
-3. Calculate information gain for both features
-4. Show which feature ID3 would select and why
+3. [📚] Calculate information gain for both features
+4. [📚] Show which feature ID3 would select and why
 
 For a detailed explanation of this question, see [Question 24: ID3 Algorithm Implementation](L6_3_24_explanation.md).
 
@@ -479,9 +479,9 @@ Examine entropy calculation edge cases and mathematical properties.
    - Balanced node: $[5, 5]$
    - Skewed node: $[9, 1]$
    - Empty node: $[0, 0]$
-2. Explain how to handle the empty node case mathematically
+2. [📚] Explain how to handle the empty node case mathematically
 3. Show that entropy is maximized for balanced distributions
-4. Derive the maximum possible entropy for $k$ classes (Hint: Maximum entropy = $\log_2(k)$)
+4. [📚] Derive the maximum possible entropy for $k$ classes (Hint: Maximum entropy = $\log_2(k)$)
 
 For a detailed explanation of this question, see [Question 28: Entropy Edge Cases](L6_3_28_explanation.md).
 
@@ -496,8 +496,8 @@ Consider entropy edge cases and mathematical properties.
    - Balanced binary: $[4, 4]$  
    - Highly skewed: $[7, 1]$
 2. What is the maximum possible entropy for a binary classification problem?
-3. Prove that entropy is maximized when classes are equally distributed
-4. How should you handle the $\log(0)$ case when calculating entropy?
+3. [📚] Prove that entropy is maximized when classes are equally distributed
+4. [📚] How should you handle the $\log(0)$ case when calculating entropy?
 
 For a detailed explanation of this question, see [Question 29: Entropy Mathematical Properties](L6_3_29_explanation.md).
 
@@ -508,7 +508,7 @@ Analyze stopping criteria across algorithms.
 
 #### Task
 1. List three stopping criteria used by ID3
-2. What additional stopping criterion does C4.5 add beyond ID3's criteria?
+2. [📚] What additional stopping criterion does C4.5 add beyond ID3's criteria?
 3. Name two stopping criteria specific to CART
 4. For a node with $5$ samples ($3$ positive, $2$ negative), should ID3 continue splitting? Consider minimum samples and purity thresholds
 
@@ -680,14 +680,14 @@ Design a "Split Quality Detective" game where you analyze suspicious splitting d
 - $> \$50$: $[+: 4, -: 2]$
 
 #### Task
-1. Calculate information gain for each split
-2. Calculate gain ratio for Split A and Split B
+1. [📚] Calculate information gain for each split
+2. [📚] Calculate gain ratio for Split A and Split B
 3. Which split would each algorithm (ID3, C4.5, CART using Gini impurity) prefer? Explain your reasoning
 4. Which split would CART using entropy prefer? Is it the same as CART using Gini impurity?
 5. Compare the preferences of all algorithms. Which ones agree and which ones disagree? Why?
-6. Identify which split shows signs of overfitting and explain why
-7. What makes Split B problematic for real-world deployment?
-8. Given the analysis, which split should actually be chosen for production deployment and why?
+6. [📚] Identify which split shows signs of overfitting and explain why
+7. [📚] What makes Split B problematic for real-world deployment?
+8. [📚] Given the analysis, which split should actually be chosen for production deployment and why?
 
 For a detailed explanation of this question, see [Question 38: Split Quality Analysis](L6_3_38_explanation.md).
 
