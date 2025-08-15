@@ -125,7 +125,7 @@ $$\alpha_i = \alpha_{\min} \times \left(\frac{\alpha_{\max}}{\alpha_{\min}}\righ
 **For Our Grid:**
 - $\alpha_{\min} = 0.0001$, $\alpha_{\max} = 100$, $n = 20$
 - $\alpha_i = 0.0001 \times \left(\frac{100}{0.0001}\right)^{\frac{i}{19}}$
-- $\alpha_i = 0.0001 \times 10^6^{\frac{i}{19}}$
+- $\alpha_i = 0.0001 \times \left(10^6\right)^{\frac{i}{19}}$
 - $\alpha_i = 10^{-4 + \frac{6i}{19}}$
 
 **Key α Values:**
