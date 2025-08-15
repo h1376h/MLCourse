@@ -25,7 +25,6 @@ Netflix uses a decision tree to recommend movies. Their engineers noticed that a
 5. If Netflix wants to keep user complaints below 10%, what's the maximum acceptable tree depth?
 6. If Netflix has 100 million users and each complaint costs $2 in customer service, calculate the total cost of overfitting at depth 6
 
-
 For a detailed explanation of this question, see [Question 1: Overfitting Detection Game](L6_4_1_explanation.md).
 
 ## Question 2
@@ -64,9 +63,9 @@ Root (200 samples, train_error=0.25, val_error=0.28)
 2. Which subtrees should be pruned using reduced error pruning?
 3. Draw the final tree structure after optimal pruning
 4. Calculate the final validation error after pruning
-5. If the hospital wants to keep the tree interpretable (≤3 nodes), what would be the optimal pruning strategy?
+5. If the hospital wants to keep the tree interpretable ($\leq 3$ nodes), what would be the optimal pruning strategy?
 6. What are the medical implications of pruning this tree too aggressively?
-7. If false negatives (missing high-risk patients) cost $1000 and false positives cost $100, calculate the total cost before and after pruning.
+7. If false negatives (missing high-risk patients) cost $\$1000$ and false positives cost $\$100$, calculate the total cost before and after pruning.
 8. If the hospital can process 50 patients per day with the pruned tree vs 30 with the full tree, calculate the daily cost savings
 
 For a detailed explanation of this question, see [Question 3: Post-Pruning Decision Tree](L6_4_3_explanation.md).
@@ -74,14 +73,14 @@ For a detailed explanation of this question, see [Question 3: Post-Pruning Decis
 ## Question 4
 
 ### Problem Statement
-A bank is implementing CART's cost-complexity pruning for their fraud detection system. The cost function is $R_\alpha(T) = R(T) + \alpha|T|$, where false positives cost $10 and false negatives cost $100.
+A bank is implementing CART's cost-complexity pruning for their fraud detection system. The cost function is $R_\alpha(T) = R(T) + \alpha|T|$, where false positives cost $\$10$ and false negatives cost $\$100$.
 
 #### Task
 1. Write the cost-complexity function: $R_\alpha(T) = R(T) + \alpha|T|$
 2. For $\alpha = 0.1$, calculate the cost for a tree with 7 nodes and total error 0.3
 3. For $\alpha = 0.05$, compare a tree with 5 nodes and error 0.35 vs 3 nodes and error 0.40
 4. Explain the relationship between $\alpha$ and tree complexity
-5. If the bank wants to minimize total cost including operational costs of $5 per node, what's the optimal $\alpha$?
+5. If the bank wants to minimize total cost including operational costs of $\$5$ per node, what's the optimal $\alpha$?
 6. What are the business implications of choosing different $\alpha$ values for fraud detection?
 7. Design a cost matrix for a medical diagnosis system where false negatives are 10x more expensive than false positives.
 8. If the bank processes 10,000 transactions per day, calculate the daily fraud detection cost for different $\alpha$ values
@@ -113,7 +112,7 @@ You're judging a competition between different pruning approaches. Each method c
 1. Rank these pruning methods by expected tree size (smallest to largest):
    - Pre-pruning with max_depth=3
    - Reduced error pruning
-   - Cost-complexity pruning with α=0.1
+   - Cost-complexity pruning with $\alpha=0.1$
 2. Which method is most robust to noisy data? Why?
 3. Compare computational speed of different pruning methods
 4. Evaluate which method produces the most interpretable trees
@@ -209,7 +208,7 @@ Root: Purchase_Frequency (Training Acc: 98%, Validation Acc: 72%)
 2. Sketch a plot showing tree complexity vs performance
 3. Apply two different pruning techniques to the same overfitted tree
 4. Explain how to validate pruning decisions
-5. If the company wants to keep the tree simple enough for business analysts to understand (≤4 nodes), what pruning strategy would you recommend?
+5. If the company wants to keep the tree simple enough for business analysts to understand ($\leq 4$ nodes), what pruning strategy would you recommend?
 6. What are the business costs of overfitting in this customer churn prediction scenario?
 7. Calculate the information gain for each split and identify which splits are most likely contributing to overfitting.
 
@@ -256,9 +255,9 @@ You're building an automated system to find optimal pruning parameters.
 2. How would you use nested cross-validation for unbiased parameter selection?
 3. Compare different metrics for pruning evaluation
 4. Design an automated pipeline for optimal pruning
-5. If you have 1000 samples and want to test 5 α values with 5-fold CV, how many total model fits will you need to perform?
+5. If you have 1000 samples and want to test 5 $\alpha$ values with 5-fold CV, how many total model fits will you need to perform?
 6. You're building this for a company that needs results within 1 hour. How would you modify your optimization strategy?
-7. Calculate the optimal grid spacing for α values if you want to test values between 0.01 and 1.0 with logarithmic spacing.
+7. Calculate the optimal grid spacing for $\alpha$ values if you want to test values between 0.01 and 1.0 with logarithmic spacing.
 
 For a detailed explanation of this question, see [Question 14: Pruning Parameter Optimization](L6_4_14_explanation.md).
 
@@ -312,7 +311,7 @@ Root: Age ≤ 30 (Training Acc: 88%, Validation Acc: 75%)
 #### Task
 1. Calculate the training accuracy for each subtree and the full tree
 2. Which pruning decision would reduced error pruning make?
-3. For α = 0.15, calculate the cost-complexity for the full tree vs pruned versions
+3. For $\alpha = 0.15$, calculate the cost-complexity for the full tree vs pruned versions
 4. Analyze what the validation performance pattern suggests about overfitting
 5. Write the final decision rule after optimal pruning
 6. If the insurance company wants to minimize false negatives (missing high-risk customers) while keeping false positives below 20%, what pruning strategy would you recommend?
@@ -326,7 +325,7 @@ For a detailed explanation of this question, see [Question 17: Tree Surgery Simu
 You're a consultant helping companies choose pruning strategies. Create a decision matrix for evaluating different approaches.
 
 #### Task
-1. Create a 4×4 matrix comparing pruning methods vs evaluation criteria
+1. Create a $4 \times 4$ matrix comparing pruning methods vs evaluation criteria
 2. Choose 4 key criteria for evaluating pruning methods
 3. Design a 1-5 scoring system for each method-criteria combination
 4. Recommend the best pruning method for a medical diagnosis application
@@ -338,7 +337,7 @@ For a detailed explanation of this question, see [Question 18: Pruning Decision 
 ## Question 19
 
 ### Problem Statement
-Find the optimal α value for cost-complexity pruning given these tree options:
+Find the optimal $\alpha$ value for cost-complexity pruning given these tree options:
 - Full tree: 9 nodes, error = 0.25
 - Pruned tree 1: 5 nodes, error = 0.30
 - Pruned tree 2: 3 nodes, error = 0.35
@@ -346,12 +345,12 @@ Find the optimal α value for cost-complexity pruning given these tree options:
 
 #### Task
 1. Write the cost-complexity function for each option
-2. Find the critical α value where pruning tree 1 becomes beneficial
-3. Determine the range of α values where pruned tree 2 is optimal
-4. If you want a tree with ≤4 nodes, what α value should you use?
-5. If you have a budget constraint that limits you to trees with ≤6 nodes, what's the optimal α range?
-6. You're building this for a mobile app with limited memory. How would you modify your α selection strategy?
-7. Calculate the total cost for each tree option if operational costs are $2 per node per month.
+2. Find the critical $\alpha$ value where pruning tree 1 becomes beneficial
+3. Determine the range of $\alpha$ values where pruned tree 2 is optimal
+4. If you want a tree with $\leq 4$ nodes, what $\alpha$ value should you use?
+5. If you have a budget constraint that limits you to trees with $\leq 6$ nodes, what's the optimal $\alpha$ range?
+6. You're building this for a mobile app with limited memory. How would you modify your $\alpha$ selection strategy?
+7. Calculate the total cost for each tree option if operational costs are $\$2$ per node per month.
 
 For a detailed explanation of this question, see [Question 19: Alpha Selection Game](L6_4_19_explanation.md).
 
@@ -360,9 +359,9 @@ For a detailed explanation of this question, see [Question 19: Alpha Selection G
 ### Problem Statement
 You're building a decision tree for a credit risk assessment system that must satisfy multiple constraints:
 - Interpretability is crucial (regulatory requirement)
-- Accuracy must be ≥85%
-- Tree size should be ≤10 nodes
-- Training time should be ≤5 minutes
+- Accuracy must be $\geq 85\%$
+- Tree size should be $\leq 10$ nodes
+- Training time should be $\leq 5$ minutes
 
 #### Task
 1. Which constraints are most likely to conflict?
@@ -424,7 +423,7 @@ A research team is comparing different validation strategies for pruning decisio
 #### Task
 1. Calculate the total error (bias² + variance) for each validation method
 2. Rank the methods by validation accuracy per computational minute
-3. If you have 30 minutes and need accuracy ≥0.85, which method would you choose?
+3. If you have 30 minutes and need accuracy $\geq 0.85$, which method would you choose?
 4. Plot validation accuracy vs computational cost and identify the Pareto frontier
 5. If you use nested cross-validation, how would you correct for the bias introduced by parameter selection?
 6. Calculate the minimum number of samples needed for each fold to ensure statistical significance with 90% confidence
@@ -453,7 +452,7 @@ A machine learning engineer is tuning regularization parameters for a decision t
 3. Calculate the validation accuracy per node for each configuration
 4. Which parameter has the strongest effect on validation accuracy?
 5. Create a scatter plot of tree size vs validation accuracy and identify the optimal region
-6. For a real-time system that needs accuracy ≥0.80 and response time ≤100ms, which configuration would you choose?
+6. For a real-time system that needs accuracy $\geq 0.80$ and response time $\leq 100$ms, which configuration would you choose?
 7. If you want to add a new regularization parameter (feature subsampling ratio), how would you modify this analysis to include it?
 
 For a detailed explanation of this question, see [Question 24: Regularization Parameter Tuning Analysis](L6_4_24_explanation.md).
@@ -476,7 +475,7 @@ A financial services company needs to build an interpretable decision tree for l
 #### Task
 1. Which pruning methods meet regulatory requirements for interpretability?
 2. Plot tree size vs validation accuracy and identify the optimal trade-off point
-3. If non-compliance costs $50,000 per violation, calculate the risk cost for each method
+3. If non-compliance costs $\$50,000$ per violation, calculate the risk cost for each method
 4. Find the pruning method that maximizes validation accuracy while maintaining full regulatory compliance
 5. If the company processes 1000 loans per month, calculate the monthly cost of false decisions for each method
 6. Design a pruning strategy that can adapt to changing regulatory requirements
@@ -558,7 +557,7 @@ For a detailed explanation of this question, see [Question 29: Pruning Recipe Cr
 You're simulating the evolution of decision trees over time. Each generation, trees can either grow (add nodes) or prune (remove nodes) based on their "fitness" in the environment.
 
 #### Task
-1. Design an evolution rule: trees with validation accuracy > 85% should grow, trees with validation accuracy < 75% should prune
+1. Design an evolution rule: trees with validation accuracy $> 85\%$ should grow, trees with validation accuracy $< 75\%$ should prune
 2. If a tree starts with 5 nodes and 80% validation accuracy, predict its size after 3 generations
 3. What happens to trees that are "just right" (validation accuracy between 75-85%)?
 4. Design a mutation mechanism that occasionally tries different pruning strategies
@@ -573,7 +572,7 @@ Evaluate whether each of the following statements about tree pruning and regular
 
 #### Task
 1. Pre-pruning always produces smaller trees than post-pruning for the same dataset
-2. Cost-complexity pruning with α = 0 will always result in the full unpruned tree
+2. Cost-complexity pruning with $\alpha = 0$ will always result in the full unpruned tree
 3. Reduced error pruning requires a separate validation set to make pruning decisions
 4. Cross-validation can completely eliminate bias in pruning parameter selection
 5. L1 regularization can be directly applied to decision tree nodes like in linear models
@@ -608,9 +607,9 @@ Design a "Pruning Strategy Selection Game" where you must choose the most approp
 #### Task
 For each scenario below, select the most suitable pruning method and explain your reasoning in 1-2 sentences:
 
-1. **Real-time fraud detection**: System must make predictions in <10ms, memory is limited to 100MB, interpretability is not required
+1. **Real-time fraud detection**: System must make predictions in $< 10$ms, memory is limited to 100MB, interpretability is not required
 2. **Medical diagnosis tool**: Doctors need to understand the decision process, accuracy is critical, training time can be up to 1 hour
-3. **Educational demonstration**: Students need to see how pruning affects tree structure, dataset is small (<100 samples), visual clarity is important
+3. **Educational demonstration**: Students need to see how pruning affects tree structure, dataset is small ($< 100$ samples), visual clarity is important
 4. **Production recommendation system**: Must handle 1M+ users, accuracy is important but not critical, maintenance costs should be minimized
 5. **Research prototype**: Exploring different pruning approaches, computational resources are unlimited, need to compare multiple methods
 
@@ -636,7 +635,7 @@ Apply pruning techniques to this decision tree dataset about loan approval:
 1. Calculate the Gini impurity of the entire dataset
 2. If the tree splits on Income first, calculate the weighted Gini impurity after the split
 3. For a pre-pruning threshold of min_samples_leaf=2, would this split be allowed?
-4. If using cost-complexity pruning with α=0.1, calculate the cost for a tree with 5 nodes and error rate 0.25
+4. If using cost-complexity pruning with $\alpha=0.1$, calculate the cost for a tree with 5 nodes and error rate 0.25
 5. Which pruning method would be most appropriate for this dataset and why?
 
 For a detailed explanation of this question, see [Question 34: Loan Approval Pruning Application](L6_4_34_explanation.md).
