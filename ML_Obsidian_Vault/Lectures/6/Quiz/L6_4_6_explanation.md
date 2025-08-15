@@ -482,25 +482,25 @@ The $O(|T|^2)$ complexity in CCP makes it unsuitable for real-time updates
 **Practical Results:**
 Real-Time Performance Metrics:
 - **Pre-pruning:**
-  - Avg Prediction Latency: 0.000109s
-  - Max Prediction Latency: 0.001731s
-  - 95th Percentile Latency: 0.000206s
-  - Training Time: 0.0115s
-  - Model Size: 15 nodes
+  - Avg Prediction Latency: $0.000109$s
+  - Max Prediction Latency: $0.001731$s
+  - 95th Percentile Latency: $0.000206$s
+  - Training Time: $0.0115$s
+  - Model Size: $15$ nodes
 
 - **REP:**
-  - Avg Prediction Latency: 0.000044s
-  - Max Prediction Latency: 0.000123s
-  - 95th Percentile Latency: 0.000049s
-  - Training Time: 0.0116s
-  - Model Size: 93 nodes
+  - Avg Prediction Latency: $0.000044$s
+  - Max Prediction Latency: $0.000123$s
+  - 95th Percentile Latency: $0.000049$s
+  - Training Time: $0.0116$s
+  - Model Size: $93$ nodes
 
 - **CCP:**
-  - Avg Prediction Latency: 0.000044s
-  - Max Prediction Latency: 0.000066s
-  - 95th Percentile Latency: 0.000046s
-  - Training Time: 0.0072s
-  - Model Size: 5 nodes
+  - Avg Prediction Latency: $0.000044$s
+  - Max Prediction Latency: $0.000066$s
+  - 95th Percentile Latency: $0.000046$s
+  - Training Time: $0.0072$s
+  - Model Size: $5$ nodes
 
 ![Real-Time Performance](../Images/L6_4_Quiz_6/real_time_performance.png)
 
@@ -557,42 +557,42 @@ Statistical Analysis of Computational Efficiency:
 
 **Pre-pruning:**
 - Training Time:
-  - Mean: 0.003658s
-  - Std: 0.002129s
-  - CI95: [0.002310, 0.008535]s
+  - Mean: $0.003658$s
+- Std: $0.002129$s
+  - CI95: $[0.002310, 0.008535]$s
 - Prediction Time:
-  - Mean: 0.000173s
-  - Std: 0.000087s
-  - CI95: [0.000108, 0.000365]s
+  - Mean: $0.000173$s
+- Std: $0.000087$s
+  - CI95: $[0.000108, 0.000365]$s
 - Model Size:
-  - Mean: 15.0 nodes
-  - Std: 0.0 nodes
+  - Mean: $15.0$ nodes
+- Std: $0.0$ nodes
 
 **REP:**
 - Training Time:
-  - Mean: 0.003335s
-  - Std: 0.000474s
-  - CI95: [0.002775, 0.004248]s
+  - Mean: $0.003335$s
+- Std: $0.000474$s
+  - CI95: $[0.002775, 0.004248]$s
 - Prediction Time:
-  - Mean: 0.000118s
-  - Std: 0.000053s
-  - CI95: [0.000076, 0.000238]s
+  - Mean: $0.000118$s
+- Std: $0.000053$s
+  - CI95: $[0.000076, 0.000238]$s
 - Model Size:
-  - Mean: 93.0 nodes
-  - Std: 0.0 nodes
+  - Mean: $93.0$ nodes
+- Std: $0.0$ nodes
 
 **CCP:**
 - Training Time:
-  - Mean: 0.002621s
-  - Std: 0.000224s
-  - CI95: [0.002447, 0.003125]s
+  - Mean: $0.002621$s
+- Std: $0.000224$s
+  - CI95: $[0.002447, 0.003125]$s
 - Prediction Time:
-  - Mean: 0.000070s
-  - Std: 0.000011s
-  - CI95: [0.000061, 0.000095]s
+  - Mean: $0.000070$s
+- Std: $0.000011$s
+  - CI95: $[0.000061, 0.000095]$s
 - Model Size:
-  - Mean: 5.0 nodes
-  - Std: 0.0 nodes
+  - Mean: $5.0$ nodes
+- Std: $0.0$ nodes
 
 ![Experimental Efficiency Analysis](../Images/L6_4_Quiz_6/experimental_efficiency_analysis.png)
 
@@ -656,7 +656,7 @@ The comprehensive real-time analysis shows that pre-pruning provides the most co
 
 - **Tree Size Ranking**: Cost-complexity pruning ($\alpha=0.1$) produces the smallest trees, followed by pre-pruning (bounded by max_depth=3), then reduced error pruning
 - **Noise Robustness**: Pre-pruning (max_depth=3) is most robust to noisy data with low noise sensitivity ratio, while REP has medium ratio and CCP has high ratio
-- **Computational Speed**: Pre-pruning is fastest in training ($O(8nd)$), while cost-complexity pruning is fastest in prediction ($O(\log |T|)$)
+- **Computational Speed**: Pre-pruning is fastest in training ($O(8nd)$), while cost-complexity pruning is fastest in prediction ($O(\log \|T\|)$)
 - **Interpretability**: Cost-complexity pruning produces the most interpretable trees, followed by pre-pruning, then REP
 - **Real-time Suitability**: Pre-pruning is the best choice for real-time systems, satisfying both $t_{pred} \leq L$ and $t_{update} \leq L$ constraints
 - **Feature-Dependent Noise**: Reduced error pruning performs worst with increasing noise due to its large tree size and depth, resulting in high noise sensitivity coefficient
