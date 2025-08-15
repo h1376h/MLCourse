@@ -18,12 +18,12 @@ Netflix uses a decision tree to recommend movies. Their engineers noticed that a
 | 6          | 0.99             | 0.74                  | 25%            |
 
 #### Task
-1. At what depth does overfitting begin? Justify your answer
-2. What is the optimal tree depth for this dataset?
-3. Explain the bias-variance tradeoff demonstrated in this data
+1. [📚] At what depth does overfitting begin? Justify your answer
+2. [📚] What is the optimal tree depth for this dataset?
+3. [📚] Explain the bias-variance tradeoff demonstrated in this data
 4. Sketch a graph showing training vs validation accuracy
-5. If Netflix wants to keep user complaints below 10%, what's the maximum acceptable tree depth?
-6. If Netflix has 100 million users and each complaint costs $2 in customer service, calculate the total cost of overfitting at depth 6
+5. [📚] If Netflix wants to keep user complaints below 10%, what's the maximum acceptable tree depth?
+6. [📚] If Netflix has 100 million users and each complaint costs $2 in customer service, calculate the total cost of overfitting at depth 6
 
 For a detailed explanation of this question, see [Question 1: Netflix Decision Tree](L6_4_1_explanation.md).
 
@@ -33,11 +33,11 @@ For a detailed explanation of this question, see [Question 1: Netflix Decision T
 You're a decision tree gardener trying to control tree growth. Your dataset has 1000 samples and 8 binary features, but you want to prevent your trees from becoming too "bushy."
 
 #### Task
-1. If you want each leaf to have at least 50 samples, what's the maximum number of leaf nodes possible?
-2. If the dataset has 8 binary features, what's the theoretical maximum depth before pre-pruning?
+1. [📚] If you want each leaf to have at least 50 samples, what's the maximum number of leaf nodes possible?
+2. [📚] If the dataset has 8 binary features, what's the theoretical maximum depth before pre-pruning?
 3. For a binary classification problem, suggest an appropriate minimum Gini impurity threshold
-4. Given training accuracy 0.95 and validation accuracy 0.82, which pre-pruning parameter should be adjusted first?
-5. If you want exactly 20 leaf nodes, what minimum samples per leaf threshold would you need?
+4. [📚] Given training accuracy 0.95 and validation accuracy 0.82, which pre-pruning parameter should be adjusted first?
+5. [📚] If you want exactly 20 leaf nodes, what minimum samples per leaf threshold would you need?
 6. You're building a medical diagnosis tree. What additional pre-pruning constraints would you consider?
 7. Calculate the minimum impurity decrease threshold that would prevent splitting a node with 100 samples into two groups of 45 and 55 samples.
 
@@ -59,14 +59,14 @@ Root (200 samples, train_error=0.25, val_error=0.28)
 ```
 
 #### Task
-1. Calculate validation error before and after pruning each subtree
-2. Which subtrees should be pruned using reduced error pruning?
-3. Draw the final tree structure after optimal pruning
-4. Calculate the final validation error after pruning
-5. If the hospital wants to keep the tree interpretable ($\leq 3$ nodes), what would be the optimal pruning strategy?
-6. What are the medical implications of pruning this tree too aggressively?
-7. If false negatives (missing high-risk patients) cost $\$1000$ and false positives cost $\$100$, calculate the total cost before and after pruning.
-8. If the hospital can process 50 patients per day with the pruned tree vs 30 with the full tree, calculate the daily cost savings
+1. [📚] Calculate validation error before and after pruning each subtree
+2. [📚] Which subtrees should be pruned using reduced error pruning?
+3. [📚] Draw the final tree structure after optimal pruning
+4. [📚] Calculate the final validation error after pruning
+5. [📚] If the hospital wants to keep the tree interpretable ($\leq 3$ nodes), what would be the optimal pruning strategy?
+6. [📚] What are the medical implications of pruning this tree too aggressively?
+7. [📚] If false negatives (missing high-risk patients) cost $\$1000$ and false positives cost $\$100$, calculate the total cost before and after pruning.
+8. [📚] If the hospital can process 50 patients per day with the pruned tree vs 30 with the full tree, calculate the daily cost savings
 
 For a detailed explanation of this question, see [Question 3: Post-Pruning Decision Tree](L6_4_3_explanation.md).
 
