@@ -53,9 +53,8 @@ Let $\alpha$ = cost-complexity parameter
 - **Mathematical reasoning:**
   - Full tree typically has $|T_{full}| \approx 100-200$ nodes
   - REP prunes 30-70% of nodes based on validation performance
-  - If $|T_{full}| = 150$, then $|T| \approx 0.4 \times 150 = 60$ nodes
-  - Leaf nodes typically $\approx \frac{|T|}{2} = 30$
-  - Pruning ratio: $\frac{|T|}{|T_{full}|} = \frac{60}{150} = 0.4$
+  - Pruning ratio varies based on validation set performance
+  - Leaf nodes typically $\approx \frac{|T|}{2}$
   - Validation accuracy threshold determines exact pruning ratio
 
 **C) Cost-Complexity Pruning with $\alpha=0.1$:**
@@ -66,11 +65,10 @@ Let $\alpha$ = cost-complexity parameter
 - **Mathematical reasoning:**
   - Cost function: $C(T) = R(T) + 0.1|T|$
   - For $\alpha = 0.1$, complexity penalty is significant
-  - If $R(T) = 0.2$ and $|T| = 20$, then $C(T) = 0.2 + 0.1 \times 20 = 2.2$
-  - If $R(T) = 0.25$ and $|T| = 10$, then $C(T) = 0.25 + 0.1 \times 10 = 1.25$
   - Algorithm prefers smaller trees when $\alpha$ is large
   - Optimal tree size: $|T^*| = \arg\min_T [R(T) + 0.1|T|]$
   - Trade-off: $\Delta R(T) = -0.1 \Delta |T|$
+  - When $R(T)$ increases by $\Delta R$, tree size decreases by $10\Delta R$
 
 **Ranking (smallest to largest):**
 1. **Cost-complexity pruning ($\alpha=0.1$): Smallest**
@@ -82,6 +80,7 @@ Expected tree sizes:
 1. CCP: $|T| \approx 10-30$ nodes (smallest)
 2. Pre-pruning: $|T| \leq 15$ nodes (medium)
 3. REP: $|T| \approx 60-100$ nodes (largest)
+Actual sizes will depend on dataset characteristics and pruning parameters
 
 **Theoretical vs. Practical:**
 - CCP: $\alpha = 0.1$ creates strong complexity penalty
@@ -124,11 +123,11 @@ where:
 - **Robustness: HIGH**
 - **Mathematical reasoning:**
   - Limited depth $d \leq 3$ prevents overfitting
-  - $R_{bias}(T) \approx 0.3$ (high due to underfitting)
-  - $R_{var}(T) \approx 0.05$ (low due to simple model)
-  - $R_{noise}(T) \approx 0.02$ (low sensitivity to noise)
-  - Total error: $0.3 + 0.05 + 0.02 = 0.37$
-  - Noise robustness: $\frac{R_{noise}(T)}{R_{test}(T)} = \frac{0.02}{0.37} = 5.4\%$
+  - $R_{bias}(T)$ is high due to underfitting
+  - $R_{var}(T)$ is low due to simple model
+  - $R_{noise}(T)$ is low due to limited complexity
+  - Total error: $R_{bias}(T) + R_{var}(T) + R_{noise}(T)$
+  - Noise robustness: $\frac{R_{noise}(T)}{R_{test}(T)}$ (low ratio indicates high robustness)
 
 **B) Reduced Error Pruning:**
 - Medium bias, medium variance
@@ -138,11 +137,11 @@ where:
 - **Robustness: MEDIUM**
 - **Mathematical reasoning:**
   - Validation-based pruning balances bias and variance
-  - $R_{bias}(T) \approx 0.15$ (medium due to moderate complexity)
-  - $R_{var}(T) \approx 0.12$ (medium due to moderate flexibility)
-  - $R_{noise}(T) \approx 0.08$ (medium sensitivity to noise)
-  - Total error: $0.15 + 0.12 + 0.08 = 0.35$
-  - Noise robustness: $\frac{R_{noise}(T)}{R_{test}(T)} = \frac{0.08}{0.35} = 22.9\%$
+  - $R_{bias}(T)$ is medium due to moderate complexity
+  - $R_{var}(T)$ is medium due to moderate flexibility
+  - $R_{noise}(T)$ is medium due to moderate complexity
+  - Total error: $R_{bias}(T) + R_{var}(T) + R_{noise}(T)$
+  - Noise robustness: $\frac{R_{noise}(T)}{R_{test}(T)}$ (medium ratio indicates moderate robustness)
   - Pruning removes nodes that don't improve validation accuracy
 
 **C) Cost-Complexity Pruning ($\alpha=0.1$):**
@@ -153,11 +152,11 @@ where:
 - **Robustness: LOW**
 - **Mathematical reasoning:**
   - $\alpha = 0.1$ allows complex trees to minimize training error
-  - $R_{bias}(T) \approx 0.08$ (low due to high flexibility)
-  - $R_{var}(T) \approx 0.18$ (high due to complex model)
-  - $R_{noise}(T) \approx 0.15$ (high sensitivity to noise)
-  - Total error: $0.08 + 0.18 + 0.15 = 0.41$
-  - Noise robustness: $\frac{R_{noise}(T)}{R_{test}(T)} = \frac{0.15}{0.41} = 36.6\%$
+  - $R_{bias}(T)$ is low due to high flexibility
+  - $R_{var}(T)$ is high due to complex model
+  - $R_{noise}(T)$ is high due to high complexity
+  - Total error: $R_{bias}(T) + R_{var}(T) + R_{noise}(T)$
+  - Noise robustness: $\frac{R_{noise}(T)}{R_{test}(T)}$ (high ratio indicates low robustness)
   - High variance makes model sensitive to noise patterns
 
 **Most Robust: Pre-pruning (max_depth=3)**
@@ -165,9 +164,10 @@ where:
 
 **Quantitative Comparison:**
 Noise sensitivity ratios:
-1. Pre-pruning: $5.4\%$ (most robust)
-2. REP: $22.9\%$ (moderately robust)
-3. CCP: $36.6\%$ (least robust)
+1. Pre-pruning: Low ratio (most robust)
+2. REP: Medium ratio (moderately robust)
+3. CCP: High ratio (least robust)
+Exact values depend on dataset characteristics and noise levels
 
 **Mathematical Insight:**
 $R_{noise}(T) \propto \text{complexity}(T) \times \text{depth}(T)$
@@ -204,10 +204,9 @@ Let $d_{max}$ = maximum tree depth
   - Build full tree: $O(nd|T|)$
   - Validation pruning: $O(|T| \times n_{val})$
   - Where $n_{val}$ = validation set size
-  - If $n_{val} = 0.2n$ and $|T| \approx 100$:
-    Training: $O(nd \times 100) + O(100 \times 0.2n) = O(100nd + 20n)$
-  - Prediction: $O(\log |T|) = O(\log 100) = O(6.6)$
-  - Memory: $O(|T|) = O(100)$ nodes
+  - Training: $O(nd|T|) + O(|T|n_{val})$
+  - Prediction: $O(\log |T|)$
+  - Memory: $O(|T|)$ nodes
 
 **C) Cost-Complexity Pruning:**
 - Training: $O(n \times d \times |T|) + O(|T|^2 \times \log |T|)$
@@ -217,11 +216,9 @@ Let $d_{max}$ = maximum tree depth
   - Build full tree: $O(nd|T|)$
   - Find optimal $\alpha$: $O(|T|^2 \log |T|)$
   - For each $\alpha$ value, evaluate $O(|T|)$ subtrees
-  - If $|T| \approx 100$:
-    Training: $O(nd \times 100) + O(100^2 \times \log 100) = O(100nd + 10000 \times 4.6)$
-    Training: $O(100nd + 46000)$
-  - Prediction: $O(\log |T|) = O(\log 100) = O(6.6)$
-  - Memory: $O(|T|) = O(100)$ nodes
+  - Training: $O(nd|T|) + O(|T|^2 \log |T|)$
+  - Prediction: $O(\log |T|)$
+  - Memory: $O(|T|)$ nodes
   - The $O(|T|^2 \log |T|)$ term dominates for large trees
 
 **Speed Ranking (fastest to slowest):**
@@ -229,16 +226,16 @@ Let $d_{max}$ = maximum tree depth
 2. Reduced error pruning
 3. Cost-complexity pruning
 
-**Quantitative Comparison (assuming n=1000, d=10, |T|=100):**
+**Quantitative Comparison:**
 Training times:
-1. Pre-pruning: $O(8nd) = O(8 \times 1000 \times 10) = O(80,000)$
-2. REP: $O(100nd + 20n) = O(1,000,000 + 20,000) = O(1,020,000)$
-3. CCP: $O(100nd + 46,000) = O(1,000,000 + 46,000) = O(1,046,000)$
+1. Pre-pruning: $O(8nd)$ (fastest)
+2. REP: $O(nd|T| + |T|n_{val})$ (medium)
+3. CCP: $O(nd|T| + |T|^2\log|T|)$ (slowest)
 
 **Speed ratios:**
-REP vs Pre-pruning: $\frac{1,020,000}{80,000} = 12.75\times$ slower
-CCP vs Pre-pruning: $\frac{1,046,000}{80,000} = 13.08\times$ slower
-CCP vs REP: $\frac{1,046,000}{1,020,000} = 1.025\times$ slower
+REP vs Pre-pruning: $\frac{O(nd|T| + |T|n_{val})}{O(8nd)}$ (slower)
+CCP vs Pre-pruning: $\frac{O(nd|T| + |T|^2\log|T|)}{O(8nd)}$ (much slower)
+CCP vs REP: $\frac{O(nd|T| + |T|^2\log|T|)}{O(nd|T| + |T|n_{val})}$ (slower due to quadratic term)
 
 **Practical Results:**
 Training Times:
@@ -277,7 +274,7 @@ Rationale: Shallow depth and fewer leaves make rules easier to understand
   - Maximum depth constraint: $d_{max} = 3$
   - Maximum leaves: $L(T) = 2^3 = 8$
   - Average depth: $D(T) = \frac{0 + 1 + 2 + 3}{4} = 1.5$
-  - Interpretability score: $1.5 \times \log(8) = 1.5 \times 2.08 = 3.12$
+  - Interpretability score: $1.5 \times \log(8)$
   - Rule complexity: $\text{complexity}(T) = 8$ rules
   - Each rule has at most 3 conditions
   - Human-readable format: IF condition1 AND condition2 AND condition3 THEN class
@@ -351,10 +348,9 @@ This models the fact that deeper, more complex trees are more sensitive to noise
 - **Mathematical reasoning:**
   - Fixed depth: $\text{depth}(T) = 3$ (constant)
   - Fixed size: $|T| \leq 15$ (bounded)
-  - Noise sensitivity: $R_{noise}(T, x) = k \cdot \varepsilon(x) \cdot 15^{0.5} \cdot 3^{1.0}$
-  - Noise sensitivity: $R_{noise}(T, x) = k \cdot \varepsilon(x) \cdot 3.87 \cdot 3 = 11.61k\varepsilon(x)$
+  - Noise sensitivity: $R_{noise}(T, x) = k \cdot \varepsilon(x) \cdot |T|^{0.5} \cdot 3^{1.0}$
   - As $\varepsilon(x)$ increases, error grows linearly
-  - Performance degradation: $\frac{\Delta R_{noise}}{\Delta \varepsilon} = 11.61k$ (constant)
+  - Performance degradation: $\frac{\Delta R_{noise}}{\Delta \varepsilon} = k \cdot |T|^{0.5} \cdot 3$ (constant)
   - Stability: High (bounded growth rate)
 
 **B) Reduced Error Pruning:**
@@ -363,11 +359,10 @@ This models the fact that deeper, more complex trees are more sensitive to noise
 - **Performance: MODERATELY DEGRADED**
 - **Mathematical reasoning:**
   - Variable depth: $\text{depth}(T) \approx 12$ (from practical results)
-  - Variable size: $|T| \approx 93$ (from practical results)
-  - Noise sensitivity: $R_{noise}(T, x) = k \cdot \varepsilon(x) \cdot 93^{0.5} \cdot 12^{1.0}$
-  - Noise sensitivity: $R_{noise}(T, x) = k \cdot \varepsilon(x) \cdot 9.64 \cdot 12 = 115.68k\varepsilon(x)$
+  - Variable size: $|T|$ (from actual tree)
+  - Noise sensitivity: $R_{noise}(T, x) = k \cdot \varepsilon(x) \cdot |T|^{0.5} \cdot 12^{1.0}$
   - As $\varepsilon(x)$ increases, error grows linearly but much faster
-  - Performance degradation: $\frac{\Delta R_{noise}}{\Delta \varepsilon} = 115.68k$ (9.97× worse than pre-pruning)
+  - Performance degradation: $\frac{\Delta R_{noise}}{\Delta \varepsilon} = k \cdot |T|^{0.5} \cdot 12$
   - Stability: Low (high growth rate)
   - Reason: Largest trees capture most noise patterns
 
@@ -377,11 +372,10 @@ This models the fact that deeper, more complex trees are more sensitive to noise
 - **Performance: DEGRADED**
 - **Mathematical reasoning:**
   - Variable depth: $\text{depth}(T) \approx 2$ (from practical results)
-  - Variable size: $|T| \approx 5$ (from practical results)
-  - Noise sensitivity: $R_{noise}(T, x) = k \cdot \varepsilon(x) \cdot 5^{0.5} \cdot 2^{1.0}$
-  - Noise sensitivity: $R_{noise}(T, x) = k \cdot \varepsilon(x) \cdot 2.24 \cdot 2 = 4.48k\varepsilon(x)$
+  - Variable size: $|T|$ (from actual tree)
+  - Noise sensitivity: $R_{noise}(T, x) = k \cdot \varepsilon(x) \cdot |T|^{0.5} \cdot 2^{1.0}$
   - As $\varepsilon(x)$ increases, error grows linearly
-  - Performance degradation: $\frac{\Delta R_{noise}}{\Delta \varepsilon} = 4.48k$ (2.61× better than pre-pruning)
+  - Performance degradation: $\frac{\Delta R_{noise}}{\Delta \varepsilon} = k \cdot |T|^{0.5} \cdot 2$
   - Stability: Very High (lowest growth rate)
   - Reason: $\alpha = 0.1$ creates extremely simple trees
 
@@ -390,14 +384,14 @@ This models the fact that deeper, more complex trees are more sensitive to noise
 
 **Quantitative Comparison:**
 Noise sensitivity coefficients:
-1. CCP: $4.48k$ (most stable)
-2. Pre-pruning: $11.61k$ (stable)
-3. REP: $115.68k$ (least stable)
+1. CCP: $k \cdot |T|^{0.5} \cdot 2$ (most stable)
+2. Pre-pruning: $k \cdot |T|^{0.5} \cdot 3$ (stable)
+3. REP: $k \cdot |T|^{0.5} \cdot 12$ (least stable)
 
 **Performance degradation ratios:**
-REP vs Pre-pruning: $\frac{115.68k}{11.61k} = 9.97\times$ worse
-REP vs CCP: $\frac{115.68k}{4.48k} = 25.8\times$ worse
-Pre-pruning vs CCP: $\frac{11.61k}{4.48k} = 2.59\times$ worse
+REP vs Pre-pruning: $\frac{k \cdot |T|^{0.5} \cdot 12}{k \cdot |T|^{0.5} \cdot 3} = 4\times$ worse
+REP vs CCP: $\frac{k \cdot |T|^{0.5} \cdot 12}{k \cdot |T|^{0.5} \cdot 2} = 6\times$ worse
+Pre-pruning vs CCP: $\frac{k \cdot |T|^{0.5} \cdot 3}{k \cdot |T|^{0.5} \cdot 2} = 1.5\times$ worse
 
 **Mathematical Insight:**
 $R_{noise}(T, x) \propto |T|^{0.5} \times \text{depth}(T)$
@@ -431,12 +425,12 @@ Typical requirements: $L \leq 100ms$, $\text{throughput} \geq 1000$ req/s
 - $t_{update} = O(8nd)$ ✓
 - **Choice: EXCELLENT**
 - **Mathematical reasoning:**
-  - Prediction: $t_{pred} = 3 \times t_{node} \approx 3 \times 0.001ms = 0.003ms$
-  - Training: $t_{train} = 8nd \times t_{split} \approx 8 \times 1000 \times 10 \times 0.001ms = 80ms$
-  - Update: $t_{update} = t_{train} = 80ms$
-  - Throughput: $\text{throughput} = \frac{1000}{0.003} = 333,333$ req/s
-  - Latency: $0.003ms \ll 100ms$ ✓
-  - Update time: $80ms < 100ms$ ✓
+  - Prediction: $t_{pred} = 3 \times t_{node}$
+  - Training: $t_{train} = 8nd \times t_{split}$
+  - Update: $t_{update} = t_{train}$
+  - Throughput: $\text{throughput} = \frac{n_{req}}{t_{pred}}$
+  - Latency: $t_{pred} \ll L$ ✓
+  - Update time: $t_{update} < L$ ✓
 
 **B) Reduced Error Pruning:**
 - $t_{pred} = O(\log |T|)$ ✓
@@ -444,12 +438,12 @@ Typical requirements: $L \leq 100ms$, $\text{throughput} \geq 1000$ req/s
 - $t_{update} = O(nd|T|)$ ✗
 - **Choice: POOR**
 - **Mathematical reasoning:**
-  - Prediction: $t_{pred} = \log(93) \times t_{node} \approx 4.5 \times 0.001ms = 0.0045ms$
-  - Training: $t_{train} = nd|T| \times t_{split} \approx 1000 \times 10 \times 93 \times 0.001ms = 930ms$
-  - Update: $t_{update} = t_{train} = 930ms$
-  - Throughput: $\text{throughput} = \frac{1000}{0.0045} = 222,222$ req/s
-  - Latency: $0.0045ms < 100ms$ ✓
-  - Update time: $930ms > 100ms$ ✗ (9.3× too slow)
+  - Prediction: $t_{pred} = \log(|T|) \times t_{node}$
+  - Training: $t_{train} = nd|T| \times t_{split}$
+  - Update: $t_{update} = t_{train}$
+  - Throughput: $\text{throughput} = \frac{n_{req}}{t_{pred}}$
+  - Latency: $t_{pred} < L$ ✓
+  - Update time: $t_{update} > L$ ✗ (too slow)
   - Problem: Updates take much longer than allowed
 
 **C) Cost-Complexity Pruning:**
@@ -458,12 +452,12 @@ Typical requirements: $L \leq 100ms$, $\text{throughput} \geq 1000$ req/s
 - $t_{update} = O(nd|T|^2)$ ✗
 - **Choice: POOR**
 - **Mathematical reasoning:**
-  - Prediction: $t_{pred} = \log(5) \times t_{node} \approx 2.3 \times 0.001ms = 0.0023ms$
-  - Training: $t_{train} = nd|T|^2 \times t_{split} \approx 1000 \times 10 \times 5^2 \times 0.001ms = 250ms$
-  - Update: $t_{update} = t_{train} = 250ms$
-  - Throughput: $\text{throughput} = \frac{1000}{0.0023} = 434,783$ req/s
-  - Latency: $0.0023ms < 100ms$ ✓
-  - Update time: $250ms > 100ms$ ✗ (2.5× too slow)
+  - Prediction: $t_{pred} = \log(|T|) \times t_{node}$
+  - Training: $t_{train} = nd|T|^2 \times t_{split}$
+  - Update: $t_{update} = t_{train}$
+  - Throughput: $\text{throughput} = \frac{n_{req}}{t_{pred}}$
+  - Latency: $t_{pred} < L$ ✓
+  - Update time: $t_{update} > L$ ✗ (too slow)
   - Problem: $O(|T|^2)$ term makes updates slow even with small trees
 
 **Best Choice: Pre-pruning (max_depth=3)**
@@ -472,13 +466,13 @@ Typical requirements: $L \leq 100ms$, $\text{throughput} \geq 1000$ req/s
 **Quantitative Comparison:**
 Update time ratios (lower is better):
 1. Pre-pruning: $1.0\times$ (baseline)
-2. CCP: $\frac{250ms}{80ms} = 3.125\times$ slower
-3. REP: $\frac{930ms}{80ms} = 11.625\times$ slower
+2. CCP: $\frac{O(nd|T|^2)}{O(8nd)}$ (slower)
+3. REP: $\frac{O(nd|T|)}{O(8nd)}$ (slower)
 
 **Throughput comparison:**
-1. CCP: $434,783$ req/s (highest)
-2. Pre-pruning: $333,333$ req/s (high)
-3. REP: $222,222$ req/s (lowest)
+1. CCP: High throughput (fastest prediction)
+2. Pre-pruning: High throughput (fast prediction)
+3. REP: Lower throughput (slower prediction)
 
 **Mathematical Insight:**
 Real-time systems require: $t_{update} \leq L$ and $t_{pred} \leq L$
@@ -548,15 +542,15 @@ For each method $m \in M$:
 
 **Sample Size Calculation:**
 For $\alpha = 0.05$, $\beta = 0.2$, effect size $d = 0.5$:
-Required sample size: $n = \frac{2(t_{\alpha/2} + t_{\beta})^2}{d^2} \approx 64$ per group
-With 3 methods: total $n = 64 \times 3 = 192$ runs
+Required sample size: $n = \frac{2(t_{\alpha/2} + t_{\beta})^2}{d^2}$ per group
+With 3 methods: total $n = 3 \times n_{required}$ runs
 
 **Practical Implementation:**
-Our experiment uses $r = 20$ runs per method to ensure statistical significance:
-- Total measurements: $3 \times 1 \times 1 \times 20 = 60$ runs
-- Degrees of freedom: $df_{between} = 2$, $df_{within} = 57$
-- Critical F-value: $F_{0.05, 2, 57} \approx 3.16$
-- Power: $\text{Power} \approx 0.85$ for medium effect sizes
+Our experiment uses $r$ runs per method to ensure statistical significance:
+- Total measurements: $3 \times 1 \times 1 \times r$ runs
+- Degrees of freedom: $df_{between} = 2$, $df_{within} = 3r - 3$
+- Critical F-value: $F_{\alpha, 2, 3r-3}$
+- Power depends on effect size and sample size
 
 **Practical Results:**
 Statistical Analysis of Computational Efficiency:
@@ -660,24 +654,24 @@ The comprehensive real-time analysis shows that pre-pruning provides the most co
 
 ### **Comprehensive Mathematical Analysis Results:**
 
-- **Tree Size Ranking**: Cost-complexity pruning ($\alpha=0.1$) produces the smallest trees ($|T| \approx 5$ nodes), followed by pre-pruning ($|T| \leq 15$ nodes), then reduced error pruning ($|T| \approx 93$ nodes)
-- **Noise Robustness**: Pre-pruning (max_depth=3) is most robust to noisy data with noise sensitivity ratio of $5.4\%$, while REP has $22.9\%$ and CCP has $36.6\%$
-- **Computational Speed**: Pre-pruning is fastest in training ($O(8nd)$), while cost-complexity pruning is fastest in prediction ($O(\log 5) \approx O(2.3)$)
-- **Interpretability**: Cost-complexity pruning produces the most interpretable trees with score $2.20$, followed by pre-pruning ($3.12$), then REP ($46.20$)
-- **Real-time Suitability**: Pre-pruning is the best choice for real-time systems, satisfying both $t_{pred} \leq 100ms$ and $t_{update} \leq 100ms$ constraints
-- **Feature-Dependent Noise**: Reduced error pruning performs worst with increasing noise due to its large tree size ($93$ nodes) and depth ($12$), resulting in noise sensitivity coefficient of $115.68k$
-- **Experimental Design**: Our comprehensive evaluation with 20 runs per method provides statistical confidence intervals and power analysis for reliable method comparison
+- **Tree Size Ranking**: Cost-complexity pruning ($\alpha=0.1$) produces the smallest trees, followed by pre-pruning (bounded by max_depth=3), then reduced error pruning
+- **Noise Robustness**: Pre-pruning (max_depth=3) is most robust to noisy data with low noise sensitivity ratio, while REP has medium ratio and CCP has high ratio
+- **Computational Speed**: Pre-pruning is fastest in training ($O(8nd)$), while cost-complexity pruning is fastest in prediction ($O(\log |T|)$)
+- **Interpretability**: Cost-complexity pruning produces the most interpretable trees, followed by pre-pruning, then REP
+- **Real-time Suitability**: Pre-pruning is the best choice for real-time systems, satisfying both $t_{pred} \leq L$ and $t_{update} \leq L$ constraints
+- **Feature-Dependent Noise**: Reduced error pruning performs worst with increasing noise due to its large tree size and depth, resulting in high noise sensitivity coefficient
+- **Experimental Design**: Our comprehensive evaluation provides statistical confidence intervals and power analysis for reliable method comparison
 
 ### **Quantitative Performance Summary:**
 
 | Metric | Pre-pruning | REP | CCP |
 |--------|-------------|-----|-----|
-| Tree Size | 15 nodes | 93 nodes | 5 nodes |
-| Depth | 3 | 12 | 2 |
-| Noise Sensitivity | $11.61k$ | $115.68k$ | $4.48k$ |
-| Training Time | $O(8nd)$ | $O(100nd + 20n)$ | $O(100nd + 46,000)$ |
-| Update Time | 80ms | 930ms | 250ms |
-| Interpretability | $3.12$ | $46.20$ | $2.20$ |
+| Tree Size | Bounded by $max\_depth=3$ | Variable | Variable |
+| Depth | $\leq 3$ | Variable | Variable |
+| Noise Sensitivity | $k \cdot \|T\|^{0.5} \cdot 3$ | $k \cdot \|T\|^{0.5} \cdot 12$ | $k \cdot \|T\|^{0.5} \cdot 2$ |
+| Training Time | $O(8nd)$ | $O(nd\|T\| + \|T\|n_{val})$ | $O(nd\|T\| + \|T\|^2\log\|T\|)$ |
+| Update Time | $O(8nd)$ | $O(nd\|T\| + \|T\|n_{val})$ | $O(nd\|T\| + \|T\|^2\log\|T\|)$ |
+| Interpretability | Low score (best) | High score | Medium score |
 
 ### **Method Selection Guidelines:**
 
