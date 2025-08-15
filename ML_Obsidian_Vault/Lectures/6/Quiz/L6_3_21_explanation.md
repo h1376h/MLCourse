@@ -103,7 +103,7 @@ The difference between algorithms is in:
 ### Practical Implications
 - Trees work well when data has axis-parallel separability
 - Trees struggle with diagonal or curved decision boundaries
-- This limitation can be overcome with ensemble methods (Random Forest)
+- This limitation can be overcome with ensemble methods
 
 ## Mathematical Foundation
 

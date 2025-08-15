@@ -1,7 +1,7 @@
 # Lecture 6: Decision Trees
 
 ## Overview
-This module introduces decision tree learning algorithms, from basic concepts to advanced techniques. You'll learn how decision trees make decisions by recursively partitioning the feature space, explore algorithms like ID3, C4.5, and CART, understand entropy and information gain, and learn about overfitting, pruning, and ensemble methods like Random Forest.
+This module introduces decision tree learning algorithms, from basic concepts to advanced techniques. You'll learn how decision trees make decisions by recursively partitioning the feature space, explore algorithms like ID3, C4.5, and CART, understand entropy and information gain, and learn about overfitting, pruning, and advanced decision tree topics.
 
 ### Lecture 6.1: Foundations of Decision Trees
 - [[L6_1_Decision_Tree_Concept|Decision Tree Concept]]: Basic structure and decision-making process
@@ -50,28 +50,16 @@ This module introduces decision tree learning algorithms, from basic concepts to
 - Required Reading: Chapter 3.4.2 of "Pattern Recognition and Machine Learning" by Bishop
 - Quiz: [[L6_4_Quiz]]: Test your understanding of tree pruning and regularization
 
-### Lecture 6.5: Ensemble Methods - Random Forest
-- [[L6_5_Random_Forest_Concept|Random Forest Concept]]: Ensemble of decision trees
-- [[L6_5_Bagging|Bagging]]: Bootstrap aggregating for trees
-- [[L6_5_Feature_Subsampling|Feature Subsampling]]: Random feature selection
-- [[L6_5_Tree_Diversity|Tree Diversity]]: Ensuring different trees
-- [[L6_5_Voting_Strategies|Voting Strategies]]: Combining tree predictions
-- [[L6_5_Out_of_Bag_Estimation|Out-of-Bag Estimation]]: Internal validation
-- [[L6_5_Feature_Importance|Feature Importance]]: Understanding variable importance
-- [[L6_5_Examples|Random Forest Examples]]: Implementation and applications
-- Required Reading: "Random Forests" by Breiman (2001)
-- Quiz: [[L6_5_Quiz]]: Test your understanding of Random Forest
-
-### Lecture 6.6: Advanced Decision Tree Topics
-- [[L6_6_Multi_Output_Trees|Multi-Output Trees]]: Handling multiple targets
-- [[L6_6_Online_Learning_Trees|Online Learning Trees]]: Incremental tree construction
-- [[L6_6_Streaming_Data|Streaming Data]]: Trees for data streams
-- [[L6_6_Interpretability|Interpretability]]: Making trees understandable
-- [[L6_6_Visualization|Tree Visualization]]: Effective tree plotting
-- [[L6_6_Real_World_Applications|Real-World Applications]]: Case studies
-- [[L6_6_Advanced_Examples|Advanced Examples]]: Complex implementations
+### Lecture 6.5: Advanced Decision Tree Topics
+- [[L6_5_Multi_Output_Trees|Multi-Output Trees]]: Handling multiple targets
+- [[L6_5_Online_Learning_Trees|Online Learning Trees]]: Incremental tree construction
+- [[L6_5_Streaming_Data|Streaming Data]]: Trees for data streams
+- [[L6_5_Interpretability|Interpretability]]: Making trees understandable
+- [[L6_5_Visualization|Tree Visualization]]: Effective tree plotting
+- [[L6_5_Real_World_Applications|Real-World Applications]]: Case studies
+- [[L6_5_Advanced_Examples|Advanced Examples]]: Complex implementations
 - Required Reading: Chapter 14.4 of "Elements of Statistical Learning" by Hastie et al.
-- Quiz: [[L6_6_Quiz]]: Test your understanding of advanced decision tree topics
+- Quiz: [[L6_5_Quiz]]: Test your understanding of advanced decision tree topics
 
 ## Programming Resources
 - [[L6_Decision_Trees_Python_Guide|Python Implementation Guide]]: Step-by-step implementation
@@ -79,7 +67,6 @@ This module introduces decision tree learning algorithms, from basic concepts to
 - [[L6_C4_5_Implementation|C4.5 Algorithm Implementation]]: Advanced algorithm
 - [[L6_Scikit_Learn_Trees|Using Scikit-learn for Decision Trees]]: Library tutorial
 - [[L6_Visualizing_Decision_Trees|Visualizing Decision Trees]]: Plotting techniques
-- [[L6_Random_Forest_Implementation|Random Forest in Python]]: Code examples
 - [[L6_Pruning_Implementation|Tree Pruning Implementation]]: Implementation tutorial
 - [[L6_Advanced_Tree_Code|Advanced Decision Tree Techniques]]: Implementation
 
@@ -90,7 +77,6 @@ This module introduces decision tree learning algorithms, from basic concepts to
 - C4_5_Algorithm_Improvements.pdf
 - Entropy_and_Information_Gain.pdf
 - Tree_Pruning_Techniques.pdf
-- Random_Forest_Ensemble.pdf
 - Advanced_Decision_Trees.pdf
 - Decision_Tree_Applications.pdf
 
@@ -100,7 +86,6 @@ This module introduces decision tree learning algorithms, from basic concepts to
 - [ID3 Algorithm Explained](https://www.youtube.com/watch?v=UdTKxSFQmUc)
 - [C4.5 Algorithm Improvements](https://www.youtube.com/watch?v=Jd12lXhRdlE)
 - [Tree Pruning Techniques](https://www.youtube.com/watch?v=D0efHEJsfHo)
-- [Random Forest Algorithm](https://www.youtube.com/watch?v=J4KqNcQbqBI)
 - [Advanced Decision Trees](https://www.youtube.com/watch?v=Jd12lXhRdlE)
 
 ## All Quizzes
@@ -109,5 +94,4 @@ Test your understanding with these quizzes:
 - [[L6_2_Quiz]]: Entropy and Information Gain
 - [[L6_3_Quiz]]: Decision Tree Algorithms (ID3, C4.5, CART)
 - [[L6_4_Quiz]]: Tree Pruning and Regularization
-- [[L6_5_Quiz]]: Ensemble Methods - Random Forest
-- [[L6_6_Quiz]]: Advanced Decision Tree Topics
+- [[L6_5_Quiz]]: Advanced Decision Tree Topics

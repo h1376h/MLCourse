@@ -1,7 +1,7 @@
 # Lecture 6.4: Tree Pruning and Regularization Quiz
 
 ## Overview
-This quiz contains 18 questions covering different topics from section 6.4 of the lectures on Tree Pruning and Regularization, including overfitting detection, pre-pruning techniques, post-pruning methods, cross-validation, and regularization strategies.
+This quiz contains 17 questions covering different topics from section 6.4 of the lectures on Tree Pruning and Regularization, including overfitting detection, pre-pruning techniques, post-pruning methods, cross-validation, and regularization strategies.
 
 ## Question 1
 
@@ -172,15 +172,15 @@ For a detailed explanation of this question, see [Question 12: Overfitting Detec
 ## Question 13
 
 ### Problem Statement
-Ensemble methods can also serve as regularization for decision trees.
+**Comprehensive Pruning Study**: Conduct a thorough analysis of pruning effectiveness.
 
 #### Task
-1. [📚] How does bagging act as implicit regularization?
-2. [📚] How does Random Forest's feature subsampling regularize individual trees?
-3. [📚] Why can ensemble methods use less pruned (more complex) base trees?
-4. [📚] What is the relationship between base tree complexity and ensemble performance?
+1. [🔍] **Dataset variety**: Test pruning methods on datasets with different characteristics
+2. [🔍] **Comparative analysis**: Compare all major pruning techniques systematically
+3. [🔍] **Performance metrics**: Evaluate using multiple metrics (accuracy, tree size, training time, interpretability)
+4. [🔍] **Recommendations**: Provide evidence-based recommendations for pruning method selection
 
-For a detailed explanation of this question, see [Question 13: Ensemble Regularization](L6_4_13_explanation.md).
+For a detailed explanation of this question, see [Question 13: Comprehensive Pruning Study](L6_4_13_explanation.md).
 
 ## Question 14
 
@@ -234,15 +234,3 @@ For a detailed explanation of this question, see [Question 16: Pruning with Nois
 
 For a detailed explanation of this question, see [Question 17: Advanced Regularization](L6_4_17_explanation.md).
 
-## Question 18
-
-### Problem Statement
-**Comprehensive Pruning Study**: Conduct a thorough analysis of pruning effectiveness.
-
-#### Task
-1. [🔍] **Dataset variety**: Test pruning methods on datasets with different characteristics
-2. [🔍] **Comparative analysis**: Compare all major pruning techniques systematically
-3. [🔍] **Performance metrics**: Evaluate using multiple metrics (accuracy, tree size, training time, interpretability)
-4. [🔍] **Recommendations**: Provide evidence-based recommendations for pruning method selection
-
-For a detailed explanation of this question, see [Question 18: Comprehensive Pruning Study](L6_4_18_explanation.md).

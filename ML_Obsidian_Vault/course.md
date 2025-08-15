@@ -140,11 +140,8 @@
 - 6.4: Tree Pruning and Regularization
   - ⭐ Quiz: [[L6_4_Quiz]]
   - 📚 Examples: Coming Soon
-- 6.5: Ensemble Methods - Random Forest
+- 6.5: Advanced Decision Tree Topics
   - ⭐ Quiz: [[L6_5_Quiz]]
-  - 📚 Examples: Coming Soon
-- 6.6: Advanced Decision Tree Topics
-  - ⭐ Quiz: [[L6_6_Quiz]]
   - 📚 Examples: Coming Soon
 
 ### Lecture 7: Ensemble Methods
