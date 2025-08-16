@@ -163,36 +163,45 @@ Root (200 samples, val_error=0.28)
 
 ![Tree Structure Comparison](../Images/L6_4_Quiz_3/tree_structure_comparison.png)
 
-The visualization shows the original complex tree (left) and the pruned tree (right) after removing the Right subtree.
+The visualization shows the original complex tree (left) and the pruned tree (right) after removing the Right subtree. The pruned tree now correctly shows only the Root and Left subtree remaining, which is the optimal pruning strategy.
 
 ### Step 4: Calculate the Final Validation Error After Pruning
 
-The final validation error is the weighted average of the remaining nodes after pruning the Right subtree:
+After pruning the Right subtree, we need to calculate the validation error of the remaining tree structure. Let me solve this step by step:
 
-**Step-by-step calculation:**
+**Step 1: Understand what pruning the Right subtree means**
+- We remove the Right subtree completely
+- We keep the Root node and Left subtree
+- The tree now has only 2 nodes: Root and Left
 
-**Remaining nodes after pruning:**
-- Root: $0.280 \times 200 = 56.0$ weighted errors
-- Left: $0.250 \times 120 = 30.0$ weighted errors
+**Step 2: Determine how the pruned tree classifies samples**
+- **Samples that would go to Left subtree**: use Left subtree rules
+  - 120 samples with error: 0.250
+  - Weighted errors: 120 × 0.250 = 30.0
+- **Samples that would have gone to Right subtree**: now use Root node rules
+  - 80 samples with error: 0.280
+  - Weighted errors: 80 × 0.280 = 22.4
 
-**Total calculation:**
-- Total weighted errors: $56.0 + 30.0 = 86.0$
-- Total samples: $200 + 120 = 320$
-- **Final validation error**: $\frac{86.0}{320} = 0.269$
+**Step 3: Calculate the weighted average error**
+- Left subtree weighted errors: 30.0
+- Root node weighted errors (for Right subtree samples): 22.4
+- Total weighted errors: 30.0 + 22.4 = 52.4
+- Total samples: 120 + 80 = 200
+- **Final validation error = 52.4 ÷ 200 = 0.262**
 
-**Wait, this seems incorrect!** Let me recalculate carefully:
+**Step 4: Calculate improvement**
+- Original error: 0.280
+- Final error: 0.262
+- **Improvement = 0.280 - 0.262 = +0.018**
 
-Actually, after pruning the Right subtree, we keep the Root and Left subtrees. But the Root node represents the entire tree, so we need to be more careful about this calculation.
+**MATHEMATICAL VERIFICATION:**
+$$\text{Final validation error} = \frac{120 \times 0.250 + 80 \times 0.280}{200} = \frac{30.0 + 22.4}{200} = \frac{52.4}{200} = 0.262$$
 
-**Corrected calculation:**
-- Root represents the entire tree structure, so we use its error: $0.280$
-- Left subtree error: $0.250$
-- **Final validation error**: Weighted average of Root and Left
-- **Final validation error**: $\frac{0.280 \times 200 + 0.250 \times 120}{200 + 120} = \frac{56.0 + 30.0}{320} = \frac{86.0}{320} = 0.269$
-
-**Improvement**: $0.280 - 0.269 = +0.011$ (slightly better)
-
-This corrected calculation shows that pruning actually **improves** performance slightly, which makes more sense given our earlier analysis.
+**Why this makes sense:**
+- We removed the Right subtree which had a high error rate (0.400)
+- We kept the Left subtree which has a lower error rate (0.250)
+- The overall performance improves because we're no longer using the high-error Right subtree for classification
+- The improvement of +0.018 represents a meaningful enhancement in model performance
 
 ### Step 5: Optimal Pruning Strategy for ≤3 Nodes
 
@@ -292,24 +301,24 @@ This strategy provides the lowest validation error while maintaining interpretab
 **Step-by-step cost calculation:**
 
 1. **Calculate misclassifications**:
-   - False Negatives: $0.314 \times 200 \times 0.5 = 31.4$ patients
-   - False Positives: $0.314 \times 200 \times 0.5 = 31.4$ patients
+   - False Negatives: $0.262 \times 200 \times 0.5 = 26.2$ patients
+   - False Positives: $0.262 \times 200 \times 0.5 = 26.2$ patients
 
 2. **Calculate costs**:
-   - False Negative Cost: $31.4 \times \$1000 = \$31,400$
-   - False Positive Cost: $31.4 \times \$100 = \$3,143$
+   - False Negative Cost: $26.2 \times \$1000 = \$26,200$
+   - False Positive Cost: $26.2 \times \$100 = \$2,620$
 
-3. **Total Cost**: $\$31,400 + \$3,143 = \$34,571$
+3. **Total Cost**: $\$26,200 + \$2,620 = \$28,820$
 
 #### Cost Comparison
 
 **Step-by-step analysis:**
 
-1. **Cost Difference**: $\$30,800 - \$34,571 = -\$3,771$ (negative = cost increase)
-2. **Percentage Increase**: $\frac{-\$3,771}{\$30,800} \times 100\% = -12.2\%$
-3. **Root Cause**: Higher validation error (0.314 vs 0.280) leads to more misclassifications
+1. **Cost Difference**: $\$30,800 - \$28,820 = +\$1,980$ (positive = cost savings)
+2. **Percentage Savings**: $\frac{+\$1,980}{\$30,800} \times 100\% = +6.4\%$
+3. **Root Cause**: Lower validation error (0.262 vs 0.280) leads to fewer misclassifications
 
-**Key Insight**: The pruned tree actually increases total costs due to higher error rates, despite the intention to improve efficiency.
+**Key Insight**: The pruned tree actually reduces total costs due to lower error rates, improving both efficiency and accuracy.
 
 
 
@@ -330,22 +339,22 @@ This strategy provides the lowest validation error while maintaining interpretab
 3. **Daily cost**: $\$154.00 \times 30 = \$4,620$
 
 **Pruned Tree Daily Cost:**
-1. **Cost per patient**: $\frac{\$34,571}{200} = \$172.86$
+1. **Cost per patient**: $\frac{\$28,820}{200} = \$144.10$
 2. **Daily capacity**: 50 patients
-3. **Daily cost**: $\$172.86 \times 50 = \$8,642.86$
+3. **Daily cost**: $\$144.10 \times 50 = \$7,205.00$
 
 **Daily Cost Impact:**
-1. **Daily cost change**: $\$4,620 - \$8,642.86 = -\$4,022.86$ (negative = cost increase)
-2. **Percentage increase**: $\frac{-\$4,022.86}{\$4,620} \times 100\% = -87.1\%$
+1. **Daily cost change**: $\$4,620 - \$7,205.00 = -\$2,585.00$ (negative = cost increase)
+2. **Percentage increase**: $\frac{-\$2,585.00}{\$4,620} \times 100\% = -56.0\%$
 3. **Capacity vs. Cost trade-off**: 
    - Capacity increases by $\frac{50-30}{30} \times 100\% = 66.7\%$
-   - But daily cost increases by 87.1%
-   - **Paradox**: Higher throughput comes at a significant cost premium
+   - Daily cost increases by 56.0%
+   - **Trade-off**: Higher throughput comes with increased daily costs, but lower cost per patient
 
 #### Key Insights
-- **Capacity vs. Cost Trade-off**: While the pruned tree processes more patients per day, it does so at a higher cost per patient
-- **Efficiency Paradox**: Higher throughput doesn't necessarily mean better cost efficiency
-- **Quality vs. Quantity**: The pruned tree sacrifices accuracy for speed, leading to higher overall costs
+- **Capacity vs. Cost Trade-off**: While the pruned tree processes more patients per day, it does so at a lower cost per patient
+- **Efficiency Improvement**: Higher throughput comes with better cost efficiency per patient
+- **Quality vs. Quantity**: The pruned tree improves both accuracy and speed, leading to lower overall costs per patient
 
 
 
@@ -364,7 +373,7 @@ This chart compares validation errors before and after each pruning scenario. Th
 ### Cost Analysis
 ![Cost Analysis](../Images/L6_4_Quiz_3/cost_analysis.png)
 
-The cost breakdown shows that while the pruned tree processes more patients daily, it incurs higher costs due to increased error rates. The daily cost comparison reveals that higher capacity comes with a significant cost premium.
+The cost breakdown shows that while the pruned tree processes more patients daily, it actually reduces costs per patient due to lower error rates. The daily cost comparison reveals that higher capacity comes with improved cost efficiency per patient.
 
 ### Three-Node Pruning Strategies
 ![Three-Node Pruning Strategies](../Images/L6_4_Quiz_3/three_node_pruning_strategies.png)
@@ -379,8 +388,8 @@ This visualization ranks different 3-node pruning strategies by validation error
 - **Local vs. Global Optimization**: What's optimal for individual subtrees may not be optimal for the entire tree
 
 ### Practical Applications
-- **Medical AI Trade-offs**: Higher throughput doesn't always mean better outcomes or lower costs
-- **Interpretability vs. Performance**: Simpler models may be preferred even if they have slightly higher error rates
+- **Medical AI Trade-offs**: Higher throughput can sometimes be achieved alongside better outcomes and lower costs
+- **Interpretability vs. Performance**: Simpler models can sometimes achieve better performance while maintaining interpretability
 - **Cost-Benefit Analysis**: The true cost of errors must include both direct financial costs and clinical consequences
 
 ### Common Pitfalls
@@ -395,11 +404,11 @@ This visualization ranks different 3-node pruning strategies by validation error
 
 ## Conclusion
 - **Optimal Pruning Strategy**: Prune the Right subtree, resulting in a tree with Root and Left subtrees
-- **Performance Impact**: Pruning increases validation error from 0.280 to 0.314
-- **Cost Implications**: Higher error rates lead to increased total costs despite improved processing capacity
-- **Medical Considerations**: The trade-off between interpretability and accuracy has real clinical and financial consequences
+- **Performance Impact**: Pruning improves validation error from 0.280 to 0.262
+- **Cost Implications**: Lower error rates lead to decreased total costs while improving processing capacity
+- **Medical Considerations**: The trade-off between interpretability and accuracy can actually improve both clinical and financial outcomes
 - **Best 3-Node Strategy**: Root_Left configuration provides the lowest validation error (0.269) while maintaining interpretability
 
-The analysis reveals that decision tree pruning in medical applications requires careful consideration of multiple factors beyond just validation error rates. The optimal strategy balances model complexity, clinical accuracy, and operational efficiency, recognizing that simpler models may be preferred even when they have slightly higher error rates, especially when interpretability and clinical safety are paramount.
+The analysis reveals that decision tree pruning in medical applications can achieve the best of both worlds: improved accuracy and interpretability. The optimal strategy balances model complexity, clinical accuracy, and operational efficiency, demonstrating that simpler models can sometimes achieve better performance while maintaining clinical safety and interpretability.
 
 

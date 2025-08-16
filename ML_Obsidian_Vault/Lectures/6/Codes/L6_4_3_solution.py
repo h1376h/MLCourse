@@ -153,22 +153,56 @@ print()
 # Step 3: Draw the final tree structure after optimal pruning
 print("=== Step 3: Final Tree Structure After Optimal Pruning ===\n")
 
-# The best pruning is to prune the Left subtree (keep Root and Right)
+# The best pruning is to prune the Right subtree (keep Root and Left)
 final_tree_structure = {
     'Root': {'samples': 200, 'val_error': 0.28},
-    'Right': {'samples': 80, 'val_error': 0.40}
+    'Left': {'samples': 120, 'val_error': 0.25}
 }
 
 print("Final Tree Structure After Optimal Pruning:")
 print("Root (200 samples, val_error=0.28)")
-print("└── Right (80 samples, val_error=0.40)")
+print("└── Left (120 samples, val_error=0.25)")
 print()
 
 # Step 4: Calculate final validation error after pruning
 print("=== Step 4: Final Validation Error After Pruning ===\n")
 
-final_val_error = calculate_weighted_error(['Root', 'Right'], [200, 80])
-print(f"Final validation error after pruning: {final_val_error:.3f}")
+print("PEN AND PAPER SOLUTION:")
+print("Step 1: Understand what pruning the Right subtree means")
+print("  - We remove the Right subtree completely")
+print("  - We keep the Root node and Left subtree")
+print("  - The tree now has only 2 nodes: Root and Left")
+print()
+
+print("Step 2: Determine how the pruned tree classifies samples")
+print("  - Samples that would go to Left subtree: use Left subtree rules")
+print("    * 120 samples with error: 0.250")
+print("    * Weighted errors: 120 × 0.250 = 30.0")
+print("  - Samples that would have gone to Right subtree: now use Root node rules")
+print("    * 80 samples with error: 0.280")
+print("    * Weighted errors: 80 × 0.280 = 22.4")
+print()
+
+print("Step 3: Calculate the weighted average error")
+print("  - Left subtree weighted errors: 30.0")
+print("  - Root node weighted errors (for Right subtree samples): 22.4")
+print("  - Total weighted errors: 30.0 + 22.4 = 52.4")
+print("  - Total samples: 120 + 80 = 200")
+print("  - Final validation error = 52.4 ÷ 200 = 0.262")
+print()
+
+print("Step 4: Calculate improvement")
+print("  - Original error: 0.280")
+print("  - Final error: 0.262")
+print("  - Improvement = 0.280 - 0.262 = +0.018")
+print()
+
+# Calculate the correct final validation error
+final_val_error = (120 * 0.250 + 80 * 0.280) / 200
+print(f"MATHEMATICAL VERIFICATION:")
+print(f"Final validation error = (120 × 0.250 + 80 × 0.280) ÷ 200")
+print(f"Final validation error = (30.0 + 22.4) ÷ 200")
+print(f"Final validation error = 52.4 ÷ 200 = {final_val_error:.3f}")
 print(f"Original validation error: {tree_data['Root']['val_error']:.3f}")
 print(f"Improvement: {tree_data['Root']['val_error'] - final_val_error:.3f}")
 print()
@@ -269,7 +303,7 @@ def calculate_total_cost(val_error, samples, fn_cost, fp_cost):
 # Original tree cost
 orig_cost, orig_fn, orig_fp = calculate_total_cost(tree_data['Root']['val_error'], 200, false_negative_cost, false_positive_cost)
 
-# Pruned tree cost
+# Pruned tree cost (using correct validation error: 0.262)
 pruned_cost, pruned_fn, pruned_fp = calculate_total_cost(final_val_error, 200, false_negative_cost, false_positive_cost)
 
 print("Cost Analysis:")
@@ -652,15 +686,15 @@ root_box2 = FancyBboxPatch((4, 8), 2, 1, boxstyle="round,pad=0.1",
 ax2.add_patch(root_box2)
 ax2.text(5, 8.5, 'Root\n200 samples\nval_error=0.28', ha='center', va='center', fontsize=10)
 
-# Right subtree only
-ax2.plot([5, 7], [8, 6], 'k-', linewidth=2)
-right_box2 = FancyBboxPatch((6.5, 5), 3, 1, boxstyle="round,pad=0.1", 
-                            facecolor='lightcoral', edgecolor='black', linewidth=2)
-ax2.add_patch(right_box2)
-ax2.text(8, 5.5, 'Right\n80 samples\nval_error=0.40', ha='center', va='center', fontsize=10)
+# Left subtree only
+ax2.plot([5, 3], [8, 6], 'k-', linewidth=2)
+left_box2 = FancyBboxPatch((1.5, 5), 3, 1, boxstyle="round,pad=0.1", 
+                           facecolor='lightgreen', edgecolor='black', linewidth=2)
+ax2.add_patch(left_box2)
+ax2.text(3, 5.5, 'Left\n120 samples\nval_error=0.25', ha='center', va='center', fontsize=10)
 
 # Add pruning note
-ax2.text(5, 1, 'Left subtree pruned\n(optimal strategy)', ha='center', va='center', 
+ax2.text(5, 1, 'Right subtree pruned\n(optimal strategy)', ha='center', va='center', 
          fontsize=12, fontweight='bold', color='red')
 
 plt.tight_layout()
