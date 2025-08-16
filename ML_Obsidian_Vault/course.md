@@ -151,13 +151,13 @@
 - 7.2: Bagging (Bootstrap Aggregating)
   - ⭐ Quiz: [[L7_2_Quiz]]
   - 📚 Examples: Coming Soon
-- 7.3: AdaBoost Algorithm
+- 7.3: Random Forest Deep Dive
   - ⭐ Quiz: [[L7_3_Quiz]]
   - 📚 Examples: Coming Soon
-- 7.4: Advanced Boosting Algorithms
+- 7.4: AdaBoost Algorithm
   - ⭐ Quiz: [[L7_4_Quiz]]
   - 📚 Examples: Coming Soon
-- 7.5: Random Forest Deep Dive
+- 7.5: Advanced Boosting Algorithms
   - ⭐ Quiz: [[L7_5_Quiz]]
   - 📚 Examples: Coming Soon
 - 7.6: Stacking and Blending

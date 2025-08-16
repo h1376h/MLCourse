@@ -1,89 +1,94 @@
-# Lecture 7.4: Advanced Boosting Algorithms Quiz
+# Lecture 7.4: AdaBoost Algorithm Quiz
 
 ## Overview
-This quiz tests your understanding of advanced boosting algorithms, including gradient boosting, XGBoost, LightGBM, and CatBoost.
+This quiz tests your understanding of the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, and theoretical foundations.
 
 ## Question 1
 
 ### Problem Statement
-Gradient boosting is different from AdaBoost in how it constructs weak learners.
+AdaBoost uses weak learners and adaptively updates sample weights.
 
 #### Task
-1. How does gradient boosting differ from AdaBoost?
-2. What is the role of gradients in gradient boosting?
-3. Why is gradient boosting called "gradient" boosting?
-4. What types of loss functions can gradient boosting handle?
+1. What is a weak learner in AdaBoost?
+2. Why does AdaBoost focus on misclassified samples?
+3. How does AdaBoost combine weak learners?
+4. What is the main difference between AdaBoost and bagging?
 
 **Answer**:
-1. Gradient boosting builds weak learners sequentially to minimize a loss function, while AdaBoost focuses on sample weights
-2. Gradients indicate the direction of steepest increase in the loss function
-3. It's called "gradient" boosting because it uses gradients of the loss function to guide the learning process
-4. Gradient boosting can handle various loss functions: regression (MSE), classification (log loss), and custom loss functions
+1. A weak learner is a model that performs slightly better than random guessing (>50% accuracy for binary classification)
+2. AdaBoost focuses on misclassified samples to learn from mistakes and improve overall performance
+3. AdaBoost combines weak learners using weighted voting based on their performance
+4. Main difference: AdaBoost adaptively updates sample weights and uses weighted combination, while bagging uses equal weights and simple averaging
 
 ## Question 2
 
 ### Problem Statement
-XGBoost (Extreme Gradient Boosting) is an optimized version of gradient boosting.
+Consider an AdaBoost ensemble with 3 weak learners that have the following errors:
+- Weak Learner 1: ε₁ = 0.3
+- Weak Learner 2: ε₂ = 0.25
+- Weak Learner 3: ε₃ = 0.2
 
 #### Task
-1. What does the "X" in XGBoost stand for?
-2. What are the main optimizations in XGBoost?
-3. How does XGBoost handle regularization?
-4. What is the advantage of XGBoost over standard gradient boosting?
+1. Calculate the weight α for each weak learner using the formula α = 0.5 × ln((1-ε)/ε)
+2. Which weak learner has the highest weight?
+3. What does a higher weight indicate about a weak learner?
+4. How would the final prediction be calculated?
 
 **Answer**:
-1. "X" stands for "Extreme" - indicating enhanced performance and optimization
-2. Main optimizations: parallel processing, cache-aware access, out-of-core computation, tree pruning
-3. XGBoost uses L1 (Lasso) and L2 (Ridge) regularization on both leaf weights and tree structure
-4. Advantages: faster training, better regularization, built-in cross-validation, handles missing values
+1. α₁ = 0.5 × ln(0.7/0.3) ≈ 0.423
+   α₂ = 0.5 × ln(0.75/0.25) ≈ 0.549
+   α₃ = 0.5 × ln(0.8/0.2) ≈ 0.693
+2. Weak Learner 3 has the highest weight (α₃ ≈ 0.693)
+3. Higher weight indicates better performance (lower error rate)
+4. Final prediction = sign(α₁×h₁ + α₂×h₂ + α₃×h₃) where h_i are the weak learner predictions
 
 ## Question 3
 
 ### Problem Statement
-LightGBM is designed for efficiency and speed.
+AdaBoost updates sample weights after each iteration.
 
 #### Task
-1. What does "Light" in LightGBM refer to?
-2. How does LightGBM differ from XGBoost in tree construction?
-3. What is the main advantage of LightGBM for large datasets?
-4. When would you choose LightGBM over XGBoost?
+1. What happens to the weights of correctly classified samples?
+2. What happens to the weights of misclassified samples?
+3. Why does AdaBoost normalize weights after updating?
+4. How does weight updating help AdaBoost learn?
 
 **Answer**:
-1. "Light" refers to the lightweight and fast nature of the algorithm
-2. LightGBM uses leaf-wise tree growth instead of level-wise, creating more unbalanced but efficient trees
-3. Main advantage: much faster training and lower memory usage, especially for large datasets
-4. Choose LightGBM when: speed is crucial, memory is limited, or working with very large datasets
+1. Correctly classified samples get their weights decreased
+2. Misclassified samples get their weights increased
+3. Weights are normalized to maintain a probability distribution and prevent numerical issues
+4. Weight updating helps AdaBoost focus on difficult samples, forcing subsequent weak learners to learn from previous mistakes
 
 ## Question 4
 
 ### Problem Statement
-CatBoost is designed to handle categorical features efficiently.
+AdaBoost has theoretical guarantees and convergence properties.
 
 #### Task
-1. What does "Cat" in CatBoost refer to?
-2. How does CatBoost handle categorical variables differently?
-3. What is the main innovation in CatBoost?
-4. When would you prefer CatBoost over other boosting algorithms?
+1. What is the theoretical bound on AdaBoost's training error?
+2. Why does AdaBoost typically not overfit even with many iterations?
+3. What is the relationship between weak learner performance and ensemble performance?
+4. When might AdaBoost fail to converge?
 
 **Answer**:
-1. "Cat" refers to "Categorical" - the algorithm's strength in handling categorical features
-2. CatBoost uses ordered boosting and target encoding to handle categorical variables without preprocessing
-3. Main innovation: ordered boosting that prevents target leakage and overfitting
-4. Prefer CatBoost when: you have many categorical features, want automatic feature handling, or need to avoid preprocessing
+1. Training error ≤ exp(-2 × Σ α²) where α are the weak learner weights
+2. AdaBoost doesn't overfit because it focuses on reducing training error and has theoretical guarantees
+3. Better weak learners (lower error rates) lead to better ensemble performance
+4. AdaBoost might fail when weak learners have error rates ≥ 0.5 (worse than random guessing)
 
 ## Question 5
 
 ### Problem Statement
-Regularization is important in advanced boosting algorithms to prevent overfitting.
+AdaBoost can be sensitive to noisy data and outliers.
 
 #### Task
-1. What are the main regularization techniques in advanced boosting?
-2. How does early stopping work in boosting?
-3. What is the relationship between learning rate and regularization?
-4. How do you choose the optimal number of boosting iterations?
+1. Why is AdaBoost sensitive to noisy data?
+2. What happens to sample weights for outliers?
+3. How can you make AdaBoost more robust to noise?
+4. When would you choose AdaBoost over other ensemble methods?
 
 **Answer**:
-1. Main regularization: L1/L2 regularization, tree depth limits, minimum samples per leaf, learning rate reduction
-2. Early stopping monitors validation performance and stops training when it starts degrading
-3. Lower learning rate provides implicit regularization by making smaller updates, reducing overfitting
-4. Optimal iterations: use cross-validation to find the point where validation performance plateaus or starts decreasing
+1. AdaBoost is sensitive to noise because it gives high weights to misclassified samples, including noisy ones
+2. Outliers get high weights, making the algorithm focus too much on them
+3. Make AdaBoost more robust by: using regularization, limiting iterations, or preprocessing data to remove noise
+4. Choose AdaBoost when: you have clean data, want fast convergence, or need interpretable weak learners
