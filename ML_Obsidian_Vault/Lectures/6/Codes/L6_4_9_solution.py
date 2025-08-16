@@ -93,6 +93,23 @@ print("   - Complex models: High $L(M)$, potentially low $L(D|M)$")
 print("   - MDL finds the sweet spot where adding complexity")
 print("     doesn't significantly improve data fitting")
 
+print("\nDETAILED PEN-AND-PAPER WORK:")
+print("   Let's work through this step by step:")
+print("   ")
+print("   We want to minimize: $C_{\\text{total}} = \\alpha \\cdot L(M) + \\beta \\cdot L(D|M)$")
+print("   ")
+print("   Taking the derivative with respect to $L(M)$:")
+print("   $\\frac{\\partial C_{\\text{total}}}{\\partial L(M)} = \\alpha + \\beta \\cdot \\frac{\\partial L(D|M)}{\\partial L(M)}$")
+print("   ")
+print("   Setting this equal to zero for optimality:")
+print("   $\\alpha + \\beta \\cdot \\frac{\\partial L(D|M)}{\\partial L(M)} = 0$")
+print("   ")
+print("   Solving for $\\alpha$:")
+print("   $\\alpha = -\\beta \\cdot \\frac{\\partial L(D|M)}{\\partial L(M)}$")
+print("   ")
+print("   Since $\\frac{\\partial L(D|M)}{\\partial L(M)} < 0$ (more complex models fit data better),")
+print("   we have $\\alpha > 0$, meaning complexity is penalized.")
+
 # ============================================================================
 # TASK 2: ESTIMATE DESCRIPTION LENGTH FOR TREE WITH 5 NODES
 # ============================================================================
@@ -123,6 +140,32 @@ print("   Assuming uniform distribution: $L(D|M) \\approx 1000 \\times \\log_2(5
 
 print("\nStep 5: Total description length")
 print("   $L_{\\text{total}} = 16.6 + 5 + 2322 = 2343.6$ bits")
+
+print("\nDETAILED PEN-AND-PAPER WORK:")
+print("   Let's break this down step by step:")
+print("   ")
+print("   Given: Tree with 5 nodes, 10 features, binary splits, 1000 samples")
+print("   ")
+print("   Step 1: Structure Description Length")
+print("   $L_{\\text{structure}} = \\text{Number of nodes} \\times \\log_2(\\text{Number of features})$")
+print("   $L_{\\text{structure}} = 5 \\times \\log_2(10)$")
+print("   $\\log_2(10) = \\frac{\\ln(10)}{\\ln(2)} = \\frac{2.3026}{0.6931} = 3.3219$")
+print("   $L_{\\text{structure}} = 5 \\times 3.3219 = 16.61$ bits")
+print("   ")
+print("   Step 2: Parameter Description Length")
+print("   $L_{\\text{parameters}} = \\sum_{\\text{nodes}} \\log_2(\\text{Number of split values})$")
+print("   For binary splits: $\\log_2(2) = 1$ bit per node")
+print("   $L_{\\text{parameters}} = 5 \\times 1 = 5$ bits")
+print("   ")
+print("   Step 3: Data Description Length")
+print("   $L(D|M) = -\\sum_{i=1}^{5} n_i \\log_2(p_i)$")
+print("   Assuming uniform distribution: $p_i = \\frac{1}{5}$ for each leaf")
+print("   $L(D|M) = -1000 \\times \\log_2(\\frac{1}{5}) = 1000 \\times \\log_2(5)$")
+print("   $\\log_2(5) = \\frac{\\ln(5)}{\\ln(2)} = \\frac{1.6094}{0.6931} = 2.3219$")
+print("   $L(D|M) = 1000 \\times 2.3219 = 2321.9$ bits")
+print("   ")
+print("   Step 4: Total Description Length")
+print("   $L_{\\text{total}} = 16.61 + 5 + 2321.9 = 2343.51$ bits")
 
 # ============================================================================
 # TASK 3: DESCRIBE HOW MDL PENALIZES OVERLY COMPLEX TREES
@@ -156,6 +199,29 @@ print("   The optimal tree size satisfies:")
 print("   $\\frac{\\partial L(M)}{\\partial n} = -\\frac{\\partial L(D|M)}{\\partial n}$")
 print("   This is the point where adding nodes doesn't improve the trade-off")
 
+print("\nDETAILED PEN-AND-PAPER WORK:")
+print("   Let's analyze the penalty mechanism mathematically:")
+print("   ")
+print("   For a tree with $n$ nodes and $f$ features:")
+print("   $L_{\\text{structure}} = n \\cdot \\log_2(f)$")
+print("   $L_{\\text{parameters}} = n \\cdot \\log_2(s)$ where $s$ is average split values")
+print("   ")
+print("   Total model cost: $L(M) = n \\cdot (\\log_2(f) + \\log_2(s))$")
+print("   ")
+print("   The derivative with respect to $n$:")
+print("   $\\frac{\\partial L(M)}{\\partial n} = \\log_2(f) + \\log_2(s) = \\text{constant}$")
+print("   ")
+print("   This means the penalty grows linearly with $n$.")
+print("   ")
+print("   For the data cost, typically:")
+print("   $\\frac{\\partial L(D|M)}{\\partial n} < 0$ (more nodes fit data better)")
+print("   but with diminishing returns: $\\frac{\\partial^2 L(D|M)}{\\partial n^2} > 0$")
+print("   ")
+print("   At optimality:")
+print("   $\\frac{\\partial L(M)}{\\partial n} = -\\frac{\\partial L(D|M)}{\\partial n}$")
+print("   ")
+print("   This gives us the optimal number of nodes $n^*$.")
+
 # ============================================================================
 # TASK 4: LIST MAIN ADVANTAGES OF MDL-BASED PRUNING
 # ============================================================================
@@ -187,6 +253,27 @@ print("   - Easy to implement and understand")
 print("   - Scales well with data size")
 print("   - Provides interpretable results")
 
+print("\nDETAILED PEN-AND-PAPER WORK:")
+print("   Let's analyze each advantage in detail:")
+print("   ")
+print("   1. THEORETICAL ADVANTAGES:")
+print("   - Information Theory Foundation:")
+print("     * MDL is based on Shannon's information theory")
+print("     * Provides a principled way to measure model complexity")
+print("     * Connects to Kolmogorov complexity and minimum message length")
+print("   ")
+print("   2. PRACTICAL ADVANTAGES:")
+print("   - Computational Efficiency:")
+print("     * No need for multiple train/validation splits")
+print("     * Single pass through the data")
+print("     * Time complexity: $O(n \\log n)$ vs $O(k \\cdot n \\log n)$ for k-fold CV")
+print("   ")
+print("   3. STATISTICAL ADVANTAGES:")
+print("   - Overfitting Prevention:")
+print("     * Complexity penalty: $L(M) = O(n)$")
+print("     * Automatic regularization without hyperparameter tuning")
+print("     * Based on data-dependent complexity measures")
+
 # ============================================================================
 # TASK 5: MDL SUGGESTION FOR SPLIT WITH 2 UNIQUE VALUES
 # ============================================================================
@@ -217,6 +304,30 @@ print("\nStep 4: Decision criteria")
 print("   Keep the split if the reduction in $L(D|M)$ exceeds")
 print("   the increase in $L(M)$: $\\Delta L(D|M) > \\Delta L(M)$")
 
+print("\nDETAILED PEN-AND-PAPER WORK:")
+print("   Let's work through this decision process:")
+print("   ")
+print("   Given: Feature with only 2 unique values")
+print("   ")
+print("   Step 1: Calculate Model Cost with Split")
+print("   $L(M_{\\text{with split}}) = L_{\\text{structure}} + L_{\\text{parameters}}$")
+print("   $L_{\\text{structure}} = 1 \\times \\log_2(f)$ (1 new node, f features)")
+print("   $L_{\\text{parameters}} = \\log_2(2) = 1$ bit (binary split)")
+print("   $L(M_{\\text{with split}}) = \\log_2(f) + 1$ bits")
+print("   ")
+print("   Step 2: Calculate Model Cost without Split")
+print("   $L(M_{\\text{without split}}) = 0$ (no additional nodes)")
+print("   ")
+print("   Step 3: Decision Rule")
+print("   Keep split if: $L(D|M_{\\text{with split}}) + L(M_{\\text{with split}}) < L(D|M_{\\text{without split}})$")
+print("   ")
+print("   This simplifies to: $L(D|M_{\\text{with split}}) + \\log_2(f) + 1 < L(D|M_{\\text{without split}})$")
+print("   ")
+print("   Or: $\\Delta L(D|M) > \\log_2(f) + 1$")
+print("   ")
+print("   Interpretation: The split must reduce data description length by more than")
+print("   $\\log_2(f) + 1$ bits to be worth keeping.")
+
 # ============================================================================
 # TASK 6: MDL FOR BANDWIDTH OPTIMIZATION
 # ============================================================================
@@ -245,6 +356,28 @@ print("\nStep 4: Optimal solution")
 print("   The optimal tree satisfies:")
 print("   $\\frac{\\partial L(D|M)}{\\partial L(M)} = -\\lambda$")
 print("   This gives the optimal complexity for the given bandwidth")
+
+print("\nDETAILED PEN-AND-PAPER WORK:")
+print("   Let's solve this constrained optimization problem:")
+print("   ")
+print("   Problem: $\\min_{M} L(D|M)$ subject to $L(M) \\leq B_{\\text{max}}$")
+print("   ")
+print("   Step 1: Form the Lagrangian")
+print("   $\\mathcal{L} = L(D|M) + \\lambda(L(M) - B_{\\text{max}})$")
+print("   where $\\lambda \\geq 0$ is the Lagrange multiplier")
+print("   ")
+print("   Step 2: First-order conditions")
+print("   $\\frac{\\partial \\mathcal{L}}{\\partial L(M)} = \\frac{\\partial L(D|M)}{\\partial L(M)} + \\lambda = 0$")
+print("   $\\frac{\\partial \\mathcal{L}}{\\partial \\lambda} = L(M) - B_{\\text{max}} = 0$")
+print("   ")
+print("   Step 3: Solve for optimality")
+print("   From first equation: $\\frac{\\partial L(D|M)}{\\partial L(M)} = -\\lambda$")
+print("   From second equation: $L(M) = B_{\\text{max}}$")
+print("   ")
+print("   Step 4: Interpretation")
+print("   The optimal tree uses exactly $B_{\\text{max}}$ bits for the model")
+print("   and minimizes the data description length given this constraint.")
+print("   The Lagrange multiplier $\\lambda$ represents the 'price' of bandwidth.")
 
 # ============================================================================
 # TASK 7: CALCULATE DESCRIPTION LENGTH PENALTY
@@ -280,6 +413,38 @@ print("   Adding 4 nodes increases the model description")
 print("   by 17.28 bits. This penalty must be justified by")
 print("   a corresponding reduction in $L(D|M)$")
 
+print("\nDETAILED PEN-AND-PAPER WORK:")
+print("   Let's work through this calculation step by step:")
+print("   ")
+print("   Given: Tree grows from 3 to 7 nodes, 10 features, binary splits")
+print("   ")
+print("   Step 1: Calculate Structure Penalty")
+print("   $L_{\\text{structure}}(n) = n \\times \\log_2(10)$")
+print("   $\\log_2(10) = \\frac{\\ln(10)}{\\ln(2)} = \\frac{2.3026}{0.6931} = 3.3219$")
+print("   ")
+print("   For 3 nodes: $L_{\\text{structure}}(3) = 3 \\times 3.3219 = 9.9657$ bits")
+print("   For 7 nodes: $L_{\\text{structure}}(7) = 7 \\times 3.3219 = 23.2533$ bits")
+print("   ")
+print("   Structure penalty: $\\Delta L_{\\text{structure}} = 23.2533 - 9.9657 = 13.2876$ bits")
+print("   ")
+print("   Step 2: Calculate Parameter Penalty")
+print("   $L_{\\text{parameters}}(n) = n \\times \\log_2(2)$")
+print("   $\\log_2(2) = 1$ bit per node")
+print("   ")
+print("   For 3 nodes: $L_{\\text{parameters}}(3) = 3 \\times 1 = 3$ bits")
+print("   For 7 nodes: $L_{\\text{parameters}}(7) = 7 \\times 1 = 7$ bits")
+print("   ")
+print("   Parameter penalty: $\\Delta L_{\\text{parameters}} = 7 - 3 = 4$ bits")
+print("   ")
+print("   Step 3: Total Penalty")
+print("   $\\Delta L(M) = \\Delta L_{\\text{structure}} + \\Delta L_{\\text{parameters}}$")
+print("   $\\Delta L(M) = 13.2876 + 4 = 17.2876$ bits")
+print("   ")
+print("   Step 4: Interpretation")
+print("   The additional 4 nodes increase the model description length by 17.29 bits.")
+print("   This penalty must be justified by a reduction in data description length")
+print("   of at least 17.29 bits to make the more complex tree worthwhile.")
+
 # ============================================================================
 # TASK 8: BIAS-VARIANCE DECOMPOSITION AND MDL
 # ============================================================================
@@ -311,6 +476,32 @@ print("   MDL pruning increases bias but decreases variance:")
 print("   - $\\Delta \\text{Bias}^2 > 0$ (bias increases)")
 print("   - $\\Delta \\text{Variance} < 0$ (variance decreases)")
 print("   - Optimal when $|\\Delta \\text{Bias}^2| < |\\Delta \\text{Variance}|$")
+
+print("\nDETAILED PEN-AND-PAPER WORK:")
+print("   Let's analyze the bias-variance trade-off mathematically:")
+print("   ")
+print("   Step 1: Bias-Variance Decomposition")
+print("   For a prediction $\\hat{f}(x)$ of the true function $f(x)$:")
+print("   $E[(\\hat{f}(x) - f(x))^2] = (E[\\hat{f}(x)] - f(x))^2 + E[(\\hat{f}(x) - E[\\hat{f}(x)])^2]$")
+print("   $\\text{Total Error} = \\text{Bias}^2 + \\text{Variance}$")
+print("   ")
+print("   Step 2: Variance as Function of Complexity")
+print("   For decision trees with $n$ nodes:")
+print("   $\\text{Variance} \\approx \\frac{\\sigma^2}{n}$ where $\\sigma^2$ is noise variance")
+print("   This approximation holds because more nodes = more parameters = higher variance")
+print("   ")
+print("   Step 3: Effect of Pruning")
+print("   Pruning from $n_1$ to $n_2 < n_1$ nodes:")
+print("   $\\Delta \\text{Variance} = \\frac{\\sigma^2}{n_2} - \\frac{\\sigma^2}{n_1} = \\sigma^2(\\frac{1}{n_2} - \\frac{1}{n_1}) > 0$")
+print("   ")
+print("   Step 4: Bias Effect")
+print("   Bias typically increases with pruning:")
+print("   $\\Delta \\text{Bias}^2 > 0$ (simpler models may miss complex patterns)")
+print("   ")
+print("   Step 5: Optimal Pruning")
+print("   MDL finds the optimal point where:")
+print("   $|\\Delta \\text{Bias}^2| < |\\Delta \\text{Variance}|$")
+print("   This minimizes the total error.")
 
 # ============================================================================
 # VISUALIZATION AND PRACTICAL EXAMPLES
@@ -469,7 +660,7 @@ ax.set_ylim(0, 0.5)
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'bias_variance_tradeoff.png'), dpi=300, bbox_inches='tight')
 
-# Create MDL penalty visualization
+# Create MDL penalty visualization with corrected arrow placement
 fig, ax = plt.subplots(figsize=(10, 6))
 
 # Show penalty for growing from 3 to 7 nodes
@@ -495,11 +686,23 @@ for i, (bar, penalty) in enumerate(zip(bars, penalties)):
     ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 5, 
             f'{penalty:.1f}', ha='center', va='bottom', fontweight='bold')
 
-# Add penalty increase arrow
+# Add penalty increase arrow with corrected placement
+# Position the arrow to clearly show the difference between bar heights
+arrow_x = 0.5  # Center between bars
+arrow_y_start = penalty_3   # Start just above the first bar
+arrow_y_end = penalty_7     # End just above the second bar
+
+# Make the arrow clearly visible and properly positioned
 ax.annotate(f'Penalty Increase:\n{penalty_increase:.1f} bits', 
-            xy=(0.5, (penalty_3 + penalty_7)/2), xytext=(0.5, (penalty_3 + penalty_7)/2 + 50),
-            arrowprops=dict(arrowstyle='<->', color='red', lw=2),
-            ha='center', fontsize=10, fontweight='bold')
+            xy=(arrow_x, arrow_y_end), xytext=(arrow_x, arrow_y_start),
+            arrowprops=dict(arrowstyle='->', color='red', lw=3, shrinkA=0, shrinkB=0, 
+                           mutation_scale=1.5, alpha=1.0),
+            ha='center', fontsize=12, fontweight='bold', 
+            bbox=dict(boxstyle="round,pad=0.3", fc="yellow", ec="red", lw=2, alpha=0.9))
+
+# Add a horizontal line connecting the tops of the bars to show the penalty increase
+ax.plot([0.25, 0.75], [penalty_3, penalty_7], 'r-', linewidth=2, alpha=0.7)
+ax.plot([0.25, 0.75], [penalty_3, penalty_7], 'ro', markersize=6, alpha=0.8)
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'mdl_penalty_visualization.png'), dpi=300, bbox_inches='tight')
