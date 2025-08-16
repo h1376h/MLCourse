@@ -55,10 +55,10 @@ Consider a bagging ensemble with the following characteristics:
 | Base learner | Decision Tree |
 
 #### Task
-1. [📚] How many different training datasets will be created?
-2. [📚] What is the expected number of unique samples per bootstrap sample?
-3. [📚] How many samples will be out-of-bag for each tree on average?
-4. [📚] What is the purpose of out-of-bag samples?
+1. How many different training datasets will be created?
+2. What is the expected number of unique samples per bootstrap sample?
+3. How many samples will be out-of-bag for each tree on average?
+4. What is the purpose of out-of-bag samples?
 
 For a detailed explanation of this question, see [Question 4: Bagging Parameters and OOB](L7_2_4_explanation.md).
 
