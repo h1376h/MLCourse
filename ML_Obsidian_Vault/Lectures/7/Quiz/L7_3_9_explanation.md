@@ -1,7 +1,7 @@
 # Question 9: Random Forest Configuration Comparison
 
 ## Problem Statement
-You have three Random Forest configurations for a dataset with $20$ total features:
+Compare three Random Forest configurations for a dataset with $20$ total features:
 
 **Configuration A:** $100$ trees, $5$ features per split, $\text{max-depth} = 10$
 
@@ -11,12 +11,9 @@ You have three Random Forest configurations for a dataset with $20$ total featur
 
 ### Task
 1. Which configuration will likely have the highest tree diversity?
-2. Which configuration will be fastest to train?
-   - Training speed $\propto$ trees × depth × features per split
-3. Which configuration will likely have the lowest variance in predictions?
-   - Variance: more trees = lower variance, deeper trees = higher variance
-4. If you have limited memory, which configuration would you choose?
-   - Memory $\propto 2^{\text{depth}} \times \text{trees}$
+2. Which configuration will be fastest to train? (Training speed $\propto$ trees × depth × features per split)
+3. Which configuration will likely have the lowest variance in predictions? (Variance: more trees = lower variance, deeper trees = higher variance)
+4. If you have limited memory, which configuration would you choose? (Memory $\propto 2^{\text{depth}} \times \text{trees}$)
 
 ## Understanding the Problem
 Random Forests are ensemble methods that combine multiple decision trees to improve prediction accuracy and reduce overfitting. The performance characteristics of a Random Forest depend on several key hyperparameters:
