@@ -1,4 +1,4 @@
-# Question 11: Decision Tree Overfitting and Pruning
+# Question 11: Overfitting Detection and Mitigation
 
 ## Problem Statement
 An e-commerce company built a decision tree to predict customer churn. The tree achieved 98% training accuracy but only 72% validation accuracy. Here's their tree structure:
