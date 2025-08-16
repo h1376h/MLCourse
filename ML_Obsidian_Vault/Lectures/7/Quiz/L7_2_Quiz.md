@@ -9,10 +9,10 @@ This quiz contains 5 questions covering different topics from section 7.2 of the
 Bagging uses bootstrap sampling to create diverse training sets.
 
 #### Task
-1. [🔍] What is bootstrap sampling and how does it work?
-2. [🔍] If you have a dataset with 1000 samples, how many samples will each bootstrap sample contain?
-3. [🔍] What is the expected number of unique samples in each bootstrap sample?
-4. [🔍] Why is bootstrap sampling important for bagging?
+1. What is bootstrap sampling and how does it work?
+2. If you have a dataset with 1000 samples, how many samples will each bootstrap sample contain?
+3. What is the expected number of unique samples in each bootstrap sample?
+4. Why is bootstrap sampling important for bagging?
 
 For a detailed explanation of this question, see [Question 1: Bootstrap Sampling in Bagging](L7_2_1_explanation.md).
 
