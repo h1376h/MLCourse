@@ -121,43 +121,41 @@ pruning_options = {
     'Combined Pruning': {'train_acc': 0.85, 'test_acc': 0.80, 'depth': 3, 'leaves': 8}
 }
 
-def calculate_robustness_score(option_data, depth_weight=0.1, leaves_weight=0.02):
+def calculate_robustness_score(option_data):
     """
-    Calculate robustness score based on multiple criteria using mathematical weighting
+    Calculate robustness score using the generalization gap metric from the question
     
-    Mathematical Formula:
-    Robustness = Test_Accuracy - Overfitting_Gap - Complexity_Penalty
+    Mathematical Formula from Question:
+    G = (Training_Acc - Test_Acc) / log(Depth × Leaves)
     
     Where:
-    - Overfitting_Gap = Training_Accuracy - Test_Accuracy
-    - Complexity_Penalty = (Depth × depth_weight) + (Leaves × leaves_weight)
+    - Lower G means more robust (smaller generalization gap per unit complexity)
+    - Complexity is measured by log(Depth × Leaves)
     
     Parameters:
     - option_data: Dictionary with pruning method performance data
-    - depth_weight: Weight for depth penalty (default: 0.1)
-    - leaves_weight: Weight for leaves penalty (default: 0.02)
     
     Returns:
-    - Dictionary with gap, complexity penalty, and robustness score
+    - Dictionary with gap, complexity, and robustness score
     """
-    # Overfitting gap (lower is better)
+    # Overfitting gap (Training_Acc - Test_Acc)
     gap = option_data['train_acc'] - option_data['test_acc']
     
-    # Complexity penalty using weighted combination
-    # depth_weight and leaves_weight can be tuned based on application requirements
-    complexity_penalty = (option_data['depth'] * depth_weight) + (option_data['leaves'] * leaves_weight)
+    # Complexity measure: log(Depth × Leaves) as specified in the question
+    complexity = np.log(option_data['depth'] * option_data['leaves'])
     
-    # Robustness score (higher is better)
-    robustness = option_data['test_acc'] - gap - complexity_penalty
+    # Robustness score: G = gap / complexity (lower is better)
+    # We invert this so higher score means more robust
+    robustness_score = 1 / (gap / complexity) if gap > 0 else float('inf')
     
     return {
         'gap': gap,
-        'complexity_penalty': complexity_penalty,
-        'robustness_score': robustness
+        'complexity': complexity,
+        'robustness_score': robustness_score
     }
 
 print("Pruning Method Analysis:")
-print(f"{'Method':<20} {'Train':<8} {'Test':<8} {'Depth':<6} {'Leaves':<7} {'Gap':<6} {'Robustness':<10}")
+print(f"{'Method':<20} {'Train':<8} {'Test':<8} {'Depth':<6} {'Leaves':<7} {'Gap':<6} {'Complexity':<10} {'Robustness':<10}")
 print("-" * 80)
 
 robustness_results = {}
@@ -166,7 +164,7 @@ for method, data in pruning_options.items():
     robustness_results[method] = robustness
     
     print(f"{method:<20} {data['train_acc']:<8.3f} {data['test_acc']:<8.3f} "
-          f"{data['depth']:<6} {data['leaves']:<7} {robustness['gap']:<6.3f} {robustness['robustness_score']:<10.3f}")
+          f"{data['depth']:<6} {data['leaves']:<7} {robustness['gap']:<6.3f} {robustness['complexity']:<10.3f} {robustness['robustness_score']:<10.3f}")
 
 # Find most robust method
 most_robust = max(robustness_results.items(), key=lambda x: x[1]['robustness_score'])
@@ -178,36 +176,30 @@ print(f"Reason: Best balance of test accuracy, overfitting gap, and complexity")
 print("\n\n3. Adaptive Pruning Design: Mathematical Functions")
 print("-" * 70)
 
-def design_adaptive_pruning_functions(noise_level, base_min_samples=10, base_max_depth=10, 
-                                    noise_scaling_factor=2.0, min_depth=2, min_samples=2):
+def design_adaptive_pruning_functions(noise_level):
     """
     Design mathematical functions that adjust pruning thresholds based on noise level
     
-    Mathematical Functions:
-    - f1(σ) = min_samples_split = max(min_samples, ⌊base_min_samples × (1 + noise_scaling_factor × σ)⌋)
-    - f2(σ) = max_depth = max(min_depth, ⌊base_max_depth / (1 + 2σ)⌋)
-    - f3(σ) = min_impurity_decrease = 0.01 × (1 + 3σ)
+    Mathematical Functions from Question:
+    - f1(σ) = min_samples_split = max(10, ⌈50σ²⌉)
+    - f2(σ) = max_depth = ⌊8 - 4σ⌋
+    - f3(σ) = min_impurity_decrease = 0.01 + 0.1σ
     
     Parameters:
     - noise_level: Estimated noise level σ
-    - base_min_samples: Base minimum samples for splitting
-    - base_max_depth: Base maximum tree depth
-    - noise_scaling_factor: How aggressively to scale with noise
-    - min_depth: Minimum allowed tree depth
-    - min_samples: Minimum allowed samples for splitting
     
     Returns:
     - Dictionary with adaptive pruning parameters and mathematical functions
     """
     
-    # Mathematical function 1: min_samples_split increases with noise
-    f1_sigma = lambda sigma: max(min_samples, int(base_min_samples * (1 + noise_scaling_factor * sigma)))
+    # Mathematical function 1: min_samples_split = max(10, ⌈50σ²⌉)
+    f1_sigma = lambda sigma: max(10, int(np.ceil(50 * sigma**2)))
     
-    # Mathematical function 2: max_depth decreases with noise
-    f2_sigma = lambda sigma: max(min_depth, int(base_max_depth / (1 + 2 * sigma)))
+    # Mathematical function 2: max_depth = ⌊8 - 4σ⌋
+    f2_sigma = lambda sigma: int(np.floor(8 - 4 * sigma))
     
-    # Mathematical function 3: min_impurity_decrease increases with noise
-    f3_sigma = lambda sigma: 0.01 * (1 + 3 * sigma)
+    # Mathematical function 3: min_impurity_decrease = 0.01 + 0.1σ
+    f3_sigma = lambda sigma: 0.01 + 0.1 * sigma
     
     # Calculate optimal values for given noise level
     optimal_params = {
@@ -218,9 +210,9 @@ def design_adaptive_pruning_functions(noise_level, base_min_samples=10, base_max
     
     # Store mathematical functions for analysis
     mathematical_functions = {
-        'f1(σ)': f"min_samples_split = max({min_samples}, ⌊{base_min_samples} × (1 + {noise_scaling_factor}σ)⌋)",
-        'f2(σ)': f"max_depth = max({min_depth}, ⌊{base_max_depth}/(1 + 2σ)⌋)",
-        'f3(σ)': f"min_impurity_decrease = 0.01 × (1 + 3σ)"
+        'f1(σ)': "min_samples_split = max(10, ⌈50σ²⌉)",
+        'f2(σ)': "max_depth = ⌊8 - 4σ⌋",
+        'f3(σ)': "min_impurity_decrease = 0.01 + 0.1σ"
     }
     
     return optimal_params, mathematical_functions
@@ -242,43 +234,42 @@ print(f"  min_impurity_decrease: {adaptive_params['min_impurity_decrease']:.4f}"
 print("\n\n4. Outlier Impact Analysis: Mathematical Calculations")
 print("-" * 70)
 
-def calculate_outlier_impact(outlier_percentage, boundary_shift, base_accuracy, noise_level,
-                           train_improvement_factor=0.5, val_degradation_factor=0.8):
+def calculate_outlier_impact(outlier_percentage, boundary_shift, training_accuracy, validation_accuracy):
     """
-    Calculate the impact of outliers on model performance using mathematical relationships
+    Calculate the impact of outliers on model performance using exact formulas from question
     
-    Mathematical Model:
-    - Training accuracy change: Δ_train = outlier% × (1 - base_accuracy) × train_improvement_factor
-    - Validation accuracy change: Δ_val = -outlier% × base_accuracy × val_degradation_factor
-    - Optimal threshold: threshold = noise_level × (1 + outlier%)
+    Mathematical Formulas from Question:
+    - Expected change in training accuracy: Δ_train = p × Δ × Training_Acc
+    - Expected change in validation accuracy: Δ_val = p × Δ × Validation_Acc
+    - Optimal outlier removal threshold: τ = argmin_τ |Δ_train(τ) - Δ_val(τ)|
     
     Parameters:
     - outlier_percentage: Percentage of data that are outliers (0 ≤ p ≤ 1)
-    - boundary_shift: How much outliers shift the decision boundary
-    - base_accuracy: Base accuracy without outliers (0 ≤ acc ≤ 1)
-    - noise_level: Noise level in the data
-    - train_improvement_factor: Factor for training accuracy improvement (default: 0.5)
-    - val_degradation_factor: Factor for validation accuracy degradation (default: 0.8)
+    - boundary_shift: How much outliers shift the decision boundary (Δ)
+    - training_accuracy: Training accuracy without outliers
+    - validation_accuracy: Validation accuracy without outliers
     
     Returns:
     - Dictionary with calculated changes and optimal threshold
     """
     
-    # Mathematical relationship 1: Training accuracy typically improves with outliers
-    # Model fits to outliers, improving training performance
-    train_acc_change = outlier_percentage * (1 - base_accuracy) * train_improvement_factor
+    # Mathematical formula 1: Training accuracy change
+    # Δ_train = p × Δ × Training_Acc
+    train_acc_change = outlier_percentage * boundary_shift * training_accuracy
     
-    # Mathematical relationship 2: Validation accuracy typically decreases with outliers
-    # Outliers don't generalize, harming validation performance
-    val_acc_change = -outlier_percentage * base_accuracy * val_degradation_factor
+    # Mathematical formula 2: Validation accuracy change  
+    # Δ_val = p × Δ × Validation_Acc
+    val_acc_change = outlier_percentage * boundary_shift * validation_accuracy
     
-    # Mathematical relationship 3: Optimal outlier removal threshold
-    # Based on noise level and outlier percentage
-    optimal_threshold = noise_level * (1 + outlier_percentage)
+    # Mathematical formula 3: Optimal outlier removal threshold
+    # τ = argmin_τ |Δ_train(τ) - Δ_val(τ)|
+    # For this analysis, we use the difference between changes as a proxy
+    # The optimal threshold minimizes the absolute difference
+    optimal_threshold = abs(train_acc_change - val_acc_change)
     
     # Calculate new accuracies
-    new_train_acc = base_accuracy + train_acc_change
-    new_val_acc = base_accuracy + val_acc_change
+    new_train_acc = training_accuracy + train_acc_change
+    new_val_acc = validation_accuracy + val_acc_change
     
     return {
         'train_acc_change': train_acc_change,
@@ -291,16 +282,16 @@ def calculate_outlier_impact(outlier_percentage, boundary_shift, base_accuracy, 
 # Given parameters
 outlier_percentage = 0.10  # 10%
 boundary_shift = 0.5
-base_accuracy = 0.72  # validation accuracy
-noise_level = np.sqrt(NOISE_VARIANCE)
+training_accuracy = TRAINING_ACCURACY  # 0.95
+validation_accuracy = VALIDATION_ACCURACY  # 0.72
 
-outlier_impact = calculate_outlier_impact(outlier_percentage, boundary_shift, base_accuracy, noise_level)
+outlier_impact = calculate_outlier_impact(outlier_percentage, boundary_shift, training_accuracy, validation_accuracy)
 
 print(f"Outlier Impact Analysis:")
 print(f"  Outlier percentage: {outlier_percentage:.1%}")
 print(f"  Boundary shift: {boundary_shift}")
-print(f"  Base accuracy: {base_accuracy:.3f}")
-print(f"  Noise level: {noise_level:.3f}")
+print(f"  Training accuracy: {training_accuracy:.3f}")
+print(f"  Validation accuracy: {validation_accuracy:.3f}")
 print(f"\nExpected changes:")
 print(f"  Training accuracy change: {outlier_impact['train_acc_change']:+.3f}")
 print(f"  New training accuracy: {outlier_impact['new_train_acc']:.3f}")
@@ -312,42 +303,73 @@ print(f"  Optimal outlier removal threshold: {outlier_impact['optimal_threshold'
 print("\n\n5. Exponential Noise Modeling: Optimal Pruning Function")
 print("-" * 70)
 
-def exponential_noise_optimal_pruning(x1_values, base_noise=0.1, noise_scaling=0.5, 
-                                    base_depth=8, depth_decay=2, base_error=0.15, error_scaling=0.5):
+def exponential_noise_optimal_pruning(x1_values, base_noise=0.1, noise_scaling=0.5):
     """
-    Calculate optimal pruning parameters for exponential noise model using mathematical relationships
+    Calculate optimal pruning parameters for exponential noise model using exact formulas from question
     
-    Mathematical Model:
-    - Noise function: σ(x₁) = base_noise × exp(x₁/noise_scaling)
-    - Optimal depth: depth(x₁) = max(2, ⌊base_depth × exp(-depth_decay × σ(x₁))⌋)
-    - Expected error: error(x₁) = base_error + error_scaling × σ(x₁)
+    Mathematical Model from Question:
+    - Noise function: σ(x₁) = 0.1 × exp(x₁/2)
+    - Optimal tree depth: d*(x₁) = argmin_d (Bias(d) + Variance(d, σ(x₁)))
+    - Expected error: E[Error] = ∫₀³ (Bias²(d*(x₁)) + σ²(x₁)) dx₁
     
     Parameters:
     - x1_values: Feature values to evaluate
     - base_noise: Base noise level (default: 0.1)
     - noise_scaling: Scaling factor for exponential noise (default: 0.5)
-    - base_depth: Base tree depth (default: 8)
-    - depth_decay: How quickly depth decreases with noise (default: 2)
-    - base_error: Base error level (default: 0.15)
-    - error_scaling: How error scales with noise (default: 0.5)
     
     Returns:
     - Dictionary with noise, optimal depth, and expected error for each x₁
     """
     
     def noise_function(x1):
-        """Exponential noise model: σ(x₁) = base_noise × exp(x₁/noise_scaling)"""
+        """Exponential noise model: σ(x₁) = 0.1 × exp(x₁/2)"""
         return base_noise * np.exp(x1 / noise_scaling)
     
     def optimal_depth(x1):
-        """Optimal depth decreases exponentially with noise"""
+        """
+        Optimal depth function: d*(x₁) = argmin_d (Bias(d) + Variance(d, σ(x₁)))
+        
+        Mathematical model:
+        - Bias(d) = 0.1 × (1 - 1/d)  # Bias decreases with depth
+        - Variance(d, σ) = 0.2 × σ × d  # Variance increases with depth and noise
+        - Optimal depth minimizes the sum
+        """
         noise = noise_function(x1)
-        return max(2, int(base_depth * np.exp(-depth_decay * noise)))
+        
+        # For this analysis, we use a simplified model
+        # Bias decreases with depth: Bias(d) = 0.1 × (1 - 1/d)
+        # Variance increases with depth and noise: Variance(d) = 0.2 × noise × d
+        
+        # Find optimal depth by minimizing Bias(d) + Variance(d)
+        # We'll use a numerical approach for demonstration
+        depths = range(2, 9)
+        total_errors = []
+        
+        for d in depths:
+            bias = 0.1 * (1 - 1/d) if d > 0 else 0.1
+            variance = 0.2 * noise * d
+            total_error = bias + variance
+            total_errors.append(total_error)
+        
+        # Return depth with minimum total error
+        optimal_d = depths[np.argmin(total_errors)]
+        return optimal_d
     
     def expected_error(x1):
-        """Expected error increases linearly with noise"""
+        """
+        Expected error: E[Error] = Bias²(d*(x₁)) + σ²(x₁)
+        """
         noise = noise_function(x1)
-        return base_error + error_scaling * noise
+        depth = optimal_depth(x1)
+        
+        # Bias² component
+        bias = 0.1 * (1 - 1/depth) if depth > 0 else 0.1
+        bias_squared = bias**2
+        
+        # σ² component
+        noise_squared = noise**2
+        
+        return bias_squared + noise_squared
     
     # Calculate results for each x₁ value
     results = {}
@@ -362,6 +384,25 @@ def exponential_noise_optimal_pruning(x1_values, base_noise=0.1, noise_scaling=0
             'expected_error': error
         }
     
+    # Calculate the integral: ∫₀³ (Bias²(d*(x₁)) + σ²(x₁)) dx₁
+    # Using numerical integration (trapezoidal rule)
+    x1_integral = np.linspace(0, 3, 1000)
+    integral_values = []
+    
+    for x1_int in x1_integral:
+        noise_int = noise_function(x1_int)
+        depth_int = optimal_depth(x1_int)
+        bias_int = 0.1 * (1 - 1/depth_int) if depth_int > 0 else 0.1
+        bias_squared_int = bias_int**2
+        noise_squared_int = noise_int**2
+        integral_values.append(bias_squared_int + noise_squared_int)
+    
+    # Trapezoidal rule integration
+    integral_result = np.trapz(integral_values, x1_integral)
+    
+    # Add integral result to results
+    results['integral'] = integral_result
+    
     return results
 
 # Calculate for x1 ∈ [0, 3]
@@ -374,55 +415,61 @@ print(f"{'x₁':<6} {'σ(x₁)':<8} {'Optimal Depth':<15} {'Expected Error':<15}
 print("-" * 50)
 
 for x1, result in exponential_results.items():
-    print(f"{x1:<6.1f} {result['noise']:<8.3f} {result['optimal_depth']:<15} {result['expected_error']:<15.3f}")
+    if x1 != 'integral':
+        print(f"{x1:<6.1f} {result['noise']:<8.3f} {result['optimal_depth']:<15} {result['expected_error']:<15.3f}")
+
+print(f"\nIntegral result: ∫₀³ (Bias²(d*(x₁)) + σ²(x₁)) dx₁ = {exponential_results['integral']:.6f}")
 
 # 6. Safety Constraint Analysis: Cost optimization
 print("\n\n6. Safety Constraint Analysis: Cost Optimization")
 print("-" * 70)
 
 def calculate_safety_cost_optimization(false_negative_cost, false_positive_cost, 
-                                     base_detection_rate, noise_level, 
-                                     fn_noise_factor=1.0, fp_noise_factor=0.5, 
-                                     threshold_factor=0.5):
+                                     base_detection_rate, noise_level):
     """
-    Calculate optimal pruning threshold that minimizes expected cost using mathematical optimization
+    Calculate optimal pruning threshold that minimizes expected cost using cost matrix
     
-    Mathematical Model:
-    - P(FN) = (1 - base_detection_rate) × (1 + fn_noise_factor × noise_level)
-    - P(FP) = (1 - base_detection_rate) × (1 - fp_noise_factor × noise_level)
-    - Expected Cost = FN_cost × P(FN) + FP_cost × P(FP)
-    - Optimal threshold = threshold_factor × noise_level
+    Mathematical Model from Question:
+    - Cost matrix C = [[0, 1000], [100000, 0]]
+    - False negative cost = $100,000 (missed fire)
+    - False positive cost = $1,000 (false alarm)
+    - Optimal threshold: α* = argmin_α Σᵢⱼ Cᵢⱼ × Pᵢⱼ(α)
     
     Parameters:
     - false_negative_cost: Cost of missed detection (e.g., missed fire)
     - false_positive_cost: Cost of false alarm
     - base_detection_rate: Base detection rate without noise (0 ≤ rate ≤ 1)
     - noise_level: Noise level in the system
-    - fn_noise_factor: How noise affects false negative probability (default: 1.0)
-    - fp_noise_factor: How noise affects false positive probability (default: 0.5)
-    - threshold_factor: Factor for optimal threshold calculation (default: 0.5)
     
     Returns:
-    - Dictionary with probabilities, expected cost, and optimal threshold
+    - Dictionary with cost matrix, probabilities, expected cost, and optimal threshold
     """
+    
+    # Cost matrix from the question
+    cost_matrix = np.array([[0, false_positive_cost], 
+                           [false_negative_cost, 0]])
     
     # Mathematical relationship 1: False negative probability increases with noise
     # Higher noise makes it harder to detect true events
-    p_false_negative = (1 - base_detection_rate) * (1 + fn_noise_factor * noise_level)
+    p_false_negative = (1 - base_detection_rate) * (1 + noise_level)
     
     # Mathematical relationship 2: False positive probability decreases with noise
-    # Conservative pruning reduces false alarms but may miss some events
-    p_false_positive = (1 - base_detection_rate) * (1 - fp_noise_factor * noise_level)
+    # Conservative pruning reduces false alarms
+    p_false_positive = (1 - base_detection_rate) * (1 - 0.5 * noise_level)
     
-    # Mathematical relationship 3: Expected cost function
-    # Total cost is weighted sum of false negative and false positive costs
-    expected_cost = false_negative_cost * p_false_negative + false_positive_cost * p_false_positive
+    # Mathematical relationship 3: Expected cost using cost matrix
+    # E[Cost] = Σᵢⱼ Cᵢⱼ × Pᵢⱼ
+    # For 2x2 matrix: E[Cost] = C₁₀ × P(FN) + C₀₁ × P(FP)
+    expected_cost = (cost_matrix[1, 0] * p_false_negative + 
+                     cost_matrix[0, 1] * p_false_positive)
     
     # Mathematical relationship 4: Optimal pruning threshold
-    # Conservative approach: threshold scales with noise level
-    optimal_threshold = threshold_factor * noise_level
+    # α* = argmin_α Σᵢⱼ Cᵢⱼ × Pᵢⱼ(α)
+    # For this analysis, we use a noise-based threshold
+    optimal_threshold = 0.5 * noise_level
     
     return {
+        'cost_matrix': cost_matrix,
         'p_false_negative': p_false_negative,
         'p_false_positive': p_false_positive,
         'expected_cost': expected_cost,
@@ -444,6 +491,8 @@ print(f"  False negative cost: ${false_negative_cost:,}")
 print(f"  False positive cost: ${false_positive_cost:,}")
 print(f"  Base detection rate: {base_detection_rate:.1%}")
 print(f"  Noise level: {noise_level}")
+print(f"\nCost Matrix:")
+print(f"  C = {safety_analysis['cost_matrix']}")
 print(f"\nRisk Analysis:")
 print(f"  P(False Negative): {safety_analysis['p_false_negative']:.3f}")
 print(f"  P(False Positive): {safety_analysis['p_false_positive']:.3f}")
@@ -454,51 +503,48 @@ print(f"  Optimal pruning threshold: {safety_analysis['optimal_threshold']:.3f}"
 print("\n\n7. Local Noise Estimation: Mathematical Function Design")
 print("-" * 70)
 
-def design_local_noise_estimation(local_variance, neighborhood_size=50, base_depth=6, 
-                                base_samples_split=15, base_samples_leaf=8, 
-                                noise_scaling_factor=2.0, min_depth=2, min_samples=2):
+def design_local_noise_estimation(local_variance, neighborhood_size=50):
     """
     Design mathematical function to estimate local noise and optimal pruning parameters
     
-    Mathematical Model:
-    - Local noise: σ_local = √(local_variance)
-    - Noise factor: factor = 1 + noise_scaling_factor × σ_local
-    - Optimal depth: depth = max(min_depth, ⌊base_depth / factor⌋)
-    - Optimal samples: samples = max(min_samples, ⌊base_samples × factor⌋)
+    Mathematical Functions from Question:
+    - Local noise estimate: σ̂_local = √(1/(k-1) × Σᵢ₌₁ᵏ (xᵢ - x̄)²)
+    - Adaptive min_samples: n_min = max(10, ⌈25σ̂_local²⌉)
+    - Adaptive max_depth: d_max = ⌊6 - 3σ̂_local⌋
     
     Parameters:
-    - local_variance: Local variance in the neighborhood
-    - neighborhood_size: Size of the neighborhood for noise estimation
-    - base_depth: Base maximum tree depth
-    - base_samples_split: Base minimum samples for splitting
-    - base_samples_leaf: Base minimum samples per leaf
-    - noise_scaling_factor: How aggressively to scale with noise (default: 2.0)
-    - min_depth: Minimum allowed tree depth
-    - min_samples: Minimum allowed samples
+    - local_variance: Local variance in the neighborhood (σ²_local)
+    - neighborhood_size: Size of the neighborhood for noise estimation (k)
     
     Returns:
     - Dictionary with local noise, noise factor, and optimal pruning parameters
     """
     
     # Mathematical relationship 1: Local noise from variance
+    # σ̂_local = √(local_variance)
     local_noise = np.sqrt(local_variance)
     
-    # Mathematical relationship 2: Noise factor for parameter scaling
-    # Higher noise requires more aggressive pruning
-    noise_factor = 1 + noise_scaling_factor * local_noise
+    # Mathematical relationship 2: Adaptive min_samples
+    # n_min = max(10, ⌈25σ̂_local²⌉)
+    adaptive_min_samples = max(10, int(np.ceil(25 * local_noise**2)))
     
-    # Mathematical relationship 3: Optimal pruning parameters
-    # Depth decreases with noise, sample requirements increase with noise
+    # Mathematical relationship 3: Adaptive max_depth
+    # d_max = ⌊6 - 3σ̂_local⌋
+    adaptive_max_depth = max(2, int(np.floor(6 - 3 * local_noise)))
+    
+    # Mathematical relationship 4: Adaptive min_impurity_decrease
+    # min_impurity = 0.01 × (1 + 2σ̂_local)
+    adaptive_min_impurity = 0.01 * (1 + 2 * local_noise)
+    
     optimal_params = {
-        'max_depth': max(min_depth, int(base_depth / noise_factor)),
-        'min_samples_split': max(min_samples, int(base_samples_split * noise_factor)),
-        'min_samples_leaf': max(min_samples, int(base_samples_leaf * noise_factor)),
-        'min_impurity_decrease': 0.01 * noise_factor
+        'max_depth': adaptive_max_depth,
+        'min_samples_split': adaptive_min_samples,
+        'min_impurity_decrease': adaptive_min_impurity
     }
     
     return {
         'local_noise': local_noise,
-        'noise_factor': noise_factor,
+        'neighborhood_size': neighborhood_size,
         'optimal_params': optimal_params
     }
 
@@ -508,9 +554,8 @@ local_analysis = design_local_noise_estimation(local_variance)
 
 print(f"Local Noise Estimation:")
 print(f"  Local variance: {local_variance}")
-print(f"  Neighborhood size: 50")
+print(f"  Neighborhood size: {local_analysis['neighborhood_size']}")
 print(f"  Estimated local noise: {local_analysis['local_noise']:.3f}")
-print(f"  Noise factor: {local_analysis['noise_factor']:.3f}")
 print(f"\nOptimal pruning parameters for this region:")
 for param, value in local_analysis['optimal_params'].items():
     print(f"  {param}: {value}")
@@ -608,36 +653,42 @@ for bar, value in zip(bars, gaps):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'overfitting_gap_analysis.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent plots from opening
 
 # 2. Robustness scores
 plt.figure(figsize=(10, 6))
 robustness_scores = [robustness_results[m]['robustness_score'] for m in methods]
-bars = plt.bar(methods, robustness_scores, color=colors, alpha=0.7)
-plt.ylabel('Robustness Score')
+# Handle infinite values for plotting
+robustness_scores_plot = [min(score, 10) if np.isfinite(score) else 10 for score in robustness_scores]
+bars = plt.bar(methods, robustness_scores_plot, color=colors, alpha=0.7)
+plt.ylabel('Robustness Score (1/G)')
 plt.title('Robustness Score by Pruning Method')
 plt.xticks(rotation=45, ha='right')
 plt.grid(True, alpha=0.3)
 
 # Add value labels on bars
 for bar, value in zip(bars, robustness_scores):
-    plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.001, 
-             f'{value:.3f}', ha='center', va='bottom')
+    if np.isfinite(value):
+        plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.1, 
+                 f'{value:.3f}', ha='center', va='bottom')
+    else:
+        plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.1, 
+                 '∞', ha='center', va='bottom')
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'robustness_score_analysis.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent plots from opening
 
 # 3. Adaptive pruning functions
 plt.figure(figsize=(12, 8))
 sigma_range = np.linspace(0.1, 0.5, 100)
-f1_values = [max(2, int(10 * s + 5)) for s in sigma_range]
-f2_values = [max(2, int(10 / (1 + 2 * s))) for s in sigma_range]
-f3_values = [0.01 * (1 + 3 * s) for s in sigma_range]
+f1_values = [max(10, int(np.ceil(50 * s**2))) for s in sigma_range]
+f2_values = [max(2, int(np.floor(8 - 4 * s))) for s in sigma_range]
+f3_values = [0.01 + 0.1 * s for s in sigma_range]
 
-plt.plot(sigma_range, f1_values, 'b-', label='f1(σ): min_samples_split', linewidth=2)
-plt.plot(sigma_range, f2_values, 'r-', label='f2(σ): max_depth', linewidth=2)
-plt.plot(sigma_range, f3_values, 'g-', label='f3(σ): min_impurity_decrease', linewidth=2)
+plt.plot(sigma_range, f1_values, 'b-', label='f1(σ): min_samples_split = max(10, ⌈50σ²⌉)', linewidth=2)
+plt.plot(sigma_range, f2_values, 'r-', label='f2(σ): max_depth = ⌊8 - 4σ⌋', linewidth=2)
+plt.plot(sigma_range, f3_values, 'g-', label='f3(σ): min_impurity_decrease = 0.01 + 0.1σ', linewidth=2)
 plt.xlabel('Noise Level (σ)')
 plt.ylabel('Parameter Value')
 plt.title('Adaptive Pruning Functions')
@@ -651,7 +702,7 @@ plt.scatter([0.25], [adaptive_params['min_impurity_decrease']], color='green', s
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'adaptive_pruning_functions.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent plots from opening
 
 # 4. Exponential noise model
 plt.figure(figsize=(12, 8))
@@ -671,7 +722,7 @@ for x1 in x1_range:
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'exponential_noise_model.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent plots from opening
 
 # 5. Optimal depth vs noise
 plt.figure(figsize=(10, 6))
@@ -689,7 +740,7 @@ for x1, depth in zip(x1_range, optimal_depths):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'optimal_depth_vs_noise.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent plots from opening
 
 # 6. Expected error vs noise
 plt.figure(figsize=(10, 6))
@@ -707,7 +758,7 @@ for x1, error in zip(x1_range, expected_errors):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'expected_error_vs_noise.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent plots from opening
 
 # 7. Safety cost analysis
 plt.figure(figsize=(10, 6))
@@ -727,7 +778,7 @@ for bar, value in zip(bars, cost_values):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'safety_cost_analysis.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent plots from opening
 
 # 8. Error decomposition
 plt.figure(figsize=(10, 6))
@@ -746,7 +797,7 @@ for bar, value in zip(bars, values):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'error_decomposition_analysis.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent plots from opening
 
 # 9. Summary statistics
 plt.figure(figsize=(10, 6))
@@ -767,7 +818,7 @@ for bar, value in zip(bars, summary_values):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'summary_statistics.png'), dpi=300, bbox_inches='tight')
-plt.show()
+# plt.show()  # Removed to prevent plots from opening
 
 print(f"\nSummary of Mathematical Analysis:")
 print("=" * 50)
@@ -779,5 +830,6 @@ print(f"5. Exponential noise: optimal depth decreases from {exponential_results[
 print(f"6. Safety cost: ${safety_analysis['expected_cost']:,.2f} with threshold {safety_analysis['optimal_threshold']:.3f}")
 print(f"7. Local noise: σ_local={local_analysis['local_noise']:.3f}, optimal depth={local_analysis['optimal_params']['max_depth']}")
 print(f"8. Expected error: {error_analysis['expected_error']:.4f}")
+print(f"9. Integral result: ∫₀³ (Bias²(d*(x₁)) + σ²(x₁)) dx₁ = {exponential_results['integral']:.6f}")
 
 print(f"\nAll mathematical analysis plots saved to: {save_dir}")
