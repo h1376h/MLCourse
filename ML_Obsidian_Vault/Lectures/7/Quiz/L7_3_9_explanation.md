@@ -3,21 +3,20 @@
 ## Problem Statement
 You have three Random Forest configurations for a dataset with $20$ total features:
 
-**Configuration A:** $100$ trees, $5$ features per split, $\mathrm{max\_depth} = 10$
+**Configuration A:** $100$ trees, $5$ features per split, $\text{max\_depth} = 10$
 
-**Configuration B:** $50$ trees, $10$ features per split, $\mathrm{max\_depth} = 15$
+**Configuration B:** $50$ trees, $10$ features per split, $\text{max\_depth} = 15$
 
-**Configuration C:** $200$ trees, $3$ features per split, $\mathrm{max\_depth} = 8$
+**Configuration C:** $200$ trees, $3$ features per split, $\text{max\_depth} = 8$
 
 ### Task
 1. Which configuration will likely have the highest tree diversity?
-   - Tree diversity = lower features per split = higher diversity
 2. Which configuration will be fastest to train?
    - Training speed $\propto$ trees × depth × features per split
 3. Which configuration will likely have the lowest variance in predictions?
    - Variance: more trees = lower variance, deeper trees = higher variance
 4. If you have limited memory, which configuration would you choose?
-   - Memory $\propto 2^{\mathrm{depth}} \times \mathrm{trees}$
+   - Memory $\propto 2^{\text{depth}} \times \text{trees}$
 
 ## Understanding the Problem
 Random Forests are ensemble methods that combine multiple decision trees to improve prediction accuracy and reduce overfitting. The performance characteristics of a Random Forest depend on several key hyperparameters:
@@ -37,24 +36,24 @@ Tree diversity in Random Forests is influenced by:
 3. **Number of trees**: More trees provide greater overall diversity
 
 **Diversity Metrics Calculation:**
-- **Feature diversity score**: $1 - \frac{\mathrm{max\_features}}{\mathrm{total\_features}}$
-- **Tree diversity score**: $\min(\frac{\mathrm{n\_estimators}}{100}, 1.0)$
-- **Combined diversity score**: $0.7 \times \mathrm{feature\_diversity} + 0.3 \times \mathrm{tree\_diversity}$
+- **Feature diversity score**: $1 - \frac{\text{max\_features}}{\text{total\_features}}$
+- **Tree diversity score**: $\min(\frac{\text{n\_estimators}}{100}, 1.0)$
+- **Combined diversity score**: $0.7 \times \text{feature\_diversity} + 0.3 \times \text{tree\_diversity}$
 
 **Step-by-Step Calculations:**
 
 **Configuration A:**
 - **Step 1: Feature Diversity**
-  - Formula: $1 - \frac{\mathrm{max\_features}}{\mathrm{total\_features}} = 1 - \frac{5}{20} = 1 - 0.250 = 0.750$
+  - Formula: $1 - \frac{\text{max\_features}}{\text{total\_features}} = 1 - \frac{5}{20} = 1 - 0.250 = 0.750$
   - Mathematical reasoning: Lower max_features creates more randomness in feature selection, leading to higher diversity
   - Range: 0 (no diversity) to 1 (maximum diversity)
 
 - **Step 2: Tree Diversity**
-  - Formula: $\min(\frac{\mathrm{n\_estimators}}{100}, 1.0) = \min(\frac{100}{100}, 1.0) = \min(1.000, 1.0) = 1.000$
+  - Formula: $\min(\frac{\text{n\_estimators}}{100}, 1.0) = \min(\frac{100}{100}, 1.0) = \min(1.000, 1.0) = 1.000$
   - Mathematical reasoning: More trees provide greater ensemble diversity, normalized by dividing by 100 and capped at 1.0
 
 - **Step 3: Combined Diversity**
-  - Formula: $0.7 \times \mathrm{feature\_diversity} + 0.3 \times \mathrm{tree\_diversity}$
+  - Formula: $0.7 \times \text{feature\_diversity} + 0.3 \times \text{tree\_diversity}$
   - Calculation: $0.7 \times 0.750 + 0.3 \times 1.000 = 0.525 + 0.300 = 0.825$
   - Final score: 0.825 (higher = better)
 
@@ -93,15 +92,15 @@ Training speed is influenced by:
 3. **Features per split**: More features per split can increase computation
 
 **Theoretical Training Time Complexity:**
-- **Complexity factor**: $\mathrm{n\_estimators} \times \mathrm{max\_depth} \times \mathrm{max\_features}$
-- **Relative training time**: $\frac{\mathrm{complexity\_factor}}{\mathrm{baseline\_value}}$
+- **Complexity factor**: $\text{n\_estimators} \times \text{max\_depth} \times \text{max\_features}$
+- **Relative training time**: $\frac{\text{complexity\_factor}}{\text{baseline\_value}}$
 
 **Mathematical Reasoning:**
 - Each tree requires time proportional to its depth
 - Each split considers max_features features
 - Total time = sum over all trees
-- Formula: $T_{\mathrm{total}} = \sum_{i=1}^{n} (T_{\mathrm{depth}_{i}} \times \mathrm{max\_features}_{i})$
-- For uniform trees: $T_{\mathrm{total}} = n_{\mathrm{trees}} \times \mathrm{max\_depth} \times \mathrm{max\_features}$
+- Formula: $T_{\text{total}} = \sum_{i=1}^{n} (T_{\text{depth}_{i}} \times \text{max\_features}_{i})$
+- For uniform trees: $T_{\text{total}} = n_{\text{trees}} \times \text{max\_depth} \times \text{max\_features}$
 
 **Step-by-Step Calculations:**
 
@@ -109,13 +108,13 @@ Training speed is influenced by:
 
 **Configuration A:**
 - **Step 1: Complexity Factor Calculation**
-  - Formula: $n_{\mathrm{estimators}} \times \mathrm{max\_depth} \times \mathrm{max\_features}$
+  - Formula: $n_{\text{estimators}} \times \text{max\_depth} \times \text{max\_features}$
   - Calculation: $100 \times 10 \times 5 = 5000$
   - Mathematical breakdown: 100 trees × 10 levels per tree × 5 features per split
   - This represents total computational work units
 
 - **Step 2: Relative Training Time**
-  - Formula: $\frac{\mathrm{complexity\_factor}}{\mathrm{baseline\_value}} = \frac{5000}{4800} = 1.042$
+  - Formula: $\frac{\text{complexity\_factor}}{\text{baseline\_value}} = \frac{5000}{4800} = 1.042$
   - Mathematical explanation: This configuration is 104.2% of baseline speed
   - Values > 1.0: slower than baseline; Values < 1.0: faster than baseline
 
@@ -156,10 +155,10 @@ Prediction variance is influenced by:
 3. **Feature randomness**: More randomness in feature selection can increase variance
 
 **Variance Metrics:**
-- **Tree variance reduction**: $\frac{1}{\sqrt{\mathrm{n\_estimators}}}$
-- **Depth variance factor**: $\min(\frac{\mathrm{max\_depth}}{20}, 1.0)$
-- **Feature variance factor**: $\frac{\mathrm{max\_features}}{\mathrm{total\_features}}$
-- **Combined variance score**: $0.5 \times \mathrm{tree\_reduction} + 0.3 \times \mathrm{depth\_factor} + 0.2 \times \mathrm{feature\_factor}$
+- **Tree variance reduction**: $\frac{1}{\sqrt{\text{n\_estimators}}}$
+- **Depth variance factor**: $\min(\frac{\text{max\_depth}}{20}, 1.0)$
+- **Feature variance factor**: $\frac{\text{max\_features}}{\text{total\_features}}$
+- **Combined variance score**: $0.5 \times \text{tree\_reduction} + 0.3 \times \text{depth\_factor} + 0.2 \times \text{feature\_factor}$
 
 **Mathematical Reasoning:**
 - **Tree variance**: follows $1/\sqrt{n}$ law from ensemble theory
@@ -171,22 +170,22 @@ Prediction variance is influenced by:
 
 **Configuration A:**
 - **Step 1: Tree Variance Reduction**
-  - Formula: $\frac{1}{\sqrt{\mathrm{n\_estimators}}} = \frac{1}{\sqrt{100}} = \frac{1}{10.000} = 0.100$
+  - Formula: $\frac{1}{\sqrt{\text{n\_estimators}}} = \frac{1}{\sqrt{100}} = \frac{1}{10.000} = 0.100$
   - Mathematical explanation: From ensemble theory, variance $\propto 1/\sqrt{n}$; more trees = lower variance through averaging
   - This is the theoretical variance reduction factor; lower values = better variance reduction
 
 - **Step 2: Depth Variance Factor**
-  - Formula: $\min(\frac{\mathrm{max\_depth}}{20}, 1.0) = \min(\frac{10}{20}, 1.0) = \min(0.500, 1.0) = 0.500$
+  - Formula: $\min(\frac{\text{max\_depth}}{20}, 1.0) = \min(\frac{10}{20}, 1.0) = \min(0.500, 1.0) = 0.500$
   - Mathematical explanation: Deeper trees can overfit to training data, increasing prediction variance
   - Normalized by dividing by 20 (typical max depth) and capped at 1.0; higher values = higher variance (worse)
 
 - **Step 3: Feature Variance Factor**
-  - Formula: $\frac{\mathrm{max\_features}}{\mathrm{total\_features}} = \frac{5}{20} = 0.250$
+  - Formula: $\frac{\text{max\_features}}{\text{total\_features}} = \frac{5}{20} = 0.250$
   - Mathematical explanation: More features per split = less randomness = lower variance
   - Range: 0 (maximum randomness) to 1 (no randomness); lower values = higher randomness = higher variance
 
 - **Step 4: Combined Variance Score**
-  - Formula: $0.5 \times \mathrm{tree\_reduction} + 0.3 \times \mathrm{depth\_factor} + 0.2 \times \mathrm{feature\_factor}$
+  - Formula: $0.5 \times \text{tree\_reduction} + 0.3 \times \text{depth\_factor} + 0.2 \times \text{feature\_factor}$
   - Calculation: $0.5 \times 0.100 + 0.3 \times 0.500 + 0.2 \times 0.250 = 0.050 + 0.150 + 0.050 = 0.250$
   - Final variance score: 0.250 (lower = better stability)
 
@@ -233,36 +232,36 @@ Memory usage is influenced by:
 3. **Features**: Affects node storage requirements
 
 **Memory Estimation Formulas:**
-- **Maximum nodes per tree**: $2^{\mathrm{max\_depth} + 1} - 1$
-- **Memory per tree**: $\mathrm{nodes\_per\_tree} \times 100$ bytes (rough estimate)
-- **Total memory**: $\mathrm{memory\_per\_tree} \times \mathrm{n\_estimators}$
+- **Maximum nodes per tree**: $2^{\text{max\_depth} + 1} - 1$
+- **Memory per tree**: $\text{nodes\_per\_tree} \times 100$ bytes (rough estimate)
+- **Total memory**: $\text{memory\_per\_tree} \times \text{n\_estimators}$
 
 **Mathematical Reasoning:**
 - Binary tree structure: each level doubles the number of nodes
-- Maximum nodes = $2^{\mathrm{depth}+1} - 1$ (complete binary tree)
+- Maximum nodes = $2^{\text{depth}+1} - 1$ (complete binary tree)
 - Each node stores split criteria, thresholds, and pointers
 - Rough estimate: 100 bytes per node
-- Total memory = $\mathrm{nodes\_per\_tree} \times \mathrm{bytes\_per\_node} \times \mathrm{n\_trees}$
+- Total memory = $\text{nodes\_per\_tree} \times \text{bytes\_per\_node} \times \text{n\_trees}$
 
 **Step-by-Step Calculations:**
 
 **Configuration A:**
 - **Step 1: Maximum Nodes Per Tree**
-  - Formula: $2^{\mathrm{max\_depth} + 1} - 1 = 2^{10 + 1} - 1 = 2^{11} - 1 = 2048 - 1 = 2,047$
+  - Formula: $2^{\text{max\_depth} + 1} - 1 = 2^{10 + 1} - 1 = 2^{11} - 1 = 2048 - 1 = 2,047$
   - Mathematical explanation: Binary tree structure where each node has at most 2 children
   - Level 0: 1 node (root); Level 1: 2 nodes; Level 2: 4 nodes; Level d: $2^d$ nodes
   - Total nodes = $\sum_{i=0}^{d} 2^i = 2^{d+1} - 1$
   - For depth 10: $2^{10+1} - 1 = 2048 - 1 = 2,047$
 
 - **Step 2: Memory Per Tree**
-  - Formula: $\mathrm{nodes\_per\_tree} \times 100$ bytes
+  - Formula: $\text{nodes\_per\_tree} \times 100$ bytes
   - Calculation: $2,047 \times 100 = 204,700$ bytes
   - Mathematical explanation: Each node stores split feature, threshold, left/right pointers
   - Rough estimate: 100 bytes per node
   - In KB: $204,700 \div 1024 = 199.90$ KB
 
 - **Step 3: Total Memory Usage**
-  - Formula: $\mathrm{memory\_per\_tree} \times \mathrm{n\_estimators}$
+  - Formula: $\text{memory\_per\_tree} \times \text{n\_estimators}$
   - Calculation: $204,700 \times 100 = 20,470,000$ bytes
   - Mathematical explanation: Total memory = memory per tree × number of trees
   - In KB: $20,470,000 \div 1024 = 19,990.23$ KB
@@ -335,11 +334,11 @@ The enhanced analysis provides detailed mathematical reasoning for each calculat
 - **Unit conversions** and scaling factors clearly demonstrated
 
 ### Detailed Breakdown of Each Configuration
-- **Feature Diversity**: $1 - \frac{\mathrm{max\_features}}{\mathrm{total\_features}}$ with explanation of randomness vs. diversity trade-off
-- **Tree Diversity**: $\min(\frac{\mathrm{n\_estimators}}{100}, 1.0)$ with normalization and capping logic
-- **Training Complexity**: $\mathrm{n\_estimators} \times \mathrm{max\_depth} \times \mathrm{max\_features}$ with computational work unit explanation
-- **Variance Reduction**: $\frac{1}{\sqrt{\mathrm{n\_estimators}}}$ with ensemble theory foundation
-- **Memory Estimation**: $2^{\mathrm{max\_depth} + 1} - 1$ with binary tree structure explanation
+- **Feature Diversity**: $1 - \frac{\text{max\_features}}{\text{total\_features}}$ with explanation of randomness vs. diversity trade-off
+- **Tree Diversity**: $\min(\frac{\text{n\_estimators}}{100}, 1.0)$ with normalization and capping logic
+- **Training Complexity**: $\text{n\_estimators} \times \text{max\_depth} \times \text{max\_features}$ with computational work unit explanation
+- **Variance Reduction**: $\frac{1}{\sqrt{\text{n\_estimators}}}$ with ensemble theory foundation
+- **Memory Estimation**: $2^{\text{max\_depth} + 1} - 1$ with binary tree structure explanation
 
 ## Key Insights
 
