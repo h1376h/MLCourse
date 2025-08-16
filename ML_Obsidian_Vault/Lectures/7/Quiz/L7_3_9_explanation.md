@@ -4,7 +4,7 @@
 You have three Random Forest configurations for a dataset with $20$ total features:
 
 **Configuration A:** $100$ trees, $5$ features per split, $\mathrm{max\_depth} = 10$
-**Configuration B:** $50$ trees, $10$ features per split, $\mathrm{max\_depth} = 15$  
+**Configuration B:** $50$ trees, $10$ features per split, $\mathrm{max\_depth} = 15$
 **Configuration C:** $200$ trees, $3$ features per split, $\mathrm{max\_depth} = 8$
 
 ### Task
@@ -98,7 +98,7 @@ Training speed is influenced by:
 - Each tree requires time proportional to its depth
 - Each split considers max_features features
 - Total time = sum over all trees
-- Formula: $T_{\mathrm{total}} = \sum_{i=1}^{n} (T_{\mathrm{depth}_i} \times \mathrm{max\_features}_i)$
+- Formula: $T_{\mathrm{total}} = \sum_{i=1}^{n} (T_{\mathrm{depth}_{i}} \times \mathrm{max\_features}_{i})$
 - For uniform trees: $T_{\mathrm{total}} = n_{\mathrm{trees}} \times \mathrm{max\_depth} \times \mathrm{max\_features}$
 
 **Step-by-Step Calculations:**

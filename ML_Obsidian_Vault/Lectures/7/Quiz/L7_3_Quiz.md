@@ -149,21 +149,19 @@ For a detailed explanation of this question, see [Question 8: Performance Analys
 ### Problem Statement
 You have three Random Forest configurations for a dataset with $20$ total features:
 
-**Configuration A:** $100$ trees, $5$ features per split, $\text{max\_depth} = 10$
-**Configuration B:** $50$ trees, $10$ features per split, $\text{max\_depth} = 15$  
-**Configuration C:** $200$ trees, $3$ features per split, $\text{max\_depth} = 8$
-
-**Note:** For calculations:
-- Tree diversity: lower features per split = higher diversity
-- Training speed: proportional to trees × depth × features per split  
-- Variance: more trees = lower variance, deeper trees = higher variance
-- Memory: proportional to $2^{\text{depth}} \times \text{trees}$
+**Configuration A:** $100$ trees, $5$ features per split, $\mathrm{max\_depth} = 10$
+**Configuration B:** $50$ trees, $10$ features per split, $\mathrm{max\_depth} = 15$
+**Configuration C:** $200$ trees, $3$ features per split, $\mathrm{max\_depth} = 8$
 
 #### Task
 1. Which configuration will likely have the highest tree diversity?
+   - Tree diversity = lower features per split = higher diversity
 2. Which configuration will be fastest to train?
+   - Training speed $\propto$ trees × depth × features per split
 3. Which configuration will likely have the lowest variance in predictions?
+   - Variance: more trees = lower variance, deeper trees = higher variance
 4. If you have limited memory, which configuration would you choose?
+   - Memory $\propto 2^{\mathrm{depth}} \times \mathrm{trees}$
 
 For a detailed explanation of this question, see [Question 9: Configuration Comparison](L7_3_9_explanation.md).
 
