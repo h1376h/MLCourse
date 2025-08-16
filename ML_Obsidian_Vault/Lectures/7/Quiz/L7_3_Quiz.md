@@ -1,4 +1,4 @@
-# Topic 7.3: AdaBoost Algorithm Quiz
+# Lecture 7.3: AdaBoost Algorithm Quiz
 
 ## Overview
 This quiz tests your understanding of the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, and theoretical foundations.

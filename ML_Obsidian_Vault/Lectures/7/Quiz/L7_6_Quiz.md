@@ -1,4 +1,4 @@
-# Topic 7.6: Stacking and Blending Quiz
+# Lecture 7.6: Stacking and Blending Quiz
 
 ## Overview
 This quiz tests your understanding of stacking and blending ensemble methods, including meta-learning, cross-validation, and combination strategies.

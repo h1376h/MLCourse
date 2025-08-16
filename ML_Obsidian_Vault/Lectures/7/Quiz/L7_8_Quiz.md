@@ -1,4 +1,4 @@
-# Topic 7.8: Advanced Ensemble Topics and Applications Quiz
+# Lecture 7.8: Advanced Ensemble Topics and Applications Quiz
 
 ## Overview
 This quiz tests your understanding of advanced ensemble topics, including dynamic ensembles, online learning, ensemble pruning, and real-world applications.

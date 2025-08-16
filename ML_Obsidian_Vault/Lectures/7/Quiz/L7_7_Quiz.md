@@ -1,4 +1,4 @@
-# Topic 7.7: Ensemble Model Selection and Tuning Quiz
+# Lecture 7.7: Ensemble Model Selection and Tuning Quiz
 
 ## Overview
 This quiz tests your understanding of ensemble model selection, hyperparameter tuning, cross-validation strategies, and optimization techniques.

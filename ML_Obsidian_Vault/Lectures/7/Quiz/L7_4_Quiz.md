@@ -1,4 +1,4 @@
-# Topic 7.4: Advanced Boosting Algorithms Quiz
+# Lecture 7.4: Advanced Boosting Algorithms Quiz
 
 ## Overview
 This quiz tests your understanding of advanced boosting algorithms, including gradient boosting, XGBoost, LightGBM, and CatBoost.
