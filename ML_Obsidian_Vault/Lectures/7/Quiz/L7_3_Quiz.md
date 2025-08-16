@@ -150,7 +150,9 @@ For a detailed explanation of this question, see [Question 8: Performance Analys
 You have three Random Forest configurations for a dataset with $20$ total features:
 
 **Configuration A:** $100$ trees, $5$ features per split, $\mathrm{max\_depth} = 10$
+
 **Configuration B:** $50$ trees, $10$ features per split, $\mathrm{max\_depth} = 15$
+
 **Configuration C:** $200$ trees, $3$ features per split, $\mathrm{max\_depth} = 8$
 
 #### Task
