@@ -14,7 +14,7 @@ Random Forest combines bagging with feature subsampling.
 3. Why is feature subsampling important in Random Forest?
 4. How does Random Forest differ from a simple bagging of decision trees?
 
-For a detailed explanation of this question, see [Question 1: Random Forest Foundations](L7_5_1_explanation.md).
+For a detailed explanation of this question, see [Question 1: Random Forest Foundations](L7_3_1_explanation.md).
 
 ## Question 2
 
@@ -27,7 +27,7 @@ Feature subsampling in Random Forest affects tree diversity.
 3. What is the tradeoff between feature subsampling and tree performance?
 4. How do you choose the optimal number of features to consider?
 
-For a detailed explanation of this question, see [Question 2: Feature Subsampling Analysis](L7_5_2_explanation.md).
+For a detailed explanation of this question, see [Question 2: Feature Subsampling Analysis](L7_3_2_explanation.md).
 
 ## Question 3
 
@@ -40,7 +40,7 @@ Random Forest uses different voting strategies for predictions.
 3. How does Random Forest handle probability estimates?
 4. What is the advantage of ensemble voting over single tree predictions?
 
-For a detailed explanation of this question, see [Question 3: Voting Strategies](L7_5_3_explanation.md).
+For a detailed explanation of this question, see [Question 3: Voting Strategies](L7_3_3_explanation.md).
 
 ## Question 4
 
@@ -53,7 +53,7 @@ Out-of-bag estimation provides internal validation for Random Forest.
 3. When might OOB estimation not be reliable?
 4. How does OOB estimation help with model selection?
 
-For a detailed explanation of this question, see [Question 4: Out-of-Bag Estimation](L7_5_4_explanation.md).
+For a detailed explanation of this question, see [Question 4: Out-of-Bag Estimation](L7_3_4_explanation.md).
 
 ## Question 5
 
@@ -66,7 +66,7 @@ Feature importance in Random Forest measures variable significance.
 3. What are the limitations of feature importance measures?
 4. How can you use feature importance for feature selection?
 
-For a detailed explanation of this question, see [Question 5: Feature Importance Analysis](L7_5_5_explanation.md).
+For a detailed explanation of this question, see [Question 5: Feature Importance Analysis](L7_3_5_explanation.md).
 
 ## Question 6
 
@@ -102,7 +102,7 @@ Given the following predictions from $5$ trees for $3$ test samples:
 3. Which sample has the highest confidence in the ensemble prediction?
 4. If you needed to make a decision with high confidence, which sample would you trust most?
 
-For a detailed explanation of this question, see [Question 6: Ensemble Prediction Analysis](L7_5_6_explanation.md).
+For a detailed explanation of this question, see [Question 6: Ensemble Prediction Analysis](L7_3_6_explanation.md).
 
 ## Question 7
 
@@ -122,7 +122,9 @@ You have a dataset with:
 3. If you want $95\%$ confidence that a feature is selected at least once, how many trees do you need?
 4. What would be the expected number of unique features used across all trees?
 
-For a detailed explanation of this question, see [Question 7: Configuration Optimization](L7_5_7_explanation.md).
+**Note:** Common rules: $\text{max\_features} = \sqrt{\text{total\_features}}$ or $\log_2(\text{total\_features})$. OOB stabilizes around $50$ trees.
+
+For a detailed explanation of this question, see [Question 7: Configuration Optimization](L7_3_7_explanation.md).
 
 ## Question 8
 
@@ -141,27 +143,32 @@ Consider a Random Forest with the following characteristics:
 3. If you increase the number of features per split to $20$, how does this affect tree diversity?
 4. Calculate the expected number of trees that will use a specific feature at least once.
 
-For a detailed explanation of this question, see [Question 8: Performance Analysis](L7_5_8_explanation.md).
+**Note:** Bootstrap probability ≈ $63.2\%$ for large datasets. OOB = $36.8\%$ per tree.
+
+For a detailed explanation of this question, see [Question 8: Performance Analysis](L7_3_8_explanation.md).
 
 ## Question 9
 
 ### Problem Statement
-Compare different Random Forest configurations.
-
-#### Task
-You have three Random Forest configurations:
+You have three Random Forest configurations for a dataset with $20$ total features:
 
 **Configuration A:** $100$ trees, $5$ features per split, $\text{max\_depth} = 10$
 **Configuration B:** $50$ trees, $10$ features per split, $\text{max\_depth} = 15$  
 **Configuration C:** $200$ trees, $3$ features per split, $\text{max\_depth} = 8$
 
-**Questions:**
+**Note:** For calculations:
+- Tree diversity: lower features per split = higher diversity
+- Training speed: proportional to trees × depth × features per split  
+- Variance: more trees = lower variance, deeper trees = higher variance
+- Memory: proportional to $2^{\text{depth}} \times \text{trees}$
+
+#### Task
 1. Which configuration will likely have the highest tree diversity?
 2. Which configuration will be fastest to train?
 3. Which configuration will likely have the lowest variance in predictions?
 4. If you have limited memory, which configuration would you choose?
 
-For a detailed explanation of this question, see [Question 9: Configuration Comparison](L7_5_9_explanation.md).
+For a detailed explanation of this question, see [Question 9: Configuration Comparison](L7_3_9_explanation.md).
 
 ## Question 10
 
@@ -181,7 +188,9 @@ Consider a $2$D classification problem with features $X$ and $Y$. You have a Ran
 3. What is the prediction for point $(7, 5)$?
 4. How does the ensemble decision boundary differ from individual tree boundaries?
 
-For a detailed explanation of this question, see [Question 10: Decision Boundary Analysis](L7_5_10_explanation.md).
+**Note:** Follow each tree's decision path. Ensemble uses majority voting from all trees.
+
+For a detailed explanation of this question, see [Question 10: Decision Boundary Analysis](L7_3_10_explanation.md).
 
 ## Question 11
 
@@ -202,7 +211,7 @@ You're investigating a fraud case and have a Random Forest with $7$ trees. Each 
 3. Which transaction shows the highest disagreement among trees (highest variance)?
 4. If you could only investigate $2$ transactions, which would you prioritize and why?
 
-For a detailed explanation of this question, see [Question 11: Fraud Detection Game](L7_5_11_explanation.md).
+For a detailed explanation of this question, see [Question 11: Fraud Detection Game](L7_3_11_explanation.md).
 
 ## Question 12
 
@@ -223,7 +232,7 @@ You're building a Random Forest for a medical diagnosis system with $30$ feature
 3. Design a feature sampling strategy that ensures rare but important features aren't ignored
 4. What's the trade-off between your diversity strategy and individual tree performance?
 
-For a detailed explanation of this question, see [Question 12: Tree Diversity Challenge](L7_5_12_explanation.md).
+For a detailed explanation of this question, see [Question 12: Tree Diversity Challenge](L7_3_12_explanation.md).
 
 ## Question 13
 
@@ -243,7 +252,7 @@ Three Random Forest configurations are competing for the best performance on a d
 3. Which forest will likely have the most stable predictions (lowest variance)?
 4. If memory is limited to $1000$ tree nodes total, which forest fits best?
 
-For a detailed explanation of this question, see [Question 13: Battle Royale Analysis](L7_5_13_explanation.md).
+For a detailed explanation of this question, see [Question 13: Battle Royale Analysis](L7_3_13_explanation.md).
 
 ## Question 14
 
@@ -266,7 +275,7 @@ You're analyzing customer churn data and your Random Forest reveals these featur
 3. If you want to reduce features to $60\%$ of original, which features would you keep?
 4. Design a feature selection strategy that preserves $90\%$ of importance while reducing features
 
-For a detailed explanation of this question, see [Question 14: Feature Importance Treasure Hunt](L7_5_14_explanation.md).
+For a detailed explanation of this question, see [Question 14: Feature Importance Treasure Hunt](L7_3_14_explanation.md).
 
 ## Question 15
 
@@ -287,7 +296,7 @@ You're analyzing a Random Forest's performance over time. The forest has $75$ tr
 3. What's the accuracy improvement per additional tree based on this data?
 4. If each tree takes $3$ minutes to train, how long would it take to reach $92\%$ accuracy?
 
-For a detailed explanation of this question, see [Question 15: Performance Time Machine](L7_5_15_explanation.md).
+For a detailed explanation of this question, see [Question 15: Performance Time Machine](L7_3_15_explanation.md).
 
 ## Question 16
 
@@ -309,7 +318,7 @@ You're given a Random Forest puzzle with incomplete information. Solve the missi
 3. If you increase features per split to $6$, how does this affect tree diversity?
 4. What's the minimum number of trees needed for reliable OOB estimation?
 
-For a detailed explanation of this question, see [Question 16: Puzzle Box Solution](L7_5_16_explanation.md).
+For a detailed explanation of this question, see [Question 16: Puzzle Box Solution](L7_3_16_explanation.md).
 
 ## Question 17
 
@@ -330,7 +339,7 @@ You're an artist creating visual representations of Random Forest decision bound
 3. What's the ensemble prediction for point $(4, 3)$?
 4. Which tree creates the most interesting geometric pattern?
 
-For a detailed explanation of this question, see [Question 17: Art Gallery Visualization](L7_5_17_explanation.md).
+For a detailed explanation of this question, see [Question 17: Art Gallery Visualization](L7_3_17_explanation.md).
 
 ## Question 18
 
@@ -352,7 +361,7 @@ You're managing a restaurant and using Random Forest to predict daily customer c
 3. Which day shows the highest prediction uncertainty (variance)?
 4. If you can only staff for $3$ days, which days would you prioritize?
 
-For a detailed explanation of this question, see [Question 18: Restaurant Optimization](L7_5_18_explanation.md).
+For a detailed explanation of this question, see [Question 18: Restaurant Optimization](L7_3_18_explanation.md).
 
 ## Question 19
 
@@ -373,7 +382,7 @@ You're a sports team manager using Random Forest to evaluate player performance.
 3. Which player has the highest "upside potential" (highest individual tree score)?
 4. Design a scoring system that weights ensemble average ($70\%$) and consistency ($30\%$)
 
-For a detailed explanation of this question, see [Question 19: Sports Team Strategy](L7_5_19_explanation.md).
+For a detailed explanation of this question, see [Question 19: Sports Team Strategy](L7_3_19_explanation.md).
 
 ## Question 20
 
@@ -400,7 +409,7 @@ You're trapped in a Random Forest escape room! To escape, you must solve ensembl
 3. What's the probability that you can escape (at least $3$ safe doors)?
 4. If you can only check $2$ doors, which combination maximizes escape probability?
 
-For a detailed explanation of this question, see [Question 20: Escape Room Puzzles](L7_5_20_explanation.md).
+For a detailed explanation of this question, see [Question 20: Escape Room Puzzles](L7_3_20_explanation.md).
 
 ## Question 21
 
@@ -421,7 +430,7 @@ You're a meteorologist using Random Forest to predict rainfall probability. Your
 3. Which day has the most reliable prediction (lowest variance)?
 4. If you can only make one prediction, which day would you be most confident about?
 
-For a detailed explanation of this question, see [Question 21: Weather Station System](L7_5_21_explanation.md).
+For a detailed explanation of this question, see [Question 21: Weather Station System](L7_3_21_explanation.md).
 
 ## Question 22
 
@@ -442,7 +451,7 @@ You're a financial advisor using Random Forest to predict stock performance. You
 3. Which stock shows the highest potential return (highest ensemble score)?
 4. Design a risk-adjusted scoring system: $\text{Score} = \text{Ensemble\_Score} \times (1 - \text{Variance})$
 
-For a detailed explanation of this question, see [Question 22: Investment Portfolio Strategy](L7_5_22_explanation.md).
+For a detailed explanation of this question, see [Question 22: Investment Portfolio Strategy](L7_3_22_explanation.md).
 
 ## Question 23
 
@@ -463,7 +472,7 @@ You're investigating a fraud case and have a Random Forest with $7$ trees. Each 
 3. Which transaction shows the highest disagreement among trees (highest variance)?
 4. If you could only investigate $2$ transactions, which would you prioritize and why?
 
-For a detailed explanation of this question, see [Question 23: Detective Game Analysis](L7_5_23_explanation.md).
+For a detailed explanation of this question, see [Question 23: Detective Game Analysis](L7_3_23_explanation.md).
 
 ## Question 24
 
@@ -484,7 +493,7 @@ You're building a Random Forest for a medical diagnosis system with $30$ feature
 3. Design a feature sampling strategy that ensures rare but important features aren't ignored
 4. What's the trade-off between your diversity strategy and individual tree performance?
 
-For a detailed explanation of this question, see [Question 24: Diversity Challenge Strategy](L7_5_24_explanation.md).
+For a detailed explanation of this question, see [Question 24: Diversity Challenge Strategy](L7_3_24_explanation.md).
 
 ## Question 25
 
@@ -504,7 +513,9 @@ Three Random Forest configurations are competing for the best performance on a d
 3. Which forest will likely have the most stable predictions (lowest variance)?
 4. If memory is limited to $1000$ tree nodes total, which forest fits best?
 
-For a detailed explanation of this question, see [Question 25: Battle Royale Comparison](L7_5_25_explanation.md).
+
+
+For a detailed explanation of this question, see [Question 25: Battle Royale Comparison](L7_3_25_explanation.md).
 
 ## Question 26
 
@@ -527,7 +538,7 @@ You're analyzing customer churn data and your Random Forest reveals these featur
 3. If you want to reduce features to $60\%$ of original, which features would you keep?
 4. Design a feature selection strategy that preserves $90\%$ of importance while reducing features
 
-For a detailed explanation of this question, see [Question 26: Feature Importance Hunt](L7_5_26_explanation.md).
+For a detailed explanation of this question, see [Question 26: Feature Importance Hunt](L7_3_26_explanation.md).
 
 ## Question 27
 
@@ -548,7 +559,7 @@ You're analyzing a Random Forest's performance over time. The forest has $75$ tr
 3. What's the accuracy improvement per additional tree based on this data?
 4. If each tree takes $3$ minutes to train, how long would it take to reach $92\%$ accuracy?
 
-For a detailed explanation of this question, see [Question 27: Performance Time Machine](L7_5_27_explanation.md).
+For a detailed explanation of this question, see [Question 27: Performance Time Machine](L7_3_27_explanation.md).
 
 ## Question 28
 
@@ -570,7 +581,7 @@ You're given a Random Forest puzzle with incomplete information. Solve the missi
 3. If you increase features per split to $6$, how does this affect tree diversity?
 4. What's the minimum number of trees needed for reliable OOB estimation?
 
-For a detailed explanation of this question, see [Question 28: Puzzle Box Solution](L7_5_28_explanation.md).
+For a detailed explanation of this question, see [Question 28: Puzzle Box Solution](L7_3_28_explanation.md).
 
 ## Question 29
 
@@ -591,7 +602,7 @@ You're an artist creating visual representations of Random Forest decision bound
 3. What's the ensemble prediction for point $(4, 3)$?
 4. Which tree creates the most interesting geometric pattern?
 
-For a detailed explanation of this question, see [Question 29: Art Gallery Visualization](L7_5_29_explanation.md).
+For a detailed explanation of this question, see [Question 29: Art Gallery Visualization](L7_3_29_explanation.md).
 
 ## Question 30
 
@@ -613,7 +624,7 @@ You're managing a restaurant and using Random Forest to predict daily customer c
 3. Which day shows the highest prediction uncertainty (variance)?
 4. If you can only staff for $3$ days, which days would you prioritize?
 
-For a detailed explanation of this question, see [Question 30: Restaurant Optimization](L7_5_30_explanation.md).
+For a detailed explanation of this question, see [Question 30: Restaurant Optimization](L7_3_30_explanation.md).
 
 ## Question 31
 
@@ -634,7 +645,7 @@ You're a sports team manager using Random Forest to evaluate player performance.
 3. Which player has the highest "upside potential" (highest individual tree score)?
 4. Design a scoring system that weights ensemble average ($70\%$) and consistency ($30\%$)
 
-For a detailed explanation of this question, see [Question 31: Sports Team Strategy](L7_5_31_explanation.md).
+For a detailed explanation of this question, see [Question 31: Sports Team Strategy](L7_3_31_explanation.md).
 
 ## Question 32
 
@@ -661,7 +672,7 @@ You're trapped in a Random Forest escape room! To escape, you must solve ensembl
 3. What's the probability that you can escape (at least $3$ safe doors)?
 4. If you can only check $2$ doors, which combination maximizes escape probability?
 
-For a detailed explanation of this question, see [Question 32: Escape Room Puzzles](L7_5_32_explanation.md).
+For a detailed explanation of this question, see [Question 32: Escape Room Puzzles](L7_3_32_explanation.md).
 
 ## Question 33
 
@@ -682,7 +693,7 @@ You're a meteorologist using Random Forest to predict rainfall probability. Your
 3. Which day has the most reliable prediction (lowest variance)?
 4. If you can only make one prediction, which day would you be most confident about?
 
-For a detailed explanation of this question, see [Question 33: Weather Station System](L7_5_33_explanation.md).
+For a detailed explanation of this question, see [Question 33: Weather Station System](L7_3_33_explanation.md).
 
 ## Question 34
 
@@ -703,4 +714,4 @@ You're a financial advisor using Random Forest to predict stock performance. You
 3. Which stock shows the highest potential return (highest ensemble score)?
 4. Design a risk-adjusted scoring system: $\text{Score} = \text{Ensemble\_Score} \times (1 - \text{Variance})$
 
-For a detailed explanation of this question, see [Question 34: Investment Portfolio Strategy](L7_5_34_explanation.md).
+For a detailed explanation of this question, see [Question 34: Investment Portfolio Strategy](L7_3_34_explanation.md).

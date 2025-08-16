@@ -1,11 +1,17 @@
 # Question 9: Random Forest Configuration Comparison
 
 ## Problem Statement
-You have three Random Forest configurations:
+You have three Random Forest configurations for a dataset with $20$ total features:
 
 **Configuration A:** $100$ trees, $5$ features per split, $\text{max\_depth} = 10$
 **Configuration B:** $50$ trees, $10$ features per split, $\text{max\_depth} = 15$  
 **Configuration C:** $200$ trees, $3$ features per split, $\text{max\_depth} = 8$
+
+**Note:** For calculations:
+- Tree diversity: lower features per split = higher diversity
+- Training speed: proportional to trees × depth × features per split  
+- Variance: more trees = lower variance, deeper trees = higher variance
+- Memory: proportional to $2^{\text{depth}} \times \text{trees}$
 
 ### Task
 1. Which configuration will likely have the highest tree diversity?
