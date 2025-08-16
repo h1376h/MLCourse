@@ -167,6 +167,7 @@ You're applying the Minimum Description Length principle to decision trees. This
 5. If you have two trees with identical accuracy but different description lengths, and one tree has a leaf node that splits on a feature with only 2 unique values, what does MDL suggest about this split?
 6. You're building a tree for a system with limited bandwidth. How would MDL help you optimize for transmission efficiency?
 7. Calculate the description length penalty for a tree that grows from 3 to 7 nodes.
+8. Using the bias-variance decomposition formula $$\text{Variance} = E[(\hat{f}(x) - E[\hat{f}(x)])^2]$$, explain how MDL-based pruning affects the variance component of a decision tree's prediction error.
 
 For a detailed explanation of this question, see [Question 9: MDL-Based Pruning](L6_4_9_explanation.md).
 
@@ -274,6 +275,7 @@ You're working with data from IoT sensors that have varying levels of noise depe
 5. If noise increases exponentially with feature values, how would you modify your pruning thresholds?
 6. You're building a tree for a smart home system. What are the safety implications of pruning too aggressively with noisy sensor data?
 7. Design a noise-adaptive pruning strategy that adjusts thresholds based on local noise estimates.
+8. For a noisy dataset with irreducible error $\sigma^2 = 0.15$, calculate the expected prediction error using the formula $$E[(y - \hat{f}(x))^2] = \text{Bias}^2 + \text{Variance} + \sigma^2$$ if a pruned tree has bias = 0.08 and variance = 0.12.
 
 For a detailed explanation of this question, see [Question 15: Pruning with Noisy Data](L6_4_15_explanation.md).
 
@@ -316,6 +318,7 @@ Root: Age ≤ 30 (Training Acc: 88%, Validation Acc: 75%)
 5. Write the final decision rule after optimal pruning
 6. If the insurance company wants to minimize false negatives (missing high-risk customers) while keeping false positives below 20%, what pruning strategy would you recommend?
 7. What are the regulatory implications of pruning this risk assessment tree?
+8. Using the bias formula $$\text{Bias} = E[\hat{f}(x)] - f(x)$$, estimate the bias of the full tree vs pruned versions if training accuracy represents $E[\hat{f}(x)]$ and validation accuracy represents $f(x)$.
 
 For a detailed explanation of this question, see [Question 17: Tree Surgery Simulation](L6_4_17_explanation.md).
 
@@ -427,6 +430,8 @@ A research team is comparing different validation strategies for pruning decisio
 4. Plot validation accuracy vs computational cost and identify the Pareto frontier
 5. If you use nested cross-validation, how would you correct for the bias introduced by parameter selection?
 6. Calculate the minimum number of samples needed for each fold to ensure statistical significance with 90% confidence
+7. Using the formula $$E[(y - \hat{f}(x))^2] = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$$, calculate the expected prediction error for each validation method. Assume irreducible error = 0.02. Which method has the lowest expected prediction error?
+8. For each validation method, calculate the bias-to-variance ratio. What does this ratio tell you about the method's performance characteristics?
 
 For a detailed explanation of this question, see [Question 23: Pruning Validation Strategy Analysis](L6_4_23_explanation.md).
 
@@ -454,6 +459,8 @@ A machine learning engineer is tuning regularization parameters for a decision t
 5. Create a scatter plot of tree size vs validation accuracy and identify the optimal region
 6. For a real-time system that needs accuracy $\geq 0.80$ and response time $\leq 100$ms, which configuration would you choose?
 7. If you want to add a new regularization parameter (feature subsampling ratio), how would you modify this analysis to include it?
+8. For the overfitting configurations (max_depth=7 and max_depth=10), estimate the bias and variance components. Use the formula $$\text{Bias} = E[\hat{f}(x)] - f(x)$$ where $f(x)$ is the true function. If training accuracy represents $E[\hat{f}(x)]$ and validation accuracy represents $f(x)$, calculate bias and variance for each overfitting case.
+9. Explain how increasing tree complexity affects the bias-variance trade-off in your decision trees, using the data from the table.
 
 For a detailed explanation of this question, see [Question 24: Regularization Parameter Tuning Analysis](L6_4_24_explanation.md).
 
