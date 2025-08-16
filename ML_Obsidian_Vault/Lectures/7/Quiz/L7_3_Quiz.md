@@ -157,7 +157,6 @@ You have three Random Forest configurations for a dataset with $20$ total featur
 
 #### Task
 1. Which configuration will likely have the highest tree diversity?
-   - Tree diversity = lower features per split = higher diversity
 2. Which configuration will be fastest to train?
    - Training speed $\propto$ trees × depth × features per split
 3. Which configuration will likely have the lowest variance in predictions?
