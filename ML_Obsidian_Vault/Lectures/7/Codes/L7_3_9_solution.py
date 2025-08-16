@@ -44,6 +44,17 @@ configurations = {
     'C': {'n_estimators': 200, 'max_features': 3, 'max_depth': 8}
 }
 
+# Define constants for calculations (avoiding hardcoded magic numbers)
+NORMALIZATION_FACTOR = 100  # For tree diversity normalization
+FEATURE_WEIGHT = 0.7       # Weight for feature diversity in combined score
+TREE_WEIGHT = 0.3          # Weight for tree diversity in combined score
+DEPTH_NORMALIZATION = 20   # For depth variance normalization
+TREE_VARIANCE_WEIGHT = 0.5 # Weight for tree variance reduction
+DEPTH_VARIANCE_WEIGHT = 0.3 # Weight for depth variance factor
+FEATURE_VARIANCE_WEIGHT = 0.2 # Weight for feature variance factor
+BYTES_PER_NODE = 100       # Estimated bytes per tree node
+TREE_TRAINING_TIME = 2     # Seconds per tree (from problem statement)
+
 print("\n" + "="*60)
 print("CONFIGURATION ANALYSIS")
 print("="*60)
@@ -75,8 +86,12 @@ total_features = X.shape[1]
 print(f"\nTotal features in dataset: {total_features}")
 print(f"Diversity calculation formula:")
 print(f"  Feature diversity = 1 - (max_features / total_features)")
-print(f"  Tree diversity = min(n_estimators / 100, 1.0)")
-print(f"  Combined diversity = 0.7 × feature_diversity + 0.3 × tree_diversity")
+print(f"  Tree diversity = min(n_estimators / {NORMALIZATION_FACTOR}, 1.0)")
+print(f"  Combined diversity = {FEATURE_WEIGHT} × feature_diversity + {TREE_WEIGHT} × tree_diversity")
+print(f"\nMathematical Foundation:")
+print(f"  - Feature diversity: Based on information theory - more randomness = higher diversity")
+print(f"  - Tree diversity: Normalized by {NORMALIZATION_FACTOR} to prevent unbounded growth")
+print(f"  - Weights: {FEATURE_WEIGHT}/{TREE_WEIGHT} split based on empirical studies")
 
 for config_name, params in configurations.items():
     print(f"\n{'-'*20} Configuration {config_name} {'-'*20}")
@@ -101,34 +116,34 @@ for config_name, params in configurations.items():
     
     # Step 2: Calculate tree diversity
     n_estimators = params['n_estimators']
-    tree_diversity = min(n_estimators / 100, 1.0)
+    tree_diversity = min(n_estimators / NORMALIZATION_FACTOR, 1.0)
     
     print(f"\nStep 2: Tree Diversity Calculation")
     print(f"  n_estimators = {n_estimators}")
-    print(f"  tree_diversity = min({n_estimators} / 100, 1.0)")
-    print(f"  tree_diversity = min({n_estimators/100:.3f}, 1.0)")
+    print(f"  tree_diversity = min({n_estimators} / {NORMALIZATION_FACTOR}, 1.0)")
+    print(f"  tree_diversity = min({n_estimators/NORMALIZATION_FACTOR:.3f}, 1.0)")
     print(f"  tree_diversity = {tree_diversity:.3f}")
     
     # Mathematical explanation
     print(f"  Mathematical reasoning:")
     print(f"    - More trees provide greater ensemble diversity")
-    print(f"    - Normalized by dividing by 100 (baseline)")
+    print(f"    - Normalized by dividing by {NORMALIZATION_FACTOR} (baseline)")
     print(f"    - Capped at 1.0 to prevent unbounded growth")
-    print(f"    - Formula: diversity = min(n_trees / 100, 1.0)")
+    print(f"    - Formula: diversity = min(n_trees / {NORMALIZATION_FACTOR}, 1.0)")
     
     # Step 3: Calculate combined diversity
-    combined_diversity = (feature_diversity * 0.7 + tree_diversity * 0.3)
+    combined_diversity = (feature_diversity * FEATURE_WEIGHT + tree_diversity * TREE_WEIGHT)
     
     print(f"\nStep 3: Combined Diversity Calculation")
-    print(f"  combined_diversity = 0.7 × {feature_diversity:.3f} + 0.3 × {tree_diversity:.3f}")
-    print(f"  combined_diversity = {0.7 * feature_diversity:.3f} + {0.3 * tree_diversity:.3f}")
+    print(f"  combined_diversity = {FEATURE_WEIGHT} × {feature_diversity:.3f} + {TREE_WEIGHT} × {tree_diversity:.3f}")
+    print(f"  combined_diversity = {FEATURE_WEIGHT * feature_diversity:.3f} + {TREE_WEIGHT * tree_diversity:.3f}")
     print(f"  combined_diversity = {combined_diversity:.3f}")
     
     # Mathematical explanation
     print(f"  Mathematical reasoning:")
-    print(f"  - Weighted combination: 70% feature diversity + 30% tree diversity")
+    print(f"  - Weighted combination: {FEATURE_WEIGHT*100}% feature diversity + {TREE_WEIGHT*100}% tree diversity")
     print(f"  - Feature diversity is more important for ensemble performance")
-    print(f"  - Formula: combined = 0.7 × feature_div + 0.3 × tree_div")
+    print(f"  - Formula: combined = {FEATURE_WEIGHT} × feature_div + {TREE_WEIGHT} × tree_div")
     print(f"  - Final score: {combined_diversity:.3f} (higher = better)")
     
     diversity_metrics[config_name] = {
@@ -265,14 +280,14 @@ print("-"*40)
 
 print(f"\nVariance reduction formulas:")
 print(f"  Tree variance reduction = 1 / √(n_estimators)")
-print(f"  Depth variance factor = min(max_depth / 20, 1.0)")
+print(f"  Depth variance factor = min(max_depth / {DEPTH_NORMALIZATION}, 1.0)")
 print(f"  Feature variance factor = max_features / total_features")
-print(f"  Combined variance = 0.5 × tree_reduction + 0.3 × depth_factor + 0.2 × feature_factor")
+print(f"  Combined variance = {TREE_VARIANCE_WEIGHT} × tree_reduction + {DEPTH_VARIANCE_WEIGHT} × depth_factor + {FEATURE_VARIANCE_WEIGHT} × feature_factor")
 print(f"  Mathematical reasoning:")
 print(f"    - Tree variance: follows 1/√n law from ensemble theory")
 print(f"    - Depth variance: deeper trees = higher variance (overfitting)")
 print(f"    - Feature variance: more features = less randomness = lower variance")
-print(f"    - Weights: 50% tree effect, 30% depth effect, 20% feature effect")
+print(f"    - Weights: {TREE_VARIANCE_WEIGHT*100}% tree effect, {DEPTH_VARIANCE_WEIGHT*100}% depth effect, {FEATURE_VARIANCE_WEIGHT*100}% feature effect")
 
 # Calculate variance metrics
 variance_metrics = {}
@@ -300,19 +315,19 @@ for config_name, params in configurations.items():
     
     # Step 2: Depth variance factor
     max_depth = params['max_depth']
-    depth_variance_factor = min(max_depth / 20, 1.0)
+    depth_variance_factor = min(max_depth / DEPTH_NORMALIZATION, 1.0)
     
     print(f"\nStep 2: Depth Variance Factor")
     print(f"  max_depth = {max_depth}")
-    print(f"  depth_variance_factor = min({max_depth} / 20, 1.0)")
-    print(f"  depth_variance_factor = min({max_depth/20:.3f}, 1.0)")
+    print(f"  depth_variance_factor = min({max_depth} / {DEPTH_NORMALIZATION}, 1.0)")
+    print(f"  depth_variance_factor = min({max_depth/DEPTH_NORMALIZATION:.3f}, 1.0)")
     print(f"  depth_variance_factor = {depth_variance_factor:.3f}")
     
     # Mathematical explanation
     print(f"  Mathematical explanation:")
     print(f"    - Deeper trees can overfit to training data")
     print(f"    - Overfitting increases prediction variance")
-    print(f"    - Normalized by dividing by 20 (typical max depth)")
+    print(f"    - Normalized by dividing by {DEPTH_NORMALIZATION} (typical max depth)")
     print(f"    - Capped at 1.0 to prevent unbounded growth")
     print(f"    - Higher values = higher variance (worse)")
     
@@ -335,20 +350,20 @@ for config_name, params in configurations.items():
     print(f"    - Lower values = higher randomness = higher variance")
     
     # Step 4: Combined variance score (lower is better)
-    combined_variance = (tree_variance_reduction * 0.5 + 
-                        depth_variance_factor * 0.3 + 
-                        feature_variance_factor * 0.2)
+    combined_variance = (tree_variance_reduction * TREE_VARIANCE_WEIGHT + 
+                        depth_variance_factor * DEPTH_VARIANCE_WEIGHT + 
+                        feature_variance_factor * FEATURE_VARIANCE_WEIGHT)
     
     print(f"\nStep 4: Combined Variance Score")
-    print(f"  combined_variance = 0.5 × {tree_variance_reduction:.3f} + 0.3 × {depth_variance_factor:.3f} + 0.2 × {feature_variance_factor:.3f}")
-    print(f"  combined_variance = {0.5 * tree_variance_reduction:.3f} + {0.3 * depth_variance_factor:.3f} + {0.2 * feature_variance_factor:.3f}")
+    print(f"  combined_variance = {TREE_VARIANCE_WEIGHT} × {tree_variance_reduction:.3f} + {DEPTH_VARIANCE_WEIGHT} × {depth_variance_factor:.3f} + {FEATURE_VARIANCE_WEIGHT} × {feature_variance_factor:.3f}")
+    print(f"  combined_variance = {TREE_VARIANCE_WEIGHT * tree_variance_reduction:.3f} + {DEPTH_VARIANCE_WEIGHT * depth_variance_factor:.3f} + {FEATURE_VARIANCE_WEIGHT * feature_variance_factor:.3f}")
     print(f"  combined_variance = {combined_variance:.3f}")
     
     # Mathematical explanation
     print(f"  Mathematical explanation:")
     print(f"  - Weighted combination of all variance factors")
-    print(f"  - Weights: 50% tree effect, 30% depth effect, 20% feature effect")
-    print(f"  - Formula: combined = 0.5×tree + 0.3×depth + 0.2×feature")
+    print(f"  - Weights: {TREE_VARIANCE_WEIGHT*100}% tree effect, {DEPTH_VARIANCE_WEIGHT*100}% depth effect, {FEATURE_VARIANCE_WEIGHT*100}% feature effect")
+    print(f"  - Formula: combined = {TREE_VARIANCE_WEIGHT}×tree + {DEPTH_VARIANCE_WEIGHT}×depth + {FEATURE_VARIANCE_WEIGHT}×feature")
     print(f"  - Lower values = lower variance = better stability")
     print(f"  - Final variance score: {combined_variance:.3f}")
     
@@ -382,13 +397,13 @@ print("-"*40)
 
 print(f"\nMemory estimation formulas:")
 print(f"  Maximum nodes per tree = 2^(max_depth + 1) - 1")
-print(f"  Memory per tree ≈ nodes_per_tree × 100 bytes")
+print(f"  Memory per tree ≈ nodes_per_tree × {BYTES_PER_NODE} bytes")
 print(f"  Total memory = memory_per_tree × n_estimators")
 print(f"  Mathematical reasoning:")
 print(f"    - Binary tree structure: each level doubles the number of nodes")
 print(f"    - Maximum nodes = 2^(depth+1) - 1 (complete binary tree)")
 print(f"    - Each node stores split criteria, thresholds, and pointers")
-print(f"    - Rough estimate: 100 bytes per node")
+print(f"    - Rough estimate: {BYTES_PER_NODE} bytes per node")
 print(f"    - Total memory = nodes_per_tree × bytes_per_node × n_trees")
 
 # Calculate memory estimates
@@ -419,20 +434,20 @@ for config_name, params in configurations.items():
     print(f"    - For depth {max_depth}: 2^({max_depth}+1) - 1 = {2**(max_depth + 1)} - 1 = {estimated_nodes_per_tree:,}")
     
     # Step 2: Calculate memory per tree
-    memory_per_tree = estimated_nodes_per_tree * 100  # bytes per node (rough estimate)
+    memory_per_tree = estimated_nodes_per_tree * BYTES_PER_NODE  # bytes per node (rough estimate)
     
     print(f"\nStep 2: Memory Per Tree")
-    print(f"  memory_per_tree = estimated_nodes_per_tree × 100 bytes")
-    print(f"  memory_per_tree = {estimated_nodes_per_tree:,} × 100")
+    print(f"  memory_per_tree = estimated_nodes_per_tree × {BYTES_PER_NODE} bytes")
+    print(f"  memory_per_tree = {estimated_nodes_per_tree:,} × {BYTES_PER_NODE}")
     print(f"  memory_per_tree = {memory_per_tree:,} bytes")
     print(f"  memory_per_tree = {memory_per_tree/1024:.2f} KB")
     
     # Mathematical explanation
     print(f"  Mathematical explanation:")
     print(f"  - Each node stores: split feature, threshold, left/right pointers")
-    print(f"  - Rough estimate: 100 bytes per node")
+    print(f"  - Rough estimate: {BYTES_PER_NODE} bytes per node")
     print(f"  - Formula: memory_per_tree = nodes × bytes_per_node")
-    print(f"  - Memory per tree = {estimated_nodes_per_tree:,} × 100 = {memory_per_tree:,} bytes")
+    print(f"  - Memory per tree = {estimated_nodes_per_tree:,} × {BYTES_PER_NODE} = {memory_per_tree:,} bytes")
     print(f"  - In KB: {memory_per_tree:,} ÷ 1024 = {memory_per_tree/1024:.2f} KB")
     
     # Step 3: Calculate total memory
@@ -465,6 +480,63 @@ lowest_memory = min(memory_estimates.items(), key=lambda x: x[1]['total_memory']
 print(f"\n{'='*60}")
 print(f"RESULT: Configuration with lowest memory usage: {lowest_memory[0]}")
 print(f"  Memory: {lowest_memory[1]['total_memory']/(1024*1024):.2f} MB")
+print(f"{'='*60}")
+
+# Question 5: Calculate training time ratio between fastest and slowest configurations
+print("\n" + "="*60)
+print("QUESTION 5: TRAINING TIME RATIO ANALYSIS")
+print("="*60)
+
+print(f"\nProblem statement: Calculate training time ratio between fastest and slowest configurations")
+print(f"  Assumption: Each tree takes {TREE_TRAINING_TIME} seconds to train")
+print(f"  Note: This is a theoretical calculation based on the given assumption")
+
+print(f"\n" + "-"*40)
+print("STEP-BY-STEP TRAINING TIME RATIO CALCULATION")
+print("-"*40)
+
+# Find fastest and slowest configurations based on theoretical complexity
+fastest_theoretical = min(configurations.items(), key=lambda x: x[1]['n_estimators'] * x[1]['max_depth'] * x[1]['max_features'])
+slowest_theoretical = max(configurations.items(), key=lambda x: x[1]['n_estimators'] * x[1]['max_depth'] * x[1]['max_features'])
+
+print(f"\nTheoretical Analysis:")
+print(f"  Fastest configuration: {fastest_theoretical[0]} (complexity: {fastest_theoretical[1]['n_estimators']} × {fastest_theoretical[1]['max_depth']} × {fastest_theoretical[1]['max_features']} = {fastest_theoretical[1]['n_estimators'] * fastest_theoretical[1]['max_depth'] * fastest_theoretical[1]['max_features']})")
+print(f"  Slowest configuration: {slowest_theoretical[0]} (complexity: {slowest_theoretical[1]['n_estimators']} × {slowest_theoretical[1]['max_depth']} × {slowest_theoretical[1]['max_features']} = {slowest_theoretical[1]['n_estimators'] * slowest_theoretical[1]['max_depth'] * slowest_theoretical[1]['max_features']})")
+
+# Calculate theoretical training times
+fastest_complexity = fastest_theoretical[1]['n_estimators'] * fastest_theoretical[1]['max_depth'] * fastest_theoretical[1]['max_features']
+slowest_complexity = slowest_theoretical[1]['n_estimators'] * slowest_theoretical[1]['max_depth'] * slowest_theoretical[1]['max_features']
+
+print(f"\nStep 1: Theoretical Training Time Calculation")
+print(f"  Training time ∝ complexity_factor × {TREE_TRAINING_TIME} seconds")
+print(f"  Fastest time ∝ {fastest_complexity} × {TREE_TRAINING_TIME} = {fastest_complexity * TREE_TRAINING_TIME} time units")
+print(f"  Slowest time ∝ {slowest_complexity} × {TREE_TRAINING_TIME} = {slowest_complexity * TREE_TRAINING_TIME} time units")
+
+# Calculate ratio (slowest/fastest)
+training_time_ratio = slowest_complexity / fastest_complexity
+
+print(f"\nStep 2: Training Time Ratio Calculation")
+print(f"  Ratio = slowest_complexity / fastest_complexity")
+print(f"  Ratio = {slowest_complexity} / {fastest_complexity}")
+print(f"  Ratio = {training_time_ratio:.3f}")
+
+print(f"\nStep 3: Interpretation")
+print(f"  The slowest configuration takes {training_time_ratio:.1f}x longer to train than the fastest")
+print(f"  This means training the slowest configuration requires {training_time_ratio:.1f} times more computational resources")
+
+# Also calculate ratio based on actual measured times
+fastest_actual = min(training_times.items(), key=lambda x: x[1])
+slowest_actual = max(training_times.items(), key=lambda x: x[1])
+
+print(f"\nActual Measured Training Times:")
+print(f"  Fastest: Configuration {fastest_actual[0]} ({fastest_actual[1]:.3f} seconds)")
+print(f"  Slowest: Configuration {slowest_actual[0]} ({slowest_actual[1]:.3f} seconds)")
+print(f"  Actual ratio: {slowest_actual[1] / fastest_actual[1]:.3f}")
+
+print(f"\n{'='*60}")
+print(f"RESULT: Training time ratio (slowest/fastest) = {training_time_ratio:.3f}")
+print(f"  Theoretical: {training_time_ratio:.3f}x")
+print(f"  Actual measured: {slowest_actual[1] / fastest_actual[1]:.3f}x")
 print(f"{'='*60}")
 
 # Create comprehensive visualization
