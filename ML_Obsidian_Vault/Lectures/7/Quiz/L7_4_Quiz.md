@@ -44,7 +44,7 @@ AdaBoost updates sample weights after each iteration.
 2. What happens to the weights of misclassified samples?
 3. Why does AdaBoost normalize weights after updating?
 4. How does weight updating help AdaBoost learn?
-5. If a sample's weight increases from 0.1 to 0.15 after an iteration, what does this indicate about the sample?
+5. If a sample's weight increases from $0.1$ to $0.15$ after an iteration, what does this indicate about the sample?
 
 For a detailed explanation of this question, see [Question 3: AdaBoost Weight Updates](L7_4_3_explanation.md).
 
@@ -58,7 +58,7 @@ AdaBoost has theoretical guarantees and convergence properties.
 2. Why does AdaBoost typically not overfit even with many iterations?
 3. What is the relationship between weak learner performance and ensemble performance?
 4. When might AdaBoost fail to converge?
-5. If the sum of squared weak learner weights is 2.5, what is the theoretical upper bound on training error?
+5. If the sum of squared weak learner weights is $2.5$, what is the theoretical upper bound on training error?
 
 For a detailed explanation of this question, see [Question 4: AdaBoost Theoretical Foundations](L7_4_4_explanation.md).
 
@@ -139,7 +139,7 @@ Design an AdaBoost configuration for a medical diagnosis system.
 
 **Requirements:**
 - Binary classification (Healthy/Sick)
-- False negatives are 10x more expensive than false positives
+- False negatives are 10× more expensive than false positives
 - Dataset: 500 patients, 15 medical features
 - Must be interpretable by doctors
 - Training time: $\leq 30$ minutes
@@ -321,7 +321,7 @@ Investigate AdaBoost's performance on imbalanced datasets.
 **Dataset:**
 - 1000 samples total
 - Class distribution: 900 negative, 100 positive
-- Cost of false negative: 10x false positive
+- Cost of false negative: 10× false positive
 
 #### Task
 1. What challenges does class imbalance pose for AdaBoost?
