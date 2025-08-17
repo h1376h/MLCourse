@@ -357,8 +357,50 @@ class AdaBoostFeatureEngineering:
     
     def visualize_decision_stumps(self, results, optimal_thresholds):
         """Create detailed visualization of decision stumps"""
+        # Create individual decision stump visualizations
+        for i, (result, (feature_name, (threshold, reverse))) in enumerate(zip(results, optimal_thresholds.items())):
+            fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+            feature_idx = self.feature_names.index(feature_name)
+            feature_values = self.X[:, feature_idx]
+            
+            # Plot feature values
+            colors = ['red' if y == 0 else 'blue' for y in self.y]
+            ax.scatter(feature_values, [0]*len(feature_values), c=colors, s=150, alpha=0.8, edgecolor='black', linewidth=1)
+            
+            # Add threshold line
+            ax.axvline(x=threshold, color='green', linestyle='--', linewidth=3, 
+                      label=f'Threshold: {threshold:.1f}')
+            
+            # Add decision regions
+            if reverse:
+                ax.axvspan(ax.get_xlim()[0], threshold, alpha=0.3, color='blue', label='Predict 1 (Pass)')
+                ax.axvspan(threshold, ax.get_xlim()[1], alpha=0.3, color='red', label='Predict 0 (Fail)')
+            else:
+                ax.axvspan(ax.get_xlim()[0], threshold, alpha=0.3, color='red', label='Predict 0 (Fail)')
+                ax.axvspan(threshold, ax.get_xlim()[1], alpha=0.3, color='blue', label='Predict 1 (Pass)')
+            
+            # Add student labels
+            for j, student in enumerate(self.data['Student']):
+                ax.annotate(student, (feature_values[j], 0), xytext=(0, 15), textcoords='offset points', 
+                           ha='center', fontsize=12, fontweight='bold',
+                           bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
+            
+            ax.set_xlabel(feature_name, fontsize=14, fontweight='bold')
+            ax.set_title(f'Decision Stump {i+1}: {result["description"]}\nError Rate: {result["unweighted_error"]:.3f}', 
+                        fontsize=16, fontweight='bold')
+            ax.set_yticks([])
+            ax.legend(fontsize=12, loc='upper right')
+            ax.grid(True, alpha=0.3)
+            ax.set_xlim(feature_values.min() - 1, feature_values.max() + 1)
+            
+            # Save individual stump visualization
+            stump_filename = f'{feature_name.lower().replace("_", "_")}_stump.png'
+            plt.savefig(os.path.join(save_dir, stump_filename), dpi=300, bbox_inches='tight')
+            plt.close()
+        
+        # Also create the combined visualization
         fig, axes = plt.subplots(1, 3, figsize=(18, 6))
-        fig.suptitle('Decision Stump Weak Learners Analysis', fontsize=16, fontweight='bold')
+        fig.suptitle('Decision Stumps Analysis', fontsize=16, fontweight='bold')
         
         for i, (result, (feature_name, (threshold, reverse))) in enumerate(zip(results, optimal_thresholds.items())):
             ax = axes[i]

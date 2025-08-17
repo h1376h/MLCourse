@@ -93,6 +93,49 @@ Based on the optimal thresholds, we create three decision stump weak learners:
 2. **Stump 2**: $\text{Sleep\_Hours} \leq 6.5 \rightarrow 0$, $> 6.5 \rightarrow 1$
 3. **Stump 3**: $\text{Exercise\_Score} \leq 5.5 \rightarrow 0$, $> 5.5 \rightarrow 1$
 
+#### Visual Representation of Decision Stumps
+
+Each decision stump creates a simple binary classification rule. Here's how they work:
+
+**Stump 1: Study Hours Decision Rule**
+![Study Hours Decision Stump](../Images/L7_4_Quiz_29/study_hours_stump.png)
+
+This stump perfectly separates students based on study hours:
+- **Left region** ($\text{Study\_Hours} \leq 5.5$): Predict Fail (0) - Students A, B, E, G
+- **Right region** ($\text{Study\_Hours} > 5.5$): Predict Pass (1) - Students C, D, F, H
+- **Classification**: Perfect separation with 0.000 error rate
+
+**Stump 2: Sleep Hours Decision Rule**
+![Sleep Hours Decision Stump](../Images/L7_4_Quiz_29/sleep_hours_stump.png)
+
+This stump has one classification error:
+- **Left region** ($\text{Sleep\_Hours} \leq 6.5$): Predict Fail (0) - Students A, E, G
+- **Right region** ($\text{Sleep\_Hours} > 6.5$): Predict Pass (1) - Students B, C, D, F, H
+- **Error**: Student B (Sleep_Hours = 7) is predicted as Pass but actually Failed
+- **Classification**: 0.125 error rate (1 out of 8 students misclassified)
+
+**Stump 3: Exercise Score Decision Rule**
+![Exercise Score Decision Stump](../Images/L7_4_Quiz_29/exercise_score_stump.png)
+
+This stump also perfectly separates students:
+- **Left region** ($\text{Exercise\_Score} \leq 5.5$): Predict Fail (0) - Students A, B, E, G
+- **Right region** ($\text{Exercise\_Score} > 5.5$): Predict Pass (1) - Students C, D, F, H
+- **Classification**: Perfect separation with 0.000 error rate
+
+**Key Observations:**
+- **Study_Hours** and **Exercise_Score** stumps achieve perfect classification (0.000 error rate)
+- **Sleep_Hours** stump has the highest error rate (0.125) due to Student B's misclassification
+- All stumps use simple threshold-based rules that are easy to interpret
+- The visualizations clearly show the decision boundaries and student classifications
+
+**Summary Table of Decision Stumps:**
+
+| Stump | Feature | Threshold | Rule | Error Rate | Classification Quality |
+|-------|---------|-----------|------|------------|----------------------|
+| 1 | Study_Hours | 5.5 | $\leq 5.5 \rightarrow 0$, $> 5.5 \rightarrow 1$ | 0.000 | Perfect |
+| 2 | Sleep_Hours | 6.5 | $\leq 6.5 \rightarrow 0$, $> 6.5 \rightarrow 1$ | 0.125 | Good |
+| 3 | Exercise_Score | 5.5 | $\leq 5.5 \rightarrow 0$, $> 5.5 \rightarrow 1$ | 0.000 | Perfect |
+
 ### Step 3: Evaluating Weak Learners with Equal Initial Weights
 
 With equal initial weights $w_i^{(1)} = \frac{1}{N} = \frac{1}{8} = 0.125$ for each student, we calculate the weighted error for each weak learner:
@@ -188,7 +231,7 @@ This comprehensive visualization shows:
 ### Decision Stumps Analysis
 ![Decision Stumps Analysis](../Images/L7_4_Quiz_29/decision_stumps_analysis.png)
 
-This visualization shows each decision stump:
+This combined visualization shows all three decision stumps side by side:
 1. **Stump 1 (Study_Hours)**: Perfect separation at threshold 5.5
 2. **Stump 2 (Sleep_Hours)**: Good separation at threshold 6.5 with one error
 3. **Stump 3 (Exercise_Score)**: Perfect separation at threshold 5.5
@@ -198,6 +241,8 @@ Each plot shows:
 - Optimal threshold line (green dashed)
 - Decision regions (shaded areas)
 - Error rates for each stump
+
+**Note**: Individual detailed visualizations for each decision stump are also available in the [Step 2 section](#step-2-creating-decision-stump-weak-learners) above, showing clearer views of each stump's decision boundary and student classifications.
 
 ## Key Insights
 
