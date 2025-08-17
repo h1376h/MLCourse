@@ -7,14 +7,12 @@ Consider a $2$D classification problem with features $X$ and $Y$. A Random Fores
 **Tree 2:** Splits on $Y$ at $y = 4$, then $X$ at $x = 6$  
 **Tree 3:** Splits on $X$ at $x = 4$, then $Y$ at $y = 2$
 
-**Note:** Each tree follows a hierarchical decision structure where splits create binary decisions (go LEFT or RIGHT).
-
 ### Task
-1. **Draw the decision boundaries** for each tree
-2. **What is the prediction** for point $(3, 1)$?
-3. **What is the prediction** for point $(7, 5)$?
-4. **How does the ensemble decision boundary differ** from individual tree boundaries?
-5. **Calculate the area** of the region where all three trees agree on the same class prediction
+1. Draw the decision boundaries for each tree
+2. What is the prediction for point $(3, 1)$?
+3. What is the prediction for point $(7, 5)$?
+4. How does the ensemble decision boundary differ from individual tree boundaries?
+5. Calculate the area of the region where all three trees agree on the same class prediction
 
 **Note:** Follow each tree's decision path. Ensemble uses majority voting from all trees.
 
@@ -120,7 +118,7 @@ The plot shows the decision boundaries for each individual tree:
 
 Let's trace through each tree's decision path for point $(3, 1)$ using a systematic approach:
 
-#### Step 1: Evaluate Each Tree Individually
+#### 3.1: Evaluate Each Tree Individually
 
 **Tree 1 Analysis:**
 ```
@@ -176,7 +174,7 @@ Starting at root node
 
 **Decision path summary:** Both conditions $X \leq 4$ and $Y \leq 2$ are satisfied, leading to the positive class.
 
-#### Step 2: Ensemble Decision (Majority Voting)
+#### 3.2: Ensemble Decision (Majority Voting)
 - **Tree predictions:** $[1, 1, 1]$
 - **Positive votes (Class 1):** $3$
 - **Negative votes (Class -1):** $0$
@@ -186,7 +184,7 @@ Starting at root node
 
 **Ensemble logic:** Since all three trees predict Class 1, the majority rule gives us a **unanimous decision** with **maximum confidence**.
 
-#### Step 3: Verification
+#### 3.3: Verification
 Point $(3, 1)$ is classified as **Class 1 (Positive)**. This means the majority of trees ($3$ out of $3$) predict Class 1, indicating **unanimous agreement** and **high confidence** in the prediction.
 
 **Confidence level:** $100\%$ agreement among all trees suggests this point is in a **stable region** of the feature space.
@@ -195,7 +193,7 @@ Point $(3, 1)$ is classified as **Class 1 (Positive)**. This means the majority 
 
 Let's trace through each tree's decision path for point $(7, 5)$ using the same systematic approach:
 
-#### Step 1: Evaluate Each Tree Individually
+#### 4.1: Evaluate Each Tree Individually
 
 **Tree 1 Analysis:**
 ```
@@ -230,7 +228,7 @@ Starting at root node
 ```
 **Final prediction: Class -1 (Negative)**
 
-#### Step 2: Ensemble Decision (Majority Voting)
+#### 4.2: Ensemble Decision (Majority Voting)
 - **Tree predictions:** $[-1, -1, -1]$
 - **Positive votes (Class 1):** $0$
 - **Negative votes (Class -1):** $3$
@@ -240,7 +238,7 @@ Starting at root node
 
 **Ensemble logic:** Since all three trees predict Class -1, the majority rule gives us a **unanimous decision** with **maximum confidence**.
 
-#### Step 3: Verification
+#### 4.3: Verification
 Point $(7, 5)$ is classified as **Class -1 (Negative)**. This means the majority of trees ($3$ out of $3$) predict Class -1, indicating **unanimous agreement** and **high confidence** in the prediction.
 
 **Confidence level:** $100\%$ agreement among all trees suggests this point is in a **stable region** of the feature space.
