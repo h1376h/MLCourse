@@ -21,16 +21,16 @@ For a detailed explanation of this question, see [Question 1: AdaBoost Foundatio
 
 ### Problem Statement
 Consider an AdaBoost ensemble with 3 weak learners that have the following errors:
-- Weak Learner 1: ε₁ = 0.3
-- Weak Learner 2: ε₂ = 0.25
-- Weak Learner 3: ε₃ = 0.2
+- Weak Learner 1: $\epsilon_1 = 0.3$
+- Weak Learner 2: $\epsilon_2 = 0.25$
+- Weak Learner 3: $\epsilon_3 = 0.2$
 
 #### Task
-1. Calculate the weight α for each weak learner using the formula α = 0.5 × ln((1-ε)/ε)
+1. Calculate the weight $\alpha$ for each weak learner using the formula $\alpha = 0.5 \times \ln\left(\frac{1-\epsilon}{\epsilon}\right)$
 2. Which weak learner has the highest weight?
 3. What does a higher weight indicate about a weak learner?
 4. How would the final prediction be calculated?
-5. If the weak learners make predictions [1, -1, 1] for a sample, what is the final ensemble prediction?
+5. If the weak learners make predictions $[1, -1, 1]$ for a sample, what is the final ensemble prediction?
 
 For a detailed explanation of this question, see [Question 2: AdaBoost Weight Calculation](L7_4_2_explanation.md).
 
@@ -82,16 +82,16 @@ For a detailed explanation of this question, see [Question 5: AdaBoost Noise Sen
 Trace through the AdaBoost algorithm for a simple binary classification problem.
 
 **Dataset:**
-- Sample 1: (x₁, y₁) = (1, +1), initial weight w₁ = 0.25
-- Sample 2: (x₂, y₂) = (2, +1), initial weight w₂ = 0.25
-- Sample 3: (x₃, y₃) = (3, -1), initial weight w₃ = 0.25
-- Sample 4: (x₄, y₄) = (4, -1), initial weight w₄ = 0.25
+- Sample 1: $(x_1, y_1) = (1, +1)$, initial weight $w_1 = 0.25$
+- Sample 2: $(x_2, y_2) = (2, +1)$, initial weight $w_2 = 0.25$
+- Sample 3: $(x_3, y_3) = (3, -1)$, initial weight $w_3 = 0.25$
+- Sample 4: $(x_4, y_4) = (4, -1)$, initial weight $w_4 = 0.25$
 
-**Weak Learner 1:** h₁(x) = +1 if x ≤ 2.5, -1 otherwise
+**Weak Learner 1:** $h_1(x) = +1$ if $x \leq 2.5$, $-1$ otherwise
 
 #### Task
 1. Calculate the weighted error for Weak Learner 1
-2. Calculate the weight α₁ for Weak Learner 1
+2. Calculate the weight $\alpha_1$ for Weak Learner 1
 3. Update the sample weights after the first iteration
 4. Which samples will have increased weights and why?
 5. If Weak Learner 2 makes different mistakes, how will the weight distribution change?
@@ -104,11 +104,11 @@ For a detailed explanation of this question, see [Question 6: AdaBoost Algorithm
 Analyze AdaBoost's convergence behavior with different weak learner performances.
 
 #### Task
-1. If all weak learners have error rate ε = 0.4, what is the theoretical training error bound after 10 iterations?
-2. How many iterations would be needed to achieve training error ≤ 0.01 if each weak learner has ε = 0.45?
-3. What happens to the ensemble if a weak learner has ε = 0.6?
-4. Calculate the minimum number of iterations needed to achieve training error ≤ 0.1 if ε = 0.3
-5. If weak learners have varying error rates [0.3, 0.25, 0.2, 0.35, 0.28], calculate the theoretical error bound
+1. If all weak learners have error rate $\epsilon = 0.4$, what is the theoretical training error bound after 10 iterations?
+2. How many iterations would be needed to achieve training error $\leq 0.01$ if each weak learner has $\epsilon = 0.45$?
+3. What happens to the ensemble if a weak learner has $\epsilon = 0.6$?
+4. Calculate the minimum number of iterations needed to achieve training error $\leq 0.1$ if $\epsilon = 0.3$
+5. If weak learners have varying error rates $[0.3, 0.25, 0.2, 0.35, 0.28]$, calculate the theoretical error bound
 
 For a detailed explanation of this question, see [Question 7: AdaBoost Convergence Analysis](L7_4_7_explanation.md).
 
@@ -142,7 +142,7 @@ Design an AdaBoost configuration for a medical diagnosis system.
 - False negatives are 10x more expensive than false positives
 - Dataset: 500 patients, 15 medical features
 - Must be interpretable by doctors
-- Training time: ≤ 30 minutes
+- Training time: $\leq 30$ minutes
 
 #### Task
 1. What type of weak learners would you choose and why?
@@ -159,7 +159,7 @@ For a detailed explanation of this question, see [Question 9: AdaBoost Medical A
 Analyze AdaBoost's performance on a linearly separable dataset.
 
 **Dataset:**
-- 2D points with linear decision boundary: x₁ + x₂ > 3 → Class +1
+- 2D points with linear decision boundary: $x_1 + x_2 > 3 \rightarrow$ Class $+1$
 - 100 samples, 50 in each class
 - Perfect linear separation possible
 
@@ -180,7 +180,7 @@ Investigate AdaBoost's behavior with different weak learner types.
 **Weak Learner Options:**
 - Decision Stumps (depth 1 trees)
 - Linear Classifiers
-- Nearest Neighbor (k=1)
+- Nearest Neighbor ($k=1$)
 - Random Classifiers
 
 #### Task
@@ -231,11 +231,11 @@ For a detailed explanation of this question, see [Question 13: Multi-class AdaBo
 Analyze AdaBoost's computational complexity and scalability.
 
 #### Task
-1. What is the time complexity of AdaBoost training with T iterations and N samples?
+1. What is the time complexity of AdaBoost training with $T$ iterations and $N$ samples?
 2. How does the weak learner training time affect overall complexity?
 3. What is the space complexity of storing the trained ensemble?
 4. How would you scale AdaBoost to a dataset with 1 million samples?
-5. If each weak learner takes O(N log N) time to train, what's the total training complexity?
+5. If each weak learner takes $O(N \log N)$ time to train, what's the total training complexity?
 
 For a detailed explanation of this question, see [Question 14: AdaBoost Complexity Analysis](L7_4_14_explanation.md).
 
@@ -284,11 +284,11 @@ For a detailed explanation of this question, see [Question 16: AdaBoost vs Gradi
 Design an AdaBoost ensemble for a real-time fraud detection system.
 
 **Requirements:**
-- Must make predictions in < 100ms
+- Must make predictions in $< 100$ms
 - Handle 10,000 transactions per second
-- False positive rate < 5%
-- False negative rate < 1%
-- Memory constraint: < 1GB
+- False positive rate $< 5\%$
+- False negative rate $< 1\%$
+- Memory constraint: $< 1$GB
 
 #### Task
 1. What type of weak learners would you choose for speed?
@@ -421,7 +421,7 @@ Compare AdaBoost with other boosting algorithms.
 1. What are the key differences between AdaBoost and gradient boosting?
 2. When would you choose AdaBoost over XGBoost?
 3. What are the computational trade-offs between these methods?
-4. Which method would be most suitable for a small dataset (< 1000 samples)?
+4. Which method would be most suitable for a small dataset ($< 1000$ samples)?
 5. If you need to explain predictions to business stakeholders, which method would you prefer?
 
 For a detailed explanation of this question, see [Question 24: Boosting Algorithm Comparison](L7_4_24_explanation.md).
@@ -453,30 +453,30 @@ For a detailed explanation of this question, see [Question 25: AdaBoost Evaluati
 Create an "AdaBoost Weight Detective" game where you analyze sample weight evolution through multiple iterations.
 
 **Dataset:** 6 samples with binary labels
-- Sample 1: (x₁, y₁) = (1, +1)
-- Sample 2: (x₂, y₂) = (2, +1) 
-- Sample 3: (x₃, y₃) = (3, -1)
-- Sample 4: (x₄, y₄) = (4, -1)
-- Sample 5: (x₅, y₅) = (5, +1)
-- Sample 6: (x₆, y₆) = (6, -1)
+- Sample 1: $(x_1, y_1) = (1, +1)$
+- Sample 2: $(x_2, y_2) = (2, +1)$ 
+- Sample 3: $(x_3, y_3) = (3, -1)$
+- Sample 4: $(x_4, y_4) = (4, -1)$
+- Sample 5: $(x_5, y_5) = (5, +1)$
+- Sample 6: $(x_6, y_6) = (6, -1)$
 
 **Weak Learners:**
-- h₁(x): +1 if x ≤ 3.5, -1 otherwise
-- h₂(x): +1 if x ≤ 2.5, -1 otherwise
-- h₃(x): +1 if x ≤ 4.5, -1 otherwise
+- $h_1(x)$: $+1$ if $x \leq 3.5$, $-1$ otherwise
+- $h_2(x)$: $+1$ if $x \leq 2.5$, $-1$ otherwise
+- $h_3(x)$: $+1$ if $x \leq 4.5$, $-1$ otherwise
 
 #### Task
 1. Calculate initial weights (all equal) for the 6 samples
 2. **Iteration 1**: 
-   - Calculate weighted error for h₁
-   - Calculate α₁ for h₁
-   - Update sample weights after h₁
+   - Calculate weighted error for $h_1$
+   - Calculate $\alpha_1$ for $h_1$
+   - Update sample weights after $h_1$
 3. **Iteration 2**: 
-   - Calculate weighted error for h₂
-   - Calculate α₂ for h₂
-   - Update sample weights after h₂
+   - Calculate weighted error for $h_2$
+   - Calculate $\alpha_2$ for $h_2$
+   - Update sample weights after $h_2$
 4. Which samples have the highest weights after 2 iterations? Why?
-5. If h₁ predicts [1,1,-1,-1,1,-1] and h₂ predicts [1,1,-1,-1,1,-1], what's the final ensemble prediction for each sample?
+5. If $h_1$ predicts $[1,1,-1,-1,1,-1]$ and $h_2$ predicts $[1,1,-1,-1,1,-1]$, what's the final ensemble prediction for each sample?
 
 For a detailed explanation of this question, see [Question 26: AdaBoost Weight Detective](L7_4_26_explanation.md).
 
@@ -486,27 +486,27 @@ For a detailed explanation of this question, see [Question 26: AdaBoost Weight D
 Design an "AdaBoost Algorithm Race" where you manually trace through the complete algorithm for a tiny dataset.
 
 **Dataset:** 4 samples with 2 features
-- Sample 1: (x₁₁=1, x₁₂=2, y₁=+1)
-- Sample 2: (x₂₁=2, x₂₂=1, y₂=+1)
-- Sample 3: (x₃₁=3, x₃₂=3, y₃=-1)
-- Sample 4: (x₄₁=4, x₄₂=4, y₄=-1)
+- Sample 1: $(x_{11}=1, x_{12}=2, y_1=+1)$
+- Sample 2: $(x_{21}=2, x_{22}=1, y_2=+1)$
+- Sample 3: $(x_{31}=3, x_{32}=3, y_3=-1)$
+- Sample 4: $(x_{41}=4, x_{42}=4, y_4=-1)$
 
 **Weak Learners Available:**
-- h₁: +1 if x₁ ≤ 2.5, -1 otherwise
-- h₂: +1 if x₂ ≤ 2.5, -1 otherwise
-- h₃: +1 if x₁ + x₂ ≤ 5, -1 otherwise
+- $h_1$: $+1$ if $x_1 \leq 2.5$, $-1$ otherwise
+- $h_2$: $+1$ if $x_2 \leq 2.5$, $-1$ otherwise
+- $h_3$: $+1$ if $x_1 + x_2 \leq 5$, $-1$ otherwise
 
 #### Task
-1. Set initial weights w₁ = w₂ = w₃ = w₄ = 0.25
+1. Set initial weights $w_1 = w_2 = w_3 = w_4 = 0.25$
 2. **First Iteration**: 
    - Evaluate all three weak learners
    - Find the best weak learner (lowest weighted error)
-   - Calculate its weight α
+   - Calculate its weight $\alpha$
    - Update sample weights
 3. **Second Iteration**: 
    - Re-evaluate remaining weak learners
    - Find the best one
-   - Calculate α and update weights
+   - Calculate $\alpha$ and update weights
 4. Combine the two weak learners with their weights
 5. Which samples were hardest to classify? How did their weights change?
 
@@ -520,16 +520,16 @@ Create an "AdaBoost Convergence Puzzle" where you analyze theoretical bounds and
 **Scenario:** You're training AdaBoost with weak learners that have varying error rates across iterations.
 
 **Weak Learner Error Rates:**
-- Iterations 1-5: ε = 0.4
-- Iterations 6-10: ε = 0.35
-- Iterations 11-15: ε = 0.3
-- Iterations 16-20: ε = 0.25
+- Iterations 1-5: $\epsilon = 0.4$
+- Iterations 6-10: $\epsilon = 0.35$
+- Iterations 11-15: $\epsilon = 0.3$
+- Iterations 16-20: $\epsilon = 0.25$
 
 #### Task
 1. Calculate the theoretical training error bound after 20 iterations using the formula: $\text{Error} \leq \prod_{t=1}^{T} 2\sqrt{\epsilon_t(1-\epsilon_t)}$
 2. How does the changing error rate pattern affect convergence speed?
-3. If you want training error ≤ 0.01, how many more iterations would you need?
-4. What happens if you suddenly get a weak learner with ε = 0.45 at iteration 21?
+3. If you want training error $\leq 0.01$, how many more iterations would you need?
+4. What happens if you suddenly get a weak learner with $\epsilon = 0.45$ at iteration 21?
 5. Would you continue training or stop early? Justify your decision.
 
 For a detailed explanation of this question, see [Question 28: AdaBoost Convergence Puzzle](L7_4_28_explanation.md).
@@ -570,10 +570,10 @@ Create an "AdaBoost vs Random Classifier Battle" where you compare AdaBoost's pe
 
 **Random Classifier Performance:**
 - Random classifier accuracy: 50% (random guessing)
-- Random classifier error: ε = 0.5
+- Random classifier error: $\epsilon = 0.5$
 
 **AdaBoost Weak Learners:**
-- All weak learners have error rate ε = 0.45
+- All weak learners have error rate $\epsilon = 0.45$
 - You can train up to 100 weak learners
 
 #### Task
@@ -581,6 +581,6 @@ Create an "AdaBoost vs Random Classifier Battle" where you compare AdaBoost's pe
 2. Calculate the theoretical training error bound for AdaBoost after 100 iterations
 3. How many iterations does AdaBoost need to achieve better performance than random guessing?
 4. If each weak learner takes 1 second to train, what's the maximum training time?
-5. Would you prefer 50 weak learners with ε = 0.4 or 100 weak learners with ε = 0.45? Justify your choice.
+5. Would you prefer 50 weak learners with $\epsilon = 0.4$ or 100 weak learners with $\epsilon = 0.45$? Justify your choice.
 
 For a detailed explanation of this question, see [Question 30: AdaBoost vs Random Classifier Battle](L7_4_30_explanation.md).
