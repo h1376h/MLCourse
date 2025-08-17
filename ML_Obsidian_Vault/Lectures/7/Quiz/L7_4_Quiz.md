@@ -1,7 +1,7 @@
 # Lecture 7.4: AdaBoost Algorithm Quiz
 
 ## Overview
-This quiz contains 30 comprehensive questions covering the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, theoretical foundations, convergence properties, practical applications, and advanced concepts. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 40 comprehensive questions covering the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, theoretical foundations, convergence properties, practical applications, and advanced concepts. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -584,3 +584,207 @@ Create an "AdaBoost vs Random Classifier Battle" where you compare AdaBoost's pe
 5. Would you prefer 50 weak learners with $\epsilon = 0.4$ or 100 weak learners with $\epsilon = 0.45$? Justify your choice.
 
 For a detailed explanation of this question, see [Question 30: AdaBoost vs Random Classifier Battle](L7_4_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+Design an "AdaBoost Implementation Challenge" where you write pseudocode for key algorithm components.
+
+#### Task
+1. Write pseudocode for the weight update step: $w_i^{(t+1)} = w_i^{(t)} \cdot e^{-\alpha_t y_i h_t(x_i)}$
+2. Write pseudocode for calculating weak learner weight: $\alpha_t = \frac{1}{2}\ln\left(\frac{1-\epsilon_t}{\epsilon_t}\right)$
+3. Write pseudocode for the final ensemble prediction: $H(x) = \text{sign}\left(\sum_{t=1}^{T} \alpha_t h_t(x)\right)$
+4. Write pseudocode for calculating weighted error: $\epsilon_t = \sum_{i=1}^{N} w_i^{(t)} \cdot \mathbb{I}[y_i \neq h_t(x_i)]$
+5. How would you modify the pseudocode to handle early stopping?
+
+For a detailed explanation of this question, see [Question 31: AdaBoost Implementation Challenge](L7_4_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
+Create an "AdaBoost Error Analysis Game" where you investigate different types of classification errors.
+
+**Dataset:** 10 samples with binary labels and 3 weak learners
+- Sample weights after 2 iterations: $[0.15, 0.12, 0.08, 0.20, 0.10, 0.05, 0.18, 0.06, 0.14, 0.12]$
+- Weak Learner 1 predictions: $[1, 1, -1, -1, 1, -1, 1, -1, 1, -1]$
+- Weak Learner 2 predictions: $[1, -1, -1, -1, 1, -1, 1, -1, 1, -1]$
+- Weak Learner 3 predictions: $[1, 1, -1, -1, 1, -1, 1, -1, 1, -1]$
+
+#### Task
+1. If the true labels are $[1, 1, -1, -1, 1, -1, 1, -1, 1, -1]$, which samples are misclassified by each weak learner?
+2. Calculate the weighted error for each weak learner
+3. Which weak learner performs best? Which performs worst?
+4. If you could remove one weak learner, which would you remove and why?
+5. How would the ensemble performance change if you removed the worst weak learner?
+
+For a detailed explanation of this question, see [Question 32: AdaBoost Error Analysis Game](L7_4_32_explanation.md).
+
+## Question 33
+
+### Problem Statement
+Design an "AdaBoost Hyperparameter Tuning Challenge" where you optimize algorithm parameters.
+
+**Scenario:** You have a dataset with 500 samples and want to find optimal AdaBoost parameters.
+
+**Parameters to Tune:**
+- Number of iterations: $T \in \{10, 25, 50, 100, 200\}$
+- Weak learner type: Decision Stump, Linear Classifier, or Random Classifier
+- Learning rate: $\eta \in \{0.1, 0.5, 1.0, 2.0\}$
+
+#### Task
+1. How many different parameter combinations would you need to test?
+2. If each combination takes 5 minutes to train and evaluate, how long would exhaustive search take?
+3. Design a grid search strategy that tests only 15 combinations
+4. What would be your evaluation metric for comparing configurations?
+5. How would you handle overfitting when selecting the best parameters?
+
+For a detailed explanation of this question, see [Question 33: AdaBoost Hyperparameter Tuning Challenge](L7_4_33_explanation.md).
+
+## Question 34
+
+### Problem Statement
+Create an "AdaBoost Memory Management Puzzle" where you optimize storage requirements.
+
+**Scenario:** You're deploying AdaBoost on a device with limited memory (100MB).
+
+**Memory Requirements:**
+- Each weak learner: 2MB
+- Sample weights: 0.1MB per 1000 samples
+- Feature values: 0.5MB per 1000 samples × number of features
+- Dataset: 50,000 samples, 20 features
+
+#### Task
+1. Calculate the memory needed for the dataset and sample weights
+2. How many weak learners can you store given the memory constraint?
+3. If you need to store 100 weak learners, what memory optimization strategies would you use?
+4. How would you modify AdaBoost to use less memory?
+5. What's the trade-off between memory usage and ensemble performance?
+
+For a detailed explanation of this question, see [Question 34: AdaBoost Memory Management Puzzle](L7_4_34_explanation.md).
+
+## Question 35
+
+### Problem Statement
+Design an "AdaBoost Diversity Maximization Game" where you create diverse weak learners.
+
+**Dataset:** 100 samples with 5 features, binary classification
+
+**Weak Learner Types Available:**
+- Decision Stumps: Can split on any feature at any threshold
+- Linear Classifiers: Can use any subset of features
+- Random Classifiers: Make random predictions with specified bias
+
+#### Task
+1. How would you ensure that your weak learners are diverse?
+2. Design a strategy to create 10 diverse decision stumps
+3. How would you measure diversity between weak learners?
+4. What happens to ensemble performance if all weak learners are identical?
+5. How would you modify AdaBoost to explicitly encourage diversity?
+
+For a detailed explanation of this question, see [Question 35: AdaBoost Diversity Maximization Game](L7_4_35_explanation.md).
+
+## Question 36
+
+### Problem Statement
+Create an "AdaBoost Time Complexity Race" where you analyze computational efficiency.
+
+**Scenarios:**
+- **Scenario A:** 1000 samples, 10 features, 50 iterations
+- **Scenario B:** 5000 samples, 5 features, 100 iterations
+- **Scenario C:** 1000 samples, 50 features, 25 iterations
+
+**Computational Costs:**
+- Training weak learner: $O(N \times d)$ where $N$ = samples, $d$ = features
+- Weight updates: $O(N)$ per iteration
+- Prediction: $O(T)$ where $T$ = number of iterations
+
+#### Task
+1. Calculate the total training time complexity for each scenario
+2. Which scenario would be fastest to train? Which would be slowest?
+3. If you have 1 hour to train, which scenario could you complete?
+4. How would the complexity change if you use decision stumps vs. linear classifiers?
+5. What's the bottleneck in AdaBoost training for large datasets?
+
+For a detailed explanation of this question, see [Question 36: AdaBoost Time Complexity Race](L7_4_36_explanation.md).
+
+## Question 37
+
+### Problem Statement
+Design an "AdaBoost Regularization Challenge" where you prevent overfitting.
+
+**Problem:** Your AdaBoost ensemble is overfitting after 200 iterations on a dataset with 1000 samples.
+
+**Regularization Techniques:**
+- Early stopping
+- Learning rate reduction
+- Weak learner complexity control
+- Weight decay
+- Cross-validation
+
+#### Task
+1. How would you detect overfitting in AdaBoost?
+2. Which regularization technique would be most effective for this problem?
+3. How would you implement early stopping with cross-validation?
+4. What's the trade-off between regularization and training time?
+5. How would you validate that your regularization strategy works?
+
+For a detailed explanation of this question, see [Question 37: AdaBoost Regularization Challenge](L7_4_37_explanation.md).
+
+## Question 38
+
+### Problem Statement
+Create an "AdaBoost Ensemble Size Optimization Game" where you find the optimal number of weak learners.
+
+**Dataset:** 2000 samples, binary classification
+- Training error decreases with more iterations
+- Validation error starts increasing after 150 iterations
+- Each weak learner takes 30 seconds to train
+
+#### Task
+1. What's the optimal ensemble size based on validation error?
+2. How long would it take to train the optimal ensemble?
+3. What happens to training error if you continue beyond 150 iterations?
+4. How would you implement early stopping to find the optimal size?
+5. What's the computational cost of training 200 vs. 150 weak learners?
+
+For a detailed explanation of this question, see [Question 38: AdaBoost Ensemble Size Optimization Game](L7_4_38_explanation.md).
+
+## Question 39
+
+### Problem Statement
+Design an "AdaBoost Feature Selection Challenge" where you identify the most important features.
+
+**Dataset:** 1000 samples, 50 features, binary classification
+- You want to use only the 10 most important features
+- AdaBoost has been trained with decision stumps
+- Feature importance is measured by total weight of splits on each feature
+
+#### Task
+1. How would you calculate feature importance in AdaBoost?
+2. If features 1, 5, 12, 23, 31, 37, 42, 45, 47, 49 have the highest importance, how would you retrain AdaBoost?
+3. What would be the trade-off between feature reduction and performance?
+4. How would you validate that your feature selection is effective?
+5. What happens to training time when you reduce from 50 to 10 features?
+
+For a detailed explanation of this question, see [Question 39: AdaBoost Feature Selection Challenge](L7_4_39_explanation.md).
+
+## Question 40
+
+### Problem Statement
+Create an "AdaBoost Final Challenge" where you combine all concepts into a comprehensive problem.
+
+**Scenario:** You're building an AdaBoost ensemble for a real-world application with the following constraints:
+- Dataset: 5000 samples, 25 features, binary classification
+- Performance requirement: 95% accuracy
+- Time constraint: 2 hours training time
+- Memory constraint: 500MB
+- Interpretability requirement: Must explain predictions to stakeholders
+
+#### Task
+1. Design a complete AdaBoost configuration that meets all constraints
+2. What type of weak learners would you choose and why?
+3. How many iterations would you use and how did you decide?
+4. What evaluation strategy would you use to ensure 95% accuracy?
+5. How would you explain the ensemble's decisions to stakeholders?
+
+For a detailed explanation of this question, see [Question 40: AdaBoost Final Challenge](L7_4_40_explanation.md).
