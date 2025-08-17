@@ -14,6 +14,20 @@ Design an "AdaBoost Algorithm Race" where you manually trace through the complet
 - $h_2$: $+1$ if $x_2 \leq 2.5$, $-1$ otherwise
 - $h_3$: $+1$ if $x_1 + x_2 \leq 5$, $-1$ otherwise
 
+### Task
+1. Set initial weights $w_1 = w_2 = w_3 = w_4 = 0.25$
+2. **First Iteration**: 
+   - Evaluate all three weak learners
+   - Find the best weak learner (lowest weighted error)
+   - Calculate its weight $\alpha$
+   - Update sample weights
+3. **Second Iteration**: 
+   - Re-evaluate remaining weak learners
+   - Find the best one
+   - Calculate $\alpha$ and update weights
+4. Combine the two weak learners with their weights
+5. Which samples were hardest to classify? How did their weights change?
+
 ## Understanding the Problem
 AdaBoost is an ensemble learning method that combines multiple weak learners to create a strong classifier. The algorithm works iteratively, selecting the best weak learner at each step based on weighted error, calculating its importance weight (α), and updating sample weights to focus on misclassified samples.
 
