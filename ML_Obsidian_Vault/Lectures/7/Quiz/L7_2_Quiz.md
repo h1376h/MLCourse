@@ -81,10 +81,10 @@ For a detailed explanation of this question, see [Question 5: Bagging Advantages
 Let's perform a manual bootstrap sample. Your original dataset has 6 samples, indexed 1 to 6: $D = [S_1, S_2, S_3, S_4, S_5, S_6]$.
 
 #### Task
-1. You "roll a 6-sided die 6 times" to get indices for your first bootstrap sample, $D_1$. The results are: $4, 2, 4, 1, 6, 2$. Write down the samples in $D_1$.
-2. Which samples from the original dataset $D$ are "out-of-bag" (OOB) for the sample $D_1$?
-3. Is it possible for a bootstrap sample to contain only one unique sample (e.g., $S_5$) repeated 6 times? Explain.
-4. What is the probability that a specific sample (e.g., $S_3$) is *not* selected in any of the 6 draws for a single bootstrap sample?
+1. [📚] You "roll a 6-sided die 6 times" to get indices for your first bootstrap sample, $D_1$. The results are: $4, 2, 4, 1, 6, 2$. Write down the samples in $D_1$.
+2. [📚] Which samples from the original dataset $D$ are "out-of-bag" (OOB) for the sample $D_1$?
+3. [📚] Is it possible for a bootstrap sample to contain only one unique sample (e.g., $S_5$) repeated 6 times? Explain.
+4. [📚] What is the probability that a specific sample (e.g., $S_3$) is *not* selected in any of the 6 draws for a single bootstrap sample?
 
 For a detailed explanation of this question, see [Question 6: Manual Bootstrap Sampling](L7_2_6_explanation.md).
 
