@@ -94,9 +94,9 @@ For a detailed explanation of this question, see [Question 6: Manual Bootstrap S
 Bagging is particularly effective when used with certain types of base learners.
 
 #### Task
-1. What does "unstable" mean in the context of the bias-variance trade-off?
-2. Why are deep decision trees considered "perfect candidates" for bagging? Relate your answer to their typical bias and variance.
-3. Consider a very simple base learner, like a decision stump (a decision tree with only one split). Would you expect bagging to provide a significant performance improvement? Why or why not?
-4. When many nearly unbiased tree estimators are averaged in a bagging ensemble, what is the expected effect on the ensemble's overall bias and variance?
+1. [📚] What does "unstable" mean in the context of the bias-variance trade-off?
+2. [📚] Why are deep decision trees considered "perfect candidates" for bagging? Relate your answer to their typical bias and variance.
+3. [📚] Consider a very simple base learner, like a decision stump (a decision tree with only one split). Would you expect bagging to provide a significant performance improvement? Why or why not?
+4. [📚] When many nearly unbiased tree estimators are averaged in a bagging ensemble, what is the expected effect on the ensemble's overall bias and variance?
 
 For a detailed explanation of this question, see [Question 7: Base Learner Suitability](L7_2_7_explanation.md).
