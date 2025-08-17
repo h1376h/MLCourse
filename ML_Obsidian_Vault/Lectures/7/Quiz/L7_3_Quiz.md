@@ -41,7 +41,7 @@ Random Forest uses different voting strategies for making predictions.
 2. When would you prefer soft voting over hard voting?
 3. How does Random Forest handle probability estimates?
 4. What is the advantage of ensemble voting over single tree predictions?
-5. For a 3-tree ensemble with predictions [0.8, 0.6, 0.9], calculate both hard voting result (threshold 0.5) and soft voting average
+5. For a 3-tree ensemble with predictions $[0.8, 0.6, 0.9]$, calculate both hard voting result (threshold 0.5) and soft voting average
 
 For a detailed explanation of this question, see [Question 3: Voting Strategies](L7_3_3_explanation.md).
 
@@ -69,7 +69,7 @@ Feature importance in Random Forest measures variable significance for predictio
 2. Why is Random Forest feature importance more reliable than single tree importance?
 3. What are the limitations of feature importance measures?
 4. How can you use feature importance for feature selection?
-5. Given feature importance scores [0.4, 0.3, 0.2, 0.1], calculate the cumulative importance percentage and determine how many features are needed to reach 80% cumulative importance
+5. Given feature importance scores $[0.4, 0.3, 0.2, 0.1]$, calculate the cumulative importance percentage and determine how many features are needed to reach a high cumulative importance threshold (e.g., 80% or 90%)
 
 For a detailed explanation of this question, see [Question 5: Feature Importance Analysis](L7_3_5_explanation.md).
 
@@ -78,9 +78,9 @@ For a detailed explanation of this question, see [Question 5: Feature Importance
 ### Problem Statement
 Analyze a Random Forest with $5$ trees for a binary classification problem.
 
-**Sample 1:** Tree predictions [0, 1, 0, 1, 0] with confidences [0.8, 0.6, 0.9, 0.7, 0.85]
-**Sample 2:** Tree predictions [1, 1, 1, 1, 1] with confidences [0.95, 0.88, 0.92, 0.89, 0.91]
-**Sample 3:** Tree predictions [0, 1, 0, 1, 0] with confidences [0.55, 0.65, 0.45, 0.75, 0.60]
+**Sample 1:** Tree predictions $[0, 1, 0, 1, 0]$ with confidences $[0.8, 0.6, 0.9, 0.7, 0.85]$
+**Sample 2:** Tree predictions $[1, 1, 1, 1, 1]$ with confidences $[0.95, 0.88, 0.92, 0.89, 0.91]$
+**Sample 3:** Tree predictions $[0, 1, 0, 1, 0]$ with confidences $[0.55, 0.65, 0.45, 0.75, 0.60]$
 
 #### Task
 1. What are the final predictions using hard voting?
@@ -103,7 +103,7 @@ Design a Random Forest configuration for a dataset with $1000$ samples, $25$ fea
 2. Determine the minimum number of trees needed for reliable OOB estimation
 3. If you want $95\%$ confidence that a feature is selected at least once, how many trees do you need?
 4. What would be the expected number of unique features used across all trees?
-5. Using the formula $P(\text{feature never selected}) = \left(\frac{n-k}{n}\right)^T$ where $T$ is number of trees, calculate the minimum $T$ needed for 95% confidence
+5. Derive the general formula for calculating the probability that a feature is never selected across all trees, and explain how this probability decreases as the number of trees increases
 
 For a detailed explanation of this question, see [Question 7: Configuration Optimization](L7_3_7_explanation.md).
 
@@ -119,7 +119,7 @@ Analyze Random Forest performance with $50$ trees, $10$ features per split (out 
 2. How many trees, on average, will not contain a specific sample (OOB trees)?
 3. If you increase features per split to $20$, how does this affect tree diversity?
 4. Calculate the expected number of trees that will use a specific feature at least once.
-5. **Additional Task:** Calculate the probability that a specific feature is used in exactly 25 out of 50 trees using the binomial probability formula
+5. Calculate the probability that a specific feature is used in exactly 25 out of 50 trees using the binomial probability formula
 
 For a detailed explanation of this question, see [Question 8: Performance Analysis](L7_3_8_explanation.md).
 
@@ -192,7 +192,6 @@ Build a Random Forest for medical diagnosis with $500$ patients, $30$ medical fe
 2. If you want each feature to be used in at least $80\%$ of trees, how many trees do you need?
 3. Design a feature sampling strategy that ensures rare but important features aren't ignored
 4. What's the trade-off between your diversity strategy and individual tree performance?
-5. Using the formula $P(\text{feature used in 80% of trees}) = \sum_{k=40}^{50} \binom{50}{k} p^k(1-p)^{50-k}$ where $p$ is the probability of feature selection, calculate the minimum $p$ needed
 
 For a detailed explanation of this question, see [Question 12: Tree Diversity Challenge](L7_3_12_explanation.md).
 
@@ -231,7 +230,6 @@ Analyze customer churn data with Random Forest feature importance scores:
 2. What percentage of total importance do the top $3$ features represent?
 3. If you want to reduce features to $60\%$ of original, which features would you keep?
 4. Design a feature selection strategy that preserves $90\%$ of importance while reducing features
-5. Calculate the Gini coefficient of feature importance distribution to measure inequality among features
 
 For a detailed explanation of this question, see [Question 14: Feature Importance Treasure Hunt](L7_3_14_explanation.md).
 
@@ -270,7 +268,7 @@ Solve a Random Forest puzzle with incomplete information:
 2. How many trees, on average, will not contain a specific sample?
 3. If you increase features per split to $6$, how does this affect tree diversity?
 4. What's the minimum number of trees needed for reliable OOB estimation?
-5. Calculate the expected number of trees that will use a specific feature at least once using the formula: $E[\text{trees using feature}] = 60 \times (1 - \left(\frac{14}{15}\right)^4)$
+5. Derive the general formula for calculating the expected number of trees that will use a specific feature at least once, and explain how this expectation changes with different feature sampling strategies
 
 For a detailed explanation of this question, see [Question 16: Puzzle Box Solution](L7_3_16_explanation.md).
 
@@ -421,7 +419,7 @@ Build a Random Forest for medical diagnosis with $500$ patients, $30$ medical fe
 2. If you want each feature to be used in at least $80\%$ of trees, how many trees do you need?
 3. Design a feature sampling strategy that ensures rare but important features aren't ignored
 4. What's the trade-off between your diversity strategy and individual tree performance?
-5. Calculate the expected number of unique features used across all trees using the formula: $E[\text{unique features}] = 30 \times (1 - \left(\frac{29}{30}\right)^{50})$
+5. Derive the general formula for calculating the expected number of unique features used across all trees, and explain how this expectation changes with different numbers of trees and feature sampling strategies
 
 For a detailed explanation of this question, see [Question 24: Diversity Challenge Strategy](L7_3_24_explanation.md).
 
@@ -460,6 +458,5 @@ Analyze customer churn data with Random Forest feature importance scores:
 2. What percentage of total importance do the top $3$ features represent?
 3. If you want to reduce features to $60\%$ of original, which features would you keep?
 4. Design a feature selection strategy that preserves $90\%$ of importance while reducing features
-5. Calculate the Herfindahl-Hirschman Index (HHI) for feature concentration using the formula: $HHI = \sum_{i=1}^{5} s_i^2$ where $s_i$ is the importance share of feature $i$
 
 For a detailed explanation of this question, see [Question 26: Feature Importance Hunt](L7_3_26_explanation.md).
