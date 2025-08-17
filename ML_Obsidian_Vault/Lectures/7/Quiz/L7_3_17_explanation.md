@@ -73,35 +73,157 @@ All decision boundaries are shown together for comparison:
 This combined view shows how the different boundaries intersect and create complex regions. The point $(4, 3)$ is marked with an orange star for analysis in the next step.
 
 ### Step 3: Ensemble Prediction for Point $(4, 3)$
-Let's analyze how each tree classifies the point $(4, 3)$:
+Let's analyze how each tree classifies the point $(4, 3)$ with detailed step-by-step calculations:
 
-**Tree 1** ($X \leq 3$): $X = 4$, $4 \leq 3$? False → **Class B**
-**Tree 2** ($Y \leq 2$): $Y = 3$, $3 \leq 2$? False → **Class B**
-**Tree 3** ($X \leq 5$ AND $Y \leq 4$): $X = 4$, $Y = 3$, $4 \leq 5$ AND $3 \leq 4$? True → **Class A**
-**Tree 4** ($X + Y \leq 6$): $X + Y = 7$, $7 \leq 6$? False → **Class B**
+#### Tree 1: $X \leq 3 \rightarrow$ Class A, $X > 3 \rightarrow$ Class B
+**Step-by-step calculation:**
+1. **Given point**: $X = 4$, $Y = 3$
+2. **Check condition**: $X \leq 3$
+3. **Evaluation**: $4 \leq 3$? **False**
+4. **Decision**: Since $4 > 3$, Tree 1 predicts **Class B**
 
-**Vote Summary:**
+#### Tree 2: $Y \leq 2 \rightarrow$ Class A, $Y > 2 \rightarrow$ Class B
+**Step-by-step calculation:**
+1. **Given point**: $X = 4$, $Y = 3$
+2. **Check condition**: $Y \leq 2$
+3. **Evaluation**: $3 \leq 2$? **False**
+4. **Decision**: Since $3 > 2$, Tree 2 predicts **Class B**
+
+#### Tree 3: $X \leq 5$ AND $Y \leq 4 \rightarrow$ Class A, otherwise Class B
+**Step-by-step calculation:**
+1. **Given point**: $X = 4$, $Y = 3$
+2. **Check first condition**: $X \leq 5$ → $4 \leq 5$? **True**
+3. **Check second condition**: $Y \leq 4$ → $3 \leq 4$? **True**
+4. **Apply AND logic**: True AND True = **True**
+5. **Decision**: Since both conditions are satisfied, Tree 3 predicts **Class A**
+
+#### Tree 4: $X + Y \leq 6 \rightarrow$ Class A, $X + Y > 6 \rightarrow$ Class B
+**Step-by-step calculation:**
+1. **Given point**: $X = 4$, $Y = 3$
+2. **Calculate sum**: $X + Y = 4 + 3 = 7$
+3. **Check condition**: $X + Y \leq 6$ → $7 \leq 6$? **False**
+4. **Decision**: Since $7 > 6$, Tree 4 predicts **Class B**
+
+#### Ensemble Voting Calculation
+**Step 1: Collect all tree predictions**
+- Tree 1: Class B
+- Tree 2: Class B  
+- Tree 3: Class A
+- Tree 4: Class B
+
+**Step 2: Count votes for each class**
 - Class A votes: 1
 - Class B votes: 3
-- **Ensemble prediction: Class B** (wins with 3/4 votes, 75%)
 
-The ensemble correctly identifies that the majority of trees classify this point as Class B, demonstrating the robustness of ensemble methods.
+**Step 3: Apply majority voting rule**
+- If Class A votes > Class B votes → Final prediction: Class A
+- If Class B votes > Class A votes → Final prediction: Class B
+- If votes are equal → Random choice (tie)
+
+**Step 4: Determine winner**
+- Vote count: 1 vs 3
+- **Winner: Class B**
+- **Winning percentage**: $3/4 = 75.0\%$
+
+**Final Result:**
+**Ensemble prediction for point $(4, 3)$: Class B**
+**Confidence**: $3/4$ votes (75.0%)
+
+The ensemble correctly identifies that the majority of trees classify this point as Class B, demonstrating the robustness of ensemble methods through majority voting.
 
 ### Step 4: Most Interesting Geometric Pattern
-**Tree 3** creates the most interesting geometric pattern because:
+Let's analyze the geometric characteristics of each tree in detail:
 
-1. **Bounded Region**: Unlike the other trees that create infinite half-planes, Tree 3 creates a finite rectangular region
-2. **Complex Constraints**: The AND condition demonstrates how multiple constraints interact to create more sophisticated boundaries
-3. **Geometric Complexity**: The rectangular shape with sharp corners is more complex than simple linear boundaries
-4. **Practical Relevance**: This pattern shows how real-world decision trees often use multiple conditions to create meaningful classification regions
+#### Tree 1: $X \leq 3 \rightarrow$ Class A, $X > 3 \rightarrow$ Class B
+**Geometric characteristics:**
+- **Boundary**: Vertical line at $X = 3$
+- **Shape**: Infinite half-planes (left and right)
+- **Complexity**: Simple univariate split
+- **Direction**: Parallel to Y-axis
+
+#### Tree 2: $Y \leq 2 \rightarrow$ Class A, $Y > 2 \rightarrow$ Class B
+**Geometric characteristics:**
+- **Boundary**: Horizontal line at $Y = 2$
+- **Shape**: Infinite half-planes (bottom and top)
+- **Complexity**: Simple univariate split
+- **Direction**: Parallel to X-axis
+
+#### Tree 3: $X \leq 5$ AND $Y \leq 4 \rightarrow$ Class A, otherwise Class B
+**Geometric characteristics:**
+- **Boundary**: Rectangle with corners at $(0,0)$, $(5,0)$, $(5,4)$, $(0,4)$
+- **Shape**: Bounded rectangular region
+- **Complexity**: Multivariate split with AND condition
+- **Direction**: Creates enclosed area with finite boundaries
+
+#### Tree 4: $X + Y \leq 6 \rightarrow$ Class A, $X + Y > 6 \rightarrow$ Class B
+**Geometric characteristics:**
+- **Boundary**: Diagonal line $X + Y = 6$
+- **Shape**: Infinite half-planes (below and above diagonal)
+- **Complexity**: Linear combination of features
+- **Direction**: 45-degree angle (slope = -1)
+
+#### Comparative Analysis
+**Complexity ranking (from simple to complex):**
+1. **Trees 1 & 2**: Simple linear boundaries (univariate splits)
+2. **Tree 4**: Diagonal boundary (linear combination of features)
+3. **Tree 3**: Rectangular boundary (multivariate with AND condition)
+
+**Tree 3 creates the most interesting geometric pattern because:**
+
+1. **BOUNDED REGION**: Unlike infinite half-planes, creates finite rectangular area
+2. **MULTIVARIATE SPLIT**: Uses both X and Y coordinates simultaneously
+3. **LOGICAL COMPLEXITY**: AND condition creates intersection of constraints
+4. **PRACTICAL RELEVANCE**: Represents real-world scenarios with multiple conditions
+5. **GEOMETRIC UNIQUENESS**: Only tree that creates enclosed classification region
+
+**Mathematical representation:**
+Tree 3 boundary: $\{(X,Y) \mid X \leq 5 \text{ AND } Y \leq 4\}$
+
+This creates a **closed set** in 2D space, unlike the **open half-planes** of other trees.
 
 ### Step 5: Area Percentage Where Ensemble Differs
-**Grid Analysis:**
-- Grid size: $100 \times 100 = 10,000$ total points
-- Points where ensemble differs from any individual tree: $5,000$
-- **Percentage of grid area: 50.00%**
+Let's calculate the percentage of the grid area where the ensemble prediction differs from any individual tree prediction:
 
-This high percentage indicates that the ensemble creates a significantly different decision boundary compared to individual trees, demonstrating the power of ensemble methods to create more nuanced and accurate classifications.
+#### Detailed Calculation Steps
+
+**Step 1: Define ensemble decision function**
+For each point $(X, Y)$, collect predictions from all 4 trees and apply majority voting:
+- If $\geq 2$ trees predict Class B → Class B
+- Otherwise → Class A
+
+**Step 2: Generate ensemble decision for entire grid**
+- Grid dimensions: $100 \times 100 = 10,000$ total points
+- Each point gets classified by the ensemble
+
+**Step 3: Calculate differences between ensemble and individual trees**
+For each tree, compute: $|\text{ensemble\_prediction} - \text{tree\_prediction}|$
+- Result: $0$ if same prediction, $1$ if different prediction
+
+**Individual tree differences:**
+- Tree 1 differences: $2,512$ points
+- Tree 2 differences: $1,888$ points  
+- Tree 3 differences: $744$ points
+- Tree 4 differences: $494$ points
+
+**Step 4: Find total area where ensemble differs from ANY individual tree**
+Use logical OR operation: $\text{total\_diff} = \text{diff\_tree1} \text{ OR } \text{diff\_tree2} \text{ OR } \text{diff\_tree3} \text{ OR } \text{diff\_tree4}$
+
+This identifies points where the ensemble differs from at least one tree.
+
+**Step 5: Calculate percentage**
+- Grid size: $100 \times 100 = 10,000$ total points
+- Points with differences: $5,000$
+- Percentage calculation: $(5,000 / 10,000) \times 100 = 50.00\%$
+
+#### Final Result
+**Grid size**: $100 \times 100 = 10,000$ total points
+**Points where ensemble differs from any individual tree**: $5,000$
+**Percentage of grid area**: $50.00\%$
+
+#### Interpretation
+This means that in $50.0\%$ of the feature space, the ensemble makes a different prediction than at least one of the individual trees. This demonstrates the ensemble's ability to create more nuanced decision boundaries that capture complex patterns beyond what any single tree can represent.
+
+The high percentage indicates that the ensemble creates a significantly different decision boundary compared to individual trees, demonstrating the power of ensemble methods to create more sophisticated and accurate classifications.
 
 ![Ensemble Differences Analysis](../Images/L7_3_Quiz_17/ensemble_differences_analysis.png)
 
