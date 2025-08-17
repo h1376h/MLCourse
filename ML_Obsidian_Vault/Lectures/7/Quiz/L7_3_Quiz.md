@@ -1,7 +1,7 @@
 # Lecture 7.3: Random Forest Deep Dive Quiz
 
 ## Overview
-This quiz contains 32 questions covering Random Forest fundamentals, including tree diversity mechanisms, feature subsampling, voting strategies, out-of-bag estimation, feature importance analysis, and practical applications.
+This quiz contains 31 questions covering Random Forest fundamentals, including tree diversity mechanisms, feature subsampling, voting strategies, out-of-bag estimation, feature importance analysis, and practical applications.
 
 ## Question 1
 
@@ -444,26 +444,6 @@ For a detailed explanation of this question, see [Question 25: Battle Royale Com
 ## Question 26
 
 ### Problem Statement
-Analyze customer churn data with Random Forest feature importance scores:
-
-**Feature Importance Rankings:**
-1. Monthly_Charges: $0.45$
-2. Contract_Length: $0.28$
-3. Internet_Service: $0.15$
-4. Payment_Method: $0.08$
-5. Gender: $0.04$
-
-#### Task
-1. If you remove the bottom $40\%$ of features, which ones remain?
-2. What percentage of total importance do the top $3$ features represent?
-3. If you want to reduce features to $60\%$ of original, which features would you keep?
-4. Design a feature selection strategy that preserves $90\%$ of importance while reducing features
-
-For a detailed explanation of this question, see [Question 26: Feature Importance Hunt](L7_3_26_explanation.md).
-
-## Question 27
-
-### Problem Statement
 Random Forest combines bagging with feature subsampling to create diverse trees.
 
 #### Task
@@ -472,9 +452,9 @@ Random Forest combines bagging with feature subsampling to create diverse trees.
 3. Why is feature subsampling important in Random Forest?
 4. How does Random Forest differ from simple bagging of decision trees?
 
-For a detailed explanation of this question, see [Question 27: Random Forest Foundations](L7_3_27_explanation.md).
+For a detailed explanation of this question, see [Question 26: Random Forest Foundations](L7_3_26_explanation.md).
 
-## Question 28
+## Question 27
 
 ### Problem Statement
 Feature subsampling in Random Forest affects tree diversity and performance.
@@ -485,9 +465,9 @@ Feature subsampling in Random Forest affects tree diversity and performance.
 3. What happens to the Random Forest algorithm if you set the number of features to consider at each split, $m$, equal to the total number of features, $d$?
 4. How does using a very small $m$ (e.g., $m=1$) impact the bias and variance of the individual trees in the forest?
 
-For a detailed explanation of this question, see [Question 28: Feature Subsampling Analysis](L7_3_28_explanation.md).
+For a detailed explanation of this question, see [Question 27: Feature Subsampling Analysis](L7_3_27_explanation.md).
 
-## Question 29
+## Question 28
 
 ### Problem Statement
 Random Forest uses different voting strategies for making predictions.
@@ -498,22 +478,21 @@ Random Forest uses different voting strategies for making predictions.
 3. A Random Forest with 5 trees is used for a binary classification task. The individual trees predict the following probabilities for class 1: $[0.8, 0.4, 0.45, 0.9, 0.6]$. What is the final prediction using hard voting (with a 0.5 threshold) and soft voting?
 4. What is the advantage of ensemble voting over a single tree's prediction?
 
-For a detailed explanation of this question, see [Question 29: Voting Strategies](L7_3_29_explanation.md).
+For a detailed explanation of this question, see [Question 28: Voting Strategies](L7_3_28_explanation.md).
 
-## Question 30
+## Question 29
 
 ### Problem Statement
 Out-of-bag (OOB) estimation provides an internal validation metric for Random Forest.
 
 #### Task
-1. How does out-of-bag estimation work?
-2. What is a major advantage of using OOB estimation over traditional cross-validation?
-3. For a large dataset, approximately what percentage of the data is out-of-bag for any given tree?
-4. If a single data point is used to test 35 out of 100 trees in the forest (i.e., it was OOB for those 35 trees), how is its OOB prediction calculated?
+1. What is a major advantage of using OOB estimation over traditional cross-validation?
+2. For a large dataset, approximately what percentage of the data is out-of-bag for any given tree?
+3. If a single data point is used to test 35 out of 100 trees in the forest (i.e., it was OOB for those 35 trees), how is its OOB prediction calculated?
 
-For a detailed explanation of this question, see [Question 30: Out-of-Bag Estimation](L7_3_30_explanation.md).
+For a detailed explanation of this question, see [Question 29: Out-of-Bag Estimation](L7_3_29_explanation.md).
 
-## Question 31
+## Question 30
 
 ### Problem Statement
 Feature importance in Random Forest measures how significant each variable is for making predictions.
@@ -524,9 +503,9 @@ Feature importance in Random Forest measures how significant each variable is fo
 3. You have the following feature importances: Feature A: $0.55$, Feature B: $0.25$, Feature C: $0.15$, Feature D: $0.05$. What percentage of the model's predictive power is captured by Features A and B combined?
 4. If you wanted to build a simpler model, which feature would you consider removing first and why?
 
-For a detailed explanation of this question, see [Question 31: Feature Importance Analysis](L7_3_31_explanation.md).
+For a detailed explanation of this question, see [Question 30: Feature Importance Analysis](L7_3_30_explanation.md).
 
-## Question 32
+## Question 31
 
 ### Problem Statement
 Compare a Bagging ensemble of deep decision trees with a Random Forest ensemble.
@@ -537,4 +516,4 @@ Compare a Bagging ensemble of deep decision trees with a Random Forest ensemble.
 3. Which of the two methods is designed to more effectively reduce the correlation between the trees in the ensemble?
 4. If both ensembles use the same number of trees, which one would you expect to have lower variance in its predictions? Why?
 
-For a detailed explanation of this question, see [Question 32: Bagging vs. Random Forest](L7_3_32_explanation.md).
+For a detailed explanation of this question, see [Question 31: Bagging vs. Random Forest](L7_3_31_explanation.md).
