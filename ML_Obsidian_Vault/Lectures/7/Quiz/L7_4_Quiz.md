@@ -1,7 +1,7 @@
 # Lecture 7.4: AdaBoost Algorithm Quiz
 
 ## Overview
-This quiz contains 25 comprehensive questions covering the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, theoretical foundations, convergence properties, practical applications, and advanced concepts. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 30 comprehensive questions covering the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, theoretical foundations, convergence properties, practical applications, and advanced concepts. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -446,3 +446,141 @@ Design a comprehensive AdaBoost evaluation framework.
 5. If you have 24 hours to run experiments, how would you prioritize your evaluation?
 
 For a detailed explanation of this question, see [Question 25: AdaBoost Evaluation Framework](L7_4_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+Create an "AdaBoost Weight Detective" game where you analyze sample weight evolution through multiple iterations.
+
+**Dataset:** 6 samples with binary labels
+- Sample 1: (x₁, y₁) = (1, +1)
+- Sample 2: (x₂, y₂) = (2, +1) 
+- Sample 3: (x₃, y₃) = (3, -1)
+- Sample 4: (x₄, y₄) = (4, -1)
+- Sample 5: (x₅, y₅) = (5, +1)
+- Sample 6: (x₆, y₆) = (6, -1)
+
+**Weak Learners:**
+- h₁(x): +1 if x ≤ 3.5, -1 otherwise
+- h₂(x): +1 if x ≤ 2.5, -1 otherwise
+- h₃(x): +1 if x ≤ 4.5, -1 otherwise
+
+#### Task
+1. Calculate initial weights (all equal) for the 6 samples
+2. **Iteration 1**: 
+   - Calculate weighted error for h₁
+   - Calculate α₁ for h₁
+   - Update sample weights after h₁
+3. **Iteration 2**: 
+   - Calculate weighted error for h₂
+   - Calculate α₂ for h₂
+   - Update sample weights after h₂
+4. Which samples have the highest weights after 2 iterations? Why?
+5. If h₁ predicts [1,1,-1,-1,1,-1] and h₂ predicts [1,1,-1,-1,1,-1], what's the final ensemble prediction for each sample?
+
+For a detailed explanation of this question, see [Question 26: AdaBoost Weight Detective](L7_4_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+Design an "AdaBoost Algorithm Race" where you manually trace through the complete algorithm for a tiny dataset.
+
+**Dataset:** 4 samples with 2 features
+- Sample 1: (x₁₁=1, x₁₂=2, y₁=+1)
+- Sample 2: (x₂₁=2, x₂₂=1, y₂=+1)
+- Sample 3: (x₃₁=3, x₃₂=3, y₃=-1)
+- Sample 4: (x₄₁=4, x₄₂=4, y₄=-1)
+
+**Weak Learners Available:**
+- h₁: +1 if x₁ ≤ 2.5, -1 otherwise
+- h₂: +1 if x₂ ≤ 2.5, -1 otherwise
+- h₃: +1 if x₁ + x₂ ≤ 5, -1 otherwise
+
+#### Task
+1. Set initial weights w₁ = w₂ = w₃ = w₄ = 0.25
+2. **First Iteration**: 
+   - Evaluate all three weak learners
+   - Find the best weak learner (lowest weighted error)
+   - Calculate its weight α
+   - Update sample weights
+3. **Second Iteration**: 
+   - Re-evaluate remaining weak learners
+   - Find the best one
+   - Calculate α and update weights
+4. Combine the two weak learners with their weights
+5. Which samples were hardest to classify? How did their weights change?
+
+For a detailed explanation of this question, see [Question 27: AdaBoost Algorithm Race](L7_4_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+Create an "AdaBoost Convergence Puzzle" where you analyze theoretical bounds and convergence behavior.
+
+**Scenario:** You're training AdaBoost with weak learners that have varying error rates across iterations.
+
+**Weak Learner Error Rates:**
+- Iterations 1-5: ε = 0.4
+- Iterations 6-10: ε = 0.35
+- Iterations 11-15: ε = 0.3
+- Iterations 16-20: ε = 0.25
+
+#### Task
+1. Calculate the theoretical training error bound after 20 iterations using the formula: $\text{Error} \leq \prod_{t=1}^{T} 2\sqrt{\epsilon_t(1-\epsilon_t)}$
+2. How does the changing error rate pattern affect convergence speed?
+3. If you want training error ≤ 0.01, how many more iterations would you need?
+4. What happens if you suddenly get a weak learner with ε = 0.45 at iteration 21?
+5. Would you continue training or stop early? Justify your decision.
+
+For a detailed explanation of this question, see [Question 28: AdaBoost Convergence Puzzle](L7_4_28_explanation.md).
+
+## Question 29
+
+### Problem Statement
+Design an "AdaBoost Feature Engineering Challenge" where you create optimal weak learners for a specific dataset.
+
+**Dataset:** 8 samples with 3 features for predicting whether a student will pass (1) or fail (0)
+
+| Student | Study_Hours | Sleep_Hours | Exercise_Score | Pass |
+|---------|-------------|-------------|----------------|------|
+| A       | 2           | 6           | 3              | 0    |
+| B       | 4           | 7           | 5              | 0    |
+| C       | 6           | 8           | 7              | 1    |
+| D       | 8           | 7           | 8              | 1    |
+| E       | 3           | 5           | 4              | 0    |
+| F       | 7           | 9           | 6              | 1    |
+| G       | 5           | 6           | 5              | 0    |
+| H       | 9           | 8           | 9              | 1    |
+
+#### Task
+1. For each feature, calculate the optimal threshold that minimizes classification error
+2. Design 3 decision stump weak learners using the optimal thresholds
+3. If you use equal initial weights, calculate the weighted error for each weak learner
+4. Which weak learner would AdaBoost choose first? Why?
+5. Based on your analysis, which feature is most important for predicting student success?
+
+For a detailed explanation of this question, see [Question 29: AdaBoost Feature Engineering Challenge](L7_4_29_explanation.md).
+
+## Question 30
+
+### Problem Statement
+Create an "AdaBoost vs Random Classifier Battle" where you compare AdaBoost's performance against random guessing.
+
+**Scenario:** You have a binary classification problem with 1000 samples, 500 in each class.
+
+**Random Classifier Performance:**
+- Random classifier accuracy: 50% (random guessing)
+- Random classifier error: ε = 0.5
+
+**AdaBoost Weak Learners:**
+- All weak learners have error rate ε = 0.45
+- You can train up to 100 weak learners
+
+#### Task
+1. What is the expected accuracy of the random classifier after 1000 predictions?
+2. Calculate the theoretical training error bound for AdaBoost after 100 iterations
+3. How many iterations does AdaBoost need to achieve better performance than random guessing?
+4. If each weak learner takes 1 second to train, what's the maximum training time?
+5. Would you prefer 50 weak learners with ε = 0.4 or 100 weak learners with ε = 0.45? Justify your choice.
+
+For a detailed explanation of this question, see [Question 30: AdaBoost vs Random Classifier Battle](L7_4_30_explanation.md).
