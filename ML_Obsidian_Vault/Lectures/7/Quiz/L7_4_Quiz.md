@@ -861,7 +861,7 @@ But when you check your implementation, you discover that one of these formulas 
 3. Show that one of the formulas must be wrong by demonstrating it produces impossible weights
 4. If you had to fix the incorrect formula, what would be the most likely error? (e.g., missing a negative sign, wrong base for logarithm, etc.)
 5. After fixing the formula, recalculate the final weights and show they match the observed $[0.05, 0.15, 0.30, 0.20, 0.10, 0.20]$
-5. If you wanted to make this dataset even harder for AdaBoost to classify, what single change would you make to the feature values or labels? Justify why your change would make classification more difficult.
+6. If you wanted to make this dataset even harder for AdaBoost to classify, what single change would you make to the feature values or labels? Justify why your change would make classification more difficult.
 
 **Hint:** Pay special attention to the weight update formula and remember that weights must always be positive and sum to 1 after normalization!
 
