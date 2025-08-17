@@ -86,17 +86,17 @@ class AdaBoostErrorAnalysis:
         print("Weak Learner 1:")
         print(f"  Misclassified samples: {np.where(misclassified_1)[0] + 1}")
         print(f"  Weights of misclassified: {self.sample_weights[misclassified_1]}")
-        print(f"  Weighted error: ε₁ = {weighted_error_1:.4f}")
+        print(f"  Weighted error: $\\varepsilon_1 = {weighted_error_1:.4f}$")
         
         print("\nWeak Learner 2:")
         print(f"  Misclassified samples: {np.where(misclassified_2)[0] + 1}")
         print(f"  Weights of misclassified: {self.sample_weights[misclassified_2]}")
-        print(f"  Weighted error: ε₂ = {weighted_error_2:.4f}")
+        print(f"  Weighted error: $\\varepsilon_2 = {weighted_error_2:.4f}$")
         
         print("\nWeak Learner 3:")
         print(f"  Misclassified samples: {np.where(misclassified_3)[0] + 1}")
         print(f"  Weights of misclassified: {self.sample_weights[misclassified_3]}")
-        print(f"  Weighted error: ε₃ = {weighted_error_3:.4f}")
+        print(f"  Weighted error: $\\varepsilon_3 = {weighted_error_3:.4f}$")
         
         # Create visualization
         self.plot_weighted_errors([weighted_error_1, weighted_error_2, weighted_error_3])
@@ -118,7 +118,7 @@ class AdaBoostErrorAnalysis:
         print("Performance Ranking (Best to Worst):")
         for i, (learner, error) in enumerate(ranking):
             rank = i + 1
-            print(f"  {rank}. {learner}: ε = {error:.4f}")
+            print(f"  {rank}. {learner}: $\\varepsilon = {error:.4f}$")
         
         best_learner = ranking[0][0]
         worst_learner = ranking[-1][0]
@@ -146,9 +146,9 @@ class AdaBoostErrorAnalysis:
             remaining_errors = [weighted_errors[j] for j in remaining_learners]
             avg_remaining_error = np.mean(remaining_errors)
             
-            print(f"\n{learner} (ε = {error:.4f}):")
+            print(f"\n{learner} ($\\varepsilon = {error:.4f}$):")
             print(f"  Remaining learners: {[learners[j] for j in remaining_learners]}")
-            print(f"  Average error of remaining: {avg_remaining_error:.4f}")
+            print(f"  Average error of remaining: $\\varepsilon_{{avg}} = {avg_remaining_error:.4f}$")
             print(f"  Impact: {'Positive' if avg_remaining_error < error else 'Negative'}")
         
         # Create visualization
@@ -306,7 +306,7 @@ class AdaBoostErrorAnalysis:
         
         bars = ax1.bar(learners, weighted_errors, color=colors, alpha=0.7, edgecolor='black')
         ax1.set_xlabel('Weak Learners')
-        ax1.set_ylabel('Weighted Error (ε)')
+        ax1.set_ylabel('Weighted Error ($\\varepsilon$)')
         ax1.set_title('Weighted Error Comparison')
         ax1.grid(True, alpha=0.3)
         
@@ -317,7 +317,7 @@ class AdaBoostErrorAnalysis:
                     f'{error:.4f}', ha='center', va='bottom', fontweight='bold')
         
         # Horizontal line at 0.5 (random classifier threshold)
-        ax1.axhline(y=0.5, color='red', linestyle='--', alpha=0.7, label='Random Classifier (ε = 0.5)')
+        ax1.axhline(y=0.5, color='red', linestyle='--', alpha=0.7, label='Random Classifier ($\\varepsilon = 0.5$)')
         ax1.legend()
         
         # Pie chart showing error distribution
@@ -341,7 +341,7 @@ class AdaBoostErrorAnalysis:
         # Horizontal bar chart (best to worst)
         colors = ['#4CAF50', '#FF9800', '#F44336']  # Green, Orange, Red
         bars = ax1.barh(ranked_learners, ranked_errors, color=colors, alpha=0.7, edgecolor='black')
-        ax1.set_xlabel('Weighted Error (ε)')
+        ax1.set_xlabel('Weighted Error ($\\varepsilon$)')
         ax1.set_title('Performance Ranking (Best to Worst)')
         ax1.grid(True, alpha=0.3)
         
@@ -408,7 +408,7 @@ class AdaBoostErrorAnalysis:
         ax2.bar(x + width/2, remaining_errors, width, label='Average Error After Removal', alpha=0.7, edgecolor='black')
         
         ax2.set_xlabel('Weak Learners')
-        ax2.set_ylabel('Weighted Error (ε)')
+        ax2.set_ylabel('Weighted Error ($\\varepsilon$)')
         ax2.set_title('Error Comparison: Before vs After Removal')
         ax2.set_xticks(x)
         ax2.set_xticklabels(learners)

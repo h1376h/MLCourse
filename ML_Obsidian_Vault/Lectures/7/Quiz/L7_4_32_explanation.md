@@ -38,7 +38,7 @@ We compare each weak learner's predictions with the true labels to find misclass
 **Weak Learner 2:**
 - Predictions: $[1, -1, -1, -1, 1, -1, 1, -1, 1, -1]$
 - True labels: $[1, 1, -1, -1, 1, -1, 1, -1, 1, -1]$
-- **Result: 1 misclassification** (Sample 2: predicted -1, true 1)
+- **Result: 1 misclassification** (Sample 2: predicted $-1$, true $1$)
 
 **Weak Learner 3:**
 - Predictions: $[1, 1, -1, -1, 1, -1, 1, -1, 1, -1]$
@@ -64,7 +64,7 @@ where $w_i$ is the weight of sample $i$.
 - Weighted error: $\varepsilon_1 = 0.0000$
 
 **Weak Learner 2:**
-- Misclassified samples: Sample 2
+- Misclassified samples: Sample $2$
 - Weight of misclassified sample: $0.12$
 - Weighted error: $\varepsilon_2 = 0.1200$
 
@@ -101,20 +101,20 @@ The visualization shows:
 
 Let's examine the impact of removing each weak learner:
 
-**Removing Weak Learner 1 ($\varepsilon = 0.0000$):**
-- Remaining learners: Weak Learner 2, Weak Learner 3
+**Removing Weak Learner 1** ($\varepsilon = 0.0000$):
+- Remaining learners: Weak Learner $2$, Weak Learner $3$
 - Average error of remaining: $(0.1200 + 0.0000)/2 = 0.0600$
-- **Impact: Negative** (Average error increases from 0.0000 to 0.0600)
+- **Impact: Negative** (Average error increases from $0.0000$ to $0.0600$)
 
-**Removing Weak Learner 2 ($\varepsilon = 0.1200$):**
-- Remaining learners: Weak Learner 1, Weak Learner 3
+**Removing Weak Learner 2** ($\varepsilon = 0.1200$):
+- Remaining learners: Weak Learner $1$, Weak Learner $3$
 - Average error of remaining: $(0.0000 + 0.0000)/2 = 0.0000$
-- **Impact: Positive** (Average error decreases from 0.1200 to 0.0000)
+- **Impact: Positive** (Average error decreases from $0.1200$ to $0.0000$)
 
-**Removing Weak Learner 3 ($\varepsilon = 0.0000$):**
-- Remaining learners: Weak Learner 1, Weak Learner 2
+**Removing Weak Learner 3** ($\varepsilon = 0.0000$):
+- Remaining learners: Weak Learner $1$, Weak Learner $2$
 - Average error of remaining: $(0.0000 + 0.1200)/2 = 0.0600$
-- **Impact: Negative** (Average error increases from 0.0000 to 0.0600)
+- **Impact: Negative** (Average error increases from $0.0000$ to $0.0600$)
 
 ![Removal Impact Analysis](../Images/L7_4_Quiz_32/removal_impact_analysis.png)
 
@@ -126,11 +126,11 @@ The visualization shows:
 
 ### Step 5: Analyze Ensemble Performance Change
 
-**Original ensemble (all 3 learners):**
+**Original ensemble (all $3$ learners):**
 - Accuracy: $100.0\%$
 - Error rate: $0.0\%$
 
-**Reduced ensemble (without Weak Learner 2):**
+**Reduced ensemble (without Weak Learner $2$):**
 - Accuracy: $100.0\%$
 - Error rate: $0.0\%$
 
@@ -149,14 +149,14 @@ The visualization shows:
 
 ### Why Removing the Worst Learner Has No Effect
 
-1. **Perfect Performance**: Both ensembles achieve 100% accuracy because:
-   - Weak Learners 1 and 3 are perfect classifiers
+1. **Perfect Performance**: Both ensembles achieve $100\%$ accuracy because:
+   - Weak Learners $1$ and $3$ are perfect classifiers
    - The majority voting between two perfect classifiers still gives perfect results
-   - Weak Learner 2's errors don't affect the final ensemble decision
+   - Weak Learner $2$'s errors don't affect the final ensemble decision
 
-2. **Redundancy**: Weak Learners 1 and 3 are identical, providing redundancy that makes Weak Learner 2's contribution unnecessary.
+2. **Redundancy**: Weak Learners $1$ and $3$ are identical, providing redundancy that makes Weak Learner $2$'s contribution unnecessary.
 
-3. **Weighted Error vs Ensemble Performance**: While Weak Learner 2 has the highest weighted error, the ensemble's final decision is based on majority voting, not weighted averaging.
+3. **Weighted Error vs Ensemble Performance**: While Weak Learner $2$ has the highest weighted error, the ensemble's final decision is based on majority voting, not weighted averaging.
 
 ### AdaBoost Principles Demonstrated
 
@@ -176,10 +176,10 @@ The visualization shows:
 
 ## Conclusion
 
-- **Task 1**: Weak Learners 1 and 3 have 0 misclassifications, Weak Learner 2 has 1 misclassification (Sample 2).
+- **Task 1**: Weak Learners $1$ and $3$ have $0$ misclassifications, Weak Learner $2$ has $1$ misclassification (Sample $2$).
 - **Task 2**: Weighted errors are $\varepsilon_1 = 0.0000$, $\varepsilon_2 = 0.1200$, $\varepsilon_3 = 0.0000$.
-- **Task 3**: Weak Learners 1 and 3 are best (tied), Weak Learner 2 is worst.
-- **Task 4**: Remove Weak Learner 2 because it has the highest weighted error and removing it improves the average performance.
-- **Task 5**: Removing the worst learner has no effect on ensemble performance because the remaining two perfect learners already achieve 100% accuracy.
+- **Task 3**: Weak Learners $1$ and $3$ are best (tied), Weak Learner $2$ is worst.
+- **Task 4**: Remove Weak Learner $2$ because it has the highest weighted error and removing it improves the average performance.
+- **Task 5**: Removing the worst learner has no effect on ensemble performance because the remaining two perfect learners already achieve $100\%$ accuracy.
 
 This analysis demonstrates the importance of weighted error rates in AdaBoost and shows how ensemble performance depends on the diversity and quality of individual weak learners rather than just their count.
