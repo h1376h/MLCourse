@@ -74,9 +74,9 @@ $$\sum_{i=1}^{6} w_i^{(0)} = 6 \times 0.166667 = 1.000000$$
 
 **Key Insight:** Equal initial weights represent our complete uncertainty about which samples are easy or hard to classify. This is the "uniform prior" assumption in AdaBoost.
 
-### Step 2: Iteration 1 with h₁
+### Step 2: Iteration 1 with $h_1$
 
-#### 2.1: Get Predictions from h₁
+#### 2.1: Get Predictions from $h_1$
 $h_1(x)$: $+1$ if $x \leq 3.5$, $-1$ otherwise
 
 For our dataset $X = [1, 2, 3, 4, 5, 6]$:
@@ -87,7 +87,7 @@ For our dataset $X = [1, 2, 3, 4, 5, 6]$:
 - $h_1(5) = -1$ (since $5 > 3.5$)
 - $h_1(6) = -1$ (since $6 > 3.5$)
 
-**h₁ predictions:** $[1, 1, 1, -1, -1, -1]$
+**$h_1$ predictions:** $[1, 1, 1, -1, -1, -1]$
 
 #### 2.2: Calculate Errors
 Compare predictions with true labels $y = [1, 1, -1, -1, 1, -1]$:
@@ -173,17 +173,17 @@ Normalize by dividing each weight by the sum:
 - Sample 5: $w_5^{\text{normalized}} = 0.117851 / 1.178511 = 0.100000$
 - Sample 6: $w_6^{\text{normalized}} = 0.235702 / 1.178511 = 0.200000$
 
-**Normalized weights after h₁:** $[0.200000, 0.200000, 0.100000, 0.200000, 0.100000, 0.200000]$
+**Normalized weights after $h_1$:** $[0.200000, 0.200000, 0.100000, 0.200000, 0.100000, 0.200000]$
 
 **Visual representation**:
 ![Task 2: Iteration 1 Analysis](../Images/L7_4_Quiz_26/task2_iteration1.png)
 
-This comprehensive visualization breaks down the first iteration with 6 detailed subplots showing h₁'s decision boundary, weighted error calculation, alpha calculation, weight updates, weight comparison, and summary.
+This comprehensive visualization breaks down the first iteration with 6 detailed subplots showing $h_1$'s decision boundary, weighted error calculation, alpha calculation, weight updates, weight comparison, and summary.
 
 #### 2.7: Iteration 1 Analysis and Visualization
 Now let's analyze what happened in iteration 1 and visualize the results:
 
-**Summary of h₁'s Performance:**
+**Summary of $h_1$'s Performance:**
 - **Correctly classified samples**: 1, 2, 4, 6 (4 out of 6)
 - **Misclassified samples**: 3, 5 (2 out of 6)
 - **Accuracy**: 66.7%
@@ -193,8 +193,8 @@ Now let's analyze what happened in iteration 1 and visualize the results:
 **Weight Update Analysis:**
 The exponential weight update formula $w_i^{\text{new}} = w_i^{\text{old}} \times \exp(\alpha_1 \times y_i \times h_1(x_i))$ creates asymmetric changes:
 
-- **Correctly classified samples** (y × h₁(x) = +1): weights increase by factor $\exp(0.346574) = 1.414214$ (~41% increase)
-- **Misclassified samples** (y × h₁(x) = -1): weights decrease by factor $\exp(-0.346574) = 0.707107$ (~29% decrease)
+- **Correctly classified samples** (y × $h_1$(x) = +1): weights increase by factor $\exp(0.346574) = 1.414214$ (~41% increase)
+- **Misclassified samples** (y × $h_1$(x) = -1): weights decrease by factor $\exp(-0.346574) = 0.707107$ (~29% decrease)
 
 **Key Insight**: The exponential nature of weight updates means that correct classifications boost sample importance more than incorrect classifications reduce it.
 
@@ -202,22 +202,22 @@ The exponential weight update formula $w_i^{\text{new}} = w_i^{\text{old}} \time
 
 **Visualization Breakdown:**
 
-**Top Left: h₁ Decision Boundary and Sample Classifications**
-- **Red dashed line**: h₁'s decision boundary at x = 3.5
+**Top Left: $h_1$ Decision Boundary and Sample Classifications**
+- **Red dashed line**: $h_1$'s decision boundary at x = 3.5
 - **Green circles**: Positive samples (y = +1)
 - **Red squares**: Negative samples (y = -1)
-- **Sample labels**: Show feature value, true label, and h₁'s prediction
+- **Sample labels**: Show feature value, true label, and $h_1$'s prediction
 - **Color coding**: Green boxes for correct predictions, red boxes for incorrect predictions
 
-**Top Right: Weight Evolution from Initial to After h₁**
+**Top Right: Weight Evolution from Initial to After $h_1$**
 - **Blue bars**: Initial weights (all equal at 0.166667)
-- **Green bars**: Weights after h₁ training
+- **Green bars**: Weights after $h_1$ training
 - **Key insight**: Correctly classified samples increase in weight, misclassified samples decrease
 
-**Bottom Left: h₁ Performance Analysis**
+**Bottom Left: $h_1$ Performance Analysis**
 - **Pie chart**: Shows correct vs. incorrect classifications
 - **Statistics**: 4/6 samples correct (66.7% accuracy)
-- **Key insight**: h₁ achieves better than random performance, making it a valid weak learner
+- **Key insight**: $h_1$ achieves better than random performance, making it a valid weak learner
 
 **Bottom Right: Weight Update Factors**
 - **Bar chart**: Shows the exponential factor applied to each sample
@@ -265,9 +265,9 @@ $$w_i^{\text{normalized}} = \frac{w_i^{\text{new}}}{\sum_{j=1}^{6} w_j^{\text{ne
 
 **Final normalized weights:** $[0.2000, 0.2000, 0.1000, 0.2000, 0.1000, 0.2000]$
 
-### Step 3: Iteration 2 with h₂
+### Step 3: Iteration 2 with $h_2$
 
-#### 3.1: Get Predictions from h₂
+#### 3.1: Get Predictions from $h_2$
 $h_2(x)$: $+1$ if $x \leq 2.5$, $-1$ otherwise
 
 For our dataset $X = [1, 2, 3, 4, 5, 6]$:
@@ -278,7 +278,7 @@ For our dataset $X = [1, 2, 3, 4, 5, 6]$:
 - $h_2(5) = -1$ (since $5 > 2.5$)
 - $h_2(6) = -1$ (since $6 > 2.5$)
 
-**h₂ predictions:** $[1, 1, -1, -1, -1, -1]$
+**$h_2$ predictions:** $[1, 1, -1, -1, -1, -1]$
 
 #### 3.2: Calculate Errors
 Compare predictions with true labels $y = [1, 1, -1, -1, 1, -1]$:
@@ -364,12 +364,12 @@ Normalize by dividing each weight by the sum:
 - Sample 5: $w_5^{\text{normalized}} = 0.033333 / 2.733333 = 0.012195$
 - Sample 6: $w_6^{\text{normalized}} = 0.600000 / 2.733333 = 0.219512$
 
-**Normalized weights after h₂:** $[0.219512, 0.219512, 0.109756, 0.219512, 0.012195, 0.219512]$
+**Normalized weights after $h_2$:** $[0.219512, 0.219512, 0.109756, 0.219512, 0.012195, 0.219512]$
 
 **Visual representation**:
 ![Task 3: Iteration 2 Analysis](../Images/L7_4_Quiz_26/task3_iteration2.png)
 
-This visualization shows the second iteration with 6 detailed subplots showing h₂'s decision boundary, weighted error calculation, alpha calculation, final weights, weight evolution, and summary.
+This visualization shows the second iteration with 6 detailed subplots showing $h_2$'s decision boundary, weighted error calculation, alpha calculation, final weights, weight evolution, and summary.
 
 #### Detailed Calculations for Iteration 2
 
@@ -415,7 +415,7 @@ $$w_i^{\text{normalized}} = \frac{w_i^{\text{new}}}{\sum_{j=1}^{6} w_j^{\text{ne
 
 #### 4.1: Complete Weight Evolution Table
 
-| Sample | Feature (x) | True Label (y) | Initial Weight | Weight after h₁ | Weight after h₂ |
+| Sample | Feature (x) | True Label (y) | Initial Weight | Weight after $h_1$ | Weight after $h_2$ |
 |--------|-------------|----------------|----------------|------------------|------------------|
 | Sample 1 | 1 | 1 | 0.166667 | 0.200000 | 0.219512 |
 | Sample 2 | 2 | 1 | 0.166667 | 0.200000 | 0.219512 |
@@ -430,23 +430,23 @@ After 2 iterations, **Sample 1, Sample 2, Sample 4, and Sample 6** all have the 
 **Why these samples have high weights:**
 
 1. **Sample 1 (x=1, y=1)**: 
-   - Correctly classified by both h₁ and h₂
+   - Correctly classified by both $h_1$ and $h_2$
    - Weight increased because it was consistently correct
 
 2. **Sample 2 (x=2, y=1)**:
-   - Correctly classified by both h₁ and h₂
+   - Correctly classified by both $h_1$ and $h_2$
    - Weight increased because it was consistently correct
 
 3. **Sample 4 (x=4, y=-1)**:
-   - Correctly classified by both h₁ and h₂
+   - Correctly classified by both $h_1$ and $h_2$
    - Weight increased because it was consistently correct
 
 4. **Sample 6 (x=6, y=-1)**:
-   - Correctly classified by both h₁ and h₂
+   - Correctly classified by both $h_1$ and $h_2$
    - Weight increased because it was consistently correct
 
 **Why Sample 5 has the lowest weight (0.012195):**
-- Sample 5 (x=5, y=1) was misclassified by both h₁ and h₂
+- Sample 5 (x=5, y=1) was misclassified by both $h_1$ and $h_2$
 - Its weight decreased significantly because it was consistently wrong
 - This is the "hardest" sample for the current weak learners
 
@@ -476,12 +476,12 @@ After 2 iterations, the final weights are:
 
 **Why Sample 5 Has the Lowest Weight:**
 
-**Iteration 1 (h₁):**
+**Iteration 1 ($h_1$):**
 - **Sample 5:** $x_5 = 5$, $y_5 = +1$, $h_1(5) = -1$ → **Misclassified**
 - **Weight update:** $$w_5^{(1)} = w_5^{(0)} \times \exp(\alpha_1 \times y_5 \times h_1(x_5))$$
   $$= 0.1667 \times \exp(0.3466 \times 1 \times (-1)) = 0.1667 \times e^{-0.3466} = 0.1667 \times 0.7071 = 0.1179$$
 
-**Iteration 2 (h₂):**
+**Iteration 2 ($h_2$):**
 - **Sample 5:** $x_5 = 5$, $y_5 = +1$, $h_2(5) = -1$ → **Misclassified again**
 - **Weight update:** $$w_5^{(2)} = w_5^{(1)} \times \exp(\alpha_2 \times y_5 \times h_2(x_5))$$
   $$= 0.1000 \times \exp(1.0986 \times 1 \times (-1)) = 0.1000 \times e^{-1.0986} = 0.1000 \times 0.3333 = 0.0333$$
@@ -491,8 +491,8 @@ After 2 iterations, the final weights are:
 ### Step 5: Final Ensemble Prediction
 
 #### 5.1: Given Predictions
-- h₁ predictions: $[1, 1, -1, -1, 1, -1]$
-- h₂ predictions: $[1, 1, -1, -1, 1, -1]$
+- $h_1$ predictions: $[1, 1, -1, -1, 1, -1]$
+- $h_2$ predictions: $[1, 1, -1, -1, 1, -1]$
 
 #### 5.2: Calculate Weighted Sum
 For each sample, compute: $\alpha_1 \times h_1(x_i) + \alpha_2 \times h_2(x_i)$
@@ -546,8 +546,8 @@ This visualization shows the final ensemble with 6 detailed subplots covering in
 #### Detailed Calculations for Ensemble Prediction
 
 **Individual Predictions:**
-- **h₁ predictions:** $[1, 1, -1, -1, 1, -1]$
-- **h₂ predictions:** $[1, 1, -1, -1, 1, -1]$
+- **$h_1$ predictions:** $[1, 1, -1, -1, 1, -1]$
+- **$h_2$ predictions:** $[1, 1, -1, -1, 1, -1]$
 
 **Weighted Sums:**
 For each sample $i$, calculate: $$\alpha_1 \times h_1(x_i) + \alpha_2 \times h_2(x_i)$$
@@ -577,8 +577,8 @@ $$\text{Ensemble}(x) = \text{sign}\left(\sum_{t=1}^{2} \alpha_t h_t(x)\right) = 
 
 This visualization shows how sample weights change across all iterations:
 - **Initial weights**: All samples start equal (0.166667)
-- **After h₁**: Weights diverge based on h₁'s performance
-- **After h₂**: Weights further adjust based on h₂'s performance
+- **After $h_1$**: Weights diverge based on $h_1$'s performance
+- **After $h_2$**: Weights further adjust based on $h_2$'s performance
 - **Key insight**: Samples 1, 2, 4, 6 maintain high weights, while Sample 5's weight plummets
 
 ### Decision Boundaries and Sample Positions
@@ -596,15 +596,15 @@ This plot shows:
 This visualization compares:
 - **Left plot**: Correct vs. incorrect classifications for each weak learner
 - **Right plot**: Weighted error rates (ε₁ = 0.333, ε₂ = 0.100)
-- **Key insight**: h₂ has much lower weighted error than h₁, making it more reliable
+- **Key insight**: $h_2$ has much lower weighted error than $h_1$, making it more reliable
 
 ### Alpha Values
 ![AdaBoost Alpha Values](../Images/L7_4_Quiz_26/adaboost_alpha_values.png)
 
 This shows the importance (alpha) of each weak learner:
-- **α₁ = 0.346574**: h₁'s contribution to the ensemble
-- **α₂ = 1.098612**: h₂'s contribution (much higher due to lower error)
-- **Interpretation**: h₂ is about 3 times more important than h₁ in the final ensemble
+- **α₁ = 0.346574**: $h_1$'s contribution to the ensemble
+- **α₂ = 1.098612**: $h_2$'s contribution (much higher due to lower error)
+- **Interpretation**: $h_2$ is about 3 times more important than $h_1$ in the final ensemble
 
 ## Key Insights
 
@@ -631,23 +631,23 @@ The alpha values represent the importance of each weak learner:
   - $\ln(9) = 2.197225$
   - $\alpha_2 = 0.5 \times 2.197225 = 1.098612$
 
-**Key insight**: α₂ is much larger than α₁ because h₂ has much lower error (10% vs 33.33%). Lower error means higher confidence and thus higher importance in the ensemble.
+**Key insight**: α₂ is much larger than α₁ because $h_2$ has much lower error (10% vs 33.33%). Lower error means higher confidence and thus higher importance in the ensemble.
 
 #### Why Sample 5's Weight Decreases Dramatically?
 Sample 5 (x=5, y=1) is misclassified by both weak learners:
-- **h₁ prediction**: -1 (incorrect, since y=1)
-- **h₂ prediction**: -1 (incorrect, since y=1)
+- **$h_1$ prediction**: -1 (incorrect, since y=1)
+- **$h_2$ prediction**: -1 (incorrect, since y=1)
 
 The weight update formula $w_i^{\text{new}} = w_i^{\text{old}} \times \exp(\alpha_t \times y_i \times h_t(x_i))$ becomes:
-- After h₁: $w_5 = 0.166667 \times \exp(0.346574 \times 1 \times (-1)) = 0.166667 \times \exp(-0.346574) = 0.166667 \times 0.707107 = 0.117851$
-- After h₂: $w_5 = 0.100000 \times \exp(1.098612 \times 1 \times (-1)) = 0.100000 \times \exp(-1.098612) = 0.100000 \times 0.333333 = 0.033333$
+- After $h_1$: $w_5 = 0.166667 \times \exp(0.346574 \times 1 \times (-1)) = 0.166667 \times \exp(-0.346574) = 0.166667 \times 0.707107 = 0.117851$
+- After $h_2$: $w_5 = 0.100000 \times \exp(1.098612 \times 1 \times (-1)) = 0.100000 \times \exp(-1.098612) = 0.100000 \times 0.333333 = 0.033333$
 
 **Key insight**: When $y_i \times h_t(x_i) = -1$ (misclassification), the weight decreases exponentially.
 
 #### Why the Final Ensemble Achieves 100% Accuracy?
 The ensemble combines weak learners with their respective alpha weights:
-- **h₁ contribution**: α₁ = 0.346574
-- **h₂ contribution**: α₂ = 1.098612
+- **$h_1$ contribution**: α₁ = 0.346574
+- **$h_2$ contribution**: α₂ = 1.098612
 
 For correctly classified samples, both weak learners agree, so their contributions reinforce each other:
 - **Sample 1**: $0.346574 \times 1 + 1.098612 \times 1 = 1.445186 > 0$ → Class +1
@@ -657,7 +657,7 @@ For correctly classified samples, both weak learners agree, so their contributio
 
 ### Practical Applications
 - **Sample difficulty identification**: Sample 5 emerges as the hardest case
-- **Weak learner selection**: h₂ is more effective than h₁ (lower weighted error)
+- **Weak learner selection**: $h_2$ is more effective than $h_1$ (lower weighted error)
 - **Ensemble strength**: Combining weak learners achieves 100% accuracy
 - **Weight interpretation**: High weights indicate samples that are consistently correctly classified
 
@@ -670,8 +670,8 @@ For correctly classified samples, both weak learners agree, so their contributio
 ## Conclusion
 - **Initial weights**: All samples started with equal weight 0.166667
 - **Weight evolution**: Samples 1, 2, 4, 6 maintained high weights (0.219512), while Sample 5's weight decreased significantly (0.012195)
-- **Weak learner performance**: h₁ had weighted error 0.333, h₂ had weighted error 0.100
-- **Alpha values**: α₁ = 0.346574, α₂ = 1.098612 (h₂ is more important)
+- **Weak learner performance**: $h_1$ had weighted error 0.333, $h_2$ had weighted error 0.100
+- **Alpha values**: α₁ = 0.346574, α₂ = 1.098612 ($h_2$ is more important)
 - **Final accuracy**: 100% ensemble accuracy with perfect predictions
 - **Key insight**: AdaBoost successfully identified and focused on the hardest sample (Sample 5) while maintaining high performance on easier samples
 
