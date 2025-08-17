@@ -1,7 +1,7 @@
 # Lecture 7.4: AdaBoost Algorithm Quiz
 
 ## Overview
-This quiz contains 40 comprehensive questions covering the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, theoretical foundations, convergence properties, practical applications, and advanced concepts. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 42 comprehensive questions covering the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, theoretical foundations, convergence properties, practical applications, and advanced concepts. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -788,3 +788,81 @@ Create an "AdaBoost Final Challenge" where you combine all concepts into a compr
 5. How would you explain the ensemble's decisions to stakeholders?
 
 For a detailed explanation of this question, see [Question 40: AdaBoost Final Challenge](L7_4_40_explanation.md).
+
+## Question 41
+
+### Problem Statement
+You find an AdaBoost ensemble that has been trained, but you only know the final sample weights and some partial information about the weak learners. You must reverse-engineer what happened!
+
+**What You Know:**
+- **Dataset:** 5 samples with binary labels
+  - Sample 1: $(x_1=1, y_1=+1)$
+  - Sample 2: $(x_2=2, y_2=+1)$
+  - Sample 3: $(x_3=3, y_3=-1)$
+  - Sample 4: $(x_4=4, y_4=-1)$
+  - Sample 5: $(x_5=5, y_5=+1)$
+
+- **Final Sample Weights After Training:** $[0.08, 0.32, 0.20, 0.08, 0.32]$
+
+- **Weak Learner Predictions (but you don't know which is which!):**
+  - $h_A$: $[+1, +1, -1, -1, +1]$ (predicts correctly for samples 1,2,3,4,5)
+  - $h_B$: $[+1, +1, +1, -1, +1]$ (predicts correctly for samples 1,2,5, incorrectly for 3,4)
+  - $h_C$: $[+1, -1, -1, -1, +1]$ (predicts correctly for samples 1,3,4,5, incorrectly for 2)
+
+- **Training Used Exactly 2 Iterations**
+
+#### Task
+1. Given that AdaBoost always chooses the weak learner with lowest weighted error, which weak learner was chosen first? Which was chosen second?
+
+2. Calculate the $\alpha$ weight for each of the two weak learners that were actually used.
+
+3. What were the sample weights after the first iteration (before the second weak learner was trained)?
+
+4. Show that your solution produces the final weights $[0.08, 0.32, 0.20, 0.08, 0.32]$ when you combine the two weak learners.
+
+5. If you had to guess which weak learner was trained first without doing the full calculation, what pattern in the final weights would give you a clue?
+
+**Hint:** Remember that AdaBoost increases weights of misclassified samples and decreases weights of correctly classified samples. The final weights tell you which samples were "hardest" to classify!
+
+For a detailed explanation of this question, see [Question 41: AdaBoost Weight Mystery](L7_4_41_explanation.md).
+
+## Question 42
+
+### Problem Statement
+You're debugging an AdaBoost implementation and find some suspicious results. You need to trace through the algorithm step-by-step to find where things went wrong!
+
+**Dataset:** 6 samples with binary labels
+- Sample 1: $(x_1=1, y_1=+1)$
+- Sample 2: $(x_2=2, y_2=+1)$
+- Sample 3: $(x_3=3, y_3=-1)$
+- Sample 4: $(x_4=4, y_4=-1)$
+- Sample 5: $(x_5=5, y_5=+1)$
+- Sample 6: $(x_6=6, y_6=-1)$
+
+**Initial Weights:** All samples start with equal weights $w_i = \frac{1}{6}$
+
+**Weak Learners Available:**
+- $h_1$: $+1$ if $x \leq 3.5$, $-1$ otherwise
+- $h_2$: $+1$ if $x \leq 2.5$, $-1$ otherwise
+- $h_3$: $+1$ if $x \leq 4.5$, $-1$ otherwise
+
+After training, you find these final sample weights: $[0.05, 0.15, 0.30, 0.20, 0.10, 0.20]$
+
+But when you check your implementation, you discover that one of these formulas was implemented incorrectly:
+
+**Formula A:** $\alpha_t = \frac{1}{2}\ln\left(\frac{1-\epsilon_t}{\epsilon_t}\right)$
+**Formula B:** $w_i^{(t+1)} = w_i^{(t)} \cdot e^{-\alpha_t y_i h_t(x_i)}$
+**Formula C:** $\epsilon_t = \sum_{i=1}^{N} w_i^{(t)} \cdot \mathbb{I}[y_i \neq h_t(x_i)]$
+**Formula D:** $H(x) = \text{sign}\left(\sum_{t=1}^{T} \alpha_t h_t(x)\right)$
+
+#### Task
+1. Which of the four formulas (A, B, C, or D) is most likely to have been implemented incorrectly? Justify your answer by showing which formula would produce the observed final weights.
+2. Calculate what the sample weights should be after the first iteration using the correct formulas
+3. Show that one of the formulas must be wrong by demonstrating it produces impossible weights
+4. If you had to fix the incorrect formula, what would be the most likely error? (e.g., missing a negative sign, wrong base for logarithm, etc.)
+5. After fixing the formula, recalculate the final weights and show they match the observed $[0.05, 0.15, 0.30, 0.20, 0.10, 0.20]$
+5. If you wanted to make this dataset even harder for AdaBoost to classify, what single change would you make to the feature values or labels? Justify why your change would make classification more difficult.
+
+**Hint:** Pay special attention to the weight update formula and remember that weights must always be positive and sum to 1 after normalization!
+
+For a detailed explanation of this question, see [Question 42: AdaBoost Formula Detective](L7_4_42_explanation.md).
