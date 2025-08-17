@@ -1,7 +1,7 @@
 # Lecture 7.3: Random Forest Deep Dive Quiz
 
 ## Overview
-This quiz contains 26 questions covering Random Forest fundamentals, including tree diversity mechanisms, feature subsampling, voting strategies, out-of-bag estimation, feature importance analysis, and practical applications.
+This quiz contains 32 questions covering Random Forest fundamentals, including tree diversity mechanisms, feature subsampling, voting strategies, out-of-bag estimation, feature importance analysis, and practical applications.
 
 ## Question 1
 
@@ -460,3 +460,81 @@ Analyze customer churn data with Random Forest feature importance scores:
 4. Design a feature selection strategy that preserves $90\%$ of importance while reducing features
 
 For a detailed explanation of this question, see [Question 26: Feature Importance Hunt](L7_3_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+Random Forest combines bagging with feature subsampling to create diverse trees.
+
+#### Task
+1. Explain how Random Forest creates diversity among its trees
+2. Describe the relationship between Random Forest and bagging
+3. Why is feature subsampling important in Random Forest?
+4. How does Random Forest differ from simple bagging of decision trees?
+
+For a detailed explanation of this question, see [Question 27: Random Forest Foundations](L7_3_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+Feature subsampling in Random Forest affects tree diversity and performance.
+
+#### Task
+1. For a dataset with $d=64$ total features, what would be a commonly recommended number of features $m$ to consider at each split?
+2. What is the primary goal of limiting the number of features considered at each split?
+3. What happens to the Random Forest algorithm if you set the number of features to consider at each split, $m$, equal to the total number of features, $d$?
+4. How does using a very small $m$ (e.g., $m=1$) impact the bias and variance of the individual trees in the forest?
+
+For a detailed explanation of this question, see [Question 28: Feature Subsampling Analysis](L7_3_28_explanation.md).
+
+## Question 29
+
+### Problem Statement
+Random Forest uses different voting strategies for making predictions.
+
+#### Task
+1. What is the difference between hard voting (majority vote) and soft voting (averaging probabilities)?
+2. When would you prefer soft voting over hard voting?
+3. A Random Forest with 5 trees is used for a binary classification task. The individual trees predict the following probabilities for class 1: $[0.8, 0.4, 0.45, 0.9, 0.6]$. What is the final prediction using hard voting (with a 0.5 threshold) and soft voting?
+4. What is the advantage of ensemble voting over a single tree's prediction?
+
+For a detailed explanation of this question, see [Question 29: Voting Strategies](L7_3_29_explanation.md).
+
+## Question 30
+
+### Problem Statement
+Out-of-bag (OOB) estimation provides an internal validation metric for Random Forest.
+
+#### Task
+1. How does out-of-bag estimation work?
+2. What is a major advantage of using OOB estimation over traditional cross-validation?
+3. For a large dataset, approximately what percentage of the data is out-of-bag for any given tree?
+4. If a single data point is used to test 35 out of 100 trees in the forest (i.e., it was OOB for those 35 trees), how is its OOB prediction calculated?
+
+For a detailed explanation of this question, see [Question 30: Out-of-Bag Estimation](L7_3_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+Feature importance in Random Forest measures how significant each variable is for making predictions.
+
+#### Task
+1. Briefly explain one common method for calculating feature importance in a Random Forest
+2. Why is feature importance from a Random Forest generally considered more reliable than importance from a single decision tree?
+3. You have the following feature importances: Feature A: $0.55$, Feature B: $0.25$, Feature C: $0.15$, Feature D: $0.05$. What percentage of the model's predictive power is captured by Features A and B combined?
+4. If you wanted to build a simpler model, which feature would you consider removing first and why?
+
+For a detailed explanation of this question, see [Question 31: Feature Importance Analysis](L7_3_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
+Compare a Bagging ensemble of deep decision trees with a Random Forest ensemble.
+
+#### Task
+1. What is the key algorithmic difference in how trees are constructed in Random Forest versus in Bagging?
+2. In a dataset with one very strong, dominant predictor feature and several moderately useful features, which of the two ensembles would likely build more diverse trees? Explain why.
+3. Which of the two methods is designed to more effectively reduce the correlation between the trees in the ensemble?
+4. If both ensembles use the same number of trees, which one would you expect to have lower variance in its predictions? Why?
+
+For a detailed explanation of this question, see [Question 32: Bagging vs. Random Forest](L7_3_32_explanation.md).
