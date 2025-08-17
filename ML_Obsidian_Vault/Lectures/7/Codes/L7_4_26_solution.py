@@ -12,6 +12,24 @@ os.makedirs(save_dir, exist_ok=True)
 # Enable LaTeX style plotting
 plt.rcParams['text.usetex'] = False
 plt.rcParams['font.family'] = 'serif'
+plt.rcParams['font.size'] = 10
+
+# Helper function to plot samples with proper markers
+def plot_samples_with_markers(ax, X, y, title, xlabel='Feature Value (x)', ylabel='Position'):
+    """Plot samples with proper markers for positive/negative classes"""
+    positive_mask = y == 1
+    negative_mask = y == -1
+    
+    ax.scatter(X[positive_mask], [0.5] * np.sum(positive_mask), s=200, c='green', marker='o', alpha=0.7, label='Positive (y=+1)')
+    ax.scatter(X[negative_mask], [0.5] * np.sum(negative_mask), s=200, c='red', marker='s', alpha=0.7, label='Negative (y=-1)')
+    
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel(ylabel)
+    ax.set_title(title)
+    ax.set_xlim(0, 7)
+    ax.set_ylim(0, 1)
+    ax.legend()
+    ax.grid(True, alpha=0.3)
 
 print("Question 26: AdaBoost Weight Detective")
 print("=" * 60)
@@ -133,7 +151,7 @@ for i, (x, label, pred) in enumerate(zip(X, y, h1_predictions)):
 
 ax1.set_xlabel('Feature Value (x)')
 ax1.set_ylabel('Decision Space')
-ax1.set_title('h₁ Decision Boundary and Sample Classifications')
+ax1.set_title(r'$h_1$ Decision Boundary and Sample Classifications')
 ax1.set_xlim(0, 7)
 ax1.set_ylim(0, 1)
 ax1.grid(True, alpha=0.3)
@@ -354,17 +372,266 @@ plt.xticks(x_pos, [f'S{i+1}' for i in range(n_samples)])
 plt.legend()
 plt.grid(True, alpha=0.3)
 
-# Add weight values on bars
-for i in range(n_samples):
-    plt.text(i - width, w_initial[i] + 0.01, f'{w_initial[i]:.3f}', 
-             ha='center', va='bottom', fontsize=8)
-    plt.text(i, w_after_h1_normalized[i] + 0.01, f'{w_after_h1_normalized[i]:.3f}', 
-             ha='center', va='bottom', fontsize=8)
-    plt.text(i + width, w_after_h2_normalized[i] + 0.01, f'{w_after_h2_normalized[i]:.3f}', 
-             ha='center', va='bottom', fontsize=8)
+
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'adaboost_weight_evolution.png'), dpi=300, bbox_inches='tight')
+
+# NEW: Task-specific visualizations
+
+# Task 1: Initial weights visualization
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+
+# Plot positive and negative samples separately
+positive_mask = y == 1
+negative_mask = y == -1
+
+plt.scatter(X[positive_mask], [0.5] * np.sum(positive_mask), s=200, c='green', marker='o', alpha=0.7, label='Positive (y=+1)')
+plt.scatter(X[negative_mask], [0.5] * np.sum(negative_mask), s=200, c='red', marker='s', alpha=0.7, label='Negative (y=-1)')
+
+plt.axhline(y=0.5, color='black', alpha=0.3)
+plt.xlabel('Feature Value (x)')
+plt.ylabel('Position')
+plt.title('Task 1: Initial State\nAll samples have equal weights')
+plt.xlim(0, 7)
+plt.ylim(0, 1)
+plt.legend()
+
+
+
+plt.subplot(1, 2, 2)
+bars = plt.bar(range(1, n_samples + 1), w_initial, color='skyblue', alpha=0.7)
+plt.xlabel('Sample Number')
+plt.ylabel('Weight')
+plt.title('Initial Weights Distribution')
+plt.xticks(range(1, n_samples + 1))
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'task1_initial_weights.png'), dpi=300, bbox_inches='tight')
+
+# Task 2: Iteration 1 visualization
+plt.figure(figsize=(15, 8))
+
+# Subplot 1: h1 predictions and errors
+plt.subplot(2, 3, 1)
+
+# Plot positive and negative samples separately
+positive_mask = y == 1
+negative_mask = y == -1
+
+plt.scatter(X[positive_mask], [0.5] * np.sum(positive_mask), s=200, c='green', marker='o', alpha=0.7, label='Positive (y=+1)')
+plt.scatter(X[negative_mask], [0.5] * np.sum(negative_mask), s=200, c='red', marker='s', alpha=0.7, label='Negative (y=-1)')
+
+plt.axvline(x=3.5, color='red', linestyle='--', linewidth=2, label='h1: x ≤ 3.5')
+plt.xlabel('Feature Value (x)')
+plt.ylabel('Position')
+plt.title(r'$h_1$ Decision Boundary')
+plt.xlim(0, 7)
+plt.ylim(0, 1)
+plt.legend()
+
+
+
+# Subplot 2: Weighted error calculation
+plt.subplot(2, 3, 2)
+error_terms = [w_initial[i] * h1_errors[i] for i in range(n_samples)]
+bars = plt.bar(range(1, n_samples + 1), error_terms, 
+               color=['red' if h1_errors[i] == 1 else 'green' for i in range(n_samples)], alpha=0.7)
+plt.xlabel('Sample Number')
+plt.ylabel(r'Weight $\times$ Error')
+plt.title(r'Weighted Error Terms\n$\epsilon_1 = \Sigma(w_i \times \text{error}_i)$')
+plt.xticks(range(1, n_samples + 1))
+plt.axhline(y=h1_weighted_error, color='blue', linestyle='--', label=f'Total: {h1_weighted_error:.3f}')
+plt.legend()
+
+# Subplot 3: Alpha calculation
+plt.subplot(2, 3, 3)
+plt.title('Alpha Calculation')
+plt.axis('off')
+
+# Subplot 4: Weight updates
+plt.subplot(2, 3, 4)
+plot_samples_with_markers(plt.gca(), X, y, 'Weight Updates After h1')
+
+
+
+# Subplot 5: Weight comparison
+plt.subplot(2, 3, 5)
+x_pos = np.arange(n_samples)
+width = 0.35
+plt.bar(x_pos - width/2, w_initial, width, label='Initial', alpha=0.7, color='skyblue')
+plt.bar(x_pos + width/2, w_after_h1_normalized, width, label='After h1', alpha=0.7, color='lightgreen')
+plt.xlabel('Sample Number')
+plt.ylabel('Weight')
+plt.title('Weight Comparison')
+plt.xticks(x_pos, [f'S{i+1}' for i in range(n_samples)])
+plt.legend()
+
+# Subplot 6: Summary
+plt.subplot(2, 3, 6)
+plt.title('Summary')
+plt.axis('off')
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'task2_iteration1.png'), dpi=300, bbox_inches='tight')
+
+# Task 3: Iteration 2 visualization
+plt.figure(figsize=(15, 8))
+
+# Subplot 1: h2 predictions and errors
+plt.subplot(2, 3, 1)
+plot_samples_with_markers(plt.gca(), X, y, 'h2 Decision Boundary')
+plt.axvline(x=2.5, color='blue', linestyle='--', linewidth=2, label='h2: x ≤ 2.5')
+plt.legend()
+
+
+
+# Subplot 2: Weighted error calculation
+plt.subplot(2, 3, 2)
+error_terms = [w_after_h1_normalized[i] * h2_errors[i] for i in range(n_samples)]
+bars = plt.bar(range(1, n_samples + 1), error_terms, 
+               color=['red' if h2_errors[i] == 1 else 'green' for i in range(n_samples)], alpha=0.7)
+plt.xlabel('Sample Number')
+plt.ylabel(r'Weight $\times$ Error')
+plt.title(r'Weighted Error Terms\n$\epsilon_2 = \Sigma(w_i \times \text{error}_i)$')
+plt.xticks(range(1, n_samples + 1))
+plt.axhline(y=h2_weighted_error, color='blue', linestyle='--', label=f'Total: {h2_weighted_error:.3f}')
+plt.legend()
+
+# Subplot 3: Alpha calculation
+plt.subplot(2, 3, 3)
+plt.title('Alpha Calculation')
+plt.axis('off')
+
+# Subplot 4: Final weights
+plt.subplot(2, 3, 4)
+plot_samples_with_markers(plt.gca(), X, y, 'Final Weights After h2')
+
+
+
+# Subplot 5: Weight evolution
+plt.subplot(2, 3, 5)
+x_pos = np.arange(n_samples)
+width = 0.25
+plt.bar(x_pos - width, w_initial, width, label='Initial', alpha=0.7, color='skyblue')
+plt.bar(x_pos, w_after_h1_normalized, width, label='After h1', alpha=0.7, color='lightgreen')
+plt.bar(x_pos + width, w_after_h2_normalized, width, label='After h2', alpha=0.7, color='lightcoral')
+plt.xlabel('Sample Number')
+plt.ylabel('Weight')
+plt.title('Weight Evolution')
+plt.xticks(x_pos, [f'S{i+1}' for i in range(n_samples)])
+plt.legend()
+
+# Subplot 6: Summary
+plt.subplot(2, 3, 6)
+plt.title('Summary')
+plt.axis('off')
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'task3_iteration2.png'), dpi=300, bbox_inches='tight')
+
+# Task 4: Weight analysis visualization
+plt.figure(figsize=(12, 8))
+
+# Subplot 1: Final weight distribution
+plt.subplot(2, 2, 1)
+bars = plt.bar(range(1, n_samples + 1), w_after_h2_normalized, 
+               color=['red' if i == max_weight_idx else 'blue' for i in range(n_samples)], alpha=0.7)
+plt.xlabel('Sample Number')
+plt.ylabel('Weight')
+plt.title('Final Weight Distribution\n(Red = Highest Weight)')
+plt.xticks(range(1, n_samples + 1))
+
+
+# Subplot 2: Weight ranking
+plt.subplot(2, 2, 2)
+sorted_indices = np.argsort(w_after_h2_normalized)[::-1]
+sorted_weights = w_after_h2_normalized[sorted_indices]
+plt.bar(range(1, n_samples + 1), sorted_weights, color='lightcoral', alpha=0.7)
+plt.xlabel('Weight Rank')
+plt.ylabel('Weight')
+plt.title('Weight Ranking (Highest to Lowest)')
+plt.xticks(range(1, n_samples + 1), [f'S{sorted_indices[i]+1}' for i in range(n_samples)])
+
+# Subplot 3: Sample difficulty analysis
+plt.subplot(2, 2, 3)
+plot_samples_with_markers(plt.gca(), X, y, 'Sample Difficulty Analysis')
+
+# Add difficulty indicators
+for i, (x, weight) in enumerate(zip(X, w_after_h2_normalized)):
+    if weight == np.max(w_after_h2_normalized):
+        difficulty = "Easiest"
+        color = "green"
+    elif weight == np.min(w_after_h2_normalized):
+        difficulty = "Hardest"
+        color = "red"
+    else:
+        difficulty = "Medium"
+        color = "orange"
+    
+
+
+# Subplot 4: Why analysis
+plt.subplot(2, 2, 4)
+plt.title('Analysis')
+plt.axis('off')
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'task4_weight_analysis.png'), dpi=300, bbox_inches='tight')
+
+# Task 5: Ensemble prediction visualization
+plt.figure(figsize=(15, 8))
+
+# Subplot 1: Individual predictions
+plt.subplot(2, 3, 1)
+plot_samples_with_markers(plt.gca(), X, y, 'Individual Predictions')
+
+
+
+# Subplot 2: Weighted sums
+plt.subplot(2, 3, 2)
+bars = plt.bar(range(1, n_samples + 1), weighted_sum, 
+               color=['green' if weighted_sum[i] > 0 else 'red' for i in range(n_samples)], alpha=0.7)
+plt.xlabel('Sample Number')
+plt.ylabel('Weighted Sum')
+plt.title(r'Weighted Sums\n$\alpha_1 \times h_1 + \alpha_2 \times h_2$')
+plt.xticks(range(1, n_samples + 1))
+
+plt.axhline(y=0, color='black', linestyle='-', alpha=0.5)
+
+# Subplot 3: Final predictions
+plt.subplot(2, 3, 3)
+plot_samples_with_markers(plt.gca(), X, ensemble_pred, 'Final Ensemble Predictions')
+
+
+
+# Subplot 4: Alpha comparison
+plt.subplot(2, 3, 4)
+alphas = [h1_alpha, h2_alpha]
+learner_names = ['h1', 'h2']
+bars = plt.bar(learner_names, alphas, color=['red', 'blue'], alpha=0.7)
+plt.xlabel('Weak Learner')
+plt.ylabel('Alpha Value')
+plt.title('Alpha Values Comparison')
+
+
+# Subplot 5: Accuracy analysis
+plt.subplot(2, 3, 5)
+correct_predictions = (ensemble_pred == y).sum()
+incorrect_predictions = (ensemble_pred != y).sum()
+plt.pie([correct_predictions, incorrect_predictions], 
+        labels=[f'Correct\n({correct_predictions})', f'Incorrect\n({incorrect_predictions})'],
+        colors=['green', 'red'], autopct='%1.1f%%', startangle=90)
+plt.title('Prediction Accuracy')
+
+# Subplot 6: Summary
+plt.subplot(2, 3, 6)
+plt.title('Summary')
+plt.axis('off')
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'task5_ensemble_prediction.png'), dpi=300, bbox_inches='tight')
 
 # Visualization 2: Decision boundaries and sample positions
 plt.figure(figsize=(14, 10))
@@ -386,20 +653,10 @@ plt.scatter(positive_samples, [0.5] * len(positive_samples),
 plt.scatter(negative_samples, [0.5] * len(negative_samples), 
            s=200, color='red', marker='s', label='Negative samples (y=-1)', alpha=0.7)
 
-# Add sample labels
-for i, (x, label) in enumerate(zip(X, y)):
-    plt.annotate(f'S{i+1}\n(x={x}, y={label})', 
-                 (x, 0.5), xytext=(0, 20), textcoords='offset points',
-                 ha='center', va='bottom', fontsize=10,
-                 bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
+
 
 # Add weight information
-weight_text = "Sample Weights After 2 Iterations:\n"
-for i in range(n_samples):
-    weight_text += f"S{i+1}: {w_after_h2_normalized[i]:.3f}\n"
 
-plt.text(0.02, 0.98, weight_text, transform=plt.gca().transAxes, 
-         verticalalignment='top', bbox=dict(boxstyle="round,pad=0.5", fc="white", ec="black", alpha=0.8))
 
 plt.xlabel('Feature Value (x)')
 plt.ylabel('Decision Space')
@@ -430,9 +687,7 @@ for i, (errors, name, color) in enumerate(zip(error_data, learner_names, colors)
     ax1.bar([f'{name}\nCorrect', f'{name}\nIncorrect'], 
              [correct, incorrect], color=color, alpha=0.7, label=name)
     
-    # Add count labels
-    ax1.text(i*2, correct + 0.1, str(correct), ha='center', va='bottom', fontweight='bold')
-    ax1.text(i*2 + 1, incorrect + 0.1, str(incorrect), ha='center', va='bottom', fontweight='bold')
+
 
 ax1.set_ylabel('Number of Samples')
 ax1.set_title('Error Analysis: Correct vs Incorrect Classifications')
@@ -451,11 +706,7 @@ ax2.set_xticks(x_pos)
 ax2.set_xticklabels(learner_names)
 ax2.grid(True, alpha=0.3)
 
-# Add error values on bars
-for bar, error in zip(bars, weighted_errors):
-    height = bar.get_height()
-    ax2.text(bar.get_x() + bar.get_width()/2., height + 0.001,
-             f'{error:.4f}', ha='center', va='bottom', fontweight='bold')
+
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'adaboost_error_analysis.png'), dpi=300, bbox_inches='tight')
@@ -472,11 +723,7 @@ plt.ylabel('Alpha Value (α)')
 plt.title('Alpha Values for Weak Learners')
 plt.grid(True, alpha=0.3)
 
-# Add alpha values on bars
-for bar, alpha in zip(bars, alphas):
-    height = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2., height + 0.01,
-             f'{alpha:.4f}', ha='center', va='bottom', fontweight='bold')
+
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'adaboost_alpha_values.png'), dpi=300, bbox_inches='tight')

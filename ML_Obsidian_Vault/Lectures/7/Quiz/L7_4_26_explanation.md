@@ -4,12 +4,12 @@
 Create an "AdaBoost Weight Detective" game where you analyze sample weight evolution through multiple iterations.
 
 **Dataset:** 6 samples with binary labels
-- Sample 1: $(x_1, y_1) = (1, +1)$
-- Sample 2: $(x_2, y_2) = (2, +1)$ 
-- Sample 3: $(x_3, y_3) = (3, -1)$
-- Sample 4: $(x_4, y_4) = (4, -1)$
-- Sample 5: $(x_5, y_5) = (5, +1)$
-- Sample 6: $(x_6, y_6) = (6, -1)$
+- **Sample 1:** $(x_1, y_1) = (1, +1)$
+- **Sample 2:** $(x_2, y_2) = (2, +1)$ 
+- **Sample 3:** $(x_3, y_3) = (3, -1)$
+- **Sample 4:** $(x_4, y_4) = (4, -1)$
+- **Sample 5:** $(x_5, y_5) = (5, +1)$
+- **Sample 6:** $(x_6, y_6) = (6, -1)$
 
 **Weak Learners:**
 - $h_1(x)$: $+1$ if $x \leq 3.5$, $-1$ otherwise
@@ -17,28 +17,28 @@ Create an "AdaBoost Weight Detective" game where you analyze sample weight evolu
 - $h_3(x)$: $+1$ if $x \leq 4.5$, $-1$ otherwise
 
 ### Task
-1. Calculate initial weights (all equal) for the 6 samples
+1. **Calculate initial weights** (all equal) for the 6 samples
 2. **Iteration 1**: 
-   - Calculate weighted error for $h_1$
+   - Calculate weighted error $\epsilon_1$ for $h_1$
    - Calculate $\alpha_1$ for $h_1$
    - Update sample weights after $h_1$
 3. **Iteration 2**: 
-   - Calculate weighted error for $h_2$
+   - Calculate weighted error $\epsilon_2$ for $h_2$
    - Calculate $\alpha_2$ for $h_2$
    - Update sample weights after $h_2$
-4. Which samples have the highest weights after 2 iterations? Why?
-5. If $h_1$ predicts $[1,1,-1,-1,1,-1]$ and $h_2$ predicts $[1,1,-1,-1,1,-1]$, what's the final ensemble prediction for each sample?
+4. **Which samples have the highest weights** after 2 iterations? Why?
+5. **Final ensemble prediction**: If $h_1$ predicts $[1,1,-1,-1,1,-1]$ and $h_2$ predicts $[1,1,-1,-1,1,-1]$, what's the final ensemble prediction for each sample?
 
 ## Understanding the Problem
 AdaBoost is an ensemble learning method that combines multiple weak learners to create a strong classifier. The key insight is that it adaptively adjusts sample weights based on the performance of each weak learner. Samples that are misclassified get higher weights in subsequent iterations, forcing the algorithm to focus more on difficult cases.
 
 The algorithm works as follows:
-1. Start with equal weights for all samples
-2. Train a weak learner and calculate its weighted error
-3. Compute the learner's importance (alpha) based on its error
-4. Update sample weights: increase weights for misclassified samples, decrease for correctly classified ones
-5. Normalize weights to sum to 1
-6. Repeat for the next weak learner
+1. **Start with equal weights** for all samples: $w_i^{(0)} = \frac{1}{n}$
+2. **Train a weak learner** and calculate its weighted error: $\epsilon_t = \sum_{i=1}^{n} w_i^{(t-1)} \times \text{error}_i$
+3. **Compute the learner's importance** (alpha) based on its error: $\alpha_t = \frac{1}{2} \ln\left(\frac{1 - \epsilon_t}{\epsilon_t}\right)$
+4. **Update sample weights**: increase weights for misclassified samples, decrease for correctly classified ones: $w_i^{(t)} = w_i^{(t-1)} \times \exp(\alpha_t \times y_i \times h_t(x_i))$
+5. **Normalize weights** to sum to 1: $w_i^{(t)} = \frac{w_i^{(t)}}{\sum_{j=1}^{n} w_j^{(t)}}$
+6. **Repeat** for the next weak learner
 
 ## Solution
 
@@ -48,6 +48,31 @@ All samples start with equal weights since we have no prior information about th
 $$\text{Initial weight for each sample} = \frac{1}{n} = \frac{1}{6} = 0.166667$$
 
 **Initial weight vector:** $[0.166667, 0.166667, 0.166667, 0.166667, 0.166667, 0.166667]$
+
+**Visual representation**:
+![Task 1: Initial Weights](../Images/L7_4_Quiz_26/task1_initial_weights.png)
+
+This visualization shows the starting point with all samples having equal weights (0.166667) and their positions on the feature line.
+
+#### Detailed Calculations for Initial Weights
+
+**Dataset Overview:**
+- **Number of samples:** $n = 6$
+- **Features:** $X = [1, 2, 3, 4, 5, 6]$
+- **Labels:** $y = [1, 1, -1, -1, 1, -1]$
+
+**Initial Weight Calculation:**
+Since we have no prior information about sample difficulty, all samples start with equal weights:
+
+$$\text{Initial weight for each sample} = \frac{1}{n} = \frac{1}{6} = 0.166667$$
+
+**Initial Weight Vector:**
+$$w^{(0)} = [0.166667, 0.166667, 0.166667, 0.166667, 0.166667, 0.166667]$$
+
+**Verification:**
+$$\sum_{i=1}^{6} w_i^{(0)} = 6 \times 0.166667 = 1.000000$$
+
+**Key Insight:** Equal initial weights represent our complete uncertainty about which samples are easy or hard to classify. This is the "uniform prior" assumption in AdaBoost.
 
 ### Step 2: Iteration 1 with h₁
 
@@ -150,6 +175,11 @@ Normalize by dividing each weight by the sum:
 
 **Normalized weights after h₁:** $[0.200000, 0.200000, 0.100000, 0.200000, 0.100000, 0.200000]$
 
+**Visual representation**:
+![Task 2: Iteration 1 Analysis](../Images/L7_4_Quiz_26/task2_iteration1.png)
+
+This comprehensive visualization breaks down the first iteration with 6 detailed subplots showing h₁'s decision boundary, weighted error calculation, alpha calculation, weight updates, weight comparison, and summary.
+
 #### 2.7: Iteration 1 Analysis and Visualization
 Now let's analyze what happened in iteration 1 and visualize the results:
 
@@ -194,6 +224,46 @@ The exponential weight update formula $w_i^{\text{new}} = w_i^{\text{old}} \time
 - **Factors > 1**: Weight increases (correctly classified samples)
 - **Factors < 1**: Weight decreases (misclassified samples)
 - **Key insight**: The exponential nature creates dramatic differences between correct and incorrect samples
+
+#### Detailed Calculations for Iteration 1
+
+**Weighted Error Calculation:**
+$$\epsilon_1 = \sum_{i=1}^{6} w_i \times \text{error}_i$$
+
+| Sample | Weight $w_i$ | Error $\text{error}_i$ | Contribution $w_i \times \text{error}_i$ |
+|--------|--------------|------------------------|-------------------------------------------|
+| 1      | 0.1667       | 0                      | $0.1667 \times 0 = 0.0000$               |
+| 2      | 0.1667       | 0                      | $0.1667 \times 0 = 0.0000$               |
+| 3      | 0.1667       | 1                      | $0.1667 \times 1 = 0.1667$               |
+| 4      | 0.1667       | 0                      | $0.1667 \times 0 = 0.0000$               |
+| 5      | 0.1667       | 1                      | $0.1667 \times 1 = 0.1667$               |
+| 6      | 0.1667       | 0                      | $0.1667 \times 0 = 0.0000$               |
+
+**Total:** $$\epsilon_1 = 0.0000 + 0.0000 + 0.1667 + 0.0000 + 0.1667 + 0.0000 = 0.3333$$
+
+**Alpha Calculation:**
+$$\alpha_1 = \frac{1}{2} \ln\left(\frac{1 - \epsilon_1}{\epsilon_1}\right)$$
+
+$$\alpha_1 = \frac{1}{2} \ln\left(\frac{1 - 0.3333}{0.3333}\right) = \frac{1}{2} \ln\left(\frac{0.6667}{0.3333}\right) = \frac{1}{2} \ln(2.0000) = \frac{1}{2} \times 0.6931 = 0.3466$$
+
+**Weight Updates:**
+For each sample $i$, the new weight is:
+$$w_i^{\text{new}} = w_i^{\text{old}} \times \exp(\alpha_1 \times y_i \times h_1(x_i))$$
+
+| Sample | Old Weight $w_i^{\text{old}}$ | $y_i \times h_1(x_i)$ | New Weight $w_i^{\text{new}}$ |
+|--------|------------------------------|------------------------|-------------------------------|
+| 1      | 0.1667                      | $1 \times 1 = 1$      | $0.1667 \times e^{0.3466} = 0.2357$ |
+| 2      | 0.1667                      | $1 \times 1 = 1$      | $0.1667 \times e^{0.3466} = 0.2357$ |
+| 3      | 0.1667                      | $-1 \times 1 = -1$    | $0.1667 \times e^{-0.3466} = 0.1179$ |
+| 4      | 0.1667                      | $-1 \times (-1) = 1$  | $0.1667 \times e^{0.3466} = 0.2357$ |
+| 5      | 0.1667                      | $1 \times (-1) = -1$  | $0.1667 \times e^{-0.3466} = 0.1179$ |
+| 6      | 0.1667                      | $-1 \times (-1) = 1$  | $0.1667 \times e^{0.3466} = 0.2357$ |
+
+**Normalization:**
+Sum of new weights = $1.1785$
+$$w_i^{\text{normalized}} = \frac{w_i^{\text{new}}}{\sum_{j=1}^{6} w_j^{\text{new}}}$$
+
+**Final normalized weights:** $[0.2000, 0.2000, 0.1000, 0.2000, 0.1000, 0.2000]$
 
 ### Step 3: Iteration 2 with h₂
 
@@ -296,6 +366,51 @@ Normalize by dividing each weight by the sum:
 
 **Normalized weights after h₂:** $[0.219512, 0.219512, 0.109756, 0.219512, 0.012195, 0.219512]$
 
+**Visual representation**:
+![Task 3: Iteration 2 Analysis](../Images/L7_4_Quiz_26/task3_iteration2.png)
+
+This visualization shows the second iteration with 6 detailed subplots showing h₂'s decision boundary, weighted error calculation, alpha calculation, final weights, weight evolution, and summary.
+
+#### Detailed Calculations for Iteration 2
+
+**Weighted Error Calculation:**
+$$\epsilon_2 = \sum_{i=1}^{6} w_i \times \text{error}_i$$
+
+| Sample | Weight $w_i$ | Error $\text{error}_i$ | Contribution $w_i \times \text{error}_i$ |
+|--------|--------------|------------------------|-------------------------------------------|
+| 1      | 0.2000       | 0                      | $0.2000 \times 0 = 0.0000$               |
+| 2      | 0.2000       | 0                      | $0.2000 \times 0 = 0.0000$               |
+| 3      | 0.1000       | 0                      | $0.1000 \times 0 = 0.0000$               |
+| 4      | 0.2000       | 0                      | $0.2000 \times 0 = 0.0000$               |
+| 5      | 0.1000       | 1                      | $0.1000 \times 1 = 0.1000$               |
+| 6      | 0.2000       | 0                      | $0.2000 \times 0 = 0.0000$               |
+
+**Total:** $$\epsilon_2 = 0.0000 + 0.0000 + 0.0000 + 0.0000 + 0.1000 + 0.0000 = 0.1000$$
+
+**Alpha Calculation:**
+$$\alpha_2 = \frac{1}{2} \ln\left(\frac{1 - \epsilon_2}{\epsilon_2}\right)$$
+
+$$\alpha_2 = \frac{1}{2} \ln\left(\frac{1 - 0.1000}{0.1000}\right) = \frac{1}{2} \ln\left(\frac{0.9000}{0.1000}\right) = \frac{1}{2} \ln(9.0000) = \frac{1}{2} \times 2.1972 = 1.0986$$
+
+**Weight Updates:**
+For each sample $i$, the new weight is:
+$$w_i^{\text{new}} = w_i^{\text{old}} \times \exp(\alpha_2 \times y_i \times h_2(x_i))$$
+
+| Sample | Old Weight $w_i^{\text{old}}$ | $y_i \times h_2(x_i)$ | New Weight $w_i^{\text{new}}$ |
+|--------|------------------------------|------------------------|-------------------------------|
+| 1      | 0.2000                      | $1 \times 1 = 1$      | $0.2000 \times e^{1.0986} = 0.6000$ |
+| 2      | 0.2000                      | $1 \times 1 = 1$      | $0.2000 \times e^{1.0986} = 0.6000$ |
+| 3      | 0.1000                      | $-1 \times (-1) = 1$  | $0.1000 \times e^{1.0986} = 0.3000$ |
+| 4      | 0.2000                      | $-1 \times (-1) = 1$  | $0.2000 \times e^{1.0986} = 0.6000$ |
+| 5      | 0.1000                      | $1 \times (-1) = -1$  | $0.1000 \times e^{-1.0986} = 0.0333$ |
+| 6      | 0.2000                      | $-1 \times (-1) = 1$  | $0.2000 \times e^{1.0986} = 0.6000$ |
+
+**Normalization:**
+Sum of new weights = $2.7333$
+$$w_i^{\text{normalized}} = \frac{w_i^{\text{new}}}{\sum_{j=1}^{6} w_j^{\text{new}}}$$
+
+**Final normalized weights:** $[0.2195, 0.2195, 0.1098, 0.2195, 0.0122, 0.2195]$
+
 ### Step 4: Weight Evolution Analysis
 
 #### 4.1: Complete Weight Evolution Table
@@ -334,6 +449,44 @@ After 2 iterations, **Sample 1, Sample 2, Sample 4, and Sample 6** all have the 
 - Sample 5 (x=5, y=1) was misclassified by both h₁ and h₂
 - Its weight decreased significantly because it was consistently wrong
 - This is the "hardest" sample for the current weak learners
+
+**Visual representation**:
+![Task 4: Weight Analysis](../Images/L7_4_Quiz_26/task4_weight_analysis.png)
+
+This visualization analyzes the final weight distribution with subplots showing final weight distribution, weight ranking, sample difficulty analysis, and detailed explanation of why Sample 5 has the lowest weight.
+
+#### Detailed Calculations for Weight Analysis
+
+**Final Weight Distribution:**
+After 2 iterations, the final weights are:
+
+| Sample | Feature $x_i$ | True Label $y_i$ | Final Weight $w_i^{(2)}$ | Rank | Difficulty |
+|--------|---------------|------------------|---------------------------|------|------------|
+| 1      | 1             | +1               | 0.2195                   | 1    | **Easiest** |
+| 2      | 2             | +1               | 0.2195                   | 1    | **Easiest** |
+| 3      | 3             | -1               | 0.1098                   | 3    | **Medium**  |
+| 4      | 4             | -1               | 0.2195                   | 1    | **Easiest** |
+| 5      | 5             | +1               | 0.0122                   | 6    | **Hardest** |
+| 6      | 6             | -1               | 0.2195                   | 1    | **Easiest** |
+
+**Weight Ranking Analysis:**
+1. **Samples 1, 2, 4, 6** (tied at rank 1): Weight = 0.2195
+2. **Sample 3** (rank 3): Weight = 0.1098  
+3. **Sample 5** (rank 6): Weight = 0.0122
+
+**Why Sample 5 Has the Lowest Weight:**
+
+**Iteration 1 (h₁):**
+- **Sample 5:** $x_5 = 5$, $y_5 = +1$, $h_1(5) = -1$ → **Misclassified**
+- **Weight update:** $$w_5^{(1)} = w_5^{(0)} \times \exp(\alpha_1 \times y_5 \times h_1(x_5))$$
+  $$= 0.1667 \times \exp(0.3466 \times 1 \times (-1)) = 0.1667 \times e^{-0.3466} = 0.1667 \times 0.7071 = 0.1179$$
+
+**Iteration 2 (h₂):**
+- **Sample 5:** $x_5 = 5$, $y_5 = +1$, $h_2(5) = -1$ → **Misclassified again**
+- **Weight update:** $$w_5^{(2)} = w_5^{(1)} \times \exp(\alpha_2 \times y_5 \times h_2(x_5))$$
+  $$= 0.1000 \times \exp(1.0986 \times 1 \times (-1)) = 0.1000 \times e^{-1.0986} = 0.1000 \times 0.3333 = 0.0333$$
+
+**Key Insight:** Sample 5 was misclassified by both weak learners, causing its weight to decrease exponentially. The exponential nature of AdaBoost's weight updates means that consistently misclassified samples become dramatically less important in subsequent iterations.
 
 ### Step 5: Final Ensemble Prediction
 
@@ -385,6 +538,38 @@ Compare with true labels $y = [1, 1, -1, -1, 1, -1]$:
 - All predictions are correct!
 - **Ensemble accuracy: 100%**
 
+**Visual representation**:
+![Task 5: Ensemble Prediction](../Images/L7_4_Quiz_26/task5_ensemble_prediction.png)
+
+This visualization shows the final ensemble with 6 detailed subplots covering individual predictions, weighted sums, final predictions, alpha comparison, accuracy analysis, and ensemble summary.
+
+#### Detailed Calculations for Ensemble Prediction
+
+**Individual Predictions:**
+- **h₁ predictions:** $[1, 1, -1, -1, 1, -1]$
+- **h₂ predictions:** $[1, 1, -1, -1, 1, -1]$
+
+**Weighted Sums:**
+For each sample $i$, calculate: $$\alpha_1 \times h_1(x_i) + \alpha_2 \times h_2(x_i)$$
+
+| Sample | $\alpha_1 \times h_1(x_i)$ | $\alpha_2 \times h_2(x_i)$ | Weighted Sum | Sign | Final Prediction |
+|--------|---------------------------|---------------------------|--------------|------|------------------|
+| 1      | $0.3466 \times 1 = 0.3466$ | $1.0986 \times 1 = 1.0986$ | $1.4452$ | $+1$ | $+1$ |
+| 2      | $0.3466 \times 1 = 0.3466$ | $1.0986 \times 1 = 1.0986$ | $1.4452$ | $+1$ | $+1$ |
+| 3      | $0.3466 \times (-1) = -0.3466$ | $1.0986 \times (-1) = -1.0986$ | $-1.4452$ | $-1$ | $-1$ |
+| 4      | $0.3466 \times (-1) = -0.3466$ | $1.0986 \times (-1) = -1.0986$ | $-1.4452$ | $-1$ | $-1$ |
+| 5      | $0.3466 \times 1 = 0.3466$ | $1.0986 \times 1 = 1.0986$ | $1.4452$ | $+1$ | $+1$ |
+| 6      | $0.3466 \times (-1) = -0.3466$ | $1.0986 \times (-1) = -1.0986$ | $-1.4452$ | $-1$ | $-1$ |
+
+**Ensemble Formula:**
+$$\text{Ensemble}(x) = \text{sign}\left(\sum_{t=1}^{2} \alpha_t h_t(x)\right) = \text{sign}(\alpha_1 h_1(x) + \alpha_2 h_2(x))$$
+
+**Final Results:**
+- **Weighted sums:** $[1.4452, 1.4452, -1.4452, -1.4452, 1.4452, -1.4452]$
+- **Final predictions:** $[+1, +1, -1, -1, +1, -1]$
+- **True labels:** $[+1, +1, -1, -1, +1, -1]$
+- **Accuracy:** $100\%$ (all predictions correct)
+
 ## Visual Explanations
 
 ### Weight Evolution Over All Iterations
@@ -431,17 +616,17 @@ This shows the importance (alpha) of each weak learner:
 
 ### Mathematical Insights from Our Calculations
 
-#### Why α₁ = 0.346574 and α₂ = 1.098612?
+#### Why $\alpha_1 = 0.346574$ and $\alpha_2 = 1.098612$?
 The alpha values represent the importance of each weak learner:
 
-- **α₁ calculation**: 
-  - $\varepsilon_1 = 0.333333$ (33.33% error)
+- **$\alpha_1$ calculation**: 
+  - $\varepsilon_1 = 0.333333$ ($33.33\%$ error)
   - $\frac{1-0.333333}{0.333333} = \frac{0.666667}{0.333333} = 2.000000$
   - $\ln(2) = 0.693147$
   - $\alpha_1 = 0.5 \times 0.693147 = 0.346574$
 
-- **α₂ calculation**:
-  - $\varepsilon_2 = 0.100000$ (10% error)
+- **$\alpha_2$ calculation**:
+  - $\varepsilon_2 = 0.100000$ ($10\%$ error)
   - $\frac{1-0.100000}{0.100000} = \frac{0.900000}{0.100000} = 9.000000$
   - $\ln(9) = 2.197225$
   - $\alpha_2 = 0.5 \times 2.197225 = 1.098612$
