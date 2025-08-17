@@ -802,12 +802,12 @@ You find an AdaBoost ensemble that has been trained, but you only know the final
   - Sample 4: $(x_4=4, y_4=-1)$
   - Sample 5: $(x_5=5, y_5=+1)$
 
-- **Final Sample Weights After Training:** $[0.08, 0.32, 0.20, 0.08, 0.32]$
+- **Final Sample Weights After Training:** $[0.071, 0.071, 0.500, 0.071, 0.286]$
 
-- **Weak Learner Predictions (but you don't know which is which!):**
-  - $h_A$: $[+1, +1, -1, -1, +1]$ (predicts correctly for samples 1,2,3,4,5)
-  - $h_B$: $[+1, +1, +1, -1, +1]$ (predicts correctly for samples 1,2,5, incorrectly for 3,4)
-  - $h_C$: $[+1, -1, -1, -1, +1]$ (predicts correctly for samples 1,3,4,5, incorrectly for 2)
+- **Weak Learner Predictions:**
+  - $h_A$: $[+1, +1, -1, -1, -1]$ (predicts correctly for samples 1,2,3,4; incorrectly for 5)
+  - $h_B$: $[+1, +1, +1, -1, +1]$ (predicts correctly for samples 1,2,4,5; incorrectly for 3)
+  - $h_C$: $[+1, -1, -1, -1, +1]$ (predicts correctly for samples 1,3,4,5; incorrectly for 2)
 
 - **Training Used Exactly 2 Iterations**
 
@@ -818,7 +818,7 @@ You find an AdaBoost ensemble that has been trained, but you only know the final
 
 3. What were the sample weights after the first iteration (before the second weak learner was trained)?
 
-4. Show that your solution produces the final weights $[0.08, 0.32, 0.20, 0.08, 0.32]$ when you combine the two weak learners.
+4. Show that your solution produces the final weights $[0.071, 0.071, 0.500, 0.071, 0.286]$ when you combine the two weak learners.
 
 5. If you had to guess which weak learner was trained first without doing the full calculation, what pattern in the final weights would give you a clue?
 
