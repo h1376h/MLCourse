@@ -4,12 +4,12 @@
 Create an "AdaBoost Weight Detective" game where you analyze sample weight evolution through multiple iterations.
 
 **Dataset:** 6 samples with binary labels
-- **Sample 1:** $(x_1, y_1) = (1, +1)$
-- **Sample 2:** $(x_2, y_2) = (2, +1)$ 
-- **Sample 3:** $(x_3, y_3) = (3, -1)$
-- **Sample 4:** $(x_4, y_4) = (4, -1)$
-- **Sample 5:** $(x_5, y_5) = (5, +1)$
-- **Sample 6:** $(x_6, y_6) = (6, -1)$
+- Sample 1: $(x_1, y_1) = (1, +1)$
+- Sample 2: $(x_2, y_2) = (2, +1)$ 
+- Sample 3: $(x_3, y_3) = (3, -1)$
+- Sample 4: $(x_4, y_4) = (4, -1)$
+- Sample 5: $(x_5, y_5) = (5, +1)$
+- Sample 6: $(x_6, y_6) = (6, -1)$
 
 **Weak Learners:**
 - $h_1(x)$: $+1$ if $x \leq 3.5$, $-1$ otherwise
@@ -17,17 +17,17 @@ Create an "AdaBoost Weight Detective" game where you analyze sample weight evolu
 - $h_3(x)$: $+1$ if $x \leq 4.5$, $-1$ otherwise
 
 ### Task
-1. **Calculate initial weights** (all equal) for the 6 samples
+1. Calculate initial weights (all equal) for the 6 samples
 2. **Iteration 1**: 
-   - Calculate weighted error $\epsilon_1$ for $h_1$
+   - Calculate weighted error for $h_1$
    - Calculate $\alpha_1$ for $h_1$
    - Update sample weights after $h_1$
 3. **Iteration 2**: 
-   - Calculate weighted error $\epsilon_2$ for $h_2$
+   - Calculate weighted error for $h_2$
    - Calculate $\alpha_2$ for $h_2$
    - Update sample weights after $h_2$
-4. **Which samples have the highest weights** after 2 iterations? Why?
-5. **Final ensemble prediction**: If $h_1$ predicts $[1,1,-1,-1,1,-1]$ and $h_2$ predicts $[1,1,-1,-1,1,-1]$, what's the final ensemble prediction for each sample?
+4. Which samples have the highest weights after 2 iterations? Why?
+5. If $h_1$ predicts $[1,1,-1,-1,1,-1]$ and $h_2$ predicts $[1,1,-1,-1,1,-1]$, what's the final ensemble prediction for each sample?
 
 ## Understanding the Problem
 AdaBoost is an ensemble learning method that combines multiple weak learners to create a strong classifier. The key insight is that it adaptively adjusts sample weights based on the performance of each weak learner. Samples that are misclassified get higher weights in subsequent iterations, forcing the algorithm to focus more on difficult cases.
