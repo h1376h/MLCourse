@@ -110,12 +110,12 @@ For our dataset $X = [1, 2, 3, 4, 5, 6]$:
 
 #### 2.2: Calculate Errors
 Compare predictions with true labels $y = [1, 1, -1, -1, 1, -1]$:
-- Sample 1: $h_1(1) = 1$, $y_1 = 1$ → Correct (error = 0)
-- Sample 2: $h_1(2) = 1$, $y_2 = 1$ → Correct (error = 0)
-- Sample 3: $h_1(3) = 1$, $y_3 = -1$ → Incorrect (error = 1)
-- Sample 4: $h_1(4) = -1$, $y_4 = -1$ → Correct (error = 0)
-- Sample 5: $h_1(5) = -1$, $y_5 = 1$ → Incorrect (error = 1)
-- Sample 6: $h_1(6) = -1$, $y_6 = -1$ → Correct (error = 0)
+- Sample 1: $h_1(1) = 1$, $y_1 = 1$ $\rightarrow$ Correct (error = 0)
+- Sample 2: $h_1(2) = 1$, $y_2 = 1$ $\rightarrow$ Correct (error = 0)
+- Sample 3: $h_1(3) = 1$, $y_3 = -1$ $\rightarrow$ Incorrect (error = 1)
+- Sample 4: $h_1(4) = -1$, $y_4 = -1$ $\rightarrow$ Correct (error = 0)
+- Sample 5: $h_1(5) = -1$, $y_5 = 1$ $\rightarrow$ Incorrect (error = 1)
+- Sample 6: $h_1(6) = -1$, $y_6 = -1$ $\rightarrow$ Correct (error = 0)
 
 **Error vector:** $[0, 0, 1, 0, 1, 0]$
 
@@ -123,7 +123,7 @@ Compare predictions with true labels $y = [1, 1, -1, -1, 1, -1]$:
 
 The weighted error $\epsilon_1$ is the sum of weights of all misclassified samples by $h_1$:
 
-$$\varepsilon_1 = \sum_{i=1}^{6} w_i^{(0)} \times \mathbb{I}[h_1(x_i) \neq y_i] = \sum_{i=1}^{6} w_i^{(0)} \times \text{error}_i$$
+$$\epsilon_1 = \sum_{i=1}^{6} w_i^{(0)} \times \mathbb{I}[h_1(x_i) \neq y_i] = \sum_{i=1}^{6} w_i^{(0)} \times \text{error}_i$$
 
 **Step-by-Step Calculation:**
 - $w_1^{(0)} \times \text{error}_1 = 0.166667 \times 0 = 0.000000$
@@ -138,7 +138,7 @@ $$\varepsilon_1 = 0.000000 + 0.000000 + 0.166667 + 0.000000 + 0.166667 + 0.00000
 
 **Interpretation:** $\epsilon_1 = 0.333333$ means that 33.33% of the weighted samples were misclassified by $h_1$.
 
-#### 2.4: Calculate α₁
+#### 2.4: Calculate $\alpha_1$
 
 The alpha value determines the importance of weak learner $h_1$ in the ensemble:
 
@@ -163,22 +163,22 @@ $$w_i^{(1)} = w_i^{(0)} \times \exp(\alpha_1 \times y_i \times h_1(x_i))$$
 
 **Step-by-Step Weight Updates:**
 
-**Sample 1:** $y_1 = +1$, $h_1(x_1) = +1$ → $y_1 \times h_1(x_1) = +1$
+**Sample 1:** $y_1 = +1$, $h_1(x_1) = +1$ $\rightarrow$ $y_1 \times h_1(x_1) = +1$
 - $w_1^{(1)} = 0.166667 \times \exp(0.346574 \times 1 \times 1) = 0.166667 \times \exp(0.346574) = 0.166667 \times 1.414214 = 0.235702$
 
-**Sample 2:** $y_2 = +1$, $h_1(x_2) = +1$ → $y_2 \times h_1(x_2) = +1$
+**Sample 2:** $y_2 = +1$, $h_1(x_2) = +1$ $\rightarrow$ $y_2 \times h_1(x_2) = +1$
 - $w_2^{(1)} = 0.166667 \times \exp(0.346574 \times 1 \times 1) = 0.166667 \times \exp(0.346574) = 0.166667 \times 1.414214 = 0.235702$
 
-**Sample 3:** $y_3 = -1$, $h_1(x_3) = +1$ → $y_3 \times h_1(x_3) = -1$ (misclassified)
+**Sample 3:** $y_3 = -1$, $h_1(x_3) = +1$ $\rightarrow$ $y_3 \times h_1(x_3) = -1$ (misclassified)
 - $w_3^{(1)} = 0.166667 \times \exp(0.346574 \times (-1) \times 1) = 0.166667 \times \exp(-0.346574) = 0.166667 \times 0.707107 = 0.117851$
 
-**Sample 4:** $y_4 = -1$, $h_1(x_4) = -1$ → $y_4 \times h_1(x_4) = +1$
+**Sample 4:** $y_4 = -1$, $h_1(x_4) = -1$ $\rightarrow$ $y_4 \times h_1(x_4) = +1$
 - $w_4^{(1)} = 0.166667 \times \exp(0.346574 \times (-1) \times (-1)) = 0.166667 \times \exp(0.346574) = 0.166667 \times 1.414214 = 0.235702$
 
-**Sample 5:** $y_5 = +1$, $h_1(x_5) = -1$ → $y_5 \times h_1(x_5) = -1$ (misclassified)
+**Sample 5:** $y_5 = +1$, $h_1(x_5) = -1$ $\rightarrow$ $y_5 \times h_1(x_5) = -1$ (misclassified)
 - $w_5^{(1)} = 0.166667 \times \exp(0.346574 \times 1 \times (-1)) = 0.166667 \times \exp(-0.346574) = 0.166667 \times 0.707107 = 0.117851$
 
-**Sample 6:** $y_6 = -1$, $h_1(x_6) = -1$ → $y_6 \times h_1(x_6) = +1$
+**Sample 6:** $y_6 = -1$, $h_1(x_6) = -1$ $\rightarrow$ $y_6 \times h_1(x_6) = +1$
 - $w_6^{(1)} = 0.166667 \times \exp(0.346574 \times (-1) \times (-1)) = 0.166667 \times \exp(0.346574) = 0.166667 \times 1.414214 = 0.235702$
 
 **New Weights Before Normalization:**
@@ -222,14 +222,14 @@ Now let's analyze what happened in iteration 1 and visualize the results:
 - **Correctly classified samples**: 1, 2, 4, 6 (4 out of 6)
 - **Misclassified samples**: 3, 5 (2 out of 6)
 - **Accuracy**: 66.7%
-- **Weighted error**: ε₁ = 0.333333
-- **Alpha value**: α₁ = 0.346574
+- **Weighted error**: $\epsilon_1$ = 0.333333
+- **Alpha value**: $\alpha_1$ = 0.346574
 
 **Weight Update Analysis:**
 The exponential weight update formula $w_i^{\text{new}} = w_i^{\text{old}} \times \exp(\alpha_1 \times y_i \times h_1(x_i))$ creates asymmetric changes:
 
-- **Correctly classified samples** (y × $h_1$(x) = +1): weights increase by factor $\exp(0.346574) = 1.414214$ (~41% increase)
-- **Misclassified samples** (y × $h_1$(x) = -1): weights decrease by factor $\exp(-0.346574) = 0.707107$ (~29% decrease)
+- **Correctly classified samples** ($y \times h_1(x) = +1$): weights increase by factor $\exp(0.346574) = 1.414214$ (~41% increase)
+- **Misclassified samples** ($y \times h_1(x) = -1$): weights decrease by factor $\exp(-0.346574) = 0.707107$ (~29% decrease)
 
 **Key Insight**: The exponential nature of weight updates means that correct classifications boost sample importance more than incorrect classifications reduce it.
 
@@ -317,17 +317,17 @@ For our dataset $X = [1, 2, 3, 4, 5, 6]$:
 
 #### 3.2: Calculate Errors
 Compare predictions with true labels $y = [1, 1, -1, -1, 1, -1]$:
-- Sample 1: $h_2(1) = 1$, $y_1 = 1$ → Correct (error = 0)
-- Sample 2: $h_2(2) = 1$, $y_2 = 1$ → Correct (error = 0)
-- Sample 3: $h_2(3) = -1$, $y_3 = -1$ → Correct (error = 0)
-- Sample 4: $h_2(4) = -1$, $y_4 = -1$ → Correct (error = 0)
-- Sample 5: $h_2(5) = -1$, $y_5 = 1$ → Incorrect (error = 1)
-- Sample 6: $h_2(6) = -1$, $y_6 = -1$ → Correct (error = 0)
+- Sample 1: $h_2(1) = 1$, $y_1 = 1$ $\rightarrow$ Correct (error = 0)
+- Sample 2: $h_2(2) = 1$, $y_2 = 1$ $\rightarrow$ Correct (error = 0)
+- Sample 3: $h_2(3) = -1$, $y_3 = -1$ $\rightarrow$ Correct (error = 0)
+- Sample 4: $h_2(4) = -1$, $y_4 = -1$ $\rightarrow$ Correct (error = 0)
+- Sample 5: $h_2(5) = -1$, $y_5 = 1$ $\rightarrow$ Incorrect (error = 1)
+- Sample 6: $h_2(6) = -1$, $y_6 = -1$ $\rightarrow$ Correct (error = 0)
 
 **Error vector:** $[0, 0, 0, 0, 1, 0]$
 
 #### 3.3: Calculate Weighted Error
-$$\varepsilon_2 = \sum_{i=1}^{6} w_i \times \text{error}_i$$
+$$\epsilon_2 = \sum_{i=1}^{6} w_i \times \text{error}_i$$
 
 Let's calculate each term step by step:
 - $w_1 \times \text{error}_1 = 0.200000 \times 0 = 0.000000$
@@ -337,9 +337,9 @@ Let's calculate each term step by step:
 - $w_5 \times \text{error}_5 = 0.100000 \times 1 = 0.100000$
 - $w_6 \times \text{error}_6 = 0.200000 \times 0 = 0.000000$
 
-$$\varepsilon_2 = 0.000000 + 0.000000 + 0.000000 + 0.000000 + 0.100000 + 0.000000 = 0.100000$$
+$$\epsilon_2 = 0.000000 + 0.000000 + 0.000000 + 0.000000 + 0.100000 + 0.000000 = 0.100000$$
 
-#### 3.4: Calculate α₂
+#### 3.4: Calculate $\alpha_2$
 $$\alpha_2 = \frac{1}{2} \ln\left(\frac{1 - \varepsilon_2}{\varepsilon_2}\right)$$
 
 Let's calculate step by step:
@@ -512,12 +512,12 @@ After 2 iterations, the final weights are:
 **Why Sample 5 Has the Lowest Weight:**
 
 **Iteration 1 ($h_1$):**
-- **Sample 5:** $x_5 = 5$, $y_5 = +1$, $h_1(5) = -1$ → **Misclassified**
+- **Sample 5:** $x_5 = 5$, $y_5 = +1$, $h_1(5) = -1$ $\rightarrow$ **Misclassified**
 - **Weight update:** $$w_5^{(1)} = w_5^{(0)} \times \exp(\alpha_1 \times y_5 \times h_1(x_5))$$
   $$= 0.1667 \times \exp(0.3466 \times 1 \times (-1)) = 0.1667 \times e^{-0.3466} = 0.1667 \times 0.7071 = 0.1179$$
 
 **Iteration 2 ($h_2$):**
-- **Sample 5:** $x_5 = 5$, $y_5 = +1$, $h_2(5) = -1$ → **Misclassified again**
+- **Sample 5:** $x_5 = 5$, $y_5 = +1$, $h_2(5) = -1$ $\rightarrow$ **Misclassified again**
 - **Weight update:** $$w_5^{(2)} = w_5^{(1)} \times \exp(\alpha_2 \times y_5 \times h_2(x_5))$$
   $$= 0.1000 \times \exp(1.0986 \times 1 \times (-1)) = 0.1000 \times e^{-1.0986} = 0.1000 \times 0.3333 = 0.0333$$
 
@@ -630,22 +630,22 @@ This plot shows:
 
 This visualization compares:
 - **Left plot**: Correct vs. incorrect classifications for each weak learner
-- **Right plot**: Weighted error rates (ε₁ = 0.333, ε₂ = 0.100)
+- **Right plot**: Weighted error rates ($\epsilon_1$ = 0.333, $\epsilon_2$ = 0.100)
 - **Key insight**: $h_2$ has much lower weighted error than $h_1$, making it more reliable
 
 ### Alpha Values
 ![AdaBoost Alpha Values](../Images/L7_4_Quiz_26/adaboost_alpha_values.png)
 
 This shows the importance (alpha) of each weak learner:
-- **α₁ = 0.346574**: $h_1$'s contribution to the ensemble
-- **α₂ = 1.098612**: $h_2$'s contribution (much higher due to lower error)
+- **$\alpha_1$ = 0.346574**: $h_1$'s contribution to the ensemble
+- **$\alpha_2$ = 1.098612**: $h_2$'s contribution (much higher due to lower error)
 - **Interpretation**: $h_2$ is about 3 times more important than $h_1$ in the final ensemble
 
 ## Key Insights
 
 ### Theoretical Foundations
 - **Weight update mechanism**: $w_i^{\text{new}} = w_i^{\text{old}} \times \exp(\alpha_t \times y_i \times h_t(x_i))$
-- **Alpha calculation**: $\alpha_t = \frac{1}{2} \ln\left(\frac{1 - \varepsilon_t}{\varepsilon_t}\right)$
+- **Alpha calculation**: $\alpha_t = \frac{1}{2} \ln\left(\frac{1 - \epsilon_t}{\epsilon_t}\right)$
 - **Ensemble prediction**: $\text{sign}\left(\sum_{t=1}^{T} \alpha_t h_t(x)\right)$
 - **Convergence**: AdaBoost focuses increasingly on hard-to-classify samples
 
@@ -655,18 +655,18 @@ This shows the importance (alpha) of each weak learner:
 The alpha values represent the importance of each weak learner:
 
 - **$\alpha_1$ calculation**: 
-  - $\varepsilon_1 = 0.333333$ ($33.33\%$ error)
+  - $\epsilon_1 = 0.333333$ ($33.33\%$ error)
   - $\frac{1-0.333333}{0.333333} = \frac{0.666667}{0.333333} = 2.000000$
   - $\ln(2) = 0.693147$
   - $\alpha_1 = 0.5 \times 0.693147 = 0.346574$
 
 - **$\alpha_2$ calculation**:
-  - $\varepsilon_2 = 0.100000$ ($10\%$ error)
+  - $\epsilon_2 = 0.100000$ ($10\%$ error)
   - $\frac{1-0.100000}{0.100000} = \frac{0.900000}{0.100000} = 9.000000$
   - $\ln(9) = 2.197225$
   - $\alpha_2 = 0.5 \times 2.197225 = 1.098612$
 
-**Key insight**: α₂ is much larger than α₁ because $h_2$ has much lower error (10% vs 33.33%). Lower error means higher confidence and thus higher importance in the ensemble.
+**Key insight**: $\alpha_2$ is much larger than $\alpha_1$ because $h_2$ has much lower error (10% vs 33.33%). Lower error means higher confidence and thus higher importance in the ensemble.
 
 #### Why Sample 5's Weight Decreases Dramatically?
 Sample 5 (x=5, y=1) is misclassified by both weak learners:
@@ -681,12 +681,12 @@ The weight update formula $w_i^{\text{new}} = w_i^{\text{old}} \times \exp(\alph
 
 #### Why the Final Ensemble Achieves 100% Accuracy?
 The ensemble combines weak learners with their respective alpha weights:
-- **$h_1$ contribution**: α₁ = 0.346574
-- **$h_2$ contribution**: α₂ = 1.098612
+- **$h_1$ contribution**: $\alpha_1$ = 0.346574
+- **$h_2$ contribution**: $\alpha_2$ = 1.098612
 
 For correctly classified samples, both weak learners agree, so their contributions reinforce each other:
-- **Sample 1**: $0.346574 \times 1 + 1.098612 \times 1 = 1.445186 > 0$ → Class +1
-- **Sample 3**: $0.346574 \times (-1) + 1.098612 \times (-1) = -1.445186 < 0$ → Class -1
+- **Sample 1**: $0.346574 \times 1 + 1.098612 \times 1 = 1.445186 > 0$ $\rightarrow$ Class +1
+- **Sample 3**: $0.346574 \times (-1) + 1.098612 \times (-1) = -1.445186 < 0$ $\rightarrow$ Class -1
 
 **Key insight**: The ensemble's strength comes from combining multiple weak learners with appropriate weights, where more accurate learners (higher alpha) have greater influence.
 
@@ -706,7 +706,7 @@ For correctly classified samples, both weak learners agree, so their contributio
 - **Initial weights**: All samples started with equal weight 0.166667
 - **Weight evolution**: Samples 1, 2, 4, 6 maintained high weights (0.219512), while Sample 5's weight decreased significantly (0.012195)
 - **Weak learner performance**: $h_1$ had weighted error 0.333, $h_2$ had weighted error 0.100
-- **Alpha values**: α₁ = 0.346574, α₂ = 1.098612 ($h_2$ is more important)
+- **Alpha values**: $\alpha_1$ = 0.346574, $\alpha_2$ = 1.098612 ($h_2$ is more important)
 - **Final accuracy**: 100% ensemble accuracy with perfect predictions
 - **Key insight**: AdaBoost successfully identified and focused on the hardest sample (Sample 5) while maintaining high performance on easier samples
 
