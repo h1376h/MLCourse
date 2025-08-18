@@ -1,7 +1,7 @@
 # Lecture 7.4: AdaBoost Algorithm Quiz
 
 ## Overview
-This quiz contains 42 comprehensive questions covering the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, theoretical foundations, convergence properties, practical applications, and advanced concepts. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 46 comprehensive questions covering the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, theoretical foundations, convergence properties, practical applications, and advanced concepts. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -58,7 +58,7 @@ AdaBoost has theoretical guarantees and convergence properties.
 2. Why does AdaBoost typically not overfit even with many iterations?
 3. What is the relationship between weak learner performance and ensemble performance?
 4. When might AdaBoost fail to converge?
-5. If the sum of squared weak learner weights is $2.5$, what is the theoretical upper bound on training error?
+5. If the weak learners in an ensemble have errors $\epsilon_1=0.3$ and $\epsilon_2=0.2$, what is the theoretical upper bound on training error after two iterations using the formula $E_{train} \leq \prod_{m=1}^{M} 2\sqrt{\epsilon_m(1-\epsilon_m)}$?
 
 For a detailed explanation of this question, see [Question 4: AdaBoost Theoretical Foundations](L7_4_4_explanation.md).
 
@@ -405,7 +405,23 @@ For a detailed explanation of this question, see [Question 23: AdaBoost Streamin
 
 ## Question 24
 
-[....]
+### Problem Statement
+Design an AdaBoost ensemble for a natural language processing task.
+
+**Requirements:**
+- Text classification: Spam/Not Spam
+- 50,000 documents
+- Features: TF-IDF vectors, word embeddings
+- Need to handle new vocabulary
+
+#### Task
+1. What type of weak learners would work well with text features?
+2. How would you handle the high-dimensional feature space?
+3. What preprocessing steps would you recommend?
+4. How would you handle new words not seen during training?
+5. If you need to classify 1000 documents per minute, what's your maximum ensemble size?
+
+For a detailed explanation of this question, see [Question 24: AdaBoost NLP Application](L7_4_24_explanation.md).
 
 ## Question 25
 
@@ -787,11 +803,8 @@ You find an AdaBoost ensemble that has been trained, but you only know the final
 
 #### Task
 1. Given that AdaBoost always chooses the weak learner with lowest weighted error, which weak learner was chosen first? Which was chosen second?
-
 2. Calculate the $\alpha$ weight for each of the two weak learners that were actually used.
-
 3. What were the sample weights after the first iteration (before the second weak learner was trained)?
-
 4. Show that your solution produces the final weights $[0.071, 0.071, 0.500, 0.071, 0.286]$ when you combine the two weak learners.
 
 5. If you had to guess which weak learner was trained first without doing the full calculation, what pattern in the final weights would give you a clue?
@@ -839,3 +852,61 @@ But when you check your implementation, you discover that one of these formulas 
 **Hint:** Pay special attention to the weight update formula and remember that weights must always be positive and sum to 1 after normalization!
 
 For a detailed explanation of this question, see [Question 42: AdaBoost Formula Detective](L7_4_42_explanation.md).
+
+## Question 43
+
+### Problem Statement
+Compare how Bagging and Boosting affect the bias-variance trade-off, based on the principles of ensemble learning.
+
+#### Task
+1. What is the primary effect of Bagging on the bias-variance trade-off?
+2. What is the primary effect of Boosting on the bias-variance trade-off?
+3. Why are high-variance, low-bias models like deep decision trees good base learners for Bagging?
+4. Why are high-bias, low-variance models (weak learners) like decision stumps suitable for Boosting?
+5. If your model suffers from high bias, would you choose Bagging or Boosting? Justify your choice.
+
+For a detailed explanation of this question, see [Question 43: Bias-Variance in Ensembles](L7_4_43_explanation.md).
+
+## Question 44
+
+### Problem Statement
+AdaBoost can be interpreted as a forward-stagewise additive modeling approach that minimizes an exponential loss function.
+
+#### Task
+1. What is the formula for the exponential loss function that AdaBoost minimizes?
+2. In the plot of the exponential loss versus the 0/1 classification loss, how do they relate to each other?
+3. Why is minimizing this exponential loss function considered an effective strategy for classification?
+4. How does the weight update rule, $w_{m+1}^{(i)} \propto w_{m}^{(i)}e^{-\alpha_m y_i h_m(x_i)}$, relate to the sequential minimization of this loss function?
+5. If the final combined classifier's output for a sample with true label $y=+1$ is $H(x) = -0.5$, calculate the exponential loss for this sample.
+
+For a detailed explanation of this question, see [Question 44: AdaBoost and Exponential Loss](L7_4_44_explanation.md).
+
+## Question 45
+
+### Problem Statement
+AdaBoost's strong generalization performance, even after training error reaches zero, is often explained by its effect on the classification margin.
+
+#### Task
+1. For a given sample $(x_i, y_i)$, how is its margin defined in the context of the normalized final classifier $H(x)$?
+2. What does a positive margin indicate about the classification of a sample? What does a negative margin indicate?
+3. How does AdaBoost's process of focusing on misclassified samples contribute to maximizing the margin of training examples?
+4. Why does a larger margin for the training data suggest better generalization performance on unseen data?
+5. If a sample is correctly classified but very close to the decision boundary, would its margin be closer to 0 or 1?
+
+For a detailed explanation of this question, see [Question 45: AdaBoost and Margin Theory](L7_4_45_explanation.md).
+
+## Question 46
+
+### Problem Statement
+Let's trace the first round of the example presented in the Ensemble-Learning material (derived from "A Tutorial on Boosting").
+
+**Scenario:** In Round 1, the chosen weak learner $h_1$ has a calculated weighted error of $\epsilon_1 = 0.30$.
+
+#### Task
+1. Using the formula $\alpha_{t}=\frac{1}{2}ln(\frac{1-\epsilon_{t}}{\epsilon_{t}})$, verify that the weight for this learner is $\alpha_1 \approx 0.42$.
+2. For a misclassified sample, by what factor will its weight be multiplied in the next round, based on the update rule $w_{m+1}^{(i)} = w_{m}^{(i)}e^{\alpha_{m}}$ for incorrect predictions?
+3. For a correctly classified sample, by what factor will its weight be multiplied? (Hint: The update can be expressed as $w_{m+1}^{(i)} = w_{m}^{(i)}e^{-\alpha_{m}}$ for correct predictions).
+4. What is the purpose of the normalization factor $Z_t$ in the weight update rule $D_{t+1}(i)=\frac{D_{t}(i)exp(-\alpha_{t}y_{i}h_{t}(x_{i}))}{Z_{t}}$?
+5. In Round 2, the error is $\epsilon_2 = 0.21$ and the weight is $\alpha_2 \approx 0.65$. Which learner, $h_1$ or $h_2$, will have a greater influence on the final prediction, and why?
+
+For a detailed explanation of this question, see [Question 46: PDF Example Calculation](L7_4_46_explanation.md).
