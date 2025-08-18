@@ -133,25 +133,48 @@ class AdaBoostExponentialLoss:
         
         plt.tight_layout()
         plt.savefig(os.path.join(save_dir, 'exponential_loss_analysis.png'), dpi=300, bbox_inches='tight')
-        plt.show()
+        plt.close()
         
-        # Calculate specific examples
-        print("\nExponential Loss Examples:")
+        # Calculate specific examples with detailed step-by-step calculations
+        print("\nExponential Loss Examples with Detailed Calculations:")
         print("For y = +1:")
         F_examples = [-2, -1, 0, 1, 2]
         for F in F_examples:
-            loss = np.exp(-F)
-            print(f"  F = {F:2d}: L(+1, {F}) = exp(-{F}) = {loss:.4f}")
+            # Step 1: Calculate the margin yF
+            margin = 1 * F  # y = +1
+            # Step 2: Calculate the exponential loss
+            loss = np.exp(-margin)
+            # Step 3: Show the detailed calculation
+            print(f"  F = {F:2d}:")
+            print(f"    Step 1: margin = y × F = +1 × {F} = {margin}")
+            print(f"    Step 2: L(+1, {F}) = exp(-margin) = exp(-{margin}) = {loss:.4f}")
             
         print("\nFor y = -1:")
         for F in F_examples:
-            loss = np.exp(F)
-            print(f"  F = {F:2d}: L(-1, {F}) = exp({F}) = {loss:.4f}")
+            # Step 1: Calculate the margin yF
+            margin = -1 * F  # y = -1
+            # Step 2: Calculate the exponential loss
+            loss = np.exp(-margin)
+            # Step 3: Show the detailed calculation
+            print(f"  F = {F:2d}:")
+            print(f"    Step 1: margin = y × F = -1 × {F} = {margin}")
+            print(f"    Step 2: L(-1, {F}) = exp(-margin) = exp(-{margin}) = {loss:.4f}")
             
         print("\nKey observations:")
         print("- When yF > 0 (correct prediction), loss decreases exponentially")
         print("- When yF < 0 (incorrect prediction), loss increases exponentially")
         print("- Exponential loss penalizes misclassifications more heavily than 0/1 loss")
+        print("- The loss function is symmetric: L(+1, F) = L(-1, -F)")
+        
+        # Demonstrate the relationship between margin and loss
+        print("\nMargin Analysis:")
+        margin_values = np.linspace(-3, 3, 7)
+        print("Margin (yF) | Exponential Loss | 0/1 Loss")
+        print("-" * 40)
+        for margin in margin_values:
+            exp_loss = np.exp(-margin)
+            zero_one_loss = 0 if margin > 0 else 1
+            print(f"{margin:8.1f} | {exp_loss:14.4f} | {zero_one_loss:8d}")
         
     def adaboost_algorithm_demonstration(self):
         """Demonstrate AdaBoost algorithm step by step"""
@@ -190,30 +213,51 @@ class AdaBoostExponentialLoss:
         for m in range(M):
             print(f"\n--- Iteration {m+1} ---")
             
-            # Train weak learner (decision stump)
+            # Step 1: Train weak learner on weighted data
+            print(f"  Step 1: Training weak learner {m+1} on weighted data")
             weak_learner = DecisionTreeClassifier(max_depth=1, random_state=m)
             weak_learner.fit(X_train, y_train, sample_weight=w)
             
-            # Make predictions
+            # Step 2: Make predictions
+            print(f"  Step 2: Making predictions with weak learner {m+1}")
             predictions = weak_learner.predict(X_train)
             
-            # Compute weighted error
+            # Step 3: Compute weighted error
+            print(f"  Step 3: Computing weighted error ε_{m+1}")
             misclassified = (predictions != y_train)
             epsilon_m = np.sum(w * misclassified)
+            print(f"    Number of misclassified samples: {np.sum(misclassified)}")
+            print(f"    Weighted error: ε_{m+1} = Σ w^(i) × I(y_i ≠ h_{m+1}(x_i)) = {epsilon_m:.4f}")
             
-            # Compute alpha
+            # Step 4: Compute alpha (weight of weak learner)
+            print(f"  Step 4: Computing alpha α_{m+1}")
             if epsilon_m > 0.5:
                 epsilon_m = 0.49  # Prevent numerical issues
-            alpha_m = 0.5 * np.log((1 - epsilon_m) / epsilon_m)
+                print(f"    Adjusted ε_{m+1} to 0.49 to prevent numerical issues")
             
-            # Update weights
-            w_new = w * np.exp(-alpha_m * y_train * predictions)
+            # Detailed alpha calculation
+            ratio = (1 - epsilon_m) / epsilon_m
+            alpha_m = 0.5 * np.log(ratio)
+            print(f"    Ratio: (1 - ε_{m+1}) / ε_{m+1} = (1 - {epsilon_m:.4f}) / {epsilon_m:.4f} = {ratio:.4f}")
+            print(f"    Alpha: α_{m+1} = 0.5 × ln({ratio:.4f}) = {alpha_m:.4f}")
+            
+            # Step 5: Update sample weights
+            print(f"  Step 5: Updating sample weights")
+            # Calculate weight update factors
+            weight_factors = np.exp(-alpha_m * y_train * predictions)
+            w_new = w * weight_factors
             w_new = w_new / np.sum(w_new)  # Normalize
             
-            print(f"  Weak learner error: ε_{m+1} = {epsilon_m:.4f}")
-            print(f"  Alpha: α_{m+1} = {alpha_m:.4f}")
-            print(f"  Weight sum: {w_new.sum():.6f}")
-            print(f"  Max weight: {w_new.max():.4f}, Min weight: {w_new.min():.4f}")
+            # Analyze weight changes
+            weight_changes = w_new - w
+            increased_weights = np.sum(weight_changes > 0)
+            decreased_weights = np.sum(weight_changes < 0)
+            
+            print(f"    Weight update rule: w_{m+2}^(i) ∝ w_{m+1}^(i) × exp(-α_{m+1} × y_i × h_{m+1}(x_i))")
+            print(f"    Weights increased for {increased_weights} samples")
+            print(f"    Weights decreased for {decreased_weights} samples")
+            print(f"    Weight sum after normalization: {w_new.sum():.6f}")
+            print(f"    Max weight: {w_new.max():.4f}, Min weight: {w_new.min():.4f}")
             
             # Store results
             alphas.append(alpha_m)
@@ -348,7 +392,7 @@ class AdaBoostExponentialLoss:
         
         plt.tight_layout()
         plt.savefig(os.path.join(save_dir, 'adaboost_weight_evolution.png'), dpi=300, bbox_inches='tight')
-        plt.show()
+        plt.close()
         
     def visualize_decision_boundaries(self, weak_learners, alphas):
         """Visualize decision boundaries of weak learners and final ensemble"""
@@ -386,7 +430,7 @@ class AdaBoostExponentialLoss:
             
         plt.tight_layout()
         plt.savefig(os.path.join(save_dir, 'weak_learners_decision_boundaries.png'), dpi=300, bbox_inches='tight')
-        plt.show()
+        plt.close()
         
         # Plot final ensemble decision boundary
         plt.figure(figsize=(12, 10))
@@ -419,7 +463,7 @@ class AdaBoostExponentialLoss:
         
         plt.tight_layout()
         plt.savefig(os.path.join(save_dir, 'final_ensemble_decision_boundary.png'), dpi=300, bbox_inches='tight')
-        plt.show()
+        plt.close()
         
     def calculate_specific_example(self):
         """Calculate the specific example from the question"""
@@ -436,20 +480,39 @@ class AdaBoostExponentialLoss:
         
         print(f"True label: y = {y}")
         print(f"Classifier output: H(x) = {H_x}")
-        print(f"Exponential loss: L({y}, {H_x}) = exp(-{y} × {H_x}) = exp({-y * H_x}) = {exponential_loss:.4f}")
+        
+        # Step-by-step calculation
+        print(f"\nStep-by-step calculation:")
+        print(f"Step 1: Calculate the margin y × H(x)")
+        margin = y * H_x
+        print(f"  margin = y × H(x) = {y} × {H_x} = {margin}")
+        
+        print(f"Step 2: Determine if the prediction is correct")
+        is_correct = margin > 0
+        print(f"  Since margin = {margin} {'>' if margin > 0 else '<'} 0, prediction is {'correct' if is_correct else 'incorrect'}")
+        
+        print(f"Step 3: Calculate exponential loss")
+        exponential_loss = np.exp(-margin)
+        print(f"  L({y}, {H_x}) = exp(-margin) = exp(-{margin}) = {exponential_loss:.4f}")
         
         # Compare with 0/1 loss
-        zero_one_loss = 1 if y * H_x < 0 else 0
+        zero_one_loss = 1 if margin < 0 else 0
         
-        print(f"\nComparison with 0/1 loss:")
-        print(f"0/1 loss: L({y}, {H_x}) = {zero_one_loss}")
-        print(f"Exponential loss: L({y}, {H_x}) = {exponential_loss:.4f}")
+        print(f"\nStep 4: Compare with 0/1 loss")
+        print(f"  0/1 loss: L_{0/1}({y}, {H_x}) = {'1' if margin < 0 else '0'} (since margin = {margin} {'<' if margin < 0 else '>'} 0)")
+        print(f"  Exponential loss: L_exp({y}, {H_x}) = {exponential_loss:.4f}")
+        
+        print(f"\nStep 5: Analyze the penalty difference")
+        penalty_ratio = exponential_loss / max(zero_one_loss, 0.001)  # Avoid division by zero
+        print(f"  Penalty ratio: exponential_loss / 0/1_loss = {exponential_loss:.4f} / {zero_one_loss} = {penalty_ratio:.4f}")
         
         print(f"\nInterpretation:")
-        print(f"- The sample is misclassified (y × H(x) = {y * H_x} < 0)")
-        print(f"- 0/1 loss gives a fixed penalty of 1")
-        print(f"- Exponential loss gives a larger penalty of {exponential_loss:.4f}")
+        print(f"- The sample is misclassified (y × H(x) = {margin} < 0)")
+        print(f"- 0/1 loss gives a fixed penalty of {zero_one_loss}")
+        print(f"- Exponential loss gives a penalty of {exponential_loss:.4f}")
+        print(f"- The exponential penalty is {penalty_ratio:.2f}x larger than the 0/1 penalty")
         print(f"- This encourages the algorithm to focus more on this misclassified sample")
+        print(f"- In the next iteration, this sample's weight will increase by a factor of {np.exp(1.0 * abs(margin)):.2f} (assuming α = 1.0)")
         
         # Visualize this specific case
         plt.figure(figsize=(10, 6))
@@ -480,7 +543,7 @@ class AdaBoostExponentialLoss:
         
         plt.tight_layout()
         plt.savefig(os.path.join(save_dir, 'specific_example_calculation.png'), dpi=300, bbox_inches='tight')
-        plt.show()
+        plt.close()
         
         return exponential_loss
         

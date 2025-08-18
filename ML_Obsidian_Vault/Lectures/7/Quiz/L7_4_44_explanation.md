@@ -36,20 +36,52 @@ where:
 - When $yF < 0$ (incorrect prediction), loss increases exponentially
 - The loss is always positive and continuous
 
-**Numerical Examples:**
+**Numerical Examples with Detailed Calculations:**
+
 For $y = +1$:
-- $F = -2$: $L(+1, -2) = \exp(-(-2)) = \exp(2) = 7.3891$
-- $F = -1$: $L(+1, -1) = \exp(-(-1)) = \exp(1) = 2.7183$
-- $F = 0$: $L(+1, 0) = \exp(-0) = 1.0000$
-- $F = 1$: $L(+1, 1) = \exp(-1) = 0.3679$
-- $F = 2$: $L(+1, 2) = \exp(-2) = 0.1353$
+- **$F = -2$:**
+  - Step 1: margin = $y \times F = +1 \times (-2) = -2$
+  - Step 2: $L(+1, -2) = \exp(-\text{margin}) = \exp(-(-2)) = \exp(2) = 7.3891$
+- **$F = -1$:**
+  - Step 1: margin = $y \times F = +1 \times (-1) = -1$
+  - Step 2: $L(+1, -1) = \exp(-\text{margin}) = \exp(-(-1)) = \exp(1) = 2.7183$
+- **$F = 0$:**
+  - Step 1: margin = $y \times F = +1 \times 0 = 0$
+  - Step 2: $L(+1, 0) = \exp(-\text{margin}) = \exp(-0) = 1.0000$
+- **$F = 1$:**
+  - Step 1: margin = $y \times F = +1 \times 1 = 1$
+  - Step 2: $L(+1, 1) = \exp(-\text{margin}) = \exp(-1) = 0.3679$
+- **$F = 2$:**
+  - Step 1: margin = $y \times F = +1 \times 2 = 2$
+  - Step 2: $L(+1, 2) = \exp(-\text{margin}) = \exp(-2) = 0.1353$
 
 For $y = -1$:
-- $F = -2$: $L(-1, -2) = \exp(-2) = 0.1353$
-- $F = -1$: $L(-1, -1) = \exp(-1) = 0.3679$
-- $F = 0$: $L(-1, 0) = \exp(0) = 1.0000$
-- $F = 1$: $L(-1, 1) = \exp(1) = 2.7183$
-- $F = 2$: $L(-1, 2) = \exp(2) = 7.3891$
+- **$F = -2$:**
+  - Step 1: margin = $y \times F = -1 \times (-2) = 2$
+  - Step 2: $L(-1, -2) = \exp(-\text{margin}) = \exp(-2) = 0.1353$
+- **$F = -1$:**
+  - Step 1: margin = $y \times F = -1 \times (-1) = 1$
+  - Step 2: $L(-1, -1) = \exp(-\text{margin}) = \exp(-1) = 0.3679$
+- **$F = 0$:**
+  - Step 1: margin = $y \times F = -1 \times 0 = 0$
+  - Step 2: $L(-1, 0) = \exp(-\text{margin}) = \exp(0) = 1.0000$
+- **$F = 1$:**
+  - Step 1: margin = $y \times F = -1 \times 1 = -1$
+  - Step 2: $L(-1, 1) = \exp(-\text{margin}) = \exp(-(-1)) = \exp(1) = 2.7183$
+- **$F = 2$:**
+  - Step 1: margin = $y \times F = -1 \times 2 = -2$
+  - Step 2: $L(-1, 2) = \exp(-\text{margin}) = \exp(-(-2)) = \exp(2) = 7.3891$
+
+**Margin Analysis Table:**
+| Margin (yF) | Exponential Loss | 0/1 Loss |
+|-------------|------------------|-----------|
+| -3.0        | 20.0855          | 1         |
+| -2.0        | 7.3891           | 1         |
+| -1.0        | 2.7183           | 1         |
+| 0.0         | 1.0000           | 1         |
+| 1.0         | 0.3679           | 0         |
+| 2.0         | 0.1353           | 0         |
+| 3.0         | 0.0498           | 0         |
 
 ### Step 2: Exponential Loss vs 0/1 Loss Relationship
 The exponential loss and 0/1 loss have fundamentally different characteristics:
@@ -123,38 +155,118 @@ The weight update rule can be derived from the exponential loss minimization:
 - Weights are updated to focus on remaining difficult examples
 - The process continues until convergence or maximum iterations
 
-**Example from Our Implementation:**
-In our AdaBoost run:
-- Iteration 1: $\alpha_1 = 1.2825$, $\epsilon_1 = 0.0714$
-- Iteration 2: $\alpha_2 = 0.9999$, $\epsilon_2 = 0.1192$
-- Iteration 3: $\alpha_3 = 0.4205$, $\epsilon_3 = 0.3013$
-- Iteration 4: $\alpha_4 = 0.3725$, $\epsilon_4 = 0.3219$
-- Iteration 5: $\alpha_5 = 0.4552$, $\epsilon_5 = 0.2869$
+**Detailed Example from Our Implementation:**
 
-The alphas decrease as iterations progress, indicating that later weak learners have less influence on the final decision.
+**Iteration 1:**
+- **Step 1**: Train weak learner 1 on weighted data
+- **Step 2**: Make predictions with weak learner 1
+- **Step 3**: Compute weighted error $\epsilon_1$
+  - Number of misclassified samples: 10
+  - Weighted error: $\epsilon_1 = \sum w^{(i)} \times I(y_i \neq h_1(x_i)) = 0.0714$
+- **Step 4**: Compute alpha $\alpha_1$
+  - Ratio: $(1 - \epsilon_1) / \epsilon_1 = (1 - 0.0714) / 0.0714 = 13.0000$
+  - Alpha: $\alpha_1 = 0.5 \times \ln(13.0000) = 1.2825$
+- **Step 5**: Update sample weights
+  - Weight update rule: $w_2^{(i)} \propto w_1^{(i)} \times \exp(-\alpha_1 \times y_i \times h_1(x_i))$
+  - Weights increased for 10 samples (misclassified)
+  - Weights decreased for 130 samples (correctly classified)
+  - Weight sum after normalization: 1.000000
+  - Max weight: 0.0500, Min weight: 0.0038
+
+**Iteration 2:**
+- **Step 1**: Train weak learner 2 on weighted data
+- **Step 2**: Make predictions with weak learner 2
+- **Step 3**: Compute weighted error $\epsilon_2$
+  - Number of misclassified samples: 19
+  - Weighted error: $\epsilon_2 = 0.1192$
+- **Step 4**: Compute alpha $\alpha_2$
+  - Ratio: $(1 - 0.1192) / 0.1192 = 7.3871$
+  - Alpha: $\alpha_2 = 0.5 \times \ln(7.3871) = 0.9999$
+- **Step 5**: Update sample weights
+  - Weights increased for 19 samples, decreased for 121 samples
+  - Max weight: 0.2097, Min weight: 0.0022
+
+**Iteration 3:**
+- **Step 1**: Train weak learner 3 on weighted data
+- **Step 2**: Make predictions with weak learner 3
+- **Step 3**: Compute weighted error $\epsilon_3$
+  - Number of misclassified samples: 30
+  - Weighted error: $\epsilon_3 = 0.3013$
+- **Step 4**: Compute alpha $\alpha_3$
+  - Ratio: $(1 - 0.3013) / 0.3013 = 2.3188$
+  - Alpha: $\alpha_3 = 0.5 \times \ln(2.3188) = 0.4205$
+- **Step 5**: Update sample weights
+  - Weights increased for 30 samples, decreased for 110 samples
+  - Max weight: 0.1501, Min weight: 0.0016
+
+**Iteration 4:**
+- **Step 1**: Train weak learner 4 on weighted data
+- **Step 2**: Make predictions with weak learner 4
+- **Step 3**: Compute weighted error $\epsilon_4$
+  - Number of misclassified samples: 57
+  - Weighted error: $\epsilon_4 = 0.3219$
+- **Step 4**: Compute alpha $\alpha_4$
+  - Ratio: $(1 - 0.3219) / 0.3219 = 2.1064$
+  - Alpha: $\alpha_4 = 0.5 \times \ln(2.1064) = 0.3725$
+- **Step 5**: Update sample weights
+  - Weights increased for 57 samples, decreased for 83 samples
+  - Max weight: 0.1106, Min weight: 0.0012
+
+**Iteration 5:**
+- **Step 1**: Train weak learner 5 on weighted data
+- **Step 2**: Make predictions with weak learner 5
+- **Step 3**: Compute weighted error $\epsilon_5$
+  - Number of misclassified samples: 72
+  - Weighted error: $\epsilon_5 = 0.2869$
+- **Step 4**: Compute alpha $\alpha_5$
+  - Ratio: $(1 - 0.2869) / 0.2869 = 2.4852$
+  - Alpha: $\alpha_5 = 0.5 \times \ln(2.4852) = 0.4552$
+- **Step 5**: Update sample weights
+  - Weights increased for 72 samples, decreased for 68 samples
+  - Max weight: 0.1928, Min weight: 0.0008
+
+**Final Results:**
+- **Alphas**: $\alpha_1 = 1.2825$, $\alpha_2 = 0.9999$, $\alpha_3 = 0.4205$, $\alpha_4 = 0.3725$, $\alpha_5 = 0.4552$
+- **Training errors**: $\epsilon_1 = 0.0714$, $\epsilon_2 = 0.1192$, $\epsilon_3 = 0.3013$, $\epsilon_4 = 0.3219$, $\epsilon_5 = 0.2869$
+- **Test accuracy**: 93.33%
+
+**Key Observations:**
+- The alphas generally decrease as iterations progress, indicating that later weak learners have less influence on the final decision
+- Training errors fluctuate but the algorithm continues to improve the ensemble
+- Sample weights become more concentrated on difficult examples over time
+- The final ensemble achieves high accuracy by combining the complementary strengths of all weak learners
 
 ### Step 5: Specific Example Calculation
 Given: Final classifier output $H(x) = -0.5$ for a sample with true label $y = +1$
 
-**Calculation:**
-$$L(y, F) = \exp(-yF) = \exp(-(+1) \times (-0.5)) = \exp(0.5) = 1.6487$$
+**Detailed Step-by-step Calculation:**
 
-**Step-by-step:**
-1. $y = +1$ (true label)
-2. $F = H(x) = -0.5$ (classifier output)
-3. $yF = (+1) \times (-0.5) = -0.5$ (margin)
-4. $L(+1, -0.5) = \exp(-(-0.5)) = \exp(0.5) = 1.6487$
+**Step 1: Calculate the margin $y \times H(x)$**
+- margin = $y \times H(x) = +1 \times (-0.5) = -0.5$
 
-**Comparison with 0/1 Loss:**
-- **0/1 Loss**: $L_{0/1}(+1, -0.5) = 1$ (since $yF < 0$)
+**Step 2: Determine if the prediction is correct**
+- Since margin = $-0.5 < 0$, the prediction is **incorrect**
+- The sample is misclassified
+
+**Step 3: Calculate exponential loss**
+- $L(+1, -0.5) = \exp(-\text{margin}) = \exp(-(-0.5)) = \exp(0.5) = 1.6487$
+
+**Step 4: Compare with 0/1 loss**
+- **0/1 Loss**: $L_{0/1}(+1, -0.5) = 1$ (since margin = $-0.5 < 0$)
 - **Exponential Loss**: $L_{\exp}(+1, -0.5) = 1.6487$
 
+**Step 5: Analyze the penalty difference**
+- Penalty ratio: exponential_loss / 0/1_loss = $1.6487 / 1 = 1.6487$
+- The exponential penalty is **1.65× larger** than the 0/1 penalty
+
 **Interpretation:**
-- The sample is misclassified ($yF = -0.5 < 0$)
+- The sample is misclassified ($y \times H(x) = -0.5 < 0$)
 - 0/1 loss gives a fixed penalty of 1
-- Exponential loss gives a larger penalty of 1.6487
+- Exponential loss gives a penalty of 1.6487
+- The exponential penalty is 1.65× larger than the 0/1 penalty
 - This encourages the algorithm to focus more on this misclassified sample
-- The exponential penalty increases the weight of this sample in future iterations
+- In the next iteration, this sample's weight will increase by a factor of 1.65 (assuming $\alpha = 1.0$)
+- This demonstrates how exponential loss naturally implements the boosting principle of focusing on difficult examples
 
 ## Visual Explanations
 
