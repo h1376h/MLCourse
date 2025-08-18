@@ -27,6 +27,23 @@ def print_step_header(step_number, step_title):
     print(f"STEP {step_number}: {step_title}")
     print(f"{'=' * 80}\n")
 
+def print_detailed_explanation(title, content):
+    """Print detailed explanations with proper formatting."""
+    print(f"\n{title}:")
+    print("-" * len(title))
+    if isinstance(content, dict):
+        for key, value in content.items():
+            if isinstance(value, (int, float)):
+                print(f"  {key}: {value:.4f}" if isinstance(value, float) else f"  {key}: {value}")
+            else:
+                print(f"  {key}: {value}")
+    elif isinstance(content, list):
+        for item in content:
+            print(f"  - {item}")
+    else:
+        print(f"  {content}")
+    print()
+
 def generate_recommendation_dataset():
     """Generate a synthetic recommendation dataset with sparse features."""
     print_step_header(1, "Generating Synthetic Recommendation Dataset")
@@ -39,11 +56,16 @@ def generate_recommendation_dataset():
     n_features = 1000
     sparsity = 0.05  # 5% non-zero values
     
-    print(f"Dataset Parameters:")
-    print(f"- Users: {n_users}")
-    print(f"- Items: {n_items}")
-    print(f"- Features: {n_features}")
-    print(f"- Sparsity: {sparsity * 100}%")
+    dataset_params = {
+        "Users": n_users,
+        "Items": n_items,
+        "Features": n_features,
+        "Sparsity": f"{sparsity * 100}%",
+        "Expected non-zero values per sample": int(n_features * sparsity),
+        "Total possible interactions": n_users * n_items,
+        "Actual interactions generated": int(n_users * n_items * 0.1)
+    }
+    print_detailed_explanation("Dataset Parameters", dataset_params)
     
     # Generate user-item interactions
     n_interactions = int(n_users * n_items * 0.1)  # 10% interaction rate
