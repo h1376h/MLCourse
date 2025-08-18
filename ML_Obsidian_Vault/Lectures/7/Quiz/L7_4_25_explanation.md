@@ -22,45 +22,45 @@ We'll design a comprehensive evaluation framework that systematically tests AdaB
 **Synthetic Datasets:**
 
 **Balanced Binary Classification:**
-- **Samples**: 1,000, **Features**: 20, **Classes**: 2
-- **Class Balance**: [50%, 50%]
+- **Samples**: $n = 1000$, **Features**: $d = 20$, **Classes**: $k = 2$
+- **Class Balance**: $[P(y=0) = 0.5, P(y=1) = 0.5]$
 - **Purpose**: Baseline performance assessment
 - **Characteristics**: Moderate difficulty, well-separated classes
 
 **Imbalanced Binary Classification:**
-- **Samples**: 1,000, **Features**: 20, **Classes**: 2
-- **Class Balance**: [89.8%, 10.2%]
+- **Samples**: $n = 1000$, **Features**: $d = 20$, **Classes**: $k = 2$
+- **Class Balance**: $[P(y=0) = 0.898, P(y=1) = 0.102]$
 - **Purpose**: Test performance on imbalanced data
 - **Characteristics**: Realistic class imbalance scenario
 
 **Multi-class Classification:**
-- **Samples**: 1,000, **Features**: 20, **Classes**: 5
-- **Class Balance**: [19.8%, 20.1%, 20.2%, 20.1%, 19.8%]
+- **Samples**: $n = 1000$, **Features**: $d = 20$, **Classes**: $k = 5$
+- **Class Balance**: $[P(y=i) \approx 0.2]$ for $i \in \{0,1,2,3,4\}$
 - **Purpose**: Evaluate multi-class extension performance
 - **Characteristics**: Balanced multi-class problem
 
 **High-Dimensional, Low-Sample:**
-- **Samples**: 200, **Features**: 100, **Classes**: 2
-- **Class Balance**: [50%, 50%]
+- **Samples**: $n = 200$, **Features**: $d = 100$, **Classes**: $k = 2$
+- **Class Balance**: $[P(y=0) = 0.5, P(y=1) = 0.5]$
 - **Purpose**: Test curse of dimensionality handling
 - **Characteristics**: Challenging overfitting scenario
 
 **Noisy Dataset:**
-- **Samples**: 1,000, **Features**: 20, **Classes**: 2
-- **Class Balance**: [48.7%, 51.3%]
+- **Samples**: $n = 1000$, **Features**: $d = 20$, **Classes**: $k = 2$
+- **Class Balance**: $[P(y=0) = 0.487, P(y=1) = 0.513]$
 - **Purpose**: Evaluate robustness to noise
-- **Characteristics**: 10% label noise, low separability
+- **Characteristics**: $10\%$ label noise, low separability
 
 **Real-World Datasets:**
 
 **Breast Cancer (Medical):**
-- **Samples**: 569, **Features**: 30, **Classes**: 2
-- **Class Balance**: [37.3%, 62.7%]
+- **Samples**: $n = 569$, **Features**: $d = 30$, **Classes**: $k = 2$
+- **Class Balance**: $[P(y=0) = 0.373, P(y=1) = 0.627]$
 - **Purpose**: Medical diagnosis performance
 
 **Wine Classification (Chemical):**
-- **Samples**: 178, **Features**: 13, **Classes**: 3
-- **Class Balance**: [33.1%, 39.9%, 27.0%]
+- **Samples**: $n = 178$, **Features**: $d = 13$, **Classes**: $k = 3$
+- **Class Balance**: $[P(y=0) = 0.331, P(y=1) = 0.399, P(y=2) = 0.270]$
 - **Purpose**: Multi-class real-world performance
 
 **Mathematical Foundation for Dataset Design:**
@@ -131,7 +131,7 @@ The complexity of weak learners can be quantified as follows:
 
 ### Step 3: Ensemble Size Systematic Testing
 
-**Ensemble Size Range**: [10, 25, 50, 100, 200, 500]
+**Ensemble Size Range**: $M \in \{10, 25, 50, 100, 200, 500\}$
 
 **Testing Objectives:**
 - **Optimal Size Identification**: Find best ensemble size per dataset
@@ -186,15 +186,15 @@ where $\epsilon_i$ is the error of the $i$-th weak learner. This suggests that:
 - **Output**: t-statistic, p-value, effect size (Cohen's d)
 
 **Significance Levels:**
-- **p < 0.001**: *** (highly significant)
-- **p < 0.01**: ** (very significant)
-- **p < 0.05**: * (significant)
-- **p ≥ 0.05**: ns (not significant)
+- **$p < 0.001$**: *** (highly significant)
+- **$p < 0.01$**: ** (very significant)
+- **$p < 0.05$**: * (significant)
+- **$p \geq 0.05$**: ns (not significant)
 
 **Effect Size Interpretation:**
-- **Cohen's d < 0.2**: Small effect
-- **0.2 ≤ Cohen's d < 0.8**: Medium effect
-- **Cohen's d ≥ 0.8**: Large effect
+- **$|\text{Cohen's } d| < 0.2$**: Small effect
+- **$0.2 \leq |\text{Cohen's } d| < 0.8$**: Medium effect
+- **$|\text{Cohen's } d| \geq 0.8$**: Large effect
 
 **Mathematical Foundation for Statistical Testing:**
 
@@ -217,9 +217,9 @@ where $\epsilon_i$ is the error of the $i$-th weak learner. This suggests that:
    - For 5-fold CV with medium effect size, power ≈ 0.6-0.8
 
 **Results Summary:**
-- **18 configuration combinations** evaluated
-- **9 statistical tests** performed
-- **Significant differences found** in 6/9 comparisons
+- **$18$ configuration combinations** evaluated
+- **$9$ statistical tests** performed
+- **Significant differences found** in $6/9 = 67\%$ of comparisons
 - **Effect sizes** ranging from small to large
 
 ### Step 5: Computational Constraint Optimization
@@ -228,28 +228,28 @@ where $\epsilon_i$ is the error of the $i$-th weak learner. This suggests that:
 
 **Experiment Configurations:**
 
-**Minimal Experiment (0.7 hours):**
-- **Datasets**: 3
-- **Weak Learners**: 1
-- **Ensemble Sizes**: 2
-- **CV Folds**: 3
-- **Total Combinations**: 6
+**Minimal Experiment ($T = 0.7$ hours):**
+- **Datasets**: $n_d = 3$
+- **Weak Learners**: $n_w = 1$
+- **Ensemble Sizes**: $n_e = 2$
+- **CV Folds**: $n_{cv} = 3$
+- **Total Combinations**: $n_d \cdot n_w \cdot n_e = 6$
 - **Feasible**: Yes
 
-**Standard Experiment (3.0 hours, Recommended):**
-- **Datasets**: 5
-- **Weak Learners**: 2
-- **Ensemble Sizes**: 3
-- **CV Folds**: 5
-- **Total Combinations**: 30
+**Standard Experiment ($T = 3.0$ hours, Recommended):**
+- **Datasets**: $n_d = 5$
+- **Weak Learners**: $n_w = 2$
+- **Ensemble Sizes**: $n_e = 3$
+- **CV Folds**: $n_{cv} = 5$
+- **Total Combinations**: $n_d \cdot n_w \cdot n_e = 30$
 - **Feasible**: Yes
 
-**Comprehensive Experiment (35.6 hours):**
-- **Datasets**: 7
-- **Weak Learners**: 5
-- **Ensemble Sizes**: 6
-- **CV Folds**: 10
-- **Total Combinations**: 210
+**Comprehensive Experiment ($T = 35.6$ hours):**
+- **Datasets**: $n_d = 7$
+- **Weak Learners**: $n_w = 5$
+- **Ensemble Sizes**: $n_e = 6$
+- **CV Folds**: $n_{cv} = 10$
+- **Total Combinations**: $n_d \cdot n_w \cdot n_e = 210$
 - **Feasible**: No
 
 **Mathematical Model for Computational Cost:**
@@ -286,12 +286,12 @@ Given the constraint $T_{\text{total}} \leq 24 \text{ hours}$, we can:
 4. **Use Efficient Algorithms**: Leverage vectorized operations and parallel processing
 
 **Computational Cost Breakdown:**
-- **Dataset Loading**: 60 seconds per dataset
-- **Preprocessing**: 120 seconds per dataset
-- **Model Training**: Varies by configuration
-- **Cross-Validation**: 5x multiplier
-- **Statistical Testing**: 300 seconds total
-- **Visualization**: 600 seconds total
+- **Dataset Loading**: $T_{\text{load}} = 60$ seconds per dataset
+- **Preprocessing**: $T_{\text{preprocess}} = 120$ seconds per dataset
+- **Model Training**: $T_{\text{base}}$ varies by configuration
+- **Cross-Validation**: $n_{cv} = 5$ multiplier
+- **Statistical Testing**: $T_{\text{statistical}} = 300$ seconds total
+- **Visualization**: $T_{\text{visualization}} = 600$ seconds total
 
 ## Visual Explanations
 
@@ -316,8 +316,8 @@ This comprehensive visualization provides six key insights into the AdaBoost eva
 
 **Key Insights from Visualization:**
 - **Consistent Superiority**: Shallow trees outperform decision stumps across all ensemble sizes and datasets
-- **Optimal Ensemble Size**: Performance plateaus around 100 learners, suggesting this as a practical upper limit
-- **Statistical Rigor**: 67% of comparisons show significant differences, validating the evaluation framework
+- **Optimal Ensemble Size**: Performance plateaus around $M = 100$ learners, suggesting this as a practical upper limit
+- **Statistical Rigor**: $67\%$ of comparisons show significant differences, validating the evaluation framework
 - **Practical Significance**: Large effect sizes indicate that configuration choices have meaningful impact
 - **Stability**: Lower variance in shallow tree performance suggests more reliable predictions
 
@@ -340,8 +340,8 @@ This comprehensive visualization provides six key insights into the AdaBoost eva
 
 ## Conclusion
 - **Comprehensive evaluation requires systematic design** across datasets, configurations, and ensemble sizes
-- **Statistical significance testing reveals** that shallow trees significantly outperform decision stumps in 67% of comparisons
-- **Computational constraints limit** feasible experiments to ~30 configurations within 24 hours
+- **Statistical significance testing reveals** that shallow trees significantly outperform decision stumps in $67\%$ of comparisons
+- **Computational constraints limit** feasible experiments to $\sim 30$ configurations within $24$ hours
 - **Standard experiment configuration** provides optimal balance of comprehensiveness and feasibility
 - **Effect sizes are medium to large** in most significant comparisons, indicating practical importance
 - **Framework design enables** reproducible, statistically rigorous AdaBoost evaluation
