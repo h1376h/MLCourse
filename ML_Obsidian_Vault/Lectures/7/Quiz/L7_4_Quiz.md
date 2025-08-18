@@ -335,9 +335,7 @@ For a detailed explanation of this question, see [Question 19: AdaBoost Imbalanc
 ## Question 20
 
 ### Problem Statement
-Design an AdaBoost ensemble for a recommendation system.
-
-**Requirements:**
+Design an AdaBoost ensemble for a recommendation system with the following requirements:
 - Binary classification: User will like/dislike item
 - 100,000 users, 10,000 items
 - Sparse feature matrix (5% non-zero values)
