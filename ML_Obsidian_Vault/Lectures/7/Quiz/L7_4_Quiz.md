@@ -9,11 +9,11 @@ This quiz contains 46 comprehensive questions covering the AdaBoost algorithm, i
 AdaBoost uses weak learners and adaptively updates sample weights.
 
 #### Task
-1. What is a weak learner in AdaBoost and what performance threshold must it meet?
-2. Why does AdaBoost focus on misclassified samples?
-3. How does AdaBoost combine weak learners?
-4. What is the main difference between AdaBoost and bagging?
-5. If a weak learner has 45% accuracy on a binary classification problem, is it suitable for AdaBoost?
+1. [📚] What is a weak learner in AdaBoost and what performance threshold must it meet?
+2. [📚] Why does AdaBoost focus on misclassified samples?
+3. [📚] How does AdaBoost combine weak learners?
+4. [📚] What is the main difference between AdaBoost and bagging?
+5. [📚] If a weak learner has 45% accuracy on a binary classification problem, is it suitable for AdaBoost?
 
 For a detailed explanation of this question, see [Question 1: AdaBoost Foundations](L7_4_1_explanation.md).
 
