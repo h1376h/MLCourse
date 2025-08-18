@@ -726,6 +726,351 @@ def memory_management_strategies():
 
     return strategies, best_strategy
 
+def visualize_concept_drift_analysis():
+    """Generate visualizations for concept drift analysis."""
+    print_step_header(8, "Generating Concept Drift Visualizations")
+    
+    # Create concept drift analysis plots
+    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+    
+    # Plot 1: Concept drift timeline
+    time_points = np.arange(0, 5000, 100)
+    drift_indicators = np.zeros_like(time_points)
+    drift_points = [1500, 3000, 4000]
+    
+    for drift_point in drift_points:
+        drift_idx = drift_point // 100
+        if drift_idx < len(drift_indicators):
+            drift_indicators[drift_idx] = 1
+    
+    axes[0, 0].plot(time_points, drift_indicators, 'r-', linewidth=3, label='Concept Drift')
+    axes[0, 0].set_xlabel('Sample Number')
+    axes[0, 0].set_ylabel('Drift Indicator')
+    axes[0, 0].set_title('Concept Drift Timeline')
+    axes[0, 0].grid(True, alpha=0.3)
+    axes[0, 0].legend()
+    
+    # Plot 2: Data distribution changes
+    concept_ranges = [(0, 1500), (1500, 3000), (3000, 4000), (4000, 5000)]
+    concept_means = []
+    concept_stds = []
+    
+    for start, end in concept_ranges:
+        if start < len(time_points):
+            concept_means.append(np.mean(drift_indicators[start//100:end//100]))
+            concept_stds.append(np.std(drift_indicators[start//100:end//100]))
+    
+    concept_labels = ['Concept 0', 'Concept 1', 'Concept 2', 'Concept 3']
+    bars = axes[0, 1].bar(range(len(concept_labels)), concept_means, 
+                         yerr=concept_stds, capsize=5, alpha=0.7, color='skyblue')
+    axes[0, 1].set_xticks(range(len(concept_labels)))
+    axes[0, 1].set_xticklabels(concept_labels)
+    axes[0, 1].set_ylabel('Drift Intensity')
+    axes[0, 1].set_title('Concept Drift Intensity by Period')
+    axes[0, 1].grid(True, alpha=0.3)
+    
+    # Plot 3: Drift detection sensitivity
+    detection_methods = ['ADWIN', 'DDM', 'EDDM', 'Page-Hinkley', 'Statistical']
+    sensitivity_scores = [8, 6, 7, 9, 8]
+    false_positive_rates = [0.1, 0.3, 0.2, 0.4, 0.15]
+    
+    scatter = axes[1, 0].scatter(sensitivity_scores, false_positive_rates, 
+                               s=100, c=range(len(detection_methods)), 
+                               cmap='viridis', alpha=0.7)
+    axes[1, 0].set_xlabel('Sensitivity (1-10)')
+    axes[1, 0].set_ylabel('False Positive Rate')
+    axes[1, 0].set_title('Drift Detection Method Comparison')
+    axes[1, 0].grid(True, alpha=0.3)
+    
+    # Add method labels
+    for i, method in enumerate(detection_methods):
+        axes[1, 0].annotate(method, (sensitivity_scores[i], false_positive_rates[i]),
+                           xytext=(5, 5), textcoords='offset points')
+    
+    # Plot 4: Drift recovery analysis
+    recovery_times = [5, 8, 12, 6, 10]  # Batches to recover
+    drift_types = ['Gradual', 'Abrupt', 'Mixed', 'Incremental', 'Cyclic']
+    
+    bars2 = axes[1, 1].bar(range(len(drift_types)), recovery_times, 
+                          color='lightcoral', alpha=0.7)
+    axes[1, 1].set_xticks(range(len(drift_types)))
+    axes[1, 1].set_xticklabels(drift_types)
+    axes[1, 1].set_ylabel('Recovery Time (batches)')
+    axes[1, 1].set_title('Drift Recovery Time by Type')
+    axes[1, 1].grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'concept_drift_analysis.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    print("Concept drift analysis visualizations saved.")
+
+def visualize_ensemble_evolution():
+    """Generate visualizations for ensemble evolution analysis."""
+    print_step_header(9, "Generating Ensemble Evolution Visualizations")
+    
+    # Simulate ensemble evolution data
+    n_batches = 50
+    batch_numbers = np.arange(n_batches)
+    
+    # Ensemble size evolution
+    ensemble_sizes = np.minimum(50, np.cumsum(np.random.exponential(0.3, n_batches)))
+    
+    # Alpha values evolution (simulated)
+    alpha_values = np.random.gamma(2, 0.5, n_batches)
+    
+    # Performance evolution
+    base_performance = 0.7
+    performance = base_performance + 0.1 * np.sin(batch_numbers * 0.2) + 0.05 * np.random.randn(n_batches)
+    performance = np.clip(performance, 0.5, 0.9)
+    
+    # Create ensemble evolution plots
+    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+    
+    # Plot 1: Ensemble size growth
+    axes[0, 0].plot(batch_numbers, ensemble_sizes, 'b-', linewidth=2, marker='o', markersize=4)
+    axes[0, 0].axhline(y=50, color='r', linestyle='--', alpha=0.7, label='Memory Limit')
+    axes[0, 0].set_xlabel('Batch Number')
+    axes[0, 0].set_ylabel('Ensemble Size')
+    axes[0, 0].set_title('Ensemble Size Evolution')
+    axes[0, 0].grid(True, alpha=0.3)
+    axes[0, 0].legend()
+    
+    # Plot 2: Alpha values distribution
+    axes[0, 1].hist(alpha_values, bins=15, alpha=0.7, color='green', edgecolor='black')
+    axes[0, 1].set_xlabel('Alpha Value')
+    axes[0, 1].set_ylabel('Frequency')
+    axes[0, 1].set_title('Distribution of Weak Learner Weights (α)')
+    axes[0, 1].grid(True, alpha=0.3)
+    
+    # Plot 3: Performance over time
+    axes[1, 0].plot(batch_numbers, performance, 'g-', linewidth=2, marker='s', markersize=4)
+    axes[1, 0].set_xlabel('Batch Number')
+    axes[1, 0].set_ylabel('Performance (Accuracy)')
+    axes[1, 0].set_title('Performance Evolution Over Time')
+    axes[1, 0].grid(True, alpha=0.3)
+    axes[1, 0].set_ylim(0.4, 1.0)
+    
+    # Plot 4: Ensemble diversity analysis
+    diversity_metrics = []
+    for i in range(0, n_batches, 5):
+        if i + 5 <= n_batches:
+            # Simulate diversity metric (correlation between learners)
+            diversity = 1 - np.mean(np.random.uniform(0.3, 0.7, 5))
+            diversity_metrics.append(diversity)
+    
+    batch_indices = np.arange(0, n_batches, 5)[:len(diversity_metrics)]
+    axes[1, 1].plot(batch_indices, diversity_metrics, 'purple', linewidth=2, marker='^', markersize=6)
+    axes[1, 1].set_xlabel('Batch Number')
+    axes[1, 1].set_ylabel('Ensemble Diversity')
+    axes[1, 1].set_title('Ensemble Diversity Evolution')
+    axes[1, 1].grid(True, alpha=0.3)
+    axes[1, 1].set_ylim(0, 1)
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'ensemble_evolution.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    print("Ensemble evolution visualizations saved.")
+
+def visualize_memory_usage_patterns():
+    """Generate visualizations for memory usage patterns."""
+    print_step_header(10, "Generating Memory Usage Pattern Visualizations")
+    
+    # Simulate memory usage data for different strategies
+    time_points = np.arange(0, 100, 1)
+    
+    # Different memory management strategies
+    sliding_window = np.full_like(time_points, 1000)  # Fixed memory
+    reservoir_sampling = np.full_like(time_points, 1000)  # Fixed memory
+    forgetting_factor = 800 + 200 * np.exp(-0.05 * time_points)  # Growing but controlled
+    ensemble_pruning = 600 + 400 * np.sin(0.1 * time_points)  # Variable
+    hierarchical = np.full_like(time_points, 1000)  # Fixed memory
+    
+    # Information retention rates
+    sliding_retention = 0.3 + 0.1 * np.sin(0.1 * time_points)
+    reservoir_retention = 0.6 + 0.1 * np.cos(0.08 * time_points)
+    forgetting_retention = 0.8 * np.exp(-0.02 * time_points)
+    pruning_retention = 0.5 + 0.2 * np.sin(0.15 * time_points)
+    hierarchical_retention = 0.75 + 0.1 * np.cos(0.05 * time_points)
+    
+    # Create memory usage pattern plots
+    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+    
+    # Plot 1: Memory usage over time
+    axes[0, 0].plot(time_points, sliding_window, 'b-', linewidth=2, label='Sliding Window')
+    axes[0, 0].plot(time_points, reservoir_sampling, 'g-', linewidth=2, label='Reservoir Sampling')
+    axes[0, 0].plot(time_points, forgetting_factor, 'r-', linewidth=2, label='Forgetting Factor')
+    axes[0, 0].plot(time_points, ensemble_pruning, 'orange', linewidth=2, label='Ensemble Pruning')
+    axes[0, 0].plot(time_points, hierarchical, 'purple', linewidth=2, label='Hierarchical Sampling')
+    
+    axes[0, 0].set_xlabel('Time')
+    axes[0, 0].set_ylabel('Memory Usage (MB)')
+    axes[0, 0].set_title('Memory Usage Patterns Over Time')
+    axes[0, 0].grid(True, alpha=0.3)
+    axes[0, 0].legend()
+    
+    # Plot 2: Information retention comparison
+    axes[0, 1].plot(time_points, sliding_retention, 'b-', linewidth=2, label='Sliding Window')
+    axes[0, 1].plot(time_points, reservoir_retention, 'g-', linewidth=2, label='Reservoir Sampling')
+    axes[0, 1].plot(time_points, forgetting_retention, 'r-', linewidth=2, label='Forgetting Factor')
+    axes[0, 1].plot(time_points, pruning_retention, 'orange', linewidth=2, label='Ensemble Pruning')
+    axes[0, 1].plot(time_points, hierarchical_retention, 'purple', linewidth=2, label='Hierarchical Sampling')
+    
+    axes[0, 1].set_xlabel('Time')
+    axes[0, 1].set_ylabel('Information Retention Rate')
+    axes[0, 1].set_title('Information Retention Over Time')
+    axes[0, 1].grid(True, alpha=0.3)
+    axes[0, 1].legend()
+    axes[0, 1].set_ylim(0, 1)
+    
+    # Plot 3: Memory efficiency vs adaptation speed
+    strategies = ['Sliding\nWindow', 'Reservoir\nSampling', 'Forgetting\nFactor', 'Ensemble\nPruning', 'Hierarchical\nSampling']
+    efficiency_scores = [0.7, 0.8, 0.6, 0.5, 0.9]
+    adaptation_scores = [0.9, 0.6, 0.6, 0.3, 0.8]
+    
+    scatter = axes[1, 0].scatter(efficiency_scores, adaptation_scores, 
+                               s=200, c=range(len(strategies)), 
+                               cmap='viridis', alpha=0.7)
+    axes[1, 0].set_xlabel('Memory Efficiency')
+    axes[1, 0].set_ylabel('Adaptation Speed')
+    axes[1, 0].set_title('Memory Efficiency vs Adaptation Speed')
+    axes[1, 0].grid(True, alpha=0.3)
+    
+    # Add strategy labels
+    for i, strategy in enumerate(strategies):
+        axes[1, 0].annotate(strategy, (efficiency_scores[i], adaptation_scores[i]),
+                           xytext=(5, 5), textcoords='offset points', ha='center')
+    
+    # Plot 4: Memory allocation breakdown for hierarchical sampling
+    memory_breakdown = [400, 350, 250]  # Short-term, Medium-term, Long-term
+    memory_labels = ['Short-term\n(λ₁=0.1)', 'Medium-term\n(λ₂=0.05)', 'Long-term\n(λ₃=0.01)']
+    colors = ['lightblue', 'lightgreen', 'lightcoral']
+    
+    wedges, texts, autotexts = axes[1, 1].pie(memory_breakdown, labels=memory_labels, 
+                                             autopct='%1.1f%%', colors=colors, startangle=90)
+    axes[1, 1].set_title('Hierarchical Sampling Memory Allocation')
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'memory_usage_patterns.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    print("Memory usage pattern visualizations saved.")
+
+def visualize_online_learning_characteristics():
+    """Generate visualizations for online learning characteristics."""
+    print_step_header(11, "Generating Online Learning Characteristic Visualizations")
+    
+    # Simulate online learning data
+    n_samples = 1000
+    sample_numbers = np.arange(n_samples)
+    
+    # Learning curves for different scenarios
+    # Scenario 1: Stable environment
+    stable_performance = 0.6 + 0.3 * (1 - np.exp(-sample_numbers / 200))
+    
+    # Scenario 2: Concept drift
+    drift_performance = 0.6 + 0.3 * (1 - np.exp(-sample_numbers / 200))
+    drift_performance[400:600] += 0.1 * np.sin((sample_numbers[400:600] - 400) * 0.1)
+    drift_performance[600:] = 0.6 + 0.2 * (1 - np.exp(-(sample_numbers[600:] - 600) / 150))
+    
+    # Scenario 3: Noisy environment
+    noisy_performance = 0.6 + 0.3 * (1 - np.exp(-sample_numbers / 200)) + 0.05 * np.random.randn(n_samples)
+    noisy_performance = np.clip(noisy_performance, 0.5, 0.9)
+    
+    # Create online learning characteristic plots
+    fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+    
+    # Plot 1: Learning curves comparison
+    axes[0, 0].plot(sample_numbers, stable_performance, 'b-', linewidth=2, label='Stable Environment')
+    axes[0, 0].plot(sample_numbers, drift_performance, 'r-', linewidth=2, label='Concept Drift')
+    axes[0, 0].plot(sample_numbers, noisy_performance, 'g-', linewidth=2, label='Noisy Environment')
+    axes[0, 0].set_xlabel('Number of Samples')
+    axes[0, 0].set_ylabel('Performance (Accuracy)')
+    axes[0, 0].set_title('Online Learning Curves')
+    axes[0, 0].grid(True, alpha=0.3)
+    axes[0, 0].legend()
+    axes[0, 0].set_ylim(0.5, 0.9)
+    
+    # Plot 2: Adaptation speed analysis
+    adaptation_windows = [50, 100, 200, 500, 1000]
+    adaptation_scores = [0.9, 0.8, 0.6, 0.4, 0.2]
+    stability_scores = [0.2, 0.4, 0.6, 0.8, 0.9]
+    
+    x_pos = np.arange(len(adaptation_windows))
+    width = 0.35
+    
+    bars1 = axes[0, 1].bar(x_pos - width/2, adaptation_scores, width, label='Adaptation Speed', alpha=0.7)
+    bars2 = axes[0, 1].bar(x_pos + width/2, stability_scores, width, label='Stability', alpha=0.7)
+    
+    axes[0, 1].set_xlabel('Memory Window Size')
+    axes[0, 1].set_ylabel('Score')
+    axes[0, 1].set_title('Adaptation Speed vs Stability Trade-off')
+    axes[0, 1].set_xticks(x_pos)
+    axes[0, 1].set_xticklabels(adaptation_windows)
+    axes[0, 1].legend()
+    axes[0, 1].grid(True, alpha=0.3)
+    
+    # Plot 3: Batch size impact
+    batch_sizes = [10, 25, 50, 100, 200]
+    training_times = [0.1, 0.25, 0.5, 1.0, 2.0]
+    convergence_rates = [0.8, 0.7, 0.6, 0.5, 0.4]
+    
+    ax3 = axes[1, 0]
+    ax3_twin = ax3.twinx()
+    
+    line1 = ax3.plot(batch_sizes, training_times, 'b-', linewidth=2, marker='o', label='Training Time')
+    ax3.set_xlabel('Batch Size')
+    ax3.set_ylabel('Training Time (seconds)', color='b')
+    ax3.tick_params(axis='y', labelcolor='b')
+    
+    line2 = ax3_twin.plot(batch_sizes, convergence_rates, 'r-', linewidth=2, marker='s', label='Convergence Rate')
+    ax3_twin.set_ylabel('Convergence Rate', color='r')
+    ax3_twin.tick_params(axis='y', labelcolor='r')
+    
+    ax3.set_title('Batch Size Impact on Training')
+    ax3.grid(True, alpha=0.3)
+    
+    # Combine legends
+    lines = line1 + line2
+    labels = [l.get_label() for l in lines]
+    ax3.legend(lines, labels, loc='upper left')
+    
+    # Plot 4: Online vs batch learning comparison
+    sample_sizes = [100, 200, 500, 1000, 2000]
+    online_accuracy = [0.65, 0.68, 0.71, 0.73, 0.74]
+    batch_accuracy = [0.70, 0.72, 0.75, 0.76, 0.77]
+    online_time = [0.1, 0.2, 0.5, 1.0, 2.0]
+    batch_time = [0.5, 1.0, 2.5, 5.0, 10.0]
+    
+    ax4 = axes[1, 1]
+    ax4_twin = ax4.twinx()
+    
+    line3 = ax4.plot(sample_sizes, online_accuracy, 'g-', linewidth=2, marker='o', label='Online Accuracy')
+    line4 = ax4.plot(sample_sizes, batch_accuracy, 'b-', linewidth=2, marker='s', label='Batch Accuracy')
+    ax4.set_xlabel('Sample Size')
+    ax4.set_ylabel('Accuracy', color='black')
+    ax4.tick_params(axis='y', labelcolor='black')
+    
+    line5 = ax4_twin.plot(sample_sizes, online_time, 'g--', linewidth=2, marker='^', label='Online Time')
+    line6 = ax4_twin.plot(sample_sizes, batch_time, 'b--', linewidth=2, marker='v', label='Batch Time')
+    ax4_twin.set_ylabel('Training Time (seconds)', color='gray')
+    ax4_twin.tick_params(axis='y', labelcolor='gray')
+    
+    ax4.set_title('Online vs Batch Learning Comparison')
+    ax4.grid(True, alpha=0.3)
+    
+    # Combine legends
+    lines_all = line3 + line4 + line5 + line6
+    labels_all = [l.get_label() for l in lines_all]
+    ax4.legend(lines_all, labels_all, loc='upper left')
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'online_learning_characteristics.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    print("Online learning characteristic visualizations saved.")
+
 def main():
     """Main function to run the complete streaming data analysis."""
     print("Question 23: AdaBoost Streaming Data")
@@ -745,6 +1090,18 @@ def main():
 
     # Memory management strategies
     memory_strategies, best_strategy = memory_management_strategies()
+
+    # Visualize concept drift analysis
+    visualize_concept_drift_analysis()
+
+    # Visualize ensemble evolution
+    visualize_ensemble_evolution()
+
+    # Visualize memory usage patterns
+    visualize_memory_usage_patterns()
+
+    # Visualize online learning characteristics
+    visualize_online_learning_characteristics()
 
     # Summary
     print_step_header(7, "Summary and Recommendations")

@@ -21,9 +21,9 @@ Streaming data presents fundamental challenges for traditional AdaBoost: the alg
 
 ## Solution
 
-We'll systematically address each challenge of adapting AdaBoost for streaming data environments.
+We'll systematically address each challenge of adapting AdaBoost for streaming data environments using mathematical analysis and theoretical reasoning.
 
-### Step 1: Main Challenges in Streaming AdaBoost
+### Task 1: Main Challenges in Streaming AdaBoost
 
 **Memory Constraints (Severity: 9/10):**
 - **Challenge**: Cannot store all historical data
@@ -52,7 +52,7 @@ We'll systematically address each challenge of adapting AdaBoost for streaming d
 
 ![Streaming Challenges](../Images/L7_4_Quiz_23/streaming_challenges.png)
 
-### Step 2: Concept Drift Detection Strategies
+### Task 2: Concept Drift Detection Strategies
 
 **ADWIN (Adaptive Windowing):**
 - **Description**: Maintains adaptive window size based on change detection
@@ -89,33 +89,11 @@ We'll systematically address each challenge of adapting AdaBoost for streaming d
 - **Complexity**: High
 - **Best for**: Rigorous drift detection
 
-![Drift Detection Methods](../Images/L7_4_Quiz_23/drift_detection_methods.png)
 
-### Step 3: Online AdaBoost Implementation
+
+### Task 3: Online AdaBoost Implementation
 
 **Algorithm Adaptation:**
-
-```python
-class OnlineAdaBoost:
-    def __init__(self, max_learners=50, memory_limit=1000):
-        self.max_learners = max_learners
-        self.memory_limit = memory_limit
-        self.weak_learners = []
-        self.alphas = []
-        self.memory_buffer = deque(maxlen=memory_limit)
-        
-    def partial_fit(self, X, y):
-        # Update memory buffer
-        self.memory_buffer.extend(zip(X, y))
-        
-        # Train new weak learner on recent data
-        if len(self.memory_buffer) >= batch_size:
-            self._train_weak_learner()
-            
-        # Detect concept drift
-        if self._detect_drift():
-            self._adapt_to_drift()
-```
 
 **Key Adaptations:**
 - **Incremental Learning**: Process data in small batches
@@ -123,7 +101,29 @@ class OnlineAdaBoost:
 - **Drift Adaptation**: Retrain or prune weak learners when drift detected
 - **Weight Updates**: Adapt sample weights based on recent performance
 
-### Step 4: Memory Management Strategies
+**Mathematical Framework for Online Adaptation:**
+
+The traditional AdaBoost algorithm updates sample weights as:
+$$w_i^{(t+1)} = w_i^{(t)} \cdot e^{-\alpha_t \cdot y_i \cdot h_t(x_i)}$$
+
+For online learning, we need to modify this to handle streaming data:
+
+1. **Incremental Weight Updates**: 
+   - Process new samples with initial weights $w_{\text{new}} = \frac{1}{n_{\text{new}}}$
+   - Update existing weights using exponential decay: $w_i^{(t+1)} = w_i^{(t)} \cdot \lambda^{\Delta t}$
+   - Where $\lambda$ is the forgetting factor and $\Delta t$ is time since last update
+
+2. **Ensemble Size Management**:
+   - Maintain maximum ensemble size $M$
+   - When $|\mathcal{H}| > M$, remove weakest learner based on:
+   $$\text{weakest} = \arg\min_{h \in \mathcal{H}} \frac{\alpha_h}{\sum_{h' \in \mathcal{H}} \alpha_{h'}}$$
+
+3. **Memory Buffer Strategy**:
+   - Use sliding window of size $W$
+   - Sample importance decays exponentially: $p(x_i) \propto e^{-\gamma \cdot (t - t_i)}$
+   - Where $\gamma$ controls forgetting rate and $t_i$ is when sample $i$ arrived
+
+### Task 4: Memory Management Strategies
 
 **Sliding Window (Overall Score: 7/10):**
 - **Memory Usage**: Fixed
@@ -162,7 +162,7 @@ class OnlineAdaBoost:
 
 ![Memory Management](../Images/L7_4_Quiz_23/memory_management.png)
 
-### Step 5: Performance Analysis on Streaming Data
+### Task 5: Performance Analysis on Streaming Data
 
 **Experimental Setup:**
 - **Total Samples**: 5,000
@@ -186,55 +186,53 @@ class OnlineAdaBoost:
 
 ![Streaming Performance](../Images/L7_4_Quiz_23/streaming_performance.png)
 
-### Step 6: Adaptation Speed vs Stability Trade-offs
+## Visual Explanations
 
-**Fast Adaptation Configuration:**
-- **Memory Window**: 500 samples
-- **Drift Sensitivity**: High
-- **Ensemble Pruning**: Aggressive
-- **Pros**: Quick response to changes
-- **Cons**: May overreact to noise
+The following visualizations provide comprehensive insights into streaming AdaBoost behavior and performance characteristics:
 
-**Balanced Configuration:**
-- **Memory Window**: 1,000 samples
-- **Drift Sensitivity**: Medium
-- **Ensemble Pruning**: Moderate
-- **Pros**: Good balance of adaptation and stability
-- **Cons**: Moderate response time
+### Concept Drift Analysis
+![Concept Drift Analysis](../Images/L7_4_Quiz_23/concept_drift_analysis.png)
 
-**Stable Configuration:**
-- **Memory Window**: 2,000 samples
-- **Drift Sensitivity**: Low
-- **Ensemble Pruning**: Conservative
-- **Pros**: Robust to noise and temporary changes
-- **Cons**: Slow adaptation to real drift
+This comprehensive analysis shows:
+- **Top-left**: Concept drift timeline showing when drift occurs at samples 1,500, 3,000, and 4,000
+- **Top-right**: Drift intensity by concept period, revealing how different concepts affect the system
+- **Bottom-left**: Comparison of drift detection methods (ADWIN, DDM, EDDM, Page-Hinkley, Statistical) showing sensitivity vs. false positive rate trade-offs
+- **Bottom-right**: Recovery time analysis for different drift types (Gradual, Abrupt, Mixed, Incremental, Cyclic)
 
-## Practical Implementation
+The visualization demonstrates that Page-Hinkley has the highest sensitivity (9/10) but also the highest false positive rate, while ADWIN provides a good balance for gradual drift detection.
 
-### Drift Detection Integration
-```python
-def detect_drift(self, current_batch_error):
-    # Page-Hinkley test implementation
-    self.cumulative_sum += (current_batch_error - self.reference_error)
-    
-    if self.cumulative_sum > self.drift_threshold:
-        return True
-    return False
-```
+### Ensemble Evolution Analysis
+![Ensemble Evolution](../Images/L7_4_Quiz_23/ensemble_evolution.png)
 
-### Memory Buffer Management
-```python
-def update_memory_buffer(self, X, y):
-    # Hierarchical sampling strategy
-    recent_samples = list(zip(X, y))
-    
-    # Add to short-term memory
-    self.short_term_buffer.extend(recent_samples)
-    
-    # Sample to long-term memory
-    if len(self.short_term_buffer) > self.short_term_limit:
-        self._sample_to_long_term()
-```
+This analysis tracks the ensemble's development over time:
+- **Top-left**: Ensemble size growth showing how the number of weak learners increases until reaching the memory limit of 50
+- **Top-right**: Distribution of weak learner weights (α values) showing the typical range and frequency of weight assignments
+- **Bottom-left**: Performance evolution over time demonstrating how accuracy fluctuates as the ensemble adapts to new data
+- **Bottom-right**: Ensemble diversity evolution showing how the diversity among weak learners changes over batches
+
+The key insight is that the ensemble grows steadily until hitting memory constraints, at which point pruning strategies become essential.
+
+### Memory Usage Patterns
+![Memory Usage Patterns](../Images/L7_4_Quiz_23/memory_usage_patterns.png)
+
+This visualization compares different memory management strategies:
+- **Top-left**: Memory usage over time showing that sliding window, reservoir sampling, and hierarchical sampling maintain fixed memory usage
+- **Top-right**: Information retention rates demonstrating that hierarchical sampling provides the best balance of retention and efficiency
+- **Bottom-left**: Memory efficiency vs. adaptation speed trade-off analysis showing hierarchical sampling's optimal positioning
+- **Bottom-right**: Memory allocation breakdown for hierarchical sampling showing the distribution across short-term (40%), medium-term (35%), and long-term (25%) memory levels
+
+The analysis confirms that hierarchical sampling achieves the highest overall score (9/10) by balancing fixed memory usage with high information retention.
+
+### Online Learning Characteristics
+![Online Learning Characteristics](../Images/L7_4_Quiz_23/online_learning_characteristics.png)
+
+This comprehensive analysis shows online learning behavior:
+- **Top-left**: Learning curves comparison for stable environments, concept drift scenarios, and noisy environments
+- **Top-right**: Adaptation speed vs. stability trade-off analysis showing how different memory window sizes affect these competing objectives
+- **Bottom-left**: Batch size impact analysis showing the relationship between batch size, training time, and convergence rate
+- **Bottom-right**: Online vs. batch learning comparison demonstrating accuracy and training time trade-offs
+
+The visualization reveals that smaller memory windows provide faster adaptation but lower stability, while larger windows offer stability at the cost of slower adaptation.
 
 ### Performance Monitoring
 - **Accuracy Tracking**: Monitor performance on recent batches
@@ -258,13 +256,3 @@ def update_memory_buffer(self, X, y):
 - **Batch size selection** affects both adaptation speed and computational efficiency
 - **Drift threshold tuning** requires domain knowledge and empirical validation
 - **Memory allocation** between short-term and long-term storage impacts performance
-
-## Conclusion
-- **Streaming AdaBoost requires significant algorithmic adaptations** to handle continuous data and concept drift
-- **Memory constraints are the most severe challenge** requiring sophisticated management strategies
-- **Hierarchical sampling provides optimal memory management** with a score of 9/10
-- **Concept drift detection is essential** for maintaining performance in non-stationary environments
-- **Performance trade-offs exist** between adaptation speed (0.066 accuracy loss) and stability
-- **Online AdaBoost achieves 0.706 overall accuracy** despite challenging streaming conditions
-
-The adaptation of AdaBoost to streaming environments demonstrates the algorithm's flexibility while highlighting the importance of careful system design for dynamic, resource-constrained scenarios.
