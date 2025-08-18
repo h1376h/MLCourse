@@ -456,17 +456,17 @@ Create an "AdaBoost Weight Detective" game where you analyze sample weight evolu
 - $h_3(x)$: $+1$ if $x \leq 4.5$, $-1$ otherwise
 
 #### Task
-1. Calculate initial weights (all equal) for the 6 samples
-2. **Iteration 1**: 
+1. [📚] Calculate initial weights (all equal) for the 6 samples
+2. [📚] **Iteration 1**: 
    - Calculate weighted error for $h_1$
    - Calculate $\alpha_1$ for $h_1$
    - Update sample weights after $h_1$
-3. **Iteration 2**: 
+3. [📚] **Iteration 2**: 
    - Calculate weighted error for $h_2$
    - Calculate $\alpha_2$ for $h_2$
    - Update sample weights after $h_2$
-4. Which samples have the highest weights after 2 iterations? Why?
-5. If $h_1$ predicts $[1,1,-1,-1,1,-1]$ and $h_2$ predicts $[1,1,-1,-1,1,-1]$, what's the final ensemble prediction for each sample?
+4. [📚] Which samples have the highest weights after 2 iterations? Why?
+5. [📚] If $h_1$ predicts $[1,1,-1,-1,1,-1]$ and $h_2$ predicts $[1,1,-1,-1,1,-1]$, what's the final ensemble prediction for each sample?
 
 For a detailed explanation of this question, see [Question 26: AdaBoost Weight Detective](L7_4_26_explanation.md).
 
@@ -488,7 +488,7 @@ Design an "AdaBoost Algorithm Race" where you manually trace through the complet
 
 #### Task
 1. Set initial weights $w_1 = w_2 = w_3 = w_4 = 0.25$
-2. **First Iteration**: 
+2. [📚] **First Iteration**: 
    - Evaluate all three weak learners
    - Find the best weak learner (lowest weighted error)
    - Calculate its weight $\alpha$
@@ -859,11 +859,11 @@ For a detailed explanation of this question, see [Question 42: AdaBoost Formula 
 Compare how Bagging and Boosting affect the bias-variance trade-off, based on the principles of ensemble learning.
 
 #### Task
-1. What is the primary effect of Bagging on the bias-variance trade-off?
-2. What is the primary effect of Boosting on the bias-variance trade-off?
-3. Why are high-variance, low-bias models like deep decision trees good base learners for Bagging?
-4. Why are high-bias, low-variance models (weak learners) like decision stumps suitable for Boosting?
-5. If your model suffers from high bias, would you choose Bagging or Boosting? Justify your choice.
+1. [📚] What is the primary effect of Bagging on the bias-variance trade-off?
+2. [📚] What is the primary effect of Boosting on the bias-variance trade-off?
+3. [📚] Why are high-variance, low-bias models like deep decision trees good base learners for Bagging?
+4. [📚] Why are high-bias, low-variance models (weak learners) like decision stumps suitable for Boosting?
+5. [📚] If your model suffers from high bias, would you choose Bagging or Boosting? Justify your choice.
 
 For a detailed explanation of this question, see [Question 43: Bias-Variance in Ensembles](L7_4_43_explanation.md).
 
