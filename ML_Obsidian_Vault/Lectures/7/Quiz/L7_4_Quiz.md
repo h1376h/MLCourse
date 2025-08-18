@@ -371,7 +371,6 @@ For a detailed explanation of this question, see [Question 21: AdaBoost Converge
 ### Problem Statement
 Design an AdaBoost ensemble for a computer vision task.
 
-**Task:**
 - Binary classification: Image contains/doesn't contain object
 - 10,000 training images
 - Features: HOG, SIFT, color histograms
@@ -408,42 +407,19 @@ For a detailed explanation of this question, see [Question 23: AdaBoost Streamin
 
 ## Question 24
 
-### Problem Statement
-Compare AdaBoost with other boosting algorithms.
-
-**Algorithms:**
-- AdaBoost
-- Gradient Boosting
-- XGBoost
-- LightGBM
-
-#### Task
-1. What are the key differences between AdaBoost and gradient boosting?
-2. When would you choose AdaBoost over XGBoost?
-3. What are the computational trade-offs between these methods?
-4. Which method would be most suitable for a small dataset ($< 1000$ samples)?
-5. If you need to explain predictions to business stakeholders, which method would you prefer?
-
-For a detailed explanation of this question, see [Question 24: Boosting Algorithm Comparison](L7_4_24_explanation.md).
+[....]
 
 ## Question 25
 
 ### Problem Statement
-Design a comprehensive AdaBoost evaluation framework.
-
-**Evaluation Requirements:**
-- Multiple datasets with different characteristics
-- Various weak learner types
-- Different ensemble sizes
-- Multiple evaluation metrics
-- Statistical significance testing
+Design a comprehensive evaluation framework for AdaBoost that includes multiple datasets, weak learner configurations, ensemble sizes, and statistical significance testing. The framework must be computationally feasible within a 24-hour budget.
 
 #### Task
-1. What datasets would you choose for comprehensive evaluation?
-2. How would you measure statistical significance of performance differences?
-3. What evaluation metrics would you use for different problem types?
-4. How would you handle computational constraints in evaluation?
-5. If you have 24 hours to run experiments, how would you prioritize your evaluation?
+1. How would you design datasets to comprehensively test AdaBoost performance?
+2. What weak learner configurations should be evaluated?
+3. How would you test different ensemble sizes systematically?
+4. What statistical tests are appropriate for comparing configurations?
+5. How would you optimize the evaluation within computational constraints?
 
 For a detailed explanation of this question, see [Question 25: AdaBoost Evaluation Framework](L7_4_25_explanation.md).
 
