@@ -1,125 +1,129 @@
-# Lecture 11: Handling Imbalanced Data
+# Lecture 11: Clustering and Unsupervised Learning
 
 ## Overview
-This module addresses the critical challenge of class imbalance in machine learning, covering techniques for handling skewed datasets, synthetic data generation methods like SMOTE, and various sampling strategies to improve model performance on minority classes.
+This module introduces unsupervised learning methods, with a focus on clustering algorithms. You'll learn about different clustering approaches, distance metrics, evaluation methods, and applications of unsupervised learning in machine learning.
 
-### Lecture 11.1: Understanding Class Imbalance
-- [[L11_1_Class_Imbalance_Concept|Class Imbalance Concept]]: What is class imbalance and why it matters
-- [[L11_1_Imbalance_Problems|Problems with Imbalanced Data]]: Biased models and poor performance
-- [[L11_1_Imbalance_Ratios|Imbalance Ratios]]: Mild, moderate, and severe imbalance
-- [[L11_1_Real_World_Examples|Real-World Examples]]: Fraud detection, medical diagnosis
-- [[L11_1_Imbalance_Detection|Detecting Imbalance]]: How to identify imbalanced datasets
-- [[L11_1_Examples|Basic Examples]]: Simple imbalance demonstrations
-- Required Reading: Chapter 8 of "Imbalanced Learning" by He and Garcia
-- Quiz: [[L11_1_Quiz]]: Test your understanding of class imbalance concepts
+### Lecture 11.1: Foundations of Unsupervised Learning
+- [[L11_1_Unsupervised_Learning_Concept|Unsupervised Learning Concept]]: Learning without labels
+- [[L11_1_Clustering_Overview|Clustering Overview]]: Grouping similar data points
+- [[L11_1_Distance_Metrics|Distance Metrics]]: Euclidean, Manhattan, Cosine similarity
+- [[L11_1_Clustering_Applications|Clustering Applications]]: Customer segmentation, image compression
+- [[L11_1_Clustering_Challenges|Clustering Challenges]]: Choosing number of clusters, handling noise
+- [[L11_1_Examples|Basic Examples]]: Simple clustering demonstrations
+- Required Reading: Chapter 9 of "Pattern Recognition and Machine Learning" by Bishop
+- Quiz: [[L11_1_Quiz]]: Test your understanding of unsupervised learning foundations
 
-### Lecture 11.2: Evaluation Metrics for Imbalanced Data
-- [[L11_2_Imbalanced_Metrics|Metrics for Imbalanced Data]]: Why accuracy fails
-- [[L11_2_Precision_Recall_Imbalanced|Precision and Recall]]: Focus on minority class
-- [[L11_2_F1_Score_Imbalanced|F1 Score]]: Harmonic mean for imbalanced data
-- [[L11_2_ROC_AUC_Imbalanced|ROC and AUC]]: ROC curves for imbalanced problems
-- [[L11_2_Precision_Recall_Curves|Precision-Recall Curves]]: Better than ROC for imbalance
-- [[L11_2_Examples|Metric Examples]]: Implementation and interpretation
-- Required Reading: Chapter 8.1 of "Imbalanced Learning" by He and Garcia
-- Quiz: [[L11_2_Quiz]]: Test your understanding of evaluation metrics for imbalanced data
+### Lecture 11.2: K-Means Clustering
+- [[L11_2_K_Means_Algorithm|K-Means Algorithm]]: Iterative clustering approach
+- [[L11_2_Algorithm_Steps|Algorithm Steps]]: Initialization, assignment, update
+- [[L11_2_Initialization_Strategies|Initialization Strategies]]: K-means++, random initialization
+- [[L11_2_Convergence|Convergence Properties]]: When and why K-means converges
+- [[L11_2_K_Means_Limitations|K-Means Limitations]]: Local optima, cluster shapes
+- [[L11_2_Implementation|K-Means Implementation]]: Code examples and pseudocode
+- [[L11_2_Examples|K-Means Examples]]: Applications and visualizations
+- Required Reading: Chapter 9.1 of "Pattern Recognition and Machine Learning" by Bishop
+- Quiz: [[L11_2_Quiz]]: Test your understanding of K-means clustering
 
-### Lecture 11.3: Random Oversampling
-- [[L11_3_Random_Oversampling|Random Oversampling]]: Simple duplication approach
-- [[L11_3_Oversampling_Process|Oversampling Process]]: How to implement random oversampling
-- [[L11_3_Oversampling_Advantages|Oversampling Advantages]]: When random oversampling helps
-- [[L11_3_Oversampling_Limitations|Oversampling Limitations]]: Overfitting and memorization
-- [[L11_3_Implementation_Considerations|Implementation Considerations]]: Practical aspects
-- [[L11_3_Examples|Oversampling Examples]]: Implementation and case studies
-- Required Reading: Chapter 9.1 of "Imbalanced Learning" by He and Garcia
-- Quiz: [[L11_3_Quiz]]: Test your understanding of random oversampling
+### Lecture 11.3: Hierarchical Clustering
+- [[L11_3_Hierarchical_Clustering|Hierarchical Clustering]]: Tree-based clustering structure
+- [[L11_3_Agglomerative_Clustering|Agglomerative Clustering]]: Bottom-up approach
+- [[L11_3_Divisive_Clustering|Divisive Clustering]]: Top-down approach
+- [[L11_3_Linkage_Methods|Linkage Methods]]: Single, complete, average, Ward
+- [[L11_3_Dendrogram_Interpretation|Dendrogram Interpretation]]: Reading cluster hierarchies
+- [[L11_3_Advantages_Disadvantages|Advantages and Disadvantages]]: When to use hierarchical clustering
+- [[L11_3_Examples|Hierarchical Examples]]: Implementation and applications
+- Required Reading: Chapter 9.2 of "Pattern Recognition and Machine Learning" by Bishop
+- Quiz: [[L11_3_Quiz]]: Test your understanding of hierarchical clustering
 
-### Lecture 11.4: Random Undersampling
-- [[L11_4_Random_Undersampling|Random Undersampling]]: Reducing majority class samples
-- [[L11_4_Undersampling_Process|Undersampling Process]]: Implementation and techniques
-- [[L11_4_Undersampling_Advantages|Undersampling Advantages]]: When to use undersampling
-- [[L11_4_Undersampling_Limitations|Undersampling Limitations]]: Information loss concerns
-- [[L11_4_Undersampling_Strategies|Undersampling Strategies]]: Different approaches
-- [[L11_4_Examples|Undersampling Examples]]: Implementation and applications
-- Required Reading: Chapter 9.2 of "Imbalanced Learning" by He and Garcia
-- Quiz: [[L11_4_Quiz]]: Test your understanding of random undersampling
+### Lecture 11.4: Density-Based Clustering
+- [[L11_4_Density_Based_Clustering|Density-Based Clustering]]: Clustering based on data density
+- [[L11_4_DBSCAN_Algorithm|DBSCAN Algorithm]]: Density-Based Spatial Clustering
+- [[L11_4_Core_Border_Noise|Core, Border, and Noise Points]]: DBSCAN point classification
+- [[L11_4_DBSCAN_Parameters|DBSCAN Parameters]]: Epsilon and MinPts selection
+- [[L11_4_DBSCAN_Advantages|DBSCAN Advantages]]: Handling irregular shapes, noise
+- [[L11_4_DBSCAN_Limitations|DBSCAN Limitations]]: Parameter sensitivity, high-dimensional data
+- [[L11_4_Examples|DBSCAN Examples]]: Implementation and case studies
+- Required Reading: "A Density-Based Algorithm for Discovering Clusters" by Ester et al.
+- Quiz: [[L11_4_Quiz]]: Test your understanding of density-based clustering
 
-### Lecture 11.5: SMOTE and Synthetic Data Generation
-- [[L11_5_SMOTE_Concept|SMOTE Concept]]: Synthetic Minority Over-sampling Technique
-- [[L11_5_SMOTE_Algorithm|SMOTE Algorithm]]: Step-by-step SMOTE process
-- [[L11_5_SMOTE_Implementation|SMOTE Implementation]]: How to implement SMOTE
-- [[L11_5_SMOTE_Variants|SMOTE Variants]]: Borderline SMOTE, ADASYN
-- [[L11_5_SMOTE_Advantages|SMOTE Advantages]]: Why SMOTE is effective
-- [[L11_5_SMOTE_Limitations|SMOTE Limitations]]: When SMOTE fails
-- [[L11_5_Examples|SMOTE Examples]]: Implementation and case studies
-- Required Reading: "SMOTE: Synthetic Minority Over-sampling Technique" by Chawla et al.
-- Quiz: [[L11_5_Quiz]]: Test your understanding of SMOTE and synthetic data generation
+### Lecture 11.5: Model-Based Clustering
+- [[L11_5_Model_Based_Clustering|Model-Based Clustering]]: Probabilistic clustering approaches
+- [[L11_5_Gaussian_Mixture_Models|Gaussian Mixture Models]]: GMM clustering
+- [[L11_5_Expectation_Maximization|Expectation-Maximization]]: EM algorithm for GMM
+- [[L11_5_Model_Selection|Model Selection]]: Choosing number of components
+- [[L11_5_Soft_Clustering|Soft Clustering]]: Probabilistic cluster assignments
+- [[L11_5_Advantages_Model_Based|Advantages of Model-Based Approaches]]: Uncertainty quantification
+- [[L11_5_Examples|Model-Based Examples]]: GMM implementation and applications
+- Required Reading: Chapter 9.3 of "Pattern Recognition and Machine Learning" by Bishop
+- Quiz: [[L11_5_Quiz]]: Test your understanding of model-based clustering
 
-### Lecture 11.6: Advanced Synthetic Data Methods
-- [[L11_6_Advanced_Synthetic|Advanced Synthetic Methods]]: Beyond SMOTE
-- [[L11_6_ADASYN|ADASYN]]: Adaptive Synthetic Sampling
-- [[L11_6_Borderline_SMOTE|Borderline SMOTE]]: Focusing on decision boundaries
-- [[L11_6_Safe_Level_SMOTE|Safe Level SMOTE]]: Safe synthetic sample generation
-- [[L11_6_Data_Augmentation|Data Augmentation]]: Creating variations of existing samples
-- [[L11_6_Examples|Advanced Examples]]: Implementation and applications
-- Required Reading: Chapter 9.3 of "Imbalanced Learning" by He and Garcia
-- Quiz: [[L11_6_Quiz]]: Test your understanding of advanced synthetic data methods
+### Lecture 11.6: Clustering Evaluation and Validation
+- [[L11_6_Clustering_Evaluation|Clustering Evaluation]]: Measuring clustering quality
+- [[L11_6_Internal_Indices|Internal Indices]]: Silhouette, Calinski-Harabasz, Davies-Bouldin
+- [[L11_6_External_Indices|External Indices]]: Adjusted Rand Index, Normalized Mutual Information
+- [[L11_6_Elbow_Method|Elbow Method]]: Choosing optimal number of clusters
+- [[L11_6_Gap_Statistic|Gap Statistic]]: Statistical approach to cluster number selection
+- [[L11_6_Cross_Validation_Clustering|Cross-Validation for Clustering]]: Stability-based evaluation
+- [[L11_6_Examples|Evaluation Examples]]: Implementation and interpretation
+- Required Reading: Chapter 9.4 of "Pattern Recognition and Machine Learning" by Bishop
+- Quiz: [[L11_6_Quiz]]: Test your understanding of clustering evaluation
 
-### Lecture 11.7: Hybrid and Ensemble Methods
-- [[L11_7_Hybrid_Methods|Hybrid Methods]]: Combining oversampling and undersampling
-- [[L11_7_SMOTEENN|SMOTEENN]]: SMOTE with Edited Nearest Neighbors
-- [[L11_7_SMOTETomek|SMOTETomek]]: SMOTE with Tomek links
-- [[L11_7_Ensemble_Imbalanced|Ensemble Methods]]: Using multiple models
-- [[L11_7_Balanced_Ensembles|Balanced Ensembles]]: Creating balanced model combinations
-- [[L11_7_Examples|Hybrid Examples]]: Implementation and case studies
-- Required Reading: Chapter 9.4 of "Imbalanced Learning" by He and Garcia
-- Quiz: [[L11_7_Quiz]]: Test your understanding of hybrid and ensemble methods
+### Lecture 11.7: Advanced Clustering Techniques
+- [[L11_7_Spectral_Clustering|Spectral Clustering]]: Graph-based clustering approach
+- [[L11_7_Mean_Shift|Mean Shift Clustering]]: Mode-seeking algorithm
+- [[L11_7_Affinity_Propagation|Affinity Propagation]]: Message-passing clustering
+- [[L11_7_Clustering_Large_Datasets|Clustering Large Datasets]]: Scalability considerations
+- [[L11_7_Online_Clustering|Online Clustering]]: Incremental clustering algorithms
+- [[L11_7_Examples|Advanced Examples]]: Implementation and applications
+- Required Reading: Chapter 9.5 of "Pattern Recognition and Machine Learning" by Bishop
+- Quiz: [[L11_7_Quiz]]: Test your understanding of advanced clustering
 
-### Lecture 11.8: Cost-Sensitive Learning and Best Practices
-- [[L11_8_Cost_Sensitive_Learning|Cost-Sensitive Learning]]: Penalizing misclassification differently
-- [[L11_8_Cost_Matrix|Cost Matrix]]: Defining misclassification costs
-- [[L11_8_Algorithm_Modifications|Algorithm Modifications]]: Adapting algorithms for imbalance
-- [[L11_8_Best_Practices|Best Practices]]: Guidelines for handling imbalanced data
-- [[L11_8_Method_Selection|Method Selection]]: Choosing the right approach
+### Lecture 11.8: Clustering Applications and Case Studies
+- [[L11_8_Image_Segmentation|Image Segmentation]]: Clustering in computer vision
+- [[L11_8_Customer_Segmentation|Customer Segmentation]]: Marketing applications
+- [[L11_8_Document_Clustering|Document Clustering]]: Text mining applications
+- [[L11_8_Anomaly_Detection|Anomaly Detection]]: Finding outliers using clustering
 - [[L11_8_Real_World_Applications|Real-World Applications]]: Case studies and examples
-- Required Reading: Chapter 10 of "Imbalanced Learning" by He and Garcia
-- Quiz: [[L11_8_Quiz]]: Test your understanding of cost-sensitive learning and best practices
+- [[L11_8_Clustering_Challenges|Practical Challenges]]: Implementation considerations
+- Required Reading: Chapter 9.6 of "Pattern Recognition and Machine Learning" by Bishop
+- Quiz: [[L11_8_Quiz]]: Test your understanding of clustering applications
 
 ## Programming Resources
-- [[L11_Imbalanced_Data_Python_Guide|Python Implementation Guide]]: Step-by-step implementation
-- [[L11_SMOTE_Implementation|SMOTE Algorithm Implementation]]: Code tutorial
-- [[L11_Oversampling_Undersampling_Code|Sampling Methods Implementation]]: Implementation guide
-- [[L11_Imbalanced_Metrics_Code|Evaluation Metrics for Imbalanced Data]]: Metric implementation
-- [[L11_Scikit_Learn_Imbalanced|Using Scikit-learn for Imbalanced Data]]: Library tutorial
-- [[L11_Advanced_Sampling_Code|Advanced Sampling Methods]]: Implementation guide
-- [[L11_Cost_Sensitive_Learning_Code|Cost-Sensitive Learning Implementation]]: Cost matrix tutorial
+- [[L11_Clustering_Python_Guide|Python Implementation Guide]]: Step-by-step implementation
+- [[L11_K_Means_From_Scratch|Building K-Means from Scratch]]: Code tutorial
+- [[L11_DBSCAN_Implementation|DBSCAN Algorithm Implementation]]: Density-based clustering
+- [[L11_Scikit_Learn_Clustering|Using Scikit-learn for Clustering]]: Library tutorial
+- [[L11_Clustering_Visualization|Clustering Visualization]]: Plotting techniques
+- [[L11_GMM_Implementation|Gaussian Mixture Models]]: Probabilistic clustering
+- [[L11_Clustering_Evaluation_Code|Clustering Evaluation Methods]]: Implementation of metrics
 
 ## Related Slides
 *(not included in the repo)*
-- Class_Imbalance_Overview.pdf
-- Evaluation_Metrics_Imbalanced.pdf
-- Random_Sampling_Methods.pdf
-- SMOTE_Algorithm_Deep_Dive.pdf
-- Advanced_Synthetic_Methods.pdf
-- Hybrid_Ensemble_Methods.pdf
-- Cost_Sensitive_Learning.pdf
-- Best_Practices_Imbalanced.pdf
+- Unsupervised_Learning_Foundations.pdf
+- K_Means_Algorithm_Deep_Dive.pdf
+- Hierarchical_Clustering_Methods.pdf
+- Density_Based_Clustering.pdf
+- Model_Based_Clustering.pdf
+- Clustering_Evaluation.pdf
+- Advanced_Clustering_Techniques.pdf
+- Clustering_Applications.pdf
 
 ## Related Videos
-- [Introduction to Class Imbalance](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [Evaluation Metrics for Imbalanced Data](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [SMOTE Algorithm Explained](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [Handling Imbalanced Data](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [Advanced Sampling Methods](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [Cost-Sensitive Learning](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [Best Practices for Imbalanced Data](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Introduction to Unsupervised Learning](https://www.youtube.com/watch?v=8yZMXCaFshs)
+- [K-Means Clustering Algorithm](https://www.youtube.com/watch?v=4b5d3muPnMA)
+- [Hierarchical Clustering Methods](https://www.youtube.com/watch?v=7xHsRkOdVlE)
+- [DBSCAN Density-Based Clustering](https://www.youtube.com/watch?v=MEs1ufJm92w)
+- [Gaussian Mixture Models](https://www.youtube.com/watch?v=JNlEIEwe-Cg)
+- [Clustering Evaluation Methods](https://www.youtube.com/watch?v=8yZMXCaFshs)
+- [Advanced Clustering Techniques](https://www.youtube.com/watch?v=8yZMXCaFshs)
 
 ## All Quizzes
 Test your understanding with these quizzes:
-- [[L11_1_Quiz]]: Understanding Class Imbalance
-- [[L11_2_Quiz]]: Evaluation Metrics for Imbalanced Data
-- [[L11_3_Quiz]]: Random Oversampling
-- [[L11_4_Quiz]]: Random Undersampling
-- [[L11_5_Quiz]]: SMOTE and Synthetic Data Generation
-- [[L11_6_Quiz]]: Advanced Synthetic Data Methods
-- [[L11_7_Quiz]]: Hybrid and Ensemble Methods
-- [[L11_8_Quiz]]: Cost-Sensitive Learning and Best Practices
+- [[L11_1_Quiz]]: Foundations of Unsupervised Learning
+- [[L11_2_Quiz]]: K-Means Clustering
+- [[L11_3_Quiz]]: Hierarchical Clustering
+- [[L11_4_Quiz]]: Density-Based Clustering
+- [[L11_5_Quiz]]: Model-Based Clustering
+- [[L11_6_Quiz]]: Clustering Evaluation and Validation
+- [[L11_7_Quiz]]: Advanced Clustering Techniques
+- [[L11_8_Quiz]]: Clustering Applications and Case Studies

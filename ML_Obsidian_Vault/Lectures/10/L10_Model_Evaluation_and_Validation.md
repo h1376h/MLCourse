@@ -1,129 +1,125 @@
-# Lecture 10: Model Evaluation and Validation
+# Lecture 10: Handling Imbalanced Data
 
 ## Overview
-This module covers comprehensive model evaluation and validation techniques, including evaluation metrics, validation methods, sampling strategies, and performance assessment. You'll learn how to properly evaluate machine learning models and avoid common pitfalls in model assessment.
+This module addresses the critical challenge of class imbalance in machine learning, covering techniques for handling skewed datasets, synthetic data generation methods like SMOTE, and various sampling strategies to improve model performance on minority classes.
 
-### Lecture 10.1: Foundations of Model Evaluation
-- [[L10_1_Evaluation_Concept|Model Evaluation Concept]]: Why and how to evaluate models
-- [[L10_1_Generalization|Generalization]]: Training vs test performance
-- [[L10_1_Overfitting_Underfitting|Overfitting and Underfitting]]: Model complexity tradeoffs
-- [[L10_1_Bias_Variance|Bias-Variance Tradeoff]]: Fundamental tradeoff in ML
-- [[L10_1_Evaluation_Process|Evaluation Process]]: Systematic approach to model assessment
-- [[L10_1_Examples|Basic Examples]]: Simple evaluation demonstrations
-- Required Reading: Chapter 7 of "Introduction to Machine Learning" by Alpaydin
-- Quiz: [[L10_1_Quiz]]: Test your understanding of model evaluation foundations
+### Lecture 10.1: Understanding Class Imbalance
+- [[L10_1_Class_Imbalance_Concept|Class Imbalance Concept]]: What is class imbalance and why it matters
+- [[L10_1_Imbalance_Problems|Problems with Imbalanced Data]]: Biased models and poor performance
+- [[L10_1_Imbalance_Ratios|Imbalance Ratios]]: Mild, moderate, and severe imbalance
+- [[L10_1_Real_World_Examples|Real-World Examples]]: Fraud detection, medical diagnosis
+- [[L10_1_Imbalance_Detection|Detecting Imbalance]]: How to identify imbalanced datasets
+- [[L10_1_Examples|Basic Examples]]: Simple imbalance demonstrations
+- Required Reading: Chapter 8 of "Imbalanced Learning" by He and Garcia
+- Quiz: [[L10_1_Quiz]]: Test your understanding of class imbalance concepts
 
-### Lecture 10.2: Classification Evaluation Metrics
-- [[L10_2_Classification_Metrics|Classification Metrics Overview]]: Metrics for classification tasks
-- [[L10_2_Accuracy|Accuracy]]: Overall correctness measure
-- [[L10_2_Precision_Recall|Precision and Recall]]: Detailed performance measures
-- [[L10_2_F1_Score|F1 Score]]: Harmonic mean of precision and recall
-- [[L10_2_Confusion_Matrix|Confusion Matrix]]: Comprehensive error analysis
-- [[L10_2_Micro_Macro_Weighted|Micro, Macro, and Weighted Metrics]]: Multi-class evaluation
-- [[L10_2_Examples|Classification Examples]]: Implementation and interpretation
-- Required Reading: Chapter 7.1 of "Introduction to Machine Learning" by Alpaydin
-- Quiz: [[L10_2_Quiz]]: Test your understanding of classification evaluation metrics
+### Lecture 10.2: Evaluation Metrics for Imbalanced Data
+- [[L10_2_Imbalanced_Metrics|Metrics for Imbalanced Data]]: Why accuracy fails
+- [[L10_2_Precision_Recall_Imbalanced|Precision and Recall]]: Focus on minority class
+- [[L10_2_F1_Score_Imbalanced|F1 Score]]: Harmonic mean for imbalanced data
+- [[L10_2_ROC_AUC_Imbalanced|ROC and AUC]]: ROC curves for imbalanced problems
+- [[L10_2_Precision_Recall_Curves|Precision-Recall Curves]]: Better than ROC for imbalance
+- [[L10_2_Examples|Metric Examples]]: Implementation and interpretation
+- Required Reading: Chapter 8.1 of "Imbalanced Learning" by He and Garcia
+- Quiz: [[L10_2_Quiz]]: Test your understanding of evaluation metrics for imbalanced data
 
-### Lecture 10.3: Regression Evaluation Metrics
-- [[L10_3_Regression_Metrics|Regression Metrics Overview]]: Metrics for regression tasks
-- [[L10_3_Mean_Squared_Error|Mean Squared Error]]: MSE and RMSE
-- [[L10_3_Mean_Absolute_Error|Mean Absolute Error]]: MAE and its advantages
-- [[L10_3_R_Squared|R-Squared]]: Coefficient of determination
-- [[L10_3_Adjusted_R_Squared|Adjusted R-Squared]]: Penalized R-squared
-- [[L10_3_Regression_Interpretation|Metric Interpretation]]: Understanding regression performance
-- [[L10_3_Examples|Regression Examples]]: Implementation and case studies
-- Required Reading: Chapter 7.2 of "Introduction to Machine Learning" by Alpaydin
-- Quiz: [[L10_3_Quiz]]: Test your understanding of regression evaluation metrics
+### Lecture 10.3: Random Oversampling
+- [[L10_3_Random_Oversampling|Random Oversampling]]: Simple duplication approach
+- [[L10_3_Oversampling_Process|Oversampling Process]]: How to implement random oversampling
+- [[L10_3_Oversampling_Advantages|Oversampling Advantages]]: When random oversampling helps
+- [[L10_3_Oversampling_Limitations|Oversampling Limitations]]: Overfitting and memorization
+- [[L10_3_Implementation_Considerations|Implementation Considerations]]: Practical aspects
+- [[L10_3_Examples|Oversampling Examples]]: Implementation and case studies
+- Required Reading: Chapter 9.1 of "Imbalanced Learning" by He and Garcia
+- Quiz: [[L10_3_Quiz]]: Test your understanding of random oversampling
 
-### Lecture 10.4: ROC Curves and AUC
-- [[L10_4_ROC_Curves|ROC Curves]]: Receiver Operating Characteristic curves
-- [[L10_4_ROC_Construction|ROC Construction]]: How to build ROC curves
-- [[L10_4_AUC_Calculation|AUC Calculation]]: Area Under the Curve
-- [[L10_4_ROC_Interpretation|ROC Interpretation]]: Reading and understanding ROC curves
-- [[L10_4_ROC_vs_Precision_Recall|ROC vs Precision-Recall]]: When to use each
-- [[L10_4_ROC_Examples|ROC Examples]]: Implementation and applications
-- Required Reading: Chapter 7.3 of "Introduction to Machine Learning" by Alpaydin
-- Quiz: [[L10_4_Quiz]]: Test your understanding of ROC curves and AUC
+### Lecture 10.4: Random Undersampling
+- [[L10_4_Random_Undersampling|Random Undersampling]]: Reducing majority class samples
+- [[L10_4_Undersampling_Process|Undersampling Process]]: Implementation and techniques
+- [[L10_4_Undersampling_Advantages|Undersampling Advantages]]: When to use undersampling
+- [[L10_4_Undersampling_Limitations|Undersampling Limitations]]: Information loss concerns
+- [[L10_4_Undersampling_Strategies|Undersampling Strategies]]: Different approaches
+- [[L10_4_Examples|Undersampling Examples]]: Implementation and applications
+- Required Reading: Chapter 9.2 of "Imbalanced Learning" by He and Garcia
+- Quiz: [[L10_4_Quiz]]: Test your understanding of random undersampling
 
-### Lecture 10.5: Validation Methods
-- [[L10_5_Validation_Overview|Validation Overview]]: Why validation is important
-- [[L10_5_Holdout_Method|Holdout Method]]: Simple train-test split
-- [[L10_5_Cross_Validation|Cross-Validation]]: K-fold cross-validation
-- [[L10_5_Leave_One_Out|Leave-One-Out Cross-Validation]]: LOOCV approach
-- [[L10_5_Stratified_Validation|Stratified Validation]]: Maintaining class distribution
-- [[L10_5_Validation_Comparison|Validation Method Comparison]]: Tradeoffs and selection
-- [[L10_5_Examples|Validation Examples]]: Implementation and best practices
-- Required Reading: Chapter 7.4 of "Introduction to Machine Learning" by Alpaydin
-- Quiz: [[L10_5_Quiz]]: Test your understanding of validation methods
+### Lecture 10.5: SMOTE and Synthetic Data Generation
+- [[L10_5_SMOTE_Concept|SMOTE Concept]]: Synthetic Minority Over-sampling Technique
+- [[L10_5_SMOTE_Algorithm|SMOTE Algorithm]]: Step-by-step SMOTE process
+- [[L10_5_SMOTE_Implementation|SMOTE Implementation]]: How to implement SMOTE
+- [[L10_5_SMOTE_Variants|SMOTE Variants]]: Borderline SMOTE, ADASYN
+- [[L10_5_SMOTE_Advantages|SMOTE Advantages]]: Why SMOTE is effective
+- [[L10_5_SMOTE_Limitations|SMOTE Limitations]]: When SMOTE fails
+- [[L10_5_Examples|SMOTE Examples]]: Implementation and case studies
+- Required Reading: "SMOTE: Synthetic Minority Over-sampling Technique" by Chawla et al.
+- Quiz: [[L10_5_Quiz]]: Test your understanding of SMOTE and synthetic data generation
 
-### Lecture 10.6: Sampling Techniques and Strategies
-- [[L10_6_Sampling_Overview|Sampling Overview]]: Different sampling approaches
-- [[L10_6_Random_Sampling|Random Sampling]]: Simple random sampling
-- [[L10_6_Stratified_Sampling|Stratified Sampling]]: Maintaining proportions
-- [[L10_6_Systematic_Sampling|Systematic Sampling]]: Regular interval sampling
-- [[L10_6_Cluster_Sampling|Cluster Sampling]]: Group-based sampling
-- [[L10_6_Sampling_Comparison|Sampling Method Comparison]]: When to use each approach
-- [[L10_6_Examples|Sampling Examples]]: Implementation and applications
-- Required Reading: Chapter 7.5 of "Introduction to Machine Learning" by Alpaydin
-- Quiz: [[L10_6_Quiz]]: Test your understanding of sampling techniques
+### Lecture 10.6: Advanced Synthetic Data Methods
+- [[L10_6_Advanced_Synthetic|Advanced Synthetic Methods]]: Beyond SMOTE
+- [[L10_6_ADASYN|ADASYN]]: Adaptive Synthetic Sampling
+- [[L10_6_Borderline_SMOTE|Borderline SMOTE]]: Focusing on decision boundaries
+- [[L10_6_Safe_Level_SMOTE|Safe Level SMOTE]]: Safe synthetic sample generation
+- [[L10_6_Data_Augmentation|Data Augmentation]]: Creating variations of existing samples
+- [[L10_6_Examples|Advanced Examples]]: Implementation and applications
+- Required Reading: Chapter 9.3 of "Imbalanced Learning" by He and Garcia
+- Quiz: [[L10_6_Quiz]]: Test your understanding of advanced synthetic data methods
 
-### Lecture 10.7: Bootstrap and Resampling Methods
-- [[L10_7_Bootstrap_Concept|Bootstrap Concept]]: Resampling with replacement
-- [[L10_7_Bootstrap_Estimation|Bootstrap Estimation]]: Estimating statistics
-- [[L10_7_Bootstrap_Confidence|Bootstrap Confidence Intervals]]: Statistical inference
-- [[L10_7_Bootstrap_Types|Bootstrap Types]]: Different bootstrap variants
-- [[L10_7_Bootstrap_Advantages|Bootstrap Advantages]]: When bootstrap is useful
-- [[L10_7_Bootstrap_Limitations|Bootstrap Limitations]]: When not to use bootstrap
-- [[L10_7_Examples|Bootstrap Examples]]: Implementation and interpretation
-- Required Reading: Chapter 7.6 of "Introduction to Machine Learning" by Alpaydin
-- Quiz: [[L10_7_Quiz]]: Test your understanding of bootstrap methods
+### Lecture 10.7: Hybrid and Ensemble Methods
+- [[L10_7_Hybrid_Methods|Hybrid Methods]]: Combining oversampling and undersampling
+- [[L10_7_SMOTEENN|SMOTEENN]]: SMOTE with Edited Nearest Neighbors
+- [[L10_7_SMOTETomek|SMOTETomek]]: SMOTE with Tomek links
+- [[L10_7_Ensemble_Imbalanced|Ensemble Methods]]: Using multiple models
+- [[L10_7_Balanced_Ensembles|Balanced Ensembles]]: Creating balanced model combinations
+- [[L10_7_Examples|Hybrid Examples]]: Implementation and case studies
+- Required Reading: Chapter 9.4 of "Imbalanced Learning" by He and Garcia
+- Quiz: [[L10_7_Quiz]]: Test your understanding of hybrid and ensemble methods
 
-### Lecture 10.8: Advanced Evaluation Topics
-- [[L10_8_Statistical_Significance|Statistical Significance]]: Hypothesis testing in ML
-- [[L10_8_Model_Comparison|Model Comparison]]: Comparing multiple models
-- [[L10_8_Statistical_Tests|Statistical Tests]]: T-tests, ANOVA, Wilcoxon
-- [[L10_8_Multiple_Comparison|Multiple Comparison Problem]]: Bonferroni correction
-- [[L10_8_Evaluation_Bias|Evaluation Bias]]: Common evaluation mistakes
-- [[L10_8_Best_Practices|Evaluation Best Practices]]: Guidelines for proper evaluation
-- Required Reading: Chapter 7.7 of "Introduction to Machine Learning" by Alpaydin
-- Quiz: [[L10_8_Quiz]]: Test your understanding of advanced evaluation topics
+### Lecture 10.8: Cost-Sensitive Learning and Best Practices
+- [[L10_8_Cost_Sensitive_Learning|Cost-Sensitive Learning]]: Penalizing misclassification differently
+- [[L10_8_Cost_Matrix|Cost Matrix]]: Defining misclassification costs
+- [[L10_8_Algorithm_Modifications|Algorithm Modifications]]: Adapting algorithms for imbalance
+- [[L10_8_Best_Practices|Best Practices]]: Guidelines for handling imbalanced data
+- [[L10_8_Method_Selection|Method Selection]]: Choosing the right approach
+- [[L10_8_Real_World_Applications|Real-World Applications]]: Case studies and examples
+- Required Reading: Chapter 10 of "Imbalanced Learning" by He and Garcia
+- Quiz: [[L10_8_Quiz]]: Test your understanding of cost-sensitive learning and best practices
 
 ## Programming Resources
-- [[L10_Evaluation_Python_Guide|Python Implementation Guide]]: Step-by-step implementation
-- [[L10_Classification_Metrics_Code|Classification Metrics Implementation]]: Code tutorial
-- [[L10_ROC_Curves_Implementation|ROC Curves and AUC]]: Implementation guide
-- [[L10_Validation_Methods_Code|Validation Methods Implementation]]: Cross-validation tutorial
-- [[L10_Sampling_Implementation|Sampling Techniques]]: Implementation guide
-- [[L10_Bootstrap_Implementation|Bootstrap Methods]]: Resampling tutorial
-- [[L10_Statistical_Tests_Code|Statistical Tests]]: Hypothesis testing implementation
+- [[L10_Imbalanced_Data_Python_Guide|Python Implementation Guide]]: Step-by-step implementation
+- [[L10_SMOTE_Implementation|SMOTE Algorithm Implementation]]: Code tutorial
+- [[L10_Oversampling_Undersampling_Code|Sampling Methods Implementation]]: Implementation guide
+- [[L10_Imbalanced_Metrics_Code|Evaluation Metrics for Imbalanced Data]]: Metric implementation
+- [[L10_Scikit_Learn_Imbalanced|Using Scikit-learn for Imbalanced Data]]: Library tutorial
+- [[L10_Advanced_Sampling_Code|Advanced Sampling Methods]]: Implementation guide
+- [[L10_Cost_Sensitive_Learning_Code|Cost-Sensitive Learning Implementation]]: Cost matrix tutorial
 
 ## Related Slides
 *(not included in the repo)*
-- Model_Evaluation_Foundations.pdf
-- Classification_Regression_Metrics.pdf
-- ROC_Curves_and_AUC.pdf
-- Validation_Methods_Overview.pdf
-- Sampling_Techniques.pdf
-- Bootstrap_Resampling.pdf
-- Advanced_Evaluation_Topics.pdf
-- Evaluation_Best_Practices.pdf
+- Class_Imbalance_Overview.pdf
+- Evaluation_Metrics_Imbalanced.pdf
+- Random_Sampling_Methods.pdf
+- SMOTE_Algorithm_Deep_Dive.pdf
+- Advanced_Synthetic_Methods.pdf
+- Hybrid_Ensemble_Methods.pdf
+- Cost_Sensitive_Learning.pdf
+- Best_Practices_Imbalanced.pdf
 
 ## Related Videos
-- [Introduction to Model Evaluation](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [Classification Evaluation Metrics](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [ROC Curves and AUC](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [Cross-Validation Methods](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [Sampling Techniques](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [Bootstrap Methods](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
-- [Statistical Significance in ML](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Introduction to Class Imbalance](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Evaluation Metrics for Imbalanced Data](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [SMOTE Algorithm Explained](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Handling Imbalanced Data](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Advanced Sampling Methods](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Cost-Sensitive Learning](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Best Practices for Imbalanced Data](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
 
 ## All Quizzes
 Test your understanding with these quizzes:
-- [[L10_1_Quiz]]: Foundations of Model Evaluation
-- [[L10_2_Quiz]]: Classification Evaluation Metrics
-- [[L10_3_Quiz]]: Regression Evaluation Metrics
-- [[L10_4_Quiz]]: ROC Curves and AUC
-- [[L10_5_Quiz]]: Validation Methods
-- [[L10_6_Quiz]]: Sampling Techniques and Strategies
-- [[L10_7_Quiz]]: Bootstrap and Resampling Methods
-- [[L10_8_Quiz]]: Advanced Evaluation Topics
+- [[L10_1_Quiz]]: Understanding Class Imbalance
+- [[L10_2_Quiz]]: Evaluation Metrics for Imbalanced Data
+- [[L10_3_Quiz]]: Random Oversampling
+- [[L10_4_Quiz]]: Random Undersampling
+- [[L10_5_Quiz]]: SMOTE and Synthetic Data Generation
+- [[L10_6_Quiz]]: Advanced Synthetic Data Methods
+- [[L10_7_Quiz]]: Hybrid and Ensemble Methods
+- [[L10_8_Quiz]]: Cost-Sensitive Learning and Best Practices

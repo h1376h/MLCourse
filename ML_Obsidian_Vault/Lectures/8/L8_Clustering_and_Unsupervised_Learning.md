@@ -1,129 +1,128 @@
-# Lecture 8: Clustering and Unsupervised Learning
+# Lecture 8: Feature Engineering and Selection
 
 ## Overview
-This module introduces unsupervised learning methods, with a focus on clustering algorithms. You'll learn about different clustering approaches, distance metrics, evaluation methods, and applications of unsupervised learning in machine learning.
+This module covers feature engineering and selection techniques, including univariate and multivariate methods, correlation analysis, filter methods, wrapper methods, and search strategies. You'll learn how to identify relevant features, reduce dimensionality, and improve model performance through intelligent feature selection.
 
-### Lecture 8.1: Foundations of Unsupervised Learning
-- [[L8_1_Unsupervised_Learning_Concept|Unsupervised Learning Concept]]: Learning without labels
-- [[L8_1_Clustering_Overview|Clustering Overview]]: Grouping similar data points
-- [[L8_1_Distance_Metrics|Distance Metrics]]: Euclidean, Manhattan, Cosine similarity
-- [[L8_1_Clustering_Applications|Clustering Applications]]: Customer segmentation, image compression
-- [[L8_1_Clustering_Challenges|Clustering Challenges]]: Choosing number of clusters, handling noise
-- [[L8_1_Examples|Basic Examples]]: Simple clustering demonstrations
-- Required Reading: Chapter 9 of "Pattern Recognition and Machine Learning" by Bishop
-- Quiz: [[L8_1_Quiz]]: Test your understanding of unsupervised learning foundations
+### Lecture 8.1: Foundations of Feature Engineering
+- [[L8_1_Feature_Engineering_Concept|Feature Engineering Concept]]: Creating and transforming features
+- [[L8_1_Feature_Types|Feature Types]]: Numerical, categorical, ordinal, binary
+- [[L8_1_Feature_Quality|Feature Quality]]: Relevance, redundancy, noise
+- [[L8_1_Dimensionality_Curse|Curse of Dimensionality]]: Problems with high-dimensional data
+- [[L8_1_Feature_Engineering_Process|Feature Engineering Process]]: Systematic approach to feature creation
+- [[L8_1_Examples|Basic Examples]]: Simple feature engineering demonstrations
+- Required Reading: Chapter 1.4 of "Feature Engineering for Machine Learning" by Alice Zheng
+- Quiz: [[L8_1_Quiz]]: Test your understanding of feature engineering foundations
 
-### Lecture 8.2: K-Means Clustering
-- [[L8_2_K_Means_Algorithm|K-Means Algorithm]]: Iterative clustering approach
-- [[L8_2_Algorithm_Steps|Algorithm Steps]]: Initialization, assignment, update
-- [[L8_2_Initialization_Strategies|Initialization Strategies]]: K-means++, random initialization
-- [[L8_2_Convergence|Convergence Properties]]: When and why K-means converges
-- [[L8_2_K_Means_Limitations|K-Means Limitations]]: Local optima, cluster shapes
-- [[L8_2_Implementation|K-Means Implementation]]: Code examples and pseudocode
-- [[L8_2_Examples|K-Means Examples]]: Applications and visualizations
-- Required Reading: Chapter 9.1 of "Pattern Recognition and Machine Learning" by Bishop
-- Quiz: [[L8_2_Quiz]]: Test your understanding of K-means clustering
+### Lecture 8.2: Univariate Feature Selection
+- [[L8_2_Univariate_Selection|Univariate Feature Selection]]: Individual feature evaluation
+- [[L8_2_Statistical_Tests|Statistical Tests]]: Chi-square, ANOVA, F-test
+- [[L8_2_Correlation_Analysis|Correlation Analysis]]: Pearson, Spearman correlation
+- [[L8_2_Mutual_Information|Mutual Information]]: Information-theoretic feature selection
+- [[L8_2_Univariate_Methods|Univariate Methods]]: SelectKBest, SelectPercentile
+- [[L8_2_Advantages_Limitations|Advantages and Limitations]]: When to use univariate selection
+- [[L8_2_Examples|Univariate Examples]]: Implementation and applications
+- Required Reading: Chapter 3.1 of "Feature Engineering for Machine Learning" by Alice Zheng
+- Quiz: [[L8_2_Quiz]]: Test your understanding of univariate feature selection
 
-### Lecture 8.3: Hierarchical Clustering
-- [[L8_3_Hierarchical_Clustering|Hierarchical Clustering]]: Tree-based clustering structure
-- [[L8_3_Agglomerative_Clustering|Agglomerative Clustering]]: Bottom-up approach
-- [[L8_3_Divisive_Clustering|Divisive Clustering]]: Top-down approach
-- [[L8_3_Linkage_Methods|Linkage Methods]]: Single, complete, average, Ward
-- [[L8_3_Dendrogram_Interpretation|Dendrogram Interpretation]]: Reading cluster hierarchies
-- [[L8_3_Advantages_Disadvantages|Advantages and Disadvantages]]: When to use hierarchical clustering
-- [[L8_3_Examples|Hierarchical Examples]]: Implementation and applications
-- Required Reading: Chapter 9.2 of "Pattern Recognition and Machine Learning" by Bishop
-- Quiz: [[L8_3_Quiz]]: Test your understanding of hierarchical clustering
+### Lecture 8.3: Multivariate Feature Selection
+- [[L8_3_Multivariate_Selection|Multivariate Feature Selection]]: Feature subset evaluation
+- [[L8_3_Feature_Subset_Evaluation|Feature Subset Evaluation]]: Evaluating feature combinations
+- [[L8_3_Redundancy_Detection|Redundancy Detection]]: Identifying correlated features
+- [[L8_3_Feature_Interaction|Feature Interaction]]: Capturing feature relationships
+- [[L8_3_Multivariate_Methods|Multivariate Methods]]: Recursive feature elimination, genetic algorithms
+- [[L8_3_Examples|Multivariate Examples]]: Implementation and case studies
+- Required Reading: Chapter 3.2 of "Feature Engineering for Machine Learning" by Alice Zheng
+- Quiz: [[L8_3_Quiz]]: Test your understanding of multivariate feature selection
 
-### Lecture 8.4: Density-Based Clustering
-- [[L8_4_Density_Based_Clustering|Density-Based Clustering]]: Clustering based on data density
-- [[L8_4_DBSCAN_Algorithm|DBSCAN Algorithm]]: Density-Based Spatial Clustering
-- [[L8_4_Core_Border_Noise|Core, Border, and Noise Points]]: DBSCAN point classification
-- [[L8_4_DBSCAN_Parameters|DBSCAN Parameters]]: Epsilon and MinPts selection
-- [[L8_4_DBSCAN_Advantages|DBSCAN Advantages]]: Handling irregular shapes, noise
-- [[L8_4_DBSCAN_Limitations|DBSCAN Limitations]]: Parameter sensitivity, high-dimensional data
-- [[L8_4_Examples|DBSCAN Examples]]: Implementation and case studies
-- Required Reading: "A Density-Based Algorithm for Discovering Clusters" by Ester et al.
-- Quiz: [[L8_4_Quiz]]: Test your understanding of density-based clustering
+### Lecture 8.4: Correlation Criteria and Analysis
+- [[L8_4_Correlation_Criteria|Correlation Criteria]]: Using correlation for feature selection
+- [[L8_4_Pearson_Correlation|Pearson Correlation]]: Linear correlation coefficient
+- [[L8_4_Spearman_Correlation|Spearman Correlation]]: Rank-based correlation
+- [[L8_4_Correlation_Thresholds|Correlation Thresholds]]: Setting correlation limits
+- [[L8_4_Multicollinearity|Multicollinearity]]: Handling highly correlated features
+- [[L8_4_Correlation_Examples|Correlation Examples]]: Implementation and interpretation
+- Required Reading: Chapter 3.3 of "Feature Engineering for Machine Learning" by Alice Zheng
+- Quiz: [[L8_4_Quiz]]: Test your understanding of correlation criteria
 
-### Lecture 8.5: Model-Based Clustering
-- [[L8_5_Model_Based_Clustering|Model-Based Clustering]]: Probabilistic clustering approaches
-- [[L8_5_Gaussian_Mixture_Models|Gaussian Mixture Models]]: GMM clustering
-- [[L8_5_Expectation_Maximization|Expectation-Maximization]]: EM algorithm for GMM
-- [[L8_5_Model_Selection|Model Selection]]: Choosing number of components
-- [[L8_5_Soft_Clustering|Soft Clustering]]: Probabilistic cluster assignments
-- [[L8_5_Advantages_Model_Based|Advantages of Model-Based Approaches]]: Uncertainty quantification
-- [[L8_5_Examples|Model-Based Examples]]: GMM implementation and applications
-- Required Reading: Chapter 9.3 of "Pattern Recognition and Machine Learning" by Bishop
-- Quiz: [[L8_5_Quiz]]: Test your understanding of model-based clustering
+### Lecture 8.5: Filter Methods
+- [[L8_5_Filter_Methods|Filter Methods]]: Pre-processing feature selection
+- [[L8_5_Filter_Algorithms|Filter Algorithms]]: Variance threshold, correlation filters
+- [[L8_5_Information_Gain|Information Gain]]: Entropy-based feature selection
+- [[L8_5_Chi_Square_Test|Chi-Square Test]]: Categorical feature selection
+- [[L8_5_Filter_Advantages|Filter Method Advantages]]: Speed, independence from learning algorithm
+- [[L8_5_Filter_Limitations|Filter Method Limitations]]: Ignoring feature interactions
+- [[L8_5_Examples|Filter Examples]]: Implementation and applications
+- Required Reading: Chapter 3.4 of "Feature Engineering for Machine Learning" by Alice Zheng
+- Quiz: [[L8_5_Quiz]]: Test your understanding of filter methods
 
-### Lecture 8.6: Clustering Evaluation and Validation
-- [[L8_6_Clustering_Evaluation|Clustering Evaluation]]: Measuring clustering quality
-- [[L8_6_Internal_Indices|Internal Indices]]: Silhouette, Calinski-Harabasz, Davies-Bouldin
-- [[L8_6_External_Indices|External Indices]]: Adjusted Rand Index, Normalized Mutual Information
-- [[L8_6_Elbow_Method|Elbow Method]]: Choosing optimal number of clusters
-- [[L8_6_Gap_Statistic|Gap Statistic]]: Statistical approach to cluster number selection
-- [[L8_6_Cross_Validation_Clustering|Cross-Validation for Clustering]]: Stability-based evaluation
-- [[L8_6_Examples|Evaluation Examples]]: Implementation and interpretation
-- Required Reading: Chapter 9.4 of "Pattern Recognition and Machine Learning" by Bishop
-- Quiz: [[L8_6_Quiz]]: Test your understanding of clustering evaluation
+### Lecture 8.6: Wrapper Methods
+- [[L8_6_Wrapper_Methods|Wrapper Methods]]: Learning algorithm-based selection
+- [[L8_6_Forward_Selection|Forward Selection]]: Greedy forward search
+- [[L8_6_Backward_Elimination|Backward Elimination]]: Greedy backward search
+- [[L8_6_Recursive_Feature_Elimination|Recursive Feature Elimination]]: RFE algorithm
+- [[L8_6_Wrapper_Advantages|Wrapper Method Advantages]]: Feature interaction consideration
+- [[L8_6_Wrapper_Limitations|Wrapper Method Limitations]]: Computational cost, overfitting
+- [[L8_6_Examples|Wrapper Examples]]: Implementation and case studies
+- Required Reading: Chapter 3.5 of "Feature Engineering for Machine Learning" by Alice Zheng
+- Quiz: [[L8_6_Quiz]]: Test your understanding of wrapper methods
 
-### Lecture 8.7: Advanced Clustering Techniques
-- [[L8_7_Spectral_Clustering|Spectral Clustering]]: Graph-based clustering approach
-- [[L8_7_Mean_Shift|Mean Shift Clustering]]: Mode-seeking algorithm
-- [[L8_7_Affinity_Propagation|Affinity Propagation]]: Message-passing clustering
-- [[L8_7_Clustering_Large_Datasets|Clustering Large Datasets]]: Scalability considerations
-- [[L8_7_Online_Clustering|Online Clustering]]: Incremental clustering algorithms
-- [[L8_7_Examples|Advanced Examples]]: Implementation and applications
-- Required Reading: Chapter 9.5 of "Pattern Recognition and Machine Learning" by Bishop
-- Quiz: [[L8_7_Quiz]]: Test your understanding of advanced clustering
+### Lecture 8.7: Search Strategies and Methods
+- [[L8_7_Search_Strategies|Search Strategies Overview]]: Different search approaches
+- [[L8_7_Exhaustive_Search|Exhaustive Search]]: Complete feature subset evaluation
+- [[L8_7_Greedy_Algorithms|Greedy Algorithms]]: Hill climbing, best-first search
+- [[L8_7_Genetic_Algorithms|Genetic Algorithms]]: Evolutionary feature selection
+- [[L8_7_Simulated_Annealing|Simulated Annealing]]: Stochastic optimization
+- [[L8_7_Search_Comparison|Search Method Comparison]]: Tradeoffs and selection criteria
+- [[L8_7_Examples|Search Examples]]: Implementation and applications
+- Required Reading: Chapter 3.6 of "Feature Engineering for Machine Learning" by Alice Zheng
+- Quiz: [[L8_7_Quiz]]: Test your understanding of search strategies
 
-### Lecture 8.8: Clustering Applications and Case Studies
-- [[L8_8_Image_Segmentation|Image Segmentation]]: Clustering in computer vision
-- [[L8_8_Customer_Segmentation|Customer Segmentation]]: Marketing applications
-- [[L8_8_Document_Clustering|Document Clustering]]: Text mining applications
-- [[L8_8_Anomaly_Detection|Anomaly Detection]]: Finding outliers using clustering
-- [[L8_8_Real_World_Applications|Real-World Applications]]: Case studies and examples
-- [[L8_8_Clustering_Challenges|Practical Challenges]]: Implementation considerations
-- Required Reading: Chapter 9.6 of "Pattern Recognition and Machine Learning" by Bishop
-- Quiz: [[L8_8_Quiz]]: Test your understanding of clustering applications
+### Lecture 8.8: Feature Extraction and Dimensionality Reduction
+- [[L8_8_Feature_Extraction|Feature Extraction]]: Creating new features from existing ones
+- [[L8_8_Principal_Component_Analysis|Principal Component Analysis]]: PCA for dimensionality reduction
+- [[L8_8_Linear_Discriminant_Analysis|Linear Discriminant Analysis]]: LDA for supervised reduction
+- [[L8_8_Feature_Construction|Feature Construction]]: Mathematical combinations and transformations
+- [[L8_8_Feature_Extraction_vs_Selection|Extraction vs Selection]]: When to use each approach
+- [[L8_8_Examples|Extraction Examples]]: Implementation and applications
+- Required Reading: Chapter 4 of "Feature Engineering for Machine Learning" by Alice Zheng
+- Quiz: [[L8_8_Quiz]]: Test your understanding of feature extraction
 
 ## Programming Resources
-- [[L8_Clustering_Python_Guide|Python Implementation Guide]]: Step-by-step implementation
-- [[L8_K_Means_From_Scratch|Building K-Means from Scratch]]: Code tutorial
-- [[L8_DBSCAN_Implementation|DBSCAN Algorithm Implementation]]: Density-based clustering
-- [[L8_Scikit_Learn_Clustering|Using Scikit-learn for Clustering]]: Library tutorial
-- [[L8_Clustering_Visualization|Clustering Visualization]]: Plotting techniques
-- [[L8_GMM_Implementation|Gaussian Mixture Models]]: Probabilistic clustering
-- [[L8_Clustering_Evaluation_Code|Clustering Evaluation Methods]]: Implementation of metrics
+- [[L8_Feature_Engineering_Python_Guide|Python Implementation Guide]]: Step-by-step implementation
+- [[L8_Feature_Selection_Implementation|Feature Selection Implementation]]: Code tutorial
+- [[L8_Correlation_Analysis_Code|Correlation Analysis Implementation]]: Statistical methods
+- [[L8_Scikit_Learn_Features|Using Scikit-learn for Feature Selection]]: Library tutorial
+- [[L8_Filter_Wrapper_Implementation|Filter and Wrapper Methods]]: Implementation guide
+- [[L8_Search_Strategies_Code|Search Strategy Implementation]]: Optimization algorithms
+- [[L8_Feature_Extraction_Code|Feature Extraction Methods]]: PCA, LDA implementation
 
 ## Related Slides
 *(not included in the repo)*
-- Unsupervised_Learning_Foundations.pdf
-- K_Means_Algorithm_Deep_Dive.pdf
-- Hierarchical_Clustering_Methods.pdf
-- Density_Based_Clustering.pdf
-- Model_Based_Clustering.pdf
-- Clustering_Evaluation.pdf
-- Advanced_Clustering_Techniques.pdf
-- Clustering_Applications.pdf
+- Feature_Engineering_Foundations.pdf
+- Univariate_Multivariate_Selection.pdf
+- Correlation_Criteria_Analysis.pdf
+- Filter_vs_Wrapper_Methods.pdf
+- Search_Strategies_Overview.pdf
+- Feature_Extraction_Methods.pdf
+- Dimensionality_Reduction.pdf
+- Feature_Selection_Applications.pdf
 
 ## Related Videos
-- [Introduction to Unsupervised Learning](https://www.youtube.com/watch?v=8yZMXCaFshs)
-- [K-Means Clustering Algorithm](https://www.youtube.com/watch?v=4b5d3muPnMA)
-- [Hierarchical Clustering Methods](https://www.youtube.com/watch?v=7xHsRkOdVlE)
-- [DBSCAN Density-Based Clustering](https://www.youtube.com/watch?v=MEs1ufJm92w)
-- [Gaussian Mixture Models](https://www.youtube.com/watch?v=JNlEIEwe-Cg)
-- [Clustering Evaluation Methods](https://www.youtube.com/watch?v=8yZMXCaFshs)
-- [Advanced Clustering Techniques](https://www.youtube.com/watch?v=8yZMXCaFshs)
+- [Introduction to Feature Engineering](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Feature Selection Methods](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Correlation Analysis for Features](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Filter vs Wrapper Methods](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Search Strategies in Feature Selection](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Feature Extraction Techniques](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
+- [Dimensionality Reduction Methods](https://www.youtube.com/watch?v=YaKMeAlHgqQ)
 
 ## All Quizzes
 Test your understanding with these quizzes:
-- [[L8_1_Quiz]]: Foundations of Unsupervised Learning
-- [[L8_2_Quiz]]: K-Means Clustering
-- [[L8_3_Quiz]]: Hierarchical Clustering
-- [[L8_4_Quiz]]: Density-Based Clustering
-- [[L8_5_Quiz]]: Model-Based Clustering
-- [[L8_6_Quiz]]: Clustering Evaluation and Validation
-- [[L8_7_Quiz]]: Advanced Clustering Techniques
-- [[L8_8_Quiz]]: Clustering Applications and Case Studies
+- [[L8_1_Quiz]]: Foundations of Feature Engineering
+- [[L8_2_Quiz]]: Univariate Feature Selection
+- [[L8_3_Quiz]]: Multivariate Feature Selection
+- [[L8_4_Quiz]]: Correlation Criteria and Analysis
+- [[L8_5_Quiz]]: Filter Methods
+- [[L8_6_Quiz]]: Wrapper Methods
+- [[L8_7_Quiz]]: Search Strategies and Methods
+- [[L8_8_Quiz]]: Feature Extraction and Dimensionality Reduction
