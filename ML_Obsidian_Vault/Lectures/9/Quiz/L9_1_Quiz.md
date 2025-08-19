@@ -6,7 +6,7 @@ This quiz contains 20 comprehensive questions covering the foundations of model 
 ## Question 1
 
 ### Problem Statement
-You're a data scientist evaluating a machine learning model that predicts student exam scores. The model achieves 95% accuracy on training data but only 70% accuracy on test data.
+You're a data scientist evaluating a machine learning model that predicts student exam scores. The model achieves $95\%$ accuracy on training data but only $70\%$ accuracy on test data.
 
 #### Task
 1. What is this phenomenon called?
@@ -24,9 +24,9 @@ You're comparing three models for a customer churn prediction task:
 
 | Model | Training Accuracy | Validation Accuracy | Test Accuracy |
 |-------|------------------|-------------------|---------------|
-| A     | 98%              | 75%               | 72%           |
-| B     | 85%              | 82%               | 80%           |
-| C     | 70%              | 68%               | 65%           |
+| A     | $98\%$              | $75\%$               | $72\%$           |
+| B     | $85\%$              | $82\%$               | $80\%$           |
+| C     | $70\%$              | $68\%$               | $65\%$           |
 
 #### Task
 1. Which model is overfitting? Justify your answer
@@ -59,12 +59,12 @@ For a detailed explanation of this question, see [Question 3: Bias-Variance Trad
 You're evaluating a model that predicts student exam scores based on study hours.
 
 **Training Data Results:**
-- Model predicts: 85, 78, 92, 88, 76
-- Actual scores: 82, 80, 90, 85, 79
+- Model predicts: $85$, $78$, $92$, $88$, $76$
+- Actual scores: $82$, $80$, $90$, $85$, $79$
 
 **Test Data Results:**
-- Model predicts: 87, 81, 89, 83
-- Actual scores: 85, 78, 92, 80
+- Model predicts: $87$, $81$, $89$, $83$
+- Actual scores: $85$, $78$, $92$, $80$
 
 #### Task
 1. Calculate the training error (mean absolute error)
@@ -80,9 +80,9 @@ For a detailed explanation of this question, see [Question 4: Generalization Ana
 ### Problem Statement
 Consider the following learning curves for three different models:
 
-**Model X:** Training error decreases from 40% to 5%, Validation error decreases from 45% to 8%
-**Model Y:** Training error decreases from 40% to 2%, Validation error decreases from 45% to 25%
-**Model Z:** Training error decreases from 40% to 35%, Validation error decreases from 45% to 42%
+**Model X:** Training error decreases from $40\%$ to $5\%$, Validation error decreases from $45\%$ to $8\%$
+**Model Y:** Training error decreases from $40\%$ to $2\%$, Validation error decreases from $45\%$ to $25\%$
+**Model Z:** Training error decreases from $40\%$ to $35\%$, Validation error decreases from $45\%$ to $42\%$
 
 #### Task
 1. Which model shows signs of overfitting?
@@ -96,11 +96,11 @@ For a detailed explanation of this question, see [Question 5: Learning Curve Ana
 ## Question 6
 
 ### Problem Statement
-You have a dataset with 1000 samples and want to evaluate a model properly.
+You have a dataset with $1000$ samples and want to evaluate a model properly.
 
 #### Task
 1. What is the minimum recommended size for a test set?
-2. If you use 80% for training and 20% for testing, how many samples are in each set?
+2. If you use $80\%$ for training and $20\%$ for testing, how many samples are in each set?
 3. Why is it important to have a separate test set?
 4. What is the purpose of a validation set?
 5. Draw a diagram showing the data split strategy you would recommend
@@ -113,12 +113,12 @@ For a detailed explanation of this question, see [Question 6: Data Splitting Str
 Consider a model that predicts whether a customer will buy a product.
 
 **Training Results:**
-- 500 positive examples, 500 negative examples
-- Model correctly predicts 450 positive and 480 negative cases
+- $500$ positive examples, $500$ negative examples
+- Model correctly predicts $450$ positive and $480$ negative cases
 
 **Test Results:**
-- 100 positive examples, 100 negative examples
-- Model correctly predicts 85 positive and 90 negative cases
+- $100$ positive examples, $100$ negative examples
+- Model correctly predicts $85$ positive and $90$ negative cases
 
 #### Task
 1. Calculate training accuracy
@@ -139,7 +139,7 @@ You're building a model to predict house prices and have limited data.
 2. Name two techniques you could use to evaluate the model with limited data
 3. Why might cross-validation be particularly useful in this scenario?
 4. What is the risk of using the same data for both training and testing?
-5. If you have 200 houses, suggest a specific evaluation strategy
+5. If you have $200$ houses, suggest a specific evaluation strategy
 
 For a detailed explanation of this question, see [Question 8: Limited Data Evaluation](L9_1_8_explanation.md).
 
@@ -163,9 +163,9 @@ For a detailed explanation of this question, see [Question 9: Complexity-Perform
 You're evaluating a model that predicts student grades based on attendance and study hours.
 
 **Model Performance:**
-- Training MSE: 15.2
-- Validation MSE: 18.7
-- Test MSE: 19.1
+- Training MSE: $15.2$
+- Validation MSE: $18.7$
+- Test MSE: $19.1$
 
 #### Task
 1. What do these numbers tell you about the model?
@@ -196,9 +196,9 @@ For a detailed explanation of this question, see [Question 11: Irreducible Error
 You have a model that performs differently on different types of data.
 
 **Performance by Data Type:**
-- Numerical features: 85% accuracy
-- Categorical features: 72% accuracy
-- Mixed features: 78% accuracy
+- Numerical features: $85\%$ accuracy
+- Categorical features: $72\%$ accuracy
+- Mixed features: $78\%$ accuracy
 
 #### Task
 1. What does this performance variation suggest?
@@ -228,8 +228,8 @@ For a detailed explanation of this question, see [Question 13: Production vs Dev
 ### Problem Statement
 You're comparing two models and need to determine which is better.
 
-**Model A:** Training accuracy 88%, Test accuracy 82%
-**Model B:** Training accuracy 85%, Test accuracy 84%
+**Model A:** Training accuracy $88\%$, Test accuracy $82\%$
+**Model B:** Training accuracy $85\%$, Test accuracy $84\%$
 
 #### Task
 1. Which model has better generalization?
@@ -247,10 +247,10 @@ Design an evaluation strategy for a new machine learning project.
 
 **Project Details:**
 - Binary classification problem
-- 5000 training samples
-- 1000 test samples
-- Need to compare 3 different algorithms
-- Must be completed within 2 hours
+- $5000$ training samples
+- $1000$ test samples
+- Need to compare $3$ different algorithms
+- Must be completed within $2$ hours
 
 #### Task
 1. What evaluation metrics would you use?
@@ -267,15 +267,15 @@ For a detailed explanation of this question, see [Question 15: Evaluation Strate
 You're analyzing a model that shows different performance across different demographic groups.
 
 **Performance by Age Group:**
-- 18-25: 78% accuracy
-- 26-40: 85% accuracy
-- 41-60: 82% accuracy
-- 60+: 75% accuracy
+- $18$-$25$: $78\%$ accuracy
+- $26$-$40$: $85\%$ accuracy
+- $41$-$60$: $82\%$ accuracy
+- $60+$: $75\%$ accuracy
 
 #### Task
 1. What does this performance variation suggest about the model?
 2. How would you evaluate the overall fairness of this model?
-3. What might cause the lower performance in the 18-25 and 60+ groups?
+3. What might cause the lower performance in the $18$-$25$ and $60+$ groups?
 4. How would you report this to stakeholders?
 5. Suggest one way to improve performance across all age groups
 
@@ -287,11 +287,11 @@ For a detailed explanation of this question, see [Question 16: Fairness in Model
 Consider a model that predicts stock prices with the following performance:
 
 **Daily Performance:**
-- Monday: 92% accuracy
-- Tuesday: 88% accuracy
-- Wednesday: 95% accuracy
-- Thursday: 87% accuracy
-- Friday: 90% accuracy
+- Monday: $92\%$ accuracy
+- Tuesday: $88\%$ accuracy
+- Wednesday: $95\%$ accuracy
+- Thursday: $87\%$ accuracy
+- Friday: $90\%$ accuracy
 
 #### Task
 1. Calculate the average daily accuracy
@@ -305,19 +305,19 @@ For a detailed explanation of this question, see [Question 17: Temporal Model Ev
 ## Question 18
 
 ### Problem Statement
-You're evaluating a model that predicts customer satisfaction scores (1-10 scale).
+You're evaluating a model that predicts customer satisfaction scores ($1$-$10$ scale).
 
 **Training Results:**
-- Mean predicted score: 7.2
-- Mean actual score: 7.1
-- Standard deviation of predictions: 1.8
-- Standard deviation of actual scores: 1.9
+- Mean predicted score: $7.2$
+- Mean actual score: $7.1$
+- Standard deviation of predictions: $1.8$
+- Standard deviation of actual scores: $1.9$
 
 **Test Results:**
-- Mean predicted score: 6.8
-- Mean actual score: 7.0
-- Standard deviation of predictions: 1.6
-- Standard deviation of actual scores: 1.9
+- Mean predicted score: $6.8$
+- Mean actual score: $7.0$
+- Standard deviation of predictions: $1.6$
+- Standard deviation of actual scores: $1.9$
 
 #### Task
 1. Is this model overfitting or underfitting? Explain
@@ -334,10 +334,10 @@ For a detailed explanation of this question, see [Question 18: Regression Model 
 Consider a model that performs differently in different seasons.
 
 **Seasonal Performance:**
-- Spring: 85% accuracy
-- Summer: 78% accuracy
-- Fall: 82% accuracy
-- Winter: 75% accuracy
+- Spring: $85\%$ accuracy
+- Summer: $78\%$ accuracy
+- Fall: $82\%$ accuracy
+- Winter: $75\%$ accuracy
 
 #### Task
 1. What does this seasonal variation suggest about the model?
@@ -354,10 +354,10 @@ For a detailed explanation of this question, see [Question 19: Seasonal Model Ev
 You're building a model to predict whether a student will pass a course based on various features.
 
 **Feature Performance Analysis:**
-- Study hours: 85% accuracy when used alone
-- Previous GPA: 78% accuracy when used alone
-- Attendance rate: 72% accuracy when used alone
-- Combined features: 89% accuracy
+- Study hours: $85\%$ accuracy when used alone
+- Previous GPA: $78\%$ accuracy when used alone
+- Attendance rate: $72\%$ accuracy when used alone
+- Combined features: $89\%$ accuracy
 
 #### Task
 1. What does this performance pattern suggest about feature interactions?
