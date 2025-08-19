@@ -48,18 +48,33 @@ This module provides a comprehensive introduction to feature selection, a critic
 
 ### Lecture 8.6: Wrapper and Embedded Methods
 - [[L8_6_Wrapper_Concept|Wrapper Methods]]: Using classifier performance for evaluation
-- [[L8_6_Wrapper_Pros_Cons|Wrapper Advantages and Disadvantages]]: Accuracy vs. computational cost
+- [[L8_6_Wrapper_Methods|Wrapper Methods]]: Learning algorithm-based selection
+- [[L8_6_Forward_Selection|Forward Selection]]: Greedy forward search
+- [[L8_6_Backward_Elimination|Backward Elimination]]: Greedy backward search
 - [[L8_6_Recursive_Feature_Elimination|Recursive Feature Elimination (RFE)]]: Iterative feature removal
+- [[L8_6_Wrapper_Advantages|Wrapper Method Advantages]]: Feature interaction consideration
+- [[L8_6_Wrapper_Limitations|Wrapper Method Limitations]]: Computational cost, overfitting
+- [[L8_6_Wrapper_Pros_Cons|Wrapper Advantages and Disadvantages]]: Accuracy vs. computational cost
+- [[L8_6_Examples|Wrapper Examples]]: Implementation and case studies
 - [[L8_6_Embedded_Concept|Embedded Methods]]: Selection integrated into model training (e.g., L1 Regularization)
+- Required Reading: Chapter 3.5 of "Feature Engineering for Machine Learning" by Alice Zheng
 - ⭐ Quiz: [[L8_6_Quiz]]
 - 📚 Examples: Coming Soon
 
 ### Lecture 8.7: Search Strategies
 - [[L8_7_General_Procedure|General Search Procedure]]: Subset generation, evaluation, and stopping criteria
+- [[L8_7_Search_Strategies|Search Strategies Overview]]: Different search approaches
 - [[L8_7_Search_Strategies_Types|Search Strategies]]: Complete, Heuristic, and Random approaches
+- [[L8_7_Exhaustive_Search|Exhaustive Search]]: Complete feature subset evaluation
 - [[L8_7_Sequential_Search|Heuristic Search]]: Sequential Forward Selection (SFS) and Backward Elimination (SBE)
+- [[L8_7_Greedy_Algorithms|Greedy Algorithms]]: Hill climbing, best-first search
 - [[L8_7_Branch_and_Bound|Branch and Bound Search]]: Optimal search with pruning
+- [[L8_7_Genetic_Algorithms|Genetic Algorithms]]: Evolutionary feature selection
+- [[L8_7_Simulated_Annealing|Simulated Annealing]]: Stochastic optimization
 - [[L8_7_Random_Search|Random Search]]: Genetic Algorithms and Simulated Annealing
+- [[L8_7_Search_Comparison|Search Method Comparison]]: Tradeoffs and selection criteria
+- [[L8_7_Examples|Search Examples]]: Implementation and applications
+- Required Reading: Chapter 3.6 of "Feature Engineering for Machine Learning" by Alice Zheng
 - ⭐ Quiz: [[L8_7_Quiz]]
 - 📚 Examples: Coming Soon
 
@@ -67,7 +82,12 @@ This module provides a comprehensive introduction to feature selection, a critic
 - [[L8_8_Dimensionality_Reduction|Dimensionality Reduction Overview]]
 - [[L8_8_Feature_Selection|Feature Selection Review]]: Selecting a subset of original features
 - [[L8_8_Feature_Extraction|Feature Extraction]]: Transforming features into a new space (e.g., PCA, LDA)
+- [[L8_8_Principal_Component_Analysis|Principal Component Analysis]]: PCA for dimensionality reduction
+- [[L8_8_Linear_Discriminant_Analysis|Linear Discriminant Analysis]]: LDA for supervised reduction
 - [[L8_8_Feature_Construction|Feature Construction and Engineering]]: Creating new features from existing ones
+- [[L8_8_Feature_Extraction_vs_Selection|Extraction vs Selection]]: When to use each approach
+- [[L8_8_Examples|Extraction Examples]]: Implementation and applications
+- Required Reading: Chapter 4 of "Feature Engineering for Machine Learning" by Alice Zheng
 - ⭐ Quiz: [[L8_8_Quiz]]
 - 📚 Examples: Coming Soon
 
