@@ -14,15 +14,18 @@ This module provides a comprehensive introduction to feature selection, a critic
 ### Lecture 8.2: Univariate Feature Selection Methods
 - [[L8_2_Univariate_Concept|Univariate Approach]]: Considering one feature at a time
 - [[L8_2_Filter_Scoring|Univariate Filter Scoring]]: Ranking individual features
+- [[L8_2_Defining_Irrelevance|Criteria: Defining Feature Irrelevance]]: Using conditional probabilities and KL Divergence
 - [[L8_2_Pearson_Correlation|Criteria: Pearson Correlation]]: Measuring linear relationships
-- [[L8_2_Mutual_Information|Criteria: Mutual Information & KL Divergence]]: Measuring feature-label dependence
+- [[L8_2_Mutual_Information|Criteria: Mutual Information]]: Measuring feature-label dependence
 - [[L8_2_Chi_Square|Criteria: Chi-Square Test]]: Testing independence for categorical features
-- [[L8_2_Pros_Cons|Advantages and Disadvantages]]: Scalability vs. ignoring feature interactions
+- [[L8_2_Select_K_Features|Determining the Number of Features to Select]]: Using cross-validation to find the optimal 'k'
+- [[L8_2_Pros_Cons|Advantages and Disadvantages]]: Scalability vs. ignoring feature interactions and redundancy
 - ⭐ Quiz: [[L8_2_Quiz]]
 - 📚 Examples: Coming Soon
 
 ### Lecture 8.3: Multivariate Feature Selection Methods
 - [[L8_3_Multivariate_Concept|Multivariate Approach]]: Considering subsets of features together
+- [[L8_3_Univariate_Failure|When Univariate Methods Fail]]: The need for multivariate analysis
 - [[L8_3_Redundancy|Handling Feature Redundancy]]: Why multivariate is necessary
 - [[L8_3_Search_Space|The Search Space Problem]]: Navigating $2^d$ feature subsets
 - [[L8_3_Feature_Clustering|Feature Clustering and Grouping]]: Identifying feature clusters
@@ -32,7 +35,7 @@ This module provides a comprehensive introduction to feature selection, a critic
 ### Lecture 8.4: Evaluation Criteria for Subsets
 - [[L8_4_Distance_Criteria|Distance Measures]]: Euclidean distance for class separability
 - [[L8_4_Information_Criteria|Information Measures]]: Information Gain
-- [[L8_4_Dependency_Criteria|Dependency Measures]]: Correlation-based criteria
+- [[L8_4_Dependency_Criteria|Dependency Measures]]: Selecting features highly correlated with the class, yet uncorrelated with each other
 - [[L8_4_Consistency_Criteria|Consistency Measures]]: Min-features bias
 - [[L8_4_Stability_Measures|Stability Measures]]: Consistency across different data samples
 - ⭐ Quiz: [[L8_4_Quiz]]
@@ -42,19 +45,17 @@ This module provides a comprehensive introduction to feature selection, a critic
 - [[L8_5_Filter_Concept|Filter Method Overview]]: Preprocessing independent of classifiers
 - [[L8_5_Univariate_vs_Multivariate_Filters|Univariate vs. Multivariate Filters]]
 - [[L8_5_Relief_Algorithm|Relief Algorithm]]: Instance-based feature weighting
-- [[L8_5_Filter_Pros_Cons|Advantages and Disadvantages]]: Speed and generality vs. tendency to select large subsets
+- [[L8_5_Pros_Cons|Advantages and Disadvantages]]: Speed and generality vs. monotonic objectives leading to large subsets
 - ⭐ Quiz: [[L8_5_Quiz]]
 - 📚 Examples: Coming Soon
 
 ### Lecture 8.6: Wrapper and Embedded Methods
 - [[L8_6_Wrapper_Concept|Wrapper Methods]]: Using classifier performance for evaluation
-- [[L8_6_Wrapper_Methods|Wrapper Methods]]: Learning algorithm-based selection
 - [[L8_6_Forward_Selection|Forward Selection]]: Greedy forward search
 - [[L8_6_Backward_Elimination|Backward Elimination]]: Greedy backward search
 - [[L8_6_Recursive_Feature_Elimination|Recursive Feature Elimination (RFE)]]: Iterative feature removal
-- [[L8_6_Wrapper_Advantages|Wrapper Method Advantages]]: Feature interaction consideration
-- [[L8_6_Wrapper_Limitations|Wrapper Method Limitations]]: Computational cost, overfitting
-- [[L8_6_Wrapper_Pros_Cons|Wrapper Advantages and Disadvantages]]: Accuracy vs. computational cost
+- [[L8_6_Wrapper_Pros_Cons|Wrapper Advantages and Disadvantages]]: High accuracy vs. computational cost, lack of generality, and overfitting avoidance
+- [[L8_6_Filter_vs_Wrapper|Comparison: Filters vs. Wrappers]]
 - [[L8_6_Examples|Wrapper Examples]]: Implementation and case studies
 - [[L8_6_Embedded_Concept|Embedded Methods]]: Selection integrated into model training (e.g., L1 Regularization)
 - Required Reading: Chapter 3.5 of "Feature Engineering for Machine Learning" by Alice Zheng
@@ -62,16 +63,14 @@ This module provides a comprehensive introduction to feature selection, a critic
 - 📚 Examples: Coming Soon
 
 ### Lecture 8.7: Search Strategies
-- [[L8_7_General_Procedure|General Search Procedure]]: Subset generation, evaluation, and stopping criteria
-- [[L8_7_Search_Strategies|Search Strategies Overview]]: Different search approaches
-- [[L8_7_Search_Strategies_Types|Search Strategies]]: Complete, Heuristic, and Random approaches
-- [[L8_7_Exhaustive_Search|Exhaustive Search]]: Complete feature subset evaluation
-- [[L8_7_Sequential_Search|Heuristic Search]]: Sequential Forward Selection (SFS) and Backward Elimination (SBE)
+- [[L8_7_General_Procedure|General Search Procedure]]: Subset Generation, Evaluation, Stopping Criterion, and Validation
+- [[L8_7_Stopping_Criteria|Stopping Criteria]]: When to stop the search process
+- [[L8_7_Search_Strategies_Types|Search Strategies Overview]]: Complete, Heuristic, and Random approaches
+- [[L8_7_Exhaustive_Search|Exhaustive (Complete) Search]]: Evaluating all feature subsets
+- [[L8_7_Heuristic_Search|Heuristic Search]]: Sequential Forward Selection (SFS), Backward Elimination (SBE), and Floating Selection
 - [[L8_7_Greedy_Algorithms|Greedy Algorithms]]: Hill climbing, best-first search
 - [[L8_7_Branch_and_Bound|Branch and Bound Search]]: Optimal search with pruning
-- [[L8_7_Genetic_Algorithms|Genetic Algorithms]]: Evolutionary feature selection
-- [[L8_7_Simulated_Annealing|Simulated Annealing]]: Stochastic optimization
-- [[L8_7_Random_Search|Random Search]]: Genetic Algorithms and Simulated Annealing
+- [[L8_7_Random_Search|Random (Non-deterministic) Search]]: Genetic Algorithms and Simulated Annealing
 - [[L8_7_Search_Comparison|Search Method Comparison]]: Tradeoffs and selection criteria
 - [[L8_7_Examples|Search Examples]]: Implementation and applications
 - Required Reading: Chapter 3.6 of "Feature Engineering for Machine Learning" by Alice Zheng
@@ -85,7 +84,7 @@ This module provides a comprehensive introduction to feature selection, a critic
 - [[L8_8_Principal_Component_Analysis|Principal Component Analysis]]: PCA for dimensionality reduction
 - [[L8_8_Linear_Discriminant_Analysis|Linear Discriminant Analysis]]: LDA for supervised reduction
 - [[L8_8_Feature_Construction|Feature Construction and Engineering]]: Creating new features from existing ones
-- [[L8_8_Feature_Extraction_vs_Selection|Extraction vs Selection]]: When to use each approach
+- [[L8_8_Extraction_vs_Selection|Extraction vs Selection]]: When to use each approach
 - [[L8_8_Examples|Extraction Examples]]: Implementation and applications
 - Required Reading: Chapter 4 of "Feature Engineering for Machine Learning" by Alice Zheng
 - ⭐ Quiz: [[L8_8_Quiz]]
