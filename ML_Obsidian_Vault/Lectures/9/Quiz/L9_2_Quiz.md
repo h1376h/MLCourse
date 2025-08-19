@@ -9,10 +9,11 @@ This quiz contains 25 comprehensive questions covering classification evaluation
 Consider a binary classification model that predicts whether emails are spam or not spam.
 
 **Confusion Matrix:**
+
 |                | Predicted Spam | Predicted Not Spam |
 |----------------|----------------|-------------------|
-| Actual Spam    | 45             | 5                 |
-| Actual Not Spam| 10             | 40                |
+| Actual Spam    | $45$           | $5$               |
+| Actual Not Spam| $10$           | $40$              |
 
 #### Task
 1. Calculate the accuracy of this model
@@ -29,13 +30,13 @@ For a detailed explanation of this question, see [Question 1: Basic Metrics Calc
 You have a medical diagnosis model with the following performance:
 
 **Test Results:**
-- Total patients: 1000
-- Actual positive cases: 100
-- Actual negative cases: 900
-- True positives: 80
-- False positives: 50
-- True negatives: 850
-- False negatives: 20
+- Total patients: $1000$
+- Actual positive cases: $100$
+- Actual negative cases: $900$
+- True positives: $80$
+- False positives: $50$
+- True negatives: $850$
+- False negatives: $20$
 
 #### Task
 1. Calculate sensitivity (recall)
@@ -53,8 +54,8 @@ Consider a fraud detection system with the following confusion matrix:
 
 |                | Predicted Fraud | Predicted Normal |
 |----------------|-----------------|------------------|
-| Actual Fraud   | 25              | 75               |
-| Actual Normal  | 10              | 890              |
+| Actual Fraud   | $25$            | $75$             |
+| Actual Normal  | $10$            | $890$            |
 
 #### Task
 1. Calculate the overall accuracy
@@ -71,14 +72,14 @@ For a detailed explanation of this question, see [Question 3: Fraud Detection Ev
 You're comparing two models for a binary classification problem.
 
 **Model A:**
-- Precision: 0.85
-- Recall: 0.70
-- F1 Score: 0.77
+- Precision: $0.85$
+- Recall: $0.70$
+- F1 Score: $0.77$
 
 **Model B:**
-- Precision: 0.75
-- Recall: 0.90
-- F1 Score: 0.82
+- Precision: $0.75$
+- Recall: $0.90$
+- F1 Score: $0.82$
 
 #### Task
 1. Which model has higher precision?
@@ -95,11 +96,12 @@ For a detailed explanation of this question, see [Question 4: Model Comparison](
 Consider a multi-class classification problem with 3 classes: A, B, and C.
 
 **Confusion Matrix:**
+
 |     | Pred A | Pred B | Pred C |
 |-----|--------|--------|--------|
-| A   | 15     | 2      | 3      |
-| B   | 1      | 18     | 1      |
-| C   | 2      | 1      | 17     |
+| A   | $15$   | $2$    | $3$    |
+| B   | $1$    | $18$   | $1$    |
+| C   | $2$    | $1$    | $17$   |
 
 #### Task
 1. Calculate the overall accuracy
@@ -116,11 +118,11 @@ For a detailed explanation of this question, see [Question 5: Multi-class Metric
 You're evaluating a model that predicts customer satisfaction levels.
 
 **Results:**
-- Very Satisfied: 150 correct, 20 incorrect
-- Satisfied: 200 correct, 30 incorrect
-- Neutral: 100 correct, 25 incorrect
-- Dissatisfied: 80 correct, 15 incorrect
-- Very Dissatisfied: 70 correct, 10 incorrect
+- Very Satisfied: $150$ correct, $20$ incorrect
+- Satisfied: $200$ correct, $30$ incorrect
+- Neutral: $100$ correct, $25$ incorrect
+- Dissatisfied: $80$ correct, $15$ incorrect
+- Very Dissatisfied: $70$ correct, $10$ incorrect
 
 #### Task
 1. Calculate the overall accuracy
@@ -137,10 +139,10 @@ For a detailed explanation of this question, see [Question 6: Customer Satisfact
 Consider a model that predicts whether a student will pass or fail a course.
 
 **Results:**
-- True Positives: 80
-- False Positives: 15
-- True Negatives: 70
-- False Negatives: 35
+- True Positives: $80$
+- False Positives: $15$
+- True Negatives: $70$
+- False Negatives: $35$
 
 #### Task
 1. Calculate accuracy
@@ -157,9 +159,9 @@ For a detailed explanation of this question, see [Question 7: Student Performanc
 You have a model that predicts whether a customer will make a purchase.
 
 **Performance by Customer Segment:**
-- High-value customers: 90% precision, 85% recall
-- Medium-value customers: 75% precision, 80% recall
-- Low-value customers: 60% precision, 70% recall
+- High-value customers: $90\%$ precision, $85\%$ recall
+- Medium-value customers: $75\%$ precision, $80\%$ recall
+- Low-value customers: $60\%$ precision, $70\%$ recall
 
 #### Task
 1. Calculate the weighted average precision (weighted by segment size)
@@ -176,10 +178,11 @@ For a detailed explanation of this question, see [Question 8: Customer Segment A
 Consider a model that predicts whether a loan application should be approved.
 
 **Confusion Matrix:**
+
 |                | Predicted Approve | Predicted Deny |
 |----------------|-------------------|----------------|
-| Actual Approve | 120              | 30             |
-| Actual Deny    | 20               | 130            |
+| Actual Approve | $120$            | $30$           |
+| Actual Deny    | $20$             | $130$          |
 
 #### Task
 1. Calculate the overall accuracy
@@ -196,11 +199,12 @@ For a detailed explanation of this question, see [Question 9: Loan Approval Metr
 You're comparing three models for a disease detection task.
 
 **Model Performance:**
+
 | Model | Precision | Recall | F1 Score |
 |-------|-----------|--------|----------|
-| A     | 0.85      | 0.70   | 0.77     |
-| B     | 0.75      | 0.90   | 0.82     |
-| C     | 0.80      | 0.80   | 0.80     |
+| A     | $0.85$    | $0.70$ | $0.77$   |
+| B     | $0.75$    | $0.90$ | $0.82$   |
+| C     | $0.80$    | $0.80$ | $0.80$   |
 
 #### Task
 1. Which model has the highest precision?
@@ -217,10 +221,10 @@ For a detailed explanation of this question, see [Question 10: Disease Detection
 Consider a model that predicts whether a product will be returned.
 
 **Results by Product Category:**
-- Electronics: 85% precision, 80% recall
-- Clothing: 70% precision, 75% recall
-- Books: 90% precision, 85% recall
-- Home & Garden: 75% precision, 70% recall
+- Electronics: $85\%$ precision, $80\%$ recall
+- Clothing: $70\%$ precision, $75\%$ recall
+- Books: $90\%$ precision, $85\%$ recall
+- Home & Garden: $75\%$ precision, $70\%$ recall
 
 #### Task
 1. Calculate the macro-averaged precision
@@ -237,9 +241,9 @@ For a detailed explanation of this question, see [Question 11: Product Return Pr
 You have a model that predicts whether a customer will churn.
 
 **Performance by Subscription Length:**
-- New customers (< 6 months): 75% precision, 70% recall
-- Medium-term (6-24 months): 80% precision, 85% recall
-- Long-term (> 24 months): 85% precision, 90% recall
+- New customers (< 6 months): $75\%$ precision, $70\%$ recall
+- Medium-term (6-24 months): $80\%$ precision, $85\%$ recall
+- Long-term (> 24 months): $85\%$ precision, $90\%$ recall
 
 #### Task
 1. Calculate the weighted average precision (assuming equal segment sizes)
@@ -256,10 +260,11 @@ For a detailed explanation of this question, see [Question 12: Customer Churn An
 Consider a model that predicts whether a job candidate will be successful.
 
 **Confusion Matrix:**
+
 |                | Predicted Success | Predicted Failure |
 |----------------|-------------------|-------------------|
-| Actual Success | 45               | 15               |
-| Actual Failure | 10               | 30               |
+| Actual Success | $45$             | $15$             |
+| Actual Failure | $10$             | $30$             |
 
 #### Task
 1. Calculate the overall accuracy
@@ -276,9 +281,9 @@ For a detailed explanation of this question, see [Question 13: Job Candidate Pre
 You're evaluating a model that predicts whether a transaction is fraudulent.
 
 **Results by Transaction Amount:**
-- Small (< $100): 90% precision, 85% recall
-- Medium ($100-$1000): 80% precision, 90% recall
-- Large (> $1000): 95% precision, 75% recall
+- Small (< $\$100$): $90\%$ precision, $85\%$ recall
+- Medium ($\$100$-$\$1000$): $80\%$ precision, $90\%$ recall
+- Large (> $\$1000$): $95\%$ precision, $75\%$ recall
 
 #### Task
 1. Calculate the macro-averaged precision
@@ -295,10 +300,10 @@ For a detailed explanation of this question, see [Question 14: Fraud Detection b
 Consider a model that predicts whether a student will graduate on time.
 
 **Performance by Major:**
-- Engineering: 85% precision, 80% recall
-- Business: 80% precision, 85% recall
-- Arts: 75% precision, 70% recall
-- Sciences: 90% precision, 85% recall
+- Engineering: $85\%$ precision, $80\%$ recall
+- Business: $80\%$ precision, $85\%$ recall
+- Arts: $75\%$ precision, $70\%$ recall
+- Sciences: $90\%$ precision, $85\%$ recall
 
 #### Task
 1. Calculate the macro-averaged precision
@@ -315,12 +320,12 @@ For a detailed explanation of this question, see [Question 15: Graduation Predic
 You have a model that predicts whether a customer will upgrade their subscription.
 
 **Results by Customer Type:**
-- Free users: 70% precision, 75% recall
-- Basic subscribers: 80% precision, 85% recall
-- Premium subscribers: 85% precision, 80% recall
+- Free users: $70\%$ precision, $75\%$ recall
+- Basic subscribers: $80\%$ precision, $85\%$ recall
+- Premium subscribers: $85\%$ precision, $80\%$ recall
 
 #### Task
-1. Calculate the weighted average precision (assuming 50% free, 30% basic, 20% premium)
+1. Calculate the weighted average precision (assuming $50\%$ free, $30\%$ basic, $20\%$ premium)
 2. Calculate the weighted average recall
 3. Which customer type has the best F1 score?
 4. What does this performance pattern suggest?
@@ -334,10 +339,11 @@ For a detailed explanation of this question, see [Question 16: Subscription Upgr
 Consider a model that predicts whether a patient will respond to a treatment.
 
 **Confusion Matrix:**
+
 |                | Predicted Respond | Predicted No Response |
 |----------------|-------------------|----------------------|
-| Actual Respond | 60               | 20                  |
-| Actual No Response | 15           | 105                 |
+| Actual Respond | $60$             | $20$                |
+| Actual No Response | $15$         | $105$               |
 
 #### Task
 1. Calculate the overall accuracy
@@ -354,9 +360,9 @@ For a detailed explanation of this question, see [Question 17: Treatment Respons
 You're evaluating a model that predicts whether a house will sell within 30 days.
 
 **Performance by Price Range:**
-- Low (< $200K): 75% precision, 80% recall
-- Medium ($200K-$500K): 80% precision, 85% recall
-- High (> $500K): 85% precision, 70% recall
+- Low (< $\$200K$): $75\%$ precision, $80\%$ recall
+- Medium ($\$200K$-$500K$): $80\%$ precision, $85\%$ recall
+- High (> $\$500K$): $85\%$ precision, $70\%$ recall
 
 #### Task
 1. Calculate the macro-averaged precision
@@ -373,10 +379,10 @@ For a detailed explanation of this question, see [Question 18: House Sale Predic
 Consider a model that predicts whether a customer will leave a review.
 
 **Results by Purchase Category:**
-- Electronics: 80% precision, 85% recall
-- Clothing: 75% precision, 80% recall
-- Books: 90% precision, 75% recall
-- Food: 70% precision, 90% recall
+- Electronics: $80\%$ precision, $85\%$ recall
+- Clothing: $75\%$ precision, $80\%$ recall
+- Books: $90\%$ precision, $75\%$ recall
+- Food: $70\%$ precision, $90\%$ recall
 
 #### Task
 1. Calculate the macro-averaged precision
@@ -393,10 +399,10 @@ For a detailed explanation of this question, see [Question 19: Review Prediction
 You have a model that predicts whether a student will pass a certification exam.
 
 **Performance by Study Method:**
-- Self-study: 75% precision, 70% recall
-- Online course: 80% precision, 85% recall
-- In-person training: 85% precision, 80% recall
-- Hybrid approach: 90% precision, 85% recall
+- Self-study: $75\%$ precision, $70\%$ recall
+- Online course: $80\%$ precision, $85\%$ recall
+- In-person training: $85\%$ precision, $80\%$ recall
+- Hybrid approach: $90\%$ precision, $85\%$ recall
 
 #### Task
 1. Calculate the macro-averaged precision
@@ -413,10 +419,11 @@ For a detailed explanation of this question, see [Question 20: Certification Exa
 Consider a model that predicts whether a customer will recommend your service.
 
 **Confusion Matrix:**
+
 |                | Predicted Recommend | Predicted Not Recommend |
 |----------------|---------------------|-------------------------|
-| Actual Recommend | 85                | 15                     |
-| Actual Not Recommend | 20            | 80                     |
+| Actual Recommend | $85$              | $15$                    |
+| Actual Not Recommend | $20$        | $80$                    |
 
 #### Task
 1. Calculate the overall accuracy
@@ -433,9 +440,9 @@ For a detailed explanation of this question, see [Question 21: Customer Recommen
 You're evaluating a model that predicts whether a patient will be readmitted to the hospital.
 
 **Results by Age Group:**
-- Young (18-40): 80% precision, 85% recall
-- Middle-aged (41-65): 85% precision, 80% recall
-- Elderly (65+): 90% precision, 75% recall
+- Young (18-40): $80\%$ precision, $85\%$ recall
+- Middle-aged (41-65): $85\%$ precision, $80\%$ recall
+- Elderly (65+): $90\%$ precision, $75\%$ recall
 
 #### Task
 1. Calculate the macro-averaged precision
@@ -452,10 +459,10 @@ For a detailed explanation of this question, see [Question 22: Hospital Readmiss
 Consider a model that predicts whether a customer will make a repeat purchase.
 
 **Performance by Purchase Frequency:**
-- First-time buyers: 70% precision, 75% recall
-- Occasional buyers: 80% precision, 85% recall
-- Regular buyers: 85% precision, 90% recall
-- Loyal customers: 90% precision, 85% recall
+- First-time buyers: $70\%$ precision, $75\%$ recall
+- Occasional buyers: $80\%$ precision, $85\%$ recall
+- Regular buyers: $85\%$ precision, $90\%$ recall
+- Loyal customers: $90\%$ precision, $85\%$ recall
 
 #### Task
 1. Calculate the macro-averaged precision
@@ -472,9 +479,9 @@ For a detailed explanation of this question, see [Question 23: Repeat Purchase P
 You have a model that predicts whether a student will complete an online course.
 
 **Results by Course Duration:**
-- Short course (< 4 weeks): 85% precision, 80% recall
-- Medium course (4-8 weeks): 80% precision, 85% recall
-- Long course (> 8 weeks): 75% precision, 70% recall
+- Short course (< 4 weeks): $85\%$ precision, $80\%$ recall
+- Medium course (4-8 weeks): $80\%$ precision, $85\%$ recall
+- Long course (> 8 weeks): $75\%$ precision, $70\%$ recall
 
 #### Task
 1. Calculate the macro-averaged precision
@@ -491,10 +498,11 @@ For a detailed explanation of this question, see [Question 24: Course Completion
 Consider a model that predicts whether a customer will contact customer support.
 
 **Confusion Matrix:**
+
 |                | Predicted Contact | Predicted No Contact |
 |----------------|-------------------|----------------------|
-| Actual Contact | 90               | 10                  |
-| Actual No Contact | 25           | 175                 |
+| Actual Contact | $90$             | $10$                |
+| Actual No Contact | $25$         | $175$               |
 
 #### Task
 1. Calculate the overall accuracy
