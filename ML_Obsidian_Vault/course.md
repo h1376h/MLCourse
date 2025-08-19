@@ -171,28 +171,28 @@
   - 📚 Examples: Coming Soon
 
 ### Lecture 8: Feature Engineering and Selection
-- 8.1: Foundations of Feature Engineering
+- 8.1: Foundations of Feature Selection
   - ⭐ Quiz: [[L8_1_Quiz]]
   - 📚 Examples: Coming Soon
-- 8.2: Univariate Feature Selection
+- 8.2: Univariate Feature Selection Methods
   - ⭐ Quiz: [[L8_2_Quiz]]
   - 📚 Examples: Coming Soon
-- 8.3: Multivariate Feature Selection
+- 8.3: Multivariate Feature Selection Methods
   - ⭐ Quiz: [[L8_3_Quiz]]
   - 📚 Examples: Coming Soon
-- 8.4: Correlation Criteria and Analysis
+- 8.4: Evaluation Criteria for Subsets
   - ⭐ Quiz: [[L8_4_Quiz]]
   - 📚 Examples: Coming Soon
-- 8.5: Filter Methods
+- 8.5: Filter Methods In-Depth
   - ⭐ Quiz: [[L8_5_Quiz]]
   - 📚 Examples: Coming Soon
-- 8.6: Wrapper Methods
+- 8.6: Wrapper and Embedded Methods
   - ⭐ Quiz: [[L8_6_Quiz]]
   - 📚 Examples: Coming Soon
-- 8.7: Search Strategies and Methods
+- 8.7: Search Strategies
   - ⭐ Quiz: [[L8_7_Quiz]]
   - 📚 Examples: Coming Soon
-- 8.8: Feature Extraction and Dimensionality Reduction
+- 8.8: Feature Extraction vs. Selection
   - ⭐ Quiz: [[L8_8_Quiz]]
   - 📚 Examples: Coming Soon
 
