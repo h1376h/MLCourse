@@ -22,11 +22,11 @@ X_RANGE = (-5, 5)
 BINS_FOR_MI = 10
 POLYNOMIAL_DEGREES = [2, 3]
 
-# Enable LaTeX style plotting (using mathtext for better compatibility)
-plt.rcParams['text.usetex'] = False
+# Enable LaTeX style plotting for plot labels only
+plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['figure.figsize'] = (10, 8)
-plt.rcParams['mathtext.fontset'] = 'cm'
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath} \usepackage{amssymb}'
 
 print("=" * 80)
 print("FEATURE-TARGET RELATIONSHIPS ANALYSIS")
@@ -167,12 +167,12 @@ for i, (x, y, title) in enumerate(relationships):
     ax.plot(x_sorted, p(x_sorted), "r--", alpha=0.8, linewidth=2)
     
     ax.set_title(f'{title}')
-    ax.set_xlabel('$x_1$')
-    ax.set_ylabel('$x_2$')
+    ax.set_xlabel(r'$x_1$')
+    ax.set_ylabel(r'$x_2$')
     ax.grid(True, alpha=0.3)
     
     # Add correlation statistics to plot
-    stats_text = f'Pearson r: {r_scipy:.3f}\nSpearman $\\rho$: {spearman_r:.3f}\nMutual Info: {mi:.3f}'
+    stats_text = r'Pearson $r$: ' + f'{r_scipy:.3f}\n' + r'Spearman $\rho$: ' + f'{spearman_r:.3f}\n' + r'Mutual Info: ' + f'{mi:.3f}'
     ax.text(0.05, 0.95, stats_text, transform=ax.transAxes, 
             bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8),
             verticalalignment='top', fontsize=9)
@@ -251,12 +251,12 @@ for i, (x, y, title) in enumerate(difficult_relationships):
     # Plot
     ax.scatter(x, y, alpha=0.7, s=40)
     ax.set_title(title)
-    ax.set_xlabel('Feature X')
-    ax.set_ylabel('Target Y')
+    ax.set_xlabel(r'$x_1$')
+    ax.set_ylabel(r'$x_2$')
     ax.grid(True, alpha=0.3)
     
     # Add statistics
-    stats_text = f'Pearson: {r_pearson:.3f}\nSpearman: {r_spearman:.3f}\nMI: {mi:.3f}'
+    stats_text = r'Pearson $r$: ' + f'{r_pearson:.3f}\n' + r'Spearman $\rho$: ' + f'{r_spearman:.3f}\n' + r'MI: ' + f'{mi:.3f}'
     ax.text(0.05, 0.95, stats_text, transform=ax.transAxes,
             bbox=dict(boxstyle="round,pad=0.3", facecolor="lightblue", alpha=0.8),
             verticalalignment='top', fontsize=9)
@@ -316,36 +316,36 @@ fig, axes = plt.subplots(2, 3, figsize=(18, 12))
 # Original relationship
 axes[0, 0].scatter(x_nonlinear, y_nonlinear, alpha=0.6)
 axes[0, 0].set_title('Original Non-linear Relationship')
-axes[0, 0].set_xlabel('X')
-axes[0, 0].set_ylabel('Y')
+axes[0, 0].set_xlabel(r'$x_1$')
+axes[0, 0].set_ylabel(r'$x_2$')
 axes[0, 0].grid(True, alpha=0.3)
 
 # Polynomial feature (x^2)
 axes[0, 1].scatter(x_poly[:, 1], y_nonlinear, alpha=0.6)
-axes[0, 1].set_title('X² vs Y')
-axes[0, 1].set_xlabel('X²')
-axes[0, 1].set_ylabel('Y')
+axes[0, 1].set_title(r'$x_1^2$ vs $x_2$')
+axes[0, 1].set_xlabel(r'$x_1^2$')
+axes[0, 1].set_ylabel(r'$x_2$')
 axes[0, 1].grid(True, alpha=0.3)
 
 # Polynomial feature (x^3)
 axes[0, 2].scatter(x_poly[:, 2], y_nonlinear, alpha=0.6)
-axes[0, 2].set_title('X³ vs Y')
-axes[0, 2].set_xlabel('X³')
-axes[0, 2].set_ylabel('Y')
+axes[0, 2].set_title(r'$x_1^3$ vs $x_2$')
+axes[0, 2].set_xlabel(r'$x_1^3$')
+axes[0, 2].set_ylabel(r'$x_2$')
 axes[0, 2].grid(True, alpha=0.3)
 
 # Rank transformation
 axes[1, 0].scatter(x_rank, y_rank, alpha=0.6)
 axes[1, 0].set_title('Rank Transformation')
-axes[1, 0].set_xlabel('Rank(X)')
-axes[1, 0].set_ylabel('Rank(Y)')
+axes[1, 0].set_xlabel(r'$\text{Rank}(x_1)$')
+axes[1, 0].set_ylabel(r'$\text{Rank}(x_2)$')
 axes[1, 0].grid(True, alpha=0.3)
 
 # Binned transformation
 axes[1, 1].boxplot([y_nonlinear[x_binned == i] for i in range(int(max(x_binned))+1)])
 axes[1, 1].set_title('Binned X vs Y Distribution')
 axes[1, 1].set_xlabel('X Bins')
-axes[1, 1].set_ylabel('Y')
+axes[1, 1].set_ylabel(r'$x_2$')
 axes[1, 1].grid(True, alpha=0.3)
 
 # Correlation comparison
@@ -393,13 +393,13 @@ plt.figure(figsize=(12, 5))
 plt.subplot(1, 2, 1)
 plt.scatter(x_mi, y_mi, alpha=0.6, c=y_mi, cmap='RdYlBu')
 plt.title('High MI, Low Correlation Example')
-plt.xlabel('Feature X')
-plt.ylabel('Target Y')
-plt.colorbar(label='Y value')
+plt.xlabel(r'$x_1$')
+plt.ylabel(r'$x_2$')
+plt.colorbar(label=r'$x_2$ value')
 plt.grid(True, alpha=0.3)
 
 # Add statistics text
-stats_text = f'Pearson r: {r_mi:.3f}\nMutual Info: {mi_value:.3f}'
+stats_text = r'Pearson $r$: ' + f'{r_mi:.3f}\n' + r'Mutual Info: ' + f'{mi_value:.3f}'
 plt.text(0.05, 0.95, stats_text, transform=plt.gca().transAxes,
          bbox=dict(boxstyle="round,pad=0.3", facecolor="yellow", alpha=0.8),
          verticalalignment='top')
@@ -414,8 +414,8 @@ zi = kde(np.vstack([xi.flatten(), yi.flatten()]))
 plt.contourf(xi, yi, zi.reshape(xi.shape), alpha=0.6)
 plt.scatter(x_mi, y_mi, alpha=0.3, s=10)
 plt.title('Joint Distribution Visualization')
-plt.xlabel('Feature X')
-plt.ylabel('Target Y')
+plt.xlabel(r'$x_1$')
+plt.ylabel(r'$x_2$')
 plt.colorbar(label='Density')
 
 plt.tight_layout()
@@ -503,15 +503,15 @@ for i, (name, results) in enumerate(comparison_results.items()):
     
     ax.scatter(x_data, y_data, alpha=0.6, s=30)
     ax.set_title(f'{name}')
-    ax.set_xlabel('Feature X')
-    ax.set_ylabel('Target Y')
+    ax.set_xlabel(r'$x_1$')
+    ax.set_ylabel(r'$x_2$')
     ax.grid(True, alpha=0.3)
     
     # Add all statistics
-    stats_text = (f"Pearson r: {results['Pearson r']:.3f}\n"
-                  f"Spearman rho: {results['Spearman rho']:.3f}\n"
-                  f"Mutual Info: {results['Mutual Info']:.3f}\n"
-                  f"Cramér V: {results['Cramér V']:.3f}")
+    stats_text = (r"Pearson $r$: " + f"{results['Pearson r']:.3f}\n"
+                  r"Spearman $\rho$: " + f"{results['Spearman rho']:.3f}\n"
+                  r"Mutual Info: " + f"{results['Mutual Info']:.3f}\n"
+                  r"Cramér V: " + f"{results['Cramér V']:.3f}")
     
     ax.text(0.05, 0.95, stats_text, transform=ax.transAxes,
             bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgreen", alpha=0.8),
@@ -647,9 +647,9 @@ z = np.polyfit(X, Y, 1)
 p = np.poly1d(z)
 plt.plot(X, p(X), "r--", alpha=0.8, linewidth=2, label=f'Trend line')
 
-plt.xlabel('$x_1$')
-plt.ylabel('$x_2$')
-plt.title(f'Scatter Plot with Correlation $r = {r:.4f}$')
+plt.xlabel(r'$x_1$')
+plt.ylabel(r'$x_2$')
+plt.title(r'Scatter Plot with Correlation $r = ' + f'{r:.4f}$')
 plt.legend()
 plt.grid(True, alpha=0.3)
 
@@ -688,15 +688,15 @@ for bar, value in zip(bars, XY_products):
 # Calculation step summary
 plt.subplot(2, 3, 5)
 plt.axis('off')
-calc_text = (f"Calculation Summary:\n\n"
-             f"n = {n}\n"
-             f"X̄ = {X_mean:.1f}, Ȳ = {Y_mean:.1f}\n\n"
-             f"Σ(X - X̄)(Y - Ȳ) = {sum_XY:.1f}\n"
-             f"Σ(X - X̄)² = {sum_X_squared:.1f}\n"
-             f"Σ(Y - Ȳ)² = {sum_Y_squared:.1f}\n\n"
-             f"r = {sum_XY:.1f} / √({sum_X_squared:.1f} × {sum_Y_squared:.1f})\n"
-             f"r = {sum_XY:.1f} / {denominator:.4f}\n"
-             f"r = {r:.4f}")
+calc_text = (r"Calculation Summary:\n\n"
+             r"$n = " + f"{n}" + r"$\n"
+             r"$\bar{X} = " + f"{X_mean:.1f}" + r"$, $\bar{Y} = " + f"{Y_mean:.1f}" + r"$\n\n"
+             r"$\sum(X - \bar{X})(Y - \bar{Y}) = " + f"{sum_XY:.1f}" + r"$\n"
+             r"$\sum(X - \bar{X})^2 = " + f"{sum_X_squared:.1f}" + r"$\n"
+             r"$\sum(Y - \bar{Y})^2 = " + f"{sum_Y_squared:.1f}" + r"$\n\n"
+             r"$r = " + f"{sum_XY:.1f}" + r" / \sqrt{" + f"{sum_X_squared:.1f}" + r" \times " + f"{sum_Y_squared:.1f}" + r"}$\n"
+             r"$r = " + f"{sum_XY:.1f}" + r" / " + f"{denominator:.4f}" + r"$\n"
+             r"$r = " + f"{r:.4f}" + r"$")
 
 plt.text(0.1, 0.9, calc_text, fontsize=11, verticalalignment='top',
          bbox=dict(boxstyle="round,pad=0.5", facecolor="lightyellow", alpha=0.8))
@@ -704,16 +704,16 @@ plt.text(0.1, 0.9, calc_text, fontsize=11, verticalalignment='top',
 # Decision summary
 plt.subplot(2, 3, 6)
 plt.axis('off')
-decision_text = (f"Feature Selection Decision:\n\n"
-                f"Correlation: r = {r:.4f}\n"
-                f"Absolute correlation: |r| = {abs_r:.4f}\n"
-                f"Threshold: {threshold}\n\n"
-                f"Using absolute value:\n"
-                f"{'✓ SELECTED' if abs_r >= threshold else '✗ REJECTED'}\n"
-                f"({abs_r:.4f} {'≥' if abs_r >= threshold else '<'} {threshold})\n\n"
-                f"Using signed value:\n"
-                f"{'✓ SELECTED' if r >= threshold else '✗ REJECTED'}\n"
-                f"({r:.4f} {'≥' if r >= threshold else '<'} {threshold})")
+decision_text = (r"Feature Selection Decision:\n\n"
+                r"Correlation: $r = " + f"{r:.4f}" + r"$\n"
+                r"Absolute correlation: $|r| = " + f"{abs_r:.4f}" + r"$\n"
+                r"Threshold: " + f"{threshold}" + r"\n\n"
+                r"Using absolute value:\n"
+                r"$" + ('\\checkmark' if abs_r >= threshold else '\\times') + r"$ " + ('SELECTED' if abs_r >= threshold else 'REJECTED') + r"\n"
+                r"$(" + f"{abs_r:.4f}" + r" " + ('\\geq' if abs_r >= threshold else '<') + r" " + f"{threshold}" + r")$\n\n"
+                r"Using signed value:\n"
+                r"$" + ('\\checkmark' if r >= threshold else '\\times') + r"$ " + ('SELECTED' if r >= threshold else 'REJECTED') + r"\n"
+                r"$(" + f"{r:.4f}" + r" " + ('\\geq' if r >= threshold else '<') + r" " + f"{threshold}" + r")$")
 
 color = "lightgreen" if abs_r >= threshold else "lightcoral"
 plt.text(0.1, 0.9, decision_text, fontsize=11, verticalalignment='top',
