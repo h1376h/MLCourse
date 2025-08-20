@@ -204,7 +204,7 @@ Feature selection thresholds affect the number of selected features.
 3. What happens if you set the threshold too low?
 4. If you want exactly 20% of features, how do you set the threshold?
 5. Design a threshold selection strategy
-6. Given feature scores: [0.95, 0.87, 0.76, 0.65, 0.54, 0.43, 0.32, 0.21, 0.15, 0.08], calculate the threshold that would select exactly 30% of features. If you want to ensure that selected features have scores at least 2 standard deviations above the mean, what threshold would you use? Show your calculations.
+6. Given feature scores: $[0.95, 0.87, 0.76, 0.65, 0.54, 0.43, 0.32, 0.21, 0.15, 0.08]$, calculate the threshold that would select exactly 30% of features. If you want to ensure that selected features have scores at least 2 standard deviations above the mean, what threshold would you use? Show your calculations.
 
 For a detailed explanation of this question, see [Question 12: Threshold Selection](L8_2_12_explanation.md).
 
@@ -234,7 +234,7 @@ Different selection criteria may give different feature rankings.
 3. What's the advantage of using multiple criteria?
 4. If feature A ranks 1st by correlation but 3rd by mutual information, what does this suggest?
 5. Design a multi-criteria selection approach
-6. Given three features with rankings by correlation [1, 2, 3] and mutual information [2, 1, 3], calculate the Spearman rank correlation between these two ranking methods. If you use a weighted average approach with weights 0.6 for correlation and 0.4 for mutual information, what would be the final ranking? Show your calculations.
+6. Given three features with rankings by correlation $[1, 2, 3]$ and mutual information $[2, 1, 3]$, calculate the Spearman rank correlation between these two ranking methods. If you use a weighted average approach with weights 0.6 for correlation and 0.4 for mutual information, what would be the final ranking? Show your calculations.
 
 For a detailed explanation of this question, see [Question 14: Multiple Criteria](L8_2_14_explanation.md).
 
