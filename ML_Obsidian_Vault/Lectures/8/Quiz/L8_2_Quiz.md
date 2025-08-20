@@ -169,13 +169,13 @@ For a detailed explanation of this question, see [Question 10: Threshold Selecti
 ## Question 11
 
 ### Problem Statement
-Feature selection can be viewed as an optimization problem.
+Feature selection can be viewed as an optimization problem where we aim to find the optimal subset of features that maximizes model performance while minimizing computational cost and complexity. The problem involves balancing multiple objectives: accuracy, interpretability, and computational efficiency.
 
 #### Task
-1. What is the objective function for feature selection?
-2. What are the constraints in this optimization problem?
-3. Formulate the feature selection problem as a multi-objective optimization: maximize accuracy ($0$-$1$ scale) and minimize the number of features. If accuracy $= 0.8 + 0.02n - 0.001n^2$ where $n$ is the number of features, find the optimal number of features that maximizes the objective function $f(n) = \text{accuracy} - 0.1n$. Show your derivative calculations and optimization steps.
-4. Formulate the feature selection problem as a constrained optimization: maximize accuracy subject to the constraint that the number of features $\leq 25$. If the accuracy function is $A(n) = 0.7 + 0.015n - 0.0002n^2$ where $n$ is the number of features, find the optimal number of features that maximizes accuracy within the constraint.
+1. What is the objective function for feature selection? Explain the components and their trade-offs.
+2. What are the constraints in this optimization problem? Consider practical limitations like computational resources, interpretability requirements, and domain-specific constraints. If you have a maximum budget of $1000$ computational units and each feature costs $50$ units to evaluate, what's the maximum number of features you can consider?
+3. Formulate the feature selection problem as a multi-objective optimization: maximize accuracy ($0$-$1$ scale) and minimize the number of features. If accuracy $= 0.8 + 0.02n - 0.001n^2$ where $n$ is the number of features, find the optimal number of features that maximizes the objective function $f(n) = \text{accuracy} - 0.1n$. Show your derivative calculations and optimization steps. What is the maximum value of the objective function?
+4. Formulate the feature selection problem as a constrained optimization: maximize accuracy subject to the constraint that the number of features $\leq 25$. If the accuracy function is $A(n) = 0.7 + 0.015n - 0.0002n^2$ where $n$ is the number of features, find the optimal number of features that maximizes accuracy within the constraint. What is the maximum achievable accuracy under this constraint?
 
 For a detailed explanation of this question, see [Question 11: Optimization Formulation](L8_2_11_explanation.md).
 
