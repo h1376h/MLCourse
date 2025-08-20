@@ -189,6 +189,7 @@ The curse of dimensionality affects feature selection strategies.
 2. What happens to feature relevance as dimensions increase?
 3. If the probability of a feature being relevant decreases exponentially with dimensionality as $P(\text{relevant}) = 0.1 \times 0.95^n$ where $n$ is the number of features, calculate the expected number of relevant features for datasets with $100$, $1000$, and $10000$ features
 4. If you need at least $5$ relevant features for your model, what's the maximum dimensionality you should consider?
+5. Consider a modified scenario where feature relevance follows $P(\text{relevant}) = 0.3 \times 0.98^n$. For this case: (a) Calculate the expected number of relevant features for $n = 50, 100, 200$ features, (b) Find the maximum dimensionality that allows at least $5$ relevant features, and (c) Compare this with the original function to understand how the decay rate affects feature selection
 
 For a detailed explanation of this question, see [Question 12: High Dimensionality](L8_2_12_explanation.md).
 
