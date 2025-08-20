@@ -231,13 +231,6 @@ This detailed visualization breaks down the Pearson correlation calculation step
 - High correlation doesn't guarantee causation or predictive power
 - Low correlation doesn't mean the feature is useless for non-linear models
 
-### Code Implementation Insights
-- **Modular Design**: The improved code uses functions to generate data, calculate correlations, and create visualizations
-- **Configuration Management**: Centralized parameters (thresholds, sample sizes, random seeds) make the code easily adaptable
-- **Comprehensive Analysis**: Each relationship type is analyzed with multiple measures simultaneously
-- **Visualization Strategy**: Plots are automatically saved without display, making the code suitable for automated environments
-- **Error Handling**: The code gracefully handles edge cases like zero denominators in correlation calculations
-
 ## Conclusion
 
 The comprehensive analysis of feature-target relationships provides several key conclusions:

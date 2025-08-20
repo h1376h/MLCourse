@@ -22,7 +22,7 @@ X_RANGE = (-5, 5)
 BINS_FOR_MI = 10
 POLYNOMIAL_DEGREES = [2, 3]
 
-# Enable LaTeX style plotting for plot labels only
+# Enable LaTeX style plotting with robust configuration
 plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['figure.figsize'] = (10, 8)
@@ -580,26 +580,26 @@ print(f"Mean of Y: {Y_mean:.1f}")
 print()
 
 print("Deviations from mean:")
-print(f"X - X̄: {X_dev}")
-print(f"Y - Ȳ: {Y_dev}")
+print(f"X - $\\bar{{X}}$: {X_dev}")
+print(f"Y - $\\bar{{Y}}$: {Y_dev}")
 print()
 
 print("Products and squares:")
-print(f"(X - X̄)(Y - Ȳ): {XY_products}")
-print(f"(X - X̄)²:       {X_squared}")
-print(f"(Y - Ȳ)²:       {Y_squared}")
+print(f"(X - $\\bar{{X}}$)(Y - $\\bar{{Y}}$): {XY_products}")
+print(f"(X - $\\bar{{X}}$)²:       {X_squared}")
+print(f"(Y - $\\bar{{Y}}$)²:       {Y_squared}")
 print()
 
 print("Sums:")
-print(f"Σ(X - X̄)(Y - Ȳ): {sum_XY:.1f}")
-print(f"Σ(X - X̄)²:       {sum_X_squared:.1f}")
-print(f"Σ(Y - Ȳ)²:       {sum_Y_squared:.1f}")
+print(f"$\\sum$(X - $\\bar{{X}}$)(Y - $\\bar{{Y}}$): {sum_XY:.1f}")
+print(f"$\\sum$(X - $\\bar{{X}}$)²:       {sum_X_squared:.1f}")
+print(f"$\\sum$(Y - $\\bar{{Y}}$)²:       {sum_Y_squared:.1f}")
 print()
 
 print("Pearson correlation coefficient calculation:")
-print(f"r = Σ(X - X̄)(Y - Ȳ) / √[Σ(X - X̄)² × Σ(Y - Ȳ)²]")
-print(f"r = {sum_XY:.1f} / √[{sum_X_squared:.1f} × {sum_Y_squared:.1f}]")
-print(f"r = {sum_XY:.1f} / √{sum_X_squared * sum_Y_squared:.1f}")
+print(f"r = $\\sum$(X - $\\bar{{X}}$)(Y - $\\bar{{Y}}$) / $\\sqrt{{[\\sum$(X - $\\bar{{X}}$)² × $\\sum$(Y - $\\bar{{Y}}$)²]}}$")
+print(f"r = {sum_XY:.1f} / $\\sqrt{{[{sum_X_squared:.1f} × {sum_Y_squared:.1f}]}}$")
+print(f"r = {sum_XY:.1f} / $\\sqrt{{{sum_X_squared * sum_Y_squared:.1f}}}$")
 print(f"r = {sum_XY:.1f} / {denominator:.4f}")
 print(f"r = {r:.4f}")
 print()
@@ -639,8 +639,8 @@ for i in range(len(X)):
                 textcoords='offset points', fontsize=10)
 
 # Add mean lines
-plt.axhline(y=Y_mean, color='blue', linestyle='--', alpha=0.7, label=f'Ȳ = {Y_mean}')
-plt.axvline(x=X_mean, color='green', linestyle='--', alpha=0.7, label=f'X̄ = {X_mean}')
+plt.axhline(y=Y_mean, color='blue', linestyle='--', alpha=0.7, label=f'$\\bar{{Y}}$ = {Y_mean}')
+plt.axvline(x=X_mean, color='green', linestyle='--', alpha=0.7, label=f'$\\bar{{X}}$ = {X_mean}')
 
 # Add trend line
 z = np.polyfit(X, Y, 1)
@@ -688,36 +688,38 @@ for bar, value in zip(bars, XY_products):
 # Calculation step summary
 plt.subplot(2, 3, 5)
 plt.axis('off')
-calc_text = (r"Calculation Summary:\n\n"
-             r"$n = " + f"{n}" + r"$\n"
-             r"$\bar{X} = " + f"{X_mean:.1f}" + r"$, $\bar{Y} = " + f"{Y_mean:.1f}" + r"$\n\n"
-             r"$\sum(X - \bar{X})(Y - \bar{Y}) = " + f"{sum_XY:.1f}" + r"$\n"
-             r"$\sum(X - \bar{X})^2 = " + f"{sum_X_squared:.1f}" + r"$\n"
-             r"$\sum(Y - \bar{Y})^2 = " + f"{sum_Y_squared:.1f}" + r"$\n\n"
-             r"$r = " + f"{sum_XY:.1f}" + r" / \sqrt{" + f"{sum_X_squared:.1f}" + r" \times " + f"{sum_Y_squared:.1f}" + r"}$\n"
-             r"$r = " + f"{sum_XY:.1f}" + r" / " + f"{denominator:.4f}" + r"$\n"
-             r"$r = " + f"{r:.4f}" + r"$")
+calc_text = (f"Calculation Summary:\n\n"
+             f"n = {n}\n"
+             f"X_mean = {X_mean:.1f}, Y_mean = {Y_mean:.1f}\n\n"
+             f"Sum(X - X_mean)(Y - Y_mean) = {sum_XY:.1f}\n"
+             f"Sum(X - X_mean)^2 = {sum_X_squared:.1f}\n"
+             f"Sum(Y - Y_mean)^2 = {sum_Y_squared:.1f}\n\n"
+             f"r = {sum_XY:.1f} / sqrt({sum_X_squared:.1f} × {sum_Y_squared:.1f})\n"
+             f"r = {sum_XY:.1f} / {denominator:.4f}\n"
+             f"r = {r:.4f}")
 
 plt.text(0.1, 0.9, calc_text, fontsize=11, verticalalignment='top',
-         bbox=dict(boxstyle="round,pad=0.5", facecolor="lightyellow", alpha=0.8))
+         bbox=dict(boxstyle="round,pad=0.5", facecolor="lightyellow", alpha=0.8),
+         usetex=False)
 
 # Decision summary
 plt.subplot(2, 3, 6)
 plt.axis('off')
-decision_text = (r"Feature Selection Decision:\n\n"
-                r"Correlation: $r = " + f"{r:.4f}" + r"$\n"
-                r"Absolute correlation: $|r| = " + f"{abs_r:.4f}" + r"$\n"
-                r"Threshold: " + f"{threshold}" + r"\n\n"
-                r"Using absolute value:\n"
-                r"$" + ('\\checkmark' if abs_r >= threshold else '\\times') + r"$ " + ('SELECTED' if abs_r >= threshold else 'REJECTED') + r"\n"
-                r"$(" + f"{abs_r:.4f}" + r" " + ('\\geq' if abs_r >= threshold else '<') + r" " + f"{threshold}" + r")$\n\n"
-                r"Using signed value:\n"
-                r"$" + ('\\checkmark' if r >= threshold else '\\times') + r"$ " + ('SELECTED' if r >= threshold else 'REJECTED') + r"\n"
-                r"$(" + f"{r:.4f}" + r" " + ('\\geq' if r >= threshold else '<') + r" " + f"{threshold}" + r")$")
+decision_text = (f"Feature Selection Decision:\n\n"
+                f"Correlation: r = {r:.4f}\n"
+                f"Absolute correlation: |r| = {abs_r:.4f}\n"
+                f"Threshold: {threshold}\n\n"
+                f"Using absolute value:\n"
+                f"{'✓' if abs_r >= threshold else '✗'} {'SELECTED' if abs_r >= threshold else 'REJECTED'}\n"
+                f"({abs_r:.4f} {'≥' if abs_r >= threshold else '<'} {threshold})\n\n"
+                f"Using signed value:\n"
+                f"{'✓' if r >= threshold else '✗'} {'SELECTED' if r >= threshold else 'REJECTED'}\n"
+                f"({r:.4f} {'≥' if r >= threshold else '<'} {threshold})")
 
 color = "lightgreen" if abs_r >= threshold else "lightcoral"
 plt.text(0.1, 0.9, decision_text, fontsize=11, verticalalignment='top',
-         bbox=dict(boxstyle="round,pad=0.5", facecolor=color, alpha=0.8))
+         bbox=dict(boxstyle="round,pad=0.5", facecolor=color, alpha=0.8),
+         usetex=False)
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'pearson_correlation_calculation.png'), dpi=300, bbox_inches='tight')
