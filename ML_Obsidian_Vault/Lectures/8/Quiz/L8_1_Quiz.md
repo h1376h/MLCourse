@@ -1,7 +1,7 @@
 # Lecture 8.1: Foundations of Feature Selection Quiz
 
 ## Overview
-This quiz contains 25 questions covering the foundations of feature selection, including motivations, the curse of dimensionality, and different selection approaches. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 38 questions covering the foundations of feature selection, including motivations, the curse of dimensionality, and different selection approaches. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -352,3 +352,204 @@ Feature selection is part of a broader feature engineering strategy.
 5. Design a comprehensive feature engineering pipeline
 
 For a detailed explanation of this question, see [Question 25: Feature Engineering Integration](L8_1_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+Feature redundancy occurs when multiple features provide similar information, leading to multicollinearity.
+
+#### Task
+1. What is feature redundancy and why is it problematic?
+2. How do you detect multicollinearity between features?
+3. What's the difference between redundancy and irrelevance?
+4. If two features have correlation 0.95, what should you do?
+5. How does redundancy affect model interpretability?
+
+For a detailed explanation of this question, see [Question 26: Feature Redundancy and Multicollinearity](L8_1_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+Statistical significance testing helps determine if feature selection results are reliable.
+
+#### Task
+1. What is statistical significance in feature selection?
+2. How do you test if a selected feature is truly important?
+3. What's the role of p-values in feature selection?
+4. If a feature improves accuracy by 0.5%, how do you know it's significant?
+5. Compare different significance testing approaches
+
+For a detailed explanation of this question, see [Question 27: Statistical Significance in Feature Selection](L8_1_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+Different data types require different feature selection strategies.
+
+#### Task
+1. How does feature selection differ for text data vs numerical data?
+2. What special considerations exist for image data?
+3. How do you handle time series features in selection?
+4. If you have mixed data types, what selection approach would you use?
+5. Compare selection strategies across different data modalities
+
+For a detailed explanation of this question, see [Question 28: Feature Selection for Different Data Types](L8_1_28_explanation.md).
+
+## Question 29
+
+### Problem Statement
+Ensemble feature selection methods combine multiple selection approaches for better results.
+
+#### Task
+1. What is ensemble feature selection and how does it work?
+2. What are the advantages of combining multiple selection methods?
+3. How do you aggregate results from different selection approaches?
+4. If three methods select different feature sets, how do you decide?
+5. Compare ensemble vs single method selection
+
+For a detailed explanation of this question, see [Question 29: Ensemble Feature Selection Methods](L8_1_29_explanation.md).
+
+## Question 30
+
+### Problem Statement
+Feature selection in deep learning presents unique challenges and opportunities.
+
+#### Task
+1. How does feature selection differ in deep learning vs traditional ML?
+2. What role do hidden layers play in feature selection?
+3. How can you interpret feature importance in neural networks?
+4. If you have a pre-trained model, how do you select input features?
+5. Compare feature selection approaches for different neural architectures
+
+For a detailed explanation of this question, see [Question 30: Feature Selection in Deep Learning](L8_1_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+Ethical considerations are important when selecting features that may introduce bias.
+
+#### Task
+1. How can feature selection introduce or reduce bias?
+2. What features might be ethically problematic to include?
+3. How do you ensure fairness in feature selection?
+4. If a feature correlates with protected attributes, what should you do?
+5. Compare ethical vs performance considerations in selection
+
+For a detailed explanation of this question, see [Question 31: Ethical Considerations in Feature Selection](L8_1_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
+Feature selection for imbalanced datasets requires special attention to maintain minority class representation.
+
+#### Task
+1. How does class imbalance affect feature selection?
+2. What selection strategies work best for imbalanced data?
+3. How do you ensure selected features represent all classes?
+4. If 90% of samples are negative, how do you select features fairly?
+5. Compare selection approaches for balanced vs imbalanced datasets
+
+For a detailed explanation of this question, see [Question 32: Feature Selection for Imbalanced Datasets](L8_1_32_explanation.md).
+
+## Question 33
+
+### Problem Statement
+Online/streaming feature selection handles data that arrives continuously over time.
+
+#### Task
+1. What is online feature selection and when is it needed?
+2. How does online selection differ from batch selection?
+3. What challenges arise when features change over time?
+4. If new features appear in the data stream, how do you adapt?
+5. Compare online vs offline feature selection approaches
+
+For a detailed explanation of this question, see [Question 33: Online and Streaming Feature Selection](L8_1_33_explanation.md).
+
+## Question 34
+
+### Problem Statement
+Feature selection validation strategies ensure selected features generalize well to new data.
+
+#### Task
+1. Why is validation important in feature selection?
+2. How do you avoid overfitting during feature selection?
+3. What validation strategies work best for feature selection?
+4. If selection improves training performance but hurts validation, what's happening?
+5. Compare different validation approaches for feature selection
+
+For a detailed explanation of this question, see [Question 34: Feature Selection Validation Strategies](L8_1_34_explanation.md).
+
+## Question 35
+
+### Problem Statement
+Feature selection strategies vary depending on the machine learning task type.
+
+#### Task
+1. How does feature selection differ for classification vs regression?
+2. What special considerations exist for clustering tasks?
+3. How do you select features for unsupervised learning?
+4. If you're doing multi-label classification, how does selection change?
+5. Compare feature selection across different ML task types
+
+For a detailed explanation of this question, see [Question 35: Feature Selection for Different ML Tasks](L8_1_35_explanation.md).
+
+## Question 36
+
+### Problem Statement
+You're playing a game where you must select features to maximize model performance.
+
+**Rules:**
+- You have 100 total features
+- Only 15 are truly useful
+- Each useful feature gives +10 points
+- Each useless feature gives -2 points
+- You must select exactly 20 features
+
+#### Task
+1. What's your best possible score?
+2. What's your worst possible score?
+3. If you randomly select 20 features, what's your expected score?
+4. What strategy would you use to maximize your score?
+
+**Hint:** For question 3, use the probability of selecting useful features: P(useful) = 15/100 = 0.15
+
+For a detailed explanation of this question, see [Question 36: Feature Selection Strategy Game](L8_1_36_explanation.md).
+
+## Question 37
+
+### Problem Statement
+You're evaluating feature quality for a spam detection system.
+
+**Features:**
+- Word count in email
+- Number of exclamation marks
+- Sender's email domain
+- Time of day sent
+- Random number generator output
+
+#### Task
+1. Rank these features from most to least useful
+2. Which feature is completely useless and why?
+3. Which feature might be misleading and why?
+4. If you can only use 2 features, which would you choose?
+
+For a detailed explanation of this question, see [Question 37: Feature Quality Assessment](L8_1_37_explanation.md).
+
+## Question 38
+
+### Problem Statement
+You need to decide whether to use feature selection for your project.
+
+**Considerations:**
+- Dataset: 500 samples, 30 features
+- Goal: Interpretable model for business users
+- Time constraint: 2 weeks total
+- Performance requirement: 80% accuracy minimum
+
+#### Task
+1. Should you use feature selection? Yes/No and why?
+2. What type of selection would you choose?
+3. How many features would you aim to keep?
+4. What's your biggest risk in this decision?
+
+For a detailed explanation of this question, see [Question 38: Feature Selection Decision Tree](L8_1_38_explanation.md).
