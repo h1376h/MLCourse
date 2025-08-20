@@ -145,11 +145,11 @@ The plots demonstrate that redundant features correlate with both other features
 
 Our automated feature selection process:
 
-1. **Initial state**: 5 features [x1, x2, x3, x4, x5]
+1. **Initial state**: 5 features $[x1, x2, x3, x4, x5]$
 2. **Iteration 1**: Remove x1 (VIF = 274.4)
 3. **Iteration 2**: Remove x5 (VIF = 130.8)  
 4. **Iteration 3**: Remove x4 (VIF = 49.4)
-5. **Final result**: Retain [x2, x3] (all VIF ≤ 5)
+5. **Final result**: Retain $[x2, x3]$ (all VIF ≤ 5)
 
 **Performance after VIF-based selection:**
 - Selected features: MSE = 0.3378, R² = 0.9728

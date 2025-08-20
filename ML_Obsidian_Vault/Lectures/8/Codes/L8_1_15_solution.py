@@ -84,7 +84,7 @@ sns.heatmap(correlation_matrix, mask=mask, annot=True, cmap='RdBu_r', center=0,
 plt.title('Correlation Matrix Heatmap')
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'correlation_matrix.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Identify high correlations
 print("\nHigh Correlations (|r| > 0.8):")
@@ -132,7 +132,7 @@ for bar, vif_val in zip(bars, vif_results['VIF']):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'vif_analysis.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 print("\nVIF Interpretation:")
 print("- VIF = 1: No multicollinearity")
@@ -194,7 +194,7 @@ plt.grid(True, alpha=0.3)
 plt.ylim(0, 50)
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'vif_correlation_relationship.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # =============================================================================
 # 5. Impact on Model Performance and Interpretability
@@ -274,7 +274,7 @@ for i, coef in enumerate(model_reduced.coef_):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'coefficient_comparison.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # =============================================================================
 # 6. Difference Between Redundancy and Irrelevance
@@ -337,7 +337,7 @@ axes[1, 2].grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'redundancy_vs_irrelevance.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # =============================================================================
 # 7. Feature Selection Strategy
@@ -465,7 +465,57 @@ else:
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'feature_selection_summary.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
+
+# =============================================================================
+# 8. DETAILED STEP-BY-STEP MATHEMATICAL SOLUTIONS
+# =============================================================================
+print("\n8. DETAILED MATHEMATICAL SOLUTIONS (PEN-AND-PAPER STYLE)")
+print("-" * 60)
+
+print("\nA. VIF Calculation Step-by-Step:")
+print("   Step 1: For feature X with correlation r = 0.9")
+print("   Step 2: Calculate R² = r² = (0.9)² = 0.81")
+print("   Step 3: VIF = 1/(1-R²) = 1/(1-0.81) = 1/0.19 = 5.26")
+print("   Step 4: Since VIF = 5.26 > 5, remove the feature")
+
+print("\n   For feature X with correlation r = 0.8:")
+print("   Step 1: R² = r² = (0.8)² = 0.64")
+print("   Step 2: VIF = 1/(1-R²) = 1/(1-0.64) = 1/0.36 = 2.78")
+print("   Step 3: Since VIF = 2.78 < 5, retain the feature")
+
+print("\nB. Correlation Matrix Analysis:")
+print("   Step 1: Calculate pairwise correlations between all features")
+print("   Step 2: Identify high correlations: |r| > 0.8")
+print("   Step 3: For each high correlation pair:")
+print("     - x1-x3: r = 0.995 (nearly identical)")
+print("     - x1-x4: r = 0.995 (linear relationship)")
+print("     - x3-x4: r = 0.990 (both derived from x1)")
+
+print("\nC. Feature Selection Algorithm:")
+print("   Step 1: Start with all features")
+print("   Step 2: Calculate VIF for each feature")
+print("   Step 3: Find feature with highest VIF > threshold")
+print("   Step 4: Remove that feature")
+print("   Step 5: Repeat until all VIF ≤ threshold")
+print("   Step 6: Final set contains non-redundant features")
+
+print("\nD. Model Performance Analysis:")
+print("   Step 1: Train model with all features")
+print("   Step 2: Train model with reduced features")
+print("   Step 3: Compare MSE and R² scores")
+print("   Step 4: Analyze coefficient stability")
+print("   Step 5: Evaluate interpretability")
+
+print("\nE. Redundancy vs Irrelevance Distinction:")
+print("   Redundant features:")
+print("     - High correlation with other features")
+print("     - May have high correlation with target")
+print("     - Provide overlapping information")
+print("   Irrelevant features:")
+print("     - Low correlation with other features")
+print("     - Low correlation with target")
+print("     - Provide no useful information")
 
 print(f"\nAll visualizations saved to: {save_dir}")
 print("\n" + "="*80)
