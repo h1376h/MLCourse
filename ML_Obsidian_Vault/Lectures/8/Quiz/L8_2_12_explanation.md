@@ -1,4 +1,4 @@
-# Question 12: High Dimensionality and Feature Selection
+# Question 12: High Dimensionality
 
 ## Problem Statement
 The curse of dimensionality affects feature selection strategies.
