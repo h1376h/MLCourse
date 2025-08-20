@@ -42,13 +42,13 @@ where $N$ is the total sample size.
 The chi-square test is appropriate when:
 - Both variables are categorical (nominal or ordinal)
 - Observations are independent
-- Expected frequency in each cell ≥ 5 (for small samples)
-- Sample size is sufficiently large (typically N ≥ 20)
+- Expected frequency in each cell $\geq 5$ (for small samples)
+- Sample size is sufficiently large (typically $N \geq 20$)
 - Data is randomly sampled from the population
 
 **When NOT to use chi-square test:**
 - When variables are continuous
-- When expected frequencies are too small (< 5)
+- When expected frequencies are too small ($< 5$)
 - When observations are not independent
 - For very small sample sizes
 
@@ -65,44 +65,44 @@ We have the following contingency table:
 #### Step-by-Step Calculation
 
 **1. Observed Frequencies Matrix:**
-```
-[[25 15]
- [20 30]]
-```
+$$\begin{bmatrix}
+25 & 15 \\
+20 & 30
+\end{bmatrix}$$
 
 **2. Calculate Row and Column Totals:**
-- Row totals: [40, 50]
-- Column totals: [45, 45]
-- Total sample size: 90
+- Row totals: $[40, 50]$
+- Column totals: $[45, 45]$
+- Total sample size: $90$
 
 **3. Calculate Expected Frequencies:**
 The expected frequency for each cell is calculated as:
 $$E_{ij} = \frac{\text{Row Total}_i \times \text{Column Total}_j}{\text{Total Sample Size}}$$
 
-For Category A, Class 0: $E_{11} = \frac{40 \times 45}{90} = 20$
-For Category A, Class 1: $E_{12} = \frac{40 \times 45}{90} = 20$
-For Category B, Class 0: $E_{21} = \frac{50 \times 45}{90} = 25$
-For Category B, Class 1: $E_{22} = \frac{50 \times 45}{90} = 25$
+For Category A, Class $0$: $E_{11} = \frac{40 \times 45}{90} = 20$
+For Category A, Class $1$: $E_{12} = \frac{40 \times 45}{90} = 20$
+For Category B, Class $0$: $E_{21} = \frac{50 \times 45}{90} = 25$
+For Category B, Class $1$: $E_{22} = \frac{50 \times 45}{90} = 25$
 
 **Expected Frequencies Matrix:**
-```
-[[20. 20.]
- [25. 25.]]
-```
+$$\begin{bmatrix}
+20 & 20 \\
+25 & 25
+\end{bmatrix}$$
 
 **4. Calculate Chi-Square Contributions:**
 For each cell: $\frac{(O - E)^2}{E}$
 
-- Category A, Class 0: $\frac{(25 - 20)^2}{20} = \frac{25}{20} = 1.25$
-- Category A, Class 1: $\frac{(15 - 20)^2}{20} = \frac{25}{20} = 1.25$
-- Category B, Class 0: $\frac{(20 - 25)^2}{25} = \frac{25}{25} = 1.0$
-- Category B, Class 1: $\frac{(30 - 25)^2}{25} = \frac{25}{25} = 1.0$
+- Category A, Class $0$: $\frac{(25 - 20)^2}{20} = \frac{25}{20} = 1.25$
+- Category A, Class $1$: $\frac{(15 - 20)^2}{20} = \frac{25}{20} = 1.25$
+- Category B, Class $0$: $\frac{(20 - 25)^2}{25} = \frac{25}{25} = 1.0$
+- Category B, Class $1$: $\frac{(30 - 25)^2}{25} = \frac{25}{25} = 1.0$
 
 **Chi-Square Contributions Matrix:**
-```
-[[1.25 1.25]
- [1.   1.  ]]
-```
+$$\begin{bmatrix}
+1.25 & 1.25 \\
+1.0 & 1.0
+\end{bmatrix}$$
 
 **5. Calculate Total Chi-Square Statistic:**
 $$\chi^2 = 1.25 + 1.25 + 1.0 + 1.0 = 4.5000$$
@@ -123,7 +123,7 @@ The feature is **NOT independent** of the target. There is a significant associa
 **10. P-value:**
 $p = 0.033895 < 0.05$, confirming our decision to reject the null hypothesis.
 
-### Step 4: 4×3 Contingency Table Analysis
+### Step 4: $4 \times 3$ Contingency Table Analysis
 
 #### Degrees of Freedom Calculation
 For a $4 \times 3$ contingency table:
@@ -168,7 +168,7 @@ A comprehensive summary of all test statistics, expected frequencies, and chi-sq
 ### Degrees of Freedom Comparison
 ![Degrees of Freedom](../Images/L8_2_Quiz_6/degrees_of_freedom.png)
 
-This visualization shows how degrees of freedom increase with table size, highlighting the 4×3 case we analyzed.
+This visualization shows how degrees of freedom increase with table size, highlighting the $4 \times 3$ case we analyzed.
 
 ## Key Insights
 
@@ -183,9 +183,9 @@ This visualization shows how degrees of freedom increase with table size, highli
 - **Model validation:** Ensures that categorical variables used in models have meaningful relationships with the target
 
 ### Interpretation Guidelines
-- **Effect size:** While chi-square tests significance, consider also the strength of association (e.g., Cramer's V)
+- **Effect size:** While chi-square tests significance, consider also the strength of association (e.g., Cramer's $V$)
 - **Sample size sensitivity:** Large sample sizes can make even weak associations appear significant
-- **Expected frequency rule:** Ensure all expected frequencies are ≥ 5 for reliable results
+- **Expected frequency rule:** Ensure all expected frequencies are $\geq 5$ for reliable results
 
 ### Common Pitfalls
 - **Overinterpretation:** Significant results don't necessarily imply strong practical relationships
@@ -195,7 +195,7 @@ This visualization shows how degrees of freedom increase with table size, highli
 ## Conclusion
 - **Part 1:** The chi-square test statistic formula is $\chi^2 = \sum \frac{(O - E)^2}{E}$
 - **Part 2:** Chi-square test is appropriate for categorical variables with independent observations and adequate expected frequencies
-- **Part 3:** For the given 2×2 contingency table, $\chi^2 = 4.5000$ with $df = 1$, leading to rejection of independence at $\alpha = 0.05$ ($p = 0.033895$)
-- **Part 4:** For a 4×3 table, $df = 6$, and with $\chi^2 = 18.5 > 16.8119$, we reject independence at $\alpha = 0.01$ ($p = 0.005097$)
+- **Part 3:** For the given $2 \times 2$ contingency table, $\chi^2 = 4.5000$ with $df = 1$, leading to rejection of independence at $\alpha = 0.05$ ($p = 0.033895$)
+- **Part 4:** For a $4 \times 3$ table, $df = 6$, and with $\chi^2 = 18.5 > 16.8119$, we reject independence at $\alpha = 0.01$ ($p = 0.005097$)
 
 The chi-square test successfully identified significant associations in both scenarios, demonstrating its effectiveness for testing independence between categorical variables. The step-by-step calculations show how observed frequencies are compared to expected frequencies under the null hypothesis, with the resulting statistic following a chi-square distribution for hypothesis testing.
