@@ -298,7 +298,7 @@ ax4.step(sorted_scores, cumulative_probs, where='post', linewidth=2, color='blue
 ax4.fill_between(sorted_scores, cumulative_probs, alpha=0.3, color='blue', step='post')
 ax4.axvline(0, color='red', linestyle='--', linewidth=2, label='Score = 0')
 ax4.axhline(positive_score_prob, color='red', linestyle=':', linewidth=2, 
-           label=f'P(Score > 0) = {positive_score_prob:.3f}')
+           label=f'P(Score $\\geq$ 0) = {positive_score_prob:.3f}')
 ax4.set_xlabel('Score')
 ax4.set_ylabel('Cumulative Probability')
 ax4.set_title('Probability of Achieving At Least Score X')
