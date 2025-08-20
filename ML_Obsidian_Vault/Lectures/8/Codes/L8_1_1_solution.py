@@ -258,31 +258,48 @@ plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'realtime_benefits.png'), dpi=300, bbox_inches='tight')
 
 # ============================================================================
-# PART 4: Training Time Estimation
+# PART 4: Training Time Estimation (Pen-and-Paper Style)
 # ============================================================================
 print("\n" + "="*60)
-print("PART 4: TRAINING TIME ESTIMATION")
+print("PART 4: TRAINING TIME ESTIMATION (PEN-AND-PAPER STYLE)")
 print("="*60)
 
-# Parameters from the problem
+# Problem statement
 original_features = 100
 original_time = 5  # minutes
 new_features = 25
 
-# Calculate scaling assuming linear relationship
+print("PROBLEM:")
+print(f"Given: Training time = {original_time} minutes with {original_features} features")
+print(f"Find: Training time with {new_features} features")
+print("Assumption: Linear scaling relationship")
+
+print("\nSOLUTION:")
+print("Step 1: Set up the linear relationship")
+print("   If training time is proportional to number of features:")
+print("   Time₁/Features₁ = Time₂/Features₂")
+
+print(f"\nStep 2: Substitute known values")
+print(f"   {original_time} minutes / {original_features} features = Time₂ / {new_features} features")
+
+print(f"\nStep 3: Solve for Time₂")
 time_ratio = new_features / original_features
+print(f"   Time₂ = ({original_time} × {new_features}) / {original_features}")
+print(f"   Time₂ = {original_time} × ({new_features}/{original_features})")
+print(f"   Time₂ = {original_time} × {time_ratio:.3f}")
+
 estimated_time = original_time * time_ratio
+print(f"   Time₂ = {estimated_time:.2f} minutes")
+
+print(f"\nStep 4: Calculate improvement")
 time_reduction = original_time - estimated_time
 time_improvement_pct = (time_reduction / original_time) * 100
+print(f"   Time reduction = {original_time} - {estimated_time:.2f} = {time_reduction:.2f} minutes")
+print(f"   Percentage improvement = ({time_reduction:.2f}/{original_time}) × 100% = {time_improvement_pct:.1f}%")
 
-print(f"Given parameters:")
-print(f"  - Original training time: {original_time} minutes with {original_features} features")
-print(f"  - Target feature count: {new_features} features")
-print(f"\nLinear scaling calculation:")
-print(f"  - Time ratio: {new_features}/{original_features} = {time_ratio:.3f}")
-print(f"  - Estimated training time: {original_time} × {time_ratio:.3f} = {estimated_time:.2f} minutes")
-print(f"  - Time reduction: {original_time} - {estimated_time:.2f} = {time_reduction:.2f} minutes")
-print(f"  - Improvement: {time_improvement_pct:.1f}%")
+print(f"\nFINAL ANSWER:")
+print(f"   Training time with {new_features} features = {estimated_time:.2f} minutes")
+print(f"   Improvement = {time_improvement_pct:.1f}% ({time_reduction:.2f} minutes saved)")
 
 # Create visualization with broader range
 plt.figure(figsize=(10, 6))
@@ -309,34 +326,48 @@ plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'training_time_estimation.png'), dpi=300, bbox_inches='tight')
 
 # ============================================================================
-# PART 5: Memory Reduction Calculation
+# PART 5: Memory Reduction Calculation (Pen-and-Paper Style)
 # ============================================================================
 print("\n" + "="*60)
-print("PART 5: MEMORY REDUCTION CALCULATION")
+print("PART 5: MEMORY REDUCTION CALCULATION (PEN-AND-PAPER STYLE)")
 print("="*60)
 
-# Parameters from the problem
+# Problem statement
 original_features_mem = 1000
 new_features_mem = 100
 bytes_per_feature_mem = 8
 
-# Calculate memory usage
-original_memory = original_features_mem * bytes_per_feature_mem
-new_memory = new_features_mem * bytes_per_feature_mem
-memory_reduction = original_memory - new_memory
-reduction_percentage = (memory_reduction / original_memory) * 100
-feature_reduction_ratio = new_features_mem / original_features_mem
+print("PROBLEM:")
+print(f"Given: {original_features_mem} features → {new_features_mem} features")
+print(f"Each feature uses {bytes_per_feature_mem} bytes per sample")
+print("Find: Memory reduction and percentage improvement")
 
-print(f"Given parameters:")
-print(f"  - Original features: {original_features_mem}")
-print(f"  - New features: {new_features_mem}")
-print(f"  - Bytes per feature: {bytes_per_feature_mem}")
-print(f"\nMemory calculations:")
-print(f"  - Original memory per sample: {original_features_mem} × {bytes_per_feature_mem} = {original_memory:,} bytes")
-print(f"  - New memory per sample: {new_features_mem} × {bytes_per_feature_mem} = {new_memory:,} bytes")
-print(f"  - Memory reduction: {original_memory:,} - {new_memory:,} = {memory_reduction:,} bytes")
-print(f"  - Reduction percentage: ({memory_reduction:,}/{original_memory:,}) × 100 = {reduction_percentage:.1f}%")
-print(f"  - Feature reduction ratio: {new_features_mem}/{original_features_mem} = {feature_reduction_ratio:.2f}")
+print("\nSOLUTION:")
+print("Step 1: Calculate original memory usage")
+original_memory = original_features_mem * bytes_per_feature_mem
+print(f"   Original memory = {original_features_mem} features × {bytes_per_feature_mem} bytes/feature")
+print(f"   Original memory = {original_memory:,} bytes per sample")
+
+print(f"\nStep 2: Calculate new memory usage")
+new_memory = new_features_mem * bytes_per_feature_mem
+print(f"   New memory = {new_features_mem} features × {bytes_per_feature_mem} bytes/feature")
+print(f"   New memory = {new_memory:,} bytes per sample")
+
+print(f"\nStep 3: Calculate memory reduction")
+memory_reduction = original_memory - new_memory
+print(f"   Memory reduction = {original_memory:,} - {new_memory:,}")
+print(f"   Memory reduction = {memory_reduction:,} bytes per sample")
+
+print(f"\nStep 4: Calculate percentage reduction")
+reduction_percentage = (memory_reduction / original_memory) * 100
+print(f"   Percentage reduction = (Memory reduction / Original memory) × 100%")
+print(f"   Percentage reduction = ({memory_reduction:,} / {original_memory:,}) × 100%")
+print(f"   Percentage reduction = {reduction_percentage:.1f}%")
+
+print(f"\nFINAL ANSWER:")
+print(f"   Memory reduction = {memory_reduction:,} bytes per sample")
+print(f"   Percentage improvement = {reduction_percentage:.1f}%")
+print(f"   New memory usage = {new_memory:,} bytes per sample")
 
 # Create visualization with extended range
 plt.figure(figsize=(10, 6))
@@ -365,44 +396,65 @@ plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'memory_reduction.png'), dpi=300, bbox_inches='tight')
 
 # ============================================================================
-# PART 6: Neural Network Training Time Calculation
+# PART 6: Neural Network Training Time Calculation (Pen-and-Paper Style)
 # ============================================================================
 print("\n" + "="*60)
-print("PART 6: NEURAL NETWORK TRAINING TIME CALCULATION")
+print("PART 6: NEURAL NETWORK TRAINING TIME CALCULATION (PEN-AND-PAPER STYLE)")
 print("="*60)
 
-# Parameters from the problem
+# Problem statement
 n_samples_nn = 1000
 original_features_nn = 50
 original_time_nn = 2  # hours
 new_features_nn = 10
 
-# Complexity: O(n² × d) for neural networks
-# Calculate complexity ratios
-original_complexity = n_samples_nn**2 * original_features_nn
-new_complexity = n_samples_nn**2 * new_features_nn
-complexity_ratio = new_complexity / original_complexity
-feature_ratio = new_features_nn / original_features_nn
+print("PROBLEM:")
+print(f"Given: Neural network with n = {n_samples_nn:,} samples")
+print(f"       Training time = {original_time_nn} hours with {original_features_nn} features")
+print(f"       Complexity: O(n² × d) where d = number of features")
+print(f"Find: Training time with {new_features_nn} features and percentage improvement")
 
-# Estimate new training time
+print(f"\nSOLUTION:")
+print("Step 1: Express the complexity relationship")
+print("   Training time ∝ O(n² × d)")
+print("   Therefore: Time₁/Time₂ = (n² × d₁)/(n² × d₂) = d₁/d₂")
+
+print(f"\nStep 2: Calculate original complexity")
+original_complexity = n_samples_nn**2 * original_features_nn
+print(f"   Original complexity = O(n² × d₁)")
+print(f"   Original complexity = O({n_samples_nn:,}² × {original_features_nn})")
+print(f"   Original complexity = O({original_complexity:,})")
+
+print(f"\nStep 3: Calculate new complexity")
+new_complexity = n_samples_nn**2 * new_features_nn
+print(f"   New complexity = O(n² × d₂)")
+print(f"   New complexity = O({n_samples_nn:,}² × {new_features_nn})")
+print(f"   New complexity = O({new_complexity:,})")
+
+print(f"\nStep 4: Find the complexity ratio")
+complexity_ratio = new_complexity / original_complexity
+print(f"   Complexity ratio = New complexity / Original complexity")
+print(f"   Complexity ratio = {new_complexity:,} / {original_complexity:,}")
+print(f"   Complexity ratio = {complexity_ratio:.3f}")
+
+print(f"\nStep 5: Calculate new training time")
 estimated_time_nn = original_time_nn * complexity_ratio
+print(f"   Since training time is proportional to complexity:")
+print(f"   New time = Original time × Complexity ratio")
+print(f"   New time = {original_time_nn} hours × {complexity_ratio:.3f}")
+print(f"   New time = {estimated_time_nn:.3f} hours")
+
+print(f"\nStep 6: Calculate improvement")
 time_improvement_nn = original_time_nn - estimated_time_nn
 improvement_percentage_nn = (time_improvement_nn / original_time_nn) * 100
+print(f"   Time saved = {original_time_nn} - {estimated_time_nn:.3f} = {time_improvement_nn:.3f} hours")
+print(f"   Percentage improvement = ({time_improvement_nn:.3f}/{original_time_nn}) × 100%")
+print(f"   Percentage improvement = {improvement_percentage_nn:.1f}%")
 
-print(f"Given parameters:")
-print(f"  - Number of samples (n): {n_samples_nn:,}")
-print(f"  - Original features (d): {original_features_nn}")
-print(f"  - Original training time: {original_time_nn} hours")
-print(f"  - New features: {new_features_nn}")
-print(f"\nComplexity analysis (O(n² × d)):")
-print(f"  - Original complexity: O({n_samples_nn:,}² × {original_features_nn}) = O({original_complexity:,})")
-print(f"  - New complexity: O({n_samples_nn:,}² × {new_features_nn}) = O({new_complexity:,})")
-print(f"  - Complexity ratio: {new_complexity:,} / {original_complexity:,} = {complexity_ratio:.3f}")
-print(f"  - Feature ratio: {new_features_nn}/{original_features_nn} = {feature_ratio:.2f}")
-print(f"\nTraining time estimation:")
-print(f"  - Estimated new time: {original_time_nn} × {complexity_ratio:.3f} = {estimated_time_nn:.3f} hours")
-print(f"  - Time improvement: {original_time_nn} - {estimated_time_nn:.3f} = {time_improvement_nn:.3f} hours")
-print(f"  - Improvement percentage: ({time_improvement_nn:.3f}/{original_time_nn}) × 100 = {improvement_percentage_nn:.1f}%")
+print(f"\nFINAL ANSWER:")
+print(f"   Training time with {new_features_nn} features = {estimated_time_nn:.3f} hours")
+print(f"   Time saved = {time_improvement_nn:.3f} hours")
+print(f"   Improvement = {improvement_percentage_nn:.1f}%")
 
 # Create visualization with broader feature range
 plt.figure(figsize=(12, 8))

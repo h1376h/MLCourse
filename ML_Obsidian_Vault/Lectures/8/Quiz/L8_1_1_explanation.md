@@ -71,16 +71,30 @@ The visualization shows:
 
 ### Step 4: Training Time Estimation
 
-**Given**: 5 minutes training time with 100 features
-**Find**: Training time with 25 features
+**Problem Statement:**
+- Given: Training time = 5 minutes with 100 features
+- Find: Training time with 25 features
+- Assumption: Linear scaling relationship
 
-**Solution**:
-- Time ratio = $\frac{25}{100} = 0.250$
-- Estimated time = $5 \times 0.250 = 1.25$ minutes
-- Time reduction = $5 - 1.25 = 3.75$ minutes
-- **Improvement = 75.0%**
+**Solution:**
 
-**Assumption**: Linear scaling relationship between features and training time
+**Step 1: Set up the linear relationship**
+If training time is proportional to number of features:
+$$\frac{\text{Time}_1}{\text{Features}_1} = \frac{\text{Time}_2}{\text{Features}_2}$$
+
+**Step 2: Substitute known values**
+$$\frac{5 \text{ minutes}}{100 \text{ features}} = \frac{\text{Time}_2}{25 \text{ features}}$$
+
+**Step 3: Solve for Time₂**
+$$\text{Time}_2 = \frac{5 \times 25}{100} = 5 \times \frac{25}{100} = 5 \times 0.250 = 1.25 \text{ minutes}$$
+
+**Step 4: Calculate improvement**
+$$\text{Time reduction} = 5 - 1.25 = 3.75 \text{ minutes}$$
+$$\text{Percentage improvement} = \frac{3.75}{5} \times 100\% = 75.0\%$$
+
+**Final Answer:**
+- Training time with 25 features = **1.25 minutes**
+- Improvement = **75.0%** (3.75 minutes saved)
 
 ![Training Time Estimation](../Images/L8_1_Quiz_1/training_time_estimation.png)
 
@@ -88,17 +102,30 @@ The visualization uses a broader feature range (10-150 features) to confirm the 
 
 ### Step 5: Memory Reduction Calculation
 
-**Given**:
-- Original features: 1000
-- New features: 100
-- Bytes per feature: 8
+**Problem Statement:**
+- Given: 1000 features → 100 features
+- Each feature uses 8 bytes per sample
+- Find: Memory reduction and percentage improvement
 
-**Calculations**:
-- Original memory per sample: $1000 \times 8 = 8,000$ bytes
-- New memory per sample: $100 \times 8 = 800$ bytes
-- Memory reduction: $8,000 - 800 = 7,200$ bytes
-- Reduction percentage: $\frac{7,200}{8,000} \times 100 = 90.0\%$
-- Feature reduction ratio: $\frac{100}{1000} = 0.10$
+**Solution:**
+
+**Step 1: Calculate original memory usage**
+$$\text{Original memory} = 1000 \text{ features} \times 8 \text{ bytes/feature} = 8,000 \text{ bytes per sample}$$
+
+**Step 2: Calculate new memory usage**
+$$\text{New memory} = 100 \text{ features} \times 8 \text{ bytes/feature} = 800 \text{ bytes per sample}$$
+
+**Step 3: Calculate memory reduction**
+$$\text{Memory reduction} = 8,000 - 800 = 7,200 \text{ bytes per sample}$$
+
+**Step 4: Calculate percentage reduction**
+$$\text{Percentage reduction} = \frac{\text{Memory reduction}}{\text{Original memory}} \times 100\%$$
+$$= \frac{7,200}{8,000} \times 100\% = 90.0\%$$
+
+**Final Answer:**
+- Memory reduction = **7,200 bytes per sample**
+- Percentage improvement = **90.0%**
+- New memory usage = **800 bytes per sample**
 
 ![Memory Reduction](../Images/L8_1_Quiz_1/memory_reduction.png)
 
@@ -106,22 +133,41 @@ The visualization uses an extended feature range (50-1200 features) to show the 
 
 ### Step 6: Neural Network Training Time Calculation
 
-**Given**:
-- Number of samples (n): 1000
-- Original features (d): 50
-- Original training time: 2 hours
-- New features: 10
+**Problem Statement:**
+- Given: Neural network with n = 1,000 samples
+- Training time = 2 hours with 50 features
+- Complexity: $O(n^2 \times d)$ where d = number of features
+- Find: Training time with 10 features and percentage improvement
 
-**Complexity Analysis**:
-- Original complexity: $O(n^2 \times d) = O(1,000^2 \times 50) = O(50,000,000)$
-- New complexity: $O(n^2 \times d) = O(1,000^2 \times 10) = O(10,000,000)$
-- Complexity ratio: $\frac{10,000,000}{50,000,000} = 0.200$
-- Feature ratio: $\frac{10}{50} = 0.20$
+**Solution:**
 
-**Training Time Estimation**:
-- Estimated new time: $2 \times 0.200 = 0.400$ hours
-- Time improvement: $2 - 0.400 = 1.600$ hours
-- **Improvement percentage: 80.0%**
+**Step 1: Express the complexity relationship**
+Training time $\propto O(n^2 \times d)$
+
+Therefore: $\frac{\text{Time}_1}{\text{Time}_2} = \frac{n^2 \times d_1}{n^2 \times d_2} = \frac{d_1}{d_2}$
+
+**Step 2: Calculate original complexity**
+$$\text{Original complexity} = O(n^2 \times d_1) = O(1,000^2 \times 50) = O(50,000,000)$$
+
+**Step 3: Calculate new complexity**
+$$\text{New complexity} = O(n^2 \times d_2) = O(1,000^2 \times 10) = O(10,000,000)$$
+
+**Step 4: Find the complexity ratio**
+$$\text{Complexity ratio} = \frac{\text{New complexity}}{\text{Original complexity}} = \frac{10,000,000}{50,000,000} = 0.200$$
+
+**Step 5: Calculate new training time**
+Since training time is proportional to complexity:
+$$\text{New time} = \text{Original time} \times \text{Complexity ratio}$$
+$$= 2 \text{ hours} \times 0.200 = 0.400 \text{ hours}$$
+
+**Step 6: Calculate improvement**
+$$\text{Time saved} = 2 - 0.400 = 1.600 \text{ hours}$$
+$$\text{Percentage improvement} = \frac{1.600}{2} \times 100\% = 80.0\%$$
+
+**Final Answer:**
+- Training time with 10 features = **0.400 hours**
+- Time saved = **1.600 hours**
+- Improvement = **80.0%**
 
 ![Neural Network Training Time](../Images/L8_1_Quiz_1/neural_network_training_time.png)
 
@@ -193,6 +239,7 @@ The analysis used a synthetic weather dataset with 1,000 samples and 10 features
 - **Memory vs. Performance**: Reducing features saves memory but may impact accuracy
 
 ## Conclusion
+
 - **Training time reduction**: From 5 minutes to 1.25 minutes (75% improvement, saving 3.75 minutes) when reducing from 100 to 25 features
 - **Memory reduction**: 90% reduction (saving 7,200 bytes per sample) when going from 1000 to 100 features  
 - **Neural network training**: 80% improvement (saving 1.6 hours) when reducing from 50 to 10 features
