@@ -3,7 +3,7 @@
 ## Overview
 This quiz contains 19 focused questions covering univariate feature selection methods, including filter scoring, irrelevance criteria, correlation measures, mutual information, chi-square tests, determining the optimal number of features, selection timing, resource constraints, domain-specific requirements, and domain insights. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
-## Question 1: Univariate Approach Fundamentals
+## Question 1
 
 ### Problem Statement
 Univariate feature selection considers one feature at a time independently.
@@ -16,7 +16,7 @@ Univariate feature selection considers one feature at a time independently.
 
 For a detailed explanation of this question, see [Question 1: Univariate Approach](L8_2_1_explanation.md).
 
-## Question 2: Filter vs Wrapper Methods
+## Question 2
 
 ### Problem Statement
 Univariate filter scoring ranks individual features based on their relevance to the target.
@@ -29,7 +29,7 @@ Univariate filter scoring ranks individual features based on their relevance to 
 
 For a detailed explanation of this question, see [Question 2: Univariate Filter Scoring](L8_2_2_explanation.md).
 
-## Question 3: Feature Irrelevance and KL Divergence
+## Question 3
 
 ### Problem Statement
 Feature irrelevance can be defined using conditional probabilities and KL divergence.
@@ -42,7 +42,7 @@ Feature irrelevance can be defined using conditional probabilities and KL diverg
 
 For a detailed explanation of this question, see [Question 3: Criteria: Defining Feature Irrelevance](L8_2_3_explanation.md).
 
-## Question 4: Pearson Correlation Analysis
+## Question 4
 
 ### Problem Statement
 Pearson correlation measures linear relationships between features and targets.
@@ -56,7 +56,7 @@ Pearson correlation measures linear relationships between features and targets.
 
 For a detailed explanation of this question, see [Question 4: Criteria: Pearson Correlation](L8_2_4_explanation.md).
 
-## Question 5: Mutual Information and Non-linear Relationships
+## Question 5
 
 ### Problem Statement
 Mutual information measures the dependence between features and targets and can detect non-linear relationships.
@@ -69,7 +69,7 @@ Mutual information measures the dependence between features and targets and can 
 
 For a detailed explanation of this question, see [Question 5: Criteria: Mutual Information](L8_2_5_explanation.md).
 
-## Question 6: Chi-Square Test for Independence
+## Question 6
 
 ### Problem Statement
 Chi-square test measures independence between categorical features and targets.
@@ -89,7 +89,7 @@ Calculate the chi-square statistic step by step. Show your expected frequencies,
 
 For a detailed explanation of this question, see [Question 6: Criteria: Chi-Square Test](L8_2_6_explanation.md).
 
-## Question 7: Optimal Feature Count and Cross-Validation
+## Question 7
 
 ### Problem Statement
 Determining the optimal number of features to select is crucial for model performance.
@@ -112,7 +112,7 @@ Calculate the $95\%$ confidence interval for each feature count and determine th
 
 For a detailed explanation of this question, see [Question 7: Determining the Number of Features to Select](L8_2_7_explanation.md).
 
-## Question 8: Feature Ranking and Selection
+## Question 8
 
 ### Problem Statement
 Consider a dataset with $5$ features and their correlation scores with the target:
@@ -131,9 +131,9 @@ Consider a dataset with $5$ features and their correlation scores with the targe
 3. Calculate the coefficient of variation ($CV = \frac{\text{standard deviation}}{\text{mean}}$) for the correlation scores
 4. If you want to select features such that their combined correlation variance is minimized while maintaining an average correlation above $0.6$, which features would you select? Show your calculations.
 
-For a detailed explanation of this question, see [Question 9: Feature Ranking Analysis](L8_2_9_explanation.md).
+For a detailed explanation of this question, see [Question 8: Feature Ranking Analysis](L8_2_8_explanation.md).
 
-## Question 9: Multi-Criteria Feature Selection
+## Question 9
 
 ### Problem Statement
 Consider a binary classification problem with the following feature-target relationships:
@@ -151,9 +151,9 @@ Consider a binary classification problem with the following feature-target relat
 3. Normalize all three metrics to a $0$-$1$ scale and calculate a composite score using weights: $40\%$ correlation, $35\%$ mutual information, and $25\%$ chi-square. Which features would you select based on this composite score? Show your normalization and weighted average calculations.
 4. If you want to maximize the minimum score across all criteria, which features would you select?
 
-For a detailed explanation of this question, see [Question 16: Multi-Criteria Ranking](L8_2_16_explanation.md).
+For a detailed explanation of this question, see [Question 9: Multi-Criteria Ranking](L8_2_9_explanation.md).
 
-## Question 10: Threshold Selection and Feature Scores
+## Question 10
 
 ### Problem Statement
 Feature selection thresholds affect the number of selected features.
@@ -164,9 +164,9 @@ Feature selection thresholds affect the number of selected features.
 3. Given feature scores: $[0.95, 0.87, 0.76, 0.65, 0.54, 0.43, 0.32, 0.21, 0.15, 0.08]$, calculate the threshold that would select exactly $30\%$ of features
 4. If you want to ensure that selected features have scores at least $2$ standard deviations above the mean, what threshold would you use? Show your calculations.
 
-For a detailed explanation of this question, see [Question 12: Threshold Selection](L8_2_12_explanation.md).
+For a detailed explanation of this question, see [Question 10: Threshold Selection](L8_2_10_explanation.md).
 
-## Question 11: Optimization Formulation
+## Question 11
 
 ### Problem Statement
 Feature selection can be viewed as an optimization problem.
@@ -177,9 +177,9 @@ Feature selection can be viewed as an optimization problem.
 3. Formulate the feature selection problem as a multi-objective optimization: maximize accuracy ($0$-$1$ scale) and minimize the number of features. If accuracy $= 0.8 + 0.02n - 0.001n^2$ where $n$ is the number of features, find the optimal number of features that maximizes the objective function $f(n) = \text{accuracy} - 0.1n$. Show your derivative calculations and optimization steps.
 4. Formulate the feature selection problem as a constrained optimization: maximize accuracy subject to the constraint that the number of features $\leq 25$. If the accuracy function is $A(n) = 0.7 + 0.015n - 0.0002n^2$ where $n$ is the number of features, find the optimal number of features that maximizes accuracy within the constraint.
 
-For a detailed explanation of this question, see [Question 17: Optimization Formulation](L8_2_17_explanation.md).
+For a detailed explanation of this question, see [Question 11: Optimization Formulation](L8_2_11_explanation.md).
 
-## Question 12: High Dimensionality and Curse of Dimensionality
+## Question 12
 
 ### Problem Statement
 The curse of dimensionality affects feature selection strategies.
@@ -190,9 +190,9 @@ The curse of dimensionality affects feature selection strategies.
 3. If the probability of a feature being relevant decreases exponentially with dimensionality as $P(\text{relevant}) = 0.1 \times 0.95^n$ where $n$ is the number of features, calculate the expected number of relevant features for datasets with $100$, $1000$, and $10000$ features
 4. If you need at least $5$ relevant features for your model, what's the maximum dimensionality you should consider?
 
-For a detailed explanation of this question, see [Question 18: High Dimensionality](L8_2_18_explanation.md).
+For a detailed explanation of this question, see [Question 12: High Dimensionality](L8_2_12_explanation.md).
 
-## Question 13: Algorithm-Specific Effects
+## Question 13
 
 ### Problem Statement
 Feature selection affects different types of machine learning algorithms.
@@ -203,9 +203,9 @@ Feature selection affects different types of machine learning algorithms.
 3. If training time for a linear model is $T = 0.1n^2$ seconds and for a tree model is $T = 0.05n \log n$ seconds, where $n$ is the number of features, calculate the training time savings when reducing features from $100$ to $20$ for both models
 4. Which model benefits more from feature selection in terms of training time reduction?
 
-For a detailed explanation of this question, see [Question 19: Algorithm-Specific Effects](L8_2_19_explanation.md).
+For a detailed explanation of this question, see [Question 13: Algorithm-Specific Effects](L8_2_13_explanation.md).
 
-## Question 14: Model Stability and Interpretability
+## Question 14
 
 ### Problem Statement
 Feature selection affects model robustness, stability, and interpretability.
@@ -216,9 +216,9 @@ Feature selection affects model robustness, stability, and interpretability.
 3. If model stability is measured as $S = \frac{1}{1 + 0.05n}$ where $n$ is the number of features, calculate the stability improvement when reducing from $100$ to $20$ features
 4. If model complexity increases exponentially with the number of features (complexity $= 2^n$ where $n$ is the number of features), calculate the complexity for $5$, $10$, and $15$ features. If stakeholders can understand models with complexity $\leq 1000$, what's the maximum number of features you should select?
 
-For a detailed explanation of this question, see [Question 15: Interpretability vs Performance](L8_2_15_explanation.md).
+For a detailed explanation of this question, see [Question 14: Interpretability vs Performance](L8_2_14_explanation.md).
 
-## Question 15: Irrelevant Features and Signal-to-Noise
+## Question 15
 
 ### Problem Statement
 Consider a dataset with $1000$ samples and $100$ features where only $20$ features are truly relevant.
@@ -229,9 +229,9 @@ Consider a dataset with $1000$ samples and $100$ features where only $20$ featur
 3. What's the signal-to-noise ratio with all features vs relevant features only?
 4. If the probability of randomly selecting a relevant feature is $p = \frac{20}{100} = 0.2$, use the binomial distribution to calculate the probability of selecting exactly $15$ relevant features when randomly choosing $20$ features. What's the probability of selecting at least $15$ relevant features? Show your calculations using the binomial formula.
 
-For a detailed explanation of this question, see [Question 27: Irrelevant Features Impact](L8_2_27_explanation.md).
+For a detailed explanation of this question, see [Question 15: Irrelevant Features Impact](L8_2_15_explanation.md).
 
-## Question 16: Selection Timing in Pipeline
+## Question 16
 
 ### Problem Statement
 Feature selection can be applied at different stages of the machine learning pipeline.
@@ -242,9 +242,9 @@ Feature selection can be applied at different stages of the machine learning pip
 3. If preprocessing takes $2$ minutes per feature and feature selection takes $1$ minute per feature, calculate the total pipeline time for three strategies: $(1)$ preprocess all $100$ features then select $20$, $(2)$ select $20$ features then preprocess them, $(3)$ preprocess $50$ features then select $20$. Which strategy is fastest and by how much?
 4. How do you handle feature selection in online learning scenarios?
 
-For a detailed explanation of this question, see [Question 20: Selection Timing](L8_2_20_explanation.md).
+For a detailed explanation of this question, see [Question 16: Selection Timing](L8_2_16_explanation.md).
 
-## Question 17: Resource Constraints and Power Law
+## Question 17
 
 ### Problem Statement
 Consider a scenario where you have limited computational resources for feature selection.
@@ -255,9 +255,9 @@ Consider a scenario where you have limited computational resources for feature s
 3. If you can only evaluate $10\%$ of features, which ones would you prioritize?
 4. Design an efficient selection strategy for resource-constrained environments.
 
-For a detailed explanation of this question, see [Question 21: Resource Constraints](L8_2_21_explanation.md).
+For a detailed explanation of this question, see [Question 17: Resource Constraints](L8_2_17_explanation.md).
 
-## Question 18: Domain-Specific Requirements
+## Question 18
 
 ### Problem Statement
 Different domains have different feature selection requirements and constraints.
@@ -268,9 +268,9 @@ Different domains have different feature selection requirements and constraints.
 3. If medical diagnosis requires $99.9\%$ confidence in feature relevance and financial applications require $95\%$ confidence, calculate the minimum sample sizes needed for each domain assuming a binomial distribution. If you have $1000$ samples, what confidence level can you achieve for feature relevance testing?
 4. How do regulatory compliance requirements affect feature selection strategies?
 
-For a detailed explanation of this question, see [Question 23: Domain-Specific Requirements](L8_2_23_explanation.md).
+For a detailed explanation of this question, see [Question 18: Domain-Specific Requirements](L8_2_18_explanation.md).
 
-## Question 19: Domain Insights from Feature Selection
+## Question 19
 
 ### Problem Statement
 Feature selection can reveal domain knowledge and insights beyond just improving model performance.
@@ -281,4 +281,4 @@ Feature selection can reveal domain knowledge and insights beyond just improving
 3. What insights can you gain from consistently selected features?
 4. How does feature selection help with feature engineering decisions?
 
-For a detailed explanation of this question, see [Question 24: Domain Insights](L8_2_24_explanation.md).
+For a detailed explanation of this question, see [Question 19: Domain Insights](L8_2_19_explanation.md).
