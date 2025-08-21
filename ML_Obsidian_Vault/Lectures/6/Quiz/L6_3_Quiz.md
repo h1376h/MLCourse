@@ -848,14 +848,14 @@ You are a "Decision Tree Detective" investigating a mysterious dataset about stu
 
 | Study_Time | Study_Location | Coffee_Consumption | Exam_Result |
 |------------|----------------|-------------------|-------------|
-| Short      | Library        | None              | Pass        |
-| Long       | Home           | High              | Pass        |
-| Short      | Home           | None              | Fail        |
-| Medium     | Library        | Low               | Pass        |
-| Long       | Library        | High              | Pass        |
-| Short      | Cafe           | High              | Fail        |
-| Medium     | Home           | Low               | Fail        |
-| Long       | Cafe           | None              | Fail        |
+| Short      | Library        | None              | Fail        |
+| Short      | Home           | High              | Fail        |
+| Short      | Cafe           | None              | Fail        |
+| Short      | Dorm           | High              | Fail        |
+| Long       | Office         | None              | Pass        |
+| Long       | Park           | High              | Pass        |
+| Long       | Lab            | None              | Pass        |
+| Long       | Study_Room     | High              | Fail        |
 
 #### Task
 1. Calculate information gain for each feature using ID3's approach. Which feature would ID3 choose as the root node?
