@@ -15,7 +15,7 @@ Consider a dataset with 4 features: A, B, C, and D. Features A and B are individ
 4. What is the main advantage of multivariate methods in this scenario?
 5. Calculate the search space size for 4 features vs 10 features
 6. If you have a budget constraint where each feature costs $\$5$ and you can spend at most $\$15$, how many valid feature subsets exist? Calculate the total cost of all possible subsets.
-7. If features A and B have individual correlations with target of $0.2$ and $0.3$ respectively, but their combined correlation is $0.95$, calculate the interaction strength using the formula: $\text{Interaction} = \text{Combined\_Correlation} - \max(\text{Individual\_Correlations}) - 0.1 \times \min(\text{Individual\_Correlations})$. What does this value indicate about feature synergy?
+7. If features A and B have individual correlations with target of $0.2$ and $0.3$ respectively, but their combined correlation is $0.95$, calculate the interaction strength using the formula: $$\text{Interaction} = \text{Combined\_Correlation} - \max(\text{Individual\_Correlations}) - 0.1 \times \min(\text{Individual\_Correlations})$$ What does this value indicate about feature synergy?
 
 For a detailed explanation of this question, see [Question 1: Multivariate Approach](L8_3_1_explanation.md).
 
@@ -30,7 +30,7 @@ In a loan default prediction dataset, features include: income, debt_ratio, cred
 3. How many independent feature combinations exist if you group correlated features?
 4. Calculate the reduction in search space if you treat correlated features as groups
 5. Design a multivariate selection strategy for this dataset
-6. If the debt-to-income ratio is calculated as $\frac{\text{debt\_ratio} \times 100}{\text{income}}$, and you have sample values: income = $\$50,000$, debt_ratio = $0.4$, credit_score = $720$, age = $35$, calculate the actual debt-to-income ratio. If the target is $1$ for default and $0$ for no default, and the threshold for default is debt-to-income > $0.43$, what would be the prediction?
+6. If the debt-to-income ratio is calculated as $$\frac{\text{debt\_ratio} \times 100}{\text{income}}$$ and you have sample values: income = $\$50,000$, debt_ratio = $0.4$, credit_score = $720$, age = $35$, calculate the actual debt-to-income ratio. If the target is $1$ for default and $0$ for no default, and the threshold for default is debt-to-income > $0.43$, what would be the prediction?
 7. Calculate the VIF (Variance Inflation Factor) for income if the $R^2$ from regressing income on other features is $0.25$. If the rule of thumb is to remove features with VIF > $5$, would income be removed? Then calculate the condition number of the correlation matrix for all four features.
 
 For a detailed explanation of this question, see [Question 2: Feature Interactions](L8_3_2_explanation.md).
@@ -78,8 +78,8 @@ You want to maximize model accuracy while minimizing the number of features. You
 3. Design a penalty function that balances accuracy and feature count
 4. If you have a budget of 30 features maximum, how do you modify the objective?
 5. Compare greedy vs exhaustive search for this optimization problem
-6. If the penalty function is $P(\text{features}) = \lambda \times \text{features}^2$, where $\lambda$ is a tuning parameter, and you want the penalty to equal the accuracy gain when features = 25, calculate the value of $\lambda$. Then find the optimal number of features when $\lambda = 0.01$.
-7. Calculate the Pareto frontier efficiency if you have three solutions: (20 features, 87% accuracy), (30 features, 88% accuracy), and (40 features, 86% accuracy). If the ideal point is (10 features, 90% accuracy), calculate the normalized distance to ideal for each solution using the formula: $\text{distance} = \sqrt{\frac{(\text{features}-10)^2}{100} + \frac{(\text{accuracy}-0.9)^2}{0.01}}$.
+6. If the penalty function is $$P(\text{features}) = \lambda \times \text{features}^2$$ where $\lambda$ is a tuning parameter, and you want the penalty to equal the accuracy gain when features = 25, calculate the value of $\lambda$. Then find the optimal number of features when $\lambda = 0.01$.
+7. Calculate the Pareto frontier efficiency if you have three solutions: (20 features, 87% accuracy), (30 features, 88% accuracy), and (40 features, 86% accuracy). If the ideal point is (10 features, 90% accuracy), calculate the normalized distance to ideal for each solution using the formula: $$\text{distance} = \sqrt{\frac{(\text{features}-10)^2}{100} + \frac{(\text{accuracy}-0.9)^2}{0.01}}$$
 
 For a detailed explanation of this question, see [Question 5: Optimization Formulation](L8_3_5_explanation.md).
 
@@ -94,7 +94,7 @@ You have 25 features and limited computational time. You can evaluate at most 50
 3. Design a random search strategy that samples 500 subsets efficiently
 4. Calculate the probability of finding the optimal subset with random sampling
 5. Design a hybrid strategy combining forward selection and random sampling
-6. If you use simulated annealing with temperature $T = 100$ and cooling rate $\alpha = 0.95$, calculate the temperature after 20 iterations. If the acceptance probability is $P = \exp(-\Delta E/T)$ where $\Delta E$ is the change in objective value, calculate the probability of accepting a worse solution when $\Delta E = 5$ and $T = 50$.
+6. If you use simulated annealing with temperature $T = 100$ and cooling rate $\alpha = 0.95$, calculate the temperature after 20 iterations. If the acceptance probability is $$P = \exp(-\Delta E/T)$$ where $\Delta E$ is the change in objective value, calculate the probability of accepting a worse solution when $\Delta E = 5$ and $T = 50$.
 
 For a detailed explanation of this question, see [Question 6: Search Strategies](L8_3_6_explanation.md).
 
@@ -204,7 +204,7 @@ You have a target variable and want to measure the relationship with feature sub
 4. Design a test to detect non-linear feature subset-target relationships
 5. Compare correlation, mutual information, and other relationship measures
 6. If you want to test all subset sizes from 3 to 8 features, calculate the total number of evaluations needed. If you can only evaluate 1000 subsets, what's the maximum subset size you can test completely? What percentage of the total search space does this represent?
-7. Calculate the canonical correlation between two feature subsets $X = \{x_1, x_2, x_3\}$ and $Y = \{y_1, y_2\}$ if their correlation matrix is $R = \begin{bmatrix} 0.8 & 0.6 \\ 0.6 & 0.9 \end{bmatrix}$. If the eigenvalues of $R$ are $\lambda_1 = 1.4$ and $\lambda_2 = 0.3$, what's the canonical correlation coefficient? Then calculate the redundancy index if the target has correlation $0.7$ with the first canonical variate.
+7. Calculate the canonical correlation between two feature subsets $X = \{x_1, x_2, x_3\}$ and $Y = \{y_1, y_2\}$ if their correlation matrix is $$R = \begin{bmatrix} 0.8 & 0.6 \\ 0.6 & 0.9 \end{bmatrix}$$ If the eigenvalues of $R$ are $\lambda_1 = 1.4$ and $\lambda_2 = 0.3$, what's the canonical correlation coefficient? Then calculate the redundancy index if the target has correlation $0.7$ with the first canonical variate.
 
 For a detailed explanation of this question, see [Question 13: Feature-Target Relationships](L8_3_13_explanation.md).
 
@@ -220,7 +220,7 @@ Feature selection affects the entire machine learning workflow from data prepara
 4. Design a workflow that integrates feature selection seamlessly
 5. Compare the workflow complexity with and without multivariate selection
 6. If the original workflow takes 2 hours and feature selection adds 30 minutes, but reduces model training time by 45 minutes due to fewer features, calculate the net time impact. If you deploy 10 models per month, what's the total time savings over 6 months?
-7. Calculate the workflow efficiency improvement if you can reduce the feature selection time from 30 minutes to 20 minutes by using early stopping. If the efficiency is defined as $\frac{\text{useful\_output\_time}}{\text{total\_time}} \times 100\%$, and useful output time is model training + deployment, calculate the efficiency before and after optimization.
+7. Calculate the workflow efficiency improvement if you can reduce the feature selection time from 30 minutes to 20 minutes by using early stopping. If the efficiency is defined as $$\frac{\text{useful\_output\_time}}{\text{total\_time}} \times 100\%$$ and useful output time is model training + deployment, calculate the efficiency before and after optimization.
 
 For a detailed explanation of this question, see [Question 14: Workflow Impact](L8_3_14_explanation.md).
 
@@ -248,7 +248,7 @@ You're investigating why univariate selection failed on a dataset with XOR-like 
 - Feature A: Correlation with target = $0.1$
 - Feature B: Correlation with target = $0.15$  
 - Feature C: Correlation with target = $0.2$
-- Target: XOR(A, B) + C (where XOR(A,B) = 1 if A≠B, 0 if A=B)
+- Target: $\text{XOR}(A, B) + C$ (where $\text{XOR}(A,B) = 1$ if $A \neq B$, $0$ if $A = B$)
 
 #### Task
 1. Which features would univariate selection choose first and why?
@@ -256,7 +256,7 @@ You're investigating why univariate selection failed on a dataset with XOR-like 
 3. If features A and B are binary (0 or 1), calculate the probability that XOR(A,B) = 1
 4. What's the main limitation of univariate methods in this scenario?
 5. If you use multivariate selection and test the subset {A,B}, what would be the expected performance improvement?
-6. Calculate the interaction strength using the formula: $\text{Interaction} = \text{Combined\_Performance} - \max(\text{Individual\_Performance}) - 0.1 \times \min(\text{Individual\_Performance})$, where Combined_Performance = $0.8$ and Individual_Performance = \[$0.1$, $0.15$\]
+6. Calculate the interaction strength using the formula: $$\text{Interaction} = \text{Combined\_Performance} - \max(\text{Individual\_Performance}) - 0.1 \times \min(\text{Individual\_Performance})$$ where Combined_Performance = $0.8$ and Individual_Performance = $[0.1, 0.15]$
 
 For a detailed explanation of this question, see [Question 16: XOR Relationships](L8_3_16_explanation.md).
 
@@ -314,9 +314,9 @@ You're evaluating feature subsets using cross-validation with different metrics.
 1. Which subset has the best accuracy per feature?
 2. Calculate the accuracy improvement per additional feature for each transition
 3. If interpretability is important, which subset would you choose and why?
-4. Calculate the efficiency metric: $\text{Efficiency} = \frac{\text{Accuracy}}{\text{Training\_Time} \times \text{Feature\_Count}}$
+4. Calculate the efficiency metric: $$\text{Efficiency} = \frac{\text{Accuracy}}{\text{Training\_Time} \times \text{Feature\_Count}}$$
 5. If you have a time budget of 2 minutes, which subset would you choose?
-6. Design a composite scoring function that balances accuracy, feature count, and training time with weights \[$0.6$, $0.3$, $0.1$\] respectively
+6. Design a composite scoring function that balances accuracy, feature count, and training time with weights $[0.6, 0.3, 0.1]$ respectively
 
 For a detailed explanation of this question, see [Question 19: Multi-Metric Evaluation](L8_3_19_explanation.md).
 
