@@ -838,3 +838,36 @@ Deep dive into CART algorithm: Compare and contrast Gini impurity vs Entropy as 
    - How would your choice affect training time, tree interpretability, and final performance?
 
 For a detailed explanation of this question, see [Question 42: CART Impurity Measures Deep Dive](L6_3_42_explanation.md).
+
+## Question 43
+
+### Problem Statement
+You are a "Decision Tree Detective" investigating a mysterious dataset about student study habits. Your mission is to solve the case using only ID3 and C4.5 algorithms to see how they approach the same evidence differently.
+
+**Dataset: Student Study Habits Mystery**
+
+| Study_Time | Study_Location | Coffee_Consumption | Exam_Result |
+|------------|----------------|-------------------|-------------|
+| Short      | Library        | None              | Pass        |
+| Long       | Home           | High              | Pass        |
+| Short      | Home           | None              | Fail        |
+| Medium     | Library        | Low               | Pass        |
+| Long       | Library        | High              | Pass        |
+| Short      | Cafe           | High              | Fail        |
+| Medium     | Home           | Low               | Fail        |
+| Long       | Cafe           | None              | Fail        |
+
+#### Task
+1. Calculate information gain for each feature using ID3's approach. Which feature would ID3 choose as the root node?
+2. Calculate gain ratio for each feature using C4.5's approach. Which feature would C4.5 choose as the root node?
+3. Draw the first level of the decision tree that each algorithm would construct. Use boxes for nodes and arrows for branches.
+4. Create a simple table showing:
+   - Feature name
+   - Information gain (ID3)
+   - Split information
+   - Gain ratio (C4.5)
+   - Which algorithm prefers it
+5. If you were a student trying to maximize your chances of passing, which algorithm's advice would you follow and why?
+6. Design a new student record that would make both algorithms agree on the root split. What does this reveal about the fundamental differences between ID3 and C4.5?
+
+For a detailed explanation of this question, see [Question 43: Student Study Habits Mystery](L6_3_43_explanation.md).
