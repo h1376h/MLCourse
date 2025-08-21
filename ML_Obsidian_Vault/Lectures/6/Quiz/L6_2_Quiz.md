@@ -30,10 +30,10 @@ A feature "Color" splits the dataset as follows:
 | Green | 15      | 15      | 30    |
 
 #### Task
-1. [📚] Calculate the entropy for each color value
-2. [📚] Calculate the weighted average entropy after splitting
-3. [📚] Calculate the information gain from this split
-4. [📚] Would this be a good split for the root node? Explain why
+1. Calculate the entropy for each color value
+2. Calculate the weighted average entropy after splitting
+3. Calculate the information gain from this split
+4. Would this be a good split for the root node? Explain why
 
 For a detailed explanation of this question, see [Question 2: Information Gain Calculation](L6_2_2_explanation.md).
 
