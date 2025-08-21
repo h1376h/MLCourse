@@ -256,7 +256,7 @@ You're investigating why univariate selection failed on a dataset with XOR-like 
 3. If features A and B are binary (0 or 1), calculate the probability that XOR(A,B) = 1
 4. What's the main limitation of univariate methods in this scenario?
 5. If you use multivariate selection and test the subset {A,B}, what would be the expected performance improvement?
-6. Calculate the interaction strength using the formula: $\text{Interaction} = \text{Combined\_Performance} - \max(\text{Individual\_Performance}) - 0.1 \times \min(\text{Individual\_Performance})$, where Combined_Performance = $0.8$ and Individual_Performance = [$0.1$, $0.15$]
+6. Calculate the interaction strength using the formula: $\text{Interaction} = \text{Combined\_Performance} - \max(\text{Individual\_Performance}) - 0.1 \times \min(\text{Individual\_Performance})$, where Combined_Performance = $0.8$ and Individual_Performance = \[$0.1$, $0.15$\]
 
 For a detailed explanation of this question, see [Question 16: XOR Relationships](L8_3_16_explanation.md).
 
@@ -306,9 +306,9 @@ For a detailed explanation of this question, see [Question 18: Search Strategy C
 ### Problem Statement
 You're evaluating feature subsets using cross-validation with different metrics.
 
-**Subset A:** Features [1, 3, 5], CV accuracy = $82\%$, training time = $1.2$ min
-**Subset B:** Features [2, 4, 6], CV accuracy = $85\%$, training time = $1.8$ min
-**Subset C:** Features [1, 2, 3, 4, 5, 6], CV accuracy = $87\%$, training time = $3.5$ min
+**Subset A:** Features $[1, 3, 5]$, CV accuracy = $82\%$, training time = $1.2$ min
+**Subset B:** Features $[2, 4, 6]$, CV accuracy = $85\%$, training time = $1.8$ min
+**Subset C:** Features $[1, 2, 3, 4, 5, 6]$, CV accuracy = $87\%$, training time = $3.5$ min
 
 #### Task
 1. Which subset has the best accuracy per feature?
@@ -316,7 +316,7 @@ You're evaluating feature subsets using cross-validation with different metrics.
 3. If interpretability is important, which subset would you choose and why?
 4. Calculate the efficiency metric: $\text{Efficiency} = \frac{\text{Accuracy}}{\text{Training\_Time} \times \text{Feature\_Count}}$
 5. If you have a time budget of 2 minutes, which subset would you choose?
-6. Design a composite scoring function that balances accuracy, feature count, and training time with weights [$0.6$, $0.3$, $0.1$] respectively
+6. Design a composite scoring function that balances accuracy, feature count, and training time with weights \[$0.6$, $0.3$, $0.1$\] respectively
 
 For a detailed explanation of this question, see [Question 19: Multi-Metric Evaluation](L8_3_19_explanation.md).
 
