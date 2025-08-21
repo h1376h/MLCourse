@@ -245,9 +245,9 @@ For a detailed explanation of this question, see [Question 15: Feature Engineeri
 You're investigating why univariate selection failed on a dataset with XOR-like relationships.
 
 **Dataset:**
-- Feature A: Correlation with target = 0.1
-- Feature B: Correlation with target = 0.15  
-- Feature C: Correlation with target = 0.2
+- Feature A: Correlation with target = $0.1$
+- Feature B: Correlation with target = $0.15$  
+- Feature C: Correlation with target = $0.2$
 - Target: XOR(A, B) + C (where XOR(A,B) = 1 if A≠B, 0 if A=B)
 
 #### Task
@@ -256,7 +256,7 @@ You're investigating why univariate selection failed on a dataset with XOR-like 
 3. If features A and B are binary (0 or 1), calculate the probability that XOR(A,B) = 1
 4. What's the main limitation of univariate methods in this scenario?
 5. If you use multivariate selection and test the subset {A,B}, what would be the expected performance improvement?
-6. Calculate the interaction strength using the formula: $\text{Interaction} = \text{Combined\_Performance} - \max(\text{Individual\_Performance}) - 0.1 \times \min(\text{Individual\_Performance})$, where Combined_Performance = 0.8 and Individual_Performance = [0.1, 0.15]
+6. Calculate the interaction strength using the formula: $\text{Interaction} = \text{Combined\_Performance} - \max(\text{Individual\_Performance}) - 0.1 \times \min(\text{Individual\_Performance})$, where Combined_Performance = $0.8$ and Individual_Performance = [$0.1$, $0.15$]
 
 For a detailed explanation of this question, see [Question 16: XOR Relationships](L8_3_16_explanation.md).
 
@@ -265,14 +265,14 @@ For a detailed explanation of this question, see [Question 16: XOR Relationships
 ### Problem Statement
 You have three highly correlated features with different redundancy levels.
 
-**Feature X:** Correlation with target = 0.8
-**Feature Y:** Correlation with target = 0.7, Correlation with X = 0.9
-**Feature Z:** Correlation with target = 0.6, Correlation with X = 0.8
+**Feature X:** Correlation with target = $0.8$
+**Feature Y:** Correlation with target = $0.7$, Correlation with X = $0.9$
+**Feature Z:** Correlation with target = $0.6$, Correlation with X = $0.8$
 
 #### Task
 1. Which feature would univariate selection choose first?
 2. If you select X, should you also select Y? Calculate the redundancy penalty
-3. Calculate the VIF (Variance Inflation Factor) for feature Y if $R^2$ from regressing Y on X is 0.81
+3. Calculate the VIF (Variance Inflation Factor) for feature Y if $R^2$ from regressing Y on X is $0.81$
 4. How would multivariate selection handle this differently?
 5. If you can only keep 2 features, which combination would you choose and why?
 6. Calculate the condition number of the correlation matrix for features X, Y, and Z. What does this value indicate about multicollinearity?
@@ -306,9 +306,9 @@ For a detailed explanation of this question, see [Question 18: Search Strategy C
 ### Problem Statement
 You're evaluating feature subsets using cross-validation with different metrics.
 
-**Subset A:** Features [1, 3, 5], CV accuracy = 82%, training time = 1.2 min
-**Subset B:** Features [2, 4, 6], CV accuracy = 85%, training time = 1.8 min
-**Subset C:** Features [1, 2, 3, 4, 5, 6], CV accuracy = 87%, training time = 3.5 min
+**Subset A:** Features [1, 3, 5], CV accuracy = $82\%$, training time = $1.2$ min
+**Subset B:** Features [2, 4, 6], CV accuracy = $85\%$, training time = $1.8$ min
+**Subset C:** Features [1, 2, 3, 4, 5, 6], CV accuracy = $87\%$, training time = $3.5$ min
 
 #### Task
 1. Which subset has the best accuracy per feature?
@@ -316,7 +316,7 @@ You're evaluating feature subsets using cross-validation with different metrics.
 3. If interpretability is important, which subset would you choose and why?
 4. Calculate the efficiency metric: $\text{Efficiency} = \frac{\text{Accuracy}}{\text{Training\_Time} \times \text{Feature\_Count}}$
 5. If you have a time budget of 2 minutes, which subset would you choose?
-6. Design a composite scoring function that balances accuracy, feature count, and training time with weights [0.6, 0.3, 0.1] respectively
+6. Design a composite scoring function that balances accuracy, feature count, and training time with weights [$0.6$, $0.3$, $0.1$] respectively
 
 For a detailed explanation of this question, see [Question 19: Multi-Metric Evaluation](L8_3_19_explanation.md).
 
@@ -328,14 +328,14 @@ You're designing a multivariate feature selection pipeline with specific constra
 **Dataset:** 100 features, 1000 samples, binary classification
 **Constraints:** Must complete in < 2 hours, need interpretable features
 **Available Steps:**
-1. Remove highly correlated features (threshold = 0.8)
+1. Remove highly correlated features (threshold = $0.8$)
 2. Use forward selection to find best subset
 3. Use backward elimination to find best subset
 4. Evaluate final subset with 5-fold cross-validation
 
 #### Task
 1. What's the logical order of these steps and why?
-2. If each subset evaluation takes 0.5 seconds, how many features can you select in 2 hours?
+2. If each subset evaluation takes $0.5$ seconds, how many features can you select in 2 hours?
 3. Why remove correlated features first? Calculate the expected reduction in search space
 4. If you can parallelize to 4 processes, how does this change your strategy?
 5. Calculate the expected time savings from parallelization
