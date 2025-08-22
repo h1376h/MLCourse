@@ -51,8 +51,8 @@ overall_entropy = calculate_entropy(all_labels)
 print("\n1. ENTROPY OF ENTIRE DATASET")
 print(f"Dataset: {len(data)} samples")
 print(f"Labels: {[sample['Y'] for sample in data]}")
-print(".4f")
-print(".4f")
+print(f"Entropy: {overall_entropy:.4f}")
+print(f"Entropy: {overall_entropy:.4f}")
 print("Since entropy > 0, there is uncertainty in the classification")
 print("The closer to 1, the more mixed the classes are")
 
@@ -105,7 +105,7 @@ for feature in features:
 optimal_feature = max(information_gains, key=information_gains.get)
 print("\nOptimal root split:")
 for feature in features:
-    print(".4f")
+    print(f"  {feature}: {information_gains[feature]:.4f}")
 print(f"  -> Best feature: {optimal_feature} (highest information gain)")
 
 # Task 3: Build complete decision tree
@@ -403,7 +403,7 @@ ax1.set_ylim(0, 0.35)
 for i, (bar, feature) in enumerate(zip(bars, features)):
     height = bar.get_height()
     ax1.text(bar.get_x() + bar.get_width()/2., height + 0.005,
-             '.3f', ha='center', va='bottom', fontweight='bold', fontsize=11)
+             f'{information_gains[feature]:.3f}', ha='center', va='bottom', fontweight='bold', fontsize=11)
     # Add feature explanation
     if feature == 'A':
         ax1.text(bar.get_x() + bar.get_width()/2., height/2, 'Best\nRoot\nSplit',
@@ -694,7 +694,7 @@ ax3.set_ylim(0, 55)
 for i, (bar, eff) in enumerate(zip(bars_eff, efficiency)):
     height = bar.get_height()
     ax3.text(bar.get_x() + bar.get_width()/2., height + 1,
-             '.1f', ha='center', va='bottom', fontweight='bold')
+             f'{eff:.1f}', ha='center', va='bottom', fontweight='bold')
     if i == 1:  # Optimal tree
         ax3.text(bar.get_x() + bar.get_width()/2., height/2,
                  'Most\nEfficient', ha='center', va='center', fontweight='bold', color='darkgreen')
@@ -736,6 +736,90 @@ plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'feature_usage.png'), dpi=300, bbox_inches='tight')
 plt.close()
 
+# Task 6: Algorithm Comparison (ID3, C4.5, CART)
+print("\n6. ALGORITHM COMPARISON ANALYSIS")
+print("-" * 40)
+
+print("How would ID3, C4.5, and CART approach this dataset differently?")
+
+# ID3 Analysis
+print("\nID3 (Iterative Dichotomiser 3):")
+print("  • Uses information gain (entropy-based) for splitting")
+print("  • No pruning - would build the full tree")
+print("  • Would likely find the original tree structure: A → B → C (depth 3)")
+print("  • Prone to overfitting due to no pruning")
+print("  • Information gain favors feature A as root (IG = 0.3113)")
+
+# C4.5 Analysis  
+print("\nC4.5 (Successor to ID3):")
+print("  • Uses gain ratio instead of information gain")
+print("  • Includes post-pruning to reduce overfitting")
+print("  • Might discover the more compact tree structure")
+print("  • Could find B → C in both branches (depth 2) through pruning")
+print("  • More robust against overfitting than ID3")
+
+# CART Analysis
+print("\nCART (Classification and Regression Trees):")
+print("  • Can use both Gini impurity and entropy")
+print("  • Gini impurity might produce different splits than entropy")
+print("  • Includes cost-complexity pruning")
+print("  • Might find different optimal structure depending on impurity measure")
+print("  • More flexible splitting criteria than ID3/C4.5")
+
+# Gini vs Entropy comparison
+print("\nGini Impurity vs Entropy Comparison:")
+print("  • Gini impurity: Gini = 1 - Σ(p_i²)")
+print("  • Entropy: H = -Σ(p_i × log₂(p_i))")
+print("  • For this dataset:")
+print(f"    - Entropy: {overall_entropy:.4f}")
+print(f"    - Gini impurity: {1 - (0.5**2 + 0.5**2):.4f}")
+
+# Most interpretable tree
+print("\nMost Interpretable Tree:")
+print("  • The optimal tree (B → C in both branches) is most interpretable")
+print("  • Depth 2 vs depth 3 makes it easier to understand")
+print("  • Both branches follow the same pattern (C splits)")
+print("  • Eliminates feature A entirely, focusing on B and C")
+print("  • C4.5 with pruning would likely find this structure")
+
+# Create algorithm comparison visualization
+fig5, ax5 = plt.subplots(1, 1, figsize=(10, 7))
+ax5.set_title('Algorithm Comparison: ID3 vs C4.5 vs CART', fontsize=14, fontweight='bold', pad=20)
+
+algorithms = ['ID3\n(No Pruning)', 'C4.5\n(With Pruning)', 'CART\n(Gini)', 'CART\n(Entropy)']
+depths = [3, 2, 2, 3]  # Expected depths for each algorithm
+colors_algo = ['lightcoral', 'lightblue', 'lightgreen', 'lightyellow']
+
+bars_algo = ax5.bar(algorithms, depths, color=colors_algo, alpha=0.8, width=0.6)
+ax5.set_ylabel('Expected Tree Depth', fontsize=12)
+ax5.set_xlabel('Algorithm', fontsize=12)
+ax5.grid(True, alpha=0.3, linestyle='--')
+ax5.set_ylim(0, 3.5)
+
+# Add value labels and explanations
+for i, (bar, depth, algo) in enumerate(zip(bars_algo, depths, algorithms)):
+    height = bar.get_height()
+    ax5.text(bar.get_x() + bar.get_width()/2., height + 0.1,
+             f'Depth {depth}', ha='center', va='bottom', fontweight='bold')
+    
+    # Add algorithm characteristics
+    if i == 0:  # ID3
+        ax5.text(bar.get_x() + bar.get_width()/2., height/2,
+                 'Greedy\nNo Pruning', ha='center', va='center', fontweight='bold', color='darkred')
+    elif i == 1:  # C4.5
+        ax5.text(bar.get_x() + bar.get_width()/2., height/2,
+                 'Gain Ratio\n+ Pruning', ha='center', va='center', fontweight='bold', color='darkblue')
+    elif i == 2:  # CART Gini
+        ax5.text(bar.get_x() + bar.get_width()/2., height/2,
+                 'Gini\n+ Pruning', ha='center', va='center', fontweight='bold', color='darkgreen')
+    else:  # CART Entropy
+        ax5.text(bar.get_x() + bar.get_width()/2., height/2,
+                 'Entropy\n+ Pruning', ha='center', va='center', fontweight='bold', color='darkorange')
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'algorithm_comparison.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
 print(f"\nImages saved to: {save_dir}")
 print("Generated files:")
 print("  - information_gain_bar.png")
@@ -751,6 +835,7 @@ print("  - depth_comparison.png")
 print("  - performance_metrics.png")
 print("  - efficiency_comparison.png")
 print("  - feature_usage.png")
+print("  - algorithm_comparison.png")
 
 print("\n" + "=" * 60)
 print("ANALYSIS COMPLETE")

@@ -112,6 +112,42 @@ The key insight is that while individual information gain calculations may favor
 ### Step 5: Minimum Possible Depth
 The minimum possible depth is 2. This can be achieved by using a different splitting strategy that combines features more efficiently. For this dataset, any perfect classifier must distinguish between all 4 unique combinations, requiring at least 2 binary splits (2^2 = 4 possible outcomes).
 
+### Step 6: Algorithm Comparison (ID3, C4.5, CART)
+**How would ID3, C4.5, and CART approach this dataset differently?**
+
+#### ID3 (Iterative Dichotomiser 3)
+- **Splitting Criterion**: Uses information gain (entropy-based) for splitting
+- **Pruning**: No pruning - builds the full tree
+- **Expected Result**: Would likely find the original tree structure: A → B → C (depth 3)
+- **Limitations**: Prone to overfitting due to no pruning
+- **Analysis**: Information gain favors feature A as root (IG = 0.3113), leading to the deeper tree
+
+#### C4.5 (Successor to ID3)
+- **Splitting Criterion**: Uses gain ratio instead of information gain
+- **Pruning**: Includes post-pruning to reduce overfitting
+- **Expected Result**: Might discover the more compact tree structure
+- **Advantages**: Could find B → C in both branches (depth 2) through pruning
+- **Robustness**: More robust against overfitting than ID3
+
+#### CART (Classification and Regression Trees)
+- **Splitting Criterion**: Can use both Gini impurity and entropy
+- **Pruning**: Includes cost-complexity pruning
+- **Expected Result**: Might find different optimal structure depending on impurity measure
+- **Flexibility**: More flexible splitting criteria than ID3/C4.5
+- **Comparison**: Gini impurity might produce different splits than entropy
+
+#### Gini vs Entropy Comparison
+For this dataset:
+- **Entropy**: $H(Y) = 1.0000$ (maximum entropy for binary classification)
+- **Gini impurity**: $Gini = 1 - \sum_{i=1}^{k} p_i^2 = 1 - (0.5^2 + 0.5^2) = 0.5000$
+
+#### Most Interpretable Tree
+The optimal tree (B → C in both branches) is most interpretable because:
+- **Depth**: Depth 2 vs depth 3 makes it easier to understand
+- **Pattern**: Both branches follow the same pattern (C splits)
+- **Feature Efficiency**: Eliminates feature A entirely, focusing on B and C
+- **Algorithm**: C4.5 with pruning would likely find this structure
+
 ## Visual Explanations
 
 ### Information Gain Analysis
@@ -136,6 +172,8 @@ These individual heatmaps reveal how each feature correlates with the target cla
 ### Decision Tree Structures
 
 **Visualization Improvements**: The decision tree visualizations have been updated to display with the root node at the top, growing downwards for better readability. Additionally, the leaf node labels now use clean, sequential numbering instead of memory addresses for improved clarity.
+
+**Complete Visualization Set**: The analysis generates 15 comprehensive visualizations covering all aspects of decision tree construction, optimization, and algorithm comparison.
 
 #### Original Decision Tree
 ![Original Decision Tree](../Images/L6_3_Quiz_44/original_decision_tree.png)
@@ -168,6 +206,11 @@ This visualization shows the efficiency ratio (accuracy per depth), clearly demo
 ![Feature Usage](../Images/L6_3_Quiz_44/feature_usage.png)
 
 This comparison shows which features are utilized in each tree structure, highlighting that the optimal tree eliminates the need for feature A entirely.
+
+#### Algorithm Comparison
+![Algorithm Comparison](../Images/L6_3_Quiz_44/algorithm_comparison.png)
+
+This visualization compares how different decision tree algorithms (ID3, C4.5, CART) would approach the dataset, showing expected tree depths and highlighting the benefits of pruning and different splitting criteria.
 
 ### Depth and Performance Metrics
 
@@ -213,4 +256,6 @@ This detailed performance analysis compares accuracy and depth across different 
 - An alternative tree structure exists: B as root with C in both subtrees (depth 2), which also achieves zero error
 - The minimum possible depth is 2, achieved by the alternative tree structure
 - This demonstrates that greedy information gain maximization doesn't always find the globally optimal tree
-- ID3 would likely find the original tree structure, while C4.5's pruning might discover the more compact alternative
+- **Algorithm Comparison**: ID3 would likely find the original tree structure, while C4.5's pruning might discover the more compact alternative. CART offers flexibility with both Gini impurity and entropy measures
+- **Interpretability**: The optimal tree (depth 2) is more interpretable and efficient than the original tree (depth 3)
+- **Practical Implications**: This example highlights the importance of exploring alternative tree structures and the benefits of pruning algorithms in finding more efficient solutions
