@@ -5,7 +5,7 @@ You're judging a competition between different pruning approaches. Each method c
 
 ### Task
 1. Rank these pruning methods by expected tree size (smallest to largest):
-   - Pre-pruning with max_depth=3
+   - Pre-pruning with max_depth=$3$
    - Reduced error pruning
    - Cost-complexity pruning with $\alpha=0.1$
 2. Which method is most robust to noisy data? Why?

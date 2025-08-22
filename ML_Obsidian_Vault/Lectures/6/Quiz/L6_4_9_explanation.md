@@ -5,12 +5,12 @@ You're applying the Minimum Description Length principle to decision trees. This
 
 ### Task
 1. Explain how MDL balances model complexity and accuracy
-2. For a tree with 5 nodes, estimate the description length
+2. For a tree with $5$ nodes, estimate the description length
 3. Describe how MDL penalizes overly complex trees
 4. List the main advantages of MDL-based pruning
-5. If you have two trees with identical accuracy but different description lengths, and one tree has a leaf node that splits on a feature with only 2 unique values, what does MDL suggest about this split?
+5. If you have two trees with identical accuracy but different description lengths, and one tree has a leaf node that splits on a feature with only $2$ unique values, what does MDL suggest about this split?
 6. You're building a tree for a system with limited bandwidth. How would MDL help you optimize for transmission efficiency?
-7. Calculate the description length penalty for a tree that grows from 3 to 7 nodes.
+7. Calculate the description length penalty for a tree that grows from $3$ to $7$ nodes.
 8. Using the bias-variance decomposition formula $$\text{Variance} = E[(\hat{f}(x) - E[\hat{f}(x)])^2]$$, explain how MDL-based pruning affects the variance component of a decision tree's prediction error.
 
 ## Understanding the Problem

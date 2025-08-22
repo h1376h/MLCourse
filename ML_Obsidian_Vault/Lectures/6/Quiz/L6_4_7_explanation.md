@@ -4,13 +4,13 @@
 You're experimenting with different ways to prevent decision trees from overfitting. You have various techniques at your disposal.
 
 ### Task
-1. If a split reduces Gini impurity from 0.5 to 0.45, should it be allowed with threshold 0.1?
-2. For a dataset with 10 features, how many features would you randomly select at each split?
-3. Compare limiting max_depth=3 vs post-pruning for a tree that naturally grows to depth 6
+1. If a split reduces Gini impurity from $0.5$ to $0.45$, should it be allowed with threshold $0.1$?
+2. For a dataset with $10$ features, how many features would you randomly select at each split?
+3. Compare limiting max_depth=$3$ vs post-pruning for a tree that naturally grows to depth $6$
 4. Explain how L1/L2 regularization concepts could be applied to decision trees
-5. If you randomly select 3 features at each split from a pool of 10 features, what's the probability that the same feature is selected at both the root and its left child?
+5. If you randomly select $3$ features at each split from a pool of $10$ features, what's the probability that the same feature is selected at both the root and its left child?
 6. You're building a tree for a mobile app with limited memory. What regularization strategy would you prioritize?
-7. Calculate the expected number of unique features used in a tree with 7 splits if you randomly select 3 features per split.
+7. Calculate the expected number of unique features used in a tree with $7$ splits if you randomly select $3$ features per split.
 
 ## Understanding the Problem
 Decision tree regularization is crucial for preventing overfitting and controlling model complexity. Unlike linear models that use L1/L2 regularization on weights, decision trees require different approaches that regularize the tree structure itself. This problem explores various regularization techniques including pre-pruning, post-pruning, feature selection, and their trade-offs in terms of performance, memory usage, and computational efficiency.

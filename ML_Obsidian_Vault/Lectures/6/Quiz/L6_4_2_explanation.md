@@ -4,13 +4,13 @@
 You're a decision tree gardener trying to control tree growth. Your dataset has 1000 samples and 8 binary features, but you want to prevent your trees from becoming too "bushy."
 
 ### Task
-1. If you want each leaf to have at least 50 samples, what's the maximum number of leaf nodes possible?
-2. If the dataset has 8 binary features, what's the theoretical maximum depth before pre-pruning?
+1. If you want each leaf to have at least $50$ samples, what's the maximum number of leaf nodes possible?
+2. If the dataset has $8$ binary features, what's the theoretical maximum depth before pre-pruning?
 3. For a binary classification problem, suggest an appropriate minimum Gini impurity threshold
-4. Given training accuracy 0.95 and validation accuracy 0.82, which pre-pruning parameter should be adjusted first?
-5. If you want exactly 20 leaf nodes, what minimum samples per leaf threshold would you need?
+4. Given training accuracy $0.95$ and validation accuracy $0.82$, which pre-pruning parameter should be adjusted first?
+5. If you want exactly $20$ leaf nodes, what minimum samples per leaf threshold would you need?
 6. You're building a medical diagnosis tree. What additional pre-pruning constraints would you consider?
-7. Calculate the minimum impurity decrease threshold that would prevent splitting a node with 100 samples into two groups of 45 and 55 samples.
+7. Calculate the minimum impurity decrease threshold that would prevent splitting a node with $100$ samples into two groups of $45$ and $55$ samples.
 
 ## Understanding the Problem
 Decision tree pre-pruning is a technique used to prevent overfitting by setting constraints on tree growth before training begins. This problem explores various pre-pruning parameters and their effects on tree complexity, model performance, and practical applications like medical diagnosis.

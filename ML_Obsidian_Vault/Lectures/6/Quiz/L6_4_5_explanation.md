@@ -5,12 +5,12 @@ You're investigating the best way to use cross-validation for pruning parameter 
 
 ### Task
 1. How many folds would you use for decision tree pruning? Justify your choice
-2. If using 5-fold CV, how many samples are in each validation fold?
+2. If using $5$-fold CV, how many samples are in each validation fold?
 3. Design a reasonable grid of $\alpha$ values to test
 4. Explain how to handle bias introduced by parameter selection
-5. If you use 10-fold CV and find that $\alpha = 0.1$ works best, but then test on a held-out test set and find $\alpha = 0.05$ works better, what does this suggest about your validation strategy?
-6. You're working with a small dataset (200 samples). How would you modify your cross-validation strategy?
-7. Calculate the minimum number of samples needed per fold to ensure statistical significance with 95% confidence.
+5. If you use $10$-fold CV and find that $\alpha = 0.1$ works best, but then test on a held-out test set and find $\alpha = 0.05$ works better, what does this suggest about your validation strategy?
+6. You're working with a small dataset ($200$ samples). How would you modify your cross-validation strategy?
+7. Calculate the minimum number of samples needed per fold to ensure statistical significance with $95\%$ confidence.
 
 ## Understanding the Problem
 Cross-validation is a crucial technique for selecting hyperparameters in machine learning models, particularly for decision tree pruning. The complexity parameter $\alpha$ controls the trade-off between model complexity and training error. However, using the same data for both parameter selection and final evaluation can introduce bias, leading to overly optimistic performance estimates.

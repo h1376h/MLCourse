@@ -23,7 +23,7 @@ Netflix uses a decision tree to recommend movies. Their engineers noticed that a
 3. [📚] Explain the bias-variance tradeoff demonstrated in this data
 4. Sketch a graph showing training vs validation accuracy
 5. [📚] If Netflix wants to keep user complaints below 10%, what's the maximum acceptable tree depth?
-6. [📚] If Netflix has 100 million users and each complaint costs $2 in customer service, calculate the total cost of overfitting at depth 6
+6. [📚] If Netflix has $100$ million users and each complaint costs $\$2$ in customer service, calculate the total cost of overfitting at depth $6$
 
 For a detailed explanation of this question, see [Question 1: Netflix Decision Tree](L6_4_1_explanation.md).
 
@@ -33,13 +33,13 @@ For a detailed explanation of this question, see [Question 1: Netflix Decision T
 You're a decision tree gardener trying to control tree growth. Your dataset has 1000 samples and 8 binary features, but you want to prevent your trees from becoming too "bushy."
 
 #### Task
-1. [📚] If you want each leaf to have at least 50 samples, what's the maximum number of leaf nodes possible?
-2. [📚] If the dataset has 8 binary features, what's the theoretical maximum depth before pre-pruning?
+1. [📚] If you want each leaf to have at least $50$ samples, what's the maximum number of leaf nodes possible?
+2. [📚] If the dataset has $8$ binary features, what's the theoretical maximum depth before pre-pruning?
 3. For a binary classification problem, suggest an appropriate minimum Gini impurity threshold
-4. [📚] Given training accuracy 0.95 and validation accuracy 0.82, which pre-pruning parameter should be adjusted first?
-5. [📚] If you want exactly 20 leaf nodes, what minimum samples per leaf threshold would you need?
+4. [📚] Given training accuracy $0.95$ and validation accuracy $0.82$, which pre-pruning parameter should be adjusted first?
+5. [📚] If you want exactly $20$ leaf nodes, what minimum samples per leaf threshold would you need?
 6. You're building a medical diagnosis tree. What additional pre-pruning constraints would you consider?
-7. Calculate the minimum impurity decrease threshold that would prevent splitting a node with 100 samples into two groups of 45 and 55 samples.
+7. Calculate the minimum impurity decrease threshold that would prevent splitting a node with $100$ samples into two groups of $45$ and $55$ samples.
 
 For a detailed explanation of this question, see [Question 2: Pre-Pruning Threshold Puzzle](L6_4_2_explanation.md).
 
@@ -66,7 +66,7 @@ Root (200 samples, train_error=0.25, val_error=0.28)
 5. [📚] If the hospital wants to keep the tree interpretable ($\leq 3$ nodes), what would be the optimal pruning strategy?
 6. [📚] What are the medical implications of pruning this tree too aggressively?
 7. [📚] If false negatives (missing high-risk patients) cost $\$1000$ and false positives cost $\$100$, calculate the total cost before and after pruning.
-8. [📚] If the hospital can process 50 patients per day with the pruned tree vs 30 with the full tree, calculate the daily cost savings
+8. [📚] If the hospital can process $50$ patients per day with the pruned tree vs $30$ with the full tree, calculate the daily cost savings
 
 For a detailed explanation of this question, see [Question 3: Post-Pruning Decision Tree](L6_4_3_explanation.md).
 
@@ -77,13 +77,13 @@ A bank is implementing CART's cost-complexity pruning for their fraud detection 
 
 #### Task
 1. Write the cost-complexity function: $R_\alpha(T) = R(T) + \alpha|T|$
-2. For $\alpha = 0.1$, calculate the cost for a tree with 7 nodes and total error 0.3
-3. For $\alpha = 0.05$, compare a tree with 5 nodes and error 0.35 vs 3 nodes and error 0.40
+2. For $\alpha = 0.1$, calculate the cost for a tree with $7$ nodes and total error $0.3$
+3. For $\alpha = 0.05$, compare a tree with $5$ nodes and error $0.35$ vs $3$ nodes and error $0.40$
 4. Explain the relationship between $\alpha$ and tree complexity
 5. If the bank wants to minimize total cost including operational costs of $\$5$ per node, what's the optimal $\alpha$?
 6. What are the business implications of choosing different $\alpha$ values for fraud detection?
-7. Design a cost matrix for a medical diagnosis system where false negatives are 10x more expensive than false positives.
-8. If the bank processes 10,000 transactions per day, calculate the daily fraud detection cost for different $\alpha$ values
+7. Design a cost matrix for a medical diagnosis system where false negatives are $10\times$ more expensive than false positives.
+8. If the bank processes $10,000$ transactions per day, calculate the daily fraud detection cost for different $\alpha$ values
 
 For a detailed explanation of this question, see [Question 4: Cost-Complexity Pruning Calculation](L6_4_4_explanation.md).
 
@@ -94,12 +94,12 @@ You're investigating the best way to use cross-validation for pruning parameter 
 
 #### Task
 1. How many folds would you use for decision tree pruning? Justify your choice
-2. If using 5-fold CV, how many samples are in each validation fold?
+2. If using $5$-fold CV, how many samples are in each validation fold?
 3. Design a reasonable grid of $\alpha$ values to test
 4. Explain how to handle bias introduced by parameter selection
-5. If you use 10-fold CV and find that $\alpha = 0.1$ works best, but then test on a held-out test set and find $\alpha = 0.05$ works better, what does this suggest about your validation strategy?
-6. You're working with a small dataset (200 samples). How would you modify your cross-validation strategy?
-7. Calculate the minimum number of samples needed per fold to ensure statistical significance with 95% confidence.
+5. If you use $10$-fold CV and find that $\alpha = 0.1$ works best, but then test on a held-out test set and find $\alpha = 0.05$ works better, what does this suggest about your validation strategy?
+6. You're working with a small dataset ($200$ samples). How would you modify your cross-validation strategy?
+7. Calculate the minimum number of samples needed per fold to ensure statistical significance with $95\%$ confidence.
 
 For a detailed explanation of this question, see [Question 5: Cross-Validation Strategy](L6_4_5_explanation.md).
 
@@ -110,7 +110,7 @@ You're judging a competition between different pruning approaches. Each method c
 
 #### Task
 1. Rank these pruning methods by expected tree size (smallest to largest):
-   - Pre-pruning with max_depth=3
+   - Pre-pruning with max_depth=$3$
    - Reduced error pruning
    - Cost-complexity pruning with $\alpha=0.1$
 2. Which method is most robust to noisy data? Why?
@@ -128,13 +128,13 @@ For a detailed explanation of this question, see [Question 6: Pruning Method Com
 You're experimenting with different ways to prevent decision trees from overfitting. You have various techniques at your disposal.
 
 #### Task
-1. If a split reduces Gini impurity from 0.5 to 0.45, should it be allowed with threshold 0.1?
-2. For a dataset with 10 features, how many features would you randomly select at each split?
-3. Compare limiting max_depth=3 vs post-pruning for a tree that naturally grows to depth 6
+1. If a split reduces Gini impurity from $0.5$ to $0.45$, should it be allowed with threshold $0.1$?
+2. For a dataset with $10$ features, how many features would you randomly select at each split?
+3. Compare limiting max_depth=$3$ vs post-pruning for a tree that naturally grows to depth $6$
 4. Explain how L1/L2 regularization concepts could be applied to decision trees
-5. If you randomly select 3 features at each split from a pool of 10 features, what's the probability that the same feature is selected at both the root and its left child?
+5. If you randomly select $3$ features at each split from a pool of $10$ features, what's the probability that the same feature is selected at both the root and its left child?
 6. You're building a tree for a mobile app with limited memory. What regularization strategy would you prioritize?
-7. Calculate the expected number of unique features used in a tree with 7 splits if you randomly select 3 features per split.
+7. Calculate the expected number of unique features used in a tree with $7$ splits if you randomly select $3$ features per split.
 
 For a detailed explanation of this question, see [Question 7: Regularization Techniques](L6_4_7_explanation.md).
 
@@ -161,12 +161,12 @@ You're applying the Minimum Description Length principle to decision trees. This
 
 #### Task
 1. Explain how MDL balances model complexity and accuracy
-2. For a tree with 5 nodes, estimate the description length
+2. For a tree with $5$ nodes, estimate the description length
 3. Describe how MDL penalizes overly complex trees
 4. List the main advantages of MDL-based pruning
-5. If you have two trees with identical accuracy but different description lengths, and one tree has a leaf node that splits on a feature with only 2 unique values, what does MDL suggest about this split?
+5. If you have two trees with identical accuracy but different description lengths, and one tree has a leaf node that splits on a feature with only $2$ unique values, what does MDL suggest about this split?
 6. You're building a tree for a system with limited bandwidth. How would MDL help you optimize for transmission efficiency?
-7. Calculate the description length penalty for a tree that grows from 3 to 7 nodes.
+7. Calculate the description length penalty for a tree that grows from $3$ to $7$ nodes.
 8. Using the bias-variance decomposition formula $$\text{Variance} = E[(\hat{f}(x) - E[\hat{f}(x)])^2]$$, explain how MDL-based pruning affects the variance component of a decision tree's prediction error.
 
 For a detailed explanation of this question, see [Question 9: MDL-Based Pruning](L6_4_9_explanation.md).
@@ -181,9 +181,9 @@ You're investigating C4.5's confidence factor pruning mechanism. This method use
 2. What statistical assumptions underlie confidence-based pruning?
 3. Describe how to choose an appropriate confidence level
 4. Identify scenarios where confidence-based pruning might fail
-5. If you set a confidence level of 95% and your tree has 100 nodes, approximately how many nodes would you expect to be pruned by chance alone?
+5. If you set a confidence level of $95\%$ and your tree has $100$ nodes, approximately how many nodes would you expect to be pruned by chance alone?
 6. You're building a tree for a safety-critical system (e.g., autonomous driving). What confidence level would you choose and why?
-7. Calculate the minimum confidence level needed to prune a node with 50 samples and 80% accuracy.
+7. Calculate the minimum confidence level needed to prune a node with $50$ samples and $80\%$ accuracy.
 
 For a detailed explanation of this question, see [Question 10: Confidence-Based Pruning](L6_4_10_explanation.md).
 
@@ -268,26 +268,26 @@ For a detailed explanation of this question, see [Question 14: Pruning Parameter
 You're working with data from IoT sensors that have varying levels of noise depending on environmental conditions. Consider a decision tree trained on sensor data with the following characteristics:
 
 **Dataset Information:**
-- Total samples: 1000
+- Total samples: $1000$
 - Features: Temperature ($x_1$), Humidity ($x_2$), Pressure ($x_3$)
 - True underlying pattern: $f(x) = \text{sign}(2x_1 + x_2 - 3)$
 - Noise model: $\epsilon \sim \mathcal{N}(0, \sigma^2)$ where $\sigma^2 = 0.25$
-- Training accuracy: 95%
-- Validation accuracy: 72%
+- Training accuracy: $95\%$
+- Validation accuracy: $72\%$
 
 **Tree Structure:**
-- Root split: $x_1 \leq 1.5$ (Training: 95%, Validation: 72%)
-- Left subtree: $x_2 \leq 2.0$ (Training: 98%, Validation: 68%)
-- Right subtree: $x_3 \leq 1.8$ (Training: 92%, Validation: 76%)
+- Root split: $x_1 \leq 1.5$ (Training: $95\%$, Validation: $72\%$)
+- Left subtree: $x_2 \leq 2.0$ (Training: $98\%$, Validation: $68\%$)
+- Right subtree: $x_3 \leq 1.8$ (Training: $92\%$, Validation: $76\%$)
 
 #### Task
 1. Calculate the overfitting gap $\Delta = \text{Training Acc} - \text{Validation Acc}$ and explain why noise causes this gap to widen. Use the bias-variance decomposition $E[(y - \hat{f}(x))^2] = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$ to show how noise affects each component.
 
 2. Given these pruning options, calculate which is most robust using the generalization gap metric $G = \frac{\text{Training Acc} - \text{Test Acc}}{\text{Tree Complexity}}$ where complexity is measured by $\log(\text{Depth} \times \text{Leaves})$:
-   - No pruning: Training Acc = 95%, Test Acc = 72%, Depth = 8, Leaves = 25
-   - Depth pruning (max_depth=4): Training Acc = 87%, Test Acc = 78%, Depth = 4, Leaves = 12
-   - Sample pruning (min_samples=50): Training Acc = 89%, Test Acc = 75%, Depth = 6, Leaves = 18
-   - Combined pruning: Training Acc = 85%, Test Acc = 80%, Depth = 3, Leaves = 8
+   - No pruning: Training Acc = $95\%$, Test Acc = $72\%$, Depth = $8$, Leaves = $25$
+   - Depth pruning (max_depth=$4$): Training Acc = $87\%$, Test Acc = $78\%$, Depth = $4$, Leaves = $12$
+   - Sample pruning (min_samples=$50$): Training Acc = $89\%$, Test Acc = $75\%$, Depth = $6$, Leaves = $18$
+   - Combined pruning: Training Acc = $85\%$, Test Acc = $80\%$, Depth = $3$, Leaves = $8$
 
 3. Design mathematical functions that adjust pruning thresholds based on noise level $\sigma$. If $\sigma = 0.25$, derive optimal values for:
    - min_samples_split = $f_1(\sigma) = \max(10, \lceil 50\sigma^2 \rceil)$
@@ -350,13 +350,13 @@ For a detailed explanation of this question, see [Question 16: Advanced Regulari
 Practice pruning decisions on a complex tree structure used by an insurance company:
 
 ```
-Root: Age ≤ 30 (Training Acc: 88%, Validation Acc: 75%)
-├── Left: Income ≤ $40K (Training Acc: 92%, Validation Acc: 70%)
-│   ├── Low Risk (Leaf): [Safe: 10, Risk: 2]
-│   └── Medium Risk (Leaf): [Safe: 4, Risk: 6]
-└── Right: Experience > 2 years (Training Acc: 90%, Validation Acc: 78%)
-    ├── High Risk (Leaf): [Safe: 3, Risk: 8]
-    └── Safe (Leaf): [Safe: 9, Risk: 2]
+Root: Age $\leq 30$ (Training Acc: $88\%$, Validation Acc: $75\%$)
+├── Left: Income $\leq \$40K$ (Training Acc: $92\%$, Validation Acc: $70\%$)
+│   ├── Low Risk (Leaf): [Safe: $10$, Risk: $2$]
+│   └── Medium Risk (Leaf): [Safe: $4$, Risk: $6$]
+└── Right: Experience $> 2$ years (Training Acc: $90\%$, Validation Acc: $78\%$)
+    ├── High Risk (Leaf): [Safe: $3$, Risk: $8$]
+    └── Safe (Leaf): [Safe: $9$, Risk: $2$]
 ```
 
 #### Task
@@ -365,7 +365,7 @@ Root: Age ≤ 30 (Training Acc: 88%, Validation Acc: 75%)
 3. For $\alpha = 0.15$, calculate the cost-complexity for the full tree vs pruned versions
 4. Analyze what the validation performance pattern suggests about overfitting
 5. Write the final decision rule after optimal pruning
-6. If the insurance company wants to minimize false negatives (missing high-risk customers) while keeping false positives below 20%, what pruning strategy would you recommend?
+6. If the insurance company wants to minimize false negatives (missing high-risk customers) while keeping false positives below $20\%$, what pruning strategy would you recommend?
 7. What are the regulatory implications of pruning this risk assessment tree?
 8. Using the bias formula $$\text{Bias} = E[\hat{f}(x)] - f(x)$$, estimate the bias of the full tree vs pruned versions if training accuracy represents $E[\hat{f}(x)]$ and validation accuracy represents $f(x)$.
 
@@ -397,8 +397,8 @@ Find the optimal $\alpha$ value for cost-complexity pruning given these tree opt
 
 #### Task
 1. Write the cost-complexity function for each option
-2. Find the critical $\alpha$ value where pruning tree 1 becomes beneficial
-3. Determine the range of $\alpha$ values where pruned tree 2 is optimal
+2. Find the critical $\alpha$ value where pruning tree $1$ becomes beneficial
+3. Determine the range of $\alpha$ values where pruned tree $2$ is optimal
 4. If you want a tree with $\leq 4$ nodes, what $\alpha$ value should you use?
 5. If you have a budget constraint that limits you to trees with $\leq 6$ nodes, what's the optimal $\alpha$ range?
 6. You're building this for a mobile app with limited memory. How would you modify your $\alpha$ selection strategy?
@@ -420,8 +420,8 @@ You're building a decision tree for a credit risk assessment system that must sa
 2. Design a regularization strategy that satisfies all constraints
 3. Determine which parameters to tune first and explain why
 4. Design a validation plan for your strategy
-5. If you can only satisfy 4 out of 5 constraints, which one would you relax and why?
-6. Calculate the minimum training time needed if you want to test 5 different pruning strategies.
+5. If you can only satisfy $4$ out of $5$ constraints, which one would you relax and why?
+6. Calculate the minimum training time needed if you want to test $5$ different pruning strategies.
 
 For a detailed explanation of this question, see [Question 20: Regularization Trade-off Puzzle](L6_4_20_explanation.md).
 
@@ -450,12 +450,12 @@ For a detailed explanation of this question, see [Question 21: Pruning Timeline 
 Design a comprehensive tool for measuring tree complexity that can be used across different domains.
 
 #### Task
-1. Design 3 different metrics for measuring tree complexity
+1. Design $3$ different metrics for measuring tree complexity
 2. How would you normalize these metrics for fair comparison?
 3. Set reasonable thresholds for each metric
-4. Apply your metrics to a tree with 7 nodes and depth 4
+4. Apply your metrics to a tree with $7$ nodes and depth $4$
 5. If you want to create a single "complexity score" that combines all three metrics, how would you weight them?
-6. Calculate the complexity score for a tree that grows from 3 to 7 nodes over time.
+6. Calculate the complexity score for a tree that grows from $3$ to $7$ nodes over time.
 
 For a detailed explanation of this question, see [Question 22: Tree Complexity Calculator](L6_4_22_explanation.md).
 
@@ -466,20 +466,20 @@ A research team is comparing different validation strategies for pruning decisio
 
 | Validation Method | Folds | Validation Accuracy | Computational Cost (minutes) | Bias Estimate | Variance Estimate |
 |------------------|-------|-------------------|------------------------------|---------------|-------------------|
-| Hold-out (70/30) | 1     | 0.82             | 5                            | 0.03          | 0.08             |
-| 5-fold CV        | 5     | 0.85             | 25                           | 0.01          | 0.05             |
-| 10-fold CV       | 10    | 0.87             | 50                           | 0.005         | 0.03             |
-| Leave-one-out    | 1000  | 0.89             | 500                          | 0.001         | 0.02             |
-| Nested 5-fold    | 25    | 0.86             | 125                          | 0.008         | 0.04             |
+| Hold-out ($70/30$) | $1$     | $0.82$             | $5$                            | $0.03$          | $0.08$             |
+| $5$-fold CV        | $5$     | $0.85$             | $25$                           | $0.01$          | $0.05$             |
+| $10$-fold CV       | $10$    | $0.87$             | $50$                           | $0.005$         | $0.03$             |
+| Leave-one-out      | $1000$  | $0.89$             | $500$                          | $0.001$         | $0.02$             |
+| Nested $5$-fold    | $25$    | $0.86$             | $125$                          | $0.008$         | $0.04$             |
 
 #### Task
 1. Calculate the total error (bias² + variance) for each validation method
 2. Rank the methods by validation accuracy per computational minute
-3. If you have 30 minutes and need accuracy $\geq 0.85$, which method would you choose?
+3. If you have $30$ minutes and need accuracy $\geq 0.85$, which method would you choose?
 4. Plot validation accuracy vs computational cost and identify the Pareto frontier
 5. If you use nested cross-validation, how would you correct for the bias introduced by parameter selection?
-6. Calculate the minimum number of samples needed for each fold to ensure statistical significance with 90% confidence
-7. Using the formula $$E[(y - \hat{f}(x))^2] = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$$, calculate the expected prediction error for each validation method. Assume irreducible error = 0.02. Which method has the lowest expected prediction error?
+6. Calculate the minimum number of samples needed for each fold to ensure statistical significance with $90\%$ confidence
+7. Using the formula $$E[(y - \hat{f}(x))^2] = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$$, calculate the expected prediction error for each validation method. Assume irreducible error = $0.02$. Which method has the lowest expected prediction error?
 8. For each validation method, calculate the bias-to-variance ratio. What does this ratio tell you about the method's performance characteristics?
 
 For a detailed explanation of this question, see [Question 23: Pruning Validation Strategy Analysis](L6_4_23_explanation.md).
@@ -491,24 +491,24 @@ A machine learning engineer is tuning regularization parameters for a decision t
 
 | Max Depth | Min Samples Leaf | Min Impurity Decrease | Training Accuracy | Validation Accuracy | Tree Size (nodes) | Training Time (sec) |
 |-----------|------------------|----------------------|-------------------|-------------------|-------------------|---------------------|
-| 3         | 10               | 0.01                 | 0.78             | 0.76             | 7                 | 2.1                 |
-| 3         | 20               | 0.05                 | 0.75             | 0.74             | 5                 | 1.8                 |
-| 5         | 10               | 0.01                 | 0.89             | 0.82             | 15                | 4.2                 |
-| 5         | 20               | 0.05                 | 0.85             | 0.80             | 11                | 3.9                 |
-| 7         | 10               | 0.01                 | 0.95             | 0.78             | 23                | 6.8                 |
-| 7         | 20               | 0.05                 | 0.91             | 0.76             | 17                | 6.1                 |
-| 10        | 10               | 0.01                 | 0.98             | 0.75             | 31                | 9.5                 |
-| 10        | 20               | 0.05                 | 0.94             | 0.73             | 25                | 8.7                 |
+| $3$         | $10$               | $0.01$                 | $0.78$             | $0.76$             | $7$                 | $2.1$                 |
+| $3$         | $20$               | $0.05$                 | $0.75$             | $0.74$             | $5$                 | $1.8$                 |
+| $5$         | $10$               | $0.01$                 | $0.89$             | $0.82$             | $15$                | $4.2$                 |
+| $5$         | $20$               | $0.05$                 | $0.85$             | $0.80$             | $11$                | $3.9$                 |
+| $7$         | $10$               | $0.01$                 | $0.95$             | $0.78$             | $23$                | $6.8$                 |
+| $7$         | $20$               | $0.05$                 | $0.91$             | $0.76$             | $17$                | $6.1$                 |
+| $10$        | $10$               | $0.01$                 | $0.98$             | $0.75$             | $31$                | $9.5$                 |
+| $10$        | $20$               | $0.05$                 | $0.94$             | $0.73$             | $25$                | $8.7$                 |
 
 #### Task
 1. Identify which parameter combinations show clear signs of overfitting
-2. Find the parameter combination that maximizes validation accuracy while keeping training time under 5 seconds
+2. Find the parameter combination that maximizes validation accuracy while keeping training time under $5$ seconds
 3. Calculate the validation accuracy per node for each configuration
 4. Which parameter has the strongest effect on validation accuracy?
 5. Create a scatter plot of tree size vs validation accuracy and identify the optimal region
 6. For a real-time system that needs accuracy $\geq 0.80$ and response time $\leq 100$ms, which configuration would you choose?
 7. If you want to add a new regularization parameter (feature subsampling ratio), how would you modify this analysis to include it?
-8. For the overfitting configurations (max_depth=7 and max_depth=10), estimate the bias and variance components. Use the formula $$\text{Bias} = E[\hat{f}(x)] - f(x)$$ where $f(x)$ is the true function. If training accuracy represents $E[\hat{f}(x)]$ and validation accuracy represents $f(x)$, calculate bias and variance for each overfitting case.
+8. For the overfitting configurations (max_depth=$7$ and max_depth=$10$), estimate the bias and variance components. Use the formula $$\text{Bias} = E[\hat{f}(x)] - f(x)$$ where $f(x)$ is the true function. If training accuracy represents $E[\hat{f}(x)]$ and validation accuracy represents $f(x)$, calculate bias and variance for each overfitting case.
 9. Explain how increasing tree complexity affects the bias-variance trade-off in your decision trees, using the data from the table.
 
 For a detailed explanation of this question, see [Question 24: Regularization Parameter Tuning Analysis](L6_4_24_explanation.md).
@@ -520,11 +520,11 @@ A financial services company needs to build an interpretable decision tree for l
 
 | Pruning Method | Tree Size (nodes) | Max Depth | Training Accuracy | Validation Accuracy | Interpretability Score | Regulatory Compliance |
 |----------------|-------------------|-----------|-------------------|-------------------|----------------------|----------------------|
-| No Pruning     | 31                | 8         | 0.98             | 0.82             | 2.1                  | Non-compliant        |
-| Pre-pruning    | 15                | 4         | 0.89             | 0.85             | 7.8                  | Fully compliant      |
-| Post-pruning   | 19                | 6         | 0.92             | 0.84             | 6.2                  | Needs review         |
-| Cost-complexity| 12                | 3         | 0.85             | 0.86             | 8.5                  | Fully compliant      |
-| Reduced Error  | 22                | 5         | 0.90             | 0.83             | 5.9                  | Needs review         |
+| No Pruning     | $31$                | $8$         | $0.98$             | $0.82$             | $2.1$                  | Non-compliant        |
+| Pre-pruning    | $15$                | $4$         | $0.89$             | $0.85$             | $7.8$                  | Fully compliant      |
+| Post-pruning   | $19$                | $6$         | $0.92$             | $0.84$             | $6.2$                  | Needs review         |
+| Cost-complexity| $12$                | $3$         | $0.85$             | $0.86$             | $8.5$                  | Fully compliant      |
+| Reduced Error  | $22$                | $5$         | $0.90$             | $0.83$             | $5.9$                  | Needs review         |
 
 *Interpretability Score: 1-10 scale (10 = most interpretable), Regulatory Compliance: Fully compliant, Needs review, Non-compliant*
 
@@ -533,7 +533,7 @@ A financial services company needs to build an interpretable decision tree for l
 2. Plot tree size vs validation accuracy and identify the optimal trade-off point
 3. If non-compliance costs $\$50,000$ per violation, calculate the risk cost for each method
 4. Find the pruning method that maximizes validation accuracy while maintaining full regulatory compliance
-5. If the company processes 1000 loans per month, calculate the monthly cost of false decisions for each method
+5. If the company processes $1000$ loans per month, calculate the monthly cost of false decisions for each method
 6. Design a pruning strategy that can adapt to changing regulatory requirements
 7. If interpretability score decreases exponentially with tree depth, what's the optimal depth for regulatory compliance?
 
@@ -545,10 +545,10 @@ For a detailed explanation of this question, see [Question 25: Pruning for Inter
 You're a decision tree gardener with a special challenge: you have exactly 100 seeds (training samples) and must grow a tree that's both beautiful (accurate) and manageable (interpretable). Each seed can grow into a leaf, and each split costs 2 seeds.
 
 #### Task
-1. If you want a tree with maximum depth 3, what's the maximum number of leaves possible?
-2. Design a pruning strategy that ensures each leaf has at least 8 seeds
-3. Calculate the minimum impurity decrease threshold needed to justify splitting a node with 25 seeds
-4. If your tree naturally grows to 15 leaves but you can only maintain 8, which leaves would you prune first?
+1. If you want a tree with maximum depth $3$, what's the maximum number of leaves possible?
+2. Design a pruning strategy that ensures each leaf has at least $8$ seeds
+3. Calculate the minimum impurity decrease threshold needed to justify splitting a node with $25$ seeds
+4. If your tree naturally grows to $15$ leaves but you can only maintain $8$, which leaves would you prune first?
 5. Create a "gardening schedule" showing when to apply pre-pruning vs post-pruning techniques
 
 For a detailed explanation of this question, see [Question 26: Tree Gardener's Dilemma](L6_4_26_explanation.md).
@@ -559,12 +559,12 @@ For a detailed explanation of this question, see [Question 26: Tree Gardener's D
 You're a detective investigating suspicious tree behavior. A company's decision tree suddenly started making terrible predictions after a "routine update." Here are the clues:
 
 **Before Update:**
-- Tree size: 12 nodes, Validation accuracy: 87%
-- Training accuracy: 89%
+- Tree size: $12$ nodes, Validation accuracy: $87\%$
+- Training accuracy: $89\%$
 
 **After Update:**
-- Tree size: 31 nodes, Validation accuracy: 72%
-- Training accuracy: 98%
+- Tree size: $31$ nodes, Validation accuracy: $72\%$
+- Training accuracy: $98\%$
 
 #### Task
 1. What crime has been committed? (Identify the problem)
@@ -586,8 +586,8 @@ Your decision tree is competing in a "Tree Fitness Challenge" where it must bala
 
 #### Task
 1. Design a fitness function that combines all four metrics
-2. If your tree has 85% accuracy, 7/10 interpretability, 8/10 efficiency, and 6/10 robustness, calculate its total fitness score
-3. Your tree is too complex (15 nodes). Design a pruning strategy to improve its fitness
+2. If your tree has $85\%$ accuracy, $7/10$ interpretability, $8/10$ efficiency, and $6/10$ robustness, calculate its total fitness score
+3. Your tree is too complex ($15$ nodes). Design a pruning strategy to improve its fitness
 4. Calculate the expected fitness improvement after pruning
 5. What's the optimal tree size for maximum fitness in this competition?
 
@@ -614,8 +614,8 @@ You're simulating the evolution of decision trees over time. Each generation, tr
 
 #### Task
 1. Design an evolution rule: trees with validation accuracy $> 85\%$ should grow, trees with validation accuracy $< 75\%$ should prune
-2. If a tree starts with 5 nodes and 80% validation accuracy, predict its size after 3 generations
-3. What happens to trees that are "just right" (validation accuracy between 75-85%)?
+2. If a tree starts with $5$ nodes and $80\%$ validation accuracy, predict its size after $3$ generations
+3. What happens to trees that are "just right" (validation accuracy between $75\%$-$85\%$)?
 4. Design a mutation mechanism that occasionally tries different pruning strategies
 5. If the environment becomes more complex (more noise), how would this affect the optimal tree size?
 
@@ -633,7 +633,7 @@ Evaluate whether each of the following statements about tree pruning and regular
 4. Cross-validation can completely eliminate bias in pruning parameter selection
 5. L1 regularization can be directly applied to decision tree nodes like in linear models
 6. Post-pruning is computationally more expensive than pre-pruning during training
-7. The minimum impurity decrease threshold should always be set to 0.01 for optimal results
+7. The minimum impurity decrease threshold should always be set to $0.01$ for optimal results
 8. Early stopping based on validation accuracy will always prevent overfitting
 9. Tree depth limits are more effective than leaf count limits for controlling complexity
 10. Pruning decisions made on training data are always reliable for generalization
@@ -663,10 +663,10 @@ Design a "Pruning Strategy Selection Game" where you must choose the most approp
 #### Task
 For each scenario below, select the most suitable pruning method and explain your reasoning in 1-2 sentences:
 
-1. **Real-time fraud detection**: System must make predictions in $< 10$ms, memory is limited to 100MB, interpretability is not required
-2. **Medical diagnosis tool**: Doctors need to understand the decision process, accuracy is critical, training time can be up to 1 hour
+1. **Real-time fraud detection**: System must make predictions in $< 10$ms, memory is limited to $100$MB, interpretability is not required
+2. **Medical diagnosis tool**: Doctors need to understand the decision process, accuracy is critical, training time can be up to $1$ hour
 3. **Educational demonstration**: Students need to see how pruning affects tree structure, dataset is small ($< 100$ samples), visual clarity is important
-4. **Production recommendation system**: Must handle 1M+ users, accuracy is important but not critical, maintenance costs should be minimized
+4. **Production recommendation system**: Must handle $1$M+ users, accuracy is important but not critical, maintenance costs should be minimized
 5. **Research prototype**: Exploring different pruning approaches, computational resources are unlimited, need to compare multiple methods
 
 For a detailed explanation of this question, see [Question 33: Pruning Strategy Selection](L6_4_33_explanation.md).
@@ -690,8 +690,8 @@ Apply pruning techniques to this decision tree dataset about loan approval:
 #### Task
 1. Calculate the Gini impurity of the entire dataset
 2. If the tree splits on Income first, calculate the weighted Gini impurity after the split
-3. For a pre-pruning threshold of min_samples_leaf=2, would this split be allowed?
-4. If using cost-complexity pruning with $\alpha=0.1$, calculate the cost for a tree with 5 nodes and error rate 0.25
+3. For a pre-pruning threshold of min_samples_leaf=$2$, would this split be allowed?
+4. If using cost-complexity pruning with $\alpha=0.1$, calculate the cost for a tree with $5$ nodes and error rate $0.25$
 5. Which pruning method would be most appropriate for this dataset and why?
 
 For a detailed explanation of this question, see [Question 34: Loan Approval Pruning Application](L6_4_34_explanation.md).
@@ -733,13 +733,13 @@ A university is using a decision tree to predict student grades based on class p
 #### Task
 1. Calculate the mean grade for each class participation level (ALL, SOME, NONE) and identify which level has the highest average performance
 2. For a decision tree using Gini impurity, calculate the information gain for splitting on feature A vs feature B vs feature C. Which feature would be chosen as the root node?
-3. If you build a decision tree with max_depth=2 and min_samples_leaf=1, what would be the tree structure? Draw the tree showing the splits and leaf node predictions
-4. If the tree achieves 100% training accuracy but only 65% validation accuracy on new student data, what pruning strategy would you recommend?
+3. If you build a decision tree with max_depth=$2$ and min_samples_leaf=$1$, what would be the tree structure? Draw the tree showing the splits and leaf node predictions
+4. If the tree achieves $100\%$ training accuracy but only $65\%$ validation accuracy on new student data, what pruning strategy would you recommend?
 5. For $\alpha = 0.1$, calculate the cost-complexity function $R_\alpha(T) = R(T) + \alpha|T|$ for:
-   - Full tree: 7 nodes, training error = 0.0
-   - Pruned tree: 3 nodes, training error = 0.125
+   - Full tree: $7$ nodes, training error = $0.0$
+   - Pruned tree: $3$ nodes, training error = $0.125$
 6. If the university needs to explain grade predictions to students and parents, what maximum tree depth would you recommend? Justify your answer considering the trade-off between accuracy and interpretability
-7. Design a cross-validation approach for this dataset that accounts for the small sample size (8 samples) while still providing reliable pruning parameter selection
-8. If the university processes 1000 students per semester and incorrect grade predictions cost $\$50$ in administrative overhead, calculate the potential cost savings from implementing an optimal pruning strategy
+7. Design a cross-validation approach for this dataset that accounts for the small sample size ($8$ samples) while still providing reliable pruning parameter selection
+8. If the university processes $1000$ students per semester and incorrect grade predictions cost $\$50$ in administrative overhead, calculate the potential cost savings from implementing an optimal pruning strategy
 
 For a detailed explanation of this question, see [Question 36: Student Grade Prediction Pruning](L6_4_36_explanation.md).

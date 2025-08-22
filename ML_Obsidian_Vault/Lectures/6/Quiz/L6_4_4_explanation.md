@@ -5,13 +5,13 @@ A bank is implementing CART's cost-complexity pruning for their fraud detection 
 
 ### Task
 1. Write the cost-complexity function: $R_\alpha(T) = R(T) + \alpha|T|$
-2. For $\alpha = 0.1$, calculate the cost for a tree with 7 nodes and total error 0.3
-3. For $\alpha = 0.05$, compare a tree with 5 nodes and error 0.35 vs 3 nodes and error 0.40
+2. For $\alpha = 0.1$, calculate the cost for a tree with $7$ nodes and total error $0.3$
+3. For $\alpha = 0.05$, compare a tree with $5$ nodes and error $0.35$ vs $3$ nodes and error $0.40$
 4. Explain the relationship between $\alpha$ and tree complexity
 5. If the bank wants to minimize total cost including operational costs of $\$5$ per node, what's the optimal $\alpha$?
 6. What are the business implications of choosing different $\alpha$ values for fraud detection?
-7. Design a cost matrix for a medical diagnosis system where false negatives are 10x more expensive than false positives.
-8. If the bank processes 10,000 transactions per day, calculate the daily fraud detection cost for different $\alpha$ values
+7. Design a cost matrix for a medical diagnosis system where false negatives are $10\times$ more expensive than false positives.
+8. If the bank processes $10,000$ transactions per day, calculate the daily fraud detection cost for different $\alpha$ values
 
 ## Understanding the Problem
 Cost-complexity pruning is a technique used in decision tree algorithms to balance model accuracy with model complexity. The cost-complexity function $R_\alpha(T) = R(T) + \alpha|T|$ consists of two components:
