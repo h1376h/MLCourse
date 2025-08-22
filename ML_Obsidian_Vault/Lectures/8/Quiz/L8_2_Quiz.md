@@ -1,7 +1,7 @@
 # Lecture 8.2: Univariate Feature Selection Methods Quiz
 
 ## Overview
-This quiz contains 19 focused questions covering univariate feature selection methods, including filter scoring, irrelevance criteria, correlation measures, mutual information, chi-square tests, determining the optimal number of features, selection timing, resource constraints, domain-specific requirements, and domain insights. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 20 focused questions covering univariate feature selection methods, including filter scoring, irrelevance criteria, correlation measures, mutual information, chi-square tests, determining the optimal number of features, selection timing, resource constraints, domain-specific requirements, and domain insights. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -283,3 +283,30 @@ Feature selection can reveal domain knowledge and insights beyond just improving
 4. How does feature selection help with feature engineering decisions?
 
 For a detailed explanation of this question, see [Question 19: Domain Insights](L8_2_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+Mutual information can reveal complex relationships between features and targets that correlation might miss. Consider a dataset from a social media platform where users can have different activity levels and engagement patterns. The following table shows the joint frequency distribution between user activity level (Feature $X$) and user engagement score (Target $Y$) across $100$ users:
+
+| Activity Level ($X$) | Low Engagement ($Y=0$) | High Engagement ($Y=1$) | Row Sum |
+|---------------------|------------------------|-------------------------|---------|
+| Inactive ($a$)      | $30$                   | $10$                    | $40$    |
+| Active ($b$)        | $20$                   | $40$                    | $60$    |
+| **Column Sum**      | **$50$**               | **$50$**                | **$100$** |
+
+#### Task
+1. Calculate $P(X=a)$, $P(X=b)$, $P(Y=0)$, and $P(Y=1)$
+2. Calculate $P(X=a|Y=1)$ and $P(Y=1|X=a)$. Are $X$ and $Y$ independent? Justify your answer mathematically.
+3. Calculate $H(X)$ and $H(Y)$ using the formula $H(X) = -\sum p(x) \log p(x)$
+4. Calculate $H(X|Y)$ using the formula $H(X|Y) = -\sum p(x,y) \log p(x|y)$
+5. Calculate $I(X;Y)$ using the formula $I(X;Y) = H(X) - H(X|Y)$
+6. Verify your result using the alternative formula $I(X;Y) = H(Y) - H(Y|X)$
+7. Calculate $I(X;Y)$ using the direct formula $I(X;Y) = \sum p(x,y) \log\left(\frac{p(x,y)}{p(x)p(y)}\right)$. Show all intermediate calculations for each term in the sum.
+8. What does the mutual information value tell you about the relationship between activity level and engagement?
+9. Calculate the normalized mutual information $NMI(X;Y) = \frac{I(X;Y)}{\sqrt{H(X)H(Y)}}$
+10. If the mutual information threshold is $0.1$, would you select this feature? Justify your decision.
+
+**Note:** Use natural logarithm ($\ln$) for all calculations. Show all intermediate steps and round final answers to $4$ decimal places.
+
+For a detailed explanation of this question, see [Question 20: Advanced Mutual Information Analysis](L8_2_20_explanation.md).
