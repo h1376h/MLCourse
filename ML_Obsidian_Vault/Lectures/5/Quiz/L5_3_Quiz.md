@@ -1,7 +1,7 @@
 # Lecture 5.3: Kernel Trick for Nonlinear Classification Quiz
 
 ## Overview
-This quiz contains 16 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
+This quiz contains 22 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
 
 ## Question 1
 
@@ -232,3 +232,95 @@ Theoretical analysis of kernel methods and SVM generalization.
 5. Design a theoretical framework for comparing the generalization ability of different kernels
 
 For a detailed explanation of this problem, see [Question 16: Theoretical Analysis](L5_3_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+Given points $\mathbf{x}_1 = (1, 2)$, $\mathbf{x}_2 = (0, 1)$, $\mathbf{x}_3 = (2, 0)$, compute kernel matrices for different kernels.
+
+#### Task
+1. Compute the $3 \times 3$ Gram matrix $K_{ij} = \mathbf{x}_i^T \mathbf{x}_j$
+2. Compute $K_{ij} = (\mathbf{x}_i^T \mathbf{x}_j + 1)^2$
+3. Compute $K_{ij} = \exp(-0.5 ||\mathbf{x}_i - \mathbf{x}_j||^2)$
+4. Verify that each matrix is positive semi-definite by checking eigenvalues
+5. Determine the effective dimensionality for each kernel
+
+For a detailed explanation of this problem, see [Question 17: Kernel Matrix Computations](L5_3_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+For the polynomial kernel $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z} + c)^d$, analyze feature space properties.
+
+#### Task
+1. For 2D input and $d=2, c=1$, write out the explicit feature mapping $\phi(\mathbf{x})$
+2. Calculate the feature space dimension for $n$-dimensional input with degree $d$
+3. For $\mathbf{x} = (2, 1)$ and $\mathbf{z} = (1, 3)$ with $d=3, c=0$, compute $K(\mathbf{x}, \mathbf{z})$ two ways:
+   - Using kernel trick: $(\mathbf{x}^T\mathbf{z})^3$
+   - Using explicit feature mapping
+4. Show how $c$ affects the relative importance of interaction terms
+5. Compare complexity of kernel vs. explicit computation for $d=5$
+
+For a detailed explanation of this problem, see [Question 18: Polynomial Kernel Analysis](L5_3_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Analyze the RBF kernel $K(\mathbf{x}, \mathbf{z}) = \exp(-\gamma ||\mathbf{x} - \mathbf{z}||^2)$ for classification.
+
+#### Task
+1. For points $(1, 0)$, $(0, 1)$, $(2, 2)$, calculate all pairwise kernel values with $\gamma = 0.5$
+2. Plot kernel value vs. distance for $\gamma = 0.1, 1, 10$
+3. Predict how the decision boundary complexity changes with $\gamma$
+4. Interpret kernel values as similarity scores and rank point pairs
+5. For a dataset with average pairwise distance $d_{avg} = 2$, estimate appropriate $\gamma$ range
+
+For a detailed explanation of this problem, see [Question 19: RBF Parameter Analysis](L5_3_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+Determine which functions are valid kernels using Mercer's theorem.
+
+#### Task
+1. Check validity of:
+   - $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z})^2 + (\mathbf{x}^T\mathbf{z})^3$
+   - $K(\mathbf{x}, \mathbf{z}) = \exp(\mathbf{x}^T\mathbf{z})$
+   - $K(\mathbf{x}, \mathbf{z}) = \sin(\mathbf{x}^T\mathbf{z})$
+2. For 3 points $(0, 0)$, $(1, 0)$, $(0, 1)$, compute Gram matrices and check PSD property
+3. Show that $K(\mathbf{x}, \mathbf{z}) = 2K_1(\mathbf{x}, \mathbf{z}) + 3K_2(\mathbf{x}, \mathbf{z})$ is valid if $K_1, K_2$ are valid
+4. Provide an example of an invalid kernel and show why it fails
+5. Design a valid kernel for comparing sets of different sizes
+
+For a detailed explanation of this problem, see [Question 20: Kernel Validity Testing](L5_3_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+Analyze the geometry of feature spaces induced by different kernels.
+
+#### Task
+1. For 2D input, describe the geometry of the feature space
+2. For $(\mathbf{x}^T\mathbf{z} + 1)^2$ with 2D input, visualize the 6D feature space structure
+3. Explain why RBF kernels correspond to infinite-dimensional feature spaces
+4. Show that linear kernels preserve angles but RBF kernels don't
+5. Prove that any finite dataset becomes separable in sufficiently high dimensions
+
+For a detailed explanation of this problem, see [Question 21: Feature Space Geometry](L5_3_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+Compare computational costs of different kernel approaches.
+
+#### Task
+1. Calculate memory needed for kernel matrices with $n = 1000, 10000, 100000$ samples
+2. Compare time complexity for computing:
+   - Linear kernel matrix: $O(?)$
+   - RBF kernel matrix: $O(?)$
+   - Polynomial kernel matrix: $O(?)$
+3. How does kernel choice affect SVM training time?
+4. For $n_{SV}$ support vectors, compare prediction costs
+5. Calculate speedup vs. accuracy loss for rank-$r$ kernel approximation
+
+For a detailed explanation of this problem, see [Question 22: Computational Complexity](L5_3_22_explanation.md).
