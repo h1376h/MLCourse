@@ -307,7 +307,7 @@ Mutual information can reveal complex relationships between features and targets
 9. Calculate the normalized mutual information $NMI(X;Y) = \frac{I(X;Y)}{\sqrt{H(X)H(Y)}}$
 10. If the mutual information threshold is $0.1$, would you select this feature? Justify your decision.
 
-**Note:** Use natural logarithm ($\ln$) for all calculations. Show all intermediate steps and round final answers to $4$ decimal places.
+**Note:** Use logarithm base 2 ($\log_2$) for all calculations. Show all intermediate steps and round final answers to $4$ decimal places.
 
 For a detailed explanation of this question, see [Question 20: Advanced Mutual Information Analysis](L8_2_20_explanation.md).
 
