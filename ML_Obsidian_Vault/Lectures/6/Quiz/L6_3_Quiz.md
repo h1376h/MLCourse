@@ -1,7 +1,7 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 42 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, and detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples.
+This quiz contains 44 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples, and advanced tree construction challenges.
 
 ## Question 1
 
@@ -871,3 +871,25 @@ You are a "Decision Tree Detective" investigating a mysterious dataset about stu
 6. [📚] Design a new student record that would make both algorithms agree on the root split. What does this reveal about the fundamental differences between ID3 and C4.5?
 
 For a detailed explanation of this question, see [Question 43: Student Study Habits Mystery](L6_3_43_explanation.md).
+
+## Question 44
+
+### Problem Statement
+Using the following dataset, we want to construct a decision tree that classifies Y without any error on the training set:
+
+| A | B | C | Y |
+|---|---|----|---|
+| F | F | F  | F |
+| T | F | T  | T |
+| T | T | F  | T |
+| T | T | T  | F |
+
+#### Task
+1. Calculate the entropy of the entire dataset and explain what this value tells you about the classification difficulty
+2. Calculate information gain for each feature (A, B, C) and identify the optimal root split. Show your calculations step-by-step
+3. Draw the complete decision tree structure that achieves zero training error. Label each node with its feature and each leaf with its class
+4. Is your tree optimal? Can you construct another tree with less height that achieves zero error? Prove your answer mathematically
+5. What is the minimum possible depth for a decision tree that perfectly classifies this dataset? Justify your answer
+6. How would ID3, C4.5, and CART (using both Gini impurity and entropy) approach this dataset differently? Which would produce the most interpretable tree?
+
+For a detailed explanation of this question, see [Question 44: Decision Tree Construction and Optimization](L6_3_44_explanation.md).
