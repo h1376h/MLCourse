@@ -1,7 +1,7 @@
 # Lecture 6.4: Tree Pruning and Regularization Quiz
 
 ## Overview
-This quiz contains 35 comprehensive questions covering Tree Pruning and Regularization, including overfitting detection, pre-pruning techniques, post-pruning methods, cost-complexity pruning, cross-validation, and regularization strategies. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 36 comprehensive questions covering Tree Pruning and Regularization, including overfitting detection, pre-pruning techniques, post-pruning methods, cost-complexity pruning, cross-validation, and regularization strategies. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -711,3 +711,35 @@ For each scenario, select the most suitable pruning method and justify your choi
 5. **Industrial quality control**: High-stakes decisions, false negatives are very expensive, model updates are infrequent
 
 For a detailed explanation of this question, see [Question 35: Pruning Method Scenarios](L6_4_35_explanation.md).
+
+## Question 36
+
+### Problem Statement
+A university is using a decision tree to predict student grades based on class participation and assignment completion. The dataset shows how different combinations of factors affect final grades:
+
+| Class | A | B | C | Grade |
+|-------|---|---|---|-------|
+| ALL   | T | F | T | 74    |
+| ALL   | T | T | F | 23    |
+| SOME  | T | F | T | 61    |
+| SOME  | T | F | F | 74    |
+| SOME  | F | T | T | 25    |
+| SOME  | F | T | F | 61    |
+| NONE  | F | T | T | 54    |
+| NONE  | F | F | F | 42    |
+
+*Note: A, B, C are binary features (T=True, F=False), Class has three values (ALL, SOME, NONE), and Grade is the target variable*
+
+#### Task
+1. Calculate the mean grade for each class participation level (ALL, SOME, NONE) and identify which level has the highest average performance
+2. For a decision tree using Gini impurity, calculate the information gain for splitting on feature A vs feature B vs feature C. Which feature would be chosen as the root node?
+3. If you build a decision tree with max_depth=2 and min_samples_leaf=1, what would be the tree structure? Draw the tree showing the splits and leaf node predictions
+4. If the tree achieves 100% training accuracy but only 65% validation accuracy on new student data, what pruning strategy would you recommend?
+5. For $\alpha = 0.1$, calculate the cost-complexity function $R_\alpha(T) = R(T) + \alpha|T|$ for:
+   - Full tree: 7 nodes, training error = 0.0
+   - Pruned tree: 3 nodes, training error = 0.125
+6. If the university needs to explain grade predictions to students and parents, what maximum tree depth would you recommend? Justify your answer considering the trade-off between accuracy and interpretability
+7. Design a cross-validation approach for this dataset that accounts for the small sample size (8 samples) while still providing reliable pruning parameter selection
+8. If the university processes 1000 students per semester and incorrect grade predictions cost $\$50$ in administrative overhead, calculate the potential cost savings from implementing an optimal pruning strategy
+
+For a detailed explanation of this question, see [Question 36: Student Grade Prediction Pruning](L6_4_36_explanation.md).
