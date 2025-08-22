@@ -334,21 +334,9 @@ For a detailed explanation of this problem, see [Question 20: Hard vs Soft Margi
 ## Question 21
 
 ### Problem Statement
-Given a 1-D dataset with 4 positive data points $\{0, 1, 2, 3\}$ and 3 negative data points $\{-3, -2, -1\}$, we want to learn a soft-margin linear SVM. The optimization problem is:
-
-$$\min_{\mathbf{w},b,\boldsymbol{\xi}} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_{i=1}^{m} \xi_i$$
-$$\text{Subject to: } y_i(\mathbf{w}^T \mathbf{x}_i + b) \ge 1 - \xi_i, \quad \xi_i \ge 0$$
-
-#### Task
-1. If the regularization parameter $C \to \infty$ (meaning we only care about minimizing margin violations), how many support vectors will the resulting classifier have?
-2. If the regularization parameter $C=0$ (meaning we only care about maximizing the margin size), how many support vectors do we have?
-
-For a detailed explanation of this problem, see [Question 21: Soft-Margin SVM Regularization Analysis](L5_2_21_explanation.md).
-
-## Question 22
-
-### Problem Statement
 Given the following dataset in 1-D space, which consists of 4 positive data points $\{0, 1, 2, 3\}$ and 3 negative data points $\{-3, -2, -1\}$, we want to learn a soft-margin linear SVM.
+
+![Soft-Margin 1D SVM](../Images/L5_2_Quiz_21/soft_margin_1d_svm.png)
 
 *The figure shows data points for the negative class at x = -3, -2, -1 and for the positive class at x = 0, 1, 2, 3 on a number line.*
 
@@ -363,4 +351,4 @@ $$ \epsilon_{i}\ge0, \forall i $$
 1.  If the regularization parameter $C \rightarrow\infty$, which means that we only care about the violation of the margin, how many support vectors do we have?
 2.  If the regularization parameter $C=0,$ which means that we only care about the size of the margin, how many support vectors do we have?
 
-For a detailed explanation of this problem, see [Question 22: Soft-Margin SVM Regularization Analysis](L5_2_22_explanation.md).
+For a detailed explanation of this problem, see [Question 21: Soft-Margin SVM Regularization Analysis](L5_2_21_explanation.md).
