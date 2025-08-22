@@ -11,11 +11,12 @@ Consider a 2D dataset with outliers:
 - Class $-1$: $(0, 0)$, $(1, 1)$, $(0, 2)$
 
 #### Task
-1. Plot the data and determine if it's linearly separable
+1. Draw the data points on a coordinate system and determine if it's linearly separable (you can use graph paper or a simple sketch)
 2. Explain why hard margin SVM would fail on this dataset
 3. Calculate the minimum number of constraint violations needed to make the data separable
 4. Design a soft margin SVM formulation that handles the outlier appropriately
 5. What would be the effect of removing the outlier $(1, 4)$ on the hard margin solution?
+6. Design a medical screening system that classifies patients as "Healthy" or "At Risk" based on blood test results. Healthy patients are at $(3, 2)$, $(4, 3)$, $(5, 2)$ and At Risk patients are at $(0, 0)$, $(1, 1)$, $(0, 2)$. The uncertain case $(1, 4)$ could be measurement error. Design a confidence-based classification system with three zones and calculate diagnostic uncertainty for the outlier case.
 
 For a detailed explanation of this problem, see [Question 1: Hard Margin Limitations](L5_2_1_explanation.md).
 
@@ -79,10 +80,11 @@ Consider the hinge loss function: $L_h(y, f(x)) = \max(0, 1 - y \cdot f(x))$ whe
    - $y = +1$, $f(x) = -0.3$
    - $y = -1$, $f(x) = -1.7$
    - $y = -1$, $f(x) = 0.4$
-2. Plot the hinge loss as a function of $y \cdot f(x)$
+2. Sketch the hinge loss as a function of $y \cdot f(x)$ (you can draw this by hand)
 3. Show that $\xi_i = L_h(y_i, f(\mathbf{x}_i))$ in the soft margin formulation
 4. Compare the derivative properties of hinge loss vs squared loss
 5. Prove that hinge loss upper bounds the 0-1 loss
+6. Design a training system for quality control inspectors using a tolerance-based scoring system. Accept products have scores $f(x) = 2.5, 0.8, -0.3$ and reject products have scores $f(x) = -1.7, 0.4$. Design a confidence scoring system (0-10 scale) and create a tolerance zone for additional inspection. If rejecting good products costs 3x more than accepting bad products, how should the scoring system be adjusted?
 
 For a detailed explanation of this problem, see [Question 5: Hinge Loss Analysis](L5_2_5_explanation.md).
 
@@ -96,7 +98,7 @@ Compare different loss functions for classification:
 - Squared Loss: $L_s(y, f(x)) = (y - f(x))^2$
 
 #### Task
-1. Plot all four loss functions on the same graph for $y = +1$ and $f(x) \in [-3, 3]$
+1. Sketch all four loss functions on the same graph for $y = +1$ and $f(x) \in [-3, 3]$ (you can draw this by hand)
 2. Calculate the loss values for each function when $y = +1$ and $f(x) = 0.5$
 3. Which losses are convex and which are not? Prove your answers
 4. Which loss is most robust to outliers and why?
@@ -208,8 +210,8 @@ For a detailed explanation of this problem, see [Question 12: Regularized Risk M
 Study the geometric interpretation of the soft margin in 2D.
 
 #### Task
-1. For the hyperplane $x_1 + 2x_2 - 3 = 0$, draw the margin boundaries
-2. Sketch points with different slack variable values: $\xi = 0, 0.5, 1.0, 1.5$
+1. For the hyperplane $x_1 + 2x_2 - 3 = 0$, draw the margin boundaries (you can sketch this by hand)
+2. Sketch points with different slack variable values: $\xi = 0, 0.5, 1.0, 1.5$ (you can draw this by hand)
 3. Show how the margin changes as $C$ varies from $0.1$ to $10$
 4. Illustrate the effect of adding an outlier point on the decision boundary
 5. Compare the margins achieved with $C = 1$ vs $C = 100$ for the same dataset
@@ -248,6 +250,7 @@ Given optimal solution: $\mathbf{w}^* = (0.4, 0.8)^T$, $b^* = -0.6$
 3. Calculate the total objective $\frac{1}{2}||\mathbf{w}^*||^2 + C\sum_i \xi_i$
 4. Classify each point as: margin SV, non-margin SV, or non-SV
 5. Compute individual hinge losses and verify relationship to slack variables
+6. Design a credit scoring system for loan applicants using income and debt-to-income ratio. Low Risk applicants are at $(1, 1)$, $(2, 0)$ and High Risk applicants are at $(0, 0)$, $(1, -1)$. The uncertain case $(0.5, 0.8)$ could be measurement error. Design a risk scoring system with three categories and calculate risk uncertainty. If the bank wants to approve 80% of applicants, how should the decision boundary be adjusted?
 
 For a detailed explanation of this problem, see [Question 15: Complete Soft Margin Calculation](L5_2_15_explanation.md).
 
@@ -302,9 +305,9 @@ For a detailed explanation of this problem, see [Question 18: Hinge Loss Calcula
 Design an experiment to find optimal $C$ for a noisy dataset.
 
 #### Task
-1. Sketch expected validation error vs. $C$ for dataset with 10% label noise
+1. Sketch expected validation error vs. $C$ for dataset with 10% label noise (you can draw this by hand)
 2. Design a logarithmic grid for $C$ values from $10^{-3}$ to $10^3$
-3. Implement 5-fold CV and calculate average validation error
+3. Design a 5-fold CV strategy and calculate expected average validation error
 4. Show how bias and variance components change with $C$
 5. Compare performance with different noise levels (5%, 15%, 25%)
 

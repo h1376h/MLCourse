@@ -11,11 +11,12 @@ Consider a linearly separable dataset in $\mathbb{R}^2$ with the following point
 - Class $-1$: $(0, 1)$, $(1, 0)$, $(0, 0)$
 
 #### Task
-1. Plot these points on a coordinate system and sketch a possible separating hyperplane
+1. Draw these points on a coordinate system and sketch a possible separating hyperplane (you can use graph paper or a simple sketch)
 2. For the hyperplane $w_1 x_1 + w_2 x_2 + b = 0$ with $w_1 = 1$, $w_2 = 1$, $b = -2$, verify that this hyperplane separates the two classes
 3. Calculate the functional margin for each training point using this hyperplane
 4. Calculate the geometric margin for the point $(2, 3)$
-5. Is this the optimal separating hyperplane? Justify your answer
+5. Is th
+6. You are a city planner designing a neighborhood with two residential zones. Zone A houses are at $(2, 3)$, $(3, 4)$, $(4, 2)$ and Zone B houses are at $(0, 1)$, $(1, 0)$, $(0, 0)$. Design a straight road boundary that maximizes the minimum distance from any house to the road. If a new house is placed at $(2.5, 2.5)$, which zone should it belong to?
 
 For a detailed explanation of this problem, see [Question 1: Separating Hyperplane Analysis](L5_1_1_explanation.md).
 
@@ -83,6 +84,7 @@ Consider a simple 2D example with three points:
 3. Calculate the optimal weight vector $\mathbf{w}^*$
 4. Find the bias term $b^*$ using the support vector conditions
 5. Write the final decision function $f(\mathbf{x}) = \text{sign}(\mathbf{w}^{*T}\mathbf{x} + b^*)$
+6. In a strategy game, your Red Army units are at $(0, 1)$, $(1, 0)$ and enemy Blue Army units are at $(-1, -1)$. Design the optimal defensive wall (straight line) that maximizes your controlled territory. Calculate the safety margin and determine where to place an additional Red unit for maximum advantage.
 
 For a detailed explanation of this problem, see [Question 5: Analytical Solution](L5_1_5_explanation.md).
 

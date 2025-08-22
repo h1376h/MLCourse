@@ -17,6 +17,7 @@ $$\max_{\boldsymbol{\alpha}} \sum_{i=1}^n \alpha_i - \frac{1}{2}\sum_{i=1}^n\sum
 3. Using interior point methods, what is the worst-case time complexity for solving the QP?
 4. For $n = 10^4$ samples, estimate the memory required to store the kernel matrix (assuming 8 bytes per float)
 5. At what dataset size does standard QP become computationally prohibitive?
+6. Design a system that processes book recommendations for collections from 1,000 to 100,000 books. The system calculates similarity between all book pairs and stores recommendations in matrix format. Design storage efficiency tracking, processing time budgets, and scalability thresholds. Analyze how doubling collection size affects performance and create a resource planning tool.
 
 For a detailed explanation of this problem, see [Question 1: QP Complexity Analysis](L5_6_1_explanation.md).
 
@@ -49,6 +50,7 @@ Understand the Sequential Minimal Optimization (SMO) algorithm fundamentals.
 3. Write the analytical solution for the two-variable QP subproblem in SMO
 4. How does SMO avoid storing the full kernel matrix?
 5. What is the computational complexity of each SMO iteration?
+6. Manage a team using pair optimization where exactly two workers collaborate on each task. Constraints: total work hours must balance $\sum_{i=1}^n \text{hours}_i \times \text{skill}_i = 0$, only two workers per task, workers have different skill levels. Design pair selection, constraint balancing, and task assignment strategies. Ensure team improvement when only changing two workers at a time and create performance tracking.
 
 For a detailed explanation of this problem, see [Question 3: SMO Algorithm Fundamentals](L5_6_3_explanation.md).
 
@@ -61,7 +63,7 @@ The goal is to find the pair $(i, j)$ that maximally violates the KKT conditions
 
 #### Task
 1. Define the violation measure for a training example based on KKT conditions
-2. Implement the "maximal violating pair" heuristic for selecting $(i, j)$
+2. Design the "maximal violating pair" heuristic for selecting $(i, j)$
 3. What happens if no violating pair can be found?
 4. Design an alternative selection strategy based on second-order information
 5. How does the selection strategy affect convergence speed?
@@ -74,7 +76,7 @@ For a detailed explanation of this problem, see [Question 4: Working Set Selecti
 Design kernel caching strategies for large-scale SVM training.
 
 #### Task
-1. Implement an LRU (Least Recently Used) cache for kernel values
+1. Design an LRU (Least Recently Used) cache for kernel values
 2. For a cache size of $C$ entries and $n$ training samples, what's the hit rate for random access patterns?
 3. Design a cache-aware SMO that prioritizes recently computed kernel values
 4. How would you determine the optimal cache size given memory constraints?
@@ -92,7 +94,7 @@ Analyze chunking methods for large-scale SVM optimization.
 2. For a working set of size $q$ and total variables $n$, what's the memory reduction factor?
 3. Design a strategy for selecting which variables to include in the working set
 4. How does the working set size affect convergence properties?
-5. Implement a practical chunking algorithm with convergence guarantees
+5. Design a practical chunking algorithm with convergence guarantees
 
 For a detailed explanation of this problem, see [Question 6: Chunking Methods](L5_6_6_explanation.md).
 
@@ -106,7 +108,7 @@ Investigate preprocessing techniques crucial for SVM performance.
 2. Compare standardization $(μ = 0, σ = 1)$ vs min-max scaling $[0, 1]$ for SVM performance
 3. Design a robust scaling method that's less sensitive to outliers
 4. How should you handle categorical features in SVM preprocessing?
-5. Implement a preprocessing pipeline that handles missing values, scaling, and feature selection
+5. Design a preprocessing pipeline that handles missing values, scaling, and feature selection
 
 For a detailed explanation of this problem, see [Question 7: Preprocessing Techniques](L5_6_7_explanation.md).
 
@@ -116,7 +118,7 @@ For a detailed explanation of this problem, see [Question 7: Preprocessing Techn
 Explore approximation methods for scaling SVMs to very large datasets.
 
 #### Task
-1. Implement the Nyström method for low-rank approximation of the kernel matrix
+1. Design the Nyström method for low-rank approximation of the kernel matrix
 2. For a rank-$r$ approximation of an $n \times n$ matrix, calculate the computational savings
 3. Design random Fourier features for approximating RBF kernels
 4. How does approximation quality affect final SVM performance?
@@ -132,7 +134,7 @@ Design parallel and distributed SVM training strategies.
 #### Task
 1. Which parts of SMO can be parallelized effectively?
 2. Design a data-parallel approach for kernel matrix computation
-3. Implement a cascade SVM approach for handling datasets with millions of samples
+3. Design a cascade SVM approach for handling datasets with millions of samples
 4. What are the communication bottlenecks in distributed SVM training?
 5. Compare shared-memory vs distributed-memory parallelization strategies
 
@@ -161,7 +163,7 @@ Optimize SVM prediction speed for real-time applications.
 1. For a trained SVM with $n_s$ support vectors, what's the prediction time complexity?
 2. Design support vector pruning techniques that maintain accuracy while reducing prediction time
 3. How can you precompute and cache frequently needed kernel evaluations?
-4. Implement a fast prediction algorithm for linear SVMs
+4. Design a fast prediction algorithm for linear SVMs
 5. Compare batch vs single-sample prediction efficiency
 
 For a detailed explanation of this problem, see [Question 11: Prediction Optimization](L5_6_11_explanation.md).
@@ -175,7 +177,7 @@ Develop numerical stability and convergence analysis for SVM optimization.
 1. What numerical issues arise when the kernel matrix is ill-conditioned?
 2. Design regularization techniques to improve numerical stability
 3. How do you detect and handle convergence problems in SMO?
-4. Implement adaptive stopping criteria based on KKT violation measures
+4. Design adaptive stopping criteria based on KKT violation measures
 5. Design restart strategies for optimization algorithms that get stuck
 
 For a detailed explanation of this problem, see [Question 12: Numerical Stability](L5_6_12_explanation.md).
@@ -202,7 +204,7 @@ Implement online and incremental SVM learning algorithms.
 #### Task
 1. Design an online SVM algorithm that can handle streaming data
 2. How would you handle concept drift in online SVM learning?
-3. Implement incremental support vector addition and removal
+3. Design incremental support vector addition and removal
 4. Design memory management for online SVMs with limited storage
 5. Compare batch vs online SVM performance on time-varying datasets
 
@@ -215,7 +217,7 @@ Design a comprehensive performance optimization framework for large-scale SVM sy
 
 #### Task
 1. Create a decision tree for choosing optimization strategies based on dataset characteristics
-2. Implement automatic hyperparameter tuning that balances accuracy and computational cost
+2. Design automatic hyperparameter tuning that balances accuracy and computational cost
 3. Design resource allocation strategies for multi-core SVM training
 4. How would you handle heterogeneous hardware (CPU + GPU) for SVM acceleration?
 5. Create a benchmarking suite that evaluates SVM implementations across different scenarios
@@ -321,7 +323,7 @@ Design a systematic approach for choosing SVM optimization algorithms.
 #### Task
 1. Create a decision framework based on dataset size, sparsity, and accuracy requirements
 2. Design benchmarks to compare SMO vs coordinate descent vs interior point methods
-3. Implement an algorithm that switches strategies based on convergence progress
+3. Design an algorithm that switches strategies based on convergence progress
 4. Choose algorithms based on memory and time budgets
 5. Define metrics for comparing algorithm effectiveness beyond just accuracy
 

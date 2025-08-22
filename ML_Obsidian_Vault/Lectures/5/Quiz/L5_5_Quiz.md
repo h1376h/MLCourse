@@ -14,6 +14,7 @@ Consider the fundamental differences between SVM classification and Support Vect
 3. Define support vectors in the context of regression
 4. For the regression function $f(x) = \mathbf{w}^T\mathbf{x} + b$, what does the ε-tube represent geometrically?
 5. Compare the decision boundary concept in classification vs the regression function in SVR
+6. Design a temperature forecasting system using humidity and pressure readings with ±2°C accuracy tolerance. The system should ignore small prediction errors and be robust to sensor malfunctions. Design a prediction tube system, confidence scoring, and outlier detection. If using 3 sensors, how do you combine readings for better predictions?
 
 For a detailed explanation of this problem, see [Question 1: SVR Fundamentals](L5_5_1_explanation.md).
 
@@ -33,8 +34,9 @@ Given the following predictions and true values with $ε = 0.3$:
 1. Calculate the ε-insensitive loss for each prediction
 2. Which points lie within the ε-tube?
 3. Compare these losses to squared loss: $(y - f(x))^2$
-4. Plot the ε-insensitive loss function for $ε = 0.3$
+4. Sketch the ε-insensitive loss function for $ε = 0.3$ (you can draw this by hand)
 5. Show that the ε-insensitive loss is more robust to outliers than squared loss
+6. Design a prediction system for daily closing prices using a $3.00 tolerance for acceptable errors. Actual prices: $25.00, $10.00, $32.00, $8.00, $41.00; Predicted prices: $28.00, $15.00, $27.00, $9.00, $35.00. Design a profit scoring system, calculate prediction accuracy, and create a risk assessment system. Determine optimal tolerance for maximizing profits while minimizing risk.
 
 For a detailed explanation of this problem, see [Question 2: ε-insensitive Loss Analysis](L5_5_2_explanation.md).
 
@@ -159,7 +161,7 @@ Design a comprehensive hyperparameter tuning strategy for SVR.
 1. For RBF kernel SVR, what hyperparameters need to be tuned simultaneously?
 2. Design a nested cross-validation scheme for unbiased hyperparameter selection
 3. What search ranges would you use for $C$, $ε$, and $\gamma$ parameters?
-4. Implement early stopping criteria for expensive parameter searches
+4. Design early stopping criteria for expensive parameter searches
 5. How would you detect overfitting vs underfitting during the tuning process?
 
 For a detailed explanation of this problem, see [Question 10: SVR Hyperparameter Tuning](L5_5_10_explanation.md).
@@ -173,7 +175,7 @@ Implement robust SVR for datasets with different types of noise and outliers.
 1. How does SVR handle Gaussian noise vs heavy-tailed noise distributions?
 2. Design a preprocessing pipeline to detect and handle outliers before SVR training
 3. Compare the robustness of different ε values for datasets with varying noise levels
-4. Implement a robust scaling strategy that's less sensitive to outliers
+4. Design a robust scaling strategy that's less sensitive to outliers
 5. Design an adaptive ε selection method based on data characteristics
 
 For a detailed explanation of this problem, see [Question 11: Robust SVR Implementation](L5_5_11_explanation.md).
@@ -188,7 +190,7 @@ Develop SVR for multi-output regression problems.
 2. How would you share information between different output dimensions?
 3. Design appropriate kernel functions for multi-output scenarios
 4. Compare the computational complexity of independent SVRs vs joint multi-output SVR
-5. Implement a practical algorithm for multi-output SVR with RBF kernels
+5. Design a practical algorithm for multi-output SVR with RBF kernels
 
 For a detailed explanation of this problem, see [Question 12: Multi-output SVR](L5_5_12_explanation.md).
 
@@ -201,7 +203,7 @@ Apply SVR to time series forecasting and sequential data.
 1. How would you transform a time series forecasting problem into a supervised regression problem for SVR?
 2. Design appropriate feature engineering techniques for temporal data
 3. How would you handle non-stationarity in time series using SVR?
-4. Implement a sliding window approach for online SVR learning
+4. Design a sliding window approach for online SVR learning
 5. Compare SVR with ARIMA and LSTM for time series prediction
 
 For a detailed explanation of this problem, see [Question 13: SVR for Time Series](L5_5_13_explanation.md).
@@ -215,7 +217,7 @@ Develop practical implementation guidelines and best practices for SVR.
 1. Create a comprehensive preprocessing checklist for SVR (scaling, outlier detection, feature selection)
 2. Design model validation strategies specific to regression problems
 3. How would you explain SVR predictions to non-technical stakeholders?
-4. Implement uncertainty quantification for SVR predictions
+4. Design uncertainty quantification for SVR predictions
 5. Design a production pipeline for real-time SVR inference with performance monitoring
 
 For a detailed explanation of this problem, see [Question 14: SVR Best Practices](L5_5_14_explanation.md).
@@ -308,7 +310,7 @@ Study how SVR parameters affect performance.
 #### Task
 1. For fixed $ε = 0.1$, predict performance changes as $C: 0.1 \to 1 \to 10$
 2. For fixed $C = 1$, predict changes as $ε: 0.01 \to 0.1 \to 1$
-3. Sketch expected validation error vs. $C$ and vs. $ε$
+3. Sketch expected validation error vs. $C$ and vs. $ε$ (you can draw this by hand)
 4. Design a 2D grid search strategy for $(C, ε)$ optimization
 5. Describe how to detect overfitting in each parameter dimension
 

@@ -14,6 +14,7 @@ Consider a 4-class classification problem with classes $\{A, B, C, D\}$ and $n =
 3. Calculate the class imbalance ratio for each OvR classifier
 4. Which approach (OvR or OvO) suffers more from class imbalance in this scenario?
 5. Design a cost-sensitive modification to handle the imbalance
+6. Organize a tournament with 4 teams: Alpha (400 fans), Beta (300 fans), Gamma (200 fans), Delta (100 fans). Compare Format A (One-vs-Rest: each team vs combined "All Others") and Format B (One-vs-One: round-robin). Design a fairness scoring system accounting for team size differences and calculate competition balance for each format. Determine which format gives smaller teams better chances to win.
 
 For a detailed explanation of this problem, see [Question 1: Multi-class Problem Setup](L5_4_1_explanation.md).
 
@@ -61,7 +62,7 @@ For $K$ classes, OvO trains $\binom{K}{2}$ binary classifiers $f_{ij}(\mathbf{x}
 
 #### Task
 1. Write the decision rule for classifier $f_{ij}(\mathbf{x})$: when does it vote for class $i$ vs class $j$?
-2. Implement the majority voting scheme: $\hat{y} = \arg\max_k \sum_{j \neq k} \mathbb{I}[f_{kj}(\mathbf{x}) > 0]$
+2. Design the majority voting scheme: $\hat{y} = \arg\max_k \sum_{j \neq k} \mathbb{I}[f_{kj}(\mathbf{x}) > 0]$
 3. For $K = 5$ classes, what's the maximum and minimum number of votes a class can receive?
 4. Design a tie-breaking mechanism for cases where multiple classes receive the same number of votes
 5. Derive a confidence measure based on the vote distribution
@@ -87,6 +88,7 @@ Consider a 4-class problem with classes $\{1, 2, 3, 4\}$. For a test point, the 
 3. Calculate the vote confidence ratio
 4. What would happen if we used the sum of decision values instead of vote counting?
 5. Identify potential inconsistencies in the pairwise decisions (voting cycles)
+6. Design a voting system for 4 candidates (Alice, Bob, Carol, David) using pairwise comparisons. Results: Alice beats Bob (0.5), Carol beats Alice (0.2), Alice beats David (0.8), Bob beats Carol (1.1), Bob beats David (0.6), David beats Carol (0.4). Design a vote counting system, calculate election confidence, and create a preference ranking. Handle potential voting paradoxes.
 
 For a detailed explanation of this problem, see [Question 5: OvO Complete Example](L5_4_5_explanation.md).
 
@@ -164,7 +166,7 @@ Consider a dataset with 5 classes where class 1 has 80% of the data and classes 
 #### Task
 1. How would class imbalance affect OvR classifiers differently?
 2. Design class-weighted loss functions for both OvR and OvO
-3. Implement SMOTE (Synthetic Minority Oversampling) strategy for multi-class problems
+3. Design SMOTE (Synthetic Minority Oversampling) strategy for multi-class problems
 4. How would you modify the decision thresholds to account for class imbalance?
 5. Design an evaluation protocol that fairly assesses performance across all classes
 
@@ -194,7 +196,7 @@ Optimize multi-class SVM hyperparameters systematically.
 2. Should you use the same hyperparameters for all binary classifiers or tune them separately?
 3. How would you handle the computational cost of tuning $K$ separate classifiers?
 4. Design an early stopping criterion for expensive hyperparameter searches
-5. Implement a warm-start strategy that leverages solutions from similar binary problems
+5. Design a warm-start strategy that leverages solutions from similar binary problems
 
 For a detailed explanation of this problem, see [Question 12: Hyperparameter Optimization](L5_4_12_explanation.md).
 
@@ -205,17 +207,17 @@ Design a comprehensive practical implementation framework.
 
 #### Task
 1. Create a decision flowchart for choosing between OvR, OvO, and direct methods based on dataset characteristics
-2. Implement preprocessing pipelines specific to multi-class problems
+2. Design preprocessing pipelines specific to multi-class problems
 3. Design efficient prediction pipelines that minimize computational cost
 4. How would you handle online learning scenarios where new classes are added incrementally?
-5. Implement model selection that jointly optimizes kernel choice, multi-class strategy, and hyperparameters
+5. Design model selection that jointly optimizes kernel choice, multi-class strategy, and hyperparameters
 
 For a detailed explanation of this problem, see [Question 13: Practical Implementation Framework](L5_4_13_explanation.md).
 
 ## Question 14
 
 ### Problem Statement
-For a 3-class dataset with classes {A, B, C}, implement One-vs-Rest classification.
+For a 3-class dataset with classes {A, B, C}, design One-vs-Rest classification.
 
 Training data:
 - Class A: $(1, 2)$, $(2, 1)$
@@ -237,7 +239,7 @@ For a detailed explanation of this problem, see [Question 14: OvR Implementation
 ## Question 15
 
 ### Problem Statement
-For a 4-class problem {A, B, C, D}, implement One-vs-One classification.
+For a 4-class problem {A, B, C, D}, design One-vs-One classification.
 
 #### Task
 1. List all $\binom{4}{2} = 6$ binary classifiers needed

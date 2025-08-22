@@ -18,6 +18,7 @@ Consider the classic XOR problem with four points:
 3. Find a linear hyperplane in the 3D feature space that separates the transformed data
 4. Express the decision boundary in the original 2D space
 5. Calculate the kernel function $K(\mathbf{x}, \mathbf{z}) = \phi(\mathbf{x})^T\phi(\mathbf{z})$ for this transformation
+6. Design a puzzle game with four squares in a 2×2 grid. Valid patterns have exactly one colored square (positions $(0,1)$ or $(1,0)$), while invalid patterns have no squares colored $(0,0)$ or all squares colored $(1,1)$. Design a 3D thinking tool to help players visualize patterns and create a rule for determining if patterns are solvable using 3D separation.
 
 For a detailed explanation of this problem, see [Question 1: XOR Problem and Feature Transformation](L5_3_1_explanation.md).
 
@@ -62,6 +63,7 @@ Analyze the RBF (Gaussian) kernel: $K(\mathbf{x}, \mathbf{z}) = \exp(-\gamma ||\
 3. Prove that $0 \leq K(\mathbf{x}, \mathbf{z}) \leq 1$ for any $\mathbf{x}, \mathbf{z}$
 4. Derive the behavior of $K(\mathbf{x}, \mathbf{z})$ as $||\mathbf{x} - \mathbf{z}|| \rightarrow \infty$
 5. Show that the RBF kernel corresponds to an infinite-dimensional feature space
+6. Design a recommendation system using user genre preferences. User A: Action=8, Romance=2; User B: Action=2, Romance=8; User C: Action=5, Romance=5. Using similarity function $K(\mathbf{x}, \mathbf{z}) = \exp(-\gamma ||\mathbf{x} - \mathbf{z}||^2)$, calculate similarity scores for $\gamma = 0.5, 1, 2$ and design a recommendation confidence system. Determine the optimal $\gamma$ for 70% similarity threshold.
 
 For a detailed explanation of this problem, see [Question 4: RBF Kernel Properties](L5_3_4_explanation.md).
 
@@ -71,7 +73,7 @@ For a detailed explanation of this problem, see [Question 4: RBF Kernel Properti
 Study the effect of the RBF kernel parameter $\gamma$ on decision boundaries.
 
 #### Task
-1. For a 1D dataset with points $x_1 = -1, x_2 = 1$ (different classes), sketch the decision boundary for $\gamma = 0.1, 1, 10$
+1. For a 1D dataset with points $x_1 = -1, x_2 = 1$ (different classes), sketch the decision boundary for $\gamma = 0.1, 1, 10$ (you can draw this by hand)
 2. Predict how $\gamma$ affects overfitting and underfitting
 3. Derive the limit behavior as $\gamma \rightarrow 0$ and $\gamma \rightarrow \infty$
 4. Design a synthetic 2D dataset where small $\gamma$ performs better than large $\gamma$
@@ -131,7 +133,7 @@ Design custom kernels for specific applications.
 2. Design a graph kernel that measures similarity between graph structures
 3. Develop a kernel for time series that is invariant to time shifts
 4. Verify that your string kernel satisfies Mercer's conditions
-5. Implement a normalized version of your kernels: $\tilde{K}(\mathbf{x}, \mathbf{z}) = \frac{K(\mathbf{x}, \mathbf{z})}{\sqrt{K(\mathbf{x}, \mathbf{x})K(\mathbf{z}, \mathbf{z})}}$
+5. Design a normalized version of your kernels: $\tilde{K}(\mathbf{x}, \mathbf{z}) = \frac{K(\mathbf{x}, \mathbf{z})}{\sqrt{K(\mathbf{x}, \mathbf{x})K(\mathbf{z}, \mathbf{z})}}$
 
 For a detailed explanation of this problem, see [Question 9: Custom Kernel Design](L5_3_9_explanation.md).
 
@@ -171,7 +173,7 @@ Implement kernel approximation techniques for large-scale problems.
 #### Task
 1. Describe the Nyström method for low-rank kernel matrix approximation
 2. For a rank-$r$ approximation of an $n \times n$ kernel matrix, what are the computational savings?
-3. Implement random Fourier features for RBF kernel approximation
+3. Design random Fourier features for RBF kernel approximation
 4. How does the approximation quality affect SVM performance?
 5. Design an adaptive algorithm that chooses the approximation rank based on desired accuracy
 
@@ -184,7 +186,7 @@ Study kernel parameter optimization using grid search and cross-validation.
 
 #### Task
 1. For an RBF kernel, design a grid search over $C \in [10^{-3}, 10^3]$ and $\gamma \in [10^{-4}, 10^1]$
-2. Implement nested cross-validation for unbiased parameter selection
+2. Design nested cross-validation for unbiased parameter selection
 3. How many hyperparameter combinations should you test for reliable results?
 4. Design an early stopping criterion for expensive parameter searches
 5. Compare grid search vs random search vs Bayesian optimization for kernel parameter tuning
@@ -201,7 +203,7 @@ Investigate kernel learning and adaptive kernels.
 2. Design a gradient descent algorithm for optimizing RBF kernel parameters
 3. How would you learn the optimal weights for a combination of multiple kernels?
 4. What are the risks of overfitting when learning kernel parameters?
-5. Implement cross-validation specifically for kernel parameter selection
+5. Design cross-validation specifically for kernel parameter selection
 
 For a detailed explanation of this problem, see [Question 14: Kernel Learning](L5_3_14_explanation.md).
 
@@ -270,7 +272,7 @@ Analyze the RBF kernel $K(\mathbf{x}, \mathbf{z}) = \exp(-\gamma ||\mathbf{x} - 
 
 #### Task
 1. For points $(1, 0)$, $(0, 1)$, $(2, 2)$, calculate all pairwise kernel values with $\gamma = 0.5$
-2. Plot kernel value vs. distance for $\gamma = 0.1, 1, 10$
+2. Sketch kernel value vs. distance for $\gamma = 0.1, 1, 10$ (you can draw this by hand)
 3. Predict how the decision boundary complexity changes with $\gamma$
 4. Interpret kernel values as similarity scores and rank point pairs
 5. For a dataset with average pairwise distance $d_{avg} = 2$, estimate appropriate $\gamma$ range
