@@ -1,147 +1,231 @@
 # Lecture 5.2: Hard Margin and Soft Margin SVMs Quiz
 
 ## Overview
-This quiz contains 10 questions covering different topics from section 5.2 of the lectures on Hard Margin SVM, Soft Margin SVM, Slack Variables, Regularization Trade-offs, and Hinge Loss Function.
+This quiz contains 14 questions covering different topics from section 5.2 of the lectures on Hard Margin SVM, Soft Margin SVM, Slack Variables, Regularization Trade-offs, Hinge Loss Function, and KKT Conditions.
 
 ## Question 1
 
 ### Problem Statement
-Consider a simple 2D dataset with potential outliers:
-- Class +1: $(2, 3)$, $(3, 2)$, $(4, 3)$, and one potential outlier at $(1, 4)$
-- Class -1: $(0, 0)$, $(1, 1)$, $(0, 2)$
+Consider a 2D dataset with outliers:
+- Class $+1$: $(3, 2)$, $(4, 3)$, $(5, 2)$, $(1, 4)$ (potential outlier)
+- Class $-1$: $(0, 0)$, $(1, 1)$, $(0, 2)$
 
 #### Task
-1. [📚] Sketch these points and try to draw a separating line for the hard margin case
-2. [🔍] Explain what would happen to the hard margin SVM if the outlier $(1, 4)$ makes the data non-linearly separable
-3. [🔍] Why might the hard margin approach be problematic in this scenario?
-4. [📚] How would soft margin SVM handle this situation differently?
+1. Plot the data and determine if it's linearly separable
+2. Explain why hard margin SVM would fail on this dataset
+3. Calculate the minimum number of constraint violations needed to make the data separable
+4. Design a soft margin SVM formulation that handles the outlier appropriately
+5. What would be the effect of removing the outlier $(1, 4)$ on the hard margin solution?
 
-For a detailed explanation of this problem, see [Question 1: Hard vs Soft Margin with Outliers](L5_2_1_explanation.md).
+For a detailed explanation of this problem, see [Question 1: Hard Margin Limitations](L5_2_1_explanation.md).
 
 ## Question 2
 
 ### Problem Statement
-Consider the hard margin SVM optimization problem:
-$$\min_{\mathbf{w}, b} \frac{1}{2}||\mathbf{w}||^2$$
-$$\text{subject to: } y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1, \quad i = 1, \ldots, n$$
-
-#### Task
-1. [🔍] What assumption does this formulation make about the data?
-2. [📚] What happens if even one training point violates the constraint $y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1$?
-3. [📚] Why can't this formulation handle noisy or overlapping data?
-4. [🔍] In what practical scenarios might hard margin SVM still be useful?
-
-For a detailed explanation of this problem, see [Question 2: Hard Margin Limitations](L5_2_2_explanation.md).
-
-## Question 3
-
-### Problem Statement
-Consider the soft margin SVM optimization problem:
+Analyze the soft margin SVM optimization problem:
 $$\min_{\mathbf{w}, b, \boldsymbol{\xi}} \frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i$$
 $$\text{subject to: } y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0$$
 
 #### Task
-1. [📚] What do the slack variables $\xi_i$ represent geometrically?
-2. [📚] Why do we need the constraint $\xi_i \geq 0$?
-3. [🔍] How does the term $C\sum_{i=1}^n \xi_i$ in the objective function affect the optimization?
-4. [📚] What is the modified constraint compared to the hard margin case?
+1. Derive this formulation from the hard margin case by introducing slack variables
+2. What is the geometric interpretation of each slack variable $\xi_i$?
+3. Prove that the constraint $\xi_i \geq 0$ is necessary for the formulation to make sense
+4. Show that in the optimal solution, $\xi_i = \max(0, 1 - y_i(\mathbf{w}^T\mathbf{x}_i + b))$
+5. What happens to the problem when $C \to \infty$?
 
-For a detailed explanation of this problem, see [Question 3: Soft Margin Formulation](L5_2_3_explanation.md).
+For a detailed explanation of this problem, see [Question 2: Soft Margin Formulation](L5_2_2_explanation.md).
+
+## Question 3
+
+### Problem Statement
+Given a dataset with the following training points and their optimal slack variables:
+- $(\mathbf{x}_1, y_1) = ((2, 1), +1)$, $\xi_1 = 0$
+- $(\mathbf{x}_2, y_2) = ((1, 2), +1)$, $\xi_2 = 0.3$
+- $(\mathbf{x}_3, y_3) = ((0, 0), -1)$, $\xi_3 = 0$
+- $(\mathbf{x}_4, y_4) = ((1, 0), -1)$, $\xi_4 = 1.2$
+
+#### Task
+1. Interpret what each slack variable value means geometrically
+2. Which points are correctly classified and which are misclassified?
+3. Which points lie within the margin, on the margin, or outside the margin?
+4. If the hyperplane is $x_1 + x_2 - 1.5 = 0$, verify the slack variable values
+5. Calculate the total penalty $\sum_{i=1}^4 \xi_i$ contributed to the objective function
+
+For a detailed explanation of this problem, see [Question 3: Slack Variable Analysis](L5_2_3_explanation.md).
 
 ## Question 4
 
 ### Problem Statement
-Consider the interpretation of slack variable values for different training points.
+Analyze the effect of the regularization parameter $C$ on soft margin SVM behavior.
 
 #### Task
-1. [📚] For a point with $\xi_i = 0$, what can you say about its position relative to the margin?
-2. [📚] For a point with $0 < \xi_i < 1$, where is this point located?
-3. [📚] For a point with $\xi_i = 1$, what is special about this point?
-4. [📚] For a point with $\xi_i > 1$, what does this indicate about the classification?
-5. [🔍] Sketch a 2D example showing points with different slack variable values
+1. For $C = 0.1, 1, 10, 100$, predict the qualitative behavior of the classifier
+2. Derive the relationship between $C$ and the bias-variance tradeoff
+3. As $C$ increases, how does the number of support vectors typically change?
+4. Design an experiment to find the optimal $C$ using validation curves
+5. Prove that the soft margin SVM solution approaches the hard margin solution as $C \to \infty$
 
-For a detailed explanation of this problem, see [Question 4: Slack Variable Interpretation](L5_2_4_explanation.md).
+For a detailed explanation of this problem, see [Question 4: Regularization Parameter Analysis](L5_2_4_explanation.md).
 
 ## Question 5
 
 ### Problem Statement
-Consider the regularization parameter $C$ and its effect on the SVM behavior.
+Consider the hinge loss function: $L_h(y, f(x)) = \max(0, 1 - y \cdot f(x))$ where $f(x) = \mathbf{w}^T\mathbf{x} + b$.
 
 #### Task
-1. [📚] When $C \to \infty$, what happens to the soft margin SVM? What does it become equivalent to?
-2. [📚] When $C \to 0$, what happens to the decision boundary and slack variables?
-3. [🔍] How does increasing $C$ affect the bias-variance tradeoff?
-4. [🔍] How does increasing $C$ typically affect the number of support vectors?
-5. [📚] Give a practical example of when you might choose a small vs. large value of $C$
+1. Calculate the hinge loss for the following predictions:
+   - $y = +1$, $f(x) = 2.5$
+   - $y = +1$, $f(x) = 0.8$
+   - $y = +1$, $f(x) = -0.3$
+   - $y = -1$, $f(x) = -1.7$
+   - $y = -1$, $f(x) = 0.4$
+2. Plot the hinge loss as a function of $y \cdot f(x)$
+3. Show that $\xi_i = L_h(y_i, f(\mathbf{x}_i))$ in the soft margin formulation
+4. Compare the derivative properties of hinge loss vs squared loss
+5. Prove that hinge loss upper bounds the 0-1 loss
 
-For a detailed explanation of this problem, see [Question 5: Regularization Parameter C Effects](L5_2_5_explanation.md).
+For a detailed explanation of this problem, see [Question 5: Hinge Loss Analysis](L5_2_5_explanation.md).
 
 ## Question 6
 
 ### Problem Statement
-Consider the hinge loss function: $L(y, f(x)) = \max(0, 1 - y \cdot f(x))$ where $f(x) = \mathbf{w}^T\mathbf{x} + b$.
+Compare different loss functions for classification:
+- 0-1 Loss: $L_{01}(y, f(x)) = \mathbb{I}[y \cdot f(x) \leq 0]$
+- Hinge Loss: $L_h(y, f(x)) = \max(0, 1 - y \cdot f(x))$
+- Logistic Loss: $L_{\ell}(y, f(x)) = \log(1 + e^{-y \cdot f(x)})$
+- Squared Loss: $L_s(y, f(x)) = (y - f(x))^2$
 
 #### Task
-1. [📚] For a correctly classified point with $y \cdot f(x) = 2$, what is the hinge loss?
-2. [📚] For a point on the margin boundary with $y \cdot f(x) = 1$, what is the hinge loss?
-3. [📚] For a misclassified point with $y \cdot f(x) = -0.5$, what is the hinge loss?
-4. [🔍] Why is the hinge loss called "hinge" loss? Describe its shape.
-5. [📚] How does the hinge loss relate to the slack variables in soft margin SVM?
+1. Plot all four loss functions on the same graph for $y = +1$ and $f(x) \in [-3, 3]$
+2. Calculate the loss values for each function when $y = +1$ and $f(x) = 0.5$
+3. Which losses are convex and which are not? Prove your answers
+4. Which loss is most robust to outliers and why?
+5. Derive the gradients of each loss function with respect to $f(x)$
 
-For a detailed explanation of this problem, see [Question 6: Hinge Loss Calculation](L5_2_6_explanation.md).
+For a detailed explanation of this problem, see [Question 6: Loss Function Comparison](L5_2_6_explanation.md).
 
 ## Question 7
 
 ### Problem Statement
-Compare the hinge loss with other loss functions commonly used in machine learning.
+Derive and analyze the KKT conditions for soft margin SVM.
+
+The Lagrangian is:
+$$L = \frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n \alpha_i[y_i(\mathbf{w}^T\mathbf{x}_i + b) - 1 + \xi_i] - \sum_{i=1}^n \mu_i \xi_i$$
 
 #### Task
-1. [🔍] How does the hinge loss compare to the 0-1 loss (simple classification error)?
-2. [🔍] How does the hinge loss compare to the logistic loss used in logistic regression?
-3. [🔍] How does the hinge loss compare to the squared loss $(y - f(x))^2$?
-4. [📚] Why is the hinge loss considered a good approximation to the 0-1 loss?
-5. [🔍] What are the computational advantages of hinge loss over 0-1 loss?
+1. Write out all KKT stationarity conditions
+2. Derive the constraint $\sum_{i=1}^n \alpha_i y_i = 0$
+3. Show that $\alpha_i + \mu_i = C$ for all $i$
+4. Prove that $0 \leq \alpha_i \leq C$ for all $i$
+5. Classify training points based on their $\alpha_i$ and $\xi_i$ values
 
-For a detailed explanation of this problem, see [Question 7: Loss Function Comparison](L5_2_7_explanation.md).
+For a detailed explanation of this problem, see [Question 7: KKT Conditions Derivation](L5_2_7_explanation.md).
 
 ## Question 8
 
 ### Problem Statement
-Consider the KKT (Karush-Kuhn-Tucker) conditions for the soft margin SVM.
+Categorize support vectors in soft margin SVM based on KKT conditions.
 
 #### Task
-1. [📚] For the soft margin SVM, what are the types of points based on their KKT conditions?
-2. [📚] For a point with $\alpha_i = 0$, what can you say about its slack variable and position?
-3. [📚] For a point with $0 < \alpha_i < C$, what constraints must be satisfied?
-4. [📚] For a point with $\alpha_i = C$, what does this indicate?
-5. [🔍] How do the KKT conditions help identify support vectors in soft margin SVM?
+1. For $\alpha_i = 0$, what can you conclude about the point $\mathbf{x}_i$?
+2. For $0 < \alpha_i < C$, derive the conditions on $\xi_i$ and the point's position
+3. For $\alpha_i = C$, what are the possible scenarios for $\xi_i$?
+4. Create a decision tree for classifying points based on $(\alpha_i, \xi_i)$ values
+5. Given the following points, classify them:
+   - Point A: $\alpha_A = 0$, $\xi_A = 0$
+   - Point B: $\alpha_B = 0.5C$, $\xi_B = 0$
+   - Point C: $\alpha_C = C$, $\xi_C = 0.8$
+   - Point D: $\alpha_D = C$, $\xi_D = 1.5$
 
-For a detailed explanation of this problem, see [Question 8: KKT Conditions](L5_2_8_explanation.md).
+For a detailed explanation of this problem, see [Question 8: Support Vector Classification](L5_2_8_explanation.md).
 
 ## Question 9
 
 ### Problem Statement
-Consider the relationship between different types of support vectors in soft margin SVM.
+Solve a small soft margin SVM problem analytically.
+
+Consider the dataset:
+- $\mathbf{x}_1 = (1, 0)$, $y_1 = +1$
+- $\mathbf{x}_2 = (0, 1)$, $y_2 = +1$
+- $\mathbf{x}_3 = (-1, 0)$, $y_3 = -1$
+- $\mathbf{x}_4 = (0, -1)$, $y_4 = -1$
+- $\mathbf{x}_5 = (0.1, 0.1)$, $y_5 = -1$ (outlier)
 
 #### Task
-1. [🔍] What is the difference between "margin support vectors" and "error support vectors"?
-2. [📚] For margin support vectors, what are the values of $\alpha_i$ and $\xi_i$?
-3. [📚] For error support vectors, what are the possible values of $\alpha_i$ and $\xi_i$?
-4. [🔍] Which type of support vectors lie exactly on the margin boundary?
-5. [📚] How does the presence of error support vectors affect the decision boundary?
+1. Set up the dual optimization problem for soft margin SVM with $C = 1$
+2. Solve for the optimal Lagrange multipliers $\alpha_i$
+3. Calculate the optimal weight vector $\mathbf{w}^*$ and bias $b^*$
+4. Determine the slack variable $\xi_5$ for the outlier point
+5. Verify that your solution satisfies all KKT conditions
 
-For a detailed explanation of this problem, see [Question 9: Types of Support Vectors](L5_2_9_explanation.md).
+For a detailed explanation of this problem, see [Question 9: Analytical Solution Example](L5_2_9_explanation.md).
 
 ## Question 10
 
 ### Problem Statement
-Consider practical strategies for hyperparameter selection in soft margin SVMs.
+Design experiments to understand the bias-variance tradeoff in soft margin SVMs.
 
 #### Task
-1. [🔍] Describe a systematic approach for selecting the optimal value of $C$ using cross-validation
-2. [📚] What metrics should you monitor when tuning $C$ (training error, validation error, number of support vectors)?
-3. [🔍] How would you detect if your chosen $C$ value leads to overfitting or underfitting?
-4. [📚] What role does the validation curve (performance vs. $C$) play in hyperparameter selection?
-5. [🔍] In a scenario with severe class imbalance, how might you adjust your approach to selecting $C$?
+1. Describe how you would generate synthetic datasets to study the effect of $C$
+2. Design a cross-validation scheme to select the optimal $C$ value
+3. Predict how training error and validation error curves will look as functions of $C$
+4. What metrics would you use to evaluate the bias and variance components?
+5. How would noise level in the data affect the optimal choice of $C$?
 
-For a detailed explanation of this problem, see [Question 10: Hyperparameter Selection](L5_2_10_explanation.md).
+For a detailed explanation of this problem, see [Question 10: Experimental Design](L5_2_10_explanation.md).
+
+## Question 11
+
+### Problem Statement
+Analyze the computational complexity differences between hard and soft margin SVMs.
+
+#### Task
+1. Compare the number of optimization variables in hard vs soft margin formulations
+2. How does the addition of slack variables affect the QP problem structure?
+3. What is the worst-case time complexity for solving soft margin SVM?
+4. How does the choice of $C$ affect convergence properties of optimization algorithms?
+5. Estimate the memory requirements for storing the extended problem formulation
+
+For a detailed explanation of this problem, see [Question 11: Computational Complexity](L5_2_11_explanation.md).
+
+## Question 12
+
+### Problem Statement
+Investigate the relationship between soft margin SVM and regularized empirical risk minimization.
+
+#### Task
+1. Show that soft margin SVM can be written as: $\min_{\mathbf{w}, b} \frac{\lambda}{2}||\mathbf{w}||^2 + \frac{1}{n}\sum_{i=1}^n L_h(y_i, \mathbf{w}^T\mathbf{x}_i + b)$
+2. What is the relationship between $\lambda$ and $C$?
+3. Compare this to Ridge regression formulation
+4. How does this connect SVM to the general framework of regularized learning?
+5. What other loss functions could be substituted while maintaining convexity?
+
+For a detailed explanation of this problem, see [Question 12: Regularized Risk Minimization](L5_2_12_explanation.md).
+
+## Question 13
+
+### Problem Statement
+Study the geometric interpretation of the soft margin in 2D.
+
+#### Task
+1. For the hyperplane $x_1 + 2x_2 - 3 = 0$, draw the margin boundaries
+2. Sketch points with different slack variable values: $\xi = 0, 0.5, 1.0, 1.5$
+3. Show how the margin changes as $C$ varies from $0.1$ to $10$
+4. Illustrate the effect of adding an outlier point on the decision boundary
+5. Compare the margins achieved with $C = 1$ vs $C = 100$ for the same dataset
+
+For a detailed explanation of this problem, see [Question 13: Geometric Interpretation](L5_2_13_explanation.md).
+
+## Question 14
+
+### Problem Statement
+Practical implementation considerations for soft margin SVMs.
+
+#### Task
+1. How would you handle the case where all points are outliers (all $\xi_i > 0$)?
+2. What preprocessing steps are essential for soft margin SVM?
+3. Design a grid search strategy for finding optimal $C$ values
+4. How would you detect when $C$ is too small or too large from the solution characteristics?
+5. What stopping criteria would you use for iterative optimization algorithms?
+
+For a detailed explanation of this problem, see [Question 14: Implementation Considerations](L5_2_14_explanation.md).

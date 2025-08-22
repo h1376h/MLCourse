@@ -1,146 +1,221 @@
 # Lecture 5.5: SVM Regression Quiz
 
 ## Overview
-This quiz contains 10 questions covering different topics from section 5.5 of the lectures on Support Vector Regression (SVR), ε-insensitive Loss, Linear and Nonlinear SVR, ν-SVR, and SVR Implementation.
+This quiz contains 14 questions covering different topics from section 5.5 of the lectures on Support Vector Regression (SVR), ε-insensitive Loss, Linear and Nonlinear SVR, ν-SVR, and SVR Implementation.
 
 ## Question 1
 
 ### Problem Statement
-Consider the fundamental difference between SVM classification and Support Vector Regression (SVR).
+Consider the fundamental differences between SVM classification and Support Vector Regression (SVR).
 
 #### Task
-1. [🔍] In SVM classification, we try to maximize the margin between classes. What does SVR try to optimize instead?
-2. [📚] Instead of predicting discrete class labels, what does SVR predict?
-3. [📚] In classification, support vectors are points on the margin boundary. What are support vectors in SVR?
-4. [🔍] How does the concept of "margin" translate from classification to regression?
+1. In classification, we maximize the margin between classes. What is the analogous concept in SVR?
+2. Instead of discrete class labels, SVR predicts continuous values. How does this change the loss function?
+3. Define support vectors in the context of regression
+4. For the regression function $f(x) = \mathbf{w}^T\mathbf{x} + b$, what does the ε-tube represent geometrically?
+5. Compare the decision boundary concept in classification vs the regression function in SVR
 
-For a detailed explanation of this problem, see [Question 1: SVR vs SVM Classification](L5_5_1_explanation.md).
+For a detailed explanation of this problem, see [Question 1: SVR Fundamentals](L5_5_1_explanation.md).
 
 ## Question 2
 
 ### Problem Statement
-Consider the ε-insensitive loss function used in SVR: $L_ε(y, f(x)) = \max(0, |y - f(x)| - ε)$.
+Analyze the ε-insensitive loss function: $L_ε(y, f(x)) = \max(0, |y - f(x)| - ε)$.
+
+Given the following predictions and true values with $ε = 0.3$:
+- $(y_1, f(x_1)) = (2.5, 2.8)$
+- $(y_2, f(x_2)) = (1.0, 1.5)$
+- $(y_3, f(x_3)) = (3.2, 2.7)$
+- $(y_4, f(x_4)) = (0.8, 0.9)$
+- $(y_5, f(x_5)) = (4.1, 3.5)$
 
 #### Task
-1. [📚] For a prediction $f(x) = 3.2$ and true value $y = 3.5$ with $ε = 0.5$, what is the ε-insensitive loss?
-2. [📚] For a prediction $f(x) = 2.8$ and true value $y = 3.5$ with $ε = 0.5$, what is the ε-insensitive loss?
-3. [📚] For a prediction $f(x) = 4.2$ and true value $y = 3.5$ with $ε = 0.5$, what is the ε-insensitive loss?
-4. [🔍] Explain why this loss function creates an "ε-tube" around the regression function
-5. [📚] How does ε-insensitive loss compare to squared loss $(y - f(x))^2$ in terms of robustness to outliers?
+1. Calculate the ε-insensitive loss for each prediction
+2. Which points lie within the ε-tube?
+3. Compare these losses to squared loss: $(y - f(x))^2$
+4. Plot the ε-insensitive loss function for $ε = 0.3$
+5. Show that the ε-insensitive loss is more robust to outliers than squared loss
 
-For a detailed explanation of this problem, see [Question 2: ε-insensitive Loss Function](L5_5_2_explanation.md).
+For a detailed explanation of this problem, see [Question 2: ε-insensitive Loss Analysis](L5_5_2_explanation.md).
 
 ## Question 3
 
 ### Problem Statement
-Consider the SVR optimization problem with slack variables:
+Derive and analyze the SVR optimization problem:
 $$\min_{\mathbf{w}, b, \boldsymbol{\xi}, \boldsymbol{\xi}^*} \frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n (\xi_i + \xi_i^*)$$
 $$\text{subject to: } y_i - \mathbf{w}^T\mathbf{x}_i - b \leq ε + \xi_i$$
 $$\mathbf{w}^T\mathbf{x}_i + b - y_i \leq ε + \xi_i^*$$
 $$\xi_i, \xi_i^* \geq 0$$
 
 #### Task
-1. [📚] Why do we need both $\xi_i$ and $\xi_i^*$ slack variables (instead of just one)?
-2. [📚] What do the constraints $y_i - \mathbf{w}^T\mathbf{x}_i - b \leq ε + \xi_i$ and $\mathbf{w}^T\mathbf{x}_i + b - y_i \leq ε + \xi_i^*$ represent?
-3. [🔍] For a point that lies exactly on the upper boundary of the ε-tube, what are the values of $\xi_i$ and $\xi_i^*$?
-4. [📚] For a point that lies outside the ε-tube, which slack variable(s) will be non-zero?
+1. Explain why we need both $\xi_i$ and $\xi_i^*$ (upper and lower slack variables)
+2. What do the constraints represent geometrically in terms of the ε-tube?
+3. Prove that at most one of $\xi_i$ or $\xi_i^*$ can be non-zero for any training point
+4. Write the Lagrangian for this optimization problem
+5. Derive the KKT conditions for optimality
 
 For a detailed explanation of this problem, see [Question 3: SVR Optimization Formulation](L5_5_3_explanation.md).
 
 ## Question 4
 
 ### Problem Statement
-Consider the role of support vectors in SVR.
+Solve a small SVR problem analytically.
+
+Consider the 1D dataset:
+- $(x_1, y_1) = (1, 2)$
+- $(x_2, y_2) = (2, 3)$
+- $(x_3, y_3) = (3, 5)$ (potential outlier)
+
+With $ε = 0.5$ and $C = 1$.
 
 #### Task
-1. [📚] In SVR, what are the three types of points based on their relationship to the ε-tube?
-2. [📚] Which points become support vectors in SVR?
-3. [🔍] For a point lying inside the ε-tube, what are its corresponding Lagrange multipliers $\alpha_i$ and $\alpha_i^*$?
-4. [📚] For a point lying exactly on the boundary of the ε-tube, what can you say about its Lagrange multipliers?
-5. [🔍] How does the number of support vectors in SVR relate to the choice of $ε$ parameter?
+1. Set up the primal optimization problem
+2. Identify which points will be support vectors
+3. For a linear model $f(x) = wx + b$, solve for the optimal $w$ and $b$
+4. Calculate the slack variables $\xi_i$ and $\xi_i^*$ for each point
+5. Verify that your solution satisfies all KKT conditions
 
-For a detailed explanation of this problem, see [Question 4: Support Vectors in SVR](L5_5_4_explanation.md).
+For a detailed explanation of this problem, see [Question 4: SVR Analytical Solution](L5_5_4_explanation.md).
 
 ## Question 5
 
 ### Problem Statement
-Consider the effect of the ε parameter on SVR behavior.
+Categorize points in SVR based on their relationship to the ε-tube.
 
 #### Task
-1. [📚] When ε is very small (close to 0), what happens to the SVR model?
-2. [📚] When ε is very large, what happens to the SVR model?
-3. [🔍] How does changing ε affect the number of support vectors?
-4. [🔍] How does changing ε affect the bias-variance tradeoff?
-5. [📚] For noisy data, would you generally prefer a smaller or larger ε value, and why?
+1. For points inside the ε-tube: what are the values of $\xi_i$, $\xi_i^*$, $\alpha_i$, and $\alpha_i^*$?
+2. For points exactly on the ε-tube boundary: what are the constraint conditions?
+3. For points outside the ε-tube: which Lagrange multipliers are non-zero?
+4. Create a decision tree for classifying points based on their $(α_i, α_i^*, ξ_i, ξ_i^*)$ values
+5. How does the number of support vectors relate to the choice of $ε$?
 
-For a detailed explanation of this problem, see [Question 5: ε Parameter Effects](L5_5_5_explanation.md).
+For a detailed explanation of this problem, see [Question 5: Support Vector Classification in SVR](L5_5_5_explanation.md).
 
 ## Question 6
 
 ### Problem Statement
-Consider the ν-SVR formulation as an alternative to ε-SVR.
+Analyze the effect of the ε parameter on SVR behavior.
 
 #### Task
-1. [🔍] What is the main difference between ε-SVR and ν-SVR in terms of parameter specification?
-2. [📚] In ν-SVR, what does the parameter ν control (what are its bounds and interpretation)?
-3. [🔍] What is the advantage of ν-SVR over ε-SVR in terms of parameter selection?
-4. [📚] How is the ε value automatically determined in ν-SVR?
-5. [🔍] When might you prefer ν-SVR over ε-SVR in practice?
+1. Derive the limit behavior as $ε \to 0$: what happens to the loss function and solution?
+2. Derive the limit behavior as $ε \to \infty$: what happens to the optimization problem?
+3. For a noisy dataset, predict how $ε$ affects bias vs variance tradeoff
+4. Design an experiment to determine the optimal $ε$ value using cross-validation
+5. Show that smaller $ε$ generally leads to more support vectors
 
-For a detailed explanation of this problem, see [Question 6: ν-SVR Formulation](L5_5_6_explanation.md).
+For a detailed explanation of this problem, see [Question 6: ε Parameter Effects](L5_5_6_explanation.md).
 
 ## Question 7
 
 ### Problem Statement
-Consider applying kernels to SVR for nonlinear regression.
+Compare ε-SVR with ν-SVR formulation.
+
+The ν-SVR optimization problem is:
+$$\min_{\mathbf{w}, b, \boldsymbol{\xi}, \boldsymbol{\xi}^*, ε} \frac{1}{2}||\mathbf{w}||^2 + C\left(ν ε + \frac{1}{n}\sum_{i=1}^n (\xi_i + \xi_i^*)\right)$$
 
 #### Task
-1. [📚] How do you extend linear SVR to handle nonlinear relationships using kernels?
-2. [📚] What are the most commonly used kernels for regression tasks?
-3. [🔍] For time series data with periodic patterns, what type of kernel might be most appropriate?
-4. [📚] How does the RBF kernel parameter γ affect the flexibility of the regression function in SVR?
-5. [🔍] What happens to the computational complexity when using kernels in SVR compared to linear SVR?
+1. What is the key difference in parameterization between ε-SVR and ν-SVR?
+2. What does the parameter $ν \in (0,1)$ control in ν-SVR?
+3. How is $ε$ automatically determined in ν-SVR?
+4. Prove that $ν$ provides an upper bound on the fraction of training errors
+5. When would you prefer ν-SVR over ε-SVR in practice?
 
-For a detailed explanation of this problem, see [Question 7: Nonlinear SVR with Kernels](L5_5_7_explanation.md).
+For a detailed explanation of this problem, see [Question 7: ν-SVR vs ε-SVR](L5_5_7_explanation.md).
 
 ## Question 8
 
 ### Problem Statement
-Compare SVR with other regression methods.
+Extend SVR to nonlinear regression using kernels.
 
 #### Task
-1. [🔍] **vs. Linear Regression**: In what scenarios might SVR be preferred over ordinary least squares linear regression?
-2. [🔍] **vs. Ridge Regression**: How does the regularization in SVR compare to L2 regularization in Ridge regression?
-3. [🔍] **vs. Neural Networks**: What are the advantages and disadvantages of SVR compared to neural network regression?
-4. [📚] **Robustness**: Which regression method is generally more robust to outliers: SVR or linear regression?
-5. [🔍] **Interpretability**: How does the interpretability of SVR compare to linear regression?
+1. Show how the kernel trick applies to SVR: rewrite the decision function in terms of support vectors
+2. For the RBF kernel $K(x, z) = \exp(-\gamma(x-z)^2)$, what happens to the regression function's flexibility as $\gamma$ increases?
+3. Design a kernel appropriate for time series regression with seasonal patterns
+4. How does kernel choice affect the interpretability of SVR models?
+5. Compare the computational complexity of linear vs nonlinear SVR
 
-For a detailed explanation of this problem, see [Question 8: SVR Comparison with Other Methods](L5_5_8_explanation.md).
+For a detailed explanation of this problem, see [Question 8: Nonlinear SVR with Kernels](L5_5_8_explanation.md).
 
 ## Question 9
 
 ### Problem Statement
-Consider practical hyperparameter tuning for SVR.
+Compare SVR with other regression methods systematically.
 
 #### Task
-1. [📚] For an RBF kernel SVR, what are the main hyperparameters you need to tune?
-2. [🔍] Describe a systematic approach for tuning C, ε, and γ parameters using cross-validation
-3. [📚] What ranges would you typically search for these parameters (C, ε, γ)?
-4. [🔍] How can you detect overfitting vs. underfitting during SVR parameter tuning?
-5. [📚] What validation metrics are most appropriate for evaluating SVR performance (MSE, MAE, R²)?
+1. **vs Linear Regression**: Compare robustness to outliers, assumptions, and computational complexity
+2. **vs Ridge Regression**: How do the regularization mechanisms differ?
+3. **vs LASSO**: Compare feature selection capabilities and sparsity
+4. **vs Neural Networks**: Compare expressiveness, interpretability, and training complexity
+5. Design experiments to empirically compare these methods on synthetic and real datasets
 
-For a detailed explanation of this problem, see [Question 9: SVR Hyperparameter Tuning](L5_5_9_explanation.md).
+For a detailed explanation of this problem, see [Question 9: SVR vs Other Regression Methods](L5_5_9_explanation.md).
 
 ## Question 10
 
 ### Problem Statement
-Consider practical implementation considerations for SVR.
+Design a comprehensive hyperparameter tuning strategy for SVR.
 
 #### Task
-1. [📚] What preprocessing steps are crucial for SVR (feature scaling, outlier handling, etc.)?
-2. [🔍] How should you handle missing values in the input features for SVR?
-3. [📚] For very large datasets, what strategies can you use to make SVR training more efficient?
-4. [🔍] How do you interpret and explain SVR predictions to non-technical stakeholders?
-5. [📚] In what real-world scenarios would you recommend SVR over simpler regression methods?
+1. For RBF kernel SVR, what hyperparameters need to be tuned simultaneously?
+2. Design a nested cross-validation scheme for unbiased hyperparameter selection
+3. What search ranges would you use for $C$, $ε$, and $\gamma$ parameters?
+4. Implement early stopping criteria for expensive parameter searches
+5. How would you detect overfitting vs underfitting during the tuning process?
 
-For a detailed explanation of this problem, see [Question 10: SVR Implementation Considerations](L5_5_10_explanation.md).
+For a detailed explanation of this problem, see [Question 10: SVR Hyperparameter Tuning](L5_5_10_explanation.md).
+
+## Question 11
+
+### Problem Statement
+Implement robust SVR for datasets with different types of noise and outliers.
+
+#### Task
+1. How does SVR handle Gaussian noise vs heavy-tailed noise distributions?
+2. Design a preprocessing pipeline to detect and handle outliers before SVR training
+3. Compare the robustness of different ε values for datasets with varying noise levels
+4. Implement a robust scaling strategy that's less sensitive to outliers
+5. Design an adaptive ε selection method based on data characteristics
+
+For a detailed explanation of this problem, see [Question 11: Robust SVR Implementation](L5_5_11_explanation.md).
+
+## Question 12
+
+### Problem Statement
+Develop SVR for multi-output regression problems.
+
+#### Task
+1. Extend the SVR formulation to predict multiple correlated outputs simultaneously
+2. How would you share information between different output dimensions?
+3. Design appropriate kernel functions for multi-output scenarios
+4. Compare the computational complexity of independent SVRs vs joint multi-output SVR
+5. Implement a practical algorithm for multi-output SVR with RBF kernels
+
+For a detailed explanation of this problem, see [Question 12: Multi-output SVR](L5_5_12_explanation.md).
+
+## Question 13
+
+### Problem Statement
+Apply SVR to time series forecasting and sequential data.
+
+#### Task
+1. How would you transform a time series forecasting problem into a supervised regression problem for SVR?
+2. Design appropriate feature engineering techniques for temporal data
+3. How would you handle non-stationarity in time series using SVR?
+4. Implement a sliding window approach for online SVR learning
+5. Compare SVR with ARIMA and LSTM for time series prediction
+
+For a detailed explanation of this problem, see [Question 13: SVR for Time Series](L5_5_13_explanation.md).
+
+## Question 14
+
+### Problem Statement
+Develop practical implementation guidelines and best practices for SVR.
+
+#### Task
+1. Create a comprehensive preprocessing checklist for SVR (scaling, outlier detection, feature selection)
+2. Design model validation strategies specific to regression problems
+3. How would you explain SVR predictions to non-technical stakeholders?
+4. Implement uncertainty quantification for SVR predictions
+5. Design a production pipeline for real-time SVR inference with performance monitoring
+
+For a detailed explanation of this problem, see [Question 14: SVR Best Practices](L5_5_14_explanation.md).
