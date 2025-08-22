@@ -1,7 +1,7 @@
 # Lecture 5.3: Kernel Trick for Nonlinear Classification Quiz
 
 ## Overview
-This quiz contains 22 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
+This quiz contains 25 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
 
 ## Question 1
 
@@ -326,3 +326,39 @@ Compare computational costs of different kernel approaches.
 5. Calculate speedup vs. accuracy loss for rank-$r$ kernel approximation
 
 For a detailed explanation of this problem, see [Question 22: Computational Complexity](L5_3_22_explanation.md).
+
+## Question 23
+
+### Problem Statement
+Evaluate the following statement: "We would expect the support vectors to remain the same in general as we move from a linear kernel to higher order polynomial kernels."
+
+### Task
+1.  Is the statement **True or False**?
+2.  Provide a brief justification for your answer, explaining how changing the kernel can alter the support points in the feature space.
+
+For a detailed explanation of this problem, see [Question 23: Kernel Impact on Support Vectors](L5_3_23_explanation.md).
+
+
+## Question 24
+
+### Problem Statement
+Evaluate the following statement: "The values of the margins obtained by two different kernels $K_1(\mathbf{x},\mathbf{z})$ and $K_2(\mathbf{x},\mathbf{z})$ on the same training set do not tell us which classifier will perform better on the test set."
+
+### Task
+1.  Is the statement **True or False**?
+2.  Provide a brief justification. Why can a direct comparison of raw margin values be misleading?
+
+For a detailed explanation of this problem, see [Question 24: Comparing Kernel Margins](L5_3_24_explanation.md).
+
+## Question 25
+
+### Problem Statement
+Consider an SVM classifier using a second-order polynomial kernel. We compare two different feature mappings for a 1D input $x$:
+- **Mapping 1**: $\phi_1(x) = [x, x^2]^T$
+- **Mapping 2**: $\phi_2(x) = [2x, 2x^2]^T$
+
+### Task
+1.  In general, is the geometric margin we would attain using the feature map $\phi_2(x)$ **greater than**, **equal to**, or **smaller than** the margin from using $\phi_1(x)$?
+2.  Explain your reasoning by describing how scaling the feature vectors affects the optimal weight vector $\|\mathbf{w}\|$ and the geometric margin $1/\|\mathbf{w}\|$.
+
+For a detailed explanation of this problem, see [Question 25: Feature Space Scaling and Margin](L5_3_25_explanation.md).

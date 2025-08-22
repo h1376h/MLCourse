@@ -1,7 +1,7 @@
 # Lecture 5.2: Hard Margin and Soft Margin SVMs Quiz
 
 ## Overview
-This quiz contains 20 questions covering different topics from section 5.2 of the lectures on Hard Margin SVM, Soft Margin SVM, Slack Variables, Regularization Trade-offs, Hinge Loss Function, and KKT Conditions.
+This quiz contains 21 questions covering different topics from section 5.2 of the lectures on Hard Margin SVM, Soft Margin SVM, Slack Variables, Regularization Trade-offs, Hinge Loss Function, and KKT Conditions.
 
 ## Question 1
 
@@ -330,3 +330,17 @@ Dataset with outlier:
 5. Quantify how much the outlier affects the solution
 
 For a detailed explanation of this problem, see [Question 20: Hard vs Soft Margin Comparison](L5_2_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+Given a 1-D dataset with 4 positive data points $\{0, 1, 2, 3\}$ and 3 negative data points $\{-3, -2, -1\}$, we want to learn a soft-margin linear SVM. The optimization problem is:
+
+$$\min_{\mathbf{w},b,\boldsymbol{\xi}} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_{i=1}^{m} \xi_i$$
+$$\text{Subject to: } y_i(\mathbf{w}^T \mathbf{x}_i + b) \ge 1 - \xi_i, \quad \xi_i \ge 0$$
+
+### Task
+1. If the regularization parameter $C \to \infty$ (meaning we only care about minimizing margin violations), how many support vectors will the resulting classifier have?
+2. If the regularization parameter $C=0$ (meaning we only care about maximizing the margin size), how many support vectors do we have?
+
+For a detailed explanation of this problem, see [Question 21: Soft-Margin SVM Regularization Analysis](L5_2_21_explanation.md).

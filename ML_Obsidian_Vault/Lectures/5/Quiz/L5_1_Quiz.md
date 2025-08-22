@@ -1,7 +1,7 @@
 # Lecture 5.1: Maximum Margin Classifiers Quiz
 
 ## Overview
-This quiz contains 21 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
+This quiz contains 25 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
 
 ## Question 1
 
@@ -326,3 +326,51 @@ From first principles, derive the dual problem for the dataset:
 5. Obtain the dual problem with explicit kernel matrix entries
 
 For a detailed explanation of this problem, see [Question 21: Complete Derivation](L5_1_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+Consider the following 1D dataset where we want to learn a linear SVM of the form $f(x) = \text{sign}(wx+b)$.
+- **Class -1**: $\{1, 2, 3.5\}$
+- **Class +1**: $\{4, 5\}$
+
+### Task
+1. What values for $w$ and $b$ will be learned by the linear SVM to create the maximum margin hyperplane?
+2. What is the training set error of this classifier, expressed as the percentage of misclassified points?
+3. What is the leave-one-out cross-validation (LOOCV) error of this classifier, expressed as a percentage?
+
+For a detailed explanation of this problem, see [Question 22: 1D Hard-Margin SVM Analysis](L5_1_22_explanation.md).
+
+## Question 23
+
+### Problem Statement
+Evaluate the following statement: "Support vector machines, like logistic regression models, give a probability distribution over the possible labels given an input example."
+
+### Task
+1.  Is the statement **True or False**?
+2.  Provide a brief justification for your answer.
+
+For a detailed explanation of this problem, see [Question 23: SVM Output Properties](L5_1_23_explanation.md).
+
+## Question 24
+
+### Problem Statement
+Evaluate the following statement: "The maximum margin decision boundaries that support vector machines construct have the lowest generalization error among all linear classifiers."
+
+### Task
+1.  Is the statement **True or False**?
+2.  Provide a brief justification for your answer.
+
+For a detailed explanation of this problem, see [Question 24: Max-Margin and Generalization](L5_1_24_explanation.md).
+
+
+## Question 25
+
+### Problem Statement
+Consider the dataset and the maximum margin separating hyperplane shown in the figure below.
+
+### Task
+1.  What is the leave-one-out cross-validation (LOOCV) error estimate for this maximum margin classifier?
+2.  Provide a brief justification for your answer.
+
+For a detailed explanation of this problem, see [Question 25: LOOCV for Hard-Margin SVM](L5_1_25_explanation.md).
