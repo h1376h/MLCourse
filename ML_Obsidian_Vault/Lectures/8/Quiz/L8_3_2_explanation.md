@@ -21,20 +21,20 @@ This problem explores the critical concept of feature interactions in machine le
 
 ### Solution 1: Univariate Selection Limitations
 
-We created a synthetic dataset with 1000 samples to demonstrate how univariate selection fails to capture feature interactions:
+We created a synthetic dataset with 1000 samples to demonstrate how univariate selection fails to capture feature interactions. The target generation was designed to make the debt-to-income ratio the primary predictor while keeping individual feature correlations weak:
 
 **Dataset Statistics:**
-- Target distribution: $[952, 48]$ ($952$ no default, $48$ default)
-- Default rate: $4.8\%$
+- Target distribution: $[992, 8]$ ($992$ no default, $8$ default)
+- Default rate: $0.8\%$
 
 **Individual Feature Correlations with Target:**
-- income: $-0.0442$
-- debt_ratio: $-0.0231$
-- credit_score: $-0.0141$
-- age: $0.0071$
-- **debt_to_income: $0.0153$**
+- income: $-0.0132$
+- debt_ratio: $0.0122$
+- credit_score: $-0.0155$
+- age: $0.0208$
+- **debt_to_income: $0.0226$**
 
-**Key Insight:** The debt-to-income ratio, which is the interaction between income and debt_ratio, has a correlation of $0.0153$ with the target. However, univariate selection ($k=2$) selects only $\[\text{income}, \text{debt\_ratio}\]$ and completely misses this important interaction feature.
+**Key Insight:** The debt-to-income ratio, which is the interaction between income and debt_ratio, has a correlation of $0.0226$ with the target. However, univariate selection ($k=2$) selects only $\[\text{credit\_score}, \text{age}\]$ and completely misses this important interaction feature.
 
 ![Univariate Features vs Target](../Images/L8_3_Quiz_2/task1_univariate_features.png)
 
@@ -97,10 +97,10 @@ This significant reduction makes the feature selection process much more computa
    - Ensure selected features generalize well to new data
 
 **Demonstration Results:**
-- Step 1: Best individual feature: income (correlation: $-0.0442$)
-- Step 2: Best Group 1 combination: income + debt_ratio (score: $0.0337$)
-- Step 3: Best Group 2 combination: credit_score + age (score: $0.0106$)
-- Step 4: Interaction feature: debt-to-income ratio (correlation: $0.0153$)
+- Step 1: Best individual feature: age (correlation: $0.0208$)
+- Step 2: Best Group 1 combination: income + debt_ratio (score: $0.0127$)
+- Step 3: Best Group 2 combination: credit_score + age (score: $0.0181$)
+- Step 4: Interaction feature: debt-to-income ratio (correlation: $0.0226$)
 
 ![Feature Importance Comparison](../Images/L8_3_Quiz_2/task1_5_feature_importance.png)
 

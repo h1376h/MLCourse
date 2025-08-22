@@ -112,15 +112,27 @@ age_data = (age_mean +
 # Calculate debt-to-income ratio
 debt_to_income_data = (debt_ratio_data * 100) / income_data
 
-# Create target based on interaction with realistic noise
-# Use logistic function to create more realistic probability
-logit_prob = -3 + 8 * (debt_to_income_data - 0.2) / 0.3  # Centered around 0.35
-prob_default = 1 / (1 + np.exp(-logit_prob))
-prob_default = np.clip(prob_default, 0.01, 0.99)  # Ensure reasonable bounds
+# Create target based on debt-to-income interaction with realistic noise
+# The key insight: debt-to-income ratio should be the main predictor
+# Individual features have weak correlations, but the ratio is strong
 
-# Add some random noise to make it more realistic
-noise = np.random.normal(0, 0.1, n_samples)
-prob_default = np.clip(prob_default + noise, 0, 1)
+# Create a more realistic target generation
+# Use debt-to-income ratio as the main predictor
+base_prob = 0.05  # Base default rate
+dti_effect = 15 * (debt_to_income_data - 0.3)  # Strong effect from debt-to-income
+logit_prob = np.log(base_prob / (1 - base_prob)) + dti_effect
+prob_default = 1 / (1 + np.exp(-logit_prob))
+
+# Add some noise to make individual features slightly predictive
+income_effect = 0.0001 * (income_data - income_mean) / income_std
+debt_effect = 0.1 * (debt_ratio_data - base_debt_ratio)
+credit_effect = 0.001 * (credit_score_data - credit_mean) / credit_std
+age_effect = 0.01 * (age_data - age_mean) / age_std
+
+# Combine all effects
+total_effect = dti_effect + income_effect + debt_effect + credit_effect + age_effect
+prob_default = 1 / (1 + np.exp(-total_effect))
+prob_default = np.clip(prob_default, 0.01, 0.99)
 
 target = np.random.binomial(1, prob_default)
 
@@ -158,9 +170,9 @@ X = df[['income', 'debt_ratio', 'credit_score', 'age']].values
 y = df['target'].values
 
 selector.fit(X, y)
-selected_features = ['income', 'debt_ratio', 'credit_score', 'age']
+feature_names = ['income', 'debt_ratio', 'credit_score', 'age']
 selected_indices = selector.get_support(indices=True)
-selected_features_names = [selected_features[i] for i in selected_indices]
+selected_features_names = [feature_names[i] for i in selected_indices]
 
 print(f"\nUnivariate selection (k=2) selects: {selected_features_names}")
 print(f"Univariate selection MISSES the debt-to-income interaction!")
@@ -216,7 +228,7 @@ print("="*60)
 # Redundancy score = correlation^2
 redundancy_score = correlation_income_debt ** 2
 print(f"Correlation between income and debt_ratio: {correlation_income_debt}")
-print(f"Redundancy score = $r^2 = {correlation_income_debt}^2 = {redundancy_score:.4f}$")
+print(f"Redundancy score = r² = {correlation_income_debt}² = {redundancy_score:.4f}")
 print(f"This means {redundancy_score*100:.2f}% of the variance in one feature")
 print(f"can be explained by the other feature.")
 
@@ -266,7 +278,7 @@ reduced_space = total_combinations
 reduction = original_space - reduced_space
 reduction_percentage = (reduction / original_space) * 100
 
-print(f"Original search space: $2^4 - 1 = {original_space}$ combinations")
+print(f"Original search space: 2⁴ - 1 = {original_space} combinations")
 print(f"Reduced search space: {reduced_space} combinations")
 print(f"Reduction: {reduction} combinations")
 print(f"Reduction percentage: {reduction_percentage:.1f}%")
@@ -330,16 +342,16 @@ print("="*60)
 
 # Calculate debt-to-income ratio
 debt_to_income = (debt_ratio * 100) / income
-print(f"Debt-to-income ratio = $(debt\\_ratio \\times 100) / income$")
-print(f"Debt-to-income ratio = $({debt_ratio} \\times 100) / {income:,}$")
-print(f"Debt-to-income ratio = ${debt_ratio * 100} / {income:,}$")
-print(f"Debt-to-income ratio = ${debt_to_income:.6f}$")
+print(f"Debt-to-income ratio = (debt_ratio × 100) / income")
+print(f"Debt-to-income ratio = ({debt_ratio} × 100) / {income:,}")
+print(f"Debt-to-income ratio = {debt_ratio * 100} / {income:,}")
+print(f"Debt-to-income ratio = {debt_to_income:.6f}")
 
 # Prediction based on threshold
 prediction = 1 if debt_to_income > default_threshold else 0
 
 print(f"\nThreshold for default: {default_threshold}")
-print(f"Since ${debt_to_income:.6f} {'\\gt' if debt_to_income > default_threshold else '\\leq'} {default_threshold}$")
+print(f"Since {debt_to_income:.6f} {'>' if debt_to_income > default_threshold else '≤'} {default_threshold}")
 print(f"Prediction: {prediction} ({'Default' if prediction == 1 else 'No Default'})")
 
 # ============================================================================
@@ -351,8 +363,8 @@ print("="*60)
 
 # VIF calculation
 vif = 1 / (1 - vif_r_squared)
-print(f"$R^2$ from regressing income on other features: {vif_r_squared}")
-print(f"VIF = $1 / (1 - R^2) = 1 / (1 - {vif_r_squared}) = {vif:.4f}$")
+print(f"R² from regressing income on other features: {vif_r_squared}")
+print(f"VIF = 1 / (1 - R²) = 1 / (1 - {vif_r_squared}) = {vif:.4f}")
 
 # VIF rule of thumb
 should_remove = vif > vif_threshold
@@ -374,9 +386,9 @@ eigenvalues = np.linalg.eigvals(correlation_matrix)
 condition_number = np.max(np.abs(eigenvalues)) / np.min(np.abs(eigenvalues))
 
 print(f"\nCorrelation matrix eigenvalues: {eigenvalues}")
-print(f"Condition number = $\\max(|\\text{{eigenvalues}}|) / \\min(|\\text{{eigenvalues}}|)$")
-print(f"Condition number = ${np.max(np.abs(eigenvalues)):.4f} / {np.min(np.abs(eigenvalues)):.4f}$")
-print(f"Condition number = ${condition_number:.4f}$")
+print(f"Condition number = max(|eigenvalues|) / min(|eigenvalues|)")
+print(f"Condition number = {np.max(np.abs(eigenvalues)):.4f} / {np.min(np.abs(eigenvalues)):.4f}")
+print(f"Condition number = {condition_number:.4f}")
 
 # ============================================================================
 # VISUALIZATIONS
@@ -408,8 +420,14 @@ plt.grid(True, alpha=0.3)
 # Add correlation values on bars
 for bar, corr in zip(bars, correlations_plot):
     height = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2., height + 0.01,
-             f'{corr:.4f}', ha='center', va='bottom')
+    # Position text inside the bar if there's enough space, otherwise above
+    if height > 0.02:  # If bar is tall enough, put text inside
+        plt.text(bar.get_x() + bar.get_width()/2., height/2,
+                 f'{corr:.4f}', ha='center', va='center', 
+                 color='white', fontweight='bold')
+    else:  # If bar is too short, put text above
+        plt.text(bar.get_x() + bar.get_width()/2., height + 0.005,
+                 f'{corr:.4f}', ha='center', va='bottom')
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'task1_5_feature_importance.png'), dpi=300, bbox_inches='tight')
@@ -428,8 +446,10 @@ plt.grid(True, alpha=0.3)
 # Add values on bars
 for bar, value in zip(bars, values):
     height = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2., height + 0.1,
-             f'{value}', ha='center', va='bottom')
+    # Position text inside the bar for better visibility
+    plt.text(bar.get_x() + bar.get_width()/2., height/2,
+             f'{value}', ha='center', va='center', 
+             color='white', fontweight='bold')
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'task4_search_space_reduction.png'), dpi=300, bbox_inches='tight')
