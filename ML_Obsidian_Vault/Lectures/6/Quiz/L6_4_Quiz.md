@@ -110,9 +110,9 @@ You're judging a competition between different pruning approaches. Each method c
 
 #### Task
 1. Rank these pruning methods by expected tree size (smallest to largest):
-   - Pre-pruning with max_depth=$3$
+   - Pre-pruning with max_depth = $3$
    - Reduced error pruning
-   - Cost-complexity pruning with $\alpha=0.1$
+   - Cost-complexity pruning with $\alpha = 0.1$
 2. Which method is most robust to noisy data? Why?
 3. Compare computational speed of different pruning methods
 4. Evaluate which method produces the most interpretable trees
@@ -130,7 +130,7 @@ You're experimenting with different ways to prevent decision trees from overfitt
 #### Task
 1. If a split reduces Gini impurity from $0.5$ to $0.45$, should it be allowed with threshold $0.1$?
 2. For a dataset with $10$ features, how many features would you randomly select at each split?
-3. Compare limiting max_depth=$3$ vs post-pruning for a tree that naturally grows to depth $6$
+3. Compare limiting max_depth = $3$ vs post-pruning for a tree that naturally grows to depth $6$
 4. Explain how L1/L2 regularization concepts could be applied to decision trees
 5. If you randomly select $3$ features at each split from a pool of $10$ features, what's the probability that the same feature is selected at both the root and its left child?
 6. You're building a tree for a mobile app with limited memory. What regularization strategy would you prioritize?
@@ -256,9 +256,9 @@ You're building an automated system to find optimal pruning parameters.
 2. How would you use nested cross-validation for unbiased parameter selection?
 3. Compare different metrics for pruning evaluation
 4. Design an automated pipeline for optimal pruning
-5. If you have 1000 samples and want to test 5 $\alpha$ values with 5-fold CV, how many total model fits will you need to perform?
+5. If you have $1000$ samples and want to test $5$ $\alpha$ values with $5$-fold CV, how many total model fits will you need to perform?
 6. You're building this for a company that needs results within 1 hour. How would you modify your optimization strategy?
-7. Calculate the optimal grid spacing for $\alpha$ values if you want to test values between 0.01 and 1.0 with logarithmic spacing.
+7. Calculate the optimal grid spacing for $\alpha$ values if you want to test values between $0.01$ and $1.0$ with logarithmic spacing.
 
 For a detailed explanation of this question, see [Question 14: Pruning Parameter Optimization](L6_4_14_explanation.md).
 
@@ -285,8 +285,8 @@ You're working with data from IoT sensors that have varying levels of noise depe
 
 2. Given these pruning options, calculate which is most robust using the generalization gap metric $G = \frac{\text{Training Acc} - \text{Test Acc}}{\text{Tree Complexity}}$ where complexity is measured by $\log(\text{Depth} \times \text{Leaves})$:
    - No pruning: Training Acc = $95\%$, Test Acc = $72\%$, Depth = $8$, Leaves = $25$
-   - Depth pruning (max_depth=$4$): Training Acc = $87\%$, Test Acc = $78\%$, Depth = $4$, Leaves = $12$
-   - Sample pruning (min_samples=$50$): Training Acc = $89\%$, Test Acc = $75\%$, Depth = $6$, Leaves = $18$
+   - Depth pruning (max_depth = $4$): Training Acc = $87\%$, Test Acc = $78\%$, Depth = $4$, Leaves = $12$
+   - Sample pruning (min_samples = $50$): Training Acc = $89\%$, Test Acc = $75\%$, Depth = $6$, Leaves = $18$
    - Combined pruning: Training Acc = $85\%$, Test Acc = $80\%$, Depth = $3$, Leaves = $8$
 
 3. Design mathematical functions that adjust pruning thresholds based on noise level $\sigma$. If $\sigma = 0.25$, derive optimal values for:
