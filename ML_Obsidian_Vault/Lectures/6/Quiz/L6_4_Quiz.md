@@ -704,7 +704,7 @@ For each scenario, select the most suitable pruning method and justify your choi
 
 For a detailed explanation of this question, see [Question 35: Pruning Method Scenarios](L6_4_35_explanation.md).
 
-## Question 36
+## [⭐] Question 36
 
 ### Problem Statement
 A university is using a decision tree to predict student grades based on class participation and assignment completion. The dataset shows how different combinations of factors affect final grades:
