@@ -6,16 +6,41 @@ This quiz contains 20 questions covering multivariate feature selection methods,
 ## Question 1
 
 ### Problem Statement
-Consider a dataset with 4 features: A, B, C, and D. Features A and B are individually weak predictors but when combined, they perfectly predict the target. Features C and D are individually strong predictors but redundant.
+You are given a dataset with 4 features (A, B, C, D) and their performance metrics. Your task is to analyze different feature selection strategies and understand their implications.
+
+### Given Information
+| Feature | Individual Correlation | Cost per Feature | Feature Type |
+|---------|----------------------|------------------|--------------|
+| A | 0.20 | $5 | Weak predictor |
+| B | 0.30 | $5 | Weak predictor |
+| C | 0.80 | $5 | Strong predictor |
+| D | 0.75 | $5 | Strong predictor |
+
+**Performance Calculation Rules:**
+The performance of feature subsets follows these patterns:
+
+1. **Single Features**: Performance equals individual correlation
+2. **Feature Combinations**: Use the following formulas based on feature types:
+   - **Two weak features (A, B)**: $P = r_A + r_B + (r_A \times r_B \times \text{synergy\_factor})$ where synergy_factor = 7.5
+   - **Weak + Strong combinations**: $P = \max(r_{\text{weak}}, r_{\text{strong}}) + 0.02$
+   - **Two strong features (C, D)**: $P = \max(r_C, r_D) + 0.01$ (minimal improvement due to redundancy)
+   - **Three or more features**: Performance plateaus at the best two-feature combination
+
+3. **Cost Calculation**: Total cost = Number of features × $5
+
+**Additional Constraints:**
+- Budget constraint: Maximum $15 (up to 3 features)
+- Target performance metric: Correlation with target variable
+- Some feature combinations exhibit synergy while others show redundancy
 
 #### Task
 1. Calculate the number of possible feature subsets (including empty set)
 2. If univariate selection picks the top 2 features, which would it select and why?
-3. If multivariate selection considers all subsets, which subset would be optimal?
+3. Calculate the performance scores for all feature combinations using the given formulas, then identify the optimal feature subset and explain why it's optimal
 4. What is the main advantage of multivariate methods in this scenario?
 5. Calculate the search space size for 4 features vs 10 features
-6. If you have a budget constraint where each feature costs $\$5$ and you can spend at most $\$15$, how many valid feature subsets exist? Calculate the total cost of all possible subsets.
-7. If features A and B have individual correlations with target of $0.2$ and $0.3$ respectively, but their combined correlation is $0.95$, calculate the interaction strength using the formula: $$\text{Interaction} = \text{Combined\_Correlation} - \max(\text{Individual\_Correlations}) - 0.1 \times \min(\text{Individual\_Correlations})$$ What does this value indicate about feature synergy?
+6. How many valid feature subsets exist within the budget constraint? Calculate the total cost of all possible subsets.
+7. Calculate the interaction strength between features A and B using the formula: $$\text{Interaction} = \text{Combined\_Correlation} - \max(\text{Individual\_Correlations}) - 0.1 \times \min(\text{Individual\_Correlations})$$ What does this value indicate about feature synergy?
 
 For a detailed explanation of this question, see [Question 1: Multivariate Approach](L8_3_1_explanation.md).
 
