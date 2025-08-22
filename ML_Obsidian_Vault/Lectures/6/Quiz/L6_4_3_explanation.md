@@ -20,7 +20,7 @@ Root (200 samples, train_error=0.25, val_error=0.28)
 4. Calculate the final validation error after pruning
 5. If the hospital wants to keep the tree interpretable ($\leq 3$ nodes), what would be the optimal pruning strategy?
 6. What are the medical implications of pruning this tree too aggressively?
-7. If false negatives (missing high-risk patients) cost $\$1000$ and false positives cost $\$100$, calculate the total cost before and after pruning.
+7. If false negatives (missing high-risk patients) cost $1000 and false positives cost $100, calculate the total cost before and after pruning.
 8. If the hospital can process $50$ patients per day with the pruned tree vs $30$ with the full tree, calculate the daily cost savings
 
 ## Understanding the Problem

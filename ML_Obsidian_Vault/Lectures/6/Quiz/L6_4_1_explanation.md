@@ -18,7 +18,7 @@ Netflix uses a decision tree to recommend movies. Their engineers noticed that a
 3. Explain the bias-variance tradeoff demonstrated in this data
 4. Sketch a graph showing training vs validation accuracy
 5. If Netflix wants to keep user complaints below 10%, what's the maximum acceptable tree depth?
-6. If Netflix has $100$ million users and each complaint costs $\$2$ in customer service, calculate the total cost of overfitting at depth $6$
+6. If Netflix has $100$ million users and each complaint costs $2 in customer service, calculate the total cost of overfitting at depth $6$
 
 ## Understanding the Problem
 This problem demonstrates a classic machine learning phenomenon: the **bias-variance tradeoff** and **overfitting**. As model complexity increases (deeper decision trees), the model can capture more intricate patterns in the training data, but this often comes at the cost of generalization to unseen data.

@@ -23,7 +23,7 @@ Netflix uses a decision tree to recommend movies. Their engineers noticed that a
 3. [📚] Explain the bias-variance tradeoff demonstrated in this data
 4. Sketch a graph showing training vs validation accuracy
 5. [📚] If Netflix wants to keep user complaints below 10%, what's the maximum acceptable tree depth?
-6. [📚] If Netflix has $100$ million users and each complaint costs $\$2$ in customer service, calculate the total cost of overfitting at depth $6$
+6. [📚] If Netflix has $100$ million users and each complaint costs $2 in customer service, calculate the total cost of overfitting at depth $6$
 
 For a detailed explanation of this question, see [Question 1: Netflix Decision Tree](L6_4_1_explanation.md).
 
@@ -65,7 +65,7 @@ Root (200 samples, train_error=0.25, val_error=0.28)
 4. [📚] Calculate the final validation error after pruning
 5. [📚] If the hospital wants to keep the tree interpretable ($\leq 3$ nodes), what would be the optimal pruning strategy?
 6. [📚] What are the medical implications of pruning this tree too aggressively?
-7. [📚] If false negatives (missing high-risk patients) cost $\$1000$ and false positives cost $\$100$, calculate the total cost before and after pruning.
+7. [📚] If false negatives (missing high-risk patients) cost $1000 and false positives cost $100, calculate the total cost before and after pruning.
 8. [📚] If the hospital can process $50$ patients per day with the pruned tree vs $30$ with the full tree, calculate the daily cost savings
 
 For a detailed explanation of this question, see [Question 3: Post-Pruning Decision Tree](L6_4_3_explanation.md).
@@ -73,14 +73,14 @@ For a detailed explanation of this question, see [Question 3: Post-Pruning Decis
 ## Question 4
 
 ### Problem Statement
-A bank is implementing CART's cost-complexity pruning for their fraud detection system. The cost function is $R_\alpha(T) = R(T) + \alpha|T|$, where false positives cost $\$10$ and false negatives cost $\$100$.
+A bank is implementing CART's cost-complexity pruning for their fraud detection system. The cost function is $R_\alpha(T) = R(T) + \alpha|T|$, where false positives cost $10 and false negatives cost $100.
 
 #### Task
 1. Write the cost-complexity function: $R_\alpha(T) = R(T) + \alpha|T|$
 2. For $\alpha = 0.1$, calculate the cost for a tree with $7$ nodes and total error $0.3$
 3. For $\alpha = 0.05$, compare a tree with $5$ nodes and error $0.35$ vs $3$ nodes and error $0.40$
 4. Explain the relationship between $\alpha$ and tree complexity
-5. If the bank wants to minimize total cost including operational costs of $\$5$ per node, what's the optimal $\alpha$?
+5. If the bank wants to minimize total cost including operational costs of $5 per node, what's the optimal $\alpha$?
 6. What are the business implications of choosing different $\alpha$ values for fraud detection?
 7. Design a cost matrix for a medical diagnosis system where false negatives are $10\times$ more expensive than false positives.
 8. If the bank processes $10,000$ transactions per day, calculate the daily fraud detection cost for different $\alpha$ values
@@ -304,8 +304,8 @@ You're working with data from IoT sensors that have varying levels of noise depe
    - Calculate expected error: $E[\text{Error}] = \int_0^3 \left(\text{Bias}^2(d^*(x_1)) + \sigma^2(x_1)\right) dx_1$
 
 6. For a fire detection system with cost matrix $C = \begin{bmatrix} 0 & 1000 \\ 100000 & 0 \end{bmatrix}$ where:
-   - False negative cost = $\$100,000$ (missed fire)
-   - False positive cost = $\$1,000$ (false alarm)
+   - False negative cost = $100,000 (missed fire)
+   - False positive cost = $1,000 (false alarm)
    - Base detection rate = $95\%$
    - Noise level = $0.3$
    
@@ -402,7 +402,7 @@ Find the optimal $\alpha$ value for cost-complexity pruning given these tree opt
 4. If you want a tree with $\leq 4$ nodes, what $\alpha$ value should you use?
 5. If you have a budget constraint that limits you to trees with $\leq 6$ nodes, what's the optimal $\alpha$ range?
 6. You're building this for a mobile app with limited memory. How would you modify your $\alpha$ selection strategy?
-7. Calculate the total cost for each tree option if operational costs are $\$2$ per node per month.
+7. Calculate the total cost for each tree option if operational costs are $2 per node per month.
 
 For a detailed explanation of this question, see [Question 19: Alpha Selection Game](L6_4_19_explanation.md).
 
@@ -531,7 +531,7 @@ A financial services company needs to build an interpretable decision tree for l
 #### Task
 1. Which pruning methods meet regulatory requirements for interpretability?
 2. Plot tree size vs validation accuracy and identify the optimal trade-off point
-3. If non-compliance costs $\$50,000$ per violation, calculate the risk cost for each method
+3. If non-compliance costs $50,000 per violation, calculate the risk cost for each method
 4. Find the pruning method that maximizes validation accuracy while maintaining full regulatory compliance
 5. If the company processes $1000$ loans per month, calculate the monthly cost of false decisions for each method
 6. Design a pruning strategy that can adapt to changing regulatory requirements
@@ -690,8 +690,8 @@ Apply pruning techniques to this decision tree dataset about loan approval:
 #### Task
 1. Calculate the Gini impurity of the entire dataset
 2. If the tree splits on Income first, calculate the weighted Gini impurity after the split
-3. For a pre-pruning threshold of min_samples_leaf=$2$, would this split be allowed?
-4. If using cost-complexity pruning with $\alpha=0.1$, calculate the cost for a tree with $5$ nodes and error rate $0.25$
+3. For a pre-pruning threshold of min_samples_leaf = $2$, would this split be allowed?
+4. If using cost-complexity pruning with $\alpha = 0.1$, calculate the cost for a tree with $5$ nodes and error rate $0.25$
 5. Which pruning method would be most appropriate for this dataset and why?
 
 For a detailed explanation of this question, see [Question 34: Loan Approval Pruning Application](L6_4_34_explanation.md).
@@ -733,13 +733,13 @@ A university is using a decision tree to predict student grades based on class p
 #### Task
 1. Calculate the mean grade for each class participation level (ALL, SOME, NONE) and identify which level has the highest average performance
 2. For a decision tree using Gini impurity, calculate the information gain for splitting on feature A vs feature B vs feature C. Which feature would be chosen as the root node?
-3. If you build a decision tree with max_depth=$2$ and min_samples_leaf=$1$, what would be the tree structure? Draw the tree showing the splits and leaf node predictions
+3. If you build a decision tree with max_depth = $2$ and min_samples_leaf = $1$, what would be the tree structure? Draw the tree showing the splits and leaf node predictions
 4. If the tree achieves $100\%$ training accuracy but only $65\%$ validation accuracy on new student data, what pruning strategy would you recommend?
 5. For $\alpha = 0.1$, calculate the cost-complexity function $R_\alpha(T) = R(T) + \alpha|T|$ for:
    - Full tree: $7$ nodes, training error = $0.0$
    - Pruned tree: $3$ nodes, training error = $0.125$
 6. If the university needs to explain grade predictions to students and parents, what maximum tree depth would you recommend? Justify your answer considering the trade-off between accuracy and interpretability
 7. Design a cross-validation approach for this dataset that accounts for the small sample size ($8$ samples) while still providing reliable pruning parameter selection
-8. If the university processes $1000$ students per semester and incorrect grade predictions cost $\$50$ in administrative overhead, calculate the potential cost savings from implementing an optimal pruning strategy
+8. If the university processes $1000$ students per semester and incorrect grade predictions cost $50 in administrative overhead, calculate the potential cost savings from implementing an optimal pruning strategy
 
 For a detailed explanation of this question, see [Question 36: Student Grade Prediction Pruning](L6_4_36_explanation.md).
