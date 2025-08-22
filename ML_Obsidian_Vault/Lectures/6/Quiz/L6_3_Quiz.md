@@ -878,11 +878,11 @@ For a detailed explanation of this question, see [Question 43: Student Study Hab
 Using the following dataset, we want to construct a decision tree that classifies Y without any error on the training set:
 
 | A | B | C | Y |
-|---|---|----|---|
-| F | F | F  | F |
-| T | F | T  | T |
-| T | T | F  | T |
-| T | T | T  | F |
+|---|---|---|---|
+| F | F | F | F |
+| T | F | T | T |
+| T | T | F | T |
+| T | T | T | F |
 
 #### Task
 1. Calculate the entropy of the entire dataset and explain what this value tells you about the classification difficulty
