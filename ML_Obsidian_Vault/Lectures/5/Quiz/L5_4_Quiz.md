@@ -1,7 +1,7 @@
 # Lecture 5.4: Multi-class SVM Approaches Quiz
 
 ## Overview
-This quiz contains 13 questions covering different topics from section 5.4 of the lectures on One-vs-Rest, One-vs-One, Decision Strategies, Multi-class Classification Performance, Error-Correcting Output Codes, and Direct Multi-class Methods.
+This quiz contains 20 questions covering different topics from section 5.4 of the lectures on One-vs-Rest, One-vs-One, Decision Strategies, Multi-class Classification Performance, Error-Correcting Output Codes, and Direct Multi-class Methods.
 
 ## Question 1
 
@@ -211,3 +211,136 @@ Design a comprehensive practical implementation framework.
 5. Implement model selection that jointly optimizes kernel choice, multi-class strategy, and hyperparameters
 
 For a detailed explanation of this problem, see [Question 13: Practical Implementation Framework](L5_4_13_explanation.md).
+
+## Question 14
+
+### Problem Statement
+For a 3-class dataset with classes {A, B, C}, implement One-vs-Rest classification.
+
+Training data:
+- Class A: $(1, 2)$, $(2, 1)$
+- Class B: $(3, 3)$, $(4, 2)$
+- Class C: $(1, 4)$, $(2, 5)$
+
+#### Task
+1. Set up the three binary classification problems (A vs not-A, B vs not-B, C vs not-C)
+2. For each binary problem, list the positive and negative class labels
+3. Given decision functions:
+   - $f_A(\mathbf{x}) = 0.3x_1 + 0.4x_2 - 1.2$
+   - $f_B(\mathbf{x}) = -0.2x_1 + 0.6x_2 - 0.8$
+   - $f_C(\mathbf{x}) = 0.1x_1 - 0.3x_2 + 0.5$
+4. Classify test points $(2, 3)$ and $(1, 1)$ using maximum decision value
+5. Rank the predictions by confidence level
+
+For a detailed explanation of this problem, see [Question 14: OvR Implementation](L5_4_14_explanation.md).
+
+## Question 15
+
+### Problem Statement
+For a 4-class problem {A, B, C, D}, implement One-vs-One classification.
+
+#### Task
+1. List all $\binom{4}{2} = 6$ binary classifiers needed
+2. For test point $\mathbf{x}$, given pairwise decisions:
+   - A vs B: A wins
+   - A vs C: C wins  
+   - A vs D: A wins
+   - B vs C: B wins
+   - B vs D: B wins
+   - C vs D: D wins
+3. Count votes for each class
+4. If there were a tie, describe two tie-breaking strategies
+5. Design a confidence measure based on vote margins
+
+For a detailed explanation of this problem, see [Question 15: OvO Vote Counting](L5_4_15_explanation.md).
+
+## Question 16
+
+### Problem Statement
+Design Error-Correcting Output Codes for a 5-class problem.
+
+#### Task
+1. Design a $5 \times 7$ ECOC matrix where each row represents a class and each column a binary classifier
+2. Calculate minimum Hamming distance between any two codewords
+3. Show that your code can correct at least 1 bit error
+4. For output vector $(+1, -1, +1, -1, +1, +1, -1)$, find the closest codeword
+5. Explain why 7 classifiers are needed instead of the minimum $\lceil \log_2(5) \rceil = 3$
+
+For a detailed explanation of this problem, see [Question 16: ECOC Design](L5_4_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+Compare training and prediction costs for different multi-class strategies.
+
+For dataset with $n$ samples, $d$ features, $K$ classes:
+
+#### Task
+1. Calculate training time complexity for:
+   - OvR: $O(?)$
+   - OvO: $O(?)$
+   - Direct multi-class: $O(?)$
+2. Compare memory usage for storing $K$ vs $\binom{K}{2}$ vs 1 classifier
+3. For $n_{SV}$ support vectors per classifier, compare prediction costs
+4. At what number of classes $K$ does OvO become more expensive than OvR?
+5. Calculate actual numbers for $K = 10, n = 1000, d = 100$
+
+For a detailed explanation of this problem, see [Question 17: Complexity Analysis](L5_4_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+Calculate comprehensive evaluation metrics for a 4-class confusion matrix.
+
+Confusion matrix:
+```
+     A   B   C   D
+A   85   3   2   0
+B    4  76   5   5
+C    1   8  82   4
+D    0   3   1  86
+```
+
+#### Task
+1. Calculate overall accuracy and per-class accuracy
+2. Compute precision, recall, and F1-score for each class
+3. Calculate macro-averaged and micro-averaged precision, recall, F1
+4. Compute balanced accuracy accounting for class sizes
+5. Identify the most confusing class pairs and suggest improvements
+
+For a detailed explanation of this problem, see [Question 18: Multi-class Metrics](L5_4_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Design strategies for severely imbalanced multi-class data.
+
+Dataset distribution:
+- Class 1: 8000 samples (80%)
+- Class 2: 800 samples (8%)
+- Class 3: 600 samples (6%)
+- Class 4: 400 samples (4%)
+- Class 5: 200 samples (2%)
+
+#### Task
+1. Calculate the class distribution for each OvR binary problem
+2. Design class weights for the cost-sensitive loss function
+3. Adjust decision thresholds to achieve balanced recall across classes
+4. Design a combined over/under-sampling approach
+5. Choose appropriate evaluation metrics for this imbalanced scenario
+
+For a detailed explanation of this problem, see [Question 19: Imbalance Strategies](L5_4_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+Design efficient hyperparameter tuning for multi-class RBF-SVM.
+
+#### Task
+1. For OvR with RBF kernels, define the hyperparameter search space for $C$ and $\gamma$
+2. Compare grid search vs random search vs Bayesian optimization
+3. Design stratified k-fold CV that maintains class balance in each fold
+4. With limited computational budget, design an efficient search strategy
+5. Use hyperparameters from one binary classifier to warm-start others
+
+For a detailed explanation of this problem, see [Question 20: Hyperparameter Tuning](L5_4_20_explanation.md).
