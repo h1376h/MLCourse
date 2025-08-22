@@ -102,7 +102,7 @@ def analyze_distance_measures(X, dimensions):
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'distance_measures_analysis.png'), dpi=300, bbox_inches='tight')
-    plt.show()
+    plt.close()
     
     # Print analysis
     print(f"Euclidean distance growth: {euclidean_distances[-1]/euclidean_distances[0]:.2f}x")
@@ -151,7 +151,7 @@ def analyze_information_measures(X, y, dimensions):
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'information_measures_analysis.png'), dpi=300, bbox_inches='tight')
-    plt.show()
+    plt.close()
     
     # Print analysis
     print(f"Mutual Information change: {mi_scores[-1]/mi_scores[0]:.2f}x")
@@ -211,7 +211,7 @@ def analyze_dependency_measures(X, y, dimensions):
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'dependency_measures_analysis.png'), dpi=300, bbox_inches='tight')
-    plt.show()
+    plt.close()
     
     # Print analysis
     print(f"Pearson correlation change: {pearson_corrs[-1]/pearson_corrs[0]:.2f}x")
@@ -290,7 +290,7 @@ def compare_robustness(euclidean_distances, cosine_distances, mi_scores, f_score
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'robustness_comparison.png'), dpi=300, bbox_inches='tight')
-    plt.show()
+    plt.close()
     
     # Calculate overall robustness scores
     robustness_scores = {
@@ -334,7 +334,7 @@ def compare_robustness(euclidean_distances, cosine_distances, mi_scores, f_score
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'overall_robustness_ranking.png'), dpi=300, bbox_inches='tight')
-    plt.show()
+    plt.close()
     
     return robustness_scores
 
@@ -387,7 +387,7 @@ def demonstrate_sparsity_effect():
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'sparsity_effects.png'), dpi=300, bbox_inches='tight')
-    plt.show()
+    plt.close()
     
     print(f"Sparsity ratio at d=100: {sparsity_ratios[-1]:.3f}")
     print(f"Volume ratio at d=100: {volume_ratios[-1]:.2e}")
