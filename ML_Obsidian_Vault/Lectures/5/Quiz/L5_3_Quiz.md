@@ -329,7 +329,7 @@ Compare computational costs of different kernel approaches.
 
 For a detailed explanation of this problem, see [Question 22: Computational Complexity](L5_3_22_explanation.md).
 
-## Question 23
+## [⭐] Question 23
 
 ### Problem Statement
 Evaluate the following statement: "We would expect the support vectors to remain the same in general as we move from a linear kernel to higher order polynomial kernels."
@@ -341,7 +341,7 @@ Evaluate the following statement: "We would expect the support vectors to remain
 For a detailed explanation of this problem, see [Question 23: Kernel Impact on Support Vectors](L5_3_23_explanation.md).
 
 
-## Question 24
+## [⭐] Question 24
 
 ### Problem Statement
 Evaluate the following statement: "The values of the margins obtained by two different kernels $K_1(\mathbf{x},\mathbf{z})$ and $K_2(\mathbf{x},\mathbf{z})$ on the same training set do not tell us which classifier will perform better on the test set."
@@ -352,7 +352,7 @@ Evaluate the following statement: "The values of the margins obtained by two dif
 
 For a detailed explanation of this problem, see [Question 24: Comparing Kernel Margins](L5_3_24_explanation.md).
 
-## Question 25
+## [⭐] Question 25
 
 ### Problem Statement
 Consider an SVM classifier using a second-order polynomial kernel. We compare two different feature mappings for a 1D input $x$:

@@ -331,7 +331,7 @@ Dataset with outlier:
 
 For a detailed explanation of this problem, see [Question 20: Hard vs Soft Margin Comparison](L5_2_20_explanation.md).
 
-## Question 21
+## [⭐] Question 21
 
 ### Problem Statement
 Given the following dataset in 1-D space, which consists of 4 positive data points $\{0, 1, 2, 3\}$ and 3 negative data points $\{-3, -2, -1\}$, we want to learn a soft-margin linear SVM.

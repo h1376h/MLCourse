@@ -341,7 +341,7 @@ Consider the following 1D dataset where we want to learn a linear SVM of the for
 
 For a detailed explanation of this problem, see [Question 22: 1D Hard-Margin SVM Analysis](L5_1_22_explanation.md).
 
-## Question 23
+## [⭐] Question 23
 
 ### Problem Statement
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
@@ -352,7 +352,7 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 
 For a detailed explanation of this problem, see [Question 23: SVM Output Properties](L5_1_23_explanation.md).
 
-## Question 24
+## [⭐] Question 24
 
 ### Problem Statement
 Consider the dataset and the maximum margin separating hyperplane shown in the figure below.
@@ -367,7 +367,7 @@ Consider the dataset and the maximum margin separating hyperplane shown in the f
 
 For a detailed explanation of this problem, see [Question 24: LOOCV for Hard-Margin SVM](L5_1_24_explanation.md).
 
-## Question 25
+## [⭐] Question 25
 
 ### Problem Statement
 Consider the following 1D dataset. We are going to learn a linear SVM of the form $f(x) = \text{sign}(wx+b)$ from it.
