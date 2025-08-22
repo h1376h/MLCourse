@@ -344,3 +344,23 @@ $$\text{Subject to: } y_i(\mathbf{w}^T \mathbf{x}_i + b) \ge 1 - \xi_i, \quad \x
 2. If the regularization parameter $C=0$ (meaning we only care about maximizing the margin size), how many support vectors do we have?
 
 For a detailed explanation of this problem, see [Question 21: Soft-Margin SVM Regularization Analysis](L5_2_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+Given the following dataset in 1-D space, which consists of 4 positive data points $\{0, 1, 2, 3\}$ and 3 negative data points $\{-3, -2, -1\}$, we want to learn a soft-margin linear SVM.
+
+*The figure shows data points for the negative class at x = -3, -2, -1 and for the positive class at x = 0, 1, 2, 3 on a number line.*
+
+The soft-margin linear SVM can be formalized as the following constrained quadratic optimization problem, where C is the regularization parameter.
+
+$$ \underset{\{w,b,\epsilon_i\}}{\text{argmin}} \frac{1}{2}w^{t}w+C\sum_{i=1}^{m}\epsilon_{i} $$
+Subject to:
+$$ y_{i}(w^{t}x_{i}+b)\ge1-\epsilon_{i} $$
+$$ \epsilon_{i}\ge0, \forall i $$
+
+### Task
+1.  If the regularization parameter $C \rightarrow\infty$, which means that we only care about the violation of the margin, how many support vectors do we have?
+2.  If the regularization parameter $C=0,$ which means that we only care about the size of the margin, how many support vectors do we have?
+
+For a detailed explanation of this problem, see [Question 22: Soft-Margin SVM Regularization Analysis](L5_2_22_explanation.md).

@@ -357,8 +357,33 @@ For a detailed explanation of this problem, see [Question 23: SVM Output Propert
 ### Problem Statement
 Consider the dataset and the maximum margin separating hyperplane shown in the figure below.
 
+*The figure displays two classes of data points ('x' and 'o') that are linearly separable. A solid line represents the optimal decision boundary, and two dashed lines represent the margins. The support vectors, which lie on the margin lines, are highlighted with circles.*
+
 #### Task
 1. What is the leave-one-out cross-validation (LOOCV) error estimate for this maximum margin classifier?
 2. Provide a brief justification for your answer.
 
 For a detailed explanation of this problem, see [Question 24: LOOCV for Hard-Margin SVM](L5_1_24_explanation.md).
+
+## Question 25
+
+### Problem Statement
+Consider the following 1D dataset. We are going to learn a linear SVM of the form $f(x) = \text{sign}(wx+b)$ from it.
+
+| X   | Y    |
+| --- | ---- |
+| 1   | -1   |
+| 2   | -1   |
+| 3.5 | -1   |
+| 4   | 1    |
+| 5   | 1    |
+
+
+*The figure shows data points for Class -1 (denoted by hollow circles) at x=1, 2, and 3.5, and for Class 1 (denoted by filled circles) at x=4 and 5.*
+
+### Task
+1.  What values for $w$ and $b$ will be learned by the linear SVM to create the maximum margin hyperplane?
+2.  What is the training set error of this classifier, expressed as the percentage of misclassified points?
+3.  What is the leave-one-out cross-validation (LOOCV) error of this classifier, expressed as a percentage?
+
+For a detailed explanation of this problem, see [Question 25: 1D Hard-Margin SVM Analysis](L5_1_25_explanation.md).
