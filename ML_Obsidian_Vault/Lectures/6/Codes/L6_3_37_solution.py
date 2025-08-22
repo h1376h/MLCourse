@@ -146,7 +146,203 @@ best_id3_feature = max(id3_results, key=id3_results.get)
 print(f"\nID3 RESULTS:")
 for feature, ig in sorted(id3_results.items(), key=lambda x: x[1], reverse=True):
     print(f"  {feature}: {ig:.4f}")
+
+# Enhanced tie-breaking analysis for ID3
+print(f"\nID3 TIE-BREAKING ANALYSIS:")
+print("-" * 50)
+
+# Find features with maximum information gain
+max_ig = max(id3_results.values())
+tied_features = [f for f, ig in id3_results.items() if abs(ig - max_ig) < 0.0001]
+
+if len(tied_features) > 1:
+    print(f"TIE DETECTED! Features with same Information Gain ({max_ig:.4f}): {tied_features}")
+    print(f"\nAnalyzing split balance for tie-breaking:")
+    
+    # Calculate split balance metrics for tied features
+    split_balance_metrics = {}
+    
+    for feature in tied_features:
+        unique_values = df[feature].unique()
+        children_labels = []
+        
+        # Get all subsets for this feature
+        for value in unique_values:
+            subset = df[df[feature] == value]['Buy_Again'].tolist()
+            children_labels.append(subset)
+        
+        # Calculate balance metrics
+        subset_sizes = [len(subset) for subset in children_labels]
+        total_samples = len(target)
+        
+        # Balance metrics
+        min_subset_size = min(subset_sizes)
+        max_subset_size = max(subset_sizes)
+        balance_ratio = min_subset_size / max_subset_size if max_subset_size > 0 else 0
+        
+        # Variance in subset sizes (lower is more balanced)
+        subset_variance = np.var(subset_sizes) if len(subset_sizes) > 1 else 0
+        
+        # Entropy of subset size distribution (lower is more balanced)
+        size_proportions = [size/total_samples for size in subset_sizes]
+        size_entropy = -sum(p * log2(p) for p in size_proportions if p > 0)
+        
+        # Number of pure nodes (entropy = 0)
+        pure_nodes = sum(1 for subset in children_labels if calculate_entropy(subset) == 0)
+        
+        split_balance_metrics[feature] = {
+            'subset_sizes': subset_sizes,
+            'balance_ratio': balance_ratio,
+            'subset_variance': subset_variance,
+            'size_entropy': size_entropy,
+            'pure_nodes': pure_nodes,
+            'total_subsets': len(subset_sizes)
+        }
+        
+        print(f"\nFeature: {feature}")
+        print(f"  Subset sizes: {subset_sizes}")
+        print(f"  Balance ratio (min/max): {balance_ratio:.4f}")
+        print(f"  Subset size variance: {subset_variance:.4f}")
+        print(f"  Size distribution entropy: {size_entropy:.4f}")
+        print(f"  Pure nodes: {pure_nodes}/{len(subset_sizes)}")
+        print(f"  Total subsets: {len(subset_sizes)}")
+    
+    # Determine best feature based on tie-breaking criteria
+    print(f"\nTIE-BREAKING CRITERIA (in order of preference):")
+    print("1. Higher balance ratio (more balanced splits)")
+    print("2. Lower subset variance (more uniform distribution)")
+    print("3. Lower size entropy (more balanced proportions)")
+    print("4. More pure nodes (better class separation)")
+    print("5. Fewer total subsets (simpler tree structure)")
+    
+    # Sort by tie-breaking criteria
+    sorted_tied_features = sorted(tied_features, 
+                                key=lambda f: (
+                                    -split_balance_metrics[f]['balance_ratio'],  # Higher is better
+                                    split_balance_metrics[f]['subset_variance'],  # Lower is better
+                                    split_balance_metrics[f]['size_entropy'],    # Lower is better
+                                    -split_balance_metrics[f]['pure_nodes'],    # Higher is better
+                                    split_balance_metrics[f]['total_subsets']   # Lower is better
+                                ))
+    
+    print(f"\nTIE-BREAKING RESULTS:")
+    for i, feature in enumerate(sorted_tied_features):
+        metrics = split_balance_metrics[feature]
+        print(f"{i+1}. {feature}: Balance={metrics['balance_ratio']:.4f}, "
+              f"Variance={metrics['subset_variance']:.4f}, "
+              f"SizeEntropy={metrics['size_entropy']:.4f}, "
+              f"PureNodes={metrics['pure_nodes']}")
+    
+    best_id3_feature = sorted_tied_features[0]
+    print(f"\nID3 chooses: {best_id3_feature} (after tie-breaking)")
+    
+else:
+    print(f"No ties detected. ID3 chooses: {best_id3_feature}")
+
 print(f"ID3 would choose: {best_id3_feature}")
+
+# Add comprehensive analysis of the tie-breaking decision
+print(f"\n" + "="*80)
+print("1.5. ID3 TIE-BREAKING COMPREHENSIVE ANALYSIS")
+print("="*80)
+
+if len(tied_features) > 1:
+    print(f"Since Customer_Type and Service_Rating both have Information Gain = {max_ig:.4f},")
+    print(f"we need to apply tie-breaking criteria to determine the optimal choice.")
+    
+    print(f"\nDETAILED SPLIT ANALYSIS FOR TIED FEATURES:")
+    print("=" * 60)
+    
+    for feature in tied_features:
+        print(f"\n{feature} Feature Analysis:")
+        print("-" * 40)
+        
+        unique_values = df[feature].unique()
+        children_labels = []
+        
+        print(f"Feature values: {list(unique_values)}")
+        print(f"Number of subsets: {len(unique_values)}")
+        
+        total_entropy = 0
+        subset_details = []
+        
+        for value in unique_values:
+            subset = df[df[feature] == value]['Buy_Again'].tolist()
+            children_labels.append(subset)
+            
+            subset_counts = dict(pd.Series(subset).value_counts())
+            yes_count = subset_counts.get('Yes', 0)
+            no_count = subset_counts.get('No', 0)
+            total_count = len(subset)
+            
+            if yes_count > 0 and no_count > 0:
+                p_yes = yes_count / total_count
+                p_no = no_count / total_count
+                entropy = -p_yes * log2(p_yes) - p_no * log2(p_no)
+            else:
+                entropy = 0
+            
+            total_entropy += (total_count / len(target)) * entropy
+            
+            subset_details.append({
+                'value': value,
+                'subset': subset,
+                'counts': subset_counts,
+                'size': total_count,
+                'entropy': entropy,
+                'weight': total_count / len(target)
+            })
+            
+            print(f"  {value}: {subset} → {subset_counts}")
+            print(f"    Size: {total_count}, Entropy: {entropy:.4f}, Weight: {total_count/len(target):.4f}")
+        
+        # Calculate balance metrics
+        subset_sizes = [detail['size'] for detail in subset_details]
+        min_size = min(subset_sizes)
+        max_size = max(subset_sizes)
+        balance_ratio = min_size / max_size if max_size > 0 else 0
+        subset_variance = np.var(subset_sizes) if len(subset_sizes) > 1 else 0
+        
+        print(f"\n  Balance Analysis:")
+        print(f"    Subset sizes: {subset_sizes}")
+        print(f"    Min/Max ratio: {min_size}/{max_size} = {balance_ratio:.4f}")
+        print(f"    Size variance: {subset_variance:.4f}")
+        print(f"    Weighted entropy: {total_entropy:.4f}")
+        
+        # Show why this feature is good or bad
+        if balance_ratio > 0.5:
+            print(f"    ✓ Good balance: subsets are reasonably sized")
+        else:
+            print(f"    ✗ Poor balance: one subset dominates")
+        
+        if subset_variance < 2.0:
+            print(f"    ✓ Good distribution: subset sizes are uniform")
+        else:
+            print(f"    ✗ Poor distribution: subset sizes vary greatly")
+    
+    print(f"\n" + "="*60)
+    print("TIE-BREAKING DECISION:")
+    print("="*60)
+    
+    # Show the final decision
+    winner_metrics = split_balance_metrics[best_id3_feature]
+    print(f"After applying all tie-breaking criteria, {best_id3_feature} is selected because:")
+    
+    if winner_metrics['balance_ratio'] > 0.5:
+        print(f"1. ✓ Better balance ratio: {winner_metrics['balance_ratio']:.4f}")
+    
+    if winner_metrics['subset_variance'] < 2.0:
+        print(f"2. ✓ Lower subset variance: {winner_metrics['subset_variance']:.4f}")
+    
+    if winner_metrics['size_entropy'] < 1.5:
+        print(f"3. ✓ Lower size distribution entropy: {winner_metrics['size_entropy']:.4f}")
+    
+    if winner_metrics['pure_nodes'] > 0:
+        print(f"4. ✓ More pure nodes: {winner_metrics['pure_nodes']}")
+    
+    print(f"\nThis creates a more stable and interpretable decision tree structure.")
+
+print(f"\n" + "="*80)
 
 print(f"\n" + "="*80)
 print("2. C4.5 APPROACH - GAIN RATIO")
