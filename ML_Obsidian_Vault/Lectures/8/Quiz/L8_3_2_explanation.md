@@ -4,13 +4,13 @@
 In a loan default prediction dataset, features include: income, debt_ratio, credit_score, and age. Income and debt_ratio together determine debt-to-income ratio, which is a strong predictor. Credit_score and age are moderately correlated ($r = 0.6$).
 
 ### Task
-1. Design a scenario where univariate selection would miss the income-debt_ratio interaction. Assume that individual features have weak correlations with the target (e.g., income correlation = -0.04, debt_ratio correlation = -0.05, credit_score correlation = 0.03, age correlation = 0.01), but the debt-to-income ratio has a stronger correlation (-0.35) with the target.
-2. If income and debt_ratio have correlation $r = 0.3$, calculate the redundancy score. Use the formula: redundancy score = correlation².
-3. How many independent feature combinations exist if you group correlated features? Assume income and debt_ratio form Group 1 (correlation = 0.3), and credit_score and age form Group 2 (correlation = 0.6). Calculate combinations within each group separately, then sum them.
-4. Calculate the reduction in search space if you treat correlated features as groups. Original search space = 2⁴ - 1 = 15 combinations (all possible combinations of 4 features). Calculate the reduced space and percentage reduction.
-5. Design a multivariate selection strategy for this dataset. Include at least 4 steps: feature grouping, interaction creation, evaluation method, and validation approach.
+1. Design a scenario where univariate selection would miss the income-debt_ratio interaction. Assume that individual features have weak correlations with the target (e.g., income correlation = $-0.04$, debt_ratio correlation = $-0.05$, credit_score correlation = $0.03$, age correlation = $0.01$), but the debt-to-income ratio has a stronger correlation ($-0.35$) with the target.
+2. If income and debt_ratio have correlation $r = 0.3$, calculate the redundancy score. Use the formula: redundancy score = correlation$^2$.
+3. How many independent feature combinations exist if you group correlated features? Assume income and debt_ratio form Group 1 (correlation = $0.3$), and credit_score and age form Group 2 (correlation = $0.6$). Calculate combinations within each group separately, then sum them.
+4. Calculate the reduction in search space if you treat correlated features as groups. Original search space = $2^4 - 1 = 15$ combinations (all possible combinations of $4$ features). Calculate the reduced space and percentage reduction.
+5. Design a multivariate selection strategy for this dataset. Include at least $4$ steps: feature grouping, interaction creation, evaluation method, and validation approach.
 6. If the debt-to-income ratio is calculated as $$\frac{\text{debt\_ratio} \times 100}{\text{income}}$$ and you have sample values: income = $\$50,000$, debt_ratio = $0.4$, credit_score = $720$, age = $35$, calculate the actual debt-to-income ratio. If the target is $1$ for default and $0$ for no default, and the threshold for default is debt-to-income > $0.43$, what would be the prediction?
-7. Calculate the VIF (Variance Inflation Factor) for income if the $R^2$ from regressing income on other features is $0.25$. Use the formula: VIF = 1/(1-R²). If the rule of thumb is to remove features with VIF > $5$, would income be removed? Then calculate the condition number of the correlation matrix for all four features. Use the correlation matrix:
+7. Calculate the VIF (Variance Inflation Factor) for income if the $R^2$ from regressing income on other features is $0.25$. Use the formula: VIF = $1/(1-R^2)$. If the rule of thumb is to remove features with VIF > $5$, would income be removed? Then calculate the condition number of the correlation matrix for all four features. Use the correlation matrix:
    $$\begin{bmatrix} 1.0 & 0.3 & 0.0 & 0.0 \\ 0.3 & 1.0 & 0.0 & 0.0 \\ 0.0 & 0.0 & 1.0 & 0.6 \\ 0.0 & 0.0 & 0.6 & 1.0 \end{bmatrix}$$
    The condition number is the ratio of the largest to smallest eigenvalue.
 
@@ -80,8 +80,8 @@ This significant reduction makes the feature selection process much more computa
 **Proposed 5-Step Strategy:**
 
 1. **Feature Grouping:** Identify and group correlated features together
-   - Group 1: income and debt_ratio (r = 0.3)
-   - Group 2: credit_score and age (r = 0.6)
+   - Group 1: income and debt_ratio ($r = 0.3$)
+   - Group 2: credit_score and age ($r = 0.6$)
 
 2. **Interaction Feature Creation:** Create meaningful feature interactions
    - Calculate debt-to-income ratio: $\frac{\text{debt\_ratio} \times 100}{\text{income}}$
@@ -110,18 +110,18 @@ This significant reduction makes the feature selection process much more computa
 | Feature | Value |
 |---------|-------|
 | income | $\$50,000$ |
-| debt_ratio | 0.4 |
-| credit_score | 720 |
-| age | 35 |
+| debt_ratio | $0.4$ |
+| credit_score | $720$ |
+| age | $35$ |
 
 **Calculation:**
 $$\text{Debt-to-income ratio} = \frac{\text{debt\_ratio} \times 100}{\text{income}} = \frac{0.4 \times 100}{50,000} = \frac{40.0}{50,000} = 0.000800$$
 
 **Prediction Analysis:**
-- Default threshold: debt-to-income > 0.43
-- Sample ratio: 0.000800
+- Default threshold: debt-to-income > $0.43$
+- Sample ratio: $0.000800$
 - Since $0.000800 \leq 0.43$
-- **Prediction: 0 (No Default)**
+- **Prediction: $0$ (No Default)**
 
 ![Debt-to-Income Distribution](../Images/L8_3_Quiz_2/task6_debt_to_income_distribution.png)
 
@@ -136,8 +136,8 @@ The visualization shows the distribution of debt-to-income ratios in our dataset
 - $\text{VIF} = \frac{1}{1 - R^2} = \frac{1}{1 - 0.25} = 1.3333$
 
 **Decision Rule:**
-- VIF threshold: Remove features with VIF > 5
-- Since VIF = 1.3333 ≤ 5
+- VIF threshold: Remove features with VIF > $5$
+- Since VIF = $1.3333 \leq 5$
 - **Decision: Keep income (No removal needed)**
 
 **Part 2: Condition Number**
@@ -155,7 +155,7 @@ $$\begin{bmatrix}
 **Calculation:**
 $$\text{Condition number} = \frac{\max(|\text{eigenvalues}|)}{\min(|\text{eigenvalues}|)} = \frac{1.6}{0.4} = 4.0$$
 
-**Interpretation:** A condition number of 4.0 indicates well-conditioned data with low multicollinearity.
+**Interpretation:** A condition number of $4.0$ indicates well-conditioned data with low multicollinearity.
 
 ![Correlation Matrix](../Images/L8_3_Quiz_2/task7_correlation_matrix.png)
 
