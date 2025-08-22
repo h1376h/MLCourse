@@ -135,15 +135,17 @@ These individual heatmaps reveal how each feature correlates with the target cla
 
 ### Decision Tree Structures
 
+**Visualization Improvements**: The decision tree visualizations have been updated to display with the root node at the top, growing downwards for better readability. Additionally, the leaf node labels now use clean, sequential numbering instead of memory addresses for improved clarity.
+
 #### Original Decision Tree
 ![Original Decision Tree](../Images/L6_3_Quiz_44/original_decision_tree.png)
 
-This visualization shows the original decision tree structure using A as the root node, resulting in a depth-3 tree that achieves 100% training accuracy.
+This visualization shows the original decision tree structure using A as the root node, resulting in a depth-3 tree that achieves 100% training accuracy. **Note: The tree is now displayed with the root at the top, growing downwards for better readability.**
 
 #### Optimal Decision Tree
 ![Optimal Decision Tree](../Images/L6_3_Quiz_44/optimal_decision_tree.png)
 
-This visualization shows the optimal decision tree structure using B as the root node with C in both branches, resulting in a more efficient depth-2 tree that also achieves 100% training accuracy.
+This visualization shows the optimal decision tree structure using B as the root node with C in both branches, resulting in a more efficient depth-2 tree that also achieves 100% training accuracy. **Note: The tree is now displayed with the root at the top, growing downwards for better readability.**
 
 ### Performance and Efficiency Analysis
 

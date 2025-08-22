@@ -484,19 +484,22 @@ for f_idx, feature in enumerate(features):
 
 # Create individual decision tree visualizations
 
-def create_tree_graph(node, G=None, parent=None, edge_label="", pos=None, x=0, y=0, level_spacing=2, node_spacing=3):
+def create_tree_graph(node, G=None, parent=None, edge_label="", pos=None, x=0, y=0, level_spacing=2, node_spacing=3, node_counter=None):
     """Create NetworkX graph from decision tree"""
     if G is None:
         G = nx.DiGraph()
         pos = {}
+        node_counter = {'count': 0}
 
     if node['type'] == 'leaf':
-        node_id = f"Leaf_{node['class']}_{id(node)}"
+        node_counter['count'] += 1
+        node_id = f"Leaf_{node['class']}_{node_counter['count']}"
         label = f"Class {node['class']}\n({node['samples']} samples)"
         G.add_node(node_id, label=label, shape='box', style='filled', fillcolor='lightblue')
         pos[node_id] = (x, y)
     else:
-        node_id = f"Node_{node['feature']}_{id(node)}"
+        node_counter['count'] += 1
+        node_id = f"Node_{node['feature']}_{node_counter['count']}"
         label = f"{node['feature']}\n({node['samples']} samples)"
         G.add_node(node_id, label=label, shape='ellipse', style='filled', fillcolor='lightgreen')
         pos[node_id] = (x, y)
@@ -511,9 +514,9 @@ def create_tree_graph(node, G=None, parent=None, edge_label="", pos=None, x=0, y
 
         for i, (value, child) in enumerate(children):
             child_x = start_x + i * node_spacing
-            child_y = y - level_spacing
+            child_y = y + level_spacing  # Changed from y - level_spacing to y + level_spacing
             create_tree_graph(child, G, node_id, f"{node['feature']}={value}",
-                            pos, child_x, child_y, level_spacing, node_spacing/2)
+                            pos, child_x, child_y, level_spacing, node_spacing/2, node_counter)
 
     return G, pos
 
@@ -526,7 +529,7 @@ if 'decision_tree' in locals():
     G1, pos1 = create_tree_graph(decision_tree)
     pos_attrs = {}
     for node, coords in pos1.items():
-        pos_attrs[node] = (coords[0] * 100 + 400, coords[1] * -80 + 300)
+        pos_attrs[node] = (coords[0] * 100 + 400, coords[1] * 80 + 100)  # Changed from -80 + 300 to 80 + 100
 
     nx.draw(G1, pos_attrs, ax=ax1, with_labels=True, node_color='lightcoral',
             node_size=1800, font_size=9, font_weight='bold',
@@ -548,7 +551,7 @@ if 'alternative_tree' in locals():
     G2, pos2 = create_tree_graph(alternative_tree)
     pos_attrs2 = {}
     for node, coords in pos2.items():
-        pos_attrs2[node] = (coords[0] * 100 + 400, coords[1] * -80 + 300)
+        pos_attrs2[node] = (coords[0] * 100 + 400, coords[1] * 80 + 100)  # Changed from -80 + 300 to 80 + 100
 
     nx.draw(G2, pos_attrs2, ax=ax2, with_labels=True, node_color='lightblue',
             node_size=1800, font_size=9, font_weight='bold',
