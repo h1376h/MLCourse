@@ -1,7 +1,7 @@
 # Lecture 5.2: Hard Margin and Soft Margin SVMs Quiz
 
 ## Overview
-This quiz contains 14 questions covering different topics from section 5.2 of the lectures on Hard Margin SVM, Soft Margin SVM, Slack Variables, Regularization Trade-offs, Hinge Loss Function, and KKT Conditions.
+This quiz contains 20 questions covering different topics from section 5.2 of the lectures on Hard Margin SVM, Soft Margin SVM, Slack Variables, Regularization Trade-offs, Hinge Loss Function, and KKT Conditions.
 
 ## Question 1
 
@@ -229,3 +229,101 @@ Practical implementation considerations for soft margin SVMs.
 5. What stopping criteria would you use for iterative optimization algorithms?
 
 For a detailed explanation of this problem, see [Question 14: Implementation Considerations](L5_2_14_explanation.md).
+
+## Question 15
+
+### Problem Statement
+Consider a soft margin SVM with $C = 2$ and the dataset:
+- $\mathbf{x}_1 = (1, 1)$, $y_1 = +1$
+- $\mathbf{x}_2 = (2, 0)$, $y_2 = +1$
+- $\mathbf{x}_3 = (0, 0)$, $y_3 = -1$
+- $\mathbf{x}_4 = (1, -1)$, $y_4 = -1$
+- $\mathbf{x}_5 = (0.5, 0.8)$, $y_5 = -1$ (potential outlier)
+
+Given optimal solution: $\mathbf{w}^* = (0.4, 0.8)^T$, $b^* = -0.6$
+
+#### Task
+1. Calculate $y_i(\mathbf{w}^{*T}\mathbf{x}_i + b^*)$ for each point
+2. Compute $\xi_i = \max(0, 1 - y_i(\mathbf{w}^{*T}\mathbf{x}_i + b^*))$ for each point
+3. Calculate the total objective $\frac{1}{2}||\mathbf{w}^*||^2 + C\sum_i \xi_i$
+4. Classify each point as: margin SV, non-margin SV, or non-SV
+5. Compute individual hinge losses and verify relationship to slack variables
+
+For a detailed explanation of this problem, see [Question 15: Complete Soft Margin Calculation](L5_2_15_explanation.md).
+
+## Question 16
+
+### Problem Statement
+Given the soft margin SVM solution with:
+- $\alpha_1 = 0.5$, $\alpha_2 = 0$, $\alpha_3 = 1.2$, $\alpha_4 = 0$, $\alpha_5 = 2.0$ (where $C = 2$)
+- Corresponding slack variables: $\xi_1 = 0$, $\xi_2 = 0.1$, $\xi_3 = 0$, $\xi_4 = 0.3$, $\xi_5 = 0.6$
+
+#### Task
+1. For each point, determine which KKT condition category it belongs to
+2. Verify $\alpha_i(1 - y_i f(\mathbf{x}_i) - \xi_i) = 0$ for each point
+3. Check $(C - \alpha_i)\xi_i = 0$ for each point
+4. Identify margin SVs, non-margin SVs, and non-SVs
+5. Use margin support vectors to calculate $b$
+
+For a detailed explanation of this problem, see [Question 16: KKT Conditions in Soft Margin](L5_2_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+Compare three soft margin SVMs with $C = 0.1, 1, 10$ on the same dataset.
+
+#### Task
+1. Predict how the number of support vectors changes with $C$
+2. Derive how margin width is affected by different $C$ values
+3. Predict the total slack $\sum_i \xi_i$ trend as $C$ increases
+4. Calculate expected training error bounds for each $C$ value
+5. Determine which $C$ value leads to overfitting and why
+
+For a detailed explanation of this problem, see [Question 17: Regularization Analysis](L5_2_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+For the points and classifier $f(x) = 0.5x_1 - 0.3x_2 + 0.2$:
+- $(2, 1, +1)$, $(1, 3, +1)$, $(0, 0, -1)$, $(1, 1, -1)$, $(3, 2, +1)$
+
+#### Task
+1. Calculate $f(\mathbf{x}_i)$ for each point
+2. Compute $L_h(y_i, f(\mathbf{x}_i)) = \max(0, 1 - y_i f(\mathbf{x}_i))$
+3. Calculate $\sum_i L_h(y_i, f(\mathbf{x}_i))$
+4. Compare with 0-1 loss $\sum_i \mathbf{1}[y_i f(\mathbf{x}_i) < 0]$
+5. Compute subgradients of hinge loss at each point
+
+For a detailed explanation of this problem, see [Question 18: Hinge Loss Calculations](L5_2_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Design an experiment to find optimal $C$ for a noisy dataset.
+
+#### Task
+1. Sketch expected validation error vs. $C$ for dataset with 10% label noise
+2. Design a logarithmic grid for $C$ values from $10^{-3}$ to $10^3$
+3. Implement 5-fold CV and calculate average validation error
+4. Show how bias and variance components change with $C$
+5. Compare performance with different noise levels (5%, 15%, 25%)
+
+For a detailed explanation of this problem, see [Question 19: C Parameter Optimization](L5_2_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+Compare solutions on a dataset where hard margin fails.
+
+Dataset with outlier:
+- Class +1: $(2, 2)$, $(3, 3)$, $(4, 1)$
+- Class -1: $(0, 0)$, $(1, 1)$, $(2.5, 2.5)$ ← outlier making data non-separable
+
+#### Task
+1. Prove that no hard margin solution exists
+2. Solve soft margin SVM with $C = 1$
+3. Calculate slack variable for the outlier point
+4. Compare decision boundaries with and without the outlier
+5. Quantify how much the outlier affects the solution
+
+For a detailed explanation of this problem, see [Question 20: Hard vs Soft Margin Comparison](L5_2_20_explanation.md).
