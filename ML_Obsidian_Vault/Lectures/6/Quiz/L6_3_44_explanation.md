@@ -115,19 +115,69 @@ The minimum possible depth is 2. This can be achieved by using a different split
 ## Visual Explanations
 
 ### Information Gain Analysis
-![Information Gain Analysis](../Images/L6_3_Quiz_44/information_gain_analysis.png)
 
-This comprehensive visualization provides multiple insights: (1) Information gain bar plot with color coding showing feature importance and split power, (2) Color-coded dataset table highlighting class distribution patterns, (3) Feature-class relationship heatmaps revealing how each feature correlates with the target class. The analysis shows that while A has the highest information gain, B and C together create more efficient tree structures when used appropriately.
+#### Information Gain Bar Plot
+![Information Gain Bar Plot](../Images/L6_3_Quiz_44/information_gain_bar.png)
 
-### Decision Tree Comparison
-![Decision Tree Comparison](../Images/L6_3_Quiz_44/decision_trees_comparison.png)
+This visualization shows the information gain for each feature, with color coding to highlight the split power. Feature A has the highest information gain (0.3113), while B and C have zero information gain when used as root splits.
 
-This detailed comparison includes: (1) Visual tree structures showing the difference between original (depth 3) and optimal (depth 2) trees, (2) Tree structure comparison highlighting depth differences with color indicators, (3) Performance metrics showing both trees achieve 100% accuracy, (4) Efficiency analysis demonstrating the optimal tree's superior accuracy-to-depth ratio. The optimal tree uses B as root with C in both branches.
+#### Dataset Overview
+![Dataset Overview](../Images/L6_3_Quiz_44/dataset_overview.png)
 
-### Depth and Performance Comparison
+This table visualization presents the complete dataset with color coding to highlight class distribution patterns. Each row represents a sample, with the target class (Y) color-coded for easy pattern recognition.
+
+#### Feature-Class Relationships
+![A vs Class Relationship](../Images/L6_3_Quiz_44/a_class_relationship.png)
+![B vs Class Relationship](../Images/L6_3_Quiz_44/b_class_relationship.png)
+![C vs Class Relationship](../Images/L6_3_Quiz_44/c_class_relationship.png)
+
+These individual heatmaps reveal how each feature correlates with the target class. The matrices show the distribution of class labels for each feature value combination, providing insight into the discriminative power of each feature.
+
+### Decision Tree Structures
+
+#### Original Decision Tree
+![Original Decision Tree](../Images/L6_3_Quiz_44/original_decision_tree.png)
+
+This visualization shows the original decision tree structure using A as the root node, resulting in a depth-3 tree that achieves 100% training accuracy.
+
+#### Optimal Decision Tree
+![Optimal Decision Tree](../Images/L6_3_Quiz_44/optimal_decision_tree.png)
+
+This visualization shows the optimal decision tree structure using B as the root node with C in both branches, resulting in a more efficient depth-2 tree that also achieves 100% training accuracy.
+
+### Performance and Efficiency Analysis
+
+#### Tree Structure Comparison
+![Tree Structure Comparison](../Images/L6_3_Quiz_44/tree_structure_comparison.png)
+
+This bar chart compares the depth of different tree structures, with color indicators highlighting which approaches are optimal versus suboptimal.
+
+#### Performance Comparison
+![Performance Comparison](../Images/L6_3_Quiz_44/performance_comparison.png)
+
+This grouped bar chart compares accuracy and depth metrics between the original and optimal tree structures, demonstrating that both achieve perfect accuracy despite different complexities.
+
+#### Efficiency Analysis
+![Efficiency Comparison](../Images/L6_3_Quiz_44/efficiency_comparison.png)
+
+This visualization shows the efficiency ratio (accuracy per depth), clearly demonstrating that the optimal tree structure is more efficient than the original approach.
+
+#### Feature Usage Comparison
+![Feature Usage](../Images/L6_3_Quiz_44/feature_usage.png)
+
+This comparison shows which features are utilized in each tree structure, highlighting that the optimal tree eliminates the need for feature A entirely.
+
+### Depth and Performance Metrics
+
+#### Depth Comparison
 ![Depth Comparison](../Images/L6_3_Quiz_44/depth_comparison.png)
 
-This multi-faceted analysis includes: (1) Depth comparison with optimality indicators (green "Optimal" labels), (2) Performance metrics comparing accuracy and depth side-by-side, (3) Efficiency analysis showing accuracy per depth ratio, (4) Feature usage patterns comparing which features are used in each approach. The optimal tree demonstrates superior efficiency with the same accuracy but reduced complexity.
+This comprehensive depth comparison includes the original tree, optimal tree, and analysis of tree structure without feature A, with visual indicators marking optimal versus suboptimal approaches.
+
+#### Performance Metrics
+![Performance Metrics](../Images/L6_3_Quiz_44/performance_metrics.png)
+
+This detailed performance analysis compares accuracy and depth across different tree construction approaches, providing a complete view of the trade-offs involved.
 
 ## Key Insights
 

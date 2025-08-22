@@ -387,10 +387,10 @@ print(f"Minimum depth without feature A: {min_depth_no_a}")
 print("\n6. GENERATING VISUALIZATIONS")
 print("-" * 40)
 
-# Create comprehensive information gain visualization
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
+# Create individual information gain visualizations
 
-# 1. Information gain bar plot with color coding
+# 1. Information gain bar plot
+fig1, ax1 = plt.subplots(1, 1, figsize=(8, 6))
 bars = ax1.bar(features, [information_gains[f] for f in features],
                color=['darkorange', 'lightblue', 'lightgreen'], alpha=0.8, width=0.6)
 ax1.set_title('Information Gain by Feature', fontsize=14, fontweight='bold', pad=20)
@@ -412,7 +412,12 @@ for i, (bar, feature) in enumerate(zip(bars, features)):
         ax1.text(bar.get_x() + bar.get_width()/2., height/2, 'No\nSplit\nPower',
                  ha='center', va='center', fontweight='bold', color='black', fontsize=9)
 
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'information_gain_bar.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
 # 2. Dataset visualization with color coding
+fig2, ax2 = plt.subplots(1, 1, figsize=(8, 6))
 ax2.axis('off')
 ax2.set_title('Dataset Overview', fontsize=14, fontweight='bold', pad=20)
 
@@ -439,10 +444,11 @@ for i in range(len(table_data)):
             if j == 4:  # Target column
                 cell.set_facecolor('lightcoral' if table_data[i][j] == 'F' else 'lightblue')
 
-# 3. Feature correlation heatmap
-ax3.set_title('Feature-Class Relationships', fontsize=14, fontweight='bold', pad=20)
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'dataset_overview.png'), dpi=300, bbox_inches='tight')
+plt.close()
 
-# Create a matrix showing how each feature value relates to class
+# 3. Feature correlation heatmaps - separate plots for each feature
 feature_class_matrix = np.zeros((3, 2, 2))  # 3 features, 2 values each, 2 classes
 
 for sample in data:
@@ -451,19 +457,10 @@ for sample in data:
         class_val = 0 if sample['Y'] == 'F' else 1
         feature_class_matrix[f_idx, f_val, class_val] += 1
 
-# Plot heatmap for each feature
+# Plot heatmap for each feature separately
 for f_idx, feature in enumerate(features):
-    if f_idx == 0:
-        ax = ax3
-        ax.set_title('A vs Class Relationship', fontsize=12, fontweight='bold')
-    elif f_idx == 1:
-        ax = ax4
-        ax.set_title('B vs Class Relationship', fontsize=12, fontweight='bold')
-    elif f_idx == 2:
-        # Create new subplot for third feature
-        fig.add_subplot(2, 2, 4)
-        ax = fig.gca()
-        ax.set_title('C vs Class Relationship', fontsize=12, fontweight='bold')
+    fig, ax = plt.subplots(1, 1, figsize=(6, 5))
+    ax.set_title(f'{feature} vs Class Relationship', fontsize=14, fontweight='bold', pad=20)
 
     matrix = feature_class_matrix[f_idx]
     im = ax.imshow(matrix, cmap='Blues', aspect='auto', alpha=0.8)
@@ -481,11 +478,11 @@ for f_idx, feature in enumerate(features):
     ax.set_xlabel('Class')
     ax.set_ylabel(f'{feature} Value')
 
-plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'information_gain_analysis.png'), dpi=300, bbox_inches='tight')
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, f'{feature.lower()}_class_relationship.png'), dpi=300, bbox_inches='tight')
+    plt.close()
 
-# Create enhanced decision tree comparison visualization
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
+# Create individual decision tree visualizations
 
 def create_tree_graph(node, G=None, parent=None, edge_label="", pos=None, x=0, y=0, level_spacing=2, node_spacing=3):
     """Create NetworkX graph from decision tree"""
@@ -521,6 +518,7 @@ def create_tree_graph(node, G=None, parent=None, edge_label="", pos=None, x=0, y
     return G, pos
 
 # 1. Original tree visualization
+fig1, ax1 = plt.subplots(1, 1, figsize=(10, 8))
 ax1.axis('off')
 ax1.set_title('Original Decision Tree\n(A as root, depth 3)', fontsize=14, fontweight='bold', pad=20)
 
@@ -537,7 +535,12 @@ if 'decision_tree' in locals():
     edge_labels = nx.get_edge_attributes(G1, 'label')
     nx.draw_networkx_edge_labels(G1, pos_attrs, edge_labels, ax=ax1, font_size=8)
 
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'original_decision_tree.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
 # 2. Alternative tree visualization
+fig2, ax2 = plt.subplots(1, 1, figsize=(10, 8))
 ax2.axis('off')
 ax2.set_title('Optimal Decision Tree\n(B as root, depth 2)', fontsize=14, fontweight='bold', pad=20)
 
@@ -554,7 +557,12 @@ if 'alternative_tree' in locals():
     edge_labels2 = nx.get_edge_attributes(G2, 'label')
     nx.draw_networkx_edge_labels(G2, pos_attrs2, edge_labels2, ax=ax2, font_size=8)
 
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'optimal_decision_tree.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
 # 3. Tree structure comparison
+fig3, ax3 = plt.subplots(1, 1, figsize=(8, 6))
 ax3.set_title('Tree Structure Comparison', fontsize=14, fontweight='bold', pad=20)
 
 methods = ['Original Tree\n(A→B→C)', 'Optimal Tree\n(B→C in both)', 'Minimum\nPossible']
@@ -572,7 +580,12 @@ for bar, depth in zip(bars, depths):
     ax3.text(bar.get_x() + bar.get_width()/2., height + 0.1,
              f'Depth {depth}', ha='center', va='bottom', fontweight='bold')
 
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'tree_structure_comparison.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
 # 4. Performance comparison
+fig4, ax4 = plt.subplots(1, 1, figsize=(8, 6))
 ax4.set_title('Performance Comparison', fontsize=14, fontweight='bold', pad=20)
 
 methods = ['Original Tree', 'Optimal Tree']
@@ -600,17 +613,18 @@ for bars, values in [(bars1, accuracy), (bars2, complexity)]:
                  f'{value}', ha='center', va='bottom', fontweight='bold')
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'decision_trees_comparison.png'), dpi=300, bbox_inches='tight')
+plt.savefig(os.path.join(save_dir, 'performance_comparison.png'), dpi=300, bbox_inches='tight')
+plt.close()
 
-# Create enhanced depth and performance comparison
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(14, 10))
+# Create individual depth and performance comparison plots
 
 # 1. Depth comparison with visual indicators
+fig1, ax1 = plt.subplots(1, 1, figsize=(10, 7))
 methods = ['Original Tree\n(A→B→C)', 'Optimal Tree\n(B→C in both)', 'Tree without A\n(B,C only)']
 depths = [3, 2, min_depth_no_a if min_depth_no_a != float('inf') else 0]
 colors = ['lightcoral', 'lightblue', 'lightgray']
 
-ax1.bar(methods, depths, color=colors, alpha=0.8, width=0.6)
+bars = ax1.bar(methods, depths, color=colors, alpha=0.8, width=0.6)
 ax1.set_title('Tree Depth Comparison', fontsize=14, fontweight='bold', pad=20)
 ax1.set_ylabel('Depth', fontsize=12)
 ax1.set_xlabel('Tree Structure', fontsize=12)
@@ -624,7 +638,12 @@ for i, (method, depth) in enumerate(zip(methods, depths)):
     elif depth > 2:
         ax1.text(i, depth/2, 'Suboptimal', ha='center', va='center', fontweight='bold', color='darkred')
 
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'depth_comparison.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
 # 2. Performance metrics comparison
+fig2, ax2 = plt.subplots(1, 1, figsize=(10, 7))
 ax2.set_title('Performance Metrics', fontsize=14, fontweight='bold', pad=20)
 
 methods_perf = ['Original Tree', 'Optimal Tree', 'Tree without A']
@@ -651,7 +670,12 @@ for bars, values in [(bars1, accuracy), (bars2, depths_perf)]:
         ax2.text(bar.get_x() + bar.get_width()/2., height + 2,
                  f'{value}', ha='center', va='bottom', fontweight='bold')
 
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'performance_metrics.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
 # 3. Efficiency comparison (accuracy per depth)
+fig3, ax3 = plt.subplots(1, 1, figsize=(8, 6))
 ax3.set_title('Efficiency: Accuracy per Depth', fontsize=14, fontweight='bold', pad=20)
 
 methods_eff = ['Original Tree', 'Optimal Tree']
@@ -672,7 +696,12 @@ for i, (bar, eff) in enumerate(zip(bars_eff, efficiency)):
         ax3.text(bar.get_x() + bar.get_width()/2., height/2,
                  'Most\nEfficient', ha='center', va='center', fontweight='bold', color='darkgreen')
 
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'efficiency_comparison.png'), dpi=300, bbox_inches='tight')
+plt.close()
+
 # 4. Feature usage comparison
+fig4, ax4 = plt.subplots(1, 1, figsize=(8, 6))
 ax4.set_title('Feature Usage', fontsize=14, fontweight='bold', pad=20)
 
 features = ['A', 'B', 'C']
@@ -701,13 +730,24 @@ for i, (orig, opt) in enumerate(zip(original_usage, optimal_usage)):
         ax4.text(i + width/2, 0.5, 'Used', ha='center', va='center', fontweight='bold', color='white')
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'depth_comparison.png'), dpi=300, bbox_inches='tight')
+plt.savefig(os.path.join(save_dir, 'feature_usage.png'), dpi=300, bbox_inches='tight')
+plt.close()
 
 print(f"\nImages saved to: {save_dir}")
 print("Generated files:")
-print("  - information_gain_analysis.png")
-print("  - decision_trees_comparison.png")
+print("  - information_gain_bar.png")
+print("  - dataset_overview.png")
+print("  - a_class_relationship.png")
+print("  - b_class_relationship.png")
+print("  - c_class_relationship.png")
+print("  - original_decision_tree.png")
+print("  - optimal_decision_tree.png")
+print("  - tree_structure_comparison.png")
+print("  - performance_comparison.png")
 print("  - depth_comparison.png")
+print("  - performance_metrics.png")
+print("  - efficiency_comparison.png")
+print("  - feature_usage.png")
 
 print("\n" + "=" * 60)
 print("ANALYSIS COMPLETE")
