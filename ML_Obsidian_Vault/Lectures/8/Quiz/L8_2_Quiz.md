@@ -1,7 +1,7 @@
 # Lecture 8.2: Univariate Feature Selection Methods Quiz
 
 ## Overview
-This quiz contains 20 focused questions covering univariate feature selection methods, including filter scoring, irrelevance criteria, correlation measures, mutual information, chi-square tests, determining the optimal number of features, selection timing, resource constraints, domain-specific requirements, and domain insights. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 21 focused questions covering univariate feature selection methods, including filter scoring, irrelevance criteria, correlation measures, mutual information, chi-square tests, determining the optimal number of features, selection timing, resource constraints, domain-specific requirements, domain insights, and data quality effects. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -310,3 +310,34 @@ Mutual information can reveal complex relationships between features and targets
 **Note:** Use natural logarithm ($\ln$) for all calculations. Show all intermediate steps and round final answers to $4$ decimal places.
 
 For a detailed explanation of this question, see [Question 20: Advanced Mutual Information Analysis](L8_2_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+Feature selection methods can be sensitive to data quality and preprocessing. Consider a scenario where you have a dataset with missing values, outliers, and different data types that affect univariate feature selection performance.
+
+#### Task
+1. Given a dataset with $1000$ samples and $50$ features where $20\%$ of values are missing, how many complete samples would you have if you remove all rows with any missing values? If you use mean imputation instead, what's the impact on feature correlation scores?
+
+2. Consider three features with the following distributions:
+   - Feature A: Normal distribution with mean $0$ and standard deviation $1$
+   - Feature B: Uniform distribution from $0$ to $1$
+   - Feature C: Exponential distribution with rate $1$
+   
+   If the target variable $Y$ follows $Y = 2X_A + 0.5X_B + \epsilon$ where $\epsilon \sim N(0, 0.1)$, calculate the theoretical correlation between each feature and the target. Which feature would be ranked highest by univariate selection?
+
+3. For a binary classification problem, calculate the mutual information between a feature $X$ and target $Y$ given the following joint probability distribution:
+   - $P(X=0, Y=0) = 0.4$
+   - $P(X=0, Y=1) = 0.1$
+   - $P(X=1, Y=0) = 0.2$
+   - $P(X=1, Y=1) = 0.3$
+   
+   Show all calculations for marginal probabilities, entropies, and mutual information.
+
+4. If you have categorical features with different numbers of categories (e.g., Gender with 2 categories vs. City with 100 categories), how does this affect chi-square test statistics? Calculate the chi-square statistic for a $2 \times 2$ contingency table vs. a $100 \times 2$ table with the same proportional relationships.
+
+5. Consider feature scaling effects: if you standardize features to have mean $0$ and standard deviation $1$, how does this affect Pearson correlation coefficients? If you min-max scale features to $[0,1]$, how does this affect mutual information scores?
+
+**Note:** All calculations should be done by hand. Show all intermediate steps and round final answers to 4 decimal places where appropriate.
+
+For a detailed explanation of this question, see [Question 21: Data Quality and Preprocessing Effects](L8_2_21_explanation.md).

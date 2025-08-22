@@ -1,7 +1,7 @@
 # Lecture 8.7: Search Strategies Quiz
 
 ## Overview
-This quiz contains 30 questions covering search strategies for feature selection, including general procedures, stopping criteria, different search approaches (complete, heuristic, random), and comparisons between methods. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 31 questions covering search strategies for feature selection, including general procedures, stopping criteria, different search approaches (complete, heuristic, random), comparisons between methods, and cross-validation analysis. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -432,3 +432,34 @@ Search strategies are part of a broader feature engineering strategy.
 5. Design a comprehensive feature engineering pipeline
 
 For a detailed explanation of this question, see [Question 30: Feature Engineering Integration](L8_7_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+Feature selection using cross-validation requires careful analysis of performance across different feature subsets. Consider a feature selection scenario where features are ranked by a univariate score, and parameter $k$ (representing the number of features to select) is chosen using cross-validation.
+
+#### Task
+1. A 3-fold cross-validation was performed for $k \in \{2, 3, 4\}$ with the following results:
+   - For $k = 2$: $\{0.78, 0.80, 0.76\}$
+   - For $k = 3$: $\{0.81, 0.82, 0.79\}$
+   - For $k = 4$: $\{0.82, 0.78, 0.80\}$
+   
+   Calculate the mean accuracy and standard deviation for each $k$ value.
+
+2. For each $k$ value, calculate the 95% confidence interval using the t-distribution. Assume the critical t-value for 2 degrees of freedom at $\alpha = 0.05$ is $t_{0.025,2} = 4.303$.
+
+3. Which $k$ would you select and why? Consider both mean performance and stability (standard deviation).
+
+4. If selecting $k = 3$ means you might miss the potential performance of $k = 4$, what's the expected regret? Calculate the expected regret as $E[\text{Regret}] = \max(\text{mean}_{k=4}) - \text{mean}_{k=3}$.
+
+5. Calculate the coefficient of variation ($CV = \frac{\text{std}}{\text{mean}}$) for each $k$ value. Which $k$ provides the most stable performance?
+
+6. If you require a minimum mean accuracy of 0.80, which $k$ values meet this criterion? If you also require a maximum standard deviation of 0.02, which $k$ values satisfy both constraints?
+
+7. Assume each additional feature adds computational cost $C(k) = 0.1k^2$ and provides utility $U(k) = \text{mean accuracy} - 0.05k$. Calculate the net benefit $B(k) = U(k) - C(k)$ for each $k$ value. Which $k$ maximizes net benefit?
+
+8. If you were to perform 5-fold cross-validation instead of 3-fold, how would this affect your confidence in the results? Calculate the standard error of the mean for 5-fold CV assuming the same standard deviations.
+
+**Note:** All calculations should be done by hand. Show all intermediate steps and round final answers to 4 decimal places where appropriate.
+
+For a detailed explanation of this question, see [Question 31: Cross-Validation Feature Selection Analysis](L8_7_31_explanation.md).
