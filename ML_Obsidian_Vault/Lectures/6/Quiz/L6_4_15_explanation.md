@@ -18,45 +18,37 @@ You're working with data from IoT sensors that have varying levels of noise depe
 
 ### Task
 1. Calculate the overfitting gap $\Delta = \text{Training Acc} - \text{Validation Acc}$ and explain why noise causes this gap to widen. Use the bias-variance decomposition $E[(y - \hat{f}(x))^2] = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$ to show how noise affects each component.
-
 2. Given these pruning options, calculate which is most robust using the generalization gap metric $G = \frac{\text{Training Acc} - \text{Test Acc}}{\text{Tree Complexity}}$ where complexity is measured by $\log(\text{Depth} \times \text{Leaves})$:
    - No pruning: Training Acc = $95\%$, Test Acc = $72\%$, Depth = $8$, Leaves = $25$
-   - Depth pruning (max_depth=4): Training Acc = $87\%$, Test Acc = $78\%$, Depth = $4$, Leaves = $12$
-   - Sample pruning (min_samples=50): Training Acc = $89\%$, Test Acc = $75\%$, Depth = $6$, Leaves = $18$
+   - Depth pruning (max_depth = $4$): Training Acc = $87\%$, Test Acc = $78\%$, Depth = $4$, Leaves = $12$
+   - Sample pruning (min_samples = $50$): Training Acc = $89\%$, Test Acc = $75\%$, Depth = $6$, Leaves = $18$
    - Combined pruning: Training Acc = $85\%$, Test Acc = $80\%$, Depth = $3$, Leaves = $8$
-
 3. Design mathematical functions that adjust pruning thresholds based on noise level $\sigma$. If $\sigma = 0.25$, derive optimal values for:
    - min_samples_split = $f_1(\sigma) = \max(10, \lceil 50\sigma^2 \rceil)$
    - max_depth = $f_2(\sigma) = \lfloor 8 - 4\sigma \rfloor$
    - min_impurity_decrease = $f_3(\sigma) = 0.01 + 0.1\sigma$
-
 4. If $p = 10\%$ of the data are outliers that shift the decision boundary by $\Delta = 0.5$, calculate:
    - Expected change in training accuracy: $\Delta_{\text{train}} = p \cdot \Delta \cdot \text{Training Acc}$
    - Expected change in validation accuracy: $\Delta_{\text{val}} = p \cdot \Delta \cdot \text{Validation Acc}$
    - Optimal outlier removal threshold: $\tau = \arg\min_{\tau} \left|\Delta_{\text{train}}(\tau) - \Delta_{\text{val}}(\tau)\right|$
-
 5. If noise increases exponentially as $\sigma(x_1) = 0.1 \cdot e^{x_1/2}$, derive the optimal pruning function that minimizes expected error:
    - Find optimal tree depth: $d^*(x_1) = \arg\min_d \left(\text{Bias}(d) + \text{Variance}(d, \sigma(x_1))\right)$
    - Calculate expected error: $E[\text{Error}] = \int_0^3 \left(\text{Bias}^2(d^*(x_1)) + \sigma^2(x_1)\right) dx_1$
 
 6. For a fire detection system with cost matrix $C = \begin{bmatrix} 0 & 1000 \\ 100000 & 0 \end{bmatrix}$ where:
-   - False negative cost = $\$100,000$ (missed fire)
-   - False positive cost = $\$1,000$ (false alarm)
+   - False negative cost = $100,000 (missed fire)
+   - False positive cost = $1,000 (false alarm)
    - Base detection rate = $95\%$
    - Noise level = $0.3$
-   
    Calculate the optimal pruning threshold $\alpha^*$ that minimizes expected cost: $\alpha^* = \arg\min_{\alpha} \sum_{i,j} C_{ij} \cdot P_{ij}(\alpha)$
-
 7. Design a mathematical function to estimate local noise in a neighborhood of size $k = 50$. If the local variance in a region is $\sigma^2_{\text{local}} = 0.4$, calculate the optimal pruning parameters for that region:
    - Local noise estimate: $\hat{\sigma}_{\text{local}} = \sqrt{\frac{1}{k-1} \sum_{i=1}^k (x_i - \bar{x})^2}$
-   - Adaptive min_samples: $n_{\text{min}} = \max(10, \lceil 25\hat{\sigma}_{\text{local}}^2 \rceil)$
-   - Adaptive max_depth: $d_{\text{max}} = \lfloor 6 - 3\hat{\sigma}_{\text{local}} \rfloor$
-
+   - Adaptive minsamples: $n{\text{min}} = \max(10, \lceil 25\hat{\sigma}_{\text{local}}^2 \rceil)$
+   - Adaptive maxdepth: $d{\text{max}} = \lfloor 6 - 3\hat{\sigma}_{\text{local}} \rfloor$
 8. For a pruned tree with error decomposition:
    - Bias = $0.08$
    - Variance = $0.12$
    - Irreducible error = $0.15$
-   
    Calculate:
    - Expected prediction error: $E[(y - \hat{f}(x))^2] = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error}$
    - If you reduce bias by $50\%$ to $0.04$, what's the new expected error?
