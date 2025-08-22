@@ -16,8 +16,8 @@ The performance of feature subsets follows these patterns:
 
 1. **Single Features**: Performance equals individual correlation
 2. **Feature Combinations**: Use the following formulas based on feature types:
-   - **Two weak features (A, B)**: $P = r_A + r_B + (r_A \times r_B \times \text{synergy\_factor})$ where synergy_factor = 7.5
-   - **Weak + Strong combinations**: $P = \max(r_{\text{weak}}, r_{\text{strong}}) + 0.02$
+   - **Two weak features (A, B)**: $P = r_A + r_B + (r_A \times r_B \times synergy_{factor})$ where $synergy_{factor} = 7.5$
+   - **Weak + Strong combinations**: $P = \max(r_{weak}, r_{strong}) + 0.02$
    - **Two strong features (C, D)**: $P = \max(r_C, r_D) + 0.01$ (minimal improvement due to redundancy)
    - **Three or more features**: Performance plateaus at the best two-feature combination
 
@@ -35,7 +35,7 @@ The performance of feature subsets follows these patterns:
 4. What is the main advantage of multivariate methods in this scenario?
 5. Calculate the search space size for 4 features vs 10 features
 6. How many valid feature subsets exist within the budget constraint? Calculate the total cost of all possible subsets.
-7. Calculate the interaction strength between features A and B using the formula: $$\text{Interaction} = \text{Combined\_Correlation} - \max(\text{Individual\_Correlations}) - 0.1 \times \min(\text{Individual\_Correlations})$$ What does this value indicate about feature synergy?
+7. Calculate the interaction strength between features A and B using the formula: $$\text{Interaction} = \text{Combined Correlation} - \max(\text{Individual Correlations}) - 0.1 \times \min(\text{Individual Correlations})$$ What does this value indicate about feature synergy?
 
 ## Understanding the Problem
 This problem explores the fundamental differences between univariate and multivariate feature selection methods in machine learning. Univariate methods evaluate features individually based on their correlation with the target variable, while multivariate methods consider feature combinations and can potentially capture more complex relationships between features. The scenario presents a realistic feature selection problem where you must balance individual feature performance, feature combinations, and practical constraints like budget limitations.
