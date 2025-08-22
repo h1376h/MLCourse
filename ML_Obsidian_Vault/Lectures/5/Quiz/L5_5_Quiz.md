@@ -1,7 +1,7 @@
 # Lecture 5.5: SVM Regression Quiz
 
 ## Overview
-This quiz contains 14 questions covering different topics from section 5.5 of the lectures on Support Vector Regression (SVR), ε-insensitive Loss, Linear and Nonlinear SVR, ν-SVR, and SVR Implementation.
+This quiz contains 20 questions covering different topics from section 5.5 of the lectures on Support Vector Regression (SVR), ε-insensitive Loss, Linear and Nonlinear SVR, ν-SVR, and SVR Implementation.
 
 ## Question 1
 
@@ -219,3 +219,97 @@ Develop practical implementation guidelines and best practices for SVR.
 5. Design a production pipeline for real-time SVR inference with performance monitoring
 
 For a detailed explanation of this problem, see [Question 14: SVR Best Practices](L5_5_14_explanation.md).
+
+## Question 15
+
+### Problem Statement
+For the regression function $f(x) = 0.5x + 1$ and ε = 0.3, calculate losses for data points:
+- $(1, 2.1)$, $(2, 1.8)$, $(3, 2.2)$, $(4, 3.5)$, $(5, 2.9)$
+
+#### Task
+1. Calculate $f(x_i)$ for each input $x_i$
+2. Compute $L_ε(y_i, f(x_i)) = \max(0, |y_i - f(x_i)| - ε)$ for each point
+3. Calculate total ε-insensitive loss $\sum_i L_ε(y_i, f(x_i))$
+4. Compare with squared loss $\sum_i (y_i - f(x_i))^2$
+5. Identify which points would be support vectors (contribute to loss)
+
+For a detailed explanation of this problem, see [Question 15: ε-Loss Calculations](L5_5_15_explanation.md).
+
+## Question 16
+
+### Problem Statement
+Consider the SVR problem with data points:
+- $(1, 2.5)$, $(2, 3.2)$, $(3, 4.1)$, $(4, 4.8)$
+
+Using linear SVR with $ε = 0.2$ and $C = 1$.
+
+#### Task
+1. Write the complete primal optimization problem with slack variables
+2. List all constraints for the 4 data points
+3. For solution $f(x) = 0.8x + 1.5$, calculate all slack variables $\xi_i$ and $\xi_i^*$
+4. Compute the total objective function value
+5. Identify which points are support vectors based on slack values
+
+For a detailed explanation of this problem, see [Question 16: SVR Problem Setup](L5_5_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+Compare ε-SVR and ν-SVR on the same dataset.
+
+Given ν-SVR with $ν = 0.4$ and $C = 2$ vs ε-SVR with $ε = 0.3$ and $C = 2$.
+
+#### Task
+1. What does $ν = 0.4$ mean in terms of support vectors and errors?
+2. What can you say about the fraction of support vectors?
+3. How is ε automatically determined in ν-SVR?
+4. Derive the relationship between ν and the effective ε
+5. When would you prefer ν-SVR over ε-SVR?
+
+For a detailed explanation of this problem, see [Question 17: ν-SVR Analysis](L5_5_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+Apply RBF kernel SVR to nonlinear regression data.
+
+Data points: $(0, 1)$, $(1, 1.5)$, $(2, 4)$, $(3, 4.2)$, $(4, 2)$
+
+#### Task
+1. Compute the $5 \times 5$ kernel matrix with $\gamma = 0.5$
+2. Explain why this kernel can model nonlinear relationships
+3. Write the SVR prediction function in terms of support vectors
+4. Given $\alpha_1 = 0.3, \alpha_2 = 0, \alpha_3 = 0.7, \alpha_4 = 0.2, \alpha_5 = 0$, calculate prediction for $x = 2.5$
+5. Predict how increasing $\gamma$ would affect the prediction function
+
+For a detailed explanation of this problem, see [Question 18: Kernel SVR Application](L5_5_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Compare performance on a dataset with outliers.
+
+Dataset: $(1, 2)$, $(2, 4)$, $(3, 6)$, $(4, 8)$, $(5, 100)$ ← outlier
+
+#### Task
+1. Fit $y = ax + b$ using least squares and calculate MSE
+2. Apply SVR with $ε = 1$ and predict the fitted line
+3. Calculate how much the outlier affects each method's solution
+4. Quantify robustness by comparing solutions with and without the outlier
+5. Discuss the bias-variance trade-off for each method
+
+For a detailed explanation of this problem, see [Question 19: Robustness Comparison](L5_5_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+Study how SVR parameters affect performance.
+
+#### Task
+1. For fixed $ε = 0.1$, predict performance changes as $C: 0.1 \to 1 \to 10$
+2. For fixed $C = 1$, predict changes as $ε: 0.01 \to 0.1 \to 1$
+3. Sketch expected validation error vs. $C$ and vs. $ε$
+4. Design a 2D grid search strategy for $(C, ε)$ optimization
+5. Describe how to detect overfitting in each parameter dimension
+
+For a detailed explanation of this problem, see [Question 20: Parameter Sensitivity](L5_5_20_explanation.md).

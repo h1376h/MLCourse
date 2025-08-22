@@ -1,7 +1,7 @@
 # Lecture 5.6: Computational Considerations Quiz
 
 ## Overview
-This quiz contains 15 questions covering different topics from section 5.6 of the lectures on SVM Optimization, Sequential Minimal Optimization (SMO), Scaling Issues, Memory Management, and Implementation Best Practices.
+This quiz contains 22 questions covering different topics from section 5.6 of the lectures on SVM Optimization, Sequential Minimal Optimization (SMO), Scaling Issues, Memory Management, and Implementation Best Practices.
 
 ## Question 1
 
@@ -221,3 +221,108 @@ Design a comprehensive performance optimization framework for large-scale SVM sy
 5. Create a benchmarking suite that evaluates SVM implementations across different scenarios
 
 For a detailed explanation of this problem, see [Question 15: Comprehensive Optimization Framework](L5_6_15_explanation.md).
+
+## Question 16
+
+### Problem Statement
+Calculate memory requirements for different SVM scenarios.
+
+#### Task
+1. For $n = 5000$ samples, calculate memory needed to store:
+   - Full kernel matrix (8 bytes per float64)
+   - Upper triangular part only
+   - Sparse approximation with 10% non-zeros
+2. How does memory requirement scale when doubling dataset size?
+3. For SMO with cache size 100MB, how many kernel values can be stored?
+4. At what dataset size does kernel matrix exceed 1GB, 8GB, 64GB?
+5. Calculate memory savings vs accuracy loss for rank-100 approximation
+
+For a detailed explanation of this problem, see [Question 16: Memory Calculations](L5_6_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+Trace through SMO iterations on a small example.
+
+Given 3 training points: $(1, 1, +1)$, $(2, 2, +1)$, $(0, 0, -1)$ with $C = 1$.
+
+#### Task
+1. Start with $\alpha_1 = 0.2, \alpha_2 = 0.3, \alpha_3 = 0.5$
+2. Verify $\sum_i \alpha_i y_i = 0$ and $0 \leq \alpha_i \leq C$
+3. Identify which pair of variables to optimize using KKT violations
+4. Solve the 2-variable QP subproblem analytically
+5. Calculate KKT violations after the update
+
+For a detailed explanation of this problem, see [Question 17: SMO Simulation](L5_6_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+Compare training costs for different SVM approaches.
+
+#### Task
+1. For $n$ samples, what's the time complexity of standard quadratic programming?
+2. Calculate SMO time complexity per iteration and total iterations
+3. Compare cost of computing linear vs RBF vs polynomial kernels
+4. For $n = 10000, d = 100$, estimate training time differences
+5. Derive how training time scales with $n$ for each approach
+
+For a detailed explanation of this problem, see [Question 18: Complexity Analysis](L5_6_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+Design parallel algorithms for SVM training.
+
+#### Task
+1. How can kernel matrix computation be parallelized?
+2. Design a data-parallel SMO algorithm for multi-core systems
+3. Calculate communication costs in distributed SVM training
+4. How do you balance work across processors with different convergence rates?
+5. Estimate theoretical speedup for 4, 8, 16 processors
+
+For a detailed explanation of this problem, see [Question 19: Parallel Training](L5_6_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+Study the effects of numerical precision on SVM training.
+
+#### Task
+1. What numerical precision is needed for reliable SVM training?
+2. How does kernel matrix condition number affect numerical stability?
+3. Analyze how rounding errors affect SMO convergence
+4. Design numerical regularization techniques for ill-conditioned problems
+5. Choose appropriate convergence thresholds based on precision
+
+For a detailed explanation of this problem, see [Question 20: Numerical Analysis](L5_6_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+Design a production SVM system with performance requirements.
+
+Requirements: 1000 predictions/second, 99.9% uptime, 100ms max latency
+
+#### Task
+1. Calculate CPU/memory requirements for the prediction service
+2. Compress a model with 5000 support vectors for fast loading
+3. Design kernel value caching for frequently queried regions
+4. Distribute prediction load across multiple servers
+5. Define KPIs for monitoring prediction service health
+
+For a detailed explanation of this problem, see [Question 21: Production System](L5_6_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+Design a systematic approach for choosing SVM optimization algorithms.
+
+#### Task
+1. Create a decision framework based on dataset size, sparsity, and accuracy requirements
+2. Design benchmarks to compare SMO vs coordinate descent vs interior point methods
+3. Implement an algorithm that switches strategies based on convergence progress
+4. Choose algorithms based on memory and time budgets
+5. Define metrics for comparing algorithm effectiveness beyond just accuracy
+
+For a detailed explanation of this problem, see [Question 22: Algorithm Selection](L5_6_22_explanation.md).
