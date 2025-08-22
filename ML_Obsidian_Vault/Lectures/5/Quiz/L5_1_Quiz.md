@@ -1,7 +1,7 @@
 # Lecture 5.1: Maximum Margin Classifiers Quiz
 
 ## Overview
-This quiz contains 25 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
+This quiz contains 24 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
 
 ## Question 1
 
@@ -344,33 +344,21 @@ For a detailed explanation of this problem, see [Question 22: 1D Hard-Margin SVM
 ## Question 23
 
 ### Problem Statement
-Evaluate the following statement: "Support vector machines, like logistic regression models, give a probability distribution over the possible labels given an input example."
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
-### Task
-1.  Is the statement **True or False**?
-2.  Provide a brief justification for your answer.
+#### Task
+1. Support vector machines, like logistic regression models, give a probability distribution over the possible labels given an input example.
+2. The maximum margin decision boundaries that support vector machines construct have the lowest generalization error among all linear classifiers.
 
 For a detailed explanation of this problem, see [Question 23: SVM Output Properties](L5_1_23_explanation.md).
 
 ## Question 24
 
 ### Problem Statement
-Evaluate the following statement: "The maximum margin decision boundaries that support vector machines construct have the lowest generalization error among all linear classifiers."
-
-### Task
-1.  Is the statement **True or False**?
-2.  Provide a brief justification for your answer.
-
-For a detailed explanation of this problem, see [Question 24: Max-Margin and Generalization](L5_1_24_explanation.md).
-
-
-## Question 25
-
-### Problem Statement
 Consider the dataset and the maximum margin separating hyperplane shown in the figure below.
 
-### Task
-1.  What is the leave-one-out cross-validation (LOOCV) error estimate for this maximum margin classifier?
-2.  Provide a brief justification for your answer.
+#### Task
+1. What is the leave-one-out cross-validation (LOOCV) error estimate for this maximum margin classifier?
+2. Provide a brief justification for your answer.
 
-For a detailed explanation of this problem, see [Question 25: LOOCV for Hard-Margin SVM](L5_1_25_explanation.md).
+For a detailed explanation of this problem, see [Question 24: LOOCV for Hard-Margin SVM](L5_1_24_explanation.md).
