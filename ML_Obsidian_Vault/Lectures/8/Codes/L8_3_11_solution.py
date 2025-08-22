@@ -17,8 +17,14 @@ plt.ioff()  # Turn off interactive plotting
 plt.rcParams['font.family'] = 'serif'
 plt.style.use('default')
 
-# Disable LaTeX to avoid rendering issues
-plt.rcParams['text.usetex'] = False
+# Enable LaTeX for mathematical notation
+plt.rcParams['text.usetex'] = True
+plt.rcParams['font.size'] = 12
+plt.rcParams['axes.labelsize'] = 14
+plt.rcParams['axes.titlesize'] = 16
+plt.rcParams['xtick.labelsize'] = 12
+plt.rcParams['ytick.labelsize'] = 12
+plt.rcParams['legend.fontsize'] = 12
 
 print("=" * 80)
 print("Question 11: Model Stability and Feature Selection")
@@ -60,11 +66,11 @@ fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 12))
 # Subplot 1: Feature count vs theoretical stability
 feature_counts = np.linspace(5, 100, 50)
 theoretical_stability = 1 / (1 + np.log(feature_counts))  # Simplified relationship
-ax1.plot(feature_counts, theoretical_stability, 'b-', linewidth=3, label='Theoretical Stability')
-ax1.axvline(x=initial_features, color='r', linestyle='--', label='Original (100 features)')
-ax1.axvline(x=reduced_features, color='g', linestyle='--', label='Reduced (20 features)')
-ax1.set_xlabel('Number of Features')
-ax1.set_ylabel('Model Stability')
+ax1.plot(feature_counts, theoretical_stability, 'b-', linewidth=3, label='$S = \\frac{1}{1 + \\ln(n)}$')
+ax1.axvline(x=initial_features, color='r', linestyle='--', label='$n = 100$ (Original)')
+ax1.axvline(x=reduced_features, color='g', linestyle='--', label='$n = 20$ (Reduced)')
+ax1.set_xlabel('Number of Features ($n$)')
+ax1.set_ylabel('Model Stability ($S$)')
 ax1.set_title('Feature Count vs Model Stability')
 ax1.grid(True, alpha=0.3)
 ax1.legend()
@@ -73,7 +79,7 @@ ax1.legend()
 methods = ['Original\n(100 features)', 'After\nFeature Selection\n(20 features)']
 variances = [original_cv_variance, reduced_cv_variance]
 bars = ax2.bar(methods, variances, color=['red', 'green'], alpha=0.7)
-ax2.set_ylabel('Cross-Validation Variance')
+ax2.set_ylabel('Cross-Validation Variance ($\\sigma^2$)')
 ax2.set_title('Cross-Validation Variance Before/After Feature Selection')
 ax2.grid(True, alpha=0.3)
 
@@ -89,13 +95,13 @@ bias = 0.1 + 0.5 * np.exp(-feature_range/20)  # Bias decreases with more feature
 variance = 0.05 + 0.15 * np.exp(feature_range/30)  # Variance increases with more features
 total_error = bias + variance
 
-ax3.plot(feature_range, bias, 'b-', label='Bias', linewidth=2)
-ax3.plot(feature_range, variance, 'r-', label='Variance', linewidth=2)
-ax3.plot(feature_range, total_error, 'k--', label='Total Error', linewidth=2)
+ax3.plot(feature_range, bias, 'b-', label='$B(n)$', linewidth=2)
+ax3.plot(feature_range, variance, 'r-', label='$V(n)$', linewidth=2)
+ax3.plot(feature_range, total_error, 'k--', label='$E(n) = B(n) + V(n)$', linewidth=2)
 ax3.axvline(x=initial_features, color='gray', linestyle=':', alpha=0.7)
 ax3.axvline(x=reduced_features, color='green', linestyle=':', alpha=0.7)
-ax3.set_xlabel('Number of Features')
-ax3.set_ylabel('Error')
+ax3.set_xlabel('Number of Features ($n$)')
+ax3.set_ylabel('Error ($E$)')
 ax3.set_title('Bias-Variance Tradeoff')
 ax3.grid(True, alpha=0.3)
 ax3.legend()
@@ -105,7 +111,7 @@ factors = ['Overfitting\nReduction', 'Noise\nReduction', 'Computational\nEfficie
 improvements = [85, 70, 90, 75]  # Percentage improvements
 
 bars4 = ax4.barh(factors, improvements, color='skyblue', alpha=0.7)
-ax4.set_xlabel('Improvement Percentage')
+ax4.set_xlabel('Improvement Percentage (\\%)')
 ax4.set_title('Stability Improvement Factors')
 ax4.set_xlim(0, 100)
 
@@ -150,8 +156,8 @@ bars1 = ax1.bar(labels, [values[0], values[1], 0], color=colors[:2], alpha=0.7)
 ax1_twin = ax1.twinx()
 bars1_twin = ax1_twin.bar(labels[2], values[2], color=colors[2], alpha=0.7)
 
-ax1.set_ylabel('Variance Value', color='black')
-ax1_twin.set_ylabel('Improvement (%)', color='blue')
+ax1.set_ylabel('Variance Value ($\\sigma^2$)', color='black')
+ax1_twin.set_ylabel('Improvement (\\%)', color='blue')
 ax1.set_title('Variance Reduction Analysis')
 ax1.grid(True, alpha=0.3)
 
@@ -163,12 +169,12 @@ x = np.linspace(0, 0.1, 100)
 original_dist = stats.norm.pdf(x, 0.04, original_std)
 reduced_dist = stats.norm.pdf(x, 0.04, reduced_std)
 
-ax2.plot(x, original_dist, 'r-', label=f'Original (σ={original_std:.4f})', linewidth=2)
-ax2.plot(x, reduced_dist, 'g-', label=f'Reduced (σ={reduced_std:.4f})', linewidth=2)
+ax2.plot(x, original_dist, 'r-', label=f'$\\sigma = {original_std:.4f}$', linewidth=2)
+ax2.plot(x, reduced_dist, 'g-', label=f'$\\sigma = {reduced_std:.4f}$', linewidth=2)
 ax2.fill_between(x, 0, original_dist, color='red', alpha=0.3)
 ax2.fill_between(x, 0, reduced_dist, color='green', alpha=0.3)
-ax2.set_xlabel('Cross-Validation Score')
-ax2.set_ylabel('Probability Density')
+ax2.set_xlabel('Cross-Validation Score ($x$)')
+ax2.set_ylabel('Probability Density ($p(x)$)')
 ax2.set_title('Distribution of CV Scores')
 ax2.legend()
 ax2.grid(True, alpha=0.3)
@@ -332,7 +338,7 @@ for i in range(n_subsets):
 sns.heatmap(jaccard_matrix, annot=True, fmt='.3f', cmap='Blues',
             xticklabels=[f'Split {i+1}' for i in range(n_subsets)],
             yticklabels=[f'Split {i+1}' for i in range(n_subsets)], ax=ax1)
-ax1.set_title('Jaccard Similarity Between Feature Subsets')
+ax1.set_title('Jaccard Similarity Matrix ($J_{ij}$)')
 
 # Subplot 2: Feature selection frequency
 all_features = set()
@@ -348,8 +354,8 @@ features_sorted = sorted(feature_freq.keys())
 frequencies = [feature_freq[f] for f in features_sorted]
 
 bars = ax2.bar(range(len(features_sorted)), frequencies, alpha=0.7, color='skyblue')
-ax2.set_xlabel('Feature ID')
-ax2.set_ylabel('Selection Frequency (%)')
+ax2.set_xlabel('Feature ID ($f_i$)')
+ax2.set_ylabel('Selection Frequency (\\%)')
 ax2.set_title('Feature Selection Frequency Across Splits')
 ax2.set_xticks(range(len(features_sorted)))
 ax2.set_xticklabels([str(f) for f in features_sorted])
@@ -361,8 +367,8 @@ values = [avg_jaccard, kuncheva_idx, stability_score]
 colors = ['blue', 'green', 'red']
 
 bars3 = ax3.bar(metrics, values, color=colors, alpha=0.7)
-ax3.axhline(y=0.7, color='gray', linestyle='--', label='Stability Threshold')
-ax3.set_ylabel('Stability Score')
+ax3.axhline(y=0.7, color='gray', linestyle='--', label='$\\tau = 0.7$')
+ax3.set_ylabel('Stability Score ($S$)')
 ax3.set_title('Stability Metrics Comparison')
 ax3.grid(True, alpha=0.3)
 ax3.legend()
@@ -371,8 +377,8 @@ ax3.legend()
 subset_sizes = [len(subset) for subset in feature_subsets]
 ax4.hist(subset_sizes, bins=range(min(subset_sizes), max(subset_sizes)+2),
          alpha=0.7, color='lightcoral', edgecolor='black')
-ax4.set_xlabel('Subset Size')
-ax4.set_ylabel('Frequency')
+ax4.set_xlabel('Subset Size ($k$)')
+ax4.set_ylabel('Frequency ($N$)')
 ax4.set_title('Distribution of Feature Subset Sizes')
 ax4.grid(True, alpha=0.3)
 
@@ -450,9 +456,9 @@ width = 0.25
 ax1.bar(x - width, jaccard_values, width, label='Jaccard Similarity', alpha=0.7, color='blue')
 ax1.bar(x, kuncheva_values, width, label='Kuncheva Index', alpha=0.7, color='green')
 ax1.bar(x + width, combined_values, width, label='Combined Stability', alpha=0.7, color='red')
-ax1.axhline(y=0.7, color='gray', linestyle='--', label='Stability Threshold')
+ax1.axhline(y=0.7, color='gray', linestyle='--', label='$\\tau = 0.7$')
 ax1.set_xlabel('Scenario')
-ax1.set_ylabel('Stability Score')
+ax1.set_ylabel('Stability Score ($S$)')
 ax1.set_title('Stability Metrics Before vs After Feature Selection')
 ax1.set_xticks(x)
 ax1.set_xticklabels(scenarios)
@@ -478,10 +484,10 @@ after_top = sorted(after_freq.items(), key=lambda x: x[1], reverse=True)[:20]
 before_features, before_counts = zip(*before_top)
 after_features, after_counts = zip(*after_top)
 
-ax2.bar(range(len(before_features)), before_counts, alpha=0.7, color='red', label='Before')
-ax2.bar(range(len(after_features)), after_counts, alpha=0.7, color='green', label='After')
-ax2.set_xlabel('Top Features')
-ax2.set_ylabel('Selection Count')
+ax2.bar(range(len(before_features)), before_counts, alpha=0.7, color='red', label='Before Selection')
+ax2.bar(range(len(after_features)), after_counts, alpha=0.7, color='green', label='After Selection')
+ax2.set_xlabel('Top Features ($f_i$)')
+ax2.set_ylabel('Selection Count ($N_i$)')
 ax2.set_title('Feature Selection Consistency')
 ax2.legend()
 ax2.grid(True, alpha=0.3)
@@ -491,7 +497,7 @@ improvements = [jaccard_improvement, kuncheva_improvement, overall_improvement]
 improvement_labels = ['Jaccard\nSimilarity', 'Kuncheva\nIndex', 'Combined\nStability']
 
 bars3 = ax3.bar(improvement_labels, improvements, color=['blue', 'green', 'red'], alpha=0.7)
-ax3.set_ylabel('Improvement (%)')
+ax3.set_ylabel('Improvement (\\%)')
 ax3.set_title('Stability Improvements After Feature Selection')
 ax3.grid(True, alpha=0.3)
 
@@ -518,8 +524,8 @@ for i in range(20):  # Simulate multiple feature selection runs
 
 ax4.hist(stability_scores, bins=10, alpha=0.7, color='purple', edgecolor='black')
 ax4.axvline(np.mean(stability_scores), color='red', linestyle='--', label=f'Mean ({np.mean(stability_scores):.3f})')
-ax4.set_xlabel('Stability Score')
-ax4.set_ylabel('Frequency')
+ax4.set_xlabel('Stability Score ($S$)')
+ax4.set_ylabel('Frequency ($N$)')
 ax4.set_title('Distribution of Stability Scores After Feature Selection')
 ax4.legend()
 ax4.grid(True, alpha=0.3)
@@ -579,9 +585,9 @@ ax1.scatter([initial_features, reduced_features], [original_cv_variance, reduced
            color='red', s=100, zorder=5, label='Observed Points')
 ax1.scatter(target_features, target_variance, color='green', s=100, marker='*', zorder=5,
            label=f'Target ({target_features:.1f})')
-ax1.set_xlabel('Number of Features')
-ax1.set_ylabel('Cross-Validation Variance')
-ax1.set_title('Linear Relationship: Features vs Variance')
+ax1.set_xlabel('Number of Features ($n$)')
+ax1.set_ylabel('Cross-Validation Variance ($\\sigma^2$)')
+ax1.set_title('Linear Relationship: $\\sigma^2 = an + b$')
 ax1.grid(True, alpha=0.3)
 ax1.legend()
 
@@ -594,8 +600,8 @@ ax2.plot(features_removed, variance_progression, 'r-', linewidth=3, marker='o', 
 ax2.axhline(y=target_variance, color='green', linestyle='--', label=f'Target Variance ({target_variance:.4f})')
 ax2.axvline(x=features_to_remove, color='blue', linestyle='--',
            label=f'Features to Remove ({features_to_remove:.0f})')
-ax2.set_xlabel('Features Removed')
-ax2.set_ylabel('Cross-Validation Variance')
+ax2.set_xlabel('Features Removed ($n_r$)')
+ax2.set_ylabel('Cross-Validation Variance ($\\sigma^2$)')
 ax2.set_title('Variance Reduction as Features are Removed')
 ax2.grid(True, alpha=0.3)
 ax2.legend()
@@ -605,7 +611,7 @@ improvements = [percentage_improvement]
 labels = ['Actual\nImprovement']
 
 bars3 = ax3.bar(labels, improvements, color='orange', alpha=0.7)
-ax3.set_ylabel('Improvement (%)')
+ax3.set_ylabel('Improvement (\\%)')
 ax3.set_title('Percentage Improvement from Feature Selection')
 ax3.grid(True, alpha=0.3)
 
@@ -621,7 +627,7 @@ efficiency_values = [efficiency] * 3
 efficiency_labels = ['Variance\nReduction\nEfficiency', 'Feature\nUtilization', 'Selection\nEffectiveness']
 
 bars4 = ax4.bar(efficiency_labels, efficiency_values, color='purple', alpha=0.7)
-ax4.set_ylabel('Efficiency Metric')
+ax4.set_ylabel('Efficiency Metric ($\\eta$)')
 ax4.set_title('Feature Selection Efficiency Metrics')
 ax4.grid(True, alpha=0.3)
 
@@ -686,11 +692,11 @@ s2_vector = [1 if x in S2 else 0 for x in all_elements]
 x_pos = np.arange(len(all_elements))
 width = 0.35
 
-bars1 = ax1.bar(x_pos - width/2, s1_vector, width, label='S1', alpha=0.7, color='blue')
-bars2 = ax1.bar(x_pos + width/2, s2_vector, width, label='S2', alpha=0.7, color='red')
-ax1.set_xlabel('Feature ID')
-ax1.set_ylabel('Selected (1/0)')
-ax1.set_title('Feature Sets S1 and S2')
+bars1 = ax1.bar(x_pos - width/2, s1_vector, width, label='$S_1$', alpha=0.7, color='blue')
+bars2 = ax1.bar(x_pos + width/2, s2_vector, width, label='$S_2$', alpha=0.7, color='red')
+ax1.set_xlabel('Feature ID ($f_i$)')
+ax1.set_ylabel('Selected ($\\delta_i$)')
+ax1.set_title('Feature Sets $S_1$ and $S_2$')
 ax1.set_xticks(x_pos)
 ax1.set_xticklabels(all_elements)
 ax1.legend()
@@ -707,8 +713,8 @@ counts = [len(s1_only), len(intersection), len(s2_only)]
 colors = ['blue', 'purple', 'red']
 
 bars_op = ax2.bar(operations, counts, color=colors, alpha=0.7)
-ax2.set_ylabel('Number of Features')
-ax2.set_title('Set Operations Between S1 and S2')
+ax2.set_ylabel('Number of Features ($|S|$)')
+ax2.set_title('Set Operations Between $S_1$ and $S_2$')
 ax2.grid(True, alpha=0.3)
 
 # Add value labels
@@ -718,11 +724,11 @@ for bar, count in zip(bars_op, counts):
              f'{count:.0f}', ha='center', va='bottom')
 
 # Subplot 3: Jaccard similarity components
-components = ['|S1 \\cap S2|', '|S1 \\cup S2|', 'Jaccard\nSimilarity']
+components = ['$|S_1 \\cap S_2|$', '$|S_1 \\cup S_2|$', 'Jaccard\nSimilarity']
 values = [len(intersection), len(union), jaccard_s1_s2]
 
 bars3 = ax3.bar(components, values, color=['purple', 'orange', 'green'], alpha=0.7)
-ax3.set_ylabel('Value')
+ax3.set_ylabel('Value ($|S|$)')
 ax3.set_title('Jaccard Similarity Components')
 ax3.grid(True, alpha=0.3)
 
@@ -738,7 +744,7 @@ metrics = ['Jaccard\nSimilarity', 'Stability\nIndex', 'Kuncheva\nIndex']
 values = [jaccard_s1_s2, stability_index, kuncheva_index]
 
 bars4 = ax4.bar(metrics, values, color=['blue', 'green', 'red'], alpha=0.7)
-ax4.set_ylabel('Index Value')
+ax4.set_ylabel('Index Value ($I$)')
 ax4.set_title('Stability Metrics for Given Feature Sets')
 ax4.grid(True, alpha=0.3)
 
