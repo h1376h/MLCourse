@@ -21,7 +21,7 @@ The performance of feature subsets follows these patterns:
 
 1. **Single Features**: Performance equals individual correlation
 2. **Feature Combinations**: Use the following formulas based on feature types:
-   - **Two weak features (A, B)**: $P = r_A + r_B + (r_A \times r_B \times \text{synergy_factor})$ where synergy_factor = 7.5
+   - **Two weak features (A, B)**: $P = r_A + r_B + (r_A \times r_B \times \text{synergy\_factor})$ where synergy_factor = 7.5
    - **Weak + Strong combinations**: $P = \max(r_{\text{weak}}, r_{\text{strong}}) + 0.02$
    - **Two strong features (C, D)**: $P = \max(r_C, r_D) + 0.01$ (minimal improvement due to redundancy)
    - **Three or more features**: Performance plateaus at the best two-feature combination
@@ -40,7 +40,7 @@ The performance of feature subsets follows these patterns:
 4. What is the main advantage of multivariate methods in this scenario?
 5. Calculate the search space size for 4 features vs 10 features
 6. How many valid feature subsets exist within the budget constraint? Calculate the total cost of all possible subsets.
-7. Calculate the interaction strength between features A and B using the formula: $$\text{Interaction} = \text{Combined_Correlation} - \max(\text{Individual_Correlations}) - 0.1 \times \min(\text{Individual_Correlations})$$ What does this value indicate about feature synergy?
+7. Calculate the interaction strength between features A and B using the formula: $$\text{Interaction} = \text{Combined\_Correlation} - \max(\text{Individual\_Correlations}) - 0.1 \times \min(\text{Individual\_Correlations})$$ What does this value indicate about feature synergy?
 
 For a detailed explanation of this question, see [Question 1: Multivariate Approach](L8_3_1_explanation.md).
 
@@ -55,7 +55,7 @@ In a loan default prediction dataset, features include: income, debt_ratio, cred
 3. How many independent feature combinations exist if you group correlated features? Assume income and debt_ratio form Group 1 (correlation = $0.3$), and credit_score and age form Group 2 (correlation = $0.6$). Calculate combinations within each group separately, then sum them.
 4. Calculate the reduction in search space if you treat correlated features as groups. Original search space = $2^4 - 1 = 15$ combinations (all possible combinations of $4$ features). Calculate the reduced space and percentage reduction.
 5. Design a multivariate selection strategy for this dataset. Include at least $4$ steps: feature grouping, interaction creation, evaluation method, and validation approach.
-6. If the debt-to-income ratio is calculated as $$\frac{\text{debt_ratio} \times 100}{\text{income}}$$ and you have sample values: income = $\$50,000$, debt_ratio = $0.4$, credit_score = $720$, age = $35$, calculate the actual debt-to-income ratio. If the target is $1$ for default and $0$ for no default, and the threshold for default is debt-to-income > $0.43$, what would be the prediction?
+6. If the debt-to-income ratio is calculated as $$\frac{\text{debt\_ratio} \times 100}{\text{income}}$$ and you have sample values: income = $\$50,000$, debt_ratio = $0.4$, credit_score = $720$, age = $35$, calculate the actual debt-to-income ratio. If the target is $1$ for default and $0$ for no default, and the threshold for default is debt-to-income > $0.43$, what would be the prediction?
 7. Calculate the VIF (Variance Inflation Factor) for income if the $R^2$ from regressing income on other features is $0.25$. Use the formula: VIF = $1/(1-R^2)$. If the rule of thumb is to remove features with VIF > $5$, would income be removed? Then calculate the condition number of the correlation matrix for all four features. Use the correlation matrix:
    $$\begin{bmatrix} 1.0 & 0.3 & 0.0 & 0.0 \\ 0.3 & 1.0 & 0.0 & 0.0 \\ 0.0 & 0.0 & 1.0 & 0.6 \\ 0.0 & 0.0 & 0.6 & 1.0 \end{bmatrix}$$
    The condition number is the ratio of the largest to smallest eigenvalue.
@@ -97,7 +97,7 @@ For a detailed explanation of this question, see [Question 4: Feature Clustering
 ## Question 5
 
 ### Problem Statement
-You want to maximize model accuracy while minimizing the number of features. Your current model has 50 features with $85\%$ accuracy.
+You want to maximize model accuracy while minimizing the number of features. Your current model has 50 features with 85% accuracy.
 
 #### Task
 1. Formulate this as a multi-objective optimization problem
@@ -106,7 +106,7 @@ You want to maximize model accuracy while minimizing the number of features. You
 4. If you have a budget of 30 features maximum, how do you modify the objective?
 5. Compare greedy vs exhaustive search for this optimization problem
 6. If the penalty function is $$P(\text{features}) = \lambda \times \text{features}^2$$ where $\lambda$ is a tuning parameter, and you want the penalty to equal the accuracy gain when features = 25, calculate the value of $\lambda$. Then find the optimal number of features when $\lambda = 0.01$.
-7. Calculate the Pareto frontier efficiency if you have three solutions: (20 features, $87\%$ accuracy), (30 features, $88\%$ accuracy), and (40 features, $86\%$ accuracy). If the ideal point is (10 features, $90\%$ accuracy), calculate the normalized distance to ideal for each solution using the formula: $$\text{distance} = \sqrt{\frac{(\text{features}-10)^2}{100} + \frac{(\text{accuracy}-0.9)^2}{0.01}}$$
+7. Calculate the Pareto frontier efficiency if you have three solutions: (20 features, 87% accuracy), (30 features, 88% accuracy), and (40 features, 86% accuracy). If the ideal point is (10 features, 90% accuracy), calculate the normalized distance to ideal for each solution using the formula: $$\text{distance} = \sqrt{\frac{(\text{features}-10)^2}{100} + \frac{(\text{accuracy}-0.9)^2}{0.01}}$$
 
 For a detailed explanation of this question, see [Question 5: Optimization Formulation](L8_3_5_explanation.md).
 
@@ -194,7 +194,7 @@ A model with 100 features shows high variance in cross-validation results. You w
 
 #### Task
 1. How does reducing features from 100 to 20 affect model stability?
-2. If cross-validation variance decreases by $30\%$ with feature selection, what does this suggest?
+2. If cross-validation variance decreases by 30% with feature selection, what does this suggest?
 3. Design a stability-based feature selection criterion
 4. How do you measure feature subset stability across different data splits?
 5. Compare stability metrics before and after feature selection
@@ -214,7 +214,7 @@ You're working on medical diagnosis with 200 features including lab results, sym
 3. How do you handle missing data in multivariate selection?
 4. Design a selection strategy that prioritizes medical interpretability
 5. Compare selection approaches for medical vs financial applications
-6. If $20\%$ of features have missing data and you can only use features with < $10\%$ missing values, how many features remain? If the missing data follows a pattern where lab results have $5\%$ missing, symptoms have $15\%$ missing, and demographics have $2\%$ missing, calculate the expected number of features in each category after filtering.
+6. If 20% of features have missing data and you can only use features with < 10% missing values, how many features remain? If the missing data follows a pattern where lab results have 5% missing, symptoms have 15% missing, and demographics have 2% missing, calculate the expected number of features in each category after filtering.
 7. Calculate the information gain for a lab result feature if the entropy of the target (disease/no disease) is $0.8$, and after splitting on the feature, the weighted average entropy becomes $0.5$. If you have 1000 patients and the feature has 3 possible values with frequencies 400, 300, and 300, calculate the information gain ratio.
 
 For a detailed explanation of this question, see [Question 12: Domain Requirements](L8_3_12_explanation.md).
@@ -247,7 +247,7 @@ Feature selection affects the entire machine learning workflow from data prepara
 4. Design a workflow that integrates feature selection seamlessly
 5. Compare the workflow complexity with and without multivariate selection
 6. If the original workflow takes 2 hours and feature selection adds 30 minutes, but reduces model training time by 45 minutes due to fewer features, calculate the net time impact. If you deploy 10 models per month, what's the total time savings over 6 months?
-7. Calculate the workflow efficiency improvement if you can reduce the feature selection time from 30 minutes to 20 minutes by using early stopping. If the efficiency is defined as $$\frac{\text{useful_output_time}}{\text{total_time}} \times 100\%$$ and useful output time is model training + deployment, calculate the efficiency before and after optimization.
+7. Calculate the workflow efficiency improvement if you can reduce the feature selection time from 30 minutes to 20 minutes by using early stopping. If the efficiency is defined as $$\frac{\text{useful\_output\_time}}{\text{total\_time}} \times 100\%$$ and useful output time is model training + deployment, calculate the efficiency before and after optimization.
 
 For a detailed explanation of this question, see [Question 14: Workflow Impact](L8_3_14_explanation.md).
 
@@ -283,7 +283,7 @@ You're investigating why univariate selection failed on a dataset with XOR-like 
 3. If features A and B are binary (0 or 1), calculate the probability that XOR(A,B) = 1
 4. What's the main limitation of univariate methods in this scenario?
 5. If you use multivariate selection and test the subset {A,B}, what would be the expected performance improvement?
-6. Calculate the interaction strength using the formula: $$\text{Interaction} = \text{Combined_Performance} - \max(\text{Individual_Performance}) - 0.1 \times \min(\text{Individual_Performance})$$ where Combined_Performance = $0.8$ and Individual_Performance = $[0.1, 0.15]$
+6. Calculate the interaction strength using the formula: $$\text{Interaction} = \text{Combined\_Performance} - \max(\text{Individual\_Performance}) - 0.1 \times \min(\text{Individual\_Performance})$$ where Combined_Performance = $0.8$ and Individual_Performance = $[0.1, 0.15]$
 
 For a detailed explanation of this question, see [Question 16: XOR Relationships](L8_3_16_explanation.md).
 
