@@ -342,13 +342,13 @@ For a detailed explanation of this question, see [Question 16: Advanced Regulari
 Practice pruning decisions on a complex tree structure used by an insurance company:
 
 ```
-Root: Age $\leq 30$ (Training Acc: $88\%$, Validation Acc: $75\%$)
-├── Left: Income $\leq \$40K$ (Training Acc: $92\%$, Validation Acc: $70\%$)
-│   ├── Low Risk (Leaf): [Safe: $10$, Risk: $2$]
-│   └── Medium Risk (Leaf): [Safe: $4$, Risk: $6$]
-└── Right: Experience $> 2$ years (Training Acc: $90\%$, Validation Acc: $78\%$)
-    ├── High Risk (Leaf): [Safe: $3$, Risk: $8$]
-    └── Safe (Leaf): [Safe: $9$, Risk: $2$]
+Root: Age ≤ 30 (Training Acc: 88%, Validation Acc: 75%)
+├── Left: Income ≤ $40K (Training Acc: 92%, Validation Acc: 70%)
+│   ├── Low Risk (Leaf): [Safe: 10, Risk: 2]
+│   └── Medium Risk (Leaf): [Safe: 4, Risk: 6]
+└── Right: Experience > 2 years (Training Acc: 90%, Validation Acc: 78%)
+    ├── High Risk (Leaf): [Safe: 3, Risk: 8]
+    └── Safe (Leaf): [Safe: 9, Risk: 2]
 ```
 
 #### Task
