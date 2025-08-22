@@ -12,6 +12,8 @@ Consider the classic XOR problem with four points:
 - $(1, 0) \rightarrow y = +1$
 - $(1, 1) \rightarrow y = -1$
 
+![XOR Kernel Transformation](../Images/L5_3_Quiz_1/xor_kernel_transformation.png)
+
 #### Task
 1. Prove that this dataset is not linearly separable in $\mathbb{R}^2$
 2. Apply the feature transformation $\phi(x_1, x_2) = (x_1, x_2, x_1x_2)$ and show the transformed points
