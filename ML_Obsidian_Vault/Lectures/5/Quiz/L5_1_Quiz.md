@@ -1,7 +1,7 @@
 # Lecture 5.1: Maximum Margin Classifiers Quiz
 
 ## Overview
-This quiz contains 15 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
+This quiz contains 21 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
 
 ## Question 1
 
@@ -229,3 +229,98 @@ Design and analyze a complete maximum margin classification example.
 5. Compare your analytical solution with the geometric construction
 
 For a detailed explanation of this problem, see [Question 15: Complete Example Design](L5_1_15_explanation.md).
+
+## Question 16
+
+### Problem Statement
+Consider a 2D dataset with training points:
+- Class +1: $\mathbf{x}_1 = (2, 1)$, $\mathbf{x}_2 = (3, 3)$
+- Class -1: $\mathbf{x}_3 = (0, 0)$, $\mathbf{x}_4 = (1, 2)$
+
+The optimal hyperplane is $w_1 x_1 + w_2 x_2 + b = 0$ with $\mathbf{w} = (1, -1)^T$ and $b = 0.5$.
+
+#### Task
+1. Calculate $y_i(\mathbf{w}^T\mathbf{x}_i + b)$ for each point and verify the margin constraints
+2. Identify which points are support vectors (constraints satisfied with equality)
+3. Calculate the geometric margin $\gamma = \frac{1}{||\mathbf{w}||}$
+4. Find the distance from test point $(1.5, 1.5)$ to the hyperplane
+5. Write equations for the positive and negative margin boundaries
+
+For a detailed explanation of this problem, see [Question 16: Numerical Hyperplane Analysis](L5_1_16_explanation.md).
+
+## Question 17
+
+### Problem Statement
+For the dataset:
+- $\mathbf{x}_1 = (1, 0)$, $y_1 = +1$
+- $\mathbf{x}_2 = (0, 1)$, $y_2 = +1$  
+- $\mathbf{x}_3 = (-1, -1)$, $y_3 = -1$
+
+#### Task
+1. Compute $G_{ij} = y_i y_j \mathbf{x}_i^T\mathbf{x}_j$ for all pairs $(i,j)$
+2. Write the dual objective $\sum_i \alpha_i - \frac{1}{2}\sum_{i,j} \alpha_i \alpha_j G_{ij}$ explicitly
+3. Express the constraint $\sum_i \alpha_i y_i = 0$ numerically
+4. For $\alpha_1 = 0.5, \alpha_2 = 0.5, \alpha_3 = 1.0$, verify constraint satisfaction and compute objective value
+5. Calculate $\mathbf{w} = \sum_i \alpha_i y_i \mathbf{x}_i$ and determine $b$ using support vector conditions
+
+For a detailed explanation of this problem, see [Question 17: Complete Dual Solution](L5_1_17_explanation.md).
+
+## Question 18
+
+### Problem Statement
+Consider a 3D maximum margin problem with hyperplane $2x_1 - x_2 + 3x_3 = 6$.
+
+#### Task
+1. Identify $\mathbf{w}$ and $b$ from the hyperplane equation
+2. Compute the margin width $\frac{2}{||\mathbf{w}||}$
+3. Classify points $\mathbf{a} = (1, 0, 2)$, $\mathbf{b} = (3, 1, 1)$, $\mathbf{c} = (0, -2, 2)$
+4. Calculate signed distance from each point using $d = \frac{\mathbf{w}^T\mathbf{x} - 6}{||\mathbf{w}||}$
+5. Write equations for $\mathbf{w}^T\mathbf{x} - 6 = \pm ||\mathbf{w}||$
+
+For a detailed explanation of this problem, see [Question 18: 3D Geometric Analysis](L5_1_18_explanation.md).
+
+## Question 19
+
+### Problem Statement
+A solved SVM has Lagrange multipliers $\alpha_1 = 0.3$, $\alpha_2 = 0$, $\alpha_3 = 0.7$, $\alpha_4 = 0$.
+
+#### Task
+1. Which points are support vectors? Which are non-support vectors?
+2. For each point, state the applicable KKT condition
+3. Verify $\alpha_i[y_i(\mathbf{w}^T\mathbf{x}_i + b) - 1] = 0$ implications
+4. What are the functional margins for points 2 and 4?
+5. Prove that the optimal hyperplane is uniquely determined by these $\alpha$ values
+
+For a detailed explanation of this problem, see [Question 19: KKT Optimality Analysis](L5_1_19_explanation.md).
+
+## Question 20
+
+### Problem Statement
+Two linear classifiers on the same dataset:
+- **Perceptron**: $\mathbf{w}_P = (2, 1)^T$, $b_P = -3$
+- **Max Margin**: $\mathbf{w}_M = (1, 0.5)^T$, $b_M = -1.5$
+
+#### Task
+1. Calculate and compare margin widths
+2. For test point $(4, 2)$, compute $f_P(\mathbf{x})$ and $f_M(\mathbf{x})$
+3. Normalize both $\mathbf{w}$ vectors and recalculate decision values
+4. Which classifier is more confident about the test point classification?
+5. Using margin theory, explain expected generalization performance differences
+
+For a detailed explanation of this problem, see [Question 20: Algorithm Comparison](L5_1_20_explanation.md).
+
+## Question 21
+
+### Problem Statement
+From first principles, derive the dual problem for the dataset:
+- $\mathbf{x}_1 = (1, 1)$, $y_1 = +1$; $\mathbf{x}_2 = (2, 2)$, $y_2 = +1$
+- $\mathbf{x}_3 = (-1, 0)$, $y_3 = -1$; $\mathbf{x}_4 = (0, -1)$, $y_4 = -1$
+
+#### Task
+1. Write the complete primal optimization problem
+2. Form $L(\mathbf{w}, b, \boldsymbol{\alpha}) = \frac{1}{2}||\mathbf{w}||^2 - \sum_i \alpha_i[y_i(\mathbf{w}^T\mathbf{x}_i + b) - 1]$
+3. Derive $\nabla_\mathbf{w} L = 0$ and $\frac{\partial L}{\partial b} = 0$
+4. Substitute stationarity conditions into Lagrangian
+5. Obtain the dual problem with explicit kernel matrix entries
+
+For a detailed explanation of this problem, see [Question 21: Complete Derivation](L5_1_21_explanation.md).
