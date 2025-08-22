@@ -11,7 +11,7 @@ Consider a linearly separable dataset in $\mathbb{R}^2$ with the following point
 - Class $-1$: $(0, 1)$, $(1, 0)$, $(0, 0)$
 
 #### Task
-1. Draw these points on a coordinate system and sketch a possible separating hyperplane (you can use graph paper or a simple sketch)
+1. Draw these points on a coordinate system and sketch a possible separating hyperplane
 2. For the hyperplane $w_1 x_1 + w_2 x_2 + b = 0$ with $w_1 = 1$, $w_2 = 1$, $b = -2$, verify that this hyperplane separates the two classes
 3. Calculate the functional margin for each training point using this hyperplane
 4. Calculate the geometric margin for the point $(2, 3)$
@@ -357,6 +357,8 @@ For a detailed explanation of this problem, see [Question 23: SVM Output Propert
 ### Problem Statement
 Consider the dataset and the maximum margin separating hyperplane shown in the figure below.
 
+![SVM with Support Vectors](../Images/L5_1_Quiz_24/svm_loocv_visualization.png)
+
 *The figure displays two classes of data points ('x' and 'o') that are linearly separable. A solid line represents the optimal decision boundary, and two dashed lines represent the margins. The support vectors, which lie on the margin lines, are highlighted with circles.*
 
 #### Task
@@ -378,6 +380,7 @@ Consider the following 1D dataset. We are going to learn a linear SVM of the for
 | 4   | 1    |
 | 5   | 1    |
 
+![1D SVM Visualization](../Images/L5_1_Quiz_25/1d_svm_visualization.png)
 
 *The figure shows data points for Class -1 (denoted by hollow circles) at x=1, 2, and 3.5, and for Class 1 (denoted by filled circles) at x=4 and 5.*
 
