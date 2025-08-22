@@ -872,7 +872,7 @@ You are a "Decision Tree Detective" investigating a mysterious dataset about stu
 
 For a detailed explanation of this question, see [Question 43: Student Study Habits Mystery](L6_3_43_explanation.md).
 
-## Question 44
+## [⭐] Question 44
 
 ### Problem Statement
 Using the following dataset, we want to construct a decision tree that classifies Y without any error on the training set:
