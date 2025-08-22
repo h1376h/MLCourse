@@ -339,7 +339,7 @@ Given a 1-D dataset with 4 positive data points $\{0, 1, 2, 3\}$ and 3 negative 
 $$\min_{\mathbf{w},b,\boldsymbol{\xi}} \frac{1}{2}\|\mathbf{w}\|^2 + C \sum_{i=1}^{m} \xi_i$$
 $$\text{Subject to: } y_i(\mathbf{w}^T \mathbf{x}_i + b) \ge 1 - \xi_i, \quad \xi_i \ge 0$$
 
-### Task
+#### Task
 1. If the regularization parameter $C \to \infty$ (meaning we only care about minimizing margin violations), how many support vectors will the resulting classifier have?
 2. If the regularization parameter $C=0$ (meaning we only care about maximizing the margin size), how many support vectors do we have?
 
