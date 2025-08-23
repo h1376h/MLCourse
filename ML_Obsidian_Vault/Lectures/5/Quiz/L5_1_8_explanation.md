@@ -141,6 +141,15 @@ This visualization demonstrates the distance formula in action. For each test po
 - The distance calculation using $d = \frac{|\mathbf{w}^T\mathbf{x}_0 + b|}{||\mathbf{w}||}$
 - The normal vector $\mathbf{w}$ pointing perpendicular to the hyperplane
 
+### SVM Geometry Overview
+![SVM Geometry Simple](../Images/L5_1_Quiz_8/svm_geometry_simple.png)
+
+This clean visualization shows the essential geometric properties of SVMs:
+- Support vectors (highlighted with thick borders) lying exactly on the margin boundaries
+- Non-support vectors (lighter, thinner borders) beyond the margins
+- The margin region (yellow area) between the decision boundary and margin boundaries
+- Distance lines showing the equidistance property from support vectors to the decision boundary
+
 ## Key Insights
 
 ### Geometric Foundations

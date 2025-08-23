@@ -115,6 +115,16 @@ This comprehensive visualization shows:
 - **Bottom-left**: Original vs normalized hyperplane
 - **Bottom-right**: Effect of dataset scaling on hyperplane position
 
+### Distance Calculation Visualization
+![Margin Simple](../Images/L5_1_Quiz_10/margin_simple.png)
+
+This clean visualization demonstrates the core concept of distance calculation:
+- The hyperplane $2x_1 + 3x_2 - 6 = 0$ shown as a black line
+- Test point $(1,2)$ marked in red
+- Projection of the point onto the hyperplane (blue X)
+- Distance line (green dashed) showing the perpendicular distance
+- Normal vector (purple arrow) indicating the direction perpendicular to the hyperplane
+
 ## Key Insights
 
 ### Distance and Margin Relationships

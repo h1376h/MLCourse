@@ -129,10 +129,14 @@ The left plot shows the geometric interpretation of support vector identificatio
 
 These visualizations show how the bias term affects hyperplane position (left) and how it's computed from support vectors (right). The averaging process ensures numerical stability when multiple support vectors are available.
 
-### KKT Analysis Summary
-![KKT Analysis Summary](../Images/L5_1_Quiz_9/kkt_analysis_summary.png)
+### KKT Conditions in Action
+![KKT Simple](../Images/L5_1_Quiz_9/kkt_simple.png)
 
-This comprehensive flowchart summarizes the complete KKT analysis, showing the relationships between conditions, support vector identification, weight vector computation, and bias calculation.
+This visualization demonstrates the KKT conditions in practice:
+- Support vectors (large, thick borders) have $\alpha_i > 0$ and lie on margin boundaries
+- Non-support vectors (small, thin borders) have $\alpha_i = 0$ and lie beyond margins
+- Point size is proportional to the Lagrange multiplier value $\alpha_i$
+- The complementary slackness condition is clearly visible through the point positioning
 
 ## Key Insights
 

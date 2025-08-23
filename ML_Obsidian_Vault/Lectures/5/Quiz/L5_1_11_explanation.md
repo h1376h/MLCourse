@@ -149,10 +149,14 @@ This comprehensive visualization shows:
 - **Bottom-left**: Complexity comparison between different solvers
 - **Bottom-right**: Conditions required for solution uniqueness
 
-### Optimization Summary
-![Optimization Summary](../Images/L5_1_Quiz_11/optimization_summary.png)
+### Convex Optimization Landscape
+![Convex Optimization Simple](../Images/L5_1_Quiz_11/convex_optimization_simple.png)
 
-This summary diagram encapsulates all key theoretical properties of the SVM optimization problem, providing a complete overview of its mathematical structure.
+This visualization shows the convex optimization landscape:
+- Contour lines representing the quadratic objective function $\frac{1}{2}||\mathbf{w}||^2$
+- The unique global minimum (red star) at the origin
+- Feasible region (green shaded area) defined by linear constraints
+- The convex nature ensures any local minimum is also the global minimum
 
 ## Key Insights
 
