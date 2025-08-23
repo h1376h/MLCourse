@@ -38,11 +38,11 @@ To achieve exactly 3 support vectors with 6 points (3 per class), we need:
 
 **Verification Results:**
 - Number of support vectors: **3** ✓
-- Support vector indices: [4, 5, 0]
+- Support vector indices: $[4, 5, 0]$
 - Support vectors:
-  - Point 4: (0,2), label = -1
-  - Point 5: (2,0), label = -1  
-  - Point 0: (3,3), label = +1
+  - Point 4: $(0,2)$, label = -1
+  - Point 5: $(2,0)$, label = -1  
+  - Point 0: $(3,3)$, label = +1
 
 **Key Insight:** The design successfully achieves the target of exactly 3 support vectors, with one from the positive class and two from the negative class.
 
@@ -83,7 +83,7 @@ The KKT conditions for SVM optimality are:
 
 **3. Dual Feasibility:** $\alpha_i \geq 0$
 - All Lagrange multipliers are non-negative ✓
-- $\alpha$ values: [0.2499, 0.0000, 0.0000, 0.0000, 0.1250, 0.1250]
+- $\alpha$ values: $[0.2499, 0.0000, 0.0000, 0.0000, 0.1250, 0.1250]$
 
 **4. Complementary Slackness:** $\alpha_i[y_i(\mathbf{w}^{*T}\mathbf{x}_i + b^*) - 1] = 0$
 - Small numerical errors due to finite precision
@@ -116,21 +116,21 @@ $$R(h) \leq \frac{\mathbb{E}[\text{\# support vectors}]}{n} = \frac{3}{6} = 0.50
 ### Task 5: Geometric Construction Comparison
 
 **Geometric Approach:**
-1. **Find closest points** between classes: (3,3) and (1,1)
-2. **Distance between closest points**: 2.828
-3. **Midpoint**: (2.0, 2.0)
-4. **Normal vector**: [0.7071, 0.7071] (normalized)
-5. **Geometric bias**: -2.8284
+1. **Find closest points** between classes: $(3,3)$ and $(1,1)$
+2. **Distance between closest points**: $2.828$
+3. **Midpoint**: $(2.0, 2.0)$
+4. **Normal vector**: $[0.7071, 0.7071]$ (normalized)
+5. **Geometric bias**: $-2.8284$
 
 **Comparison with Analytical Solution:**
 - **Analytical (normalized)**: $\mathbf{w} = [0.7071, 0.7071]$, $b = -2.8286$
 - **Geometric**: $\mathbf{w} = [0.7071, 0.7071]$, $b = -2.8284$
-- **Difference**: 0.000151 ✓
+- **Difference**: $0.000151$ ✓
 
 **Geometric Verification:**
-- **Margin width**: 2.829
-- **Half margin**: 1.415
-- **Distance from closest points to hyperplane**: ≈ 1.414
+- **Margin width**: $2.829$
+- **Half margin**: $1.415$
+- **Distance from closest points to hyperplane**: ≈ $1.414$
 - **Consistency**: Excellent agreement between geometric and analytical approaches
 
 ## Visual Explanations
