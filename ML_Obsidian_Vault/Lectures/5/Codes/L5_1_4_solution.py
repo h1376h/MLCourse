@@ -52,9 +52,13 @@ Substituting back into the Lagrangian gives the dual:
 print("\n2. NUMERICAL EXAMPLE: 2D LINEARLY SEPARABLE DATA")
 print("-" * 50)
 
-# Create simple 2D dataset
+# Create simple 2D linearly separable dataset
 np.random.seed(42)
-X = np.array([[1, 2], [2, 3], [3, 1], [2, 1], [1, 1], [3, 3]])
+# Positive class points (upper right)
+X_pos = np.array([[3, 3], [4, 3], [3, 4]])
+# Negative class points (lower left)
+X_neg = np.array([[1, 1], [2, 1], [1, 2]])
+X = np.vstack([X_pos, X_neg])
 y = np.array([1, 1, 1, -1, -1, -1])
 n_samples, n_features = X.shape
 
@@ -93,7 +97,7 @@ K = compute_gram_matrix(X)
 print("Gram Matrix K (x_i^T x_j):")
 print(K)
 
-# Solve dual problem using scipy
+# Solve dual problem using scipy with better initialization
 from scipy.optimize import minimize
 
 def objective_for_scipy(alpha):
@@ -102,16 +106,17 @@ def objective_for_scipy(alpha):
 def constraint_eq(alpha):
     return np.dot(alpha, y)  # Sum α_i y_i = 0
 
-# Initial guess
-alpha0 = np.ones(n_samples) * 0.1
+# Better initial guess - small positive values
+alpha0 = np.ones(n_samples) * 0.01
 
 # Constraints
 constraints = {'type': 'eq', 'fun': constraint_eq}
-bounds = [(0, None) for _ in range(n_samples)]
+bounds = [(0, 10) for _ in range(n_samples)]  # Add upper bound for stability
 
-# Solve
-result = minimize(objective_for_scipy, alpha0, method='SLSQP', 
-                 bounds=bounds, constraints=constraints)
+# Solve with better options
+result = minimize(objective_for_scipy, alpha0, method='SLSQP',
+                 bounds=bounds, constraints=constraints,
+                 options={'ftol': 1e-9, 'disp': False})
 
 alpha_optimal = result.x
 print(f"\nOptimal α values:")
@@ -136,12 +141,18 @@ print("-" * 50)
 w_dual = np.sum(np.array([alpha_optimal[i] * y[i] * X[i] for i in range(n_samples)]), axis=0)
 print(f"Weight vector w = Σ α_i y_i x_i = {w_dual}")
 
-# Compute bias b using support vectors
+# Compute bias b using support vectors (average over all support vectors for stability)
 if len(support_indices) > 0:
-    # Use first support vector to compute b
-    sv_idx = support_indices[0]
-    b_dual = y[sv_idx] - np.dot(w_dual, X[sv_idx])
-    print(f"Bias b = y_s - w^T x_s = {y[sv_idx]} - {np.dot(w_dual, X[sv_idx]):.6f} = {b_dual:.6f}")
+    # Use average over all support vectors to compute b
+    b_values = []
+    for sv_idx in support_indices:
+        b_val = y[sv_idx] - np.dot(w_dual, X[sv_idx])
+        b_values.append(b_val)
+    b_dual = np.mean(b_values)
+    print(f"Bias b computed from {len(support_indices)} support vectors:")
+    for i, sv_idx in enumerate(support_indices):
+        print(f"  SV {sv_idx+1}: b = y_{sv_idx+1} - w^T x_{sv_idx+1} = {y[sv_idx]} - {np.dot(w_dual, X[sv_idx]):.6f} = {b_values[i]:.6f}")
+    print(f"Average bias b = {b_dual:.6f}")
 else:
     b_dual = 0
     print("No support vectors found, setting b = 0")
