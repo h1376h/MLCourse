@@ -723,9 +723,9 @@ if __name__ == "__main__":
     print(f"Expected: {expected_sv_count_a} SVs → {expected_loocv_a:.1%} error")
     print(f"Computed: {len(sv_indices_a)} SVs → {actual_error_a:.1%} error")
     if abs(expected_loocv_a - actual_error_a) < 1e-10 and expected_sv_count_a == len(sv_indices_a):
-        print("✓ Perfect match with question code!")
+        print("Perfect match with question code!")
     else:
-        print("✗ Mismatch detected - need to investigate")
+        print("Mismatch detected - need to investigate")
 
     # Analyze Scenario B
     svm_b, sv_indices_b, theoretical_bound_b = analyze_scenario_mathematically(X_b, y_b, "Second Configuration", "B")
@@ -745,9 +745,9 @@ if __name__ == "__main__":
     print(f"Expected: {expected_sv_count_b} SVs → {expected_loocv_b:.1%} error")
     print(f"Computed: {len(sv_indices_b)} SVs → {actual_error_b:.1%} error")
     if abs(expected_loocv_b - actual_error_b) < 1e-10 and expected_sv_count_b == len(sv_indices_b):
-        print("✓ Perfect match with question code!")
+        print("Perfect match with question code!")
     else:
-        print("✗ Mismatch detected - need to investigate")
+        print("Mismatch detected - need to investigate")
 
     # Create comprehensive comparison
     create_comparison_visualization(results_a, results_b, sv_indices_a, sv_indices_b)

@@ -355,15 +355,26 @@ For a detailed explanation of this problem, see [Question 23: SVM Output Propert
 ## [⭐] Question 24
 
 ### Problem Statement
-Consider the dataset and the maximum margin separating hyperplane shown in the figure below.
+Consider the two different SVM scenarios shown in the figures below. Both scenarios show linearly separable datasets with maximum margin decision boundaries, but they have different configurations that lead to different LOOCV results.
 
-![SVM with Support Vectors](../Images/L5_1_Quiz_24/svm_loocv_visualization.png)
+![Scenario A: SVM with Support Vectors](../Images/L5_1_Quiz_24/scenario_a_svm_visualization.png)
 
-*The figure displays two classes of data points ('x' and 'o') that are linearly separable. A solid line represents the optimal decision boundary, and two dashed lines represent the margins. The support vectors, which lie on the margin lines, are highlighted with circles.*
+![Scenario B: SVM with Different Configuration](../Images/L5_1_Quiz_24/scenario_b_svm_visualization.png)
+
+*Each figure displays two classes of data points ('x' and 'o') that are linearly separable. A solid line represents the optimal decision boundary, and two dashed lines represent the margins. The support vectors, which lie on the margin lines, are highlighted with green circles.*
 
 #### Task
-1. What is the leave-one-out cross-validation (LOOCV) error estimate for this maximum margin classifier?
-2. Provide a brief justification for your answer.
+1. For Scenario A (with 3 support vectors out of 10 points):
+   - What is the leave-one-out cross-validation (LOOCV) error estimate?
+   - Provide a brief justification for your answer
+   - Which specific points (if any) would be misclassified during LOOCV?
+2. For Scenario B (with 2 support vectors out of 10 points):
+   - What is the leave-one-out cross-validation (LOOCV) error estimate?
+   - Provide a brief justification for your answer
+   - Compare and contrast the results with Scenario A
+3. State the theoretical relationship between LOOCV error and support vectors
+4. Explain why the actual LOOCV error can be less than the theoretical upper bound
+5. Under what conditions would the theoretical bound be tight (exact)?
 
 For a detailed explanation of this problem, see [Question 24: LOOCV for Hard-Margin SVM](L5_1_24_explanation.md).
 
