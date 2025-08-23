@@ -919,3 +919,16 @@ Based on the following table, answer the questions:
 4. What is the training set error of this tree?
 
 For a detailed explanation of this question, see [Question 45: Decision Tree Construction with Conditional Entropy](L6_2_45_explanation.md).
+
+## [⭐] Question 46
+
+### Problem Statement
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
+
+#### Task
+
+1. The maximum depth of the decision tree must be less than m+1. 
+2. Suppose data has R records, the maximum depth of the decision tree must be less than 1 + log₂ᴿ
+3. **Suppose one of the attributes has R distinct values, and it has a unique value in each record. Then the decision tree will certainly have depth 0 or 1 (i.e. will be a single node, or else a root node directly connected to a set of leaves)**
+
+For a detailed explanation of this question, see [Question 46: Decision Tree Depth Analysis](L6_3_46_explanation.md).
