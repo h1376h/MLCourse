@@ -56,6 +56,19 @@ This represents a line with slope $-1$ and y-intercept $2$.
 - **Green dashed lines**: Margin boundaries at $x_1 + x_2 = 1$ and $x_1 + x_2 = 3$
 - **Shaded regions**: Red for Class +1 region (above line), Blue for Class -1 region (below line)
 
+### Functional Margins Visualization
+
+The following chart shows the functional margins for all training points, providing a clear visual representation of how well each point is classified:
+
+![Functional Margins for All Training Points](../Images/L5_1_Quiz_1/functional_margins_chart.png)
+
+**Key Insights from the Functional Margins Chart:**
+- **Red bars**: Class +1 points with functional margins of 3, 5, and 4
+- **Blue bars**: Class -1 points with functional margins of 1, 1, and 2
+- **Green dashed line**: Minimum margin threshold (y=1)
+- **Points with minimum margin**: $(0, 1)$ and $(1, 0)$ both have functional margin = 1
+- **Best classified point**: $(3, 4)$ with functional margin = 5
+
 ### Step 2: Verification of Class Separation
 
 **Pen-and-Paper Calculation:**
@@ -343,6 +356,10 @@ Both approaches yield the same optimal solution:
 
 ### Comparison of Given vs Optimal Hyperplane
 
+The following visualization compares the given hyperplane with the optimal SVM solution:
+
+![Comparison of Given vs Optimal Hyperplane](../Images/L5_1_Quiz_1/optimal_solution_comparison.png)
+
 The visualization shows two key insights:
 
 1. **Given Hyperplane (Green)**: $x_1 + x_2 = 2$
@@ -354,6 +371,10 @@ The visualization shows two key insights:
    - Maximizes the minimum distance from any point to the boundary
    - Provides better generalization potential
    - Creates equal minimum distances for multiple points
+
+**Left Panel**: Shows the comparison between the given hyperplane (green) and the optimal SVM hyperplane (red) with their respective margin boundaries.
+
+**Right Panel**: Demonstrates the city planning application with the optimal road boundary (black line) that maximizes the minimum distance from any house to the road. The new house at $(2.5, 2.5)$ is correctly assigned to Zone A and lies exactly on the margin boundary.
 
 ### City Planning Application
 
@@ -403,6 +424,7 @@ The city planning visualization demonstrates:
    - Class +1: margins of 3, 5, and 4
    - Class -1: margins of 1, 1, and 2
    - **Minimum functional margin**: 1 (achieved by points $(0,1)$ and $(1,0)$)
+   - **Visual representation**: Bar chart showing all functional margins with clear identification of minimum margin points
 
 4. **Geometric Margin Calculation**: For point $(2,3)$:
    - Exact value: $\frac{3}{\sqrt{2}} = \frac{3\sqrt{2}}{2}$
@@ -413,6 +435,10 @@ The city planning visualization demonstrates:
    - **Maximum minimum distance**: $\sqrt{2} \approx 1.4142$ units
    - **Support vectors**: $(2,3)$, $(0,1)$, $(1,0)$ (closest points between zones)
    - **New house classification**: $(2.5, 2.5)$ belongs to **Zone A** (on positive margin boundary)
+
+6. **Visual Comparisons**: 
+   - **Functional margins chart**: Clear visualization of classification confidence for each point
+   - **Optimal solution comparison**: Side-by-side comparison of given vs optimal hyperplanes with city planning application
 
 **Key Mathematical Insights:**
 

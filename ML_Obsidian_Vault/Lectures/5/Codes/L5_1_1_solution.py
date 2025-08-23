@@ -596,6 +596,65 @@ print("\n" + "="*50)
 print("STEP 7: SUMMARY AND ANALYSIS")
 print("="*50)
 
+def plot_functional_margins():
+    """Create a bar chart showing functional margins for all points"""
+    fig, ax = plt.subplots(figsize=(12, 8))
+    
+    # Calculate functional margins for all points
+    all_points = np.vstack([class_plus1, class_minus1])
+    all_labels = np.array([1, 1, 1, -1, -1, -1])
+    
+    functional_margins = []
+    point_labels = []
+    
+    for i, (point, label) in enumerate(zip(all_points, all_labels)):
+        activation = w1 * point[0] + w2 * point[1] + b
+        functional_margin = label * activation
+        functional_margins.append(functional_margin)
+        point_labels.append(f"({point[0]}, {point[1]})")
+    
+    # Create bar chart
+    colors = ['red' if label == 1 else 'blue' for label in all_labels]
+    bars = ax.bar(range(len(functional_margins)), functional_margins, 
+                  color=colors, alpha=0.7, edgecolor='black', linewidth=1)
+    
+    # Add value labels on bars
+    for i, (bar, margin) in enumerate(zip(bars, functional_margins)):
+        height = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width()/2., height + 0.1,
+                f'{margin:.1f}', ha='center', va='bottom', fontweight='bold')
+    
+    # Customize the plot
+    ax.set_xlabel('Training Points', fontsize=14)
+    ax.set_ylabel('Functional Margin', fontsize=14)
+    ax.set_title('Functional Margins for All Training Points', fontsize=16)
+    ax.set_xticks(range(len(functional_margins)))
+    ax.set_xticklabels(point_labels, rotation=45, ha='right')
+    ax.grid(True, alpha=0.3, axis='y')
+    
+    # Add horizontal line at y=1 to show minimum margin
+    ax.axhline(y=1, color='green', linestyle='--', linewidth=2, 
+               label='Minimum Margin (y=1)')
+    
+    # Add legend
+    from matplotlib.patches import Patch
+    legend_elements = [
+        Patch(facecolor='red', alpha=0.7, label='Class +1'),
+        Patch(facecolor='blue', alpha=0.7, label='Class -1')
+    ]
+    ax.legend(handles=legend_elements, loc='upper right')
+    
+    # Add hyperplane equation
+    eq_text = f'Hyperplane: ${w1}x_1 + {w2}x_2 + {b} = 0$'
+    ax.text(0.02, 0.98, eq_text, transform=ax.transAxes, fontsize=12,
+            verticalalignment='top', bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="green", lw=1))
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'functional_margins_chart.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+
+plot_functional_margins()
+
 def print_summary():
     print("SUMMARY OF RESULTS:")
     print()
