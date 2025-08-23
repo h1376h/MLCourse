@@ -1,7 +1,7 @@
 # Lecture 5.3: Kernel Trick for Nonlinear Classification Quiz
 
 ## Overview
-This quiz contains 25 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
+This quiz contains 27 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
 
 ## Question 1
 
@@ -364,3 +364,28 @@ Consider an SVM classifier using a second-order polynomial kernel. We compare tw
 2.  Explain your reasoning by describing how scaling the feature vectors affects the optimal weight vector $\|\mathbf{w}\|$ and the geometric margin $1/\|\mathbf{w}\|$.
 
 For a detailed explanation of this problem, see [Question 25: Feature Space Scaling and Margin](L5_3_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+For non-linearly separable data, SVMs can map the input data into a higher-dimensional feature space where it becomes linearly separable. The "kernel trick" is a key innovation that makes this computationally feasible.
+
+#### Task
+1.  Explain the main idea behind the kernel trick. Why is it called a "trick"?
+2.  The dual formulation of the SVM optimization problem depends on the dot product of data points, $\mathbf{x}_i^T\mathbf{x}_j$. How does the kernel trick leverage this property?
+3.  Consider a polynomial kernel $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z} + 1)^2$. Explain why computing this kernel directly is more efficient than explicitly mapping $\mathbf{x}$ and $\mathbf{z}$ to the higher-dimensional space and then taking their dot product.
+4.  What is the primary advantage of using the kernel trick for datasets where the desired feature space is very high-dimensional or even infinite-dimensional?
+
+For a detailed explanation of this problem, see [Question 26: The Essence of the Kernel Trick](L5_3_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+Not every function $K(\mathbf{x}, \mathbf{z})$ can be used as a valid kernel in an SVM. Mercer's theorem provides the condition a function must satisfy to be a valid kernel.
+
+#### Task
+1.  What is the core requirement for a function to be a valid kernel? (i.e., what must it correspond to in some feature space?)
+2.  State the condition from Mercer's theorem that allows us to check if a function $K(\mathbf{x}, \mathbf{z})$ is a valid kernel.
+3.  Why is this condition important? What could go wrong during the SVM optimization if an invalid kernel is used?
+
+For a detailed explanation of this problem, see [Question 27: Understanding Mercer's Theorem](L5_3_27_explanation.md).

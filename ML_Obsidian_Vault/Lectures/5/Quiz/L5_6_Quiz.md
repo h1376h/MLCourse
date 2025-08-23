@@ -1,7 +1,7 @@
 # Lecture 5.6: Computational Considerations Quiz
 
 ## Overview
-This quiz contains 22 questions covering different topics from section 5.6 of the lectures on SVM Optimization, Sequential Minimal Optimization (SMO), Scaling Issues, Memory Management, and Implementation Best Practices.
+This quiz contains 23 questions covering different topics from section 5.6 of the lectures on SVM Optimization, Sequential Minimal Optimization (SMO), Scaling Issues, Memory Management, and Implementation Best Practices.
 
 ## Question 1
 
@@ -328,3 +328,16 @@ Design a systematic approach for choosing SVM optimization algorithms.
 5. Define metrics for comparing algorithm effectiveness beyond just accuracy
 
 For a detailed explanation of this problem, see [Question 22: Algorithm Selection](L5_6_22_explanation.md).
+
+## Question 23
+
+### Problem Statement
+SVMs can be solved using either the primal or the dual optimization problem. The choice between them often depends on the characteristics of the dataset and whether a kernel is used.
+
+#### Task
+1.  In the primal formulation, the number of optimization variables depends on the number of features, $d$. In the dual formulation, what does the number of variables depend on?
+2.  Explain why the dual formulation is essential for making the kernel trick work.
+3.  For a dataset with a very large number of features but a smaller number of training samples (i.e., $d \gg n$), which formulation would be computationally cheaper to solve when using a non-linear kernel, and why?
+4.  Conversely, for a linear SVM on a dataset with a huge number of samples but few features ($n \gg d$), which formulation might be more efficient?
+
+For a detailed explanation of this problem, see [Question 23: Primal vs. Dual Formulation Computational Advantages](L5_6_23_explanation.md).
