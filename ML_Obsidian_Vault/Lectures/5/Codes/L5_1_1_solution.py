@@ -234,35 +234,47 @@ def solve_city_planning():
     w_opt = svm.coef_[0]
     b_opt = svm.intercept_[0]
 
-    print("Step 3: SVM Solution")
+    print("Step 3: SVM Solution (from sklearn)")
     print(f"Optimal weight vector: w* = [{w_opt[0]:.6f}, {w_opt[1]:.6f}]")
     print(f"Optimal bias: b* = {b_opt:.6f}")
     print(f"||w*|| = {np.linalg.norm(w_opt):.6f}")
     print()
 
+    print("Step 3b: Independent Verification of SVM Solution")
+    print("Let's verify this is correct by checking the dual problem constraints")
+    print("and deriving the parameters from first principles.")
+    print()
+
     print("Step 4: Support Vector Analysis")
     print("Support vectors are points with α_i > 0 (on the margin boundary)")
+    print("These are points where the constraint y_i(w^T x_i + b) ≥ 1 is active (equals 1)")
+    print()
 
     # Calculate functional margins to identify support vectors
     functional_margins = []
+    activations = []
     for i, (point, label) in enumerate(zip(X, y)):
         activation = w_opt[0] * point[0] + w_opt[1] * point[1] + b_opt
         functional_margin = label * activation
         functional_margins.append(functional_margin)
+        activations.append(activation)
 
-        print(f"  Point {i+1}: ({point[0]}, {point[1]})")
+        print(f"  Point {i+1}: ({point[0]}, {point[1]}) with label {label:+d}")
         print(f"    Activation = {w_opt[0]:.6f}×{point[0]} + {w_opt[1]:.6f}×{point[1]} + {b_opt:.6f} = {activation:.6f}")
-        print(f"    Functional margin = {label} × {activation:.6f} = {functional_margin:.6f}")
+        print(f"    Constraint value = y_i(w^T x_i + b) = {label} × {activation:.6f} = {functional_margin:.6f}")
 
         # Check if it's a support vector (functional margin ≈ 1)
         if abs(functional_margin - 1.0) < 1e-6:
-            print(f"    → SUPPORT VECTOR (functional margin = 1)")
+            print(f"    → SUPPORT VECTOR (constraint is active: equals 1)")
+        else:
+            print(f"    → Not a support vector (constraint > 1)")
         print()
 
     # Find support vectors
     support_vector_indices = [i for i, fm in enumerate(functional_margins) if abs(fm - 1.0) < 1e-6]
     print(f"Support vector indices: {[i+1 for i in support_vector_indices]}")
     print(f"Support vectors: {[f'({X[i][0]}, {X[i][1]})' for i in support_vector_indices]}")
+    print(f"Number of support vectors: {len(support_vector_indices)}")
     print()
 
     print("Step 5: Lagrange Multipliers (Dual Solution)")
@@ -340,12 +352,44 @@ def solve_city_planning():
             # Check which points are actually support vectors (α > 0)
             print("Support vector analysis:")
             alpha_values = [alpha1, alpha4, alpha5]
+            true_support_vectors = []
             for i, (idx, alpha_val) in enumerate(zip(support_vector_indices, alpha_values)):
                 point = X[idx]
                 if abs(alpha_val) > 1e-10:
                     print(f"  Point ({point[0]}, {point[1]}): α_{idx+1} = {alpha_val:.6f} > 0 → TRUE support vector")
+                    true_support_vectors.append((idx, point, alpha_val))
                 else:
                     print(f"  Point ({point[0]}, {point[1]}): α_{idx+1} = {alpha_val:.6f} ≈ 0 → NOT a support vector")
+            print()
+
+            print("Step 5b: Independent Derivation of Optimal Hyperplane")
+            print("Now let's derive the optimal hyperplane parameters independently")
+            print("using only the true support vectors:")
+            print()
+
+            # Derive w* from true support vectors only
+            w_derived = np.zeros(2)
+            for idx, point, alpha_val in true_support_vectors:
+                label = y[idx]
+                contribution = alpha_val * label * point
+                print(f"  Contribution from point ({point[0]}, {point[1]}): α_{idx+1} × {label} × [{point[0]}, {point[1]}] = {contribution}")
+                w_derived += contribution
+
+            print(f"  Derived w* = {w_derived}")
+            print(f"  Original w* = {w_opt}")
+            print(f"  Match: {np.allclose(w_derived, w_opt)}")
+            print()
+
+            # Derive b* using any true support vector
+            if true_support_vectors:
+                idx, point, alpha_val = true_support_vectors[0]
+                label = y[idx]
+                b_derived = label - np.dot(w_derived, point)
+                print(f"  Deriving b* using support vector ({point[0]}, {point[1]}) with label {label}:")
+                print(f"  b* = y - w*^T x = {label} - [{w_derived[0]:.6f}, {w_derived[1]:.6f}] · [{point[0]}, {point[1]}]")
+                print(f"     = {label} - {np.dot(w_derived, point):.6f} = {b_derived:.6f}")
+                print(f"  Original b* = {b_opt:.6f}")
+                print(f"  Match: {abs(b_derived - b_opt) < 1e-10}")
 
         except np.linalg.LinAlgError:
             print("  System is singular, using approximate values")

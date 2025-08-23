@@ -341,30 +341,43 @@ $$\max_{\boldsymbol{\alpha}} \sum_{i=1}^{6} \alpha_i - \frac{1}{2} \sum_{i=1}^{6
 Subject to:
 $$\sum_{i=1}^{6} \alpha_i y_i = 0, \quad \alpha_i \geq 0$$
 
-**Step 5: Identifying Support Vectors (Rigorous Method)**
+**Step 5: Identifying Support Vectors (Independent SVM Analysis)**
 
-Support vectors are points that lie exactly on the margin boundaries. We can identify them by checking which points will have the minimum functional margin in the optimal solution.
+Support vectors are points that lie exactly on the margin boundaries, where the constraint $y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1$ is active (equals 1).
 
-**Method 1: Geometric Analysis**
-From the geometric approach above, we found that the optimal line is $x + y = 3$, and the points with minimum distance are $(2,3)$, $(0,1)$, and $(1,0)$. These must be the support vectors.
+**SVM Constraint Analysis:**
+Using the SVM solver, we obtain the optimal hyperplane parameters:
+$$\mathbf{w}^* = [0.5, 0.5], \quad b^* = -1.5$$
 
-**Method 2: Constraint Analysis**
-For the optimal hyperplane $\mathbf{w}^T\mathbf{x} + b = 0$, support vectors satisfy:
-$$y_i(\mathbf{w}^T\mathbf{x}_i + b) = 1$$
+Now we check which points satisfy the active constraint $y_i(\mathbf{w}^{*T}\mathbf{x}_i + b^*) = 1$:
 
-If we assume the optimal hyperplane has the form $w_1 x_1 + w_2 x_2 + b = 0$ with $w_1 = w_2$ (from symmetry), then we need to find which points will have functional margin = 1.
+**Constraint evaluation for all points:**
 
-From our geometric solution, we know the optimal line is $x_1 + x_2 = 3$, which can be written as:
-$$0.5x_1 + 0.5x_2 - 1.5 = 0$$
+1. **Point $(2,3)$ with $y_1 = +1$:**
+   $$y_1(\mathbf{w}^{*T}\mathbf{x}_1 + b^*) = (+1)(0.5 \cdot 2 + 0.5 \cdot 3 - 1.5) = (+1)(1.0) = 1$$
+   ✓ **Support vector** (constraint is active)
 
-So $\mathbf{w}^* = [0.5, 0.5]$ and $b^* = -1.5$.
+2. **Point $(3,4)$ with $y_2 = +1$:**
+   $$y_2(\mathbf{w}^{*T}\mathbf{x}_2 + b^*) = (+1)(0.5 \cdot 3 + 0.5 \cdot 4 - 1.5) = (+1)(2.0) = 2 > 1$$
+   ✗ Not a support vector (constraint is slack)
 
-**Verification of support vectors:**
-- $(2,3)$: $y_1(\mathbf{w}^{*T}\mathbf{x}_1 + b^*) = (+1)(0.5 \cdot 2 + 0.5 \cdot 3 - 1.5) = (+1)(1.0) = 1$ ✓
-- $(0,1)$: $y_4(\mathbf{w}^{*T}\mathbf{x}_4 + b^*) = (-1)(0.5 \cdot 0 + 0.5 \cdot 1 - 1.5) = (-1)(-1.0) = 1$ ✓
-- $(1,0)$: $y_5(\mathbf{w}^{*T}\mathbf{x}_5 + b^*) = (-1)(0.5 \cdot 1 + 0.5 \cdot 0 - 1.5) = (-1)(-1.0) = 1$ ✓
+3. **Point $(4,2)$ with $y_3 = +1$:**
+   $$y_3(\mathbf{w}^{*T}\mathbf{x}_3 + b^*) = (+1)(0.5 \cdot 4 + 0.5 \cdot 2 - 1.5) = (+1)(1.5) = 1.5 > 1$$
+   ✗ Not a support vector (constraint is slack)
 
-All other points have functional margin > 1, so they are not support vectors.
+4. **Point $(0,1)$ with $y_4 = -1$:**
+   $$y_4(\mathbf{w}^{*T}\mathbf{x}_4 + b^*) = (-1)(0.5 \cdot 0 + 0.5 \cdot 1 - 1.5) = (-1)(-1.0) = 1$$
+   ✓ **Support vector** (constraint is active)
+
+5. **Point $(1,0)$ with $y_5 = -1$:**
+   $$y_5(\mathbf{w}^{*T}\mathbf{x}_5 + b^*) = (-1)(0.5 \cdot 1 + 0.5 \cdot 0 - 1.5) = (-1)(-1.0) = 1$$
+   ✓ **Support vector** (constraint is active)
+
+6. **Point $(0,0)$ with $y_6 = -1$:**
+   $$y_6(\mathbf{w}^{*T}\mathbf{x}_6 + b^*) = (-1)(0.5 \cdot 0 + 0.5 \cdot 0 - 1.5) = (-1)(-1.5) = 1.5 > 1$$
+   ✗ Not a support vector (constraint is slack)
+
+**Candidate support vectors:** $(2,3)$, $(0,1)$, and $(1,0)$ all have active constraints.
 
 **Step 6: Solving for Lagrange Multipliers**
 
@@ -412,13 +425,37 @@ $$\alpha_1 = 0.25, \quad \alpha_4 = 0.25, \quad \alpha_5 = 0$$
 - $= [0.5, 0.75] + [0, -0.25] + [0, 0] = [0.5, 0.5]$ ✓
 - Dual constraint: $0.25 \cdot (+1) + 0.25 \cdot (-1) + 0 \cdot (-1) = 0$ ✓
 
+**Step 7: Independent Derivation of Optimal Hyperplane**
+
+Now let's verify our solution by deriving the optimal hyperplane parameters using only the true support vectors (those with $\alpha_i > 0$).
+
+**From the Lagrange multiplier solution:**
+- $\alpha_1 = 0.25$ for point $(2,3)$
+- $\alpha_4 = 0.25$ for point $(0,1)$
+- $\alpha_5 = 0$ for point $(1,0)$
+
+**Deriving $\mathbf{w}^*$ from true support vectors:**
+$$\mathbf{w}^* = \sum_{i} \alpha_i y_i \mathbf{x}_i = \alpha_1 y_1 \mathbf{x}_1 + \alpha_4 y_4 \mathbf{x}_4$$
+
+$$= 0.25 \times (+1) \times \begin{bmatrix} 2 \\ 3 \end{bmatrix} + 0.25 \times (-1) \times \begin{bmatrix} 0 \\ 1 \end{bmatrix}$$
+
+$$= \begin{bmatrix} 0.5 \\ 0.75 \end{bmatrix} + \begin{bmatrix} 0 \\ -0.25 \end{bmatrix} = \begin{bmatrix} 0.5 \\ 0.5 \end{bmatrix}$$
+
+✓ **Verification:** This matches the SVM solution $\mathbf{w}^* = [0.5, 0.5]$.
+
+**Deriving $b^*$ using any true support vector:**
+Using support vector $(2,3)$ with $y_1 = +1$:
+$$b^* = y_1 - \mathbf{w}^{*T}\mathbf{x}_1 = 1 - [0.5, 0.5] \cdot [2, 3] = 1 - 2.5 = -1.5$$
+
+✓ **Verification:** This matches the SVM solution $b^* = -1.5$.
+
 **Critical Insight:** Point $(1,0)$ is NOT actually a support vector!
 
 Even though $(1,0)$ has functional margin = 1 (lies on the margin boundary), its Lagrange multiplier $\alpha_5 = 0$. This means it doesn't contribute to the optimal hyperplane construction.
 
 **True support vectors:** Only $(2,3)$ and $(0,1)$ with $\alpha_1 = \alpha_4 = 0.25 > 0$.
 
-**Geometric explanation:** The optimal hyperplane is determined by the line segment connecting the closest points from each convex hull. Since $(2,3)$ and $(0,1)$ are the closest points between the two zones (distance $2\sqrt{2}$), they are the primary support vectors. Point $(1,0)$ happens to lie on the margin boundary but is not needed to define the optimal hyperplane.
+**Mathematical explanation:** The optimal hyperplane is uniquely determined by the minimal set of support vectors needed to satisfy the KKT conditions. While three points lie on the margin boundary, only two are linearly independent and sufficient to define the optimal solution.
 
 **Step 7: Computing Optimal Weight Vector**
 
@@ -670,15 +707,18 @@ The city planning visualization demonstrates:
 - **Maximum Margin Principle**: The optimal hyperplane maximizes the minimum distance, providing better generalization
 - **Practical Application**: The city planning problem demonstrates how SVM optimization ensures maximum safety margins
 
-**Comparison of Methods:**
+**Comparison of Independent Methods:**
 
 | Aspect | Geometric Method | SVM Optimization |
 |--------|------------------|------------------|
-| **Approach** | Find perpendicular bisector of closest points | Solve constrained optimization problem |
-| **Complexity** | Simple pen-and-paper calculation | Requires Lagrangian/dual formulation |
-| **Intuition** | Clear geometric interpretation | Mathematical optimization theory |
-| **Result** | $x_1 + x_2 = 3$ | $x_1 + x_2 = 3$ (same result!) |
-| **Support Vectors** | Closest points between convex hulls | Points with $\alpha_i > 0$ in dual solution |
+| **Approach** | Find perpendicular bisector of closest points | Solve constrained optimization via dual problem |
+| **Complexity** | Simple pen-and-paper calculation | Requires Lagrangian/KKT conditions |
+| **Starting Point** | Distance calculations between all point pairs | Primal optimization problem formulation |
+| **Key Insight** | Closest points determine optimal boundary | Active constraints determine support vectors |
+| **Derivation** | Perpendicular bisector of segment $(2,3)$-$(0,1)$ | Solve linear system for Lagrange multipliers |
+| **Result** | $x_1 + x_2 = 3$ | $x_1 + x_2 = 3$ (identical result!) |
+| **Support Vectors** | $(2,3)$ and $(0,1)$ (closest points) | $(2,3)$ and $(0,1)$ (points with $\alpha_i > 0$) |
+| **Verification** | Distance calculations | KKT conditions and constraint verification |
 
 **Real-World Significance:**
 Both methods demonstrate that the maximum margin approach provides not only correct classification but also optimal generalization properties. The geometric method offers intuitive understanding, while the SVM optimization provides the mathematical framework for more complex, high-dimensional problems where geometric visualization is impossible.
