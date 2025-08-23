@@ -255,59 +255,6 @@ The SVM optimization problem is typically solved using Sequential Minimal Optimi
 
 ![Stopping Criteria Analysis](../Images/L5_2_Quiz_14/stopping_criteria.png)
 
-## Practical Implementation
-
-### Implementation Checklist
-
-**1. Data Preprocessing Pipeline**
-```python
-# Essential preprocessing steps
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
-
-# Outlier detection
-from scipy import stats
-z_scores = stats.zscore(X_scaled)
-outliers = np.abs(z_scores) > 3
-X_clean = X_scaled[~outliers.any(axis=1)]
-y_clean = y[~outliers.any(axis=1)]
-```
-
-**2. Hyperparameter Optimization**
-```python
-# Logarithmic grid search
-C_values = np.logspace(-3, 3, 20)
-param_grid = {'C': C_values}
-grid_search = GridSearchCV(SVC(kernel='linear'), param_grid, cv=5)
-grid_search.fit(X_clean, y_clean)
-```
-
-**3. Model Diagnostics**
-```python
-# Check for C parameter issues
-svm = grid_search.best_estimator_
-decision_values = svm.decision_function(X_clean)
-slack_vars = np.maximum(0, 1 - y_clean * decision_values)
-total_slack = np.sum(slack_vars)
-
-if total_slack > 0.8 * len(X_clean):  # C might be too small
-    print("Warning: C might be too small")
-elif total_slack < 0.1 * len(X_clean):  # C might be too large
-    print("Warning: C might be too large")
-```
-
-### Alternative Approaches
-
-**1. Robust SVM Variants**
-- **$\nu$-SVM**: Uses $\nu$ parameter instead of $C$, more intuitive for outlier handling
-- **One-Class SVM**: For outlier detection and novelty detection
-- **Support Vector Data Description (SVDD)**: For boundary-based outlier detection
-
-**2. Ensemble Methods**
-- **Bagging with SVM**: Reduces overfitting and improves robustness
-- **Boosting with SVM**: Focuses on difficult-to-classify samples
-- **Random Forest**: More robust to outliers than SVM
-
 ## Visual Explanations
 
 ### Outlier Handling Visualization
