@@ -46,11 +46,11 @@ Given the dataset:
 - $\mathbf{x}_4 = (-2, -1)$, $y_4 = -1$
 
 #### Task
-1. Determine which points are support vectors for the maximum margin hyperplane
-2. If the optimal hyperplane is $x_1 + x_2 = 0$, verify that this satisfies the KKT conditions
-3. Calculate the Lagrange multipliers $\alpha_i$ for each training point
-4. Verify that $\sum_{i=1}^4 \alpha_i y_i = 0$
-5. Express the weight vector $\mathbf{w}$ in terms of the support vectors and their multipliers
+1. [📚] Determine which points are support vectors for the maximum margin hyperplane
+2. [📚] If the optimal hyperplane is $x_1 + x_2 = 0$, verify that this satisfies the KKT conditions
+3. [📚] Calculate the Lagrange multipliers $\alpha_i$ for each training point
+4. [📚] Verify that $\sum_{i=1}^4 \alpha_i y_i = 0$
+5. [📚] Express the weight vector $\mathbf{w}$ in terms of the support vectors and their multipliers
 
 For a detailed explanation of this problem, see [Question 3: Support Vector Identification](L5_1_3_explanation.md).
 
