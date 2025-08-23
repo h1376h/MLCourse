@@ -4,6 +4,11 @@ from sklearn.svm import SVC
 from sklearn.model_selection import LeaveOneOut
 import os
 
+# Enable LaTeX for high-quality mathematical notation
+plt.rcParams['text.usetex'] = True
+plt.rcParams['font.family'] = 'serif'
+plt.rcParams['font.size'] = 10
+
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
 images_dir = os.path.join(os.path.dirname(script_dir), "Images")
@@ -97,8 +102,8 @@ def plot_svm_decision_boundary(X, y, svm_model, ax, title="SVM Decision Boundary
 
     ax.set_xlim(x_min, x_max)
     ax.set_ylim(y_min, y_max)
-    ax.set_xlabel('x₁')
-    ax.set_ylabel('x₂')
+    ax.set_xlabel(r'$x_1$')
+    ax.set_ylabel(r'$x_2$')
     ax.set_title(title)
     ax.legend()
     ax.grid(True, alpha=0.3)

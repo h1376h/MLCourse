@@ -64,7 +64,7 @@ def create_theoretical_analysis_visualization():
     ax2.text(0.5, 0.7, 'LOOCV Upper Bound Theorem',
              ha='center', va='center', fontsize=14, fontweight='bold',
              transform=ax2.transAxes)
-    ax2.text(0.5, 0.5, r'LOOCV Error $\leq \frac{\text{\# Support Vectors}}{\text{Total Points}}$',
+    ax2.text(0.5, 0.5, r'LOOCV Error $\leq \frac{\mathrm{Support\ Vectors}}{\mathrm{Total\ Points}}$',
              ha='center', va='center', fontsize=12,
              transform=ax2.transAxes, bbox=dict(boxstyle="round,pad=0.3", facecolor="lightblue"))
     ax2.text(0.5, 0.3, 'This bound is conservative\nActual error can be lower',
@@ -251,7 +251,7 @@ def perform_detailed_loocv_analysis(X, y, svm_full, sv_indices, scenario_letter)
 
         # Print result
         coord_str = f"[{X[point_idx][0]:.1f},{X[point_idx][1]:.1f}]"
-        correct_str = "✓" if is_correct else "✗"
+        correct_str = "Y" if is_correct else "N"
         sv_str = "Yes" if is_sv else "No"
         print(f"{fold+1:<4} {point_idx+1:<6} {coord_str:<12} {y_true:+2d}   {y_pred:+2d}   {correct_str:<8} {sv_str:<4}")
 
