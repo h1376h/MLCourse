@@ -54,6 +54,7 @@ Points: A(1,1), B(2,1), C(1,2), D(2,2), E(1,3), F(8,8), G(8,9), H(9,8), I(15,15)
 2. [📚] Classify each point as core, border, or noise
 3. [📚] Show the cluster formation process step by step
 4. [📚] How many clusters does DBSCAN find, and which points are noise?
+5. [📚] Calculate the reachability distance for each point pair and create the reachability plot. Then determine which points would be considered outliers if we used a reachability threshold of 3.0.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: Manual DBSCAN Execution](L11_4_4_explanation.md).
 
@@ -67,6 +68,7 @@ The ε (epsilon) parameter in DBSCAN defines the radius of the neighborhood arou
 2. [📚] What happens if ε is too small? Too large?
 3. [📚] Describe the k-distance graph method for choosing ε
 4. [🔍] How do you identify the "knee" or "elbow" in a k-distance plot?
+5. [📚] Given the points [(0,0), (1,0), (2,0), (10,0), (11,0), (12,0)] and MinPts=3, calculate the 3-distance for each point and create the k-distance plot. Determine the optimal ε value by identifying the elbow point mathematically.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: Epsilon Parameter Selection](L11_4_5_explanation.md).
 
@@ -162,6 +164,7 @@ A(0,0), B(1,0), C(0,1), D(1,1), E(0.5,0.5), F(5,5), G(6,5), H(5,6)
 2. [📚] Identify all core points
 3. [📚] Trace the cluster formation process
 4. [📚] What is the final clustering result?
+5. [📚] Calculate the local density at each point using the formula: density = |Nε(p)|/(π × ε²) where |Nε(p)| is the number of points in the ε-neighborhood. Then rank the points by density and determine which would be core points using a density threshold instead of MinPts.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: Detailed DBSCAN Example](L11_4_12_explanation.md).
 

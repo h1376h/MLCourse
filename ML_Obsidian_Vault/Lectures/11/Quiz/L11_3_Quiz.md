@@ -84,7 +84,8 @@ Ward linkage is a special linkage method that minimizes within-cluster variance.
 1. [📚] Explain the principle behind Ward linkage
 2. [📚] How does Ward linkage differ from other linkage methods in terms of objective function?
 3. [🔍] What types of cluster shapes does Ward linkage tend to produce?
-4. [📚] Calculate the Ward distance between clusters {(1,1), (2,2)} and {(5,5)} 
+4. [📚] Calculate the Ward distance between clusters {(1,1), (2,2)} and {(5,5)}
+5. [📚] For three clusters C₁={(0,0), (1,0)}, C₂={(3,0)}, C₃={(0,3), (1,3)}, calculate the Ward distances for all possible merges (C₁∪C₂, C₁∪C₃, C₂∪C₃) and determine which merge minimizes the increase in total within-cluster sum of squares. 
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 6: Ward Linkage Method](L11_3_6_explanation.md).
 
@@ -125,6 +126,7 @@ Consider the following dendrogram for points A, B, C, D, E:
 2. [📚] What clusters would result from cutting at height 3.5?
 3. [📚] Which two points are most similar according to this dendrogram?
 4. [🔍] How many possible clusterings can be obtained from this dendrogram?
+5. [📚] Calculate the cophenetic distance between all pairs of points (A,B), (A,C), (A,D), (A,E), (B,C), (B,D), (B,E), (C,D), (C,E), (D,E) based on this dendrogram. The cophenetic distance is the height at which two points are first joined in the same cluster.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Dendrogram Analysis](L11_3_8_explanation.md).
 

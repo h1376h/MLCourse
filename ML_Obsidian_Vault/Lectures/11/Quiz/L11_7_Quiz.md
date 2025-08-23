@@ -26,6 +26,7 @@ The similarity matrix (affinity matrix) is central to spectral clustering perfor
 2. [📚] Compare Gaussian (RBF) kernel vs k-nearest neighbor similarity matrices
 3. [📚] Given distances d₁₂=2, d₁₃=5, d₂₃=3, calculate similarity using Gaussian kernel with σ=1
 4. [🔍] How does the choice of similarity function affect clustering results?
+5. [📚] For 4 points with pairwise distances forming the matrix D=[[0,1,4,5],[1,0,2,6],[4,2,0,3],[5,6,3,0]], construct both the ε-neighborhood graph (with ε=2.5) and the 2-nearest neighbor graph. Calculate the resulting adjacency matrices.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 2: Similarity Matrices in Spectral Clustering](L11_7_2_explanation.md).
 

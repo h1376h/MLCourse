@@ -9,10 +9,10 @@ This quiz contains 18 questions covering different topics from section 11.2 of t
 The K-Means algorithm follows a specific iterative process to find optimal cluster centroids.
 
 #### Task
-1. [📚] List the three main steps of the K-Means algorithm
-2. [🔍] Why is K-Means called an "iterative" algorithm?
-3. [📚] What is the stopping criterion for K-Means?
-4. [🔍] How do you initialize the centroids at the beginning of the algorithm?
+1. List the three main steps of the K-Means algorithm
+2. Why is K-Means called an "iterative" algorithm?
+3. What is the stopping criterion for K-Means?
+4. How do you initialize the centroids at the beginning of the algorithm?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: K-Means Algorithm Steps](L11_2_1_explanation.md).
 
@@ -55,6 +55,7 @@ K-Means++ is an improved initialization strategy that addresses some problems wi
 2. [📚] Describe the K-Means++ initialization procedure step by step
 3. [📚] Calculate the probability of selecting each point as the second centroid using K-Means++ for points: A(0,0), B(2,0), C(4,0) with first centroid at (0,0)
 4. [🔍] Why does K-Means++ lead to better clustering results?
+5. [📚] For the points P₁(1,1), P₂(3,1), P₃(5,5), P₄(1,5) with first centroid at P₁, calculate the exact K-Means++ probabilities for selecting the second centroid. Then, if P₃ is selected as the second centroid, what are the probabilities for the third centroid selection?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: K-Means++ Initialization](L11_2_4_explanation.md).
 
@@ -123,6 +124,7 @@ Feature scaling significantly impacts K-Means clustering results.
 2. [📚] Consider features: Age (20-80), Income ($20k-$200k). Calculate the effect of not scaling on distance calculations
 3. [📚] Apply standardization (z-score) to transform the data: [(25, 30000), (45, 60000), (65, 90000)]
 4. [🔍] How do the clustering results differ before and after scaling?
+5. [📚] Given the raw data points [(20, $25k), (30, $45k), (50, $85k)] and K=2 with initial centroids at [(25, $35k), (45, $75k)], perform one complete K-Means iteration on both raw and z-score standardized data. Compare how the centroid movements differ between scaled and unscaled versions.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: Feature Scaling in K-Means](L11_2_9_explanation.md).
 
@@ -132,10 +134,11 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Choosing the optimal value of K is a critical decision in K-Means clustering.
 
 #### Task
-1. [🔍] Why can't you simply choose K to minimize WCSS?
-2. [📚] Describe the "elbow method" for choosing K
-3. [📚] Given WCSS values: K=1: 100, K=2: 60, K=3: 40, K=4: 35, K=5: 32, which K would you choose using the elbow method?
-4. [🔍] What are the limitations of the elbow method?
+1. Why can't you simply choose $K$ to minimize WCSS?
+2. Describe the "elbow method" for choosing $K$
+3. Given WCSS values: $K=1: 100$, $K=2: 60$, $K=3: 40$, $K=4: 35$, $K=5: 32$, which $K$ would you choose using the elbow method?
+4. What are the limitations of the elbow method?
+5. Calculate the percentage decrease in WCSS for each step ($K=1 \rightarrow 2$, $K=2 \rightarrow 3$, etc.) and the second derivative to mathematically identify the elbow point. Use the formula: Second derivative $= \text{WCSS}(K-1) - 2 \times \text{WCSS}(K) + \text{WCSS}(K+1)$.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: Choosing Optimal K](L11_2_10_explanation.md).
 

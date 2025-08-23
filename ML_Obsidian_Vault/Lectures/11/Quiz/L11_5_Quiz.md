@@ -54,6 +54,7 @@ Initial parameters: μ₁=1.5, σ₁²=1, π₁=0.5, μ₂=9, σ₂²=1, π₂=0
 2. [📚] Perform the M-step to update μ₁, μ₂, σ₁², σ₂², π₁, π₂
 3. [📚] Calculate the log-likelihood after this iteration
 4. [🔍] Interpret the clustering results - which points belong to which cluster?
+5. [📚] Continue the EM algorithm for a second iteration and calculate the change in log-likelihood. Determine if the algorithm has converged using a threshold of 0.01 for the log-likelihood change.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: Manual EM Calculation](L11_5_4_explanation.md).
 
@@ -67,6 +68,7 @@ Model selection in GMM involves choosing the optimal number of components K.
 2. [📚] Explain how the Akaike Information Criterion (AIC) addresses overfitting
 3. [📚] Explain how the Bayesian Information Criterion (BIC) differs from AIC
 4. [📚] Given log-likelihood = -100, K=3, n=200, d=2, calculate AIC and BIC
+5. [📚] For model comparison, you have three GMMs with the following results: Model 1 (K=2): LL=-150, Model 2 (K=3): LL=-120, Model 3 (K=4): LL=-115. Calculate AIC and BIC for each (n=100, d=2) and determine which model each criterion selects.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: Model Selection for GMM](L11_5_5_explanation.md).
 

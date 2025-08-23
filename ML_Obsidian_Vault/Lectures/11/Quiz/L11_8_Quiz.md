@@ -28,6 +28,7 @@ An image has pixels with the following RGB values: (255,0,0), (250,10,5), (0,255
 2. [📚] Calculate the initial centroids using K-Means++ initialization
 3. [📚] Show one iteration of the algorithm
 4. [🔍] How would the results change if you used Lab color space instead of RGB?
+5. [📚] Calculate the compression ratio achieved by this clustering. If each original RGB pixel uses 24 bits (8 bits per channel) and the compressed version uses 2 bits per pixel (to encode 3 cluster IDs) plus the storage for 3 centroids, what is the total compression ratio? Also calculate the quantization error as the sum of squared distances from each pixel to its assigned centroid.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 2: Color-Based Image Segmentation](L11_8_2_explanation.md).
 
@@ -115,6 +116,7 @@ Network intrusion detection systems use clustering to identify abnormal network 
 2. [🔍] How would you distinguish between normal traffic clusters and anomalous traffic?
 3. [📚] What clustering algorithm would be most suitable for real-time intrusion detection?
 4. [🔍] How do you handle the evolving nature of network attack patterns?
+5. [📚] Given network traffic data with features [packet_size, duration, src_bytes, dst_bytes]: Normal traffic samples [(64, 0.1, 1000, 500), (128, 0.2, 2000, 1000), (96, 0.15, 1500, 750)] and potential intrusion sample (1500, 2.0, 50000, 100). Use DBSCAN with ε=500 and MinPts=2 to determine if the potential intrusion is an outlier. Calculate all distances and show the clustering process.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: Network Intrusion Detection](L11_8_8_explanation.md).
 

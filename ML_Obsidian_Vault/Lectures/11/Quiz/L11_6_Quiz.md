@@ -26,6 +26,7 @@ Internal validation measures assess clustering quality using only the data and c
 2. [📚] Calculate the silhouette score for a point with a(i) = 0.3 and b(i) = 0.7
 3. [🔍] What does a negative silhouette score indicate?
 4. [📚] How do you compute the overall silhouette score for a clustering?
+5. [📚] Given three points in a clustering: P1 has intra-cluster distances [0.2, 0.4, 0.3] and nearest other cluster distances [0.8, 0.9, 0.7], P2 has intra-cluster distances [0.1, 0.2] and nearest other cluster distances [0.6, 0.5], P3 has intra-cluster distances [0.5] and nearest other cluster distances [0.4]. Calculate the silhouette coefficient for each point and the overall silhouette score.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 2: Silhouette Analysis](L11_6_2_explanation.md).
 
