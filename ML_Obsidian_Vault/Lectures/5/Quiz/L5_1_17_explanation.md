@@ -143,6 +143,8 @@ This comprehensive analysis breaks down the dual solution into four key componen
 
 4. **Weight Vector Components**: Shows the final weight vector components w₁ and w₂ computed from the dual variables.
 
+This comprehensive breakdown helps visualize how the dual formulation connects the Lagrange multipliers to the final SVM solution, making the mathematical relationships more intuitive and easier to understand.
+
 ## Key Insights
 
 ### Dual Formulation Properties

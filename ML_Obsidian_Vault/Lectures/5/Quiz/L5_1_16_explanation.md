@@ -125,6 +125,8 @@ This bar chart provides a clear analysis of how each training point satisfies (o
 
 The analysis reveals that only 1 out of 4 points satisfies the SVM constraint, with 1 point being misclassified and 2 points having insufficient margins.
 
+This visualization makes it immediately clear why the given hyperplane is not optimal for SVM classification, as it fails to maintain the required margin constraints for most training points.
+
 ## Key Insights
 
 ### SVM Constraint Analysis

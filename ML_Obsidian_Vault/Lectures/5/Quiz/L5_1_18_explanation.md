@@ -127,6 +127,22 @@ This detailed analysis provides four complementary views of the 3D SVM problem:
 
 4. **Geometric Properties**: Compares key geometric quantities including the weight vector norm, margin width, and bias magnitude, providing insight into the hyperplane's geometric characteristics.
 
+This multi-faceted visualization helps bridge the gap between abstract mathematical concepts and concrete geometric understanding in higher dimensions.
+
+### Vector and Distance Analysis
+
+![Vector and Distance Analysis](../Images/L5_1_Quiz_18/vector_distance_analysis.png)
+
+This detailed analysis provides four complementary views of the 3D SVM problem:
+
+1. **Weight Vector Components**: Shows the individual components of w = [2, -1, 3], illustrating the relative importance of each dimension in defining the hyperplane orientation.
+
+2. **Test Point Coordinates**: Displays the coordinates of all three test points across the three dimensions, making it easy to compare their positions in 3D space.
+
+3. **Signed Distance Analysis**: Confirms that all three points have identical signed distances from the hyperplane, demonstrating they lie on the same parallel plane.
+
+4. **Geometric Properties**: Compares key geometric quantities including the weight vector norm, margin width, and bias magnitude, providing insight into the hyperplane's geometric characteristics.
+
 ## Key Insights
 
 ### Geometric Properties in 3D
