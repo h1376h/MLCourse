@@ -481,7 +481,9 @@ Examine entropy calculation edge cases and mathematical properties.
    - Empty node: $[0, 0]$
 2. [📚] Explain how to handle the empty node case mathematically
 3. Show that entropy is maximized for balanced distributions
-4. [📚] Derive the maximum possible entropy for $k$ classes (Hint: Maximum entropy = $\log_2(k)$)
+4. [📚] Derive the maximum possible entropy for $k$ classes
+
+**Hint:** Maximum entropy = $\log_2(k)$
 
 For a detailed explanation of this question, see [Question 28: Entropy Edge Cases](L6_3_28_explanation.md).
 

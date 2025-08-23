@@ -11,7 +11,9 @@ Examine entropy calculation edge cases and mathematical properties.
    - Empty node: $[0, 0]$
 2. Explain how to handle the empty node case mathematically
 3. Show that entropy is maximized for balanced distributions
-4. Derive the maximum possible entropy for $k$ classes (Hint: Maximum entropy = $\log_2(k)$)
+4. Derive the maximum possible entropy for $k$ classes
+
+**Hint:** Maximum entropy = $\log_2(k)$
 
 ## Understanding the Problem
 Entropy is a fundamental concept in information theory that measures uncertainty or randomness in a probability distribution. Understanding its mathematical properties and edge cases is crucial for implementing robust entropy-based algorithms in machine learning.
