@@ -13,7 +13,7 @@ Consider the following 1D dataset. We are going to learn a linear SVM of the for
 
 ![1D SVM Visualization](../Images/L5_1_Quiz_25/1d_svm_visualization.png)
 
-*The figure shows data points for Class -1 (denoted by hollow circles) at x=1, 2, and 3.5, and for Class 1 (denoted by filled circles) at x=4 and 5.*
+*The figure shows data points for Class $-1$ (denoted by hollow circles) at $x=1$, $2$, and $3.5$, and for Class $1$ (denoted by filled circles) at $x=4$ and $5$.*
 
 ### Task
 1.  What values for $w$ and $b$ will be learned by the linear SVM to create the maximum margin hyperplane?
@@ -41,13 +41,13 @@ subject to: $y_i(wx_i + b) \geq 1$ for all training points $(x_i, y_i)$
 From our analysis, we need to find the decision boundary that maximizes the margin between the two classes.
 
 **Closest points analysis:**
-- Rightmost negative point: $x = 3.5$ (class -1)
-- Leftmost positive point: $x = 4.0$ (class +1)
+- Rightmost negative point: $x = 3.5$ (class $-1$)
+- Leftmost positive point: $x = 4.0$ (class $+1$)
 
 The optimal decision boundary for maximum margin should be equidistant from these closest points:
 $$\text{Decision boundary} = \frac{3.5 + 4.0}{2} = 3.75$$
 
-**Support vectors:** The points $x = 3.5$ (class -1) and $x = 4.0$ (class +1) are the support vectors as they are the closest to the decision boundary from each class.
+**Support vectors:** The points $x = 3.5$ (class $-1$) and $x = 4.0$ (class $+1$) are the support vectors as they are the closest to the decision boundary from each class.
 
 ### Step 2: Calculate Optimal Parameters
 
@@ -55,8 +55,8 @@ For the decision boundary at $x = 3.75$, we have $wx + b = 0$, so:
 $$3.75w + b = 0 \Rightarrow b = -3.75w$$
 
 To ensure the support vectors lie exactly on the margin boundaries:
-- For $x = 3.5$: $w(3.5) + b = -1$ (constraint for class -1)
-- For $x = 4.0$: $w(4.0) + b = +1$ (constraint for class +1)
+- For $x = 3.5$: $w(3.5) + b = -1$ (constraint for class $-1$)
+- For $x = 4.0$: $w(4.0) + b = +1$ (constraint for class $+1$)
 
 Substituting $b = -3.75w$ into the first constraint:
 $$w(3.5) + (-3.75w) = -1$$
@@ -90,55 +90,55 @@ $$\text{Distance} = |4.0 - 3.75| = |3.5 - 3.75| = 0.25$$
 
 Let's evaluate each training point using $f(x) = \text{sign}(x - 3.75)$:
 
-| Point | x | True y | $x - 3.75$ | Predicted y | Correct? |
+| Point | $x$ | True $y$ | $x - 3.75$ | Predicted $y$ | Correct? |
 |-------|---|--------|------------|-------------|----------|
-| 1     | 1.0 | -1 | -2.75 | -1 | ✓ |
-| 2     | 2.0 | -1 | -1.75 | -1 | ✓ |
-| 3     | 3.5 | -1 | -0.25 | -1 | ✓ |
-| 4     | 4.0 | +1 | +0.25 | +1 | ✓ |
-| 5     | 5.0 | +1 | +1.25 | +1 | ✓ |
+| $1$     | $1.0$ | $-1$ | $-2.75$ | $-1$ | ✓ |
+| $2$     | $2.0$ | $-1$ | $-1.75$ | $-1$ | ✓ |
+| $3$     | $3.5$ | $-1$ | $-0.25$ | $-1$ | ✓ |
+| $4$     | $4.0$ | $+1$ | $+0.25$ | $+1$ | ✓ |
+| $5$     | $5.0$ | $+1$ | $+1.25$ | $+1$ | ✓ |
 
-**Training set error: 0.0%** (All points correctly classified)
+**Training set error: $0.0\%$** (All points correctly classified)
 
 ### Step 5: Leave-One-Out Cross-Validation Analysis
 
-For LOOCV, we train the SVM on 4 points and test on the remaining point, repeating this for each point.
+For LOOCV, we train the SVM on $4$ points and test on the remaining point, repeating this for each point.
 
 ![LOOCV Analysis](../Images/L5_1_Quiz_25/loocv_analysis.png)
 
 **LOOCV Results:**
 
-**Fold 1:** Leave out $x = 1.0$ (y = -1)
-- Training set: [2.0, 3.5, 4.0, 5.0]
+**Fold 1:** Leave out $x = 1.0$ ($y = -1$)
+- Training set: $[2.0, 3.5, 4.0, 5.0]$
 - Decision boundary: $x = 3.75$
-- Prediction: -1 ✓ **Correct**
+- Prediction: $-1$ ✓ **Correct**
 
-**Fold 2:** Leave out $x = 2.0$ (y = -1)
-- Training set: [1.0, 3.5, 4.0, 5.0]
+**Fold 2:** Leave out $x = 2.0$ ($y = -1$)
+- Training set: $[1.0, 3.5, 4.0, 5.0]$
 - Decision boundary: $x = 3.75$
-- Prediction: -1 ✓ **Correct**
+- Prediction: $-1$ ✓ **Correct**
 
-**Fold 3:** Leave out $x = 3.5$ (y = -1)
-- Training set: [1.0, 2.0, 4.0, 5.0]
-- New closest points: 2.0 (class -1) and 4.0 (class +1)
+**Fold 3:** Leave out $x = 3.5$ ($y = -1$)
+- Training set: $[1.0, 2.0, 4.0, 5.0]$
+- New closest points: $2.0$ (class $-1$) and $4.0$ (class $+1$)
 - Decision boundary: $x = 3.0$
-- Prediction for 3.5: +1 ✗ **Incorrect**
+- Prediction for $3.5$: $+1$ ✗ **Incorrect**
 
-**Fold 4:** Leave out $x = 4.0$ (y = +1)
-- Training set: [1.0, 2.0, 3.5, 5.0]
-- New closest points: 3.5 (class -1) and 5.0 (class +1)
+**Fold 4:** Leave out $x = 4.0$ ($y = +1$)
+- Training set: $[1.0, 2.0, 3.5, 5.0]$
+- New closest points: $3.5$ (class $-1$) and $5.0$ (class $+1$)
 - Decision boundary: $x = 4.25$
-- Prediction for 4.0: -1 ✗ **Incorrect**
+- Prediction for $4.0$: $-1$ ✗ **Incorrect**
 
-**Fold 5:** Leave out $x = 5.0$ (y = +1)
-- Training set: [1.0, 2.0, 3.5, 4.0]
+**Fold 5:** Leave out $x = 5.0$ ($y = +1$)
+- Training set: $[1.0, 2.0, 3.5, 4.0]$
 - Decision boundary: $x = 3.75$
-- Prediction: +1 ✓ **Correct**
+- Prediction: $+1$ ✓ **Correct**
 
 **LOOCV Summary:**
-- Correct predictions: 3 out of 5
-- LOOCV accuracy: 60%
-- **LOOCV error: 40%**
+- Correct predictions: $3$ out of $5$
+- LOOCV accuracy: $60\%$
+- **LOOCV error: $40\%$**
 
 ## Visual Explanations
 
@@ -147,17 +147,17 @@ For LOOCV, we train the SVM on 4 points and test on the remaining point, repeati
 The first visualization shows:
 - **Green line**: Decision boundary at $x = 3.75$
 - **Orange dashed lines**: Margin boundaries at $x = 3.5$ and $x = 4.0$
-- **Yellow shaded region**: Margin area with width 2.0
-- **Red circles**: Class -1 points
-- **Blue circles**: Class +1 points
+- **Yellow shaded region**: Margin area with width $2.0$
+- **Red circles**: Class $-1$ points
+- **Blue circles**: Class $+1$ points
 - **Black squares**: Support vectors
 
 ### LOOCV Fold Analysis
 
 The LOOCV visualization demonstrates how removing different points affects the decision boundary:
-- **Folds 1, 2, 5**: Removing non-support vectors doesn't change the decision boundary
-- **Fold 3**: Removing support vector at $x = 3.5$ shifts boundary left to $x = 3.0$
-- **Fold 4**: Removing support vector at $x = 4.0$ shifts boundary right to $x = 4.25$
+- **Folds $1$, $2$, $5$**: Removing non-support vectors doesn't change the decision boundary
+- **Fold $3$**: Removing support vector at $x = 3.5$ shifts boundary left to $x = 3.0$
+- **Fold $4$**: Removing support vector at $x = 4.0$ shifts boundary right to $x = 4.25$
 
 ## Key Insights
 
@@ -167,8 +167,8 @@ The LOOCV visualization demonstrates how removing different points affects the d
 - The margin width is inversely proportional to the weight magnitude: larger weights mean smaller margins
 
 ### Practical Applications
-- Training error is 0% because the data is linearly separable and hard-margin SVM perfectly separates the classes
-- LOOCV error is higher (40%) because removing support vectors significantly changes the decision boundary
+- Training error is $0\%$ because the data is linearly separable and hard-margin SVM perfectly separates the classes
+- LOOCV error is higher ($40\%$) because removing support vectors significantly changes the decision boundary
 - The high LOOCV error indicates potential overfitting to the support vectors
 
 ### LOOCV Behavior Patterns
@@ -190,10 +190,10 @@ The LOOCV visualization demonstrates how removing different points affects the d
    - $b = -3.75$
    - Decision function: $f(x) = \text{sign}(x - 3.75)$
 
-2. **Training set error: 0.0%**
+2. **Training set error: $0.0\%$**
    - All training points are correctly classified (perfect separation)
 
-3. **Leave-one-out cross-validation error: 40.0%**
-   - 2 out of 5 points are misclassified during LOOCV (points at $x = 3.5$ and $x = 4.0$)
+3. **Leave-one-out cross-validation error: $40.0\%$**
+   - $2$ out of $5$ points are misclassified during LOOCV (points at $x = 3.5$ and $x = 4.0$)
 
-The discrepancy between training error (0%) and LOOCV error (40%) highlights the importance of cross-validation in assessing model generalization, especially with small datasets where support vectors have disproportionate influence on the decision boundary.
+The discrepancy between training error ($0\%$) and LOOCV error ($40\%$) highlights the importance of cross-validation in assessing model generalization, especially with small datasets where support vectors have disproportionate influence on the decision boundary.

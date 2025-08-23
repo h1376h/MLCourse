@@ -382,7 +382,7 @@ Consider the following 1D dataset. We are going to learn a linear SVM of the for
 
 ![1D SVM Visualization](../Images/L5_1_Quiz_25/1d_svm_visualization.png)
 
-*The figure shows data points for Class -1 (denoted by hollow circles) at x=1, 2, and 3.5, and for Class 1 (denoted by filled circles) at x=4 and 5.*
+*The figure shows data points for Class $-1$ (denoted by hollow circles) at $x=1$, $2$, and $3.5$, and for Class $1$ (denoted by filled circles) at $x=4$ and $5$.*
 
 #### Task
 1.  What values for $w$ and $b$ will be learned by the linear SVM to create the maximum margin hyperplane?
