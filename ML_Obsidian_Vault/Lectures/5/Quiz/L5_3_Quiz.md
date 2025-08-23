@@ -90,7 +90,7 @@ Examine Mercer's theorem and the conditions for valid kernels.
 
 #### Task
 1. State Mercer's theorem precisely
-2. For the kernel matrix $K = \begin{pmatrix} 1 & 0.5 \\ 0.5 & 1 \end{pmatrix}$, verify that it's positive semi-definite
+2. For the kernel matrix $K = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 1 \end{bmatrix}$, verify that it's positive semi-definite
 3. Check if $K(\mathbf{x}, \mathbf{z}) = \exp(\mathbf{x}^T\mathbf{z})$ is a valid kernel
 4. Prove that $K(\mathbf{x}, \mathbf{z}) = -||\mathbf{x} - \mathbf{z}||^2$ is not a valid kernel
 5. Design a 2D example showing why non-PSD kernels lead to optimization problems
