@@ -84,12 +84,12 @@ $$w_2 = \alpha_1(1)(1) + \alpha_2(1)(2) + \alpha_3(-1)(0) + \alpha_4(-1)(-1) = \
 
 The kernel matrix $K$ has entries $K_{ij} = y_i y_j (\mathbf{x}_i^T \mathbf{x}_j)$:
 
-$$K = \begin{pmatrix}
+$$K = \begin{bmatrix}
 2 & 4 & 1 & 1 \\
 4 & 8 & 2 & 2 \\
 1 & 2 & 1 & 0 \\
 1 & 2 & 0 & 1
-\end{pmatrix}$$
+\end{bmatrix}$$
 
 **Explicit calculations:**
 - $K_{11} = y_1 y_1 (\mathbf{x}_1^T \mathbf{x}_1) = (1)(1)((1,1) \cdot (1,1)) = 1 \cdot 2 = 2$
