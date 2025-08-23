@@ -1,7 +1,7 @@
 # Lecture 5.1: Maximum Margin Classifiers Quiz
 
 ## Overview
-This quiz contains 27 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
+This quiz contains 26 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
 
 ## Question 1
 
@@ -330,16 +330,14 @@ For a detailed explanation of this problem, see [Question 21: Complete Derivatio
 ## Question 22
 
 ### Problem Statement
-Consider the following 1D dataset where we want to learn a linear SVM of the form $f(x) = \text{sign}(wx+b)$.
-- **Class -1**: $\{1, 2, 3.5\}$
-- **Class +1**: $\{4, 5\}$
+The objective of a hard-margin SVM is to maximize the geometric margin, which is given by the expression $\frac{2}{||\mathbf{w}||}$.
 
-### Task
-1. What values for $w$ and $b$ will be learned by the linear SVM to create the maximum margin hyperplane?
-2. What is the training set error of this classifier, expressed as the percentage of misclassified points?
-3. What is the leave-one-out cross-validation (LOOCV) error of this classifier, expressed as a percentage?
+#### Task
+1.  Start with the equation of a hyperplane $\mathbf{w}^T\mathbf{x} + b = 0$.
+2.  Consider the two parallel hyperplanes that form the margin boundaries: $\mathbf{w}^T\mathbf{x} + b = 1$ and $\mathbf{w}^T\mathbf{x} + b = -1$.
+3.  Derive the formula for the perpendicular distance between these two hyperplanes to show that the margin width is indeed $\frac{2}{||\mathbf{w}||}$.
 
-For a detailed explanation of this problem, see [Question 22: 1D Hard-Margin SVM Analysis](L5_1_22_explanation.md).
+For a detailed explanation of this problem, see [Question 22: Deriving the Geometric Margin](L5_1_22_explanation.md).
 
 ## [⭐] Question 23
 
@@ -404,15 +402,3 @@ The central idea of a Support Vector Machine is to find a separating hyperplane 
 3.  How does the concept of maximizing the margin relate to the model's generalization capability on unseen data?
 
 For a detailed explanation of this problem, see [Question 26: The Margin and Generalization](L5_1_26_explanation.md).
-
-## Question 27
-
-### Problem Statement
-The objective of a hard-margin SVM is to maximize the geometric margin, which is given by the expression $\frac{2}{||\mathbf{w}||}$.
-
-#### Task
-1.  Start with the equation of a hyperplane $\mathbf{w}^T\mathbf{x} + b = 0$.
-2.  Consider the two parallel hyperplanes that form the margin boundaries: $\mathbf{w}^T\mathbf{x} + b = 1$ and $\mathbf{w}^T\mathbf{x} + b = -1$.
-3.  Derive the formula for the perpendicular distance between these two hyperplanes to show that the margin width is indeed $\frac{2}{||\mathbf{w}||}$.
-
-For a detailed explanation of this problem, see [Question 27: Deriving the Geometric Margin](L5_1_27_explanation.md).
