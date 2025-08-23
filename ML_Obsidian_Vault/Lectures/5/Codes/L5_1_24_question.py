@@ -112,7 +112,7 @@ def create_scenario_a_visualization():
     svm.fit(X, y)
 
     fig, ax = plt.subplots(figsize=(8, 6))
-    plot_svm_decision_boundary(X, y, svm, ax, "Scenario A: SVM with Maximum Margin Decision Boundary")
+    plot_svm_decision_boundary(X, y, svm, ax, "Scenario A")
 
     # Highlight support vectors with circles (like in the uploaded image)
     support_vectors = svm.support_vectors_
@@ -138,7 +138,7 @@ def create_scenario_b_visualization():
     svm.fit(X, y)
 
     fig, ax = plt.subplots(figsize=(8, 6))
-    plot_svm_decision_boundary(X, y, svm, ax, "Scenario B: SVM with Different Configuration")
+    plot_svm_decision_boundary(X, y, svm, ax, "Scenario B")
 
     # Highlight support vectors with circles
     support_vectors = svm.support_vectors_
