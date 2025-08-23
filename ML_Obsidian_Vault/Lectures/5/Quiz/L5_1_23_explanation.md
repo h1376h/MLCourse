@@ -75,7 +75,9 @@ Our analysis shows significant differences in probability outputs:
 
 ![SVM vs Logistic Regression Probabilities](../Images/L5_1_Quiz_23/svm_vs_logistic_probabilities.png)
 
-The visualization shows that while both models can output probabilities, the underlying mechanisms and calibration differ significantly.
+![Simple Probability Comparison](../Images/L5_1_Quiz_23/simple_probability_comparison.png)
+
+The visualizations show that while both models can output probabilities, the underlying mechanisms and calibration differ significantly. The bar chart clearly demonstrates the differences in probability estimates for the same test points.
 
 ### Step 2: Maximum Margin and Generalization Error
 
@@ -85,7 +87,7 @@ The maximum margin hyperplane is often a reasonable choice but it is by no means
 
 #### Theoretical Foundation
 
-**Margin Theory Derivation:**
+**Margin Theory Analysis:**
 
 **Step 1: Geometric Margin Definition**
 For a hyperplane $\mathbf{w}^T \mathbf{x} + b = 0$, the geometric margin is:
@@ -101,15 +103,18 @@ where:
 - $\gamma$ is the margin
 - $n$ is the number of training samples
 
-**Step 3: Margin Maximization**
-Maximizing the margin $\gamma$ minimizes the second term in the bound, leading to better generalization.
+**Step 3: Limitations of Maximum Margin**
+While maximizing the margin $\gamma$ minimizes the bound's second term, this doesn't guarantee optimality because:
+- The bound may be loose for specific datasets
+- Noise and outliers can make smaller margins preferable
+- The assumption of linear separability may not hold
 
-**Step 4: Soft Margin SVM**
+**Step 4: Soft Margin Trade-offs**
 The soft margin SVM objective is:
 $$\min_{\mathbf{w},b,\xi} \frac{1}{2}||\mathbf{w}||^2 + C \sum_i \xi_i$$
 subject to: $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - \xi_i, \xi_i \geq 0$
 
-where $C$ controls the trade-off between margin size and training error.
+The parameter $C$ shows that maximum margin (small $C$) is not always optimal - sometimes allowing more training errors (large $C$) leads to better generalization.
 
 #### Experimental Verification
 
@@ -133,17 +138,21 @@ Using bound: $R(f) \leq \hat{R}(f) + \sqrt{\frac{1}{\gamma^2 n}}$
 
 ![Margin vs Generalization](../Images/L5_1_Quiz_23/margin_vs_generalization.png)
 
-The visualization shows three classifiers with different margins:
+![Simple Margin Performance](../Images/L5_1_Quiz_23/simple_margin_performance.png)
+
+The visualizations show three classifiers with different margins:
 - **SVM (C=1.0)**: Larger margin (1.435), better generalization
-- **SVM (C=100.0)**: Smaller margin (0.864), worse generalization  
+- **SVM (C=100.0)**: Smaller margin (0.864), worse generalization
 - **Logistic Regression**: Intermediate margin (0.927), intermediate performance
+
+The scatter plot clearly shows the relationship between margin width and test accuracy.
 
 #### Key Insights
 
-1. **Margin Size Matters**: Larger margins provide better generalization bounds
-2. **Regularization Effect**: Lower C values (larger margins) improve generalization
-3. **Theoretical Support**: Margin theory provides mathematical justification
-4. **Assumption**: This holds for linearly separable data
+1. **Margin Theory Limitations**: While larger margins provide better bounds, this doesn't guarantee optimality
+2. **Context Dependency**: Maximum margin may not be optimal for noisy or complex datasets
+3. **Trade-off Considerations**: The C parameter shows that sometimes smaller margins perform better
+4. **Practical Reality**: Other factors like data distribution and noise patterns matter significantly
 
 ### Step 3: Support Vectors Across Different Kernels
 
@@ -196,7 +205,9 @@ Our analysis with a circular dataset shows dramatic differences:
 
 ![Support Vectors with Different Kernels](../Images/L5_1_Quiz_23/support_vectors_different_kernels.png)
 
-The visualization clearly shows:
+![Simple Support Vector Count](../Images/L5_1_Quiz_23/simple_support_vector_count.png)
+
+The visualizations clearly show:
 - **Linear kernel**: Poor fit, many support vectors (200)
 - **Polynomial (d=2)**: Good fit, few support vectors (25)
 - **Polynomial (d=3)**: Overfitting, many support vectors (197)
@@ -204,7 +215,7 @@ The visualization clearly shows:
 
 ![Decision Boundaries Comparison](../Images/L5_1_Quiz_23/decision_boundaries_comparison.png)
 
-The decision boundary comparison shows how different kernels create fundamentally different separators.
+The decision boundary comparison shows how different kernels create fundamentally different separators. The bar chart provides a clear comparison of support vector counts across different kernel types.
 
 #### Mathematical Interpretation
 
@@ -270,4 +281,4 @@ The third visualization shows how support vectors change with kernels:
 - **Statement 2**: FALSE - The maximum margin hyperplane is often a reasonable choice but it is by no means optimal in all cases
 - **Statement 3**: FALSE - There are no guarantees that the support vectors remain the same when moving between different kernel types
 
-The analysis demonstrates that while SVMs are powerful classifiers, understanding their probability outputs, margin properties, and kernel effects is crucial for effective application. The maximum margin principle provides theoretical justification for SVM's generalization performance, but kernel selection and probability calibration require careful consideration in practice.
+The analysis demonstrates that while SVMs are powerful classifiers, understanding their probability outputs, margin properties, and kernel effects is crucial for effective application. While the maximum margin principle provides theoretical bounds, it is not always optimal in practice. Factors like data distribution, noise, and the specific learning problem can make other approaches more effective. Kernel selection and probability calibration require careful consideration based on the specific context.
