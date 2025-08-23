@@ -349,6 +349,8 @@ Evaluate whether each of the following statements is TRUE or FALSE. Justify your
 #### Task
 1. Support vector machines, like logistic regression models, give a probability distribution over the possible labels given an input example.
 2. The maximum margin decision boundaries that support vector machines construct have the lowest generalization error among all linear classifiers.
+3. We would expect the support vectors to remain the same in general as we move from a linear kernel to higher order polynomial kernels.
+
 
 For a detailed explanation of this problem, see [Question 23: SVM Output Properties](L5_1_23_explanation.md).
 
