@@ -1,7 +1,7 @@
 # Lecture 5.2: Hard Margin and Soft Margin SVMs Quiz
 
 ## Overview
-This quiz contains 21 questions covering different topics from section 5.2 of the lectures on Hard Margin SVM, Soft Margin SVM, Slack Variables, Regularization Trade-offs, Hinge Loss Function, and KKT Conditions.
+This quiz contains 23 questions covering different topics from section 5.2 of the lectures on Hard Margin SVM, Soft Margin SVM, Slack Variables, Regularization Trade-offs, Hinge Loss Function, and KKT Conditions.
 
 ## Question 1
 
@@ -352,3 +352,31 @@ $$ \epsilon_{i}\ge0, \forall i $$
 2.  If the regularization parameter $C=0,$ which means that we only care about the size of the margin, how many support vectors do we have?
 
 For a detailed explanation of this problem, see [Question 21: Soft-Margin SVM Regularization Analysis](L5_2_21_explanation.md).
+
+## Question 22
+
+### Problem Statement
+The soft-margin SVM introduces non-negative slack variables, $\xi_i \geq 0$, to handle data that is not linearly separable.
+
+#### Task
+1.  Explain the purpose of the slack variables in the soft-margin SVM formulation.
+2.  Provide a geometric interpretation for the following three cases based on the value of $\xi_i$:
+    * $\xi_i = 0$
+    * $0 < \xi_i \leq 1$
+    * $\xi_i > 1$
+3.  Relate each of these cases to whether the corresponding data point $\mathbf{x}_i$ is correctly classified, on the margin, inside the margin, or misclassified.
+
+For a detailed explanation of this problem, see [Question 22: Geometric Interpretation of Slack Variables](L5_2_22_explanation.md).
+
+## Question 23
+
+### Problem Statement
+The objective function for a soft-margin SVM is a trade-off between maximizing the margin and minimizing classification errors: $\min \frac{1}{2}||\mathbf{w}||^2 + C\sum_i \xi_i$.
+
+#### Task
+1.  Describe the role of the hyperparameter $C$. What two competing objectives does it balance?
+2.  What is the expected behavior of the SVM classifier for a very **small** value of $C$? Will it result in a wide or narrow margin? Is it more or less tolerant of misclassifications?
+3.  What is the expected behavior for a very **large** value of $C$? How does the solution relate to the hard-margin SVM?
+4.  How does the choice of $C$ relate to the bias-variance trade-off?
+
+For a detailed explanation of this problem, see [Question 23: The Role of the Regularization Parameter C](L5_2_23_explanation.md).
