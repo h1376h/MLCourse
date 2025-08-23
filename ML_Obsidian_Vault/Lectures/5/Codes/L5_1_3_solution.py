@@ -83,34 +83,142 @@ def calculate_margin(X, y, w, b):
         distances.append(dist)
     return min(distances)
 
-# Calculate distances and margin
+# STEP 1: IDENTIFYING SUPPORT VECTORS USING GEOMETRIC METHODS
 print("\n" + "="*50)
-print("STEP 1: IDENTIFYING SUPPORT VECTORS")
+print("STEP 1: IDENTIFYING SUPPORT VECTORS (GEOMETRIC APPROACH)")
 print("="*50)
 
+print("Dataset:")
+for i, (x, label) in enumerate(zip(X, y)):
+    print(f"  x{i+1} = {x}, y{i+1} = {label}")
+
+print("\nTo identify support vectors without knowing the hyperplane, we use geometric methods:")
+print("Support vectors are the points that lie on the boundary of the convex hull")
+print("of each class and are closest to points of the opposite class.")
+
+# Separate points by class
+positive_points = X[y == 1]
+negative_points = X[y == -1]
+
+print(f"\nPositive class points: {positive_points}")
+print(f"Negative class points: {negative_points}")
+
+# Calculate pairwise distances between points of different classes
+print(f"\nPairwise distances between classes:")
+min_distance = float('inf')
+closest_pairs = []
+
+for i, pos_point in enumerate(positive_points):
+    for j, neg_point in enumerate(negative_points):
+        distance = np.linalg.norm(pos_point - neg_point)
+        print(f"Distance from positive x{np.where((X == pos_point).all(axis=1))[0][0]+1} to negative x{np.where((X == neg_point).all(axis=1))[0][0]+1}: {distance:.4f}")
+
+        if distance < min_distance:
+            min_distance = distance
+            closest_pairs = [(pos_point, neg_point)]
+        elif abs(distance - min_distance) < 1e-10:
+            closest_pairs.append((pos_point, neg_point))
+
+print(f"\nMinimum distance between classes: {min_distance:.4f}")
+print(f"Closest pairs:")
+for pos_point, neg_point in closest_pairs:
+    pos_idx = np.where((X == pos_point).all(axis=1))[0][0]
+    neg_idx = np.where((X == neg_point).all(axis=1))[0][0]
+    print(f"  x{pos_idx+1} = {pos_point} and x{neg_idx+1} = {neg_point}")
+
+# Identify support vectors based on geometric analysis
+print(f"\nGeometric analysis for support vector identification:")
+print("For linearly separable data, support vectors are typically:")
+print("1. Points that are closest to the opposite class")
+print("2. Points that lie on the convex hull of their respective classes")
+
+# Find convex hull points for each class
+from scipy.spatial import ConvexHull
+
+def find_convex_hull_points(points):
+    """Find points that lie on the convex hull"""
+    if len(points) <= 2:
+        return list(range(len(points)))
+    try:
+        hull = ConvexHull(points)
+        return hull.vertices
+    except:
+        # If points are collinear, all points are on the hull
+        return list(range(len(points)))
+
+pos_hull_indices = find_convex_hull_points(positive_points)
+neg_hull_indices = find_convex_hull_points(negative_points)
+
+print(f"\nConvex hull analysis:")
+print(f"Positive class convex hull points:")
+for idx in pos_hull_indices:
+    original_idx = np.where((X == positive_points[idx]).all(axis=1))[0][0]
+    print(f"  x{original_idx+1} = {positive_points[idx]}")
+
+print(f"Negative class convex hull points:")
+for idx in neg_hull_indices:
+    original_idx = np.where((X == negative_points[idx]).all(axis=1))[0][0]
+    print(f"  x{original_idx+1} = {negative_points[idx]}")
+
+# Identify likely support vectors based on closest pairs
+support_vector_candidates = set()
+for pos_point, neg_point in closest_pairs:
+    pos_idx = np.where((X == pos_point).all(axis=1))[0][0]
+    neg_idx = np.where((X == neg_point).all(axis=1))[0][0]
+    support_vector_candidates.add(pos_idx)
+    support_vector_candidates.add(neg_idx)
+
+print(f"\nBased on geometric analysis, likely support vectors are:")
+for idx in sorted(support_vector_candidates):
+    print(f"  x{idx+1} = {X[idx]}, y{idx+1} = {y[idx]} (closest to opposite class)")
+
+# Store the geometric prediction for later verification
+geometric_support_vectors = sorted(list(support_vector_candidates))
+
+# Now verify our geometric prediction using the given hyperplane
+print("\n" + "="*50)
+print("STEP 2: VERIFYING WITH GIVEN HYPERPLANE")
+print("="*50)
+
+print(f"Given hyperplane: x1 + x2 = 0 (w = {w_given}, b = {b_given})")
+
+# Calculate distances and constraint values using the given hyperplane
 distances = []
+constraint_values = []
 for i, (x, label) in enumerate(zip(X, y)):
     dist = distance_to_hyperplane(x, w_given, b_given)
+    constraint_value = label * (np.dot(w_given, x) + b_given)
     distances.append(dist)
-    print(f"Distance from x{i+1} = {x} to hyperplane: {dist:.4f}")
+    constraint_values.append(constraint_value)
+    print(f"Point x{i+1} = {x}: distance = {dist:.4f}, constraint = {constraint_value:.4f}")
 
 margin = min(distances)
 print(f"\nMargin of the hyperplane: {margin:.4f}")
 
 # Identify support vectors (points exactly on the margin: y_i(w^T x_i + b) = 1)
 support_vector_indices = []
-for i, (x, label) in enumerate(zip(X, y)):
-    constraint_value = label * (np.dot(w_given, x) + b_given)
+for i, constraint_value in enumerate(constraint_values):
     if abs(constraint_value - 1) < 1e-10:  # Points exactly on the margin
         support_vector_indices.append(i)
 
-support_vectors = X[support_vector_indices]
-support_vector_labels = y[support_vector_indices]
+print(f"\nSupport vectors identified by hyperplane analysis:")
+for idx in support_vector_indices:
+    print(f"  x{idx+1} = {X[idx]}, y{idx+1} = {y[idx]}, constraint = {constraint_values[idx]:.4f}")
 
-print(f"\nSupport vectors (points exactly on the margin y_i(w^T x_i + b) = 1):")
-for i, idx in enumerate(support_vector_indices):
-    constraint_value = y[idx] * (np.dot(w_given, X[idx]) + b_given)
-    print(f"  x{idx+1} = {X[idx]}, y{idx+1} = {y[idx]}, constraint = {constraint_value:.4f}")
+# Compare geometric prediction with hyperplane analysis
+print(f"\nComparison of methods:")
+print(f"Geometric analysis predicted: {[i+1 for i in geometric_support_vectors]}")
+print(f"Hyperplane analysis found: {[i+1 for i in support_vector_indices]}")
+
+if set(geometric_support_vectors) == set(support_vector_indices):
+    print("✓ Both methods agree! Geometric analysis correctly identified support vectors.")
+else:
+    print("⚠ Methods disagree. Let's analyze why...")
+    for i in range(len(X)):
+        if i in geometric_support_vectors and i not in support_vector_indices:
+            print(f"  x{i+1} predicted as SV by geometry but not by hyperplane")
+        elif i not in geometric_support_vectors and i in support_vector_indices:
+            print(f"  x{i+1} identified as SV by hyperplane but not by geometry")
 
 # Visualize the dataset and hyperplane
 plt.figure(figsize=(12, 10))
@@ -122,17 +230,17 @@ markers = ['o' if label == 1 else 's' for label in y]
 for i, (x, label, color, marker) in enumerate(zip(X, y, colors, markers)):
     if i in support_vector_indices:
         # Support vectors get larger markers and black edges
-        plt.scatter(x[0], x[1], s=200, color=color, marker=marker, 
+        plt.scatter(x[0], x[1], s=200, color=color, marker=marker,
                    edgecolor='black', linewidth=3, zorder=5,
                    label=f'Support Vector {i+1} ({label})')
     else:
-        plt.scatter(x[0], x[1], s=100, color=color, marker=marker, 
+        plt.scatter(x[0], x[1], s=100, color=color, marker=marker,
                    alpha=0.7, label=f'Point {i+1} ({label})')
 
 # Plot the hyperplane
 x1_range = np.linspace(-3, 3, 100)
 x2_hyperplane = -w_given[0]/w_given[1] * x1_range - b_given/w_given[1]
-plt.plot(x1_range, x2_hyperplane, 'g-', linewidth=3, label='Optimal Hyperplane')
+plt.plot(x1_range, x2_hyperplane, 'g-', linewidth=3, label='Given Hyperplane')
 
 # Plot margin boundaries
 margin_boundary_plus = x2_hyperplane + margin/np.linalg.norm(w_given)
@@ -142,30 +250,36 @@ plt.plot(x1_range, margin_boundary_plus, 'g--', alpha=0.7, label='Margin Boundar
 plt.plot(x1_range, margin_boundary_minus, 'g--', alpha=0.7, label='Margin Boundary (-1)')
 
 # Shade the margin region
-plt.fill_between(x1_range, margin_boundary_minus, margin_boundary_plus, 
+plt.fill_between(x1_range, margin_boundary_minus, margin_boundary_plus,
                 alpha=0.2, color='green', label='Margin Region')
+
+# Draw lines connecting closest pairs from geometric analysis
+for pos_point, neg_point in closest_pairs:
+    plt.plot([pos_point[0], neg_point[0]], [pos_point[1], neg_point[1]],
+             'purple', linestyle=':', linewidth=2, alpha=0.7,
+             label='Closest Pairs' if pos_point is closest_pairs[0][0] else "")
 
 # Add labels and title
 plt.xlabel('$x_1$')
 plt.ylabel('$x_2$')
-plt.title('Support Vector Machine: Dataset and Optimal Hyperplane')
+plt.title('Support Vector Identification: Geometric vs Hyperplane Analysis')
 plt.grid(True, alpha=0.3)
 plt.axis('equal')
 plt.xlim(-3, 3)
 plt.ylim(-3, 3)
 
 # Add equation of hyperplane
-plt.annotate(f'Hyperplane: $x_1 + x_2 = 0$\nMargin: {margin:.4f}', 
+plt.annotate(f'Hyperplane: $x_1 + x_2 = 0$\nMargin: {margin:.4f}\nMin distance: {min_distance:.4f}',
             xy=(0.05, 0.95), xycoords='axes fraction',
             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", lw=1))
 
 plt.legend()
-plt.savefig(os.path.join(save_dir, 'svm_dataset_and_hyperplane.png'), dpi=300, bbox_inches='tight')
+plt.savefig(os.path.join(save_dir, 'svm_geometric_analysis.png'), dpi=300, bbox_inches='tight')
 
-print(f"\nVisualization saved to: {save_dir}/svm_dataset_and_hyperplane.png")
+print(f"\nVisualization saved to: {save_dir}/svm_geometric_analysis.png")
 
 print("\n" + "="*50)
-print("STEP 2: VERIFYING KKT CONDITIONS")
+print("STEP 3: VERIFYING KKT CONDITIONS")
 print("="*50)
 
 # KKT conditions for SVM:
@@ -195,7 +309,7 @@ print("\n4. Stationarity: w = Σ α_i y_i x_i and Σ α_i y_i = 0")
 print("   (We'll verify this after calculating α_i)")
 
 print("\n" + "="*50)
-print("STEP 3: CALCULATING LAGRANGE MULTIPLIERS")
+print("STEP 4: CALCULATING LAGRANGE MULTIPLIERS")
 print("="*50)
 
 # For the given hyperplane, we need to find α_i that satisfy:
@@ -266,9 +380,9 @@ print("0 = Σ α_i y_i")
 # 2α_1 + 3α_2 = 1
 
 # We need to find values that satisfy this and the support vector conditions
-# Let's try α_1 = 0.5, α_2 = 0, α_3 = 0.5, α_4 = 0
+# Let's try α_1 = 0.25, α_2 = 0, α_3 = 0.25, α_4 = 0 (scaled for optimal w)
 
-alpha_guess = np.array([0.5, 0, 0.5, 0])
+alpha_guess = np.array([0.25, 0, 0.25, 0])
 
 print(f"\nTrying solution: α = {alpha_guess}")
 
@@ -298,7 +412,7 @@ for i, (x, label, alpha) in enumerate(zip(X, y, alpha_guess)):
 
 # Let's find a better solution by solving the system properly
 print(f"\n" + "="*50)
-print("STEP 4: SOLVING THE SYSTEM ANALYTICALLY")
+print("STEP 5: SOLVING THE SYSTEM ANALYTICALLY")
 print("="*50)
 
 # We know that points 1 and 3 are support vectors (they're at the margin)
@@ -310,10 +424,10 @@ print("="*50)
 # 0 = α_1 * 1 + α_3 * (-1) = α_1 - α_3
 
 # From the third equation: α_1 = α_3
-# From the first equation: α_1 + α_3 = 1
-# So: 2α_1 = 1, therefore α_1 = 0.5, α_3 = 0.5
+# From the first equation: α_1 + α_3 = 0.5 (for optimal w = [0.5, 0.5])
+# So: 2α_1 = 0.5, therefore α_1 = 0.25, α_3 = 0.25
 
-alpha_correct = np.array([0.5, 0, 0.5, 0])
+alpha_correct = np.array([0.25, 0, 0.25, 0])
 
 print(f"Correct solution: α = {alpha_correct}")
 
@@ -330,7 +444,7 @@ sum_verified = np.sum(alpha_correct * y)
 print(f"Σ α_i y_i = {sum_verified}")
 
 print(f"\n" + "="*50)
-print("STEP 5: FINAL VERIFICATION")
+print("STEP 6: FINAL VERIFICATION")
 print("="*50)
 
 print("Final Lagrange multipliers:")
@@ -445,9 +559,9 @@ print("   - Primal feasibility: y_i(w^T x_i + b) >= 1 for all i")
 print("   - Dual feasibility: α_i >= 0 for all i")
 print("   - Complementary slackness: α_i > 0 only for support vectors")
 print("   - Stationarity: w = Σ α_i y_i x_i and Σ α_i y_i = 0")
-print("3. Lagrange multipliers: α1 = 0.5, α2 = 0, α3 = 0.5, α4 = 0")
-print("4. Σ α_i y_i = 0.5*1 + 0*1 + 0.5*(-1) + 0*(-1) = 0 ✓")
-print("5. Weight vector: w = α1*y1*x1 + α3*y3*x3 = 0.5*1*(1,1) + 0.5*(-1)*(-1,-1) = (1,1)")
+print("3. Lagrange multipliers: α1 = 0.25, α2 = 0, α3 = 0.25, α4 = 0")
+print("4. Σ α_i y_i = 0.25*1 + 0*1 + 0.25*(-1) + 0*(-1) = 0 ✓")
+print("5. Weight vector: w = α1*y1*x1 + α3*y3*x3 = 0.25*1*(1,1) + 0.25*(-1)*(-1,-1) = (0.5,0.5)")
 
 # Additional informative visualizations
 

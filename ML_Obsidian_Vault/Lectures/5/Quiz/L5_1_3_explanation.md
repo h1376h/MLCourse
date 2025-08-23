@@ -19,117 +19,170 @@ Support Vector Machines (SVMs) find the optimal hyperplane that maximizes the ma
 
 ## Solution
 
-### Step 1: Identifying Support Vectors
+### Step 1: Determine Which Points Are Support Vectors
 
-First, we need to understand that the given hyperplane $x_1 + x_2 = 0$ (which corresponds to $\mathbf{w} = [1, 1]$ and $b = 0$) is not actually the optimal maximum margin hyperplane for this dataset. 
+To identify support vectors for the maximum margin hyperplane, we use geometric analysis based on the fundamental principle that support vectors are the points that lie closest to the opposite class.
 
-For a maximum margin classifier, support vectors must satisfy the constraint $y_i(\mathbf{w}^T\mathbf{x}_i + b) = 1$. Let's check the constraint values:
+**Dataset Analysis:**
+- Positive class: $\mathbf{x}_1 = (1, 1)$, $\mathbf{x}_2 = (2, 2)$
+- Negative class: $\mathbf{x}_3 = (-1, -1)$, $\mathbf{x}_4 = (-2, -1)$
 
-- Point $\mathbf{x}_1 = (1, 1)$, $y_1 = 1$: $y_1(\mathbf{w}^T\mathbf{x}_1 + b) = 1 \cdot (1 \cdot 1 + 1 \cdot 1 + 0) = 2$
-- Point $\mathbf{x}_2 = (2, 2)$, $y_2 = 1$: $y_2(\mathbf{w}^T\mathbf{x}_2 + b) = 1 \cdot (1 \cdot 2 + 1 \cdot 2 + 0) = 4$
-- Point $\mathbf{x}_3 = (-1, -1)$, $y_3 = -1$: $y_3(\mathbf{w}^T\mathbf{x}_3 + b) = -1 \cdot (1 \cdot (-1) + 1 \cdot (-1) + 0) = 2$
-- Point $\mathbf{x}_4 = (-2, -1)$, $y_4 = -1$: $y_4(\mathbf{w}^T\mathbf{x}_4 + b) = -1 \cdot (1 \cdot (-2) + 1 \cdot (-1) + 0) = 3$
+**Geometric Approach:**
+1. **Pairwise Distance Analysis**: Calculate distances between all points of different classes
+   - Distance from $\mathbf{x}_1$ to $\mathbf{x}_3$: $\|\mathbf{x}_1 - \mathbf{x}_3\| = \|(1,1) - (-1,-1)\| = \|(2,2)\| = 2\sqrt{2} \approx 2.828$
+   - Distance from $\mathbf{x}_1$ to $\mathbf{x}_4$: $\|\mathbf{x}_1 - \mathbf{x}_4\| = \|(1,1) - (-2,-1)\| = \|(3,2)\| = \sqrt{13} \approx 3.606$
+   - Distance from $\mathbf{x}_2$ to $\mathbf{x}_3$: $\|\mathbf{x}_2 - \mathbf{x}_3\| = \|(2,2) - (-1,-1)\| = \|(3,3)\| = 3\sqrt{2} \approx 4.243$
+   - Distance from $\mathbf{x}_2$ to $\mathbf{x}_4$: $\|\mathbf{x}_2 - \mathbf{x}_4\| = \|(2,2) - (-2,-1)\| = \|(4,3)\| = 5.000$
 
-Since none of these values equal 1, the given hyperplane is not optimal. We need to scale it to make it optimal.
+2. **Closest Pair Identification**: The minimum distance between classes is $2\sqrt{2}$, achieved by the pair $(\mathbf{x}_1, \mathbf{x}_3)$.
 
-**Finding the optimal hyperplane:**
-The minimum constraint value is 2, so we scale the hyperplane by $\frac{1}{2}$:
-- Optimal $\mathbf{w} = [0.5, 0.5]$
-- Optimal $b = 0$
+3. **Convex Hull Analysis**: All points lie on the convex hull of their respective classes since we only have two points per class.
 
-Now the constraint values become:
-- Point $\mathbf{x}_1 = (1, 1)$: $y_1(\mathbf{w}^T\mathbf{x}_1 + b) = 1 \cdot (0.5 \cdot 1 + 0.5 \cdot 1 + 0) = 1.0$ ✓
-- Point $\mathbf{x}_2 = (2, 2)$: $y_2(\mathbf{w}^T\mathbf{x}_2 + b) = 1 \cdot (0.5 \cdot 2 + 0.5 \cdot 2 + 0) = 2.0$
-- Point $\mathbf{x}_3 = (-1, -1)$: $y_3(\mathbf{w}^T\mathbf{x}_3 + b) = -1 \cdot (0.5 \cdot (-1) + 0.5 \cdot (-1) + 0) = 1.0$ ✓
-- Point $\mathbf{x}_4 = (-2, -1)$: $y_4(\mathbf{w}^T\mathbf{x}_4 + b) = -1 \cdot (0.5 \cdot (-2) + 0.5 \cdot (-1) + 0) = 1.5$
+**Answer to Task 1**: Based on the geometric analysis, the support vectors for the maximum margin hyperplane are:
+- $\mathbf{x}_1 = (1, 1)$ (closest positive point to negative class)
+- $\mathbf{x}_3 = (-1, -1)$ (closest negative point to positive class)
 
-**Support vectors are the points with constraint values exactly equal to 1:**
-- $\mathbf{x}_1 = (1, 1)$ (constraint = 1.0)
-- $\mathbf{x}_3 = (-1, -1)$ (constraint = 1.0)
+![SVM Geometric Analysis](../Images/L5_1_Quiz_3/svm_geometric_analysis.png)
 
-![SVM Dataset and Hyperplane](../Images/L5_1_Quiz_3/svm_dataset_and_hyperplane.png)
+### Step 2: Verify KKT Conditions for Given Hyperplane
 
-The visualization shows:
-- Blue circles: Positive class points ($y = +1$)
-- Red squares: Negative class points ($y = -1$)
-- Green solid line: Optimal hyperplane $x_1 + x_2 = 0$
-- Green dashed lines: Margin boundaries
-- Green shaded region: Margin area
-- Black-edged points: Support vectors
+Now we verify that the given hyperplane $x_1 + x_2 = 0$ satisfies the KKT conditions.
 
-### Step 2: Verifying KKT Conditions
+First, we need to scale the hyperplane to make it optimal. The given hyperplane corresponds to $\mathbf{w} = [1, 1]$ and $b = 0$. For a maximum margin classifier, support vectors must satisfy $y_i(\mathbf{w}^T\mathbf{x}_i + b) = 1$.
 
-The KKT conditions for SVM optimization are:
+**Scaling the hyperplane:**
+- Original constraint values: $y_1(\mathbf{w}^T\mathbf{x}_1 + b) = 2$, $y_2(\mathbf{w}^T\mathbf{x}_2 + b) = 4$, $y_3(\mathbf{w}^T\mathbf{x}_3 + b) = 2$, $y_4(\mathbf{w}^T\mathbf{x}_4 + b) = 3$
+- Minimum constraint value is 2, so we scale by $\frac{1}{2}$
+- Optimal hyperplane: $\mathbf{w} = [0.5, 0.5]$, $b = 0$
+
+**KKT Conditions Verification:**
 
 1. **Primal feasibility**: $y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1$ for all $i$
+   - Point $\mathbf{x}_1$: $y_1(\mathbf{w}^T\mathbf{x}_1 + b) = 1 \cdot (0.5 + 0.5 + 0) = 1.0 \geq 1$ ✓
+   - Point $\mathbf{x}_2$: $y_2(\mathbf{w}^T\mathbf{x}_2 + b) = 1 \cdot (1.0 + 1.0 + 0) = 2.0 \geq 1$ ✓
+   - Point $\mathbf{x}_3$: $y_3(\mathbf{w}^T\mathbf{x}_3 + b) = -1 \cdot (-0.5 - 0.5 + 0) = 1.0 \geq 1$ ✓
+   - Point $\mathbf{x}_4$: $y_4(\mathbf{w}^T\mathbf{x}_4 + b) = -1 \cdot (-1.0 - 0.5 + 0) = 1.5 \geq 1$ ✓
+
 2. **Dual feasibility**: $\alpha_i \geq 0$ for all $i$
+
+   From the geometric analysis and constraint values, we can determine the Lagrange multipliers:
+   - Support vectors ($\mathbf{x}_1, \mathbf{x}_3$) have constraint values = 1, so $\alpha_1, \alpha_3 > 0$
+   - Non-support vectors ($\mathbf{x}_2, \mathbf{x}_4$) have constraint values > 1, so $\alpha_2 = \alpha_4 = 0$
+
+   Using the stationarity condition $\mathbf{w} = \sum \alpha_i y_i \mathbf{x}_i$:
+   $$0.5 = \alpha_1 \cdot 1 \cdot 1 + \alpha_3 \cdot (-1) \cdot (-1) = \alpha_1 + \alpha_3$$
+   $$0 = \alpha_1 \cdot 1 + \alpha_3 \cdot (-1) = \alpha_1 - \alpha_3$$
+
+   Solving: $\alpha_1 = \alpha_3 = 0.25 \geq 0$ ✓, $\alpha_2 = \alpha_4 = 0 \geq 0$ ✓
+
 3. **Complementary slackness**: $\alpha_i(y_i(\mathbf{w}^T\mathbf{x}_i + b) - 1) = 0$ for all $i$
-4. **Stationarity**: $\mathbf{w} = \sum_{i=1}^n \alpha_i y_i \mathbf{x}_i$ and $\sum_{i=1}^n \alpha_i y_i = 0$
+   - Point $\mathbf{x}_1$: $\alpha_1(1.0 - 1) = 0.25 \cdot 0 = 0$ ✓
+   - Point $\mathbf{x}_2$: $\alpha_2(2.0 - 1) = 0 \cdot 1 = 0$ ✓
+   - Point $\mathbf{x}_3$: $\alpha_3(1.0 - 1) = 0.25 \cdot 0 = 0$ ✓
+   - Point $\mathbf{x}_4$: $\alpha_4(1.5 - 1) = 0 \cdot 0.5 = 0$ ✓
 
-Let's verify the primal feasibility condition using the optimal hyperplane:
+4. **Stationarity**:
+   - $\mathbf{w} = \sum_{i=1}^4 \alpha_i y_i \mathbf{x}_i$:
+     $$\mathbf{w} = 0.25 \cdot 1 \cdot (1,1) + 0 \cdot 1 \cdot (2,2) + 0.25 \cdot (-1) \cdot (-1,-1) + 0 \cdot (-1) \cdot (-2,-1)$$
+     $$= (0.25, 0.25) + (0, 0) + (0.25, 0.25) + (0, 0) = (0.5, 0.5)$$ ✓
 
-- Point 1: $y_1(\mathbf{w}^T\mathbf{x}_1 + b) = 1 \cdot (0.5 \cdot 1 + 0.5 \cdot 1 + 0) = 1.0 \geq 1$ ✓
-- Point 2: $y_2(\mathbf{w}^T\mathbf{x}_2 + b) = 1 \cdot (0.5 \cdot 2 + 0.5 \cdot 2 + 0) = 2.0 \geq 1$ ✓
-- Point 3: $y_3(\mathbf{w}^T\mathbf{x}_3 + b) = -1 \cdot (0.5 \cdot (-1) + 0.5 \cdot (-1) + 0) = 1.0 \geq 1$ ✓
-- Point 4: $y_4(\mathbf{w}^T\mathbf{x}_4 + b) = -1 \cdot (0.5 \cdot (-2) + 0.5 \cdot (-1) + 0) = 1.5 \geq 1$ ✓
+   - $\sum_{i=1}^4 \alpha_i y_i = 0$:
+     $$0.25 \cdot 1 + 0 \cdot 1 + 0.25 \cdot (-1) + 0 \cdot (-1) = 0.25 - 0.25 = 0$$ ✓
 
-All points satisfy the primal feasibility condition.
+**Answer to Task 2**: The given hyperplane $x_1 + x_2 = 0$ (after scaling to $\mathbf{w} = [0.5, 0.5], b = 0$) satisfies all four KKT conditions:
+- ✓ Primal feasibility
+- ✓ Dual feasibility
+- ✓ Complementary slackness
+- ✓ Stationarity
 
-### Step 3: Calculating Lagrange Multipliers
+This confirms the hyperplane is optimal for the given dataset.
 
-We need to find $\alpha_i$ values that satisfy:
+### Step 3: Calculate Lagrange Multipliers
+
+From the KKT verification in Step 2, we already determined the Lagrange multipliers. Let's provide a detailed derivation:
+
+**System of equations from stationarity condition:**
+We need $\alpha_i$ values that satisfy:
 $$\mathbf{w} = \sum_{i=1}^4 \alpha_i y_i \mathbf{x}_i$$
 $$\sum_{i=1}^4 \alpha_i y_i = 0$$
-$$\alpha_i \geq 0 \text{ for all } i$$
-$$\alpha_i > 0 \text{ only for support vectors}$$
 
-Since $\mathbf{x}_1$ and $\mathbf{x}_3$ are support vectors, we have $\alpha_1 > 0$, $\alpha_3 > 0$, and $\alpha_2 = \alpha_4 = 0$.
+Since only support vectors ($\mathbf{x}_1$ and $\mathbf{x}_3$) have non-zero $\alpha_i$:
 
-The system of equations becomes:
-$$\begin{align}
-0.5 &= \alpha_1 \cdot 1 \cdot 1 + \alpha_3 \cdot (-1) \cdot (-1) = \alpha_1 + \alpha_3 \\
-0.5 &= \alpha_1 \cdot 1 \cdot 1 + \alpha_3 \cdot (-1) \cdot (-1) = \alpha_1 + \alpha_3 \\
-0 &= \alpha_1 \cdot 1 + \alpha_3 \cdot (-1) = \alpha_1 - \alpha_3
-\end{align}$$
+For the $x_1$ component of $\mathbf{w}$:
+$$0.5 = \alpha_1 \cdot 1 \cdot 1 + \alpha_3 \cdot (-1) \cdot (-1) = \alpha_1 + \alpha_3$$
 
-From the third equation: $\alpha_1 = \alpha_3$
+For the $x_2$ component of $\mathbf{w}$:
+$$0.5 = \alpha_1 \cdot 1 \cdot 1 + \alpha_3 \cdot (-1) \cdot (-1) = \alpha_1 + \alpha_3$$
 
-From the first equation: $\alpha_1 + \alpha_3 = 0.5$
+For the sum constraint:
+$$0 = \alpha_1 \cdot 1 + \alpha_3 \cdot (-1) = \alpha_1 - \alpha_3$$
 
-Substituting: $2\alpha_1 = 0.5$, so $\alpha_1 = 0.25$ and $\alpha_3 = 0.25$
+**Solving the system:**
+- From the sum constraint: $\alpha_1 = \alpha_3$
+- From the weight constraint: $\alpha_1 + \alpha_3 = 0.5$
+- Substituting: $2\alpha_1 = 0.5 \Rightarrow \alpha_1 = 0.25$
+- Therefore: $\alpha_3 = 0.25$
 
-**Lagrange multipliers:**
-- $\alpha_1 = 0.25$ (support vector)
-- $\alpha_2 = 0.0$ (not a support vector)
-- $\alpha_3 = 0.25$ (support vector)
-- $\alpha_4 = 0.0$ (not a support vector)
+**Answer to Task 3**: The Lagrange multipliers for each training point are:
+- $\alpha_1 = 0.25$ (support vector $\mathbf{x}_1$)
+- $\alpha_2 = 0.0$ (non-support vector $\mathbf{x}_2$)
+- $\alpha_3 = 0.25$ (support vector $\mathbf{x}_3$)
+- $\alpha_4 = 0.0$ (non-support vector $\mathbf{x}_4$)
 
-### Step 4: Verifying the Sum Constraint
+### Step 4: Verify Sum Constraint
 
-$$\sum_{i=1}^4 \alpha_i y_i = 0.25 \cdot 1 + 0 \cdot 1 + 0.25 \cdot (-1) + 0 \cdot (-1) = 0.25 - 0.25 = 0$$
+We need to verify that $\sum_{i=1}^4 \alpha_i y_i = 0$.
 
-The constraint is satisfied.
+Using the Lagrange multipliers calculated in Step 3:
+$$\sum_{i=1}^4 \alpha_i y_i = \alpha_1 y_1 + \alpha_2 y_2 + \alpha_3 y_3 + \alpha_4 y_4$$
+$$= 0.25 \cdot 1 + 0 \cdot 1 + 0.25 \cdot (-1) + 0 \cdot (-1)$$
+$$= 0.25 + 0 - 0.25 + 0 = 0$$
 
-### Step 5: Expressing the Weight Vector
+**Answer to Task 4**: The sum constraint $\sum_{i=1}^4 \alpha_i y_i = 0$ is satisfied. ✓
 
-The weight vector can be expressed as:
-$$\mathbf{w} = \sum_{i=1}^4 \alpha_i y_i \mathbf{x}_i = \alpha_1 y_1 \mathbf{x}_1 + \alpha_3 y_3 \mathbf{x}_3$$
+### Step 5: Express Weight Vector in Terms of Support Vectors
+
+The weight vector can be expressed in terms of support vectors and their multipliers:
+$$\mathbf{w} = \sum_{i=1}^4 \alpha_i y_i \mathbf{x}_i$$
+
+Since only support vectors have non-zero $\alpha_i$ values:
+$$\mathbf{w} = \alpha_1 y_1 \mathbf{x}_1 + \alpha_3 y_3 \mathbf{x}_3$$
 
 Substituting the values:
-$$\mathbf{w} = 0.25 \cdot 1 \cdot (1, 1) + 0.25 \cdot (-1) \cdot (-1, -1) = (0.25, 0.25) + (0.25, 0.25) = (0.5, 0.5)$$
+$$\mathbf{w} = 0.25 \cdot 1 \cdot (1, 1) + 0.25 \cdot (-1) \cdot (-1, -1)$$
+$$= (0.25, 0.25) + (0.25, 0.25) = (0.5, 0.5)$$
 
-This matches the optimal weight vector $\mathbf{w} = [0.5, 0.5]$.
+**Answer to Task 5**: The weight vector expressed in terms of support vectors is:
+$$\mathbf{w} = 0.25 \cdot 1 \cdot \mathbf{x}_1 + 0.25 \cdot (-1) \cdot \mathbf{x}_3 = (0.5, 0.5)$$
 
+This matches the optimal weight vector, confirming our solution is correct.
+
+## Visual Explanations
+
+### Geometric Analysis Visualization
+![SVM Geometric Analysis](../Images/L5_1_Quiz_3/svm_geometric_analysis.png)
+
+This visualization shows:
+- Blue circles: Positive class points ($y = +1$)
+- Red squares: Negative class points ($y = -1$)
+- Green solid line: Given hyperplane $x_1 + x_2 = 0$
+- Green dashed lines: Margin boundaries
+- Green shaded region: Margin area
+- Purple dotted lines: Closest pairs from geometric analysis
+- Black-edged points: Support vectors identified by both methods
+
+### Lagrange Multiplier Contributions
 ![SVM Lagrange Multipliers](../Images/L5_1_Quiz_3/svm_lagrange_multipliers.png)
 
-The second visualization shows:
+This visualization demonstrates:
 - Purple arrows: Contributions of each support vector to the weight vector
 - Orange arrow: The resulting weight vector $\mathbf{w} = \sum \alpha_i y_i \mathbf{x}_i$
 - Support vectors with their $\alpha$ values displayed
+- Mathematical breakdown of how support vectors combine to form the weight vector
 
 ### Additional Visualizations
 
-#### Visualization 3: Constraint Analysis
+### Constraint Analysis
 ![SVM Constraint Analysis](../Images/L5_1_Quiz_3/svm_constraint_analysis.png)
 
 This visualization shows the constraint values $y_i(\mathbf{w}^T\mathbf{x}_i + b)$ for each point:
@@ -137,7 +190,7 @@ This visualization shows the constraint values $y_i(\mathbf{w}^T\mathbf{x}_i + b
 - Non-support vectors have constraint values greater than 1
 - The margin boundaries are shown as dashed lines
 
-#### Visualization 4: Lagrange Multiplier Contributions
+### Detailed Lagrange Multiplier Contributions
 ![SVM Lagrange Contributions](../Images/L5_1_Quiz_3/svm_lagrange_contributions.png)
 
 This visualization demonstrates how support vectors contribute to the weight vector:
@@ -145,7 +198,7 @@ This visualization demonstrates how support vectors contribute to the weight vec
 - Orange arrow shows the resulting weight vector $\mathbf{w} = \sum \alpha_i y_i \mathbf{x}_i$
 - Detailed mathematical expressions show the exact calculations
 
-#### Visualization 5: Distance Analysis
+### Distance Analysis
 ![SVM Distance Analysis](../Images/L5_1_Quiz_3/svm_distance_analysis.png)
 
 This visualization shows the geometric distances from each point to the hyperplane:
@@ -164,11 +217,11 @@ This visualization shows the geometric distances from each point to the hyperpla
 
 ## Key Insights
 
-### Geometric Interpretation
-- **Support vectors** are the data points that lie exactly on the margin boundaries
-- The **margin** is the distance between the decision boundary and the closest points from each class
-- Only support vectors contribute to the weight vector (non-zero $\alpha_i$ values)
-- The weight vector $\mathbf{w}$ is perpendicular to the decision boundary
+### Geometric Approach to Support Vector Identification
+- **Distance-based analysis**: Support vectors are typically the points closest to the opposite class
+- **Convex hull analysis**: Support vectors lie on the boundary of the convex hull of their class
+- **Pen-and-paper method**: Calculate pairwise distances between classes to identify closest pairs
+- **Verification**: Geometric predictions can be verified using hyperplane constraint analysis
 
 ### Mathematical Properties
 - **KKT conditions** ensure optimality of the solution
@@ -180,16 +233,27 @@ This visualization shows the geometric distances from each point to the hyperpla
 - Only support vectors are needed to make predictions
 - Non-support vectors can be removed without affecting the decision boundary
 - This sparsity property makes SVMs computationally efficient
+- Geometric analysis provides intuitive understanding before mathematical verification
 
 ## Conclusion
 
-1. **Support vectors**: $\mathbf{x}_1 = (1, 1)$ and $\mathbf{x}_3 = (-1, -1)$
-2. **KKT conditions**: All conditions are satisfied by the optimal hyperplane
-3. **Lagrange multipliers**: $\alpha_1 = 0.25$, $\alpha_2 = 0$, $\alpha_3 = 0.25$, $\alpha_4 = 0$
-4. **Sum constraint**: $\sum_{i=1}^4 \alpha_i y_i = 0$ ✓
-5. **Weight vector**: $\mathbf{w} = \alpha_1 y_1 \mathbf{x}_1 + \alpha_3 y_3 \mathbf{x}_3 = (0.5, 0.5)$
+**Task Solutions Summary:**
 
-The solution demonstrates the fundamental principles of Support Vector Machines: the importance of support vectors in defining the optimal decision boundary and the mathematical elegance of the KKT conditions in ensuring optimality.
+1. **Task 1 - Support Vectors**: $\mathbf{x}_1 = (1, 1)$ and $\mathbf{x}_3 = (-1, -1)$ (identified using geometric distance analysis)
+
+2. **Task 2 - KKT Verification**: The given hyperplane $x_1 + x_2 = 0$ (scaled to $\mathbf{w} = [0.5, 0.5], b = 0$) satisfies all four KKT conditions:
+   - ✓ Primal feasibility: All constraint values $\geq 1$
+   - ✓ Dual feasibility: $\alpha_1 = \alpha_3 = 0.25 \geq 0$, $\alpha_2 = \alpha_4 = 0 \geq 0$
+   - ✓ Complementary slackness: $\alpha_i(y_i(\mathbf{w}^T\mathbf{x}_i + b) - 1) = 0$ for all $i$
+   - ✓ Stationarity: $\mathbf{w} = \sum \alpha_i y_i \mathbf{x}_i$ and $\sum \alpha_i y_i = 0$
+
+3. **Task 3 - Lagrange Multipliers**: $\alpha_1 = 0.25$, $\alpha_2 = 0$, $\alpha_3 = 0.25$, $\alpha_4 = 0$
+
+4. **Task 4 - Sum Constraint**: $\sum_{i=1}^4 \alpha_i y_i = 0.25(1) + 0.25(-1) = 0$ ✓
+
+5. **Task 5 - Weight Vector Expression**: $\mathbf{w} = 0.25 \cdot 1 \cdot \mathbf{x}_1 + 0.25 \cdot (-1) \cdot \mathbf{x}_3 = (0.5, 0.5)$
+
+The solution demonstrates the power of combining geometric intuition with mathematical rigor. The geometric approach provides immediate insight into which points are likely to be support vectors, while the mathematical analysis confirms optimality and provides the complete SVM solution.
 
 ## Technical Notes
 
