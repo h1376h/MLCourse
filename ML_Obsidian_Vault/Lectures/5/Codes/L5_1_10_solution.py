@@ -9,7 +9,7 @@ save_dir = os.path.join(images_dir, "L5_1_Quiz_10")
 os.makedirs(save_dir, exist_ok=True)
 
 # Enable LaTeX style plotting
-plt.rcParams['text.usetex'] = False
+plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 
 print("=" * 80)
@@ -21,7 +21,7 @@ w = np.array([2, 3])
 b = -6
 w_norm = np.linalg.norm(w)
 
-print(f"Given hyperplane: {w[0]}x₁ + {w[1]}x₂ + {b} = 0")
+print(f"Given hyperplane: {w[0]}x_1 + {w[1]}x_2 + {b} = 0")
 print(f"Weight vector w = {w}")
 print(f"Bias term b = {b}")
 print(f"||w|| = {w_norm:.4f}")
@@ -259,8 +259,8 @@ ax.arrow(projection[0], projection[1],
          normal_end[0] - projection[0], normal_end[1] - projection[1],
          head_width=0.1, head_length=0.1, fc='purple', ec='purple', linewidth=2)
 
-ax.set_xlabel('x₁')
-ax.set_ylabel('x₂')
+ax.set_xlabel('$x_1$')
+ax.set_ylabel('$x_2$')
 ax.set_title('Distance from Point to Hyperplane')
 ax.grid(True, alpha=0.3)
 ax.legend()
