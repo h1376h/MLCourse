@@ -162,7 +162,7 @@ def analyze_distance_behavior():
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'rbf_distance_decay.png'), dpi=300, bbox_inches='tight')
-    plt.show()
+    plt.close()
 
 analyze_distance_behavior()
 
@@ -380,7 +380,7 @@ def design_recommendation_system():
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'recommendation_system.png'), dpi=300, bbox_inches='tight')
-    plt.show()
+    plt.close()
 
 design_recommendation_system()
 

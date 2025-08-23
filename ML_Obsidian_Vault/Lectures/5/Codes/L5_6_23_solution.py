@@ -120,7 +120,7 @@ plt.grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'kernel_trick_demonstration.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 print(f"\n2.3 Why Dual Formulation is Essential for Kernel Trick:")
 print(f"   - Primal: Requires explicit feature transformation phi(x)")
@@ -300,7 +300,7 @@ for i, kernel in enumerate(['linear', 'rbf', 'poly']):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'decision_boundaries_comparison.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # ============================================================================
 # PART 7: SCALING ANALYSIS
@@ -375,7 +375,7 @@ plt.grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'scaling_analysis.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # ============================================================================
 # PART 8: SUMMARY AND RECOMMENDATIONS
