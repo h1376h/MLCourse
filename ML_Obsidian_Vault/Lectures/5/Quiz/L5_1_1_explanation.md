@@ -341,84 +341,139 @@ $$\max_{\boldsymbol{\alpha}} \sum_{i=1}^{6} \alpha_i - \frac{1}{2} \sum_{i=1}^{6
 Subject to:
 $$\sum_{i=1}^{6} \alpha_i y_i = 0, \quad \alpha_i \geq 0$$
 
-**Step 5: Identifying Support Vectors (Independent SVM Analysis)**
+**Step 5: Deriving Optimal Hyperplane from First Principles**
 
-Support vectors are points that lie exactly on the margin boundaries, where the constraint $y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1$ is active (equals 1).
+We need to solve the SVM optimization problem without using any solver. Let's derive the optimal hyperplane parameters mathematically.
 
-**SVM Constraint Analysis:**
-Using the SVM solver, we obtain the optimal hyperplane parameters:
-$$\mathbf{w}^* = [0.5, 0.5], \quad b^* = -1.5$$
+**SVM Dual Problem Setup:**
+The dual problem is:
+$$\max_{\boldsymbol{\alpha}} \sum_{i=1}^{6} \alpha_i - \frac{1}{2} \sum_{i=1}^{6} \sum_{j=1}^{6} \alpha_i \alpha_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j$$
 
-Now we check which points satisfy the active constraint $y_i(\mathbf{w}^{*T}\mathbf{x}_i + b^*) = 1$:
+Subject to:
+$$\sum_{i=1}^{6} \alpha_i y_i = 0, \quad \alpha_i \geq 0$$
 
-**Constraint evaluation for all points:**
+**Key Insight - Geometric Intuition:**
+The optimal hyperplane will be determined by the points that are closest between the two classes. From geometric analysis, we expect the closest points to be the support vectors.
 
-1. **Point $(2,3)$ with $y_1 = +1$:**
-   $$y_1(\mathbf{w}^{*T}\mathbf{x}_1 + b^*) = (+1)(0.5 \cdot 2 + 0.5 \cdot 3 - 1.5) = (+1)(1.0) = 1$$
-   ✓ **Support vector** (constraint is active)
+**Step 5a: Identifying Potential Support Vectors**
+Let's assume that the optimal hyperplane has the form $w_1 x_1 + w_2 x_2 + b = 0$. Due to the symmetry of our problem (both classes are roughly aligned along the $x_1 + x_2$ direction), we can hypothesize that $w_1 = w_2$.
 
-2. **Point $(3,4)$ with $y_2 = +1$:**
-   $$y_2(\mathbf{w}^{*T}\mathbf{x}_2 + b^*) = (+1)(0.5 \cdot 3 + 0.5 \cdot 4 - 1.5) = (+1)(2.0) = 2 > 1$$
-   ✗ Not a support vector (constraint is slack)
+Let $w_1 = w_2 = w$ (to be determined). Then our hyperplane is:
+$$wx_1 + wx_2 + b = 0$$
+$$w(x_1 + x_2) + b = 0$$
 
-3. **Point $(4,2)$ with $y_3 = +1$:**
-   $$y_3(\mathbf{w}^{*T}\mathbf{x}_3 + b^*) = (+1)(0.5 \cdot 4 + 0.5 \cdot 2 - 1.5) = (+1)(1.5) = 1.5 > 1$$
-   ✗ Not a support vector (constraint is slack)
+**Step 5b: Using Support Vector Conditions**
+Support vectors satisfy $y_i(\mathbf{w}^T\mathbf{x}_i + b) = 1$. Let's check which points could be support vectors by examining their positions relative to potential hyperplanes.
 
-4. **Point $(0,1)$ with $y_4 = -1$:**
-   $$y_4(\mathbf{w}^{*T}\mathbf{x}_4 + b^*) = (-1)(0.5 \cdot 0 + 0.5 \cdot 1 - 1.5) = (-1)(-1.0) = 1$$
-   ✓ **Support vector** (constraint is active)
+**Step 5c: Systematic Analysis of Potential Support Vectors**
 
-5. **Point $(1,0)$ with $y_5 = -1$:**
-   $$y_5(\mathbf{w}^{*T}\mathbf{x}_5 + b^*) = (-1)(0.5 \cdot 1 + 0.5 \cdot 0 - 1.5) = (-1)(-1.0) = 1$$
-   ✓ **Support vector** (constraint is active)
+For our hyperplane $w(x_1 + x_2) + b = 0$, let's examine which points could be support vectors.
 
-6. **Point $(0,0)$ with $y_6 = -1$:**
-   $$y_6(\mathbf{w}^{*T}\mathbf{x}_6 + b^*) = (-1)(0.5 \cdot 0 + 0.5 \cdot 0 - 1.5) = (-1)(-1.5) = 1.5 > 1$$
-   ✗ Not a support vector (constraint is slack)
+**Examining Class +1 points:**
+- $(2,3)$: $x_1 + x_2 = 5$
+- $(3,4)$: $x_1 + x_2 = 7$
+- $(4,2)$: $x_1 + x_2 = 6$
 
-**Candidate support vectors:** $(2,3)$, $(0,1)$, and $(1,0)$ all have active constraints.
+**Examining Class -1 points:**
+- $(0,1)$: $x_1 + x_2 = 1$
+- $(1,0)$: $x_1 + x_2 = 1$
+- $(0,0)$: $x_1 + x_2 = 0$
 
-**Step 6: Solving for Lagrange Multipliers**
+**Key observation:** The points with the smallest $x_1 + x_2$ values in Class +1 and the largest $x_1 + x_2$ values in Class -1 are most likely to be support vectors, as they are closest to the decision boundary.
 
-From the KKT condition $\mathbf{w}^* = \sum_{i} \alpha_i y_i \mathbf{x}_i$, and knowing that only support vectors have $\alpha_i > 0$:
+**Most likely support vector candidates:**
+- From Class +1: $(2,3)$ with $x_1 + x_2 = 5$ (smallest sum)
+- From Class -1: $(0,1)$ and $(1,0)$ both with $x_1 + x_2 = 1$ (largest sum)
 
-$$\begin{bmatrix} 0.5 \\ 0.5 \end{bmatrix} = \alpha_1 \cdot (+1) \cdot \begin{bmatrix} 2 \\ 3 \end{bmatrix} + \alpha_4 \cdot (-1) \cdot \begin{bmatrix} 0 \\ 1 \end{bmatrix} + \alpha_5 \cdot (-1) \cdot \begin{bmatrix} 1 \\ 0 \end{bmatrix}$$
+**Step 6: Setting Up the Support Vector System**
 
-$$\begin{bmatrix} 0.5 \\ 0.5 \end{bmatrix} = \begin{bmatrix} 2\alpha_1 - 0\alpha_4 - 1\alpha_5 \\ 3\alpha_1 - 1\alpha_4 - 0\alpha_5 \end{bmatrix} = \begin{bmatrix} 2\alpha_1 - \alpha_5 \\ 3\alpha_1 - \alpha_4 \end{bmatrix}$$
+Let's assume $(2,3)$, $(0,1)$, and $(1,0)$ are support vectors. Then:
 
-From the dual constraint $\sum \alpha_i y_i = 0$:
-$$\alpha_1 \cdot (+1) + \alpha_4 \cdot (-1) + \alpha_5 \cdot (-1) = 0$$
-$$\alpha_1 - \alpha_4 - \alpha_5 = 0$$
+For support vector $(2,3)$ with $y_1 = +1$:
+$$y_1(w \cdot 5 + b) = 1 \Rightarrow 5w + b = 1 \quad \text{...(1)}$$
 
-**Setting up the 3×3 linear system:**
-1. $2\alpha_1 + 0\alpha_4 - 1\alpha_5 = 0.5$ (from $w_1^* = 0.5$)
-2. $3\alpha_1 - 1\alpha_4 + 0\alpha_5 = 0.5$ (from $w_2^* = 0.5$)
-3. $1\alpha_1 - 1\alpha_4 - 1\alpha_5 = 0$ (dual constraint)
+For support vector $(0,1)$ with $y_4 = -1$:
+$$y_4(w \cdot 1 + b) = 1 \Rightarrow (-1)(w + b) = 1 \Rightarrow w + b = -1 \quad \text{...(2)}$$
+
+For support vector $(1,0)$ with $y_5 = -1$:
+$$y_5(w \cdot 1 + b) = 1 \Rightarrow (-1)(w + b) = 1 \Rightarrow w + b = -1 \quad \text{...(3)}$$
+
+**Notice:** Equations (2) and (3) are identical! This suggests that both $(0,1)$ and $(1,0)$ lie on the same margin boundary.
+
+**Step 7: Solving for Optimal Parameters**
+
+From the two independent equations:
+1. $5w + b = 1$ (from support vector $(2,3)$)
+2. $w + b = -1$ (from support vectors $(0,1)$ and $(1,0)$)
 
 **Solving the system:**
-From equation (3): $\alpha_1 = \alpha_4 + \alpha_5$
+Subtracting equation (2) from equation (1):
+$$5w + b - (w + b) = 1 - (-1)$$
+$$4w = 2$$
+$$w = 0.5$$
 
-Substituting into equation (1):
-$$2(\alpha_4 + \alpha_5) - \alpha_5 = 0.5$$
-$$2\alpha_4 + \alpha_5 = 0.5 \quad \text{...(4)}$$
+Substituting back into equation (2):
+$$0.5 + b = -1$$
+$$b = -1.5$$
 
-Substituting into equation (2):
-$$3(\alpha_4 + \alpha_5) - \alpha_4 = 0.5$$
-$$2\alpha_4 + 3\alpha_5 = 0.5 \quad \text{...(5)}$$
+**Therefore, the optimal hyperplane parameters are:**
+$$w_1 = w_2 = 0.5, \quad b = -1.5$$
 
-From equations (4) and (5):
-$$2\alpha_4 + 3\alpha_5 = 2\alpha_4 + \alpha_5$$
-$$3\alpha_5 = \alpha_5$$
+**Optimal hyperplane equation:**
+$$0.5x_1 + 0.5x_2 - 1.5 = 0$$
+$$x_1 + x_2 = 3$$
+
+**Step 8: Verification of All Constraints**
+
+Let's verify that our solution satisfies all constraints $y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1$:
+
+1. **Point $(2,3)$:** $y_1 = +1$, constraint = $(+1)(0.5 \cdot 2 + 0.5 \cdot 3 - 1.5) = 1$ ✓
+2. **Point $(3,4)$:** $y_2 = +1$, constraint = $(+1)(0.5 \cdot 3 + 0.5 \cdot 4 - 1.5) = 2 > 1$ ✓
+3. **Point $(4,2)$:** $y_3 = +1$, constraint = $(+1)(0.5 \cdot 4 + 0.5 \cdot 2 - 1.5) = 1.5 > 1$ ✓
+4. **Point $(0,1)$:** $y_4 = -1$, constraint = $(-1)(0.5 \cdot 0 + 0.5 \cdot 1 - 1.5) = 1$ ✓
+5. **Point $(1,0)$:** $y_5 = -1$, constraint = $(-1)(0.5 \cdot 1 + 0.5 \cdot 0 - 1.5) = 1$ ✓
+6. **Point $(0,0)$:** $y_6 = -1$, constraint = $(-1)(0.5 \cdot 0 + 0.5 \cdot 0 - 1.5) = 1.5 > 1$ ✓
+
+All constraints are satisfied!
+
+**Step 9: Determining True Support Vectors via Lagrange Multipliers**
+
+Now we need to determine which points are true support vectors by solving for the Lagrange multipliers.
+
+From the KKT condition $\mathbf{w}^* = \sum_{i} \alpha_i y_i \mathbf{x}_i$, using our derived parameters $\mathbf{w}^* = [0.5, 0.5]$:
+
+$$\begin{bmatrix} 0.5 \\ 0.5 \end{bmatrix} = \alpha_1(+1)\begin{bmatrix} 2 \\ 3 \end{bmatrix} + \alpha_4(-1)\begin{bmatrix} 0 \\ 1 \end{bmatrix} + \alpha_5(-1)\begin{bmatrix} 1 \\ 0 \end{bmatrix}$$
+
+This gives us:
+- $0.5 = 2\alpha_1 - \alpha_5$ (first component)
+- $0.5 = 3\alpha_1 - \alpha_4$ (second component)
+
+From the dual constraint: $\alpha_1 - \alpha_4 - \alpha_5 = 0$
+
+**Solving the 3×3 system:**
+From the dual constraint: $\alpha_1 = \alpha_4 + \alpha_5$
+
+Substituting into the first component equation:
+$$0.5 = 2(\alpha_4 + \alpha_5) - \alpha_5 = 2\alpha_4 + \alpha_5$$
+
+Substituting into the second component equation:
+$$0.5 = 3(\alpha_4 + \alpha_5) - \alpha_4 = 2\alpha_4 + 3\alpha_5$$
+
+From these two equations:
+$$2\alpha_4 + \alpha_5 = 2\alpha_4 + 3\alpha_5$$
+$$\alpha_5 = 3\alpha_5$$
 $$2\alpha_5 = 0$$
 $$\alpha_5 = 0$$
 
-Substituting back:
-- From equation (4): $2\alpha_4 + 0 = 0.5 \Rightarrow \alpha_4 = 0.25$
-- From equation (3): $\alpha_1 = 0.25 + 0 = 0.25$
+Therefore:
+- $2\alpha_4 + 0 = 0.5 \Rightarrow \alpha_4 = 0.25$
+- $\alpha_1 = 0.25 + 0 = 0.25$
 
 **Final Lagrange multipliers:**
 $$\alpha_1 = 0.25, \quad \alpha_4 = 0.25, \quad \alpha_5 = 0$$
+
+**True support vectors:** Only $(2,3)$ and $(0,1)$ with $\alpha_1 = \alpha_4 = 0.25 > 0$.
+**Point $(1,0)$:** Has $\alpha_5 = 0$, so it's NOT a support vector despite lying on the margin.
 
 **Verification:**
 - $\mathbf{w}^* = 0.25 \cdot (+1) \cdot [2,3] + 0.25 \cdot (-1) \cdot [0,1] + 0 \cdot (-1) \cdot [1,0]$
