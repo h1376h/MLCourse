@@ -223,18 +223,49 @@ plt.plot(x_range, decision_boundary, 'k-', linewidth=3, label='Decision Boundary
 plt.plot(x_range, margin_upper, 'g-', linewidth=2, label='Margin Boundary: $\\mathbf{w}^T\\mathbf{x} + b = 1$')
 plt.plot(x_range, margin_lower, 'g-', linewidth=2, label='Margin Boundary: $\\mathbf{w}^T\\mathbf{x} + b = -1$')
 
-# Add distance annotations
-plt.annotate('', xy=(0, 1), xytext=(0, 0),
-            arrowprops=dict(arrowstyle='<->', color='red', lw=2))
-plt.text(0.2, 0.5, r'$\frac{1}{||\mathbf{w}||}$', fontsize=14, color='red')
+# Add distance annotations - arrows perpendicular to the boundaries
+# For w = [1, 1], the normal vector is [1, 1], unit normal is [1/√2, 1/√2]
+# Distance from decision boundary to margin boundaries is 1/||w|| = 1/√2
 
-plt.annotate('', xy=(0, -1), xytext=(0, 0),
-            arrowprops=dict(arrowstyle='<->', color='red', lw=2))
-plt.text(0.2, -0.5, r'$\frac{1}{||\mathbf{w}||}$', fontsize=14, color='red')
+# Calculate unit normal vector
+w_norm = np.linalg.norm(w)
+unit_normal = w / w_norm  # [1/√2, 1/√2]
 
-plt.annotate('', xy=(0, 1), xytext=(0, -1),
+# Choose a reference point on the decision boundary
+ref_point = np.array([0.5, -0.5])  # This point satisfies x + y = 0
+
+# Calculate points on margin boundaries along the normal direction
+distance_to_margin = 1 / w_norm  # This is 1/||w||
+
+# Points on margin boundaries (moving along normal direction)
+upper_margin_point = ref_point + distance_to_margin * unit_normal
+lower_margin_point = ref_point - distance_to_margin * unit_normal
+
+# Draw arrows from decision boundary to margin boundaries (along normal direction)
+plt.annotate('', xy=upper_margin_point, xytext=ref_point,
+            arrowprops=dict(arrowstyle='<->', color='red', lw=2))
+# Position text at midpoint of upper arrow, offset perpendicular to arrow direction
+upper_midpoint = (ref_point + upper_margin_point) / 2
+# Offset perpendicular to normal direction (rotate normal by 90 degrees)
+perp_offset = np.array([-unit_normal[1], unit_normal[0]]) * 0.2
+plt.text(upper_midpoint[0] + perp_offset[0], upper_midpoint[1] + perp_offset[1],
+         r'$\frac{1}{||\mathbf{w}||}$', fontsize=14, color='red', ha='center', va='center')
+
+plt.annotate('', xy=lower_margin_point, xytext=ref_point,
+            arrowprops=dict(arrowstyle='<->', color='red', lw=2))
+# Position text at midpoint of lower arrow, offset perpendicular to arrow direction
+lower_midpoint = (ref_point + lower_margin_point) / 2
+plt.text(lower_midpoint[0] - perp_offset[0], lower_midpoint[1] - perp_offset[1],
+         r'$\frac{1}{||\mathbf{w}||}$', fontsize=14, color='red', ha='center', va='center')
+
+# Draw arrow showing total margin width (between the two margin points)
+plt.annotate('', xy=upper_margin_point, xytext=lower_margin_point,
             arrowprops=dict(arrowstyle='<->', color='blue', lw=3))
-plt.text(0.5, 0, r'$\frac{2}{||\mathbf{w}||}$', fontsize=16, color='blue', weight='bold')
+# Position text at midpoint of total margin arrow, offset to the side
+total_midpoint = (upper_margin_point + lower_margin_point) / 2
+plt.text(total_midpoint[0] - perp_offset[0] * 2, total_midpoint[1] - perp_offset[1] * 2,
+         r'$\frac{2}{||\mathbf{w}||}$', fontsize=16, color='blue', weight='bold',
+         ha='center', va='center')
 
 plt.xlabel(r'$x_1$')
 plt.ylabel(r'$x_2$')
