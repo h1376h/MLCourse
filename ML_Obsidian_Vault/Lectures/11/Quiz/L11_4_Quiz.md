@@ -9,10 +9,10 @@ This quiz contains 17 questions covering different topics from section 11.4 of t
 Density-based clustering algorithms identify clusters as dense regions separated by regions of lower density.
 
 #### Task
-1. [🔍] What is the fundamental principle behind density-based clustering?
-2. [🔍] How does density-based clustering differ from centroid-based methods like K-Means?
-3. [📚] What advantages does density-based clustering offer for irregularly shaped clusters?
-4. [📚] List three main characteristics that define a good density-based clustering algorithm
+1. What is the fundamental principle behind density-based clustering?
+2. How does density-based clustering differ from centroid-based methods like K-Means?
+3. What advantages does density-based clustering offer for irregularly shaped clusters?
+4. List three main characteristics that define a good density-based clustering algorithm
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 1: Density-Based Clustering Fundamentals](L11_4_1_explanation.md).
 
@@ -22,10 +22,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 DBSCAN (Density-Based Spatial Clustering of Applications with Noise) is the most widely used density-based clustering algorithm.
 
 #### Task
-1. [📚] What do the acronym letters in DBSCAN stand for?
-2. [📚] Describe the two main parameters of DBSCAN: ε (epsilon) and MinPts
-3. [🔍] How does DBSCAN handle noise points differently from other clustering algorithms?
-4. [📚] Outline the main steps of the DBSCAN algorithm
+1. What do the acronym letters in DBSCAN stand for?
+2. Describe the two main parameters of DBSCAN: $\varepsilon$ (epsilon) and MinPts
+3. How does DBSCAN handle noise points differently from other clustering algorithms?
+4. Outline the main steps of the DBSCAN algorithm
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 2: DBSCAN Algorithm Overview](L11_4_2_explanation.md).
 
@@ -35,26 +35,26 @@ For a detailed explanation of this problem, including step-by-step solutions and
 DBSCAN classifies points into three categories: core points, border points, and noise points.
 
 #### Task
-1. [📚] Define a core point in DBSCAN
-2. [📚] Define a border point in DBSCAN
-3. [📚] Define a noise point (outlier) in DBSCAN
-4. [🔍] Explain the relationship between these three types of points in cluster formation
+1. Define a core point in DBSCAN
+2. Define a border point in DBSCAN
+3. Define a noise point (outlier) in DBSCAN
+4. Explain the relationship between these three types of points in cluster formation
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 3: Core, Border, and Noise Points](L11_4_3_explanation.md).
 
 ## Question 4
 
 ### Problem Statement
-Consider the following 2D dataset with ε = 2 and MinPts = 3:
+Consider the following 2D dataset with $\varepsilon = 2$ and MinPts $= 3$:
 
-Points: A(1,1), B(2,1), C(1,2), D(2,2), E(1,3), F(8,8), G(8,9), H(9,8), I(15,15)
+Points: $A(1,1)$, $B(2,1)$, $C(1,2)$, $D(2,2)$, $E(1,3)$, $F(8,8)$, $G(8,9)$, $H(9,8)$, $I(15,15)$
 
 #### Task
-1. [📚] Calculate the ε-neighborhood for each point
-2. [📚] Classify each point as core, border, or noise
-3. [📚] Show the cluster formation process step by step
-4. [📚] How many clusters does DBSCAN find, and which points are noise?
-5. [📚] Calculate the reachability distance for each point pair and create the reachability plot. Then determine which points would be considered outliers if we used a reachability threshold of 3.0.
+1. Calculate the $\varepsilon$-neighborhood for each point
+2. Classify each point as core, border, or noise
+3. Show the cluster formation process step by step
+4. How many clusters does DBSCAN find, and which points are noise?
+5. Calculate the reachability distance for each point pair and create the reachability plot. Then determine which points would be considered outliers if we used a reachability threshold of $3.0$.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 4: Manual DBSCAN Execution](L11_4_4_explanation.md).
 
@@ -64,11 +64,11 @@ For a detailed explanation of this problem, including step-by-step solutions and
 The ε (epsilon) parameter in DBSCAN defines the radius of the neighborhood around each point.
 
 #### Task
-1. [🔍] How does the choice of ε affect the clustering results?
-2. [📚] What happens if ε is too small? Too large?
-3. [📚] Describe the k-distance graph method for choosing ε
-4. [🔍] How do you identify the "knee" or "elbow" in a k-distance plot?
-5. [📚] Given the points [(0,0), (1,0), (2,0), (10,0), (11,0), (12,0)] and MinPts=3, calculate the 3-distance for each point and create the k-distance plot. Determine the optimal ε value by identifying the elbow point mathematically.
+1. How does the choice of ε affect the clustering results?
+2. What happens if ε is too small? Too large?
+3. Describe the k-distance graph method for choosing ε
+4. How do you identify the "knee" or "elbow" in a k-distance plot?
+5. Given the points $[(0,0), (1,0), (2,0), (10,0), (11,0), (12,0)]$ and MinPts $=3$, calculate the $3$-distance for each point and create the $k$-distance plot. Determine the optimal $\varepsilon$ value by identifying the elbow point mathematically.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 5: Epsilon Parameter Selection](L11_4_5_explanation.md).
 
@@ -78,10 +78,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 The MinPts parameter in DBSCAN determines the minimum number of points required to form a dense region.
 
 #### Task
-1. [🔍] How does the choice of MinPts affect clustering results?
-2. [📚] What is the relationship between MinPts and dimensionality of the data?
-3. [📚] What happens if MinPts is too small? Too large?
-4. [🔍] Provide a rule of thumb for choosing MinPts based on data dimensionality
+1. How does the choice of MinPts affect clustering results?
+2. What is the relationship between MinPts and dimensionality of the data?
+3. What happens if MinPts is too small? Too large?
+4. Provide a rule of thumb for choosing MinPts based on data dimensionality
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 6: MinPts Parameter Selection](L11_4_6_explanation.md).
 
@@ -91,10 +91,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 DBSCAN has several significant advantages over other clustering algorithms.
 
 #### Task
-1. [📚] **Advantage 1**: How does DBSCAN handle clusters of arbitrary shapes?
-2. [📚] **Advantage 2**: How does DBSCAN automatically determine the number of clusters?
-3. [📚] **Advantage 3**: How does DBSCAN handle noise and outliers?
-4. [🔍] **Advantage 4**: How does DBSCAN handle clusters of different sizes and densities?
+1. **Advantage 1**: How does DBSCAN handle clusters of arbitrary shapes?
+2. **Advantage 2**: How does DBSCAN automatically determine the number of clusters?
+3. **Advantage 3**: How does DBSCAN handle noise and outliers?
+4. **Advantage 4**: How does DBSCAN handle clusters of different sizes and densities?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 7: DBSCAN Advantages](L11_4_7_explanation.md).
 
@@ -104,10 +104,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Despite its advantages, DBSCAN has several important limitations.
 
 #### Task
-1. [📚] **Limitation 1**: How does DBSCAN struggle with varying densities?
-2. [📚] **Limitation 2**: What challenges arise in high-dimensional spaces?
-3. [🔍] **Limitation 3**: Why is parameter selection challenging for DBSCAN?
-4. [📚] **Limitation 4**: How does DBSCAN perform with large datasets?
+1. **Limitation 1**: How does DBSCAN struggle with varying densities?
+2. **Limitation 2**: What challenges arise in high-dimensional spaces?
+3. **Limitation 3**: Why is parameter selection challenging for DBSCAN?
+4. **Limitation 4**: How does DBSCAN perform with large datasets?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 8: DBSCAN Limitations](L11_4_8_explanation.md).
 
@@ -119,10 +119,10 @@ Consider a customer behavior dataset where you want to identify different spendi
 Customer locations in feature space: High spenders, Medium spenders (two groups), Occasional buyers, and some irregular customers.
 
 #### Task
-1. [🔍] Why would DBSCAN be suitable for this customer segmentation problem?
-2. [📚] How would you interpret core, border, and noise customers?
-3. [📚] What features would you use for the distance calculation?
-4. [🔍] How would you validate the clustering results for business insights?
+1. Why would DBSCAN be suitable for this customer segmentation problem?
+2. How would you interpret core, border, and noise customers?
+3. What features would you use for the distance calculation?
+4. How would you validate the clustering results for business insights?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 9: Customer Segmentation with DBSCAN](L11_4_9_explanation.md).
 
@@ -132,10 +132,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 DBSCAN can be applied to anomaly detection by treating noise points as anomalies.
 
 #### Task
-1. [🔍] Explain how DBSCAN can be used for anomaly detection
-2. [📚] What are the advantages of using DBSCAN for outlier detection?
-3. [📚] How do you adjust DBSCAN parameters specifically for anomaly detection?
-4. [🔍] Compare DBSCAN-based anomaly detection with other outlier detection methods
+1. Explain how DBSCAN can be used for anomaly detection
+2. What are the advantages of using DBSCAN for outlier detection?
+3. How do you adjust DBSCAN parameters specifically for anomaly detection?
+4. Compare DBSCAN-based anomaly detection with other outlier detection methods
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 10: DBSCAN for Anomaly Detection](L11_4_10_explanation.md).
 
@@ -145,26 +145,26 @@ For a detailed explanation of this problem, including step-by-step solutions and
 The time complexity of DBSCAN depends on the method used for neighborhood queries.
 
 #### Task
-1. [📚] What is the time complexity of DBSCAN with a naive implementation?
-2. [📚] How can spatial indexing structures improve DBSCAN's performance?
-3. [🔍] What is the space complexity of DBSCAN?
-4. [📚] Compare DBSCAN's complexity with K-Means and hierarchical clustering
+1. What is the time complexity of DBSCAN with a naive implementation?
+2. How can spatial indexing structures improve DBSCAN's performance?
+3. What is the space complexity of DBSCAN?
+4. Compare DBSCAN's complexity with K-Means and hierarchical clustering
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: DBSCAN Complexity Analysis](L11_4_11_explanation.md).
 
 ## Question 12
 
 ### Problem Statement
-Consider the following scenario: You have ε = 1.5, MinPts = 4, and the following points:
+Consider the following scenario: You have $\varepsilon = 1.5$, MinPts $= 4$, and the following points:
 
-A(0,0), B(1,0), C(0,1), D(1,1), E(0.5,0.5), F(5,5), G(6,5), H(5,6)
+$A(0,0)$, $B(1,0)$, $C(0,1)$, $D(1,1)$, $E(0.5,0.5)$, $F(5,5)$, $G(6,5)$, $H(5,6)$
 
 #### Task
-1. [📚] Build the ε-neighborhood graph showing connections between points
-2. [📚] Identify all core points
-3. [📚] Trace the cluster formation process
-4. [📚] What is the final clustering result?
-5. [📚] Calculate the local density at each point using the formula: density = |Nε(p)|/(π × ε²) where |Nε(p)| is the number of points in the ε-neighborhood. Then rank the points by density and determine which would be core points using a density threshold instead of MinPts.
+1. Build the $\varepsilon$-neighborhood graph showing connections between points
+2. Identify all core points
+3. Trace the cluster formation process
+4. What is the final clustering result?
+5. Calculate the local density at each point using the formula: density $= |N_\varepsilon(p)|/(\pi \times \varepsilon^2)$ where $|N_\varepsilon(p)|$ is the number of points in the $\varepsilon$-neighborhood. Then rank the points by density and determine which would be core points using a density threshold instead of MinPts.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 12: Detailed DBSCAN Example](L11_4_12_explanation.md).
 
@@ -174,10 +174,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 DBSCAN can be extended and modified to address some of its limitations.
 
 #### Task
-1. [📚] Describe OPTICS (Ordering Points To Identify the Clustering Structure)
-2. [🔍] How does HDBSCAN improve upon DBSCAN for varying densities?
-3. [📚] What is DBSCAN++ and how does it differ from standard DBSCAN?
-4. [🔍] When would you choose these variants over standard DBSCAN?
+1. Describe OPTICS (Ordering Points To Identify the Clustering Structure)
+2. How does HDBSCAN improve upon DBSCAN for varying densities?
+3. What is DBSCAN++ and how does it differ from standard DBSCAN?
+4. When would you choose these variants over standard DBSCAN?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 13: DBSCAN Variants and Extensions](L11_4_13_explanation.md).
 
@@ -187,10 +187,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Feature scaling and preprocessing affect DBSCAN differently than other clustering algorithms.
 
 #### Task
-1. [📚] Why is feature scaling important for DBSCAN?
-2. [📚] How does the choice of distance metric affect DBSCAN results?
-3. [🔍] What preprocessing steps are recommended before applying DBSCAN?
-4. [📚] How do categorical features need to be handled in DBSCAN?
+1. Why is feature scaling important for DBSCAN?
+2. How does the choice of distance metric affect DBSCAN results?
+3. What preprocessing steps are recommended before applying DBSCAN?
+4. How do categorical features need to be handled in DBSCAN?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 14: Data Preprocessing for DBSCAN](L11_4_14_explanation.md).
 
@@ -200,10 +200,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 DBSCAN is particularly well-suited for spatial data analysis and geographical clustering.
 
 #### Task
-1. [🔍] Why is DBSCAN effective for geographic data clustering?
-2. [📚] How would you apply DBSCAN to identify crime hotspots in a city?
-3. [📚] What distance metric would be appropriate for geographic coordinates?
-4. [🔍] How would you interpret the clustering results in a geographic context?
+1. Why is DBSCAN effective for geographic data clustering?
+2. How would you apply DBSCAN to identify crime hotspots in a city?
+3. What distance metric would be appropriate for geographic coordinates?
+4. How would you interpret the clustering results in a geographic context?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 15: Geographic Data Clustering](L11_4_15_explanation.md).
 
@@ -213,10 +213,10 @@ For a detailed explanation of this problem, including step-by-step solutions and
 Evaluating DBSCAN clustering results requires different approaches than traditional clustering evaluation.
 
 #### Task
-1. [🔍] What challenges arise when evaluating DBSCAN results?
-2. [📚] How do you handle noise points in clustering evaluation metrics?
-3. [📚] What internal validation measures are appropriate for DBSCAN?
-4. [🔍] How do you validate that the parameters ε and MinPts are well-chosen?
+1. What challenges arise when evaluating DBSCAN results?
+2. How do you handle noise points in clustering evaluation metrics?
+3. What internal validation measures are appropriate for DBSCAN?
+4. How do you validate that the parameters $\varepsilon$ and MinPts are well-chosen?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 16: DBSCAN Evaluation Methods](L11_4_16_explanation.md).
 
@@ -231,9 +231,9 @@ Dataset characteristics:
 - Clusters have different densities
 
 #### Task
-1. [📚] How would each algorithm handle the non-spherical cluster shapes?
-2. [📚] How would each algorithm deal with the noise points?
-3. [🔍] Which algorithm would be most appropriate for this dataset and why?
-4. [📚] What are the trade-offs in computational complexity between these methods?
+1. How would each algorithm handle the non-spherical cluster shapes?
+2. How would each algorithm deal with the noise points?
+3. Which algorithm would be most appropriate for this dataset and why?
+4. What are the trade-offs in computational complexity between these methods?
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 17: Algorithm Comparison with DBSCAN](L11_4_17_explanation.md).
