@@ -30,106 +30,229 @@ The key concepts involved are:
 
 ### Step 1: Dataset Visualization and Hyperplane Sketch
 
-The dataset consists of 6 points in 2D space, with 3 points in each class. The given hyperplane is:
+**Given Data:**
+- Class +1 points: $(2, 3)$, $(3, 4)$, $(4, 2)$
+- Class -1 points: $(0, 1)$, $(1, 0)$, $(0, 0)$
+- Hyperplane parameters: $w_1 = 1$, $w_2 = 1$, $b = -2$
+
+**Hyperplane Equation:**
+The given hyperplane is:
 $$w_1 x_1 + w_2 x_2 + b = 0$$
-$$1 \cdot x_1 + 1 \cdot x_2 - 2 = 0$$
+$$1 \cdot x_1 + 1 \cdot x_2 + (-2) = 0$$
+$$x_1 + x_2 - 2 = 0$$
 $$x_1 + x_2 = 2$$
 
-This can be rewritten as:
+This can be rewritten in slope-intercept form as:
 $$x_2 = -x_1 + 2$$
+
+This represents a line with slope $-1$ and y-intercept $2$.
 
 ![Dataset with Separating Hyperplane](../Images/L5_1_Quiz_1/dataset_and_hyperplane.png)
 
-The visualization shows:
+**Visualization Components:**
 - **Red circles**: Class +1 points at $(2, 3)$, $(3, 4)$, $(4, 2)$
 - **Blue squares**: Class -1 points at $(0, 1)$, $(1, 0)$, $(0, 0)$
 - **Green solid line**: The separating hyperplane $x_1 + x_2 = 2$
 - **Green dashed lines**: Margin boundaries at $x_1 + x_2 = 1$ and $x_1 + x_2 = 3$
-- **Shaded regions**: Red for Class +1 region, Blue for Class -1 region
+- **Shaded regions**: Red for Class +1 region (above line), Blue for Class -1 region (below line)
 
 ### Step 2: Verification of Class Separation
 
-To verify that the hyperplane separates the classes, we check that all Class +1 points have positive activation and all Class -1 points have negative activation.
+**Pen-and-Paper Calculation:**
 
-**Class +1 points:**
-- Point $(2, 3)$: Activation = $1 \times 2 + 1 \times 3 - 2 = 3 > 0$ ✓
-- Point $(3, 4)$: Activation = $1 \times 3 + 1 \times 4 - 2 = 5 > 0$ ✓
-- Point $(4, 2)$: Activation = $1 \times 4 + 1 \times 2 - 2 = 4 > 0$ ✓
+To verify that the hyperplane separates the classes, we calculate the activation function $f(\mathbf{x}) = \mathbf{w}^T \mathbf{x} + b = w_1 x_1 + w_2 x_2 + b$ for each point.
 
-**Class -1 points:**
-- Point $(0, 1)$: Activation = $1 \times 0 + 1 \times 1 - 2 = -1 < 0$ ✓
-- Point $(1, 0)$: Activation = $1 \times 1 + 1 \times 0 - 2 = -1 < 0$ ✓
-- Point $(0, 0)$: Activation = $1 \times 0 + 1 \times 0 - 2 = -2 < 0$ ✓
+**Decision Rule:**
+- If $f(\mathbf{x}) > 0$, the point belongs to Class +1
+- If $f(\mathbf{x}) < 0$, the point belongs to Class -1
 
-**Result**: All Class +1 points have positive activation and all Class -1 points have negative activation. The hyperplane successfully separates the two classes.
+**Class +1 points (should have positive activation):**
+
+1. **Point $(2, 3)$:**
+   $$f(2, 3) = 1 \times 2 + 1 \times 3 + (-2) = 2 + 3 - 2 = 3 > 0$$ ✓
+
+2. **Point $(3, 4)$:**
+   $$f(3, 4) = 1 \times 3 + 1 \times 4 + (-2) = 3 + 4 - 2 = 5 > 0$$ ✓
+
+3. **Point $(4, 2)$:**
+   $$f(4, 2) = 1 \times 4 + 1 \times 2 + (-2) = 4 + 2 - 2 = 4 > 0$$ ✓
+
+**Class -1 points (should have negative activation):**
+
+1. **Point $(0, 1)$:**
+   $$f(0, 1) = 1 \times 0 + 1 \times 1 + (-2) = 0 + 1 - 2 = -1 < 0$$ ✓
+
+2. **Point $(1, 0)$:**
+   $$f(1, 0) = 1 \times 1 + 1 \times 0 + (-2) = 1 + 0 - 2 = -1 < 0$$ ✓
+
+3. **Point $(0, 0)$:**
+   $$f(0, 0) = 1 \times 0 + 1 \times 0 + (-2) = 0 + 0 - 2 = -2 < 0$$ ✓
+
+**Verification Result:**
+- All Class +1 points have positive activation: ✓
+- All Class -1 points have negative activation: ✓
+- **Conclusion**: The hyperplane $x_1 + x_2 - 2 = 0$ successfully separates the two classes.
 
 ### Step 3: Functional Margin Calculations
+
+**Pen-and-Paper Calculation:**
 
 The functional margin for a point $(\mathbf{x}_i, y_i)$ is defined as:
 $$\hat{\gamma}_i = y_i \times (\mathbf{w}^T \mathbf{x}_i + b)$$
 
-**Functional margins for all points:**
+This measures how confident we are in the classification. A larger positive functional margin indicates the point is farther from the decision boundary on the correct side.
+
+**Step-by-step calculations for all points:**
+
+**Class +1 points (label $y_i = +1$):**
+
+1. **Point $(2, 3)$:**
+   - Activation: $f(2, 3) = 1 \times 2 + 1 \times 3 + (-2) = 3$
+   - Functional margin: $\hat{\gamma}_1 = (+1) \times 3 = 3$
+
+2. **Point $(3, 4)$:**
+   - Activation: $f(3, 4) = 1 \times 3 + 1 \times 4 + (-2) = 5$
+   - Functional margin: $\hat{\gamma}_2 = (+1) \times 5 = 5$
+
+3. **Point $(4, 2)$:**
+   - Activation: $f(4, 2) = 1 \times 4 + 1 \times 2 + (-2) = 4$
+   - Functional margin: $\hat{\gamma}_3 = (+1) \times 4 = 4$
+
+**Class -1 points (label $y_i = -1$):**
+
+4. **Point $(0, 1)$:**
+   - Activation: $f(0, 1) = 1 \times 0 + 1 \times 1 + (-2) = -1$
+   - Functional margin: $\hat{\gamma}_4 = (-1) \times (-1) = 1$
+
+5. **Point $(1, 0)$:**
+   - Activation: $f(1, 0) = 1 \times 1 + 1 \times 0 + (-2) = -1$
+   - Functional margin: $\hat{\gamma}_5 = (-1) \times (-1) = 1$
+
+6. **Point $(0, 0)$:**
+   - Activation: $f(0, 0) = 1 \times 0 + 1 \times 0 + (-2) = -2$
+   - Functional margin: $\hat{\gamma}_6 = (-1) \times (-2) = 2$
+
+**Summary Table:**
 
 | Point | Coordinates | Label | Activation | Functional Margin |
 |-------|-------------|-------|------------|-------------------|
-| 1 | $(2, 3)$ | $+1$ | $1 \times 2 + 1 \times 3 - 2 = 3$ | $+1 \times 3 = 3$ |
-| 2 | $(3, 4)$ | $+1$ | $1 \times 3 + 1 \times 4 - 2 = 5$ | $+1 \times 5 = 5$ |
-| 3 | $(4, 2)$ | $+1$ | $1 \times 4 + 1 \times 2 - 2 = 4$ | $+1 \times 4 = 4$ |
-| 4 | $(0, 1)$ | $-1$ | $1 \times 0 + 1 \times 1 - 2 = -1$ | $-1 \times (-1) = 1$ |
-| 5 | $(1, 0)$ | $-1$ | $1 \times 1 + 1 \times 0 - 2 = -1$ | $-1 \times (-1) = 1$ |
-| 6 | $(0, 0)$ | $-1$ | $1 \times 0 + 1 \times 0 - 2 = -2$ | $-1 \times (-2) = 2$ |
+| 1 | $(2, 3)$ | $+1$ | $3$ | $3$ |
+| 2 | $(3, 4)$ | $+1$ | $5$ | $5$ |
+| 3 | $(4, 2)$ | $+1$ | $4$ | $4$ |
+| 4 | $(0, 1)$ | $-1$ | $-1$ | $1$ |
+| 5 | $(1, 0)$ | $-1$ | $-1$ | $1$ |
+| 6 | $(0, 0)$ | $-1$ | $-2$ | $2$ |
 
-**Key observations:**
+**Key Observations:**
 - All functional margins are positive, confirming correct classification
-- The minimum functional margin is 1, achieved by points $(0, 1)$ and $(1, 0)$
+- **Minimum functional margin**: $\min(\hat{\gamma}_i) = 1$
+- **Points with minimum margin**: $(0, 1)$ and $(1, 0)$ (points 4 and 5)
 - These minimum margin points are closest to the decision boundary
 
 ### Step 4: Geometric Margin Calculation
 
+**Pen-and-Paper Calculation:**
+
 The geometric margin for a point $(\mathbf{x}_i, y_i)$ is the actual distance from the point to the hyperplane:
 $$\gamma_i = \frac{y_i \times (\mathbf{w}^T \mathbf{x}_i + b)}{||\mathbf{w}||}$$
 
-For point $(2, 3)$ with label $y = +1$:
+This represents the perpendicular distance from the point to the decision boundary, taking into account the correct classification.
 
-**Method 1: Using functional margin**
-- Functional margin = $+1 \times 3 = 3$
-- $||\mathbf{w}|| = \sqrt{1^2 + 1^2} = \sqrt{2} \approx 1.4142$
-- Geometric margin = $\frac{3}{\sqrt{2}} \approx 2.1213$
+**For point $(2, 3)$ with label $y = +1$:**
 
-**Method 2: Direct distance calculation**
-- Distance = $\frac{|1 \times 2 + 1 \times 3 - 2|}{\sqrt{2}} = \frac{|3|}{\sqrt{2}} \approx 2.1213$
-- Geometric margin = $+1 \times 2.1213 = 2.1213$
+**Step 1: Calculate the weight vector norm**
+$$||\mathbf{w}|| = \sqrt{w_1^2 + w_2^2} = \sqrt{1^2 + 1^2} = \sqrt{2} = 1.4142135...$$
 
-**Result**: The geometric margin for point $(2, 3)$ is approximately $2.1213$ units.
+**Step 2: Calculate the activation (already done in Step 2)**
+$$f(2, 3) = 1 \times 2 + 1 \times 3 + (-2) = 3$$
+
+**Step 3: Calculate functional margin (already done in Step 3)**
+$$\hat{\gamma} = y \times f(\mathbf{x}) = (+1) \times 3 = 3$$
+
+**Step 4: Calculate geometric margin**
+$$\gamma = \frac{\hat{\gamma}}{||\mathbf{w}||} = \frac{3}{\sqrt{2}} = \frac{3\sqrt{2}}{2} = \frac{3 \times 1.4142135...}{1} = 2.1213203...$$
+
+**Verification using direct distance formula:**
+The distance from point $(x_0, y_0)$ to line $ax + by + c = 0$ is:
+$$d = \frac{|ax_0 + by_0 + c|}{\sqrt{a^2 + b^2}}$$
+
+For our hyperplane $1 \cdot x_1 + 1 \cdot x_2 + (-2) = 0$ and point $(2, 3)$:
+$$d = \frac{|1 \times 2 + 1 \times 3 + (-2)|}{\sqrt{1^2 + 1^2}} = \frac{|3|}{\sqrt{2}} = \frac{3}{\sqrt{2}} = 2.1213203...$$
+
+Since the point is correctly classified (positive activation for Class +1), the geometric margin is:
+$$\gamma = (+1) \times 2.1213203... = 2.1213203...$$
+
+**Result**: The geometric margin for point $(2, 3)$ is exactly $\frac{3}{\sqrt{2}} = \frac{3\sqrt{2}}{2} \approx 2.1213$ units.
 
 ### Step 5: City Planning Problem - Optimal Road Boundary
 
+**Pen-and-Paper Calculation:**
+
 This is a practical application of maximum margin classification. We need to find the optimal straight road boundary that maximizes the minimum distance from any house to the road.
 
-**Using SVM to find the optimal boundary:**
-- Zone A houses: $(2, 3)$, $(3, 4)$, $(4, 2)$ (Class +1)
-- Zone B houses: $(0, 1)$, $(1, 0)$, $(0, 0)$ (Class -1)
+**Problem Setup:**
+- Zone A houses: $(2, 3)$, $(3, 4)$, $(4, 2)$ (treat as Class +1)
+- Zone B houses: $(0, 1)$, $(1, 0)$, $(0, 0)$ (treat as Class -1)
+- Goal: Find hyperplane that maximizes the minimum distance to any house
 
-The SVM algorithm finds the optimal hyperplane:
-$$0.5x_1 + 0.5x_2 - 1.5 = 0$$
+**SVM Solution:**
+Using Support Vector Machine optimization, the optimal hyperplane is found to be:
+$$w_1^* = 0.5, \quad w_2^* = 0.5, \quad b^* = -1.5$$
 
-**Distances from houses to the optimal road:**
+**Optimal hyperplane equation:**
+$$0.5x_1 + 0.5x_2 + (-1.5) = 0$$
+$$0.5x_1 + 0.5x_2 = 1.5$$
+$$x_1 + x_2 = 3$$
 
-| House | Coordinates | Zone | Distance to Road |
-|-------|-------------|------|------------------|
-| 1 | $(2, 3)$ | A | 1.4142 units |
-| 2 | $(3, 4)$ | A | 2.8284 units |
-| 3 | $(4, 2)$ | A | 2.1213 units |
-| 4 | $(0, 1)$ | B | 1.4142 units |
-| 5 | $(1, 0)$ | B | 1.4142 units |
-| 6 | $(0, 0)$ | B | 2.1213 units |
+**Step-by-step distance calculations:**
 
-**Minimum distance**: 1.4142 units (achieved by houses at $(2, 3)$, $(0, 1)$, and $(1, 0)$)
+**Weight vector norm for optimal hyperplane:**
+$$||\mathbf{w}^*|| = \sqrt{(0.5)^2 + (0.5)^2} = \sqrt{0.25 + 0.25} = \sqrt{0.5} = \frac{\sqrt{2}}{2} = 0.7071...$$
+
+**Distance calculations for each house:**
+
+1. **House $(2, 3)$ in Zone A:**
+   - Activation: $f(2, 3) = 0.5 \times 2 + 0.5 \times 3 - 1.5 = 1.0 + 1.5 - 1.5 = 1.0$
+   - Distance: $\frac{|1.0|}{0.7071} = 1.4142$ units
+
+2. **House $(3, 4)$ in Zone A:**
+   - Activation: $f(3, 4) = 0.5 \times 3 + 0.5 \times 4 - 1.5 = 1.5 + 2.0 - 1.5 = 2.0$
+   - Distance: $\frac{|2.0|}{0.7071} = 2.8284$ units
+
+3. **House $(4, 2)$ in Zone A:**
+   - Activation: $f(4, 2) = 0.5 \times 4 + 0.5 \times 2 - 1.5 = 2.0 + 1.0 - 1.5 = 1.5$
+   - Distance: $\frac{|1.5|}{0.7071} = 2.1213$ units
+
+4. **House $(0, 1)$ in Zone B:**
+   - Activation: $f(0, 1) = 0.5 \times 0 + 0.5 \times 1 - 1.5 = 0 + 0.5 - 1.5 = -1.0$
+   - Distance: $\frac{|-1.0|}{0.7071} = 1.4142$ units
+
+5. **House $(1, 0)$ in Zone B:**
+   - Activation: $f(1, 0) = 0.5 \times 1 + 0.5 \times 0 - 1.5 = 0.5 + 0 - 1.5 = -1.0$
+   - Distance: $\frac{|-1.0|}{0.7071} = 1.4142$ units
+
+6. **House $(0, 0)$ in Zone B:**
+   - Activation: $f(0, 0) = 0.5 \times 0 + 0.5 \times 0 - 1.5 = 0 + 0 - 1.5 = -1.5$
+   - Distance: $\frac{|-1.5|}{0.7071} = 2.1213$ units
+
+**Summary of distances:**
+
+| House | Coordinates | Zone | Activation | Distance to Road |
+|-------|-------------|------|------------|------------------|
+| 1 | $(2, 3)$ | A | $+1.0$ | $1.4142$ units |
+| 2 | $(3, 4)$ | A | $+2.0$ | $2.8284$ units |
+| 3 | $(4, 2)$ | A | $+1.5$ | $2.1213$ units |
+| 4 | $(0, 1)$ | B | $-1.0$ | $1.4142$ units |
+| 5 | $(1, 0)$ | B | $-1.0$ | $1.4142$ units |
+| 6 | $(0, 0)$ | B | $-1.5$ | $2.1213$ units |
+
+**Minimum distance**: $1.4142$ units (achieved by houses at $(2, 3)$, $(0, 1)$, and $(1, 0)$)
 
 **Classification of new house at $(2.5, 2.5)$:**
-- Activation = $0.5 \times 2.5 + 0.5 \times 2.5 - 1.5 = 1.0 > 0$
-- Distance to road = $\frac{|1.0|}{\sqrt{0.5^2 + 0.5^2}} = 1.4142$ units
-- **Result**: The new house should be assigned to Zone A
+- Activation: $f(2.5, 2.5) = 0.5 \times 2.5 + 0.5 \times 2.5 - 1.5 = 1.25 + 1.25 - 1.5 = 1.0 > 0$
+- Distance to road: $\frac{|1.0|}{0.7071} = 1.4142$ units
+- Since activation > 0, the house belongs to the positive side
+- **Result**: The new house should be assigned to **Zone A**
 
 ![Optimal Solution Comparison](../Images/L5_1_Quiz_1/optimal_solution_comparison.png)
 
@@ -184,11 +307,35 @@ The city planning visualization demonstrates:
 - **Margin width**: Given by $\frac{2}{||\mathbf{w}||}$ for normalized hyperplanes
 
 ## Conclusion
-- We successfully visualized the linearly separable dataset and verified the given hyperplane separates the classes
-- We calculated functional margins for all points, finding a minimum margin of 1
-- We computed the geometric margin for point $(2, 3)$ as approximately 2.1213 units
-- We solved the city planning problem using SVM to find the optimal road boundary
-- The new house at $(2.5, 2.5)$ should be assigned to Zone A
-- The optimal solution maximizes the minimum distance from any house to the road, ensuring maximum safety margins
 
-The maximum margin approach provides not only correct classification but also optimal generalization properties, making it superior to arbitrary separating hyperplanes for real-world applications.
+**Summary of Pen-and-Paper Calculations:**
+
+1. **Dataset Visualization**: Successfully plotted the linearly separable dataset with 3 points in each class and sketched the given hyperplane $x_1 + x_2 = 2$.
+
+2. **Class Separation Verification**: Through detailed activation calculations, we verified that:
+   - All Class +1 points have positive activations: $(2,3) \rightarrow 3$, $(3,4) \rightarrow 5$, $(4,2) \rightarrow 4$
+   - All Class -1 points have negative activations: $(0,1) \rightarrow -1$, $(1,0) \rightarrow -1$, $(0,0) \rightarrow -2$
+
+3. **Functional Margin Analysis**: Calculated functional margins for all 6 points:
+   - Class +1: margins of 3, 5, and 4
+   - Class -1: margins of 1, 1, and 2
+   - **Minimum functional margin**: 1 (achieved by points $(0,1)$ and $(1,0)$)
+
+4. **Geometric Margin Calculation**: For point $(2,3)$:
+   - Exact value: $\frac{3}{\sqrt{2}} = \frac{3\sqrt{2}}{2}$
+   - Decimal approximation: $2.1213$ units
+
+5. **Optimal City Planning Solution**: Using SVM optimization:
+   - **Optimal road boundary**: $x_1 + x_2 = 3$ (or $0.5x_1 + 0.5x_2 = 1.5$)
+   - **Maximum minimum distance**: $\sqrt{2} \approx 1.4142$ units
+   - **New house classification**: $(2.5, 2.5)$ belongs to **Zone A**
+
+**Key Mathematical Insights:**
+
+- **Functional vs Geometric Margins**: Functional margin depends on the scale of $\mathbf{w}$, while geometric margin is scale-invariant
+- **Support Vectors**: Points $(2,3)$, $(0,1)$, and $(1,0)$ are equidistant from the optimal boundary
+- **Maximum Margin Principle**: The optimal hyperplane maximizes the minimum distance, providing better generalization
+- **Practical Application**: The city planning problem demonstrates how SVM optimization ensures maximum safety margins
+
+**Real-World Significance:**
+The maximum margin approach provides not only correct classification but also optimal generalization properties, making it superior to arbitrary separating hyperplanes for applications requiring robust decision boundaries with maximum safety margins.
