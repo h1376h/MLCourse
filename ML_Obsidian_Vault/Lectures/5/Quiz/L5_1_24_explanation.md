@@ -48,9 +48,9 @@ $$\text{LOOCV Error Rate} \leq \frac{3}{10} = 0.3 = 30.0\%$$
 Through detailed LOOCV analysis of Scenario A:
 
 **Support vectors identified:**
-- Point 1: $[2.5, 2.0]$ (Class +1) ✓ Correctly classified when left out
-- Point 5: $[2.0, 2.5]$ (Class +1) ✓ Correctly classified when left out
-- Point 8: $[1.5, 1.5]$ (Class -1) ✗ Misclassified as Class +1 when left out
+- Point 1: $[2.5, 2.0]$ (Class +1) → Correctly classified when left out
+- Point 5: $[2.0, 2.5]$ (Class +1) → Correctly classified when left out
+- Point 8: $[1.5, 1.5]$ (Class -1) → Misclassified as Class +1 when left out
 
 **Non-support vectors (all correctly classified):**
 - Points $\{2, 3, 4, 6, 7, 9, 10\}$: All correctly classified when left out
@@ -76,8 +76,8 @@ $$\text{LOOCV Error Rate} \leq \frac{2}{10} = 0.2 = 20.0\%$$
 Through detailed LOOCV analysis of Scenario B:
 
 **Support vectors identified:**
-- Point 1: $[2.2, 2.2]$ (Class +1) ✓ Correctly classified when left out
-- Point 6: $[1.8, 1.8]$ (Class -1) ✓ Correctly classified when left out
+- Point 1: $[2.2, 2.2]$ (Class +1) → Correctly classified when left out
+- Point 6: $[1.8, 1.8]$ (Class -1) → Correctly classified when left out
 
 **Non-support vectors (all correctly classified):**
 - Points $\{2, 3, 4, 5, 7, 8, 9, 10\}$: All correctly classified when left out

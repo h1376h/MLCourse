@@ -142,21 +142,21 @@ def display_mathematical_foundation():
     print(f"LOOCV Error Rate ≤ (Number of Support Vectors) / (Total Number of Points)")
 
     print(f"\nMathematical Justification:")
-    print(f"1. Let S = {{x₁, x₂, ..., xₙ}} be the training set")
+    print(f"1. Let S = {{x_1, x_2, ..., x_n}} be the training set")
     print(f"2. Let SV ⊆ S be the set of support vectors")
-    print(f"3. For any point xᵢ ∈ S:")
-    print(f"   • If xᵢ ∉ SV (non-support vector):")
-    print(f"     - Removing xᵢ doesn't change the decision boundary")
-    print(f"     - The remaining SVM will classify xᵢ correctly")
+    print(f"3. For any point x_i ∈ S:")
+    print(f"   • If x_i ∉ SV (non-support vector):")
+    print(f"     - Removing x_i doesn't change the decision boundary")
+    print(f"     - The remaining SVM will classify x_i correctly")
     print(f"     - Contribution to LOOCV error: 0")
-    print(f"   • If xᵢ ∈ SV (support vector):")
-    print(f"     - Removing xᵢ may change the decision boundary")
-    print(f"     - The new boundary might misclassify xᵢ")
+    print(f"   • If x_i ∈ SV (support vector):")
+    print(f"     - Removing x_i may change the decision boundary")
+    print(f"     - The new boundary might misclassify x_i")
     print(f"     - Contribution to LOOCV error: 0 or 1")
 
     print(f"\n4. Therefore:")
-    print(f"   LOOCV Error = Σᵢ I(xᵢ misclassified when left out)")
-    print(f"                ≤ Σᵢ I(xᵢ ∈ SV)")
+    print(f"   LOOCV Error = Σ_i I(x_i misclassified when left out)")
+    print(f"                ≤ Σ_i I(x_i ∈ SV)")
     print(f"                = |SV|")
     print(f"   LOOCV Error Rate ≤ |SV| / n")
 
@@ -337,7 +337,7 @@ def create_loocv_detailed_visualization(X, y, results, sv_indices, scenario_name
 
     for r in results:
         coord_str = f"[{r['coordinates'][0]:.1f}, {r['coordinates'][1]:.1f}]"
-        result_str = "✓" if r['is_correct'] else "✗"
+        result_str = "Y" if r['is_correct'] else "N"
         sv_str = "Yes" if r['is_support_vector'] else "No"
         table_data.append([
             str(r['point_idx'] + 1),
