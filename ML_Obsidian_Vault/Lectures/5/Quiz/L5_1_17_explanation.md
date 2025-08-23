@@ -40,7 +40,7 @@ The kernel matrix elements are computed as $G_{ij} = y_i y_j \mathbf{x}_i^T\math
 - $G_{33} = y_3 y_3 \mathbf{x}_3^T\mathbf{x}_3 = (-1) \cdot (-1) \cdot [(-1,-1) \cdot (-1,-1)] = 1 \cdot 2 = 2$
 
 Therefore, the kernel matrix is:
-$$G = \begin{pmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \\ 1 & 1 & 2 \end{pmatrix}$$
+$$G = \begin{bmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \\ 1 & 1 & 2 \end{bmatrix}$$
 
 ### Step 2: Explicit Dual Objective Function
 
