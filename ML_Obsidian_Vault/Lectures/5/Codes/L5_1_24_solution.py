@@ -16,9 +16,9 @@ images_dir = os.path.join(os.path.dirname(script_dir), "Images")
 save_dir = os.path.join(images_dir, "L5_1_Quiz_24")
 os.makedirs(save_dir, exist_ok=True)
 
-# Set plotting parameters for clean visualizations
-plt.rcParams['text.usetex'] = False
-plt.rcParams['font.family'] = 'sans-serif'
+# Set plotting parameters for clean visualizations with LaTeX
+plt.rcParams['text.usetex'] = True
+plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 10
 plt.rcParams['axes.linewidth'] = 1.2
 plt.rcParams['grid.alpha'] = 0.3
@@ -54,8 +54,8 @@ def create_theoretical_analysis_visualization():
                    facecolors='none', edgecolors='green', linewidth=3)
 
     ax1.set_title('Support Vectors Define Decision Boundary')
-    ax1.set_xlabel('x₁')
-    ax1.set_ylabel('x₂')
+    ax1.set_xlabel(r'$x_1$')
+    ax1.set_ylabel(r'$x_2$')
     ax1.legend()
     ax1.grid(True, alpha=0.3)
 
@@ -64,7 +64,7 @@ def create_theoretical_analysis_visualization():
     ax2.text(0.5, 0.7, 'LOOCV Upper Bound Theorem',
              ha='center', va='center', fontsize=14, fontweight='bold',
              transform=ax2.transAxes)
-    ax2.text(0.5, 0.5, r'LOOCV Error ≤ $\frac{\text{# Support Vectors}}{\text{Total Points}}$',
+    ax2.text(0.5, 0.5, r'LOOCV Error $\leq \frac{\text{\# Support Vectors}}{\text{Total Points}}$',
              ha='center', va='center', fontsize=12,
              transform=ax2.transAxes, bbox=dict(boxstyle="round,pad=0.3", facecolor="lightblue"))
     ax2.text(0.5, 0.3, 'This bound is conservative\nActual error can be lower',
@@ -95,8 +95,8 @@ def create_theoretical_analysis_visualization():
                 arrowprops=dict(arrowstyle='->', color='orange', lw=2))
 
     ax3.set_title('Non-Support Vectors: Always Correctly Classified')
-    ax3.set_xlabel('x₁')
-    ax3.set_ylabel('x₂')
+    ax3.set_xlabel(r'$x_1$')
+    ax3.set_ylabel(r'$x_2$')
     ax3.legend()
     ax3.grid(True, alpha=0.3)
     ax3.set_xlim(0, 4)
@@ -119,8 +119,8 @@ def create_theoretical_analysis_visualization():
                 arrowprops=dict(arrowstyle='->', color='red', lw=2))
 
     ax4.set_title('Support Vectors: Can Be Misclassified')
-    ax4.set_xlabel('x₁')
-    ax4.set_ylabel('x₂')
+    ax4.set_xlabel(r'$x_1$')
+    ax4.set_ylabel(r'$x_2$')
     ax4.legend()
     ax4.grid(True, alpha=0.3)
     ax4.set_xlim(0, 4)
@@ -296,8 +296,8 @@ def create_loocv_detailed_visualization(X, y, results, sv_indices, scenario_name
                     textcoords='offset points', fontsize=9, fontweight='bold')
 
     ax1.set_title('Original Dataset with Support Vectors')
-    ax1.set_xlabel('x₁')
-    ax1.set_ylabel('x₂')
+    ax1.set_xlabel(r'$x_1$')
+    ax1.set_ylabel(r'$x_2$')
     ax1.legend()
     ax1.grid(True, alpha=0.3)
 

@@ -48,19 +48,19 @@ $$\text{LOOCV Error Rate} \leq \frac{3}{10} = 0.3 = 30.0\%$$
 Through detailed LOOCV analysis of Scenario A:
 
 **Support vectors identified:**
-- Point 1: [2.5, 2.0] (Class +1) ✓ Correctly classified when left out
-- Point 5: [2.0, 2.5] (Class +1) ✓ Correctly classified when left out
-- Point 8: [1.5, 1.5] (Class -1) ✗ Misclassified as Class +1 when left out
+- Point 1: $[2.5, 2.0]$ (Class +1) ✓ Correctly classified when left out
+- Point 5: $[2.0, 2.5]$ (Class +1) ✓ Correctly classified when left out
+- Point 8: $[1.5, 1.5]$ (Class -1) ✗ Misclassified as Class +1 when left out
 
 **Non-support vectors (all correctly classified):**
-- Points 2, 3, 4, 6, 7, 9, 10: All correctly classified when left out
+- Points $\{2, 3, 4, 6, 7, 9, 10\}$: All correctly classified when left out
 
 **Actual LOOCV Error Rate for Scenario A:**
 $$\text{LOOCV Error Rate} = \frac{1}{10} = 0.1 = 10.0\%$$
 
 **Justification**: The theoretical bound assumes worst-case where each support vector contributes 1 error. In practice, only 1 out of 3 support vectors (Point 8) was misclassified, showing the bound is conservative.
 
-**Specific misclassified point**: Point 8: [1.5, 1.5] (True: -1, Predicted: +1)
+**Specific misclassified point**: Point 8: $[1.5, 1.5]$ (True: $-1$, Predicted: $+1$)
 
 ### Step 2: Analyze Scenario B - LOOCV Error Estimate
 
@@ -76,11 +76,11 @@ $$\text{LOOCV Error Rate} \leq \frac{2}{10} = 0.2 = 20.0\%$$
 Through detailed LOOCV analysis of Scenario B:
 
 **Support vectors identified:**
-- Point 1: [2.2, 2.2] (Class +1) ✓ Correctly classified when left out
-- Point 6: [1.8, 1.8] (Class -1) ✓ Correctly classified when left out
+- Point 1: $[2.2, 2.2]$ (Class +1) ✓ Correctly classified when left out
+- Point 6: $[1.8, 1.8]$ (Class -1) ✓ Correctly classified when left out
 
 **Non-support vectors (all correctly classified):**
-- Points 2, 3, 4, 5, 7, 8, 9, 10: All correctly classified when left out
+- Points $\{2, 3, 4, 5, 7, 8, 9, 10\}$: All correctly classified when left out
 
 **Actual LOOCV Error Rate for Scenario B:**
 $$\text{LOOCV Error Rate} = \frac{0}{10} = 0.0 = 0.0\%$$
@@ -88,8 +88,8 @@ $$\text{LOOCV Error Rate} = \frac{0}{10} = 0.0 = 0.0\%$$
 **Justification**: All support vectors remained correctly classified when removed, demonstrating that the theoretical bound can be very loose depending on geometric configuration.
 
 **Comparison with Scenario A:**
-- Scenario A: 3 SVs → 30.0% bound → 10.0% actual (33.3% tightness)
-- Scenario B: 2 SVs → 20.0% bound → 0.0% actual (0.0% tightness)
+- Scenario A: $3$ SVs → $30.0\%$ bound → $10.0\%$ actual ($33.3\%$ tightness)
+- Scenario B: $2$ SVs → $20.0\%$ bound → $0.0\%$ actual ($0.0\%$ tightness)
 - Scenario B achieves perfect LOOCV performance despite having support vectors
 
 ### Step 3: Theoretical Relationship Between LOOCV Error and Support Vectors
@@ -131,46 +131,7 @@ The theoretical bound would be **tight (exact)** when:
 - Support vectors are not all equally critical
 - Geometric configuration provides natural stability
 
-## Task 3: Theoretical Analysis
 
-### Step 3a: Theoretical Relationship Between LOOCV Error and Support Vectors
-
-**Key Theorem**: For a hard-margin SVM with linearly separable data:
-$$\text{LOOCV Error Rate} \leq \frac{\text{Number of Support Vectors}}{\text{Total Number of Points}}$$
-
-**Mathematical Foundation:**
-- Only support vectors define the decision boundary and margin
-- Non-support vectors can be removed without affecting the decision boundary
-- When a support vector is removed, the boundary may shift, potentially causing misclassification
-- This provides an upper bound on the LOOCV error rate
-
-### Step 3b: Why Actual LOOCV Error Can Be Less Than Theoretical Upper Bound
-
-The theoretical bound is **conservative** because:
-
-1. **Assumption vs Reality**: The bound assumes each support vector contributes exactly 1 error when removed
-2. **Boundary Stability**: In practice, removing a support vector may still result in a boundary that correctly classifies the removed point
-3. **Geometric Configuration**: The specific arrangement of data points affects how much the boundary shifts
-4. **Redundancy**: Some support vectors may be "less critical" than others
-
-**Examples from our scenarios:**
-- **Scenario A**: 3 support vectors → only 1 actually misclassified (33% of bound)
-- **Scenario B**: 2 support vectors → 0 actually misclassified (0% of bound)
-
-### Step 3c: Conditions for Tight Theoretical Bound
-
-The theoretical bound would be **tight (exact)** when:
-
-1. **Critical Support Vectors**: Each support vector is essential for the current decision boundary
-2. **Minimal Support Vector Set**: The support vectors form a minimal set defining the margin
-3. **Tight Margins**: Classes are positioned such that removing any support vector significantly shifts the boundary
-4. **Symmetric Configuration**: Support vectors are positioned to maximize boundary sensitivity
-
-**When the bound is loose:**
-- Redundant support vectors exist
-- Large margins with stable boundaries
-- Support vectors are not all equally critical
-- Geometric configuration provides natural stability
 
 ## Visual Explanations
 
@@ -333,42 +294,42 @@ The comprehensive comparison visualization provides:
 
 ### Final Answers Summary
 
-**Task 1: Scenario A Analysis**
-- **1a. LOOCV Error**: 10.0% (1 out of 10 points misclassified)
-- **1b. Justification**: 3 support vectors provide 30.0% theoretical bound; only 1 actually misclassified (33.3% tightness)
-- **1c. Misclassified Point**: Point 8 [1.5, 1.5] (True: -1, Predicted: +1)
+**Question 1: Scenario A Analysis**
+- LOOCV Error: $10.0\%$ ($1$ out of $10$ points misclassified)
+- Justification: $3$ support vectors provide $30.0\%$ theoretical bound; only $1$ actually misclassified ($33.3\%$ tightness)
+- Misclassified Point: Point $8$ at $[1.5, 1.5]$ (True: $-1$, Predicted: $+1$)
 
-**Task 2: Scenario B Analysis**
-- **2a. LOOCV Error**: 0.0% (0 out of 10 points misclassified)
-- **2b. Justification**: 2 support vectors provide 20.0% theoretical bound; none actually misclassified (0.0% tightness)
-- **2c. Comparison**: Scenario B has fewer support vectors (2 vs 3) and perfect performance vs Scenario A
+**Question 2: Scenario B Analysis**
+- LOOCV Error: $0.0\%$ ($0$ out of $10$ points misclassified)
+- Justification: $2$ support vectors provide $20.0\%$ theoretical bound; none actually misclassified ($0.0\%$ tightness)
+- Comparison: Scenario B has fewer support vectors ($2$ vs $3$) and perfect performance vs Scenario A
 
-**Task 3: Theoretical Analysis**
-- **3a. Relationship**: LOOCV Error ≤ (Number of Support Vectors) / (Total Points)
-- **3b. Bound Looseness**: Actual error depends on geometric configuration and boundary stability
-- **3c. Tight Conditions**: When all support vectors are critical and margins are minimal
+**Questions 3-5: Theoretical Analysis**
+- Relationship: $\text{LOOCV Error} \leq \frac{\text{Number of Support Vectors}}{\text{Total Points}}$
+- Bound Looseness: Actual error depends on geometric configuration and boundary stability
+- Tight Conditions: When all support vectors are critical and margins are minimal
 
 ### Comparative Results
 
-| Metric | Scenario A | Scenario B |
-|--------|------------|------------|
-| **Support Vectors** | 3/10 (30.0%) | 2/10 (20.0%) |
-| **Theoretical Bound** | 30.0% | 20.0% |
-| **Actual LOOCV Error** | 10.0% | 0.0% |
-| **Misclassified Points** | 1 (Point 8: [1.5, 1.5]) | 0 |
-| **Bound Tightness** | 33.3% of bound | 0.0% of bound |
-| **Performance** | Good | Perfect |
+| Metric                   | Scenario A              | Scenario B    |
+| ------------------------ | ----------------------- | ------------- |
+| **Support Vectors**      | $3/10$ ($30.0\%$)            | $2/10$ ($20.0\%$)  |
+| **Theoretical Bound**    | $30.0\%$                   | $20.0\%$         |
+| **Actual LOOCV Error**   | $10.0\%$                   | $0.0\%$          |
+| **Misclassified Points** | $1$ (Point $8$: $[1.5, 1.5]$) | $0$             |
+| **Bound Tightness**      | $33.3\%$ of bound          | $0.0\%$ of bound |
+| **Performance**          | Good                    | Perfect       |
 
 ### Key Methodological Insights
 
 1. **Mathematical Approach**:
    - Provides immediate theoretical bounds by counting support vectors
-   - Scenario A: 3/10 = 30%, Scenario B: 2/10 = 20%
+   - Scenario A: $3/10 = 30\%$, Scenario B: $2/10 = 20\%$
    - Requires no computation, gives conservative estimates
 
 2. **Computational Approach**:
    - Reveals exact error rates through actual LOOCV execution
-   - Scenario A: 10% actual, Scenario B: 0% actual
+   - Scenario A: $10\%$ actual, Scenario B: $0\%$ actual
    - Identifies specific problematic points and geometric reasons
 
 3. **Combined Value**:
@@ -384,4 +345,4 @@ The comprehensive comparison visualization provides:
 - **Stability Variation**: Different SVM configurations have different robustness properties
 - **Practical Assessment**: Both quick bounds and detailed analysis have complementary value
 
-This comprehensive analysis demonstrates that LOOCV for hard-margin SVM provides both theoretical insights and practical assessment tools. The mathematical upper bound enables immediate evaluation, while computational verification reveals the nuanced behavior of specific data configurations. The stark contrast between scenarios illustrates how geometric arrangement fundamentally determines cross-validation performance in support vector machines.
+This comprehensive analysis demonstrates that LOOCV for hard-margin SVM provides both theoretical insights and practical assessment tools. The mathematical upper bound enables immediate evaluation, while computational verification reveals the nuanced behavior of specific data configurations. The stark contrast between scenarios ($10.0\%$ vs $0.0\%$ actual error) illustrates how geometric arrangement fundamentally determines cross-validation performance in support vector machines.
