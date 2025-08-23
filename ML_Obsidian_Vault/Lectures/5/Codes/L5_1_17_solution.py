@@ -254,19 +254,19 @@ for i, (xi, yi) in enumerate(zip(X, y)):
     # Check if support vector
     if alpha[i] > 1e-10:
         plt.scatter(xi[0], xi[1], s=200, c=color, marker=marker_style,
-                   edgecolors='black', linewidth=3, label=f'SV: x_{i+1} ($\\alpha$={alpha[i]})')
+                   edgecolors='black', linewidth=3, label=f'SV: $x_{{{i+1}}}$ ($\\alpha$={alpha[i]})')
     else:
         plt.scatter(xi[0], xi[1], s=150, c=color, marker=marker_style,
                    edgecolors='black', linewidth=1.5, alpha=0.7)
 
     # Add point labels
-    plt.annotate(f'x_{i+1}({xi[0]},{xi[1]})',
+    plt.annotate(f'$x_{{{i+1}}}$({xi[0]},{xi[1]})',
                 (xi[0], xi[1]), xytext=(10, 10), textcoords='offset points',
                 fontsize=10, bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
 
-plt.xlabel('$x_1$', fontsize=14)
-plt.ylabel('$x_2$', fontsize=14)
-plt.title('SVM Dual Solution Visualization\nComplete Dual Problem Solution', fontsize=16)
+plt.xlabel(r'$x_1$', fontsize=14)
+plt.ylabel(r'$x_2$', fontsize=14)
+plt.title(r'SVM Dual Solution Visualization' + '\n' + r'Complete Dual Problem Solution', fontsize=16)
 plt.grid(True, alpha=0.3)
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.axis('equal')
@@ -299,8 +299,8 @@ for i in range(n):
         plt.text(j, i, f'{G[i,j]:.1f}', ha='center', va='center',
                 color='white' if abs(G[i,j]) > 0.5 else 'black', fontweight='bold')
 
-plt.xticks(range(n), [f'x_{i+1}' for i in range(n)])
-plt.yticks(range(n), [f'x_{i+1}' for i in range(n)])
+plt.xticks(range(n), [r'$x_{' + str(i+1) + r'}$' for i in range(n)])
+plt.yticks(range(n), [r'$x_{' + str(i+1) + r'}$' for i in range(n)])
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'kernel_matrix.png'), dpi=300, bbox_inches='tight')
 

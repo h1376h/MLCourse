@@ -236,7 +236,7 @@ print("="*50)
 plt.figure(figsize=(10, 8))
 
 # Create bar chart showing margin values for each point
-point_labels = [f'$x_{i+1}$' for i in range(len(X))]
+point_labels = [r'$x_{' + str(i+1) + r'}$' for i in range(len(X))]
 colors = ['green' if mv >= 1 else 'orange' if mv > 0 else 'red' for mv in margin_values]
 
 bars = plt.bar(point_labels, margin_values, color=colors, alpha=0.7, edgecolor='black', linewidth=1.5)
@@ -252,7 +252,7 @@ for bar, mv, yi in zip(bars, margin_values, y):
              f'{mv:.2f}', ha='center', va='bottom' if height >= 0 else 'top', fontweight='bold')
 
     # Add class label below x-axis
-    plt.text(bar.get_x() + bar.get_width()/2., -0.3, f'$y_{{{bars.index(bar)+1}}} = {yi:+d}$',
+    plt.text(bar.get_x() + bar.get_width()/2., -0.3, r'$y_{' + str(list(bars).index(bar)+1) + r'} = ' + f'{yi:+d}$',
              ha='center', va='top', fontsize=10)
 
 plt.xlabel('Training Points', fontsize=14)
