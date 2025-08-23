@@ -1,7 +1,7 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 45 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples, and advanced tree construction challenges.
+This quiz contains 47 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples, advanced tree construction challenges, and subtle algorithmic properties designed to test deep understanding.
 
 ## Question 1
 
@@ -926,9 +926,31 @@ For a detailed explanation of this question, see [Question 45: Decision Tree Con
 Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
 
 #### Task
-
-1. The maximum depth of the decision tree must be less than m+1. 
-2. Suppose data has R records, the maximum depth of the decision tree must be less than 1 + log₂ᴿ
-3. Suppose one of the attributes has R distinct values, and it has a unique value in each record. Then the decision tree will certainly have depth 0 or 1 (i.e. will be a single node, or else a root node directly connected to a set of leaves)
+1. The maximum depth of the decision tree must be less than $m+1$. 
+2. Suppose data has $R$ records, the maximum depth of the decision tree must be less than $1 + \log_2 R$
+3. Suppose one of the attributes has $R$ distinct values, and it has a unique value in each record. Then the decision tree will certainly have depth $0$ or $1$ (i.e. will be a single node, or else a root node directly connected to a set of leaves)
+4. If a decision tree has depth $d$, then the number of internal nodes is at most $2^d - 1$.
+5. For a dataset with $n$ samples and $m$ features, if each feature has at most $k$ distinct values, then the maximum possible number of leaf nodes in any decision tree is $\min(n, k^m)$.
+6. In a perfectly balanced binary decision tree with $n$ leaf nodes, the tree depth is always exactly $\lceil \log_2 n \rceil$, regardless of the splitting strategy used during construction.
 
 For a detailed explanation of this question, see [Question 46: Decision Tree Depth Analysis](L6_3_46_explanation.md).
+
+## Question 47
+
+### Problem Statement
+Evaluate whether each of the following statements is TRUE or FALSE. Justify your answer with a brief explanation.
+
+#### Task
+
+1. In C4.5, the gain ratio can exceed the information gain when the split information is less than 1.0, indicating that gain ratio provides a "boost" to splits with fewer branches.
+2. CART's binary splitting strategy always produces trees with better generalization than ID3's multi-way splits because binary decisions are inherently more robust to noise in the data.
+3. When ID3 encounters a tie in information gain between multiple features, it should randomly select one of the tied features to ensure unbiased tree construction.
+4. C4.5's handling of continuous features requires sorting the feature values, which increases the time complexity from O(n) to O(n log n) for each continuous feature evaluation.
+5. CART's surrogate splits are primarily designed to handle missing values during tree construction, not during prediction on new data.
+6. ID3's recursive partitioning guarantees that each split reduces the overall dataset entropy, making it impossible for the algorithm to create a split that increases entropy at any node.
+7. Since CART uses only binary splits, it cannot represent the same decision boundaries as ID3's multi-way splits, meaning some classification problems that ID3 can solve perfectly cannot be solved by CART with the same accuracy.
+8. C4.5's gain ratio normalization by split information can occasionally prefer features with moderate information gain over features with high information gain, especially when dealing with high-cardinality categorical features.
+9. In CART, when using Gini impurity vs entropy for the same dataset, the choice of impurity measure can affect which features are selected for splitting, but the final tree performance is typically very similar.
+10. The theoretical maximum depth of an ID3 decision tree is bounded by the number of features when each feature is used at most once per path from root to leaf.
+
+For a detailed explanation of this question, see [Question 47: Algorithm Properties and Behavior](L6_3_47_explanation.md).
