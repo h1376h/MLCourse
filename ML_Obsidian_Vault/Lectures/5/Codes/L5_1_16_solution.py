@@ -183,19 +183,19 @@ for i, (xi, yi) in enumerate(zip(X, y)):
     
     # Check if support vector
     if i in support_vectors:
-        plt.scatter(xi[0], xi[1], s=200, c=color, marker=marker_style, 
-                   edgecolors='black', linewidth=3, label=f'SV: x_{i+1} (class {class_names[color_idx]})')
+        plt.scatter(xi[0], xi[1], s=200, c=color, marker=marker_style,
+                   edgecolors='black', linewidth=3, label=f'SV: $x_{{{i+1}}}$ (class {class_names[color_idx]})')
     else:
-        plt.scatter(xi[0], xi[1], s=150, c=color, marker=marker_style, 
+        plt.scatter(xi[0], xi[1], s=150, c=color, marker=marker_style,
                    edgecolors='black', linewidth=1.5, alpha=0.7)
     
     # Add point labels
-    plt.annotate(f'x_{i+1}({xi[0]},{xi[1]})', 
+    plt.annotate(f'$x_{{{i+1}}}$({xi[0]},{xi[1]})',
                 (xi[0], xi[1]), xytext=(10, 10), textcoords='offset points',
                 fontsize=10, bbox=dict(boxstyle="round,pad=0.3", fc="white", alpha=0.8))
 
 # Plot test point
-plt.scatter(test_point[0], test_point[1], s=150, c='green', marker='*', 
+plt.scatter(test_point[0], test_point[1], s=150, c='green', marker='*',
            edgecolors='black', linewidth=2, label=f'Test Point ({test_point[0]},{test_point[1]})')
 
 # Add distance line from test point to hyperplane
@@ -205,9 +205,9 @@ closest_point = test_point - (activation_test / (w_norm**2)) * w
 plt.plot([test_point[0], closest_point[0]], [test_point[1], closest_point[1]], 
          'g:', linewidth=2, label=f'Distance = {distance_test:.3f}')
 
-plt.xlabel('$x_1$', fontsize=14)
-plt.ylabel('$x_2$', fontsize=14)
-plt.title('SVM Hyperplane Analysis\n$w^T x + b = 0$ with $w = [1, -1]^T$, $b = 0.5$', fontsize=16)
+plt.xlabel(r'$x_1$', fontsize=14)
+plt.ylabel(r'$x_2$', fontsize=14)
+plt.title(r'SVM Hyperplane Analysis' + '\n' + r'$\mathbf{w}^T \mathbf{x} + b = 0$ with $\mathbf{w} = [1, -1]^T$, $b = 0.5$', fontsize=16)
 plt.grid(True, alpha=0.3)
 plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.axis('equal')
@@ -215,10 +215,10 @@ plt.xlim(-0.5, 4)
 plt.ylim(-0.5, 4)
 
 # Add equations as text
-eq_text = f'Decision Boundary: $x_1 - x_2 + 0.5 = 0$\n'
-eq_text += f'Positive Margin: $x_1 - x_2 = 0.5$\n'
-eq_text += f'Negative Margin: $x_1 - x_2 = -1.5$\n'
-eq_text += f'Geometric Margin: $\\gamma = {geometric_margin:.3f}$'
+eq_text = r'Decision Boundary: $x_1 - x_2 + 0.5 = 0$' + '\n'
+eq_text += r'Positive Margin: $x_1 - x_2 = 0.5$' + '\n'
+eq_text += r'Negative Margin: $x_1 - x_2 = -1.5$' + '\n'
+eq_text += r'Geometric Margin: $\gamma = ' + f'{geometric_margin:.3f}$'
 
 plt.text(0.02, 0.98, eq_text, transform=plt.gca().transAxes, fontsize=11,
          verticalalignment='top', bbox=dict(boxstyle="round,pad=0.5", fc="lightyellow", alpha=0.9))
