@@ -97,32 +97,80 @@ This shows that:
 
 ## Visual Explanations
 
-### SVM Dual Formulation Overview
-![SVM Dual Formulation Overview](../Images/L5_1_Quiz_4/svm_dual_formulation_overview.png)
+### SVM Primal Perspective
+![SVM Primal Perspective](../Images/L5_1_Quiz_4/svm_primal_perspective.png)
 
-This comprehensive visualization shows four key aspects:
-1. **Top-left**: The geometric interpretation showing data points, decision boundary, and support vectors
-2. **Top-right**: Bar chart of dual variables $\alpha_i$, highlighting the sparsity pattern
-3. **Bottom-left**: Gram matrix heatmap showing the kernel values $K_{ij} = \mathbf{x}_i^T\mathbf{x}_j$
-4. **Bottom-right**: Comparison table contrasting primal and dual formulations
+This visualization shows the geometric interpretation of the SVM primal problem:
+- **Red circles**: Class +1 data points
+- **Blue squares**: Class -1 data points  
+- **Black X markers**: Support vectors (points with $\alpha_i > 0$)
+- **Green solid line**: Decision boundary where $\mathbf{w}^T\mathbf{x} + b = 0$
+- **Green dashed lines**: Margin boundaries where $\mathbf{w}^T\mathbf{x} + b = \pm 1$
 
-### Complexity Analysis
-![SVM Complexity Analysis](../Images/L5_1_Quiz_4/svm_complexity_analysis.png)
+The primal perspective focuses on finding the optimal hyperplane that maximizes the margin between classes.
 
-These plots demonstrate:
-- **Left plot**: How the number of variables scales with dataset size for fixed dimensionality
-- **Right plot**: Heatmap showing when to prefer dual vs primal formulation based on $n$ and $d$
+### SVM Dual Variables
+![SVM Dual Variables](../Images/L5_1_Quiz_4/svm_dual_variables.png)
 
-The crossover point occurs when $n = d + 1$, providing clear guidance for algorithm selection.
+This bar chart visualizes the Lagrange multipliers $\alpha_i$:
+- **Red bars**: Dual variables for class +1 points
+- **Blue bars**: Dual variables for class -1 points
+- **SV labels**: Points marked as support vectors (all points in this case)
+
+The dual variables show that all training points contribute to the decision boundary, indicating this is a challenging dataset where the optimization didn't achieve perfect separation.
+
+### Gram Matrix Visualization
+![Gram Matrix](../Images/L5_1_Quiz_4/svm_gram_matrix.png)
+
+This heatmap shows the Gram matrix $K_{ij} = \mathbf{x}_i^T \mathbf{x}_j$:
+- **Color intensity**: Represents the inner product between data points
+- **Diagonal elements**: Squared norms of each point ($||\mathbf{x}_i||^2$)
+- **Off-diagonal elements**: Similarity between different points
+
+The Gram matrix is central to the dual formulation, as it appears in the quadratic term of the dual objective function.
+
+### Primal vs Dual Formulation Comparison
+
+| Aspect | Primal Formulation | Dual Formulation |
+|--------|-------------------|------------------|
+| **Variables** | $\mathbf{w} \in \mathbb{R}^d, b \in \mathbb{R}$ | $\boldsymbol{\alpha} \in \mathbb{R}^n$ |
+| **# Variables** | $d + 1$ | $n$ |
+| **Objective** | $\min \frac{1}{2}||\mathbf{w}||^2$ | $\max \sum_{i=1}^n \alpha_i - \frac{1}{2}\sum_{i,j} \alpha_i\alpha_j y_i y_j K_{ij}$ |
+| **Constraints** | $n$ inequality constraints | 1 equality + non-negativity |
+| **Sparsity** | Dense $\mathbf{w}$ | Sparse $\boldsymbol{\alpha}$ (support vectors) |
+| **Kernel Trick** | Not directly applicable | Directly applicable |
+
+### Variables Comparison Analysis
+![Variables Comparison](../Images/L5_1_Quiz_4/svm_variables_comparison.png)
+
+This plot shows how the number of variables scales with dataset size for fixed dimensionality ($d=50$):
+- **Blue line**: Primal formulation variables ($d + 1 = 51$)
+- **Red line**: Dual formulation variables ($n$)
+- **Crossover point**: At $n = 51$, where both formulations have the same number of variables
+
+For $n > 51$, the primal formulation is more efficient; for $n < 51$, the dual formulation is preferred.
+
+### Formulation Choice Guidelines
+![Formulation Choice](../Images/L5_1_Quiz_4/svm_formulation_choice.png)
+
+This heatmap provides clear decision criteria:
+- **Blue regions**: Prefer dual formulation (when $n < d$)
+- **Red regions**: Prefer primal formulation (when $n > d$)
+- **Boundary**: The line $n = d + 1$ where both formulations have equal complexity
 
 ### Kernel Trick Demonstration
-![Kernel Comparison](../Images/L5_1_Quiz_4/svm_kernel_comparison.png)
 
-This visualization compares:
-- **Linear kernel**: $K(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i^T\mathbf{x}_j$ (equivalent to dot product)
-- **RBF kernel**: $K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma ||\mathbf{x}_i - \mathbf{x}_j||^2)$ (enables non-linear classification)
+#### Linear Kernel
+![Linear Kernel](../Images/L5_1_Quiz_4/svm_linear_kernel.png)
 
-The key insight is that the dual formulation only requires kernel values, not explicit feature mappings.
+The linear kernel $K(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i^T\mathbf{x}_j$ is equivalent to the standard dot product and corresponds to linear classification in the original feature space.
+
+#### RBF Kernel
+![RBF Kernel](../Images/L5_1_Quiz_4/svm_rbf_kernel.png)
+
+The RBF kernel $K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma ||\mathbf{x}_i - \mathbf{x}_j||^2)$ enables non-linear classification by implicitly mapping data to an infinite-dimensional feature space.
+
+The key insight is that the dual formulation only requires kernel values, not explicit feature mappings, making non-linear classification computationally feasible.
 
 ## Key Insights
 

@@ -13,7 +13,7 @@ save_dir = os.path.join(images_dir, "L5_1_Quiz_4")
 os.makedirs(save_dir, exist_ok=True)
 
 # Enable LaTeX style plotting
-plt.rcParams['text.usetex'] = False  # Disable LaTeX to avoid Unicode issues
+plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 12
 
@@ -153,101 +153,94 @@ else:
 print("\n5. GENERATING VISUALIZATIONS")
 print("-" * 50)
 
-# Create visualization showing primal and dual perspectives
-fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(15, 12))
-
 # Plot 1: Original data with decision boundary
-ax1.scatter(X[y==1, 0], X[y==1, 1], c='red', marker='o', s=100, label='Class +1')
-ax1.scatter(X[y==-1, 0], X[y==-1, 1], c='blue', marker='s', s=100, label='Class -1')
+plt.figure(figsize=(10, 8))
+plt.scatter(X[y==1, 0], X[y==1, 1], c='red', marker='o', s=100, label='Class +1')
+plt.scatter(X[y==-1, 0], X[y==-1, 1], c='blue', marker='s', s=100, label='Class -1')
 
 # Highlight support vectors
 for idx in support_indices:
-    ax1.scatter(X[idx, 0], X[idx, 1], c='black', marker='x', s=200, linewidth=3)
+    plt.scatter(X[idx, 0], X[idx, 1], c='black', marker='x', s=200, linewidth=3)
 
 # Plot decision boundary
 if np.linalg.norm(w_dual) > 0:
     # Create grid for decision boundary
     x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
     x1_line = np.linspace(x_min, x_max, 100)
-    x2_line = (-w_dual[0] * x1_line - b_dual) / w_dual[1]
-    ax1.plot(x1_line, x2_line, 'g-', linewidth=2, label='Decision Boundary')
     
-    # Plot margin boundaries
-    margin = 1 / np.linalg.norm(w_dual)
-    normal_unit = w_dual / np.linalg.norm(w_dual)
-    
-    # Upper margin
-    x2_upper = (-w_dual[0] * x1_line - (b_dual - 1)) / w_dual[1]
-    ax1.plot(x1_line, x2_upper, 'g--', alpha=0.7, label='Margin')
-    
-    # Lower margin
-    x2_lower = (-w_dual[0] * x1_line - (b_dual + 1)) / w_dual[1]
-    ax1.plot(x1_line, x2_lower, 'g--', alpha=0.7)
+    if abs(w_dual[1]) > 1e-10:  # Check if w_dual[1] is not too small
+        x2_line = (-w_dual[0] * x1_line - b_dual) / w_dual[1]
+        plt.plot(x1_line, x2_line, 'g-', linewidth=2, label='Decision Boundary')
+        
+        # Plot margin boundaries
+        # Upper margin
+        x2_upper = (-w_dual[0] * x1_line - (b_dual - 1)) / w_dual[1]
+        plt.plot(x1_line, x2_upper, 'g--', alpha=0.7, label='Margin')
+        
+        # Lower margin
+        x2_lower = (-w_dual[0] * x1_line - (b_dual + 1)) / w_dual[1]
+        plt.plot(x1_line, x2_lower, 'g--', alpha=0.7)
+    else:
+        # Vertical line case
+        x1_vertical = -b_dual / w_dual[0]
+        y_range = np.linspace(X[:, 1].min() - 1, X[:, 1].max() + 1, 100)
+        plt.axvline(x=x1_vertical, color='g', linestyle='-', linewidth=2, label='Decision Boundary')
+        
+        # Margin lines
+        plt.axvline(x=x1_vertical - 1/np.linalg.norm(w_dual), color='g', linestyle='--', alpha=0.7, label='Margin')
+        plt.axvline(x=x1_vertical + 1/np.linalg.norm(w_dual), color='g', linestyle='--', alpha=0.7)
 
-ax1.set_xlabel('$x_1$')
-ax1.set_ylabel('$x_2$')
-ax1.set_title('SVM: Primal Perspective\n(Maximize Margin)')
-ax1.legend()
-ax1.grid(True, alpha=0.3)
+plt.xlabel('$x_1$')
+plt.ylabel('$x_2$')
+plt.title('SVM: Primal Perspective (Maximize Margin)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.xlim(X[:, 0].min() - 1, X[:, 0].max() + 1)
+plt.ylim(X[:, 1].min() - 1, X[:, 1].max() + 1)
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'svm_primal_perspective.png'), 
+           dpi=300, bbox_inches='tight')
+plt.close()
 
 # Plot 2: Dual variables visualization
-ax2.bar(range(1, n_samples+1), alpha_optimal, color=['red' if y[i]==1 else 'blue' for i in range(n_samples)])
-ax2.set_xlabel('Data Point Index')
-ax2.set_ylabel('$\\alpha_i$')
-ax2.set_title('SVM: Dual Variables\n(Lagrange Multipliers)')
-ax2.grid(True, alpha=0.3)
+plt.figure(figsize=(10, 6))
+bars = plt.bar(range(1, n_samples+1), alpha_optimal, 
+               color=['red' if y[i]==1 else 'blue' for i in range(n_samples)])
+plt.xlabel('Data Point Index')
+plt.ylabel('$\\alpha_i$')
+plt.title('SVM: Dual Variables (Lagrange Multipliers)')
+plt.grid(True, alpha=0.3)
 
 # Add text annotations for support vectors
 for i, alpha_val in enumerate(alpha_optimal):
     if alpha_val > threshold:
-        ax2.annotate(f'SV', (i+1, alpha_val), textcoords="offset points", 
+        plt.annotate('SV', (i+1, alpha_val), textcoords="offset points", 
                     xytext=(0,10), ha='center', fontweight='bold')
 
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'svm_dual_variables.png'), 
+           dpi=300, bbox_inches='tight')
+plt.close()
+
 # Plot 3: Gram matrix heatmap
-im = ax3.imshow(K, cmap='viridis', aspect='auto')
-ax3.set_xlabel('Data Point j')
-ax3.set_ylabel('Data Point i')
-ax3.set_title('Gram Matrix $K_{ij} = \\mathbf{x}_i^T \\mathbf{x}_j$')
-ax3.set_xticks(range(n_samples))
-ax3.set_yticks(range(n_samples))
-ax3.set_xticklabels([f'{i+1}' for i in range(n_samples)])
-ax3.set_yticklabels([f'{i+1}' for i in range(n_samples)])
+plt.figure(figsize=(8, 6))
+im = plt.imshow(K, cmap='viridis', aspect='auto')
+plt.xlabel('Data Point $j$')
+plt.ylabel('Data Point $i$')
+plt.title('Gram Matrix $K_{ij} = \\mathbf{x}_i^T \\mathbf{x}_j$')
+plt.xticks(range(n_samples), [f'{i+1}' for i in range(n_samples)])
+plt.yticks(range(n_samples), [f'{i+1}' for i in range(n_samples)])
 
 # Add text annotations for matrix values
 for i in range(n_samples):
     for j in range(n_samples):
-        ax3.text(j, i, f'{K[i,j]:.1f}', ha="center", va="center", color="white")
+        plt.text(j, i, f'{K[i,j]:.1f}', ha="center", va="center", color="white")
 
-plt.colorbar(im, ax=ax3)
-
-# Plot 4: Primal vs Dual comparison table
-ax4.axis('off')
-comparison_data = [
-    ['Aspect', 'Primal Formulation', 'Dual Formulation'],
-    ['Variables', f'w in R^{n_features}, b in R', f'alpha in R^{n_samples}'],
-    ['# Variables', f'{n_features + 1}', f'{n_samples}'],
-    ['Objective', 'min (1/2)||w||^2', 'max sum(alpha) - (1/2)sum(alpha*alpha*y*y*K)'],
-    ['Constraints', f'{n_samples} inequality', '1 equality + non-negativity'],
-    ['Sparsity', 'Dense w', 'Sparse alpha (support vectors)'],
-    ['Kernel Trick', 'Not directly applicable', 'Directly applicable']
-]
-
-table = ax4.table(cellText=comparison_data[1:], colLabels=comparison_data[0],
-                 cellLoc='center', loc='center', bbox=[0, 0, 1, 1])
-table.auto_set_font_size(False)
-table.set_fontsize(10)
-table.scale(1, 2)
-
-# Style the header row
-for i in range(len(comparison_data[0])):
-    table[(0, i)].set_facecolor('#40466e')
-    table[(0, i)].set_text_props(weight='bold', color='white')
-
-ax4.set_title('Primal vs Dual Formulation Comparison', pad=20, fontweight='bold')
-
+plt.colorbar(im)
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'svm_dual_formulation_overview.png'), 
+plt.savefig(os.path.join(save_dir, 'svm_gram_matrix.png'), 
            dpi=300, bbox_inches='tight')
+plt.close()
 
 # ============================================================================
 # PART 6: COMPLEXITY ANALYSIS FOR DIFFERENT DATASET SIZES
@@ -267,45 +260,51 @@ d_fixed = 50
 primal_vars = [d_fixed + 1 for _ in n_values]
 dual_vars = n_values
 
-ax1.loglog(n_values, primal_vars, 'bo-', label=f'Primal (d={d_fixed})')
-ax1.loglog(n_values, dual_vars, 'ro-', label='Dual')
-ax1.set_xlabel('Number of Training Samples (n)')
-ax1.set_ylabel('Number of Variables')
-ax1.set_title('Variables: Primal vs Dual\n(Fixed d=50)')
-ax1.legend()
-ax1.grid(True)
+plt.figure(figsize=(10, 6))
+plt.loglog(n_values, primal_vars, 'bo-', label=f'Primal ($d={d_fixed}$)')
+plt.loglog(n_values, dual_vars, 'ro-', label='Dual')
+plt.xlabel('Number of Training Samples ($n$)')
+plt.ylabel('Number of Variables')
+plt.title('Variables: Primal vs Dual (Fixed $d=50$)')
+plt.legend()
+plt.grid(True)
 
 # Add crossover point
 crossover_n = d_fixed + 1
-ax1.axvline(x=crossover_n, color='gray', linestyle='--', alpha=0.7)
-ax1.annotate(f'Crossover\nn={crossover_n}', xy=(crossover_n, crossover_n), 
+plt.axvline(x=crossover_n, color='gray', linestyle='--', alpha=0.7)
+plt.annotate(f'Crossover\n$n={crossover_n}$', xy=(crossover_n, crossover_n), 
             xytext=(crossover_n*2, crossover_n*2), 
             arrowprops=dict(arrowstyle='->', color='gray'))
 
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'svm_variables_comparison.png'), 
+           dpi=300, bbox_inches='tight')
+plt.close()
+
 # Plot 2: Heat map showing when dual is preferred
+plt.figure(figsize=(10, 6))
 n_grid, d_grid = np.meshgrid(n_values, d_values)
 dual_preferred = n_grid < (d_grid + 1)
 
-im = ax2.imshow(dual_preferred, cmap='RdYlBu', aspect='auto', origin='lower')
-ax2.set_xlabel('n (training samples)')
-ax2.set_ylabel('d (features)')
-ax2.set_title('When to Prefer Dual Formulation\n(Blue = Dual Preferred)')
-ax2.set_xticks(range(len(n_values)))
-ax2.set_yticks(range(len(d_values)))
-ax2.set_xticklabels(n_values)
-ax2.set_yticklabels(d_values)
+im = plt.imshow(dual_preferred, cmap='RdYlBu', aspect='auto', origin='lower')
+plt.xlabel('$n$ (training samples)')
+plt.ylabel('$d$ (features)')
+plt.title('When to Prefer Dual Formulation (Blue = Dual Preferred)')
+plt.xticks(range(len(n_values)), n_values)
+plt.yticks(range(len(d_values)), d_values)
 
 # Add text annotations
 for i in range(len(d_values)):
     for j in range(len(n_values)):
         text = "Dual" if dual_preferred[i, j] else "Primal"
         color = "white" if dual_preferred[i, j] else "black"
-        ax2.text(j, i, text, ha="center", va="center", color=color, fontsize=8)
+        plt.text(j, i, text, ha="center", va="center", color=color, fontsize=8)
 
-plt.colorbar(im, ax=ax2)
+plt.colorbar(im)
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'svm_complexity_analysis.png'), 
+plt.savefig(os.path.join(save_dir, 'svm_formulation_choice.png'), 
            dpi=300, bbox_inches='tight')
+plt.close()
 
 # ============================================================================
 # PART 7: KKT CONDITIONS VERIFICATION
@@ -317,7 +316,7 @@ print("-" * 50)
 print("Verifying KKT conditions for the optimal solution:")
 
 # 1. Stationarity: ∇_w L = 0, ∇_b L = 0
-w_from_alpha = np.sum(alpha_optimal[i] * y[i] * X[i] for i in range(n_samples))
+w_from_alpha = np.sum(np.array([alpha_optimal[i] * y[i] * X[i] for i in range(n_samples)]), axis=0)
 sum_alpha_y = np.sum(alpha_optimal * y)
 
 print(f"1. Stationarity:")
@@ -394,43 +393,49 @@ print("\n10. KERNEL TRICK DEMONSTRATION")
 print("-" * 50)
 
 # Create visualization showing why dual formulation enables kernel trick
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+X_demo = np.array([[1, 1], [2, 1], [1, 2], [2, 2]])
 
 # Left plot: Linear kernel (same as dot product)
-X_demo = np.array([[1, 1], [2, 1], [1, 2], [2, 2]])
+plt.figure(figsize=(8, 6))
 K_linear = np.dot(X_demo, X_demo.T)
 
-im1 = ax1.imshow(K_linear, cmap='Blues', aspect='auto')
-ax1.set_title('Linear Kernel: $K(\\mathbf{x}_i, \\mathbf{x}_j) = \\mathbf{x}_i^T \\mathbf{x}_j$')
-ax1.set_xlabel('Point j')
-ax1.set_ylabel('Point i')
+im1 = plt.imshow(K_linear, cmap='Blues', aspect='auto')
+plt.title('Linear Kernel: $K(\\mathbf{x}_i, \\mathbf{x}_j) = \\mathbf{x}_i^T \\mathbf{x}_j$')
+plt.xlabel('Point $j$')
+plt.ylabel('Point $i$')
 
 for i in range(len(X_demo)):
     for j in range(len(X_demo)):
-        ax1.text(j, i, f'{K_linear[i,j]:.1f}', ha="center", va="center", color="white")
+        plt.text(j, i, f'{K_linear[i,j]:.1f}', ha="center", va="center", color="white")
 
-plt.colorbar(im1, ax=ax1)
+plt.colorbar(im1)
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'svm_linear_kernel.png'), 
+           dpi=300, bbox_inches='tight')
+plt.close()
 
 # Right plot: RBF kernel
+plt.figure(figsize=(8, 6))
 gamma = 0.5
 K_rbf = np.zeros((len(X_demo), len(X_demo)))
 for i in range(len(X_demo)):
     for j in range(len(X_demo)):
         K_rbf[i,j] = np.exp(-gamma * np.linalg.norm(X_demo[i] - X_demo[j])**2)
 
-im2 = ax2.imshow(K_rbf, cmap='Reds', aspect='auto')
-ax2.set_title('RBF Kernel: $K(\\mathbf{x}_i, \\mathbf{x}_j) = \\exp(-\\gamma ||\\mathbf{x}_i - \\mathbf{x}_j||^2)$')
-ax2.set_xlabel('Point j')
-ax2.set_ylabel('Point i')
+im2 = plt.imshow(K_rbf, cmap='Reds', aspect='auto')
+plt.title('RBF Kernel: $K(\\mathbf{x}_i, \\mathbf{x}_j) = \\exp(-\\gamma ||\\mathbf{x}_i - \\mathbf{x}_j||^2)$')
+plt.xlabel('Point $j$')
+plt.ylabel('Point $i$')
 
 for i in range(len(X_demo)):
     for j in range(len(X_demo)):
-        ax2.text(j, i, f'{K_rbf[i,j]:.2f}', ha="center", va="center", color="white")
+        plt.text(j, i, f'{K_rbf[i,j]:.2f}', ha="center", va="center", color="white")
 
-plt.colorbar(im2, ax=ax2)
+plt.colorbar(im2)
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'svm_kernel_comparison.png'), 
+plt.savefig(os.path.join(save_dir, 'svm_rbf_kernel.png'), 
            dpi=300, bbox_inches='tight')
+plt.close()
 
 print(f"Kernel matrices computed and visualized.")
 print(f"Key insight: Dual formulation only requires K(xᵢ,xⱼ), not explicit φ(x)")
