@@ -265,7 +265,7 @@ def perform_detailed_loocv_analysis(X, y, svm_full, sv_indices, scenario_letter)
 
     # Verify this matches question code results
     print(f"\nVerification: This should match the question code output:")
-    print(f"Expected from question: Scenario {scenario_letter} → {loocv_error_rate*100:.1f}% actual LOOCV error")
+    print(f"Expected from question: Scenario {scenario_letter} -> {loocv_error_rate*100:.1f}% actual LOOCV error")
 
     return results, loocv_error_rate, misclassified_count
 
@@ -428,9 +428,9 @@ def create_comparison_visualization(results_a, results_b, sv_indices_a, sv_indic
             ax1.scatter(r['coordinates'][0], r['coordinates'][1], s=400,
                        facecolors='none', edgecolors='red', linewidth=4)
 
-    ax1.set_title('Scenario A: Dataset & Results')
-    ax1.set_xlabel('x₁')
-    ax1.set_ylabel('x₂')
+    ax1.set_title('Scenario A: Dataset and Results')
+    ax1.set_xlabel(r'$x_1$')
+    ax1.set_ylabel(r'$x_2$')
     ax1.legend()
     ax1.grid(True, alpha=0.3)
 
@@ -453,9 +453,9 @@ def create_comparison_visualization(results_a, results_b, sv_indices_a, sv_indic
             ax2.scatter(r['coordinates'][0], r['coordinates'][1], s=400,
                        facecolors='none', edgecolors='red', linewidth=4)
 
-    ax2.set_title('Scenario B: Dataset & Results')
-    ax2.set_xlabel('x₁')
-    ax2.set_ylabel('x₂')
+    ax2.set_title('Scenario B: Dataset and Results')
+    ax2.set_xlabel(r'$x_1$')
+    ax2.set_ylabel(r'$x_2$')
     ax2.legend()
     ax2.grid(True, alpha=0.3)
 
@@ -630,8 +630,8 @@ def provide_complete_solution_summary(results_a, results_b, sv_indices_a, sv_ind
     print(f"    • Geometric configuration provides exceptional stability")
 
     print(f"\nComparison between Scenario A and B:")
-    print(f"    Scenario A: {len(sv_indices_a)} SVs → {theoretical_bound_a:.1%} bound → {actual_error_a:.1%} actual")
-    print(f"    Scenario B: {len(sv_indices_b)} SVs → {theoretical_bound_b:.1%} bound → {actual_error_b:.1%} actual")
+    print(f"    Scenario A: {len(sv_indices_a)} SVs -> {theoretical_bound_a:.1%} bound -> {actual_error_a:.1%} actual")
+    print(f"    Scenario B: {len(sv_indices_b)} SVs -> {theoretical_bound_b:.1%} bound -> {actual_error_b:.1%} actual")
     print(f"    Key differences:")
     print(f"    • A has more support vectors ({len(sv_indices_a)} vs {len(sv_indices_b)})")
     print(f"    • A has higher actual error ({actual_error_a:.1%} vs {actual_error_b:.1%})")
@@ -683,8 +683,8 @@ def verify_consistency_with_question_code():
     expected_loocv_b, expected_sv_count_b = perform_loocv_analysis(X_b, y_b, "Scenario B")
 
     print(f"\nExpected Results from Question Code:")
-    print(f"Scenario A: {expected_sv_count_a} SVs → {expected_loocv_a:.1%} LOOCV error")
-    print(f"Scenario B: {expected_sv_count_b} SVs → {expected_loocv_b:.1%} LOOCV error")
+    print(f"Scenario A: {expected_sv_count_a} SVs -> {expected_loocv_a:.1%} LOOCV error")
+    print(f"Scenario B: {expected_sv_count_b} SVs -> {expected_loocv_b:.1%} LOOCV error")
 
     return expected_loocv_a, expected_sv_count_a, expected_loocv_b, expected_sv_count_b
 
@@ -720,8 +720,8 @@ if __name__ == "__main__":
 
     # Verify consistency
     print(f"\nConsistency Check with Question Code:")
-    print(f"Expected: {expected_sv_count_a} SVs → {expected_loocv_a:.1%} error")
-    print(f"Computed: {len(sv_indices_a)} SVs → {actual_error_a:.1%} error")
+    print(f"Expected: {expected_sv_count_a} SVs -> {expected_loocv_a:.1%} error")
+    print(f"Computed: {len(sv_indices_a)} SVs -> {actual_error_a:.1%} error")
     if abs(expected_loocv_a - actual_error_a) < 1e-10 and expected_sv_count_a == len(sv_indices_a):
         print("Perfect match with question code!")
     else:
@@ -742,8 +742,8 @@ if __name__ == "__main__":
 
     # Verify consistency
     print(f"\nConsistency Check with Question Code:")
-    print(f"Expected: {expected_sv_count_b} SVs → {expected_loocv_b:.1%} error")
-    print(f"Computed: {len(sv_indices_b)} SVs → {actual_error_b:.1%} error")
+    print(f"Expected: {expected_sv_count_b} SVs -> {expected_loocv_b:.1%} error")
+    print(f"Computed: {len(sv_indices_b)} SVs -> {actual_error_b:.1%} error")
     if abs(expected_loocv_b - actual_error_b) < 1e-10 and expected_sv_count_b == len(sv_indices_b):
         print("Perfect match with question code!")
     else:
@@ -768,8 +768,8 @@ if __name__ == "__main__":
     print(f"3. This gives immediate upper bound without computation")
 
     print(f"\nComputational Verification Results:")
-    print(f"Scenario A: {len(sv_indices_a)} SVs → {theoretical_bound_a:.1%} bound → {actual_error_a:.1%} actual")
-    print(f"Scenario B: {len(sv_indices_b)} SVs → {theoretical_bound_b:.1%} bound → {actual_error_b:.1%} actual")
+    print(f"Scenario A: {len(sv_indices_a)} SVs -> {theoretical_bound_a:.1%} bound -> {actual_error_a:.1%} actual")
+    print(f"Scenario B: {len(sv_indices_b)} SVs -> {theoretical_bound_b:.1%} bound -> {actual_error_b:.1%} actual")
 
     print(f"\nKey Mathematical Insights:")
     print(f"• Theoretical bounds are conservative (worst-case estimates)")
