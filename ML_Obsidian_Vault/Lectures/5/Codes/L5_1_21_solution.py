@@ -194,17 +194,39 @@ for i in range(4):
 dual_objective += " + ".join(terms) + "]"
 print(dual_objective)
 
-print("\nSimplified dual objective:")
-print("maximize   α₁ + α₂ + α₃ + α₄")
-print("           - (1/2)[2α₁² + 6α₁α₂ + 2α₁α₃ + α₁α₄")
-print("                  + 8α₂² + 4α₂α₃ + 2α₂α₄")
-print("                  + α₃² + 0α₃α₄")
-print("                  + α₄²]")
+print("\nDetailed expansion of the quadratic term:")
+print("(1/2)Σᵢ Σⱼ αᵢ αⱼ Kᵢⱼ = (1/2)[")
+print("  α₁²·K₁₁ + α₁α₂·K₁₂ + α₁α₃·K₁₃ + α₁α₄·K₁₄")
+print("  + α₂α₁·K₂₁ + α₂²·K₂₂ + α₂α₃·K₂₃ + α₂α₄·K₂₄")
+print("  + α₃α₁·K₃₁ + α₃α₂·K₃₂ + α₃²·K₃₃ + α₃α₄·K₃₄")
+print("  + α₄α₁·K₄₁ + α₄α₂·K₄₂ + α₄α₃·K₄₃ + α₄²·K₄₄]")
+
+print("\nSubstituting K values:")
+print("= (1/2)[α₁²·2 + α₁α₂·4 + α₁α₃·1 + α₁α₄·1")
+print("       + α₂α₁·4 + α₂²·8 + α₂α₃·2 + α₂α₄·2")
+print("       + α₃α₁·1 + α₃α₂·2 + α₃²·1 + α₃α₄·0")
+print("       + α₄α₁·1 + α₄α₂·2 + α₄α₃·0 + α₄²·1]")
+
+print("\nCombining symmetric terms (αᵢαⱼ + αⱼαᵢ = 2αᵢαⱼ for i≠j):")
+print("= (1/2)[2α₁² + 2·4α₁α₂ + 2·1α₁α₃ + 2·1α₁α₄")
+print("       + 8α₂² + 2·2α₂α₃ + 2·2α₂α₄")
+print("       + 1α₃² + 2·0α₃α₄")
+print("       + 1α₄²]")
+
+print("\nSimplified:")
+print("= (1/2)[2α₁² + 8α₁α₂ + 2α₁α₃ + 2α₁α₄")
+print("       + 8α₂² + 4α₂α₃ + 4α₂α₄")
+print("       + α₃² + 0α₃α₄")
+print("       + α₄²]")
+
+print("\n= α₁² + 4α₁α₂ + α₁α₃ + α₁α₄")
+print("  + 4α₂² + 2α₂α₃ + 2α₂α₄")
+print("  + (1/2)α₃² + (1/2)α₄²")
 
 print("\nFinal dual problem:")
 print("maximize   α₁ + α₂ + α₃ + α₄")
-print("           - α₁² - 3α₁α₂ - α₁α₃ - (1/2)α₁α₄")
-print("           - 4α₂² - 2α₂α₃ - α₂α₄")
+print("           - α₁² - 4α₁α₂ - α₁α₃ - α₁α₄")
+print("           - 4α₂² - 2α₂α₃ - 2α₂α₄")
 print("           - (1/2)α₃² - (1/2)α₄²")
 print()
 print("subject to:")
@@ -227,18 +249,18 @@ for i in range(len(X)):
     ax1.scatter(X[i, 0], X[i, 1], c=colors[i], marker=markers[i], s=200, 
                edgecolors='black', linewidth=2, 
                label=f'x_{i+1} (y={y[i]})' if i < 2 else '')
-    ax1.annotate(f'x_{i+1}', (X[i, 0], X[i, 1]), xytext=(10, 10), 
+    ax1.annotate(f'$x_{{{i+1}}}$', (X[i, 0], X[i, 1]), xytext=(10, 10),
                 textcoords='offset points', fontsize=12)
 
-ax1.set_xlabel('x₁')
-ax1.set_ylabel('x₂')
+ax1.set_xlabel(r'$x_1$')
+ax1.set_ylabel(r'$x_2$')
 ax1.grid(True, alpha=0.3)
 ax1.legend()
 ax1.set_xlim(-2, 3)
 ax1.set_ylim(-2, 3)
 
 # Plot 2: Kernel matrix heatmap
-ax2.set_title('Kernel Matrix K_ij = y_i y_j (x_i^T x_j)', fontsize=14)
+ax2.set_title(r'Kernel Matrix $K_{ij} = y_i y_j (x_i^T x_j)$', fontsize=14)
 im = ax2.imshow(K, cmap='RdBu', aspect='equal')
 ax2.set_xticks(range(4))
 ax2.set_yticks(range(4))
@@ -257,20 +279,20 @@ plt.colorbar(im, ax=ax2)
 ax3.set_title('Primal Problem Structure', fontsize=12)
 ax3.axis('off')
 
-primal_text = """
+primal_text = r"""
 Primal Problem:
-minimize    ½||w||²
-subject to  y₁(w₁·1 + w₂·1 + b) ≥ 1
-            y₂(w₁·2 + w₂·2 + b) ≥ 1  
-            y₃(w₁·(-1) + w₂·0 + b) ≥ 1
-            y₄(w₁·0 + w₂·(-1) + b) ≥ 1
+minimize    $\frac{1}{2}||w||^2$
+subject to  $y_1(w_1 \cdot 1 + w_2 \cdot 1 + b) \geq 1$
+            $y_2(w_1 \cdot 2 + w_2 \cdot 2 + b) \geq 1$
+            $y_3(w_1 \cdot (-1) + w_2 \cdot 0 + b) \geq 1$
+            $y_4(w_1 \cdot 0 + w_2 \cdot (-1) + b) \geq 1$
 
 Expanded:
-minimize    ½(w₁² + w₂²)
-subject to  w₁ + w₂ + b ≥ 1
-            2w₁ + 2w₂ + b ≥ 1
-            -(-w₁ + b) ≥ 1  →  w₁ - b ≤ -1
-            -(-w₂ + b) ≥ 1  →  w₂ - b ≤ -1
+minimize    $\frac{1}{2}(w_1^2 + w_2^2)$
+subject to  $w_1 + w_2 + b \geq 1$
+            $2w_1 + 2w_2 + b \geq 1$
+            $w_1 - b \leq -1$
+            $w_2 - b \leq -1$
 """
 
 ax3.text(0.05, 0.95, primal_text, transform=ax3.transAxes, fontsize=10,
@@ -281,22 +303,22 @@ ax3.text(0.05, 0.95, primal_text, transform=ax3.transAxes, fontsize=10,
 ax4.set_title('Dual Problem Structure', fontsize=12)
 ax4.axis('off')
 
-dual_text = """
+dual_text = r"""
 Dual Problem:
-maximize    α₁ + α₂ + α₃ + α₄
-            - ½Σᵢⱼ αᵢαⱼKᵢⱼ
+maximize    $\alpha_1 + \alpha_2 + \alpha_3 + \alpha_4$
+            $- \frac{1}{2}\sum_{ij} \alpha_i\alpha_j K_{ij}$
 
-where K = [2   6   2   1]
-          [6  32   8   4]
-          [2   8   1   0]
-          [1   4   0   1]
+where K = [2  4  1  1]
+          [4  8  2  2]
+          [1  2  1  0]
+          [1  2  0  1]
 
-subject to  α₁ + α₂ - α₃ - α₄ = 0
-            αᵢ ≥ 0, i = 1,2,3,4
+subject to  $\alpha_1 + \alpha_2 - \alpha_3 - \alpha_4 = 0$
+            $\alpha_i \geq 0, i = 1,2,3,4$
 
 Stationarity conditions:
-w₁ = α₁ + 2α₂ + α₃
-w₂ = α₁ + 2α₂ + α₄
+$w_1 = \alpha_1 + 2\alpha_2 + \alpha_3$
+$w_2 = \alpha_1 + 2\alpha_2 + \alpha_4$
 """
 
 ax4.text(0.05, 0.95, dual_text, transform=ax4.transAxes, fontsize=10,
@@ -305,6 +327,7 @@ ax4.text(0.05, 0.95, dual_text, transform=ax4.transAxes, fontsize=10,
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'dual_derivation_complete.png'), dpi=300, bbox_inches='tight')
+plt.close()  # Close the figure instead of showing it
 
 print(f"Visualization saved to: {save_dir}")
 
@@ -317,5 +340,3 @@ print("✓ Stationarity conditions derived: w = Σᵢ αᵢyᵢxᵢ, Σᵢ αᵢ
 print("✓ Kernel matrix computed with explicit entries")
 print("✓ Dual problem derived: maximize Σᵢ αᵢ - ½Σᵢⱼ αᵢαⱼKᵢⱼ")
 print("✓ Dual constraint: α₁ + α₂ - α₃ - α₄ = 0")
-
-plt.show()

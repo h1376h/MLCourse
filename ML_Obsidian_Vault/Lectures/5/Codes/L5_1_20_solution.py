@@ -11,7 +11,7 @@ save_dir = os.path.join(images_dir, "L5_1_Quiz_20")
 os.makedirs(save_dir, exist_ok=True)
 
 # Enable LaTeX style plotting
-plt.rcParams['text.usetex'] = False
+plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 
 print("=" * 80)
@@ -98,22 +98,41 @@ b_P_norm = b_P / np.linalg.norm(w_P)
 b_M_norm = b_M / np.linalg.norm(w_M)
 
 print("Normalized weight vectors (unit length):")
-print(f"  w_P_normalized = w_P / ||w_P|| = {w_P} / {np.linalg.norm(w_P):.4f} = {w_P_norm}")
-print(f"  w_M_normalized = w_M / ||w_M|| = {w_M} / {np.linalg.norm(w_M):.4f} = {w_M_norm}")
+print(f"Step-by-step normalization:")
+print(f"  ||w_P|| = √({w_P[0]}² + {w_P[1]}²) = √({w_P[0]**2} + {w_P[1]**2}) = √{w_P[0]**2 + w_P[1]**2} = {np.linalg.norm(w_P):.4f}")
+print(f"  w_P_normalized = ({w_P[0]}, {w_P[1]}) / {np.linalg.norm(w_P):.4f}")
+print(f"                 = ({w_P[0]}/{np.linalg.norm(w_P):.4f}, {w_P[1]}/{np.linalg.norm(w_P):.4f})")
+print(f"                 = ({w_P_norm[0]:.6f}, {w_P_norm[1]:.6f})")
+
+print(f"\n  ||w_M|| = √({w_M[0]}² + {w_M[1]}²) = √({w_M[0]**2} + {w_M[1]**2}) = √{w_M[0]**2 + w_M[1]**2} = {np.linalg.norm(w_M):.4f}")
+print(f"  w_M_normalized = ({w_M[0]}, {w_M[1]}) / {np.linalg.norm(w_M):.4f}")
+print(f"                 = ({w_M[0]}/{np.linalg.norm(w_M):.4f}, {w_M[1]}/{np.linalg.norm(w_M):.4f})")
+print(f"                 = ({w_M_norm[0]:.6f}, {w_M_norm[1]:.6f})")
 
 print(f"\nNormalized bias terms:")
-print(f"  b_P_normalized = b_P / ||w_P|| = {b_P} / {np.linalg.norm(w_P):.4f} = {b_P_norm:.4f}")
-print(f"  b_M_normalized = b_M / ||w_M|| = {b_M} / {np.linalg.norm(w_M):.4f} = {b_M_norm:.4f}")
+print(f"  b_P_normalized = {b_P} / {np.linalg.norm(w_P):.4f} = {b_P_norm:.4f}")
+print(f"  b_M_normalized = {b_M} / {np.linalg.norm(w_M):.4f} = {b_M_norm:.4f}")
 
 # Recalculate decision values with normalized vectors
 f_P_norm = np.dot(w_P_norm, test_point) + b_P_norm
 f_M_norm = np.dot(w_M_norm, test_point) + b_M_norm
 
-print(f"\nNormalized decision values:")
-print(f"  f_P_norm({test_point}) = {w_P_norm} · {test_point} + {b_P_norm:.4f} = {f_P_norm:.4f}")
-print(f"  f_M_norm({test_point}) = {w_M_norm} · {test_point} + {b_M_norm:.4f} = {f_M_norm:.4f}")
+print(f"\nNormalized decision values (step-by-step):")
+print(f"  f_P_norm({test_point}) = w_P_norm · x + b_P_norm")
+print(f"                        = ({w_P_norm[0]:.6f}, {w_P_norm[1]:.6f}) · ({test_point[0]}, {test_point[1]}) + {b_P_norm:.4f}")
+print(f"                        = {w_P_norm[0]:.6f}×{test_point[0]} + {w_P_norm[1]:.6f}×{test_point[1]} + {b_P_norm:.4f}")
+print(f"                        = {w_P_norm[0]*test_point[0]:.6f} + {w_P_norm[1]*test_point[1]:.6f} + {b_P_norm:.4f}")
+print(f"                        = {f_P_norm:.4f}")
+
+print(f"\n  f_M_norm({test_point}) = w_M_norm · x + b_M_norm")
+print(f"                        = ({w_M_norm[0]:.6f}, {w_M_norm[1]:.6f}) · ({test_point[0]}, {test_point[1]}) + {b_M_norm:.4f}")
+print(f"                        = {w_M_norm[0]:.6f}×{test_point[0]} + {w_M_norm[1]:.6f}×{test_point[1]} + {b_M_norm:.4f}")
+print(f"                        = {w_M_norm[0]*test_point[0]:.6f} + {w_M_norm[1]*test_point[1]:.6f} + {b_M_norm:.4f}")
+print(f"                        = {f_M_norm:.4f}")
 
 print(f"\nNote: Normalized decision values represent signed distances to hyperplanes")
+print(f"Key insight: Both normalized values are identical! This means both")
+print(f"classifiers represent the same geometric hyperplane, just with different scaling.")
 
 print("\n" + "="*80)
 print("STEP 4: CONFIDENCE COMPARISON")
@@ -282,7 +301,7 @@ gen_bounds_normalized = [b/max(gen_bounds) for b in gen_bounds]
 
 bars = ax4.bar(methods, gen_bounds_normalized, color=['blue', 'red'], alpha=0.7)
 ax4.set_ylabel('Relative Generalization Bound')
-ax4.set_title('Lower is Better (prop. to 1/margin^2)')
+ax4.set_title(r'Lower is Better ($\propto 1/margin^2$)')
 
 # Add value labels
 for bar, bound in zip(bars, gen_bounds):
@@ -294,6 +313,7 @@ ax4.grid(True, alpha=0.3)
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'algorithm_comparison.png'), dpi=300, bbox_inches='tight')
+plt.close()  # Close the figure instead of showing it
 
 print(f"Visualization saved to: {save_dir}")
 
@@ -305,5 +325,3 @@ print(f"✓ Decision values: f_P = {f_P}, f_M = {f_M}")
 print(f"✓ Normalized distances: {abs(f_P_norm):.4f} (P), {abs(f_M_norm):.4f} (SVM)")
 print(f"✓ More confident: {more_confident}")
 print(f"✓ Better generalization expected: Max Margin SVM (larger margin)")
-
-plt.show()

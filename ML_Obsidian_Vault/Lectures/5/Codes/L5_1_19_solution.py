@@ -119,11 +119,26 @@ for i in range(len(alpha)):
     calculation_str += f"{alpha[i]} × {y[i]} × {X[i]}"
 
 print(f"w* = {calculation_str}")
+print(f"\nStep-by-step calculation:")
+for i in range(len(alpha)):
+    contribution = alpha[i] * y[i] * X[i]
+    print(f"  Term {i+1}: α_{i+1} × y_{i+1} × x_{i+1} = {alpha[i]} × {y[i]} × {X[i]} = {contribution}")
+
+print(f"\nSumming all terms:")
 print(f"w* = {w_optimal}")
 
 # Verify the dual constraint Σᵢ αᵢyᵢ = 0
 dual_constraint = np.sum(alpha * y)
-print(f"\nVerifying dual constraint: Σᵢ αᵢyᵢ = {dual_constraint}")
+print(f"\nVerifying dual constraint: Σᵢ αᵢyᵢ = 0")
+print(f"Step-by-step calculation:")
+for i in range(len(alpha)):
+    term = alpha[i] * y[i]
+    print(f"  α_{i+1} × y_{i+1} = {alpha[i]} × {y[i]} = {term}")
+
+print(f"Sum: {alpha[0]}×{y[0]} + {alpha[1]}×{y[1]} + {alpha[2]}×{y[2]} + {alpha[3]}×{y[3]}")
+print(f"   = {alpha[0]*y[0]} + {alpha[1]*y[1]} + {alpha[2]*y[2]} + {alpha[3]*y[3]}")
+print(f"   = {dual_constraint}")
+
 if abs(dual_constraint) < 1e-10:
     print("✓ Dual constraint is satisfied!")
 else:
@@ -326,7 +341,7 @@ for i in range(1, len(table_data)):
 # Add legend for table colors
 sv_patch = mpatches.Patch(color='#ffcccc', label='Support Vectors')
 nsv_patch = mpatches.Patch(color='#ccffcc', label='Non-Support Vectors')
-ax2.legend(handles=[sv_patch, nsv_patch], loc='upper center', bbox_to_anchor=(0.5, 0.2))
+ax2.legend(handles=[sv_patch, nsv_patch], loc='upper center', bbox_to_anchor=(0.5, 0.3))
 
 # Add text explanation
 explanation_text = (
@@ -340,6 +355,7 @@ ax2.text(0.5, 0.1, explanation_text, transform=ax2.transAxes,
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'kkt_analysis_visualization.png'), dpi=300, bbox_inches='tight')
+plt.close()  # Close the figure instead of showing it
 
 print(f"Visualization saved to: {save_dir}")
 print("\n" + "="*80)
@@ -351,5 +367,3 @@ print(f"✓ All KKT conditions verified")
 print(f"✓ Optimal hyperplane: {w_optimal[0]:.3f}x₁ + {w_optimal[1]:.3f}x₂ + {b_optimal:.3f} = 0")
 print(f"✓ Functional margins for NSVs: Point 2 = {y[1] * (np.dot(w_optimal, X[1]) + b_optimal):.3f}, Point 4 = {y[3] * (np.dot(w_optimal, X[3]) + b_optimal):.3f}")
 print(f"✓ Hyperplane uniquely determined by α values")
-
-plt.show()
