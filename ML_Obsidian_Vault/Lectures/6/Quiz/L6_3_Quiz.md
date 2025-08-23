@@ -1,7 +1,7 @@
 # Lecture 6.3: Decision Tree Algorithms (ID3, C4.5, CART) Quiz
 
 ## Overview
-This quiz contains 44 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples, and advanced tree construction challenges.
+This quiz contains 45 comprehensive questions covering decision tree algorithms ID3, C4.5, and CART. Topics include algorithm foundations, splitting criteria, feature handling, missing values, pruning, complexity analysis, practical implementations, edge cases, cost functions, overfitting analysis, modern extensions, visual tree construction, algorithm selection strategies, detailed comparisons between CART using Gini impurity vs Entropy with detailed numerical examples, and advanced tree construction challenges.
 
 ## Question 1
 
@@ -893,3 +893,29 @@ Using the following dataset, we want to construct a decision tree that classifie
 6. How would ID3, C4.5, and CART (using both Gini impurity and entropy) approach this dataset differently? Which would produce the most interpretable tree?
 
 For a detailed explanation of this question, see [Question 44: Decision Tree Construction and Optimization](L6_3_44_explanation.md).
+
+## [⭐] Question 45
+
+### Problem Statement
+Based on the following table, answer the questions:
+
+| Weight | Eye Color | Num. Eyes | Output |
+|--------|-----------|-----------|--------|
+| N      | A         | 2         | L      |
+| N      | V         | 2         | L      |
+| N      | V         | 2         | L      |
+| U      | V         | 3         | L      |
+| U      | V         | 3         | L      |
+| U      | A         | 4         | D      |
+| N      | A         | 4         | D      |
+| N      | V         | 4         | D      |
+| U      | A         | 3         | D      |
+| U      | A         | 3         | D      |
+
+### Task
+1. What is the conditional entropy of $H(\text{eye color}|\text{weight}=N)$?
+2. What attribute would the ID3 algorithm select as root of the tree?
+3. Draw the full decision tree learned from these data
+4. What is the training set error of this tree?
+
+For a detailed explanation of this question, see [Question 45: Decision Tree Construction with Conditional Entropy](L6_2_45_explanation.md).
