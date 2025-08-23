@@ -28,10 +28,10 @@ $$\min_{\mathbf{w}, b} \frac{1}{2}||\mathbf{w}||^2$$
 $$\text{subject to: } y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1, \quad i = 1, \ldots, n$$
 
 #### Task
-1. Explain why we minimize $\frac{1}{2}||\mathbf{w}||^2$ instead of maximizing $\frac{1}{||\mathbf{w}||}$ directly
-2. What is the geometric interpretation of the constraint $y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1$?
-3. Prove that the margin width is $\frac{2}{||\mathbf{w}||}$
-4. For a 2D problem, what is the minimum number of constraints that must be active at the optimal solution?
+1. [📚] Explain why we minimize $\frac{1}{2}||\mathbf{w}||^2$ instead of maximizing $\frac{1}{||\mathbf{w}||}$ directly
+2. [📚] What is the geometric interpretation of the constraint $y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1$?
+3. [📚] Prove that the margin width is $\frac{2}{||\mathbf{w}||}$
+4. [📚] For a 2D problem, what is the minimum number of constraints that must be active at the optimal solution?
 5. Write the Lagrangian function for this optimization problem
 
 For a detailed explanation of this problem, see [Question 2: Primal Optimization Problem](L5_1_2_explanation.md).
