@@ -29,8 +29,8 @@ $$\text{LOOCV Error Rate} \leq \frac{\text{Number of Support Vectors}}{\text{Tot
 From the figure, we can identify the support vectors as the data points that lie exactly on the margin boundaries (the dashed lines). These are the points highlighted with circles in the visualization.
 
 By counting the support vectors and total points:
-- **Support vectors**: 3 points (the circled points)
-- **Total points**: 10 points total
+- **Support vectors**: $3$ points (the circled points)
+- **Total points**: $10$ points total
 
 Therefore:
 $$\text{LOOCV Error Rate} \leq \frac{3}{10} = 0.3 = 30\%$$
@@ -39,17 +39,17 @@ $$\text{LOOCV Error Rate} \leq \frac{3}{10} = 0.3 = 30\%$$
 Through computational verification, we find the actual LOOCV error rate:
 
 **Support vectors identified:**
-- Point 2: [2, 1] (Class 1) ✓ Correctly classified
-- Point 9: [3, 0] (Class -1) ✗ Misclassified as Class 1
-- Point 10: [0, 1] (Class -1) ✗ Misclassified as Class 1
+- Point $2$: $[2, 1]$ (Class $1$) ✓ Correctly classified
+- Point $9$: $[3, 0]$ (Class $-1$) ✗ Misclassified as Class $1$
+- Point $10$: $[0, 1]$ (Class $-1$) ✗ Misclassified as Class $1$
 
 **Non-support vectors (all correctly classified):**
-- Points 1, 3, 4, 5, 6, 7, 8: All correctly classified when left out
+- Points $1, 3, 4, 5, 6, 7, 8$: All correctly classified when left out
 
 **Actual LOOCV Error Rate:**
 $$\text{LOOCV Error Rate} = \frac{2}{10} = 0.2 = 20\%$$
 
-**Answer to Task 1**: The LOOCV error estimate is **20%** (2 out of 10 points misclassified).
+**Answer to Task 1**: The LOOCV error estimate is **$20\%$** ($2$ out of $10$ points misclassified).
 
 ### Step 2: Provide Justification for the Answer
 
@@ -63,15 +63,15 @@ The justification relies on the geometric properties of hard-margin SVM:
 3. **Upper bound**: The mathematical formula provides a conservative upper bound where each support vector contributes exactly one misclassification.
 
 #### Computational Justification
-The computational verification shows why the actual error rate (20%) is less than the theoretical upper bound (30%):
+The computational verification shows why the actual error rate ($20\%$) is less than the theoretical upper bound ($30\%$):
 
-- **Point 2** (support vector): Correctly classified even when left out
-- **Point 9** (support vector): Misclassified when left out due to boundary shift
-- **Point 10** (support vector): Misclassified when left out due to boundary shift
+- **Point $2$** (support vector): Correctly classified even when left out
+- **Point $9$** (support vector): Misclassified when left out due to boundary shift
+- **Point $10$** (support vector): Misclassified when left out due to boundary shift
 
-The boundary shifts when Points 9 and 10 are removed, causing them to be misclassified, while Point 2 remains correctly classified despite being a support vector.
+The boundary shifts when Points $9$ and $10$ are removed, causing them to be misclassified, while Point $2$ remains correctly classified despite being a support vector.
 
-**Answer to Task 2**: The justification is that only support vectors can potentially be misclassified during LOOCV, as they are the only points that define the decision boundary. The theoretical upper bound of 30% (3/10) is not always tight, as demonstrated by the actual result of 20% (2/10).
+**Answer to Task 2**: The justification is that only support vectors can potentially be misclassified during LOOCV, as they are the only points that define the decision boundary. The theoretical upper bound of $30\%$ ($3/10$) is not always tight, as demonstrated by the actual result of $20\%$ ($2/10$).
 
 ## Practical Implementation
 
@@ -79,9 +79,9 @@ The boundary shifts when Points 9 and 10 are removed, causing them to be misclas
 The LOOCV process involves:
 
 1. **Leave out one point** from the training set
-2. **Train the SVM** on the remaining 9 points
+2. **Train the SVM** on the remaining $9$ points
 3. **Predict** the class of the left-out point
-4. **Repeat** for all 10 points
+4. **Repeat** for all $10$ points
 5. **Calculate** the error rate
 
 ![LOOCV Summary](../Images/L5_1_Quiz_24/loocv_summary.png)
@@ -92,18 +92,18 @@ The summary visualization shows three key scenarios: the full SVM with all data 
 We can solve this problem using two complementary approaches:
 
 **Mathematical Approach (Pen-and-Paper):**
-- **Advantage**: Provides immediate theoretical upper bound (30%)
+- **Advantage**: Provides immediate theoretical upper bound ($30\%$)
 - **Method**: Simply count support vectors from the figure
 - **Result**: Conservative estimate requiring no computation
 
 **Computational Approach (Verification):**
-- **Advantage**: Gives exact empirical result (20%)
+- **Advantage**: Gives exact empirical result ($20\%$)
 - **Method**: Perform actual LOOCV on the dataset
 - **Result**: Precise error rate with specific misclassification details
 
 ### Key Observations from the Analysis
-- **8 out of 10 points** are correctly classified during LOOCV
-- **2 out of 10 points** (both support vectors) are misclassified
+- **$8$ out of $10$ points** are correctly classified during LOOCV
+- **$2$ out of $10$ points** (both support vectors) are misclassified
 - The misclassifications occur when **support vectors are left out**
 - Non-support vectors are **always correctly classified** when left out
 
@@ -166,19 +166,19 @@ When Point 1 (a non-support vector) is left out, the decision boundary remains u
 
 ### Final Answers
 **Task 1**: What is the LOOCV error estimate?
-- **Answer**: 20% (2 out of 10 points misclassified)
-- **Mathematical upper bound**: 30% (3/10) - theoretical limit
-- **Computational result**: 20% (2/10) - exact empirical result
+- **Answer**: $20\%$ ($2$ out of $10$ points misclassified)
+- **Mathematical upper bound**: $30\%$ ($3/10$) - theoretical limit
+- **Computational result**: $20\%$ ($2/10$) - exact empirical result
 
 **Task 2**: Justification
 - **Answer**: Only support vectors can potentially be misclassified during LOOCV, as they are the only points that define the decision boundary
 - **Mathematical justification**: Provides elegant closed-form upper bound
-- **Computational justification**: Empirical verification shows 2 out of 3 support vectors were actually misclassified
+- **Computational justification**: Empirical verification shows $2$ out of $3$ support vectors were actually misclassified
 
 ### Key Results
-- **Support Vectors**: Points 2, 9, and 10 (3 total)
-- **Actual Misclassifications**: Points 9 and 10 (2 total)
-- **Theoretical vs Empirical**: 30% upper bound vs 20% actual error
+- **Support Vectors**: Points $2$, $9$, and $10$ ($3$ total)
+- **Actual Misclassifications**: Points $9$ and $10$ ($2$ total)
+- **Theoretical vs Empirical**: $30\%$ upper bound vs $20\%$ actual error
 - **Root Cause**: Support vectors are essential for defining the decision boundary
 
 ### Methodological Insights

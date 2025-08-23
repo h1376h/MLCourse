@@ -63,15 +63,15 @@ This is the same objective as Platt scaling, but applied directly.
 
 Our analysis shows significant differences in probability outputs:
 
-**Test Point 1: x = [3, 3]**
-- SVM: Decision function f(x) = 0.188, P(y=1|x) = 0.557
-- Logistic: Linear combination = 0.245, P(y=1|x) = 0.561
-- Difference: |SVM_prob - Logistic_prob| = 0.004
+**Test Point 1: $x = [3, 3]$**
+- SVM: Decision function $f(x) = 0.188$, $P(y=1|x) = 0.557$
+- Logistic: Linear combination $= 0.245$, $P(y=1|x) = 0.561$
+- Difference: $|SVM_{prob} - Logistic_{prob}| = 0.004$
 
-**Test Point 4: x = [2, 4]**
-- SVM: Decision function f(x) = -0.055, P(y=1|x) = 0.481
-- Logistic: Linear combination = 0.355, P(y=1|x) = 0.588
-- Difference: |SVM_prob - Logistic_prob| = 0.107
+**Test Point 4: $x = [2, 4]$**
+- SVM: Decision function $f(x) = -0.055$, $P(y=1|x) = 0.481$
+- Logistic: Linear combination $= 0.355$, $P(y=1|x) = 0.588$
+- Difference: $|SVM_{prob} - Logistic_{prob}| = 0.107$
 
 ![SVM vs Logistic Regression Probabilities](../Images/L5_1_Quiz_23/svm_vs_logistic_probabilities.png)
 
@@ -121,19 +121,19 @@ The parameter $C$ shows that maximum margin (small $C$) is not always optimal - 
 Our analysis demonstrates the margin-generalization relationship:
 
 **Margin Analysis:**
-- SVM (C=1.0): w = [-1.062, -0.903], b = 3.966, γ = 1.4345
-- SVM (C=100.0): w = [-1.970, -1.216], b = 6.496, γ = 0.8638
-- Logistic Regression: w = [-1.601, -1.446], b = 6.323, γ = 0.9270
+- SVM ($C=1.0$): $w = [-1.062, -0.903]$, $b = 3.966$, $\gamma = 1.4345$
+- SVM ($C=100.0$): $w = [-1.970, -1.216]$, $b = 6.496$, $\gamma = 0.8638$
+- Logistic Regression: $w = [-1.601, -1.446]$, $b = 6.323$, $\gamma = 0.9270$
 
 **Generalization Performance (Test Accuracy):**
-- SVM (C=1.0, γ=1.435): 0.025
-- SVM (C=100.0, γ=0.864): 0.075
-- Logistic Regression (γ=0.927): 0.045
+- SVM ($C=1.0$, $\gamma=1.435$): $0.025$
+- SVM ($C=100.0$, $\gamma=0.864$): $0.075$
+- Logistic Regression ($\gamma=0.927$): $0.045$
 
 **Theoretical Generalization Bounds:**
 Using bound: $R(f) \leq \hat{R}(f) + \sqrt{\frac{1}{\gamma^2 n}}$
-- SVM (C=1.0): $R(f) \leq 0.099$
-- SVM (C=100.0): $R(f) \leq 0.164$
+- SVM ($C=1.0$): $R(f) \leq 0.099$
+- SVM ($C=100.0$): $R(f) \leq 0.164$
 - Logistic Regression: $R(f) \leq 0.153$
 
 ![Margin vs Generalization](../Images/L5_1_Quiz_23/margin_vs_generalization.png)
@@ -141,9 +141,9 @@ Using bound: $R(f) \leq \hat{R}(f) + \sqrt{\frac{1}{\gamma^2 n}}$
 ![Simple Margin Performance](../Images/L5_1_Quiz_23/simple_margin_performance.png)
 
 The visualizations show three classifiers with different margins:
-- **SVM (C=1.0)**: Larger margin (1.435), better generalization
-- **SVM (C=100.0)**: Smaller margin (0.864), worse generalization
-- **Logistic Regression**: Intermediate margin (0.927), intermediate performance
+- **SVM ($C=1.0$)**: Larger margin ($1.435$), better generalization
+- **SVM ($C=100.0$)**: Smaller margin ($0.864$), worse generalization
+- **Logistic Regression**: Intermediate margin ($0.927$), intermediate performance
 
 The scatter plot clearly shows the relationship between margin width and test accuracy.
 
@@ -174,9 +174,9 @@ $$K(\mathbf{x}_i, \mathbf{x}_j) = \langle \phi(\mathbf{x}_i), \phi(\mathbf{x}_j)
 $$K(\mathbf{x}_i, \mathbf{x}_j) = \langle \mathbf{x}_i, \mathbf{x}_j \rangle$$
 $\phi(\mathbf{x}) = \mathbf{x}$ (no transformation)
 
-**Polynomial Kernel (degree d):**
+**Polynomial Kernel (degree $d$):**
 $$K(\mathbf{x}_i, \mathbf{x}_j) = (\gamma \langle \mathbf{x}_i, \mathbf{x}_j \rangle + r)^d$$
-$\phi(\mathbf{x})$ maps to polynomial features up to degree d
+$\phi(\mathbf{x})$ maps to polynomial features up to degree $d$
 
 **RBF Kernel:**
 $$K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma ||\mathbf{x}_i - \mathbf{x}_j||^2)$$
@@ -193,25 +193,25 @@ The set of support vectors depends on the implicit feature mapping $\phi(\mathbf
 Our analysis with a circular dataset shows dramatic differences:
 
 **Support Vector Analysis:**
-- Linear kernel: 200 support vectors (100.0% of data)
-- Polynomial (degree=2): 25 support vectors (12.5% of data)
-- Polynomial (degree=3): 197 support vectors (98.5% of data)
-- RBF kernel: 42 support vectors (21.0% of data)
+- Linear kernel: $200$ support vectors ($100.0\%$ of data)
+- Polynomial (degree=$2$): $25$ support vectors ($12.5\%$ of data)
+- Polynomial (degree=$3$): $197$ support vectors ($98.5\%$ of data)
+- RBF kernel: $42$ support vectors ($21.0\%$ of data)
 
 **Support Vector Overlap:**
-- Linear vs Poly(2): 25 common support vectors
-- Linear vs Poly(3): 197 common support vectors
-- Poly(2) vs Poly(3): 24 common support vectors
+- Linear vs Poly($2$): $25$ common support vectors
+- Linear vs Poly($3$): $197$ common support vectors
+- Poly($2$) vs Poly($3$): $24$ common support vectors
 
 ![Support Vectors with Different Kernels](../Images/L5_1_Quiz_23/support_vectors_different_kernels.png)
 
 ![Simple Support Vector Count](../Images/L5_1_Quiz_23/simple_support_vector_count.png)
 
 The visualizations clearly show:
-- **Linear kernel**: Poor fit, many support vectors (200)
-- **Polynomial (d=2)**: Good fit, few support vectors (25)
-- **Polynomial (d=3)**: Overfitting, many support vectors (197)
-- **RBF kernel**: Balanced fit, moderate support vectors (42)
+- **Linear kernel**: Poor fit, many support vectors ($200$)
+- **Polynomial ($d=2$)**: Good fit, few support vectors ($25$)
+- **Polynomial ($d=3$)**: Overfitting, many support vectors ($197$)
+- **RBF kernel**: Balanced fit, moderate support vectors ($42$)
 
 ![Decision Boundaries Comparison](../Images/L5_1_Quiz_23/decision_boundaries_comparison.png)
 
