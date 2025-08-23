@@ -29,13 +29,13 @@ The magnitude $|f(\mathbf{x})|$ represents the **classification confidence** or 
 
 For our sample hyperplane $f(\mathbf{x}) = 3x_1 + 4x_2 - 5$ with $\|\mathbf{w}\| = 5$:
 
-| Point | $f(\mathbf{x})$ | $|f(\mathbf{x})|$ | Distance |
-|-------|-----------------|-------------------|----------|
-| A(1,1) | 2.000 | 2.000 | 0.400 |
-| B(2,0) | 1.000 | 1.000 | 0.200 |
-| C(0,2) | 3.000 | 3.000 | 0.600 |
-| D(-1,0) | -8.000 | 8.000 | 1.600 |
-| E(0,-1) | -9.000 | 9.000 | 1.800 |
+| Point | $f(\mathbf{x})$ | $\|f(\mathbf{x})\|$ | Distance |
+| ----- | --------------- | ------------------- | -------- |
+| A(1,1) | $2.000$ | $2.000$ | $0.400$ |
+| B(2,0) | $1.000$ | $1.000$ | $0.200$ |
+| C(0,2) | $3.000$ | $3.000$ | $0.600$ |
+| D(-1,0) | $-8.000$ | $8.000$ | $1.600$ |
+| E(0,-1) | $-9.000$ | $9.000$ | $1.800$ |
 
 ### Step 2: Relationship Between $|f(\mathbf{x})|$ and Distance
 
@@ -73,27 +73,27 @@ Given:
 SVMs don't naturally output probabilities, but we can calibrate the decision values:
 
 **Method 1: Platt Scaling**
-$$P(y=1|\mathbf{x}) = \frac{1}{1 + \exp(Af(\mathbf{x}) + B)}$$
+$$P(y=1\mid\mathbf{x}) = \frac{1}{1 + \exp(Af(\mathbf{x}) + B)}$$
 
 where $A$ and $B$ are learned from validation data.
 
 **Method 2: Simple Sigmoid Scaling**
-$$P(y=1|\mathbf{x}) = \frac{1}{1 + \exp(-\alpha f(\mathbf{x}))}$$
+$$P(y=1\mid\mathbf{x}) = \frac{1}{1 + \exp(-\alpha f(\mathbf{x}))}$$
 
 For our examples (using default parameters):
-- $f(\mathbf{x}_1) = 0.1 \rightarrow P(y=1|\mathbf{x}_1) = 0.525$
-- $f(\mathbf{x}_2) = 2.5 \rightarrow P(y=1|\mathbf{x}_2) = 0.924$
+- $f(\mathbf{x}_1) = 0.1 \rightarrow P(y=1\mid\mathbf{x}_1) = 0.525$
+- $f(\mathbf{x}_2) = 2.5 \rightarrow P(y=1\mid\mathbf{x}_2) = 0.924$
 
 ### Step 5: Effect of Scaling the Weight Vector
 
 When we scale $\mathbf{w}$ by factor $k$:
 
-| Scale | $\mathbf{w}_{scaled}$ | $f(\mathbf{x})$ | $|f(\mathbf{x})|$ | Distance |
-|-------|----------------------|-----------------|-------------------|----------|
-| 0.5 | [1.5, 2.0] | 1.000 | 1.000 | 0.400 |
-| 1.0 | [3.0, 4.0] | 2.000 | 2.000 | 0.400 |
-| 2.0 | [6.0, 8.0] | 4.000 | 4.000 | 0.400 |
-| 5.0 | [15.0, 20.0] | 10.000 | 10.000 | 0.400 |
+| Scale | $\mathbf{w}_{\text{scaled}}$ | $f(\mathbf{x})$ | $\|f(\mathbf{x})\|$ | Distance |
+| ----- | ---------------------------- | --------------- | ------------------- | -------- |
+| $0.5$ | $[1.5, 2.0]$ | $1.000$ | $1.000$ | $0.400$ |
+| $1.0$ | $[3.0, 4.0]$ | $2.000$ | $2.000$ | $0.400$ |
+| $2.0$ | $[6.0, 8.0]$ | $4.000$ | $4.000$ | $0.400$ |
+| $5.0$ | $[15.0, 20.0]$ | $10.000$ | $10.000$ | $0.400$ |
 
 **Key Insights:**
 - $f(\mathbf{x})$ scales by factor $k$
