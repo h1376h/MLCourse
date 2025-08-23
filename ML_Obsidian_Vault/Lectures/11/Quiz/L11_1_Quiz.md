@@ -127,7 +127,7 @@ Feature scaling and preprocessing are crucial steps before applying clustering a
 #### Task
 1. Why is feature scaling important for distance-based clustering?
 2. Compare the effect of scaling on Euclidean vs Manhattan distance
-3. Given features: Age ($20$-$80$), Income ($$20k$-$$200k$), calculate scaled versions using min-max normalization
+3. Given features: Age ($20$-$80$), Income (\$20k-\$200k), calculate scaled versions using min-max normalization
 4. When might you choose standardization over min-max normalization for clustering?
 5. For data points $[(25, \$30k), (45, \$70k), (65, \$120k)]$, calculate both min-max normalized and z-score standardized versions. Then compute the Euclidean distances between points $1$ and $2$ for: (a) original data, (b) min-max normalized, (c) z-score standardized. Compare the relative distances.
 
@@ -156,7 +156,7 @@ Consider a document clustering scenario where you want to group similar news art
 2. Why might Cosine similarity be preferred over Euclidean distance for text clustering?
 3. How would you handle documents of different lengths?
 4. What preprocessing steps would be important for text clustering?
-5. Given three documents with TF-IDF vectors: $\text{Doc1}=[0.5, 0.3, 0.0]$, $\text{Doc2}=[0.2, 0.7, 0.1]$, $\text{Doc3}=[0.0, 0.1, 0.9]$, calculate the cosine similarity matrix and determine which two documents are most similar.
+5. Given three documents with TF-IDF vectors: $\text{Doc}_1=[0.5, 0.3, 0.0]$, $\text{Doc}_2=[0.2, 0.7, 0.1]$, $\text{Doc}_3=[0.0, 0.1, 0.9]$, calculate the cosine similarity matrix and determine which two documents are most similar.
 
 For a detailed explanation of this problem, including step-by-step solutions and key insights, see [Question 11: Document Clustering](L11_1_11_explanation.md).
 
