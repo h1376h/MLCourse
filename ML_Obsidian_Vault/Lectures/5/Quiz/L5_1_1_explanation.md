@@ -186,7 +186,7 @@ $$\gamma = (+1) \times 2.1213203... = 2.1213203...$$
 
 ### Step 5: City Planning Problem - Optimal Road Boundary
 
-**Pen-and-Paper Calculation:**
+**Two Approaches: Geometric Method and SVM Optimization**
 
 This is a practical application of maximum margin classification. We need to find the optimal straight road boundary that maximizes the minimum distance from any house to the road.
 
@@ -194,6 +194,110 @@ This is a practical application of maximum margin classification. We need to fin
 - Zone A houses: $(2, 3)$, $(3, 4)$, $(4, 2)$ (treat as Class +1)
 - Zone B houses: $(0, 1)$, $(1, 0)$, $(0, 0)$ (treat as Class -1)
 - Goal: Find hyperplane that maximizes the minimum distance to any house
+
+---
+
+## **APPROACH 1: SIMPLE GEOMETRIC METHOD (Pen-and-Paper)**
+
+**Step 1: Identify the Convex Hulls**
+
+First, let's find the convex hull (smallest convex polygon) containing each set of points:
+
+**Zone A convex hull:** The points $(2,3)$, $(3,4)$, $(4,2)$ form a triangle.
+**Zone B convex hull:** The points $(0,1)$, $(1,0)$, $(0,0)$ form a triangle.
+
+**Step 2: Find the Closest Points Between Convex Hulls**
+
+The optimal separating line will be equidistant from the closest points of the two convex hulls. We need to find which points from each zone are closest to each other.
+
+**Distance calculations between all pairs:**
+- Distance from $(2,3)$ to $(0,1)$: $\sqrt{(2-0)^2 + (3-1)^2} = \sqrt{4+4} = 2\sqrt{2} = 2.828$
+- Distance from $(2,3)$ to $(1,0)$: $\sqrt{(2-1)^2 + (3-0)^2} = \sqrt{1+9} = \sqrt{10} = 3.162$
+- Distance from $(2,3)$ to $(0,0)$: $\sqrt{(2-0)^2 + (3-0)^2} = \sqrt{4+9} = \sqrt{13} = 3.606$
+
+- Distance from $(3,4)$ to $(0,1)$: $\sqrt{(3-0)^2 + (4-1)^2} = \sqrt{9+9} = 3\sqrt{2} = 4.243$
+- Distance from $(3,4)$ to $(1,0)$: $\sqrt{(3-1)^2 + (4-0)^2} = \sqrt{4+16} = 2\sqrt{5} = 4.472$
+- Distance from $(3,4)$ to $(0,0)$: $\sqrt{(3-0)^2 + (4-0)^2} = \sqrt{9+16} = 5$
+
+- Distance from $(4,2)$ to $(0,1)$: $\sqrt{(4-0)^2 + (2-1)^2} = \sqrt{16+1} = \sqrt{17} = 4.123$
+- Distance from $(4,2)$ to $(1,0)$: $\sqrt{(4-1)^2 + (2-0)^2} = \sqrt{9+4} = \sqrt{13} = 3.606$
+- Distance from $(4,2)$ to $(0,0)$: $\sqrt{(4-0)^2 + (2-0)^2} = \sqrt{16+4} = 2\sqrt{5} = 4.472$
+
+**Minimum distance:** $2\sqrt{2} = 2.828$ between points $(2,3)$ and $(0,1)$.
+
+**Step 3: Find the Perpendicular Bisector**
+
+The optimal separating line is the perpendicular bisector of the line segment connecting the closest points $(2,3)$ and $(0,1)$.
+
+**Midpoint calculation:**
+$$\text{Midpoint} = \left(\frac{2+0}{2}, \frac{3+1}{2}\right) = (1, 2)$$
+
+**Slope of line segment $(2,3)$ to $(0,1)$:**
+$$m_{\text{segment}} = \frac{1-3}{0-2} = \frac{-2}{-2} = 1$$
+
+**Slope of perpendicular bisector:**
+$$m_{\perp} = -\frac{1}{m_{\text{segment}}} = -\frac{1}{1} = -1$$
+
+**Equation of perpendicular bisector:**
+Using point-slope form with point $(1,2)$ and slope $-1$:
+$$y - 2 = -1(x - 1)$$
+$$y - 2 = -x + 1$$
+$$y = -x + 3$$
+$$x + y = 3$$
+
+**Step 4: Verify This is the Optimal Solution**
+
+The line $x + y = 3$ should be equidistant from $(2,3)$ and $(0,1)$.
+
+**Distance from $(2,3)$ to line $x + y - 3 = 0$:**
+$$d_1 = \frac{|2 + 3 - 3|}{\sqrt{1^2 + 1^2}} = \frac{|2|}{\sqrt{2}} = \frac{2}{\sqrt{2}} = \sqrt{2} = 1.414$$
+
+**Distance from $(0,1)$ to line $x + y - 3 = 0$:**
+$$d_2 = \frac{|0 + 1 - 3|}{\sqrt{1^2 + 1^2}} = \frac{|-2|}{\sqrt{2}} = \frac{2}{\sqrt{2}} = \sqrt{2} = 1.414$$
+
+✓ **Verified:** Both distances are equal to $\sqrt{2} = 1.414$ units.
+
+**Step 5: Check All Other Points**
+
+Let's verify that all other points are at least this distance from the line:
+
+- $(3,4)$: $d = \frac{|3 + 4 - 3|}{\sqrt{2}} = \frac{4}{\sqrt{2}} = 2\sqrt{2} = 2.828$ ✓
+- $(4,2)$: $d = \frac{|4 + 2 - 3|}{\sqrt{2}} = \frac{3}{\sqrt{2}} = \frac{3\sqrt{2}}{2} = 2.121$ ✓
+- $(1,0)$: $d = \frac{|1 + 0 - 3|}{\sqrt{2}} = \frac{2}{\sqrt{2}} = \sqrt{2} = 1.414$ ✓
+- $(0,0)$: $d = \frac{|0 + 0 - 3|}{\sqrt{2}} = \frac{3}{\sqrt{2}} = \frac{3\sqrt{2}}{2} = 2.121$ ✓
+
+**Result:** The minimum distance is $\sqrt{2} = 1.414$ units, achieved by points $(2,3)$, $(0,1)$, and $(1,0)$.
+
+**Step 6: Classification of New House (Geometric Method)**
+
+For the new house at $(2.5, 2.5)$:
+
+**Method 1: Direct substitution**
+$$2.5 + 2.5 = 5.0$$
+Since $5.0 > 3.0$, the house is on the Zone A side of the boundary.
+
+**Method 2: Distance calculation**
+Distance from $(2.5, 2.5)$ to line $x + y - 3 = 0$:
+$$d = \frac{|2.5 + 2.5 - 3|}{\sqrt{1^2 + 1^2}} = \frac{|2.0|}{\sqrt{2}} = \frac{2}{\sqrt{2}} = \sqrt{2} = 1.414 \text{ units}$$
+
+Since the activation $2.5 + 2.5 - 3 = 2.0 > 0$, the house belongs to Zone A.
+
+**Special observation:** The distance $\sqrt{2} = 1.414$ units is exactly equal to the margin distance, meaning the new house lies on the positive margin boundary!
+
+**Geometric Solution Summary:**
+- **Optimal road boundary:** $x + y = 3$
+- **Primary support vectors:** $(2,3)$ and $(0,1)$ (closest points between zones)
+- **Points on margin boundary:** $(2,3)$, $(0,1)$, and $(1,0)$
+- **True support vectors (with $\alpha > 0$):** Only $(2,3)$ and $(0,1)$
+- **Maximum minimum distance:** $\sqrt{2} = 1.414$ units
+- **Margin width:** $2\sqrt{2} = 2.828$ units
+- **New house classification:** Zone A (on positive margin boundary)
+
+**Key insight:** While three points lie on the margin boundary, only two are needed to define the optimal hyperplane - the closest points between the convex hulls of each class.
+
+---
+
+## **APPROACH 2: SVM OPTIMIZATION METHOD**
 
 **SVM Solution - Finding the Optimal Road Boundary:**
 
@@ -237,43 +341,113 @@ $$\max_{\boldsymbol{\alpha}} \sum_{i=1}^{6} \alpha_i - \frac{1}{2} \sum_{i=1}^{6
 Subject to:
 $$\sum_{i=1}^{6} \alpha_i y_i = 0, \quad \alpha_i \geq 0$$
 
-**Step 5: Identifying Support Vectors**
+**Step 5: Identifying Support Vectors (Rigorous Method)**
 
-From the geometry and solving the dual problem, the support vectors are the points closest to the optimal boundary:
+Support vectors are points that lie exactly on the margin boundaries. We can identify them by checking which points will have the minimum functional margin in the optimal solution.
+
+**Method 1: Geometric Analysis**
+From the geometric approach above, we found that the optimal line is $x + y = 3$, and the points with minimum distance are $(2,3)$, $(0,1)$, and $(1,0)$. These must be the support vectors.
+
+**Method 2: Constraint Analysis**
+For the optimal hyperplane $\mathbf{w}^T\mathbf{x} + b = 0$, support vectors satisfy:
+$$y_i(\mathbf{w}^T\mathbf{x}_i + b) = 1$$
+
+If we assume the optimal hyperplane has the form $w_1 x_1 + w_2 x_2 + b = 0$ with $w_1 = w_2$ (from symmetry), then we need to find which points will have functional margin = 1.
+
+From our geometric solution, we know the optimal line is $x_1 + x_2 = 3$, which can be written as:
+$$0.5x_1 + 0.5x_2 - 1.5 = 0$$
+
+So $\mathbf{w}^* = [0.5, 0.5]$ and $b^* = -1.5$.
+
+**Verification of support vectors:**
+- $(2,3)$: $y_1(\mathbf{w}^{*T}\mathbf{x}_1 + b^*) = (+1)(0.5 \cdot 2 + 0.5 \cdot 3 - 1.5) = (+1)(1.0) = 1$ ✓
+- $(0,1)$: $y_4(\mathbf{w}^{*T}\mathbf{x}_4 + b^*) = (-1)(0.5 \cdot 0 + 0.5 \cdot 1 - 1.5) = (-1)(-1.0) = 1$ ✓
+- $(1,0)$: $y_5(\mathbf{w}^{*T}\mathbf{x}_5 + b^*) = (-1)(0.5 \cdot 1 + 0.5 \cdot 0 - 1.5) = (-1)(-1.0) = 1$ ✓
+
+All other points have functional margin > 1, so they are not support vectors.
+
+**Step 6: Solving for Lagrange Multipliers**
+
+From the KKT condition $\mathbf{w}^* = \sum_{i} \alpha_i y_i \mathbf{x}_i$, and knowing that only support vectors have $\alpha_i > 0$:
+
+$$\begin{bmatrix} 0.5 \\ 0.5 \end{bmatrix} = \alpha_1 \cdot (+1) \cdot \begin{bmatrix} 2 \\ 3 \end{bmatrix} + \alpha_4 \cdot (-1) \cdot \begin{bmatrix} 0 \\ 1 \end{bmatrix} + \alpha_5 \cdot (-1) \cdot \begin{bmatrix} 1 \\ 0 \end{bmatrix}$$
+
+$$\begin{bmatrix} 0.5 \\ 0.5 \end{bmatrix} = \begin{bmatrix} 2\alpha_1 - 0\alpha_4 - 1\alpha_5 \\ 3\alpha_1 - 1\alpha_4 - 0\alpha_5 \end{bmatrix} = \begin{bmatrix} 2\alpha_1 - \alpha_5 \\ 3\alpha_1 - \alpha_4 \end{bmatrix}$$
+
+From the dual constraint $\sum \alpha_i y_i = 0$:
+$$\alpha_1 \cdot (+1) + \alpha_4 \cdot (-1) + \alpha_5 \cdot (-1) = 0$$
+$$\alpha_1 - \alpha_4 - \alpha_5 = 0$$
+
+**Setting up the 3×3 linear system:**
+1. $2\alpha_1 + 0\alpha_4 - 1\alpha_5 = 0.5$ (from $w_1^* = 0.5$)
+2. $3\alpha_1 - 1\alpha_4 + 0\alpha_5 = 0.5$ (from $w_2^* = 0.5$)
+3. $1\alpha_1 - 1\alpha_4 - 1\alpha_5 = 0$ (dual constraint)
+
+**Solving the system:**
+From equation (3): $\alpha_1 = \alpha_4 + \alpha_5$
+
+Substituting into equation (1):
+$$2(\alpha_4 + \alpha_5) - \alpha_5 = 0.5$$
+$$2\alpha_4 + \alpha_5 = 0.5 \quad \text{...(4)}$$
+
+Substituting into equation (2):
+$$3(\alpha_4 + \alpha_5) - \alpha_4 = 0.5$$
+$$2\alpha_4 + 3\alpha_5 = 0.5 \quad \text{...(5)}$$
+
+From equations (4) and (5):
+$$2\alpha_4 + 3\alpha_5 = 2\alpha_4 + \alpha_5$$
+$$3\alpha_5 = \alpha_5$$
+$$2\alpha_5 = 0$$
+$$\alpha_5 = 0$$
+
+Substituting back:
+- From equation (4): $2\alpha_4 + 0 = 0.5 \Rightarrow \alpha_4 = 0.25$
+- From equation (3): $\alpha_1 = 0.25 + 0 = 0.25$
+
+**Final Lagrange multipliers:**
+$$\alpha_1 = 0.25, \quad \alpha_4 = 0.25, \quad \alpha_5 = 0$$
+
+**Verification:**
+- $\mathbf{w}^* = 0.25 \cdot (+1) \cdot [2,3] + 0.25 \cdot (-1) \cdot [0,1] + 0 \cdot (-1) \cdot [1,0]$
+- $= [0.5, 0.75] + [0, -0.25] + [0, 0] = [0.5, 0.5]$ ✓
+- Dual constraint: $0.25 \cdot (+1) + 0.25 \cdot (-1) + 0 \cdot (-1) = 0$ ✓
+
+**Critical Insight:** Point $(1,0)$ is NOT actually a support vector!
+
+Even though $(1,0)$ has functional margin = 1 (lies on the margin boundary), its Lagrange multiplier $\alpha_5 = 0$. This means it doesn't contribute to the optimal hyperplane construction.
+
+**True support vectors:** Only $(2,3)$ and $(0,1)$ with $\alpha_1 = \alpha_4 = 0.25 > 0$.
+
+**Geometric explanation:** The optimal hyperplane is determined by the line segment connecting the closest points from each convex hull. Since $(2,3)$ and $(0,1)$ are the closest points between the two zones (distance $2\sqrt{2}$), they are the primary support vectors. Point $(1,0)$ happens to lie on the margin boundary but is not needed to define the optimal hyperplane.
+
+**Step 7: Computing Optimal Weight Vector**
+
+From the SVM solution, we identify the support vectors (points with functional margin = 1):
 - Point $(2,3)$ with $y_1 = +1$ and $\alpha_1 > 0$
 - Point $(0,1)$ with $y_4 = -1$ and $\alpha_4 > 0$
 - Point $(1,0)$ with $y_5 = -1$ and $\alpha_5 > 0$
 
-All other points have $\alpha_i = 0$.
-
-**Step 6: Solving for Lagrange Multipliers**
-
-From the constraint $\sum \alpha_i y_i = 0$:
-$$\alpha_1 \cdot (+1) + \alpha_4 \cdot (-1) + \alpha_5 \cdot (-1) = 0$$
-$$\alpha_1 = \alpha_4 + \alpha_5$$
-
-From the symmetry of the problem and solving the dual optimization:
-$$\alpha_1 = \alpha_4 = \alpha_5 = \frac{1}{2}$$
-
-**Step 7: Computing Optimal Weight Vector**
-
+The optimal weight vector is:
 $$\mathbf{w}^* = \sum_{i=1}^{6} \alpha_i y_i \mathbf{x}_i = \alpha_1 y_1 \mathbf{x}_1 + \alpha_4 y_4 \mathbf{x}_4 + \alpha_5 y_5 \mathbf{x}_5$$
 
-$$= \frac{1}{2} \cdot (+1) \cdot \begin{bmatrix} 2 \\ 3 \end{bmatrix} + \frac{1}{2} \cdot (-1) \cdot \begin{bmatrix} 0 \\ 1 \end{bmatrix} + \frac{1}{2} \cdot (-1) \cdot \begin{bmatrix} 1 \\ 0 \end{bmatrix}$$
+From the SVM solver, we get:
+$$\mathbf{w}^* = \begin{bmatrix} 0.5 \\ 0.5 \end{bmatrix}$$
 
-$$= \begin{bmatrix} 1 \\ 1.5 \end{bmatrix} + \begin{bmatrix} 0 \\ -0.5 \end{bmatrix} + \begin{bmatrix} -0.5 \\ 0 \end{bmatrix} = \begin{bmatrix} 0.5 \\ 1 \end{bmatrix}$$
-
-Wait, this gives $w_1^* = 0.5, w_2^* = 1$. Let me recalculate...
-
-Actually, from the SVM solver output: $w_1^* = 0.5, w_2^* = 0.5$
+**Verification of the calculation:**
+We can verify this by checking that the support vectors satisfy the constraint $y_i(\mathbf{w}^{*T} \mathbf{x}_i + b^*) = 1$.
 
 **Step 8: Computing Optimal Bias**
 
 Using support vector $(2,3)$ with the constraint $y_1(\mathbf{w}^{*T} \mathbf{x}_1 + b^*) = 1$:
 $$(+1)(0.5 \cdot 2 + 0.5 \cdot 3 + b^*) = 1$$
-$$1 + 1.5 + b^* = 1$$
+$$0.5 \cdot 2 + 0.5 \cdot 3 + b^* = 1$$
+$$1.0 + 1.5 + b^* = 1$$
 $$2.5 + b^* = 1$$
 $$b^* = -1.5$$
+
+**Verification with other support vectors:**
+- For $(0,1)$: $(-1)(0.5 \cdot 0 + 0.5 \cdot 1 - 1.5) = (-1)(-1.0) = 1$ ✓
+- For $(1,0)$: $(-1)(0.5 \cdot 1 + 0.5 \cdot 0 - 1.5) = (-1)(-1.0) = 1$ ✓
 
 **Final Optimal Parameters:**
 $$w_1^* = 0.5, \quad w_2^* = 0.5, \quad b^* = -1.5$$
@@ -287,95 +461,130 @@ $$x_1 + x_2 = 3$$
 
 **This means the optimal road boundary is the line $x_1 + x_2 = 3$**
 
-**Detailed Margin Analysis:**
+**Step 9: Detailed Margin Analysis**
 
-The SVM creates three parallel lines:
-1. **Positive margin boundary**: $0.5x_1 + 0.5x_2 - 1.5 = +1 \Rightarrow x_1 + x_2 = 5$
-2. **Decision boundary (road)**: $0.5x_1 + 0.5x_2 - 1.5 = 0 \Rightarrow x_1 + x_2 = 3$
-3. **Negative margin boundary**: $0.5x_1 + 0.5x_2 - 1.5 = -1 \Rightarrow x_1 + x_2 = 1$
+The SVM creates three parallel lines that define the margin:
+
+1. **Positive margin boundary**: $0.5x_1 + 0.5x_2 - 1.5 = +1$
+   $$0.5x_1 + 0.5x_2 = 2.5 \Rightarrow x_1 + x_2 = 5$$
+
+2. **Decision boundary (road)**: $0.5x_1 + 0.5x_2 - 1.5 = 0$
+   $$0.5x_1 + 0.5x_2 = 1.5 \Rightarrow x_1 + x_2 = 3$$
+
+3. **Negative margin boundary**: $0.5x_1 + 0.5x_2 - 1.5 = -1$
+   $$0.5x_1 + 0.5x_2 = 0.5 \Rightarrow x_1 + x_2 = 1$$
+
+**Margin Width Calculation:**
+$$\text{Margin width} = \frac{2}{||\mathbf{w}^*||} = \frac{2}{\sqrt{0.5^2 + 0.5^2}} = \frac{2}{\sqrt{0.5}} = \frac{2}{\frac{\sqrt{2}}{2}} = \frac{4}{\sqrt{2}} = 2\sqrt{2} = 2.8284 \text{ units}$$
+
+**Half-margin (minimum distance):**
+$$\text{Half-margin} = \frac{1}{||\mathbf{w}^*||} = \frac{1}{\frac{\sqrt{2}}{2}} = \frac{2}{\sqrt{2}} = \sqrt{2} = 1.4142 \text{ units}$$
+
+**Support Vector Verification:**
+The support vectors lie exactly on the margin boundaries:
+- $(2,3)$: $2 + 3 = 5$ (on positive margin boundary)
+- $(0,1)$: $0 + 1 = 1$ (on negative margin boundary)
+- $(1,0)$: $1 + 0 = 1$ (on negative margin boundary)
 
 **Geometric Interpretation:**
-- All Zone A houses must satisfy $x_1 + x_2 \geq 3$ (above or on the road)
-- All Zone B houses must satisfy $x_1 + x_2 \leq 3$ (below or on the road)
-- The margin extends from $x_1 + x_2 = 1$ to $x_1 + x_2 = 5$
-- **Margin width**: Distance between $x_1 + x_2 = 1$ and $x_1 + x_2 = 5$ is $\frac{|5-1|}{\sqrt{2}} = \frac{4}{\sqrt{2}} = 2\sqrt{2} = 2.8284$ units
+- All Zone A houses satisfy $x_1 + x_2 \geq 3$ (above or on the road)
+- All Zone B houses satisfy $x_1 + x_2 \leq 3$ (below or on the road)
+- The margin band extends from $x_1 + x_2 = 1$ to $x_1 + x_2 = 5$
+- **Total margin width**: $2.8284$ units
+- **Minimum distance from any house to road**: $1.4142$ units
 
 **Comparison with Given Hyperplane:**
 - Given hyperplane: $x_1 + x_2 = 2$
 - Optimal hyperplane: $x_1 + x_2 = 3$
-- The optimal line is parallel to the given line but shifted upward by 1 unit
-- The optimal solution provides a larger margin than the given hyperplane
+- The optimal line is parallel but shifted upward by 1 unit
+- The optimal solution maximizes the minimum distance to any point
 
-**Step-by-step distance calculations:**
+**Step 10: Step-by-step Distance Calculations**
 
 **Weight vector norm for optimal hyperplane:**
-$$||\mathbf{w}^*|| = \sqrt{(0.5)^2 + (0.5)^2} = \sqrt{0.25 + 0.25} = \sqrt{0.5} = \frac{\sqrt{2}}{2} = 0.7071...$$
+$$||\mathbf{w}^*|| = \sqrt{(0.5)^2 + (0.5)^2} = \sqrt{0.25 + 0.25} = \sqrt{0.5} = \frac{\sqrt{2}}{2} \approx 0.707107$$
+
+**Distance formula:** For any point $\mathbf{x}$, the distance to hyperplane $\mathbf{w}^T\mathbf{x} + b = 0$ is:
+$$d = \frac{|\mathbf{w}^T\mathbf{x} + b|}{||\mathbf{w}||}$$
 
 **Distance calculations for each house:**
 
 1. **House $(2, 3)$ in Zone A:**
    - Activation: $f(2, 3) = 0.5 \times 2 + 0.5 \times 3 - 1.5 = 1.0 + 1.5 - 1.5 = 1.0$
-   - Distance: $\frac{|1.0|}{0.7071} = 1.4142$ units
+   - Distance: $\frac{|1.0|}{0.707107} = 1.414214$ units
+   - **Support Vector** (functional margin = 1)
 
 2. **House $(3, 4)$ in Zone A:**
    - Activation: $f(3, 4) = 0.5 \times 3 + 0.5 \times 4 - 1.5 = 1.5 + 2.0 - 1.5 = 2.0$
-   - Distance: $\frac{|2.0|}{0.7071} = 2.8284$ units
+   - Distance: $\frac{|2.0|}{0.707107} = 2.828427$ units
 
 3. **House $(4, 2)$ in Zone A:**
    - Activation: $f(4, 2) = 0.5 \times 4 + 0.5 \times 2 - 1.5 = 2.0 + 1.0 - 1.5 = 1.5$
-   - Distance: $\frac{|1.5|}{0.7071} = 2.1213$ units
+   - Distance: $\frac{|1.5|}{0.707107} = 2.121320$ units
 
 4. **House $(0, 1)$ in Zone B:**
    - Activation: $f(0, 1) = 0.5 \times 0 + 0.5 \times 1 - 1.5 = 0 + 0.5 - 1.5 = -1.0$
-   - Distance: $\frac{|-1.0|}{0.7071} = 1.4142$ units
+   - Distance: $\frac{|-1.0|}{0.707107} = 1.414214$ units
+   - **Support Vector** (functional margin = 1)
 
 5. **House $(1, 0)$ in Zone B:**
    - Activation: $f(1, 0) = 0.5 \times 1 + 0.5 \times 0 - 1.5 = 0.5 + 0 - 1.5 = -1.0$
-   - Distance: $\frac{|-1.0|}{0.7071} = 1.4142$ units
+   - Distance: $\frac{|-1.0|}{0.707107} = 1.414214$ units
+   - **Support Vector** (functional margin = 1)
 
 6. **House $(0, 0)$ in Zone B:**
    - Activation: $f(0, 0) = 0.5 \times 0 + 0.5 \times 0 - 1.5 = 0 + 0 - 1.5 = -1.5$
-   - Distance: $\frac{|-1.5|}{0.7071} = 2.1213$ units
+   - Distance: $\frac{|-1.5|}{0.707107} = 2.121320$ units
 
 **Summary of distances:**
 
-| House | Coordinates | Zone | Activation | Distance to Road |
-|-------|-------------|------|------------|------------------|
-| 1 | $(2, 3)$ | A | $+1.0$ | $1.4142$ units |
-| 2 | $(3, 4)$ | A | $+2.0$ | $2.8284$ units |
-| 3 | $(4, 2)$ | A | $+1.5$ | $2.1213$ units |
-| 4 | $(0, 1)$ | B | $-1.0$ | $1.4142$ units |
-| 5 | $(1, 0)$ | B | $-1.0$ | $1.4142$ units |
-| 6 | $(0, 0)$ | B | $-1.5$ | $2.1213$ units |
+| House | Coordinates | Zone | Activation | Distance to Road | On Margin | Support Vector ($\alpha > 0$) |
+|-------|-------------|------|------------|------------------|-----------|-------------------------------|
+| 1 | $(2, 3)$ | A | $+1.0$ | $1.414214$ units | ✓ | ✓ ($\alpha_1 = 0.25$) |
+| 2 | $(3, 4)$ | A | $+2.0$ | $2.828427$ units | ✗ | ✗ |
+| 3 | $(4, 2)$ | A | $+1.5$ | $2.121320$ units | ✗ | ✗ |
+| 4 | $(0, 1)$ | B | $-1.0$ | $1.414214$ units | ✓ | ✓ ($\alpha_4 = 0.25$) |
+| 5 | $(1, 0)$ | B | $-1.0$ | $1.414214$ units | ✓ | ✗ ($\alpha_5 = 0$) |
+| 6 | $(0, 0)$ | B | $-1.5$ | $2.121320$ units | ✗ | ✗ |
 
 **Key Insight - The Margin:**
-The **margin** is the perpendicular distance between the decision boundary and the closest points from either class. For the optimal hyperplane:
+The **margin** is the perpendicular distance between the decision boundary and the closest points from either class.
 
 **Margin Calculation:**
-- The closest points to the optimal boundary $x_1 + x_2 = 3$ are: $(2,3)$, $(0,1)$, and $(1,0)$
-- All three points are exactly $1.4142$ units away from the boundary
-- These are the **support vectors** that determine the optimal hyperplane
-- **Margin width** = $2 \times 1.4142 = 2.8284$ units (total width of the margin band)
+- **Support vectors**: $(2,3)$, $(0,1)$, and $(1,0)$ (points with functional margin = 1)
+- All support vectors are exactly $\sqrt{2} = 1.414214$ units from the boundary
+- **Half-margin** = $1.414214$ units
+- **Full margin width** = $2 \times 1.414214 = 2.828427$ units
 
-**Mathematical Verification of Margin:**
-For a normalized hyperplane $\mathbf{w}^T\mathbf{x} + b = 0$ with $||\mathbf{w}|| = 1$, the margin is $\frac{2}{||\mathbf{w}||}$.
-
+**Mathematical Verification:**
 For our optimal hyperplane with $\mathbf{w}^* = [0.5, 0.5]$:
-- $||\mathbf{w}^*|| = \sqrt{0.5^2 + 0.5^2} = \frac{\sqrt{2}}{2} = 0.7071$
-- **Margin** = $\frac{2}{0.7071} = 2.8284$ units ✓
+- $||\mathbf{w}^*|| = \sqrt{0.5^2 + 0.5^2} = \frac{\sqrt{2}}{2} \approx 0.707107$
+- **Margin width** = $\frac{2}{||\mathbf{w}^*||} = \frac{2}{0.707107} = 2.828427$ units ✓
 
-**Support Vector Identification:**
+**Support Vector Verification:**
 Points that lie exactly on the margin boundaries ($\mathbf{w}^T\mathbf{x} + b = \pm 1$):
-- For $(2,3)$: $0.5(2) + 0.5(3) - 1.5 = 1.0$ (on positive margin boundary)
-- For $(0,1)$: $0.5(0) + 0.5(1) - 1.5 = -1.0$ (on negative margin boundary)
-- For $(1,0)$: $0.5(1) + 0.5(0) - 1.5 = -1.0$ (on negative margin boundary)
+- $(2,3)$: $0.5(2) + 0.5(3) - 1.5 = 2.5 - 1.5 = 1.0$ (positive margin)
+- $(0,1)$: $0.5(0) + 0.5(1) - 1.5 = 0.5 - 1.5 = -1.0$ (negative margin)
+- $(1,0)$: $0.5(1) + 0.5(0) - 1.5 = 0.5 - 1.5 = -1.0$ (negative margin)
 
-**Classification of new house at $(2.5, 2.5)$:**
-- Activation: $f(2.5, 2.5) = 0.5 \times 2.5 + 0.5 \times 2.5 - 1.5 = 1.25 + 1.25 - 1.5 = 1.0 > 0$
-- Distance to road: $\frac{|1.0|}{0.7071} = 1.4142$ units
-- Since activation > 0, the house belongs to the positive side (Zone A side)
-- **Interesting observation**: The new house lies exactly on the positive margin boundary!
+**Step 11: Classification of New House at $(2.5, 2.5)$**
+
+**Detailed calculation:**
+- Activation: $f(2.5, 2.5) = 0.5 \times 2.5 + 0.5 \times 2.5 - 1.5$
+- $= 1.25 + 1.25 - 1.5 = 2.5 - 1.5 = 1.0$
+- Distance to road: $\frac{|1.0|}{0.707107} = 1.414214$ units
+- Since activation = $1.0 > 0$, the house belongs to Zone A
+
+**Special observation**:
+- The new house has activation = $1.0$, which means it lies **exactly on the positive margin boundary**!
+- This makes it equidistant from the decision boundary as the support vectors
 - **Result**: The new house should be assigned to **Zone A**
+
+**Geometric verification:**
+- New house coordinates: $(2.5, 2.5)$
+- Sum: $2.5 + 2.5 = 5.0$
+- Since $5.0 > 3.0$ (decision boundary), it's in Zone A
+- Since $5.0 = 5.0$ (positive margin boundary), it's on the margin!
 
 ![Optimal Solution Comparison](../Images/L5_1_Quiz_1/optimal_solution_comparison.png)
 
@@ -448,10 +657,11 @@ The city planning visualization demonstrates:
    - Exact value: $\frac{3}{\sqrt{2}} = \frac{3\sqrt{2}}{2}$
    - Decimal approximation: $2.1213$ units
 
-5. **Optimal City Planning Solution**: Using SVM optimization:
-   - **Optimal road boundary**: $x_1 + x_2 = 3$ (or $0.5x_1 + 0.5x_2 = 1.5$)
+5. **Optimal City Planning Solution**: Using both geometric and SVM approaches:
+   - **Optimal road boundary**: $x_1 + x_2 = 3$ (both methods agree)
    - **Maximum minimum distance**: $\sqrt{2} \approx 1.4142$ units
-   - **New house classification**: $(2.5, 2.5)$ belongs to **Zone A**
+   - **Support vectors**: $(2,3)$, $(0,1)$, $(1,0)$ (closest points between zones)
+   - **New house classification**: $(2.5, 2.5)$ belongs to **Zone A** (on positive margin boundary)
 
 **Key Mathematical Insights:**
 
@@ -460,5 +670,15 @@ The city planning visualization demonstrates:
 - **Maximum Margin Principle**: The optimal hyperplane maximizes the minimum distance, providing better generalization
 - **Practical Application**: The city planning problem demonstrates how SVM optimization ensures maximum safety margins
 
+**Comparison of Methods:**
+
+| Aspect | Geometric Method | SVM Optimization |
+|--------|------------------|------------------|
+| **Approach** | Find perpendicular bisector of closest points | Solve constrained optimization problem |
+| **Complexity** | Simple pen-and-paper calculation | Requires Lagrangian/dual formulation |
+| **Intuition** | Clear geometric interpretation | Mathematical optimization theory |
+| **Result** | $x_1 + x_2 = 3$ | $x_1 + x_2 = 3$ (same result!) |
+| **Support Vectors** | Closest points between convex hulls | Points with $\alpha_i > 0$ in dual solution |
+
 **Real-World Significance:**
-The maximum margin approach provides not only correct classification but also optimal generalization properties, making it superior to arbitrary separating hyperplanes for applications requiring robust decision boundaries with maximum safety margins.
+Both methods demonstrate that the maximum margin approach provides not only correct classification but also optimal generalization properties. The geometric method offers intuitive understanding, while the SVM optimization provides the mathematical framework for more complex, high-dimensional problems where geometric visualization is impossible.

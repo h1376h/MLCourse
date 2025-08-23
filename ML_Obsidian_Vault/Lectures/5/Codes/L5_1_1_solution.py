@@ -198,7 +198,7 @@ geometric_margin_point = calculate_geometric_margin()
 
 # Step 5: City planning problem
 print("\n" + "="*50)
-print("STEP 5: CITY PLANNING PROBLEM")
+print("STEP 5: CITY PLANNING PROBLEM - DETAILED SVM DERIVATION")
 print("="*50)
 
 def solve_city_planning():
@@ -207,46 +207,201 @@ def solve_city_planning():
     print("Zone B (houses): (0, 1), (1, 0), (0, 0)")
     print("New house: (2.5, 2.5)")
     print()
-    
-    # Use SVM to find optimal boundary
+
+    # Prepare data
     X = np.vstack([class_plus1, class_minus1])
     y = np.array([1, 1, 1, -1, -1, -1])
-    
-    svm = SVC(kernel='linear', C=1000)  # Hard margin SVM
+
+    print("DETAILED SVM MATHEMATICAL DERIVATION:")
+    print("="*60)
+
+    print("\nStep 1: SVM Primal Problem")
+    print("Minimize: (1/2)||w||²")
+    print("Subject to: y_i(w^T x_i + b) ≥ 1 for all i")
+    print()
+
+    print("Step 2: Data Matrix Setup")
+    print("Training points and labels:")
+    for i, (point, label) in enumerate(zip(X, y)):
+        print(f"  x_{i+1} = [{point[0]}, {point[1]}], y_{i+1} = {label:+d}")
+    print()
+
+    # Use SVM to find optimal boundary
+    svm = SVC(kernel='linear', C=1e6)  # Very large C for hard margin
     svm.fit(X, y)
-    
+
     # Get optimal hyperplane parameters
     w_opt = svm.coef_[0]
     b_opt = svm.intercept_[0]
-    
-    print("Optimal road boundary (using SVM):")
-    print(f"  w₁ = {w_opt[0]:.4f}, w₂ = {w_opt[1]:.4f}, b = {b_opt:.4f}")
-    print(f"  Equation: {w_opt[0]:.4f}x₁ + {w_opt[1]:.4f}x₂ + {b_opt:.4f} = 0")
+
+    print("Step 3: SVM Solution")
+    print(f"Optimal weight vector: w* = [{w_opt[0]:.6f}, {w_opt[1]:.6f}]")
+    print(f"Optimal bias: b* = {b_opt:.6f}")
+    print(f"||w*|| = {np.linalg.norm(w_opt):.6f}")
     print()
-    
-    # Calculate distances from all houses to the road
-    print("Distances from houses to the optimal road:")
+
+    print("Step 4: Support Vector Analysis")
+    print("Support vectors are points with α_i > 0 (on the margin boundary)")
+
+    # Calculate functional margins to identify support vectors
+    functional_margins = []
+    for i, (point, label) in enumerate(zip(X, y)):
+        activation = w_opt[0] * point[0] + w_opt[1] * point[1] + b_opt
+        functional_margin = label * activation
+        functional_margins.append(functional_margin)
+
+        print(f"  Point {i+1}: ({point[0]}, {point[1]})")
+        print(f"    Activation = {w_opt[0]:.6f}×{point[0]} + {w_opt[1]:.6f}×{point[1]} + {b_opt:.6f} = {activation:.6f}")
+        print(f"    Functional margin = {label} × {activation:.6f} = {functional_margin:.6f}")
+
+        # Check if it's a support vector (functional margin ≈ 1)
+        if abs(functional_margin - 1.0) < 1e-6:
+            print(f"    → SUPPORT VECTOR (functional margin = 1)")
+        print()
+
+    # Find support vectors
+    support_vector_indices = [i for i, fm in enumerate(functional_margins) if abs(fm - 1.0) < 1e-6]
+    print(f"Support vector indices: {[i+1 for i in support_vector_indices]}")
+    print(f"Support vectors: {[f'({X[i][0]}, {X[i][1]})' for i in support_vector_indices]}")
+    print()
+
+    print("Step 5: Lagrange Multipliers (Dual Solution)")
+    print("From KKT conditions: w* = Σ α_i y_i x_i")
+    print("For support vectors, we can solve for α_i:")
+
+    if len(support_vector_indices) == 3:  # Expected for this problem
+        print("With 3 support vectors, we solve the system:")
+        print("  Constraint 1: α₁y₁ + α₄y₄ + α₅y₅ = 0  (dual constraint)")
+        print("  Constraint 2: w* = α₁y₁x₁ + α₄y₄x₄ + α₅y₅x₅")
+        print()
+
+        # Get support vector data
+        sv_points = [X[i] for i in support_vector_indices]
+        sv_labels = [y[i] for i in support_vector_indices]
+
+        print("Support vector data:")
+        for i, (idx, point, label) in enumerate(zip(support_vector_indices, sv_points, sv_labels)):
+            print(f"  α_{idx+1}: point ({point[0]}, {point[1]}), label {label:+d}")
+        print()
+
+        # Set up the system of equations more carefully
+        # We have support vectors at indices 0, 3, 4 (corresponding to points 1, 4, 5)
+        # Let's use the correct indexing
+
+        print("Setting up the system:")
+        print("Support vectors and their contributions:")
+        for i, (idx, point, label) in enumerate(zip(support_vector_indices, sv_points, sv_labels)):
+            print(f"  α_{idx+1} * {label:+d} * [{point[0]}, {point[1]}] = α_{idx+1} * [{label*point[0]}, {label*point[1]}]")
+
+        # w* = α₁(+1)[2,3] + α₄(-1)[0,1] + α₅(-1)[1,0]
+        # w* = α₁[2,3] + α₄[0,-1] + α₅[-1,0]
+        # [0.5, 0.5] = [2α₁ + 0α₄ - 1α₅, 3α₁ - 1α₄ + 0α₅]
+
+        print("  w₁* = 2α₁ + 0α₄ - 1α₅ = 0.5")
+        print("  w₂* = 3α₁ - 1α₄ + 0α₅ = 0.5")
+        print("  α₁(+1) + α₄(-1) + α₅(-1) = 0  (dual constraint)")
+        print("  α₁ - α₄ - α₅ = 0")
+        print()
+
+        # Solve the 3x3 system
+        A = np.array([
+            [2, 0, -1],   # 2α₁ - α₅ = 0.5
+            [3, -1, 0],   # 3α₁ - α₄ = 0.5
+            [1, -1, -1]   # α₁ - α₄ - α₅ = 0
+        ])
+        b = np.array([0.5, 0.5, 0])
+
+        print("Matrix form: A * [α₁, α₄, α₅]ᵀ = b")
+        print("A =")
+        print(A)
+        print("b =", b)
+
+        try:
+            alphas = np.linalg.solve(A, b)
+            alpha1, alpha4, alpha5 = alphas
+
+            print("Solving the linear system:")
+            print(f"  α₁ = {alpha1:.6f}")
+            print(f"  α₄ = {alpha4:.6f}")
+            print(f"  α₅ = {alpha5:.6f}")
+            print()
+
+            # Verify the solution
+            print("Verification:")
+            w_check = alpha1 * sv_labels[0] * sv_points[0] + alpha4 * sv_labels[1] * sv_points[1] + alpha5 * sv_labels[2] * sv_points[2]
+            print(f"  Reconstructed w* = {w_check}")
+            print(f"  Original w* = {w_opt}")
+            print(f"  Difference = {np.linalg.norm(w_check - w_opt):.10f}")
+
+            dual_constraint = alpha1 * sv_labels[0] + alpha4 * sv_labels[1] + alpha5 * sv_labels[2]
+            print(f"  Dual constraint check: α₁y₁ + α₄y₄ + α₅y₅ = {dual_constraint:.10f} (should be 0)")
+            print()
+
+            # Check which points are actually support vectors (α > 0)
+            print("Support vector analysis:")
+            alpha_values = [alpha1, alpha4, alpha5]
+            for i, (idx, alpha_val) in enumerate(zip(support_vector_indices, alpha_values)):
+                point = X[idx]
+                if abs(alpha_val) > 1e-10:
+                    print(f"  Point ({point[0]}, {point[1]}): α_{idx+1} = {alpha_val:.6f} > 0 → TRUE support vector")
+                else:
+                    print(f"  Point ({point[0]}, {point[1]}): α_{idx+1} = {alpha_val:.6f} ≈ 0 → NOT a support vector")
+
+        except np.linalg.LinAlgError:
+            print("  System is singular, using approximate values")
+            alpha1 = alpha4 = alpha5 = 1.0 / (3 * np.linalg.norm(w_opt))
+            print(f"  Approximate α values: {alpha1:.6f}")
+    print()
+
+    print("Step 6: Optimal Hyperplane Equation")
+    print(f"  {w_opt[0]:.6f}x₁ + {w_opt[1]:.6f}x₂ + {b_opt:.6f} = 0")
+
+    # Simplify if possible
+    if abs(w_opt[0] - w_opt[1]) < 1e-6:  # If w1 ≈ w2
+        scale_factor = 1.0 / w_opt[0]
+        w1_simple = w_opt[0] * scale_factor
+        w2_simple = w_opt[1] * scale_factor
+        b_simple = b_opt * scale_factor
+        print(f"  Simplified: {w1_simple:.1f}x₁ + {w2_simple:.1f}x₂ + {b_simple:.1f} = 0")
+        print(f"  Or: x₁ + x₂ = {-b_simple:.1f}")
+    print()
+
+    print("Step 7: Margin Calculation")
+    margin_width = 2.0 / np.linalg.norm(w_opt)
+    print(f"Margin width = 2/||w*|| = 2/{np.linalg.norm(w_opt):.6f} = {margin_width:.6f}")
+    print(f"Half-margin = {margin_width/2:.6f}")
+    print()
+
+    print("Step 8: Distance Calculations")
+    print("Distance from each house to the optimal road:")
+    distances = []
     for i, point in enumerate(X):
         activation = w_opt[0] * point[0] + w_opt[1] * point[1] + b_opt
         distance = abs(activation) / np.linalg.norm(w_opt)
+        distances.append(distance)
         zone = "A" if y[i] == 1 else "B"
-        print(f"  House {i+1} ({point[0]}, {point[1]}) in Zone {zone}: {distance:.4f} units")
-    
-    min_distance = min([abs(w_opt[0] * p[0] + w_opt[1] * p[1] + b_opt) / np.linalg.norm(w_opt) for p in X])
-    print(f"\nMinimum distance from any house to the road: {min_distance:.4f} units")
+        print(f"  House {i+1} ({point[0]}, {point[1]}) in Zone {zone}: {distance:.6f} units")
+
+    min_distance = min(distances)
+    print(f"\nMinimum distance from any house to the road: {min_distance:.6f} units")
+    print(f"This confirms the margin calculation: {min_distance:.6f} ≈ {margin_width/2:.6f}")
     print()
-    
-    # Classify new house
+
+    print("Step 9: New House Classification")
     new_house = np.array([2.5, 2.5])
     new_activation = w_opt[0] * new_house[0] + w_opt[1] * new_house[1] + b_opt
     new_distance = abs(new_activation) / np.linalg.norm(w_opt)
     new_zone = "A" if new_activation > 0 else "B"
-    
+
     print(f"New house at ({new_house[0]}, {new_house[1]}):")
-    print(f"  Activation = {w_opt[0]:.4f}×{new_house[0]} + {w_opt[1]:.4f}×{new_house[1]} + {b_opt:.4f} = {new_activation:.4f}")
-    print(f"  Distance to road = {new_distance:.4f} units")
-    print(f"  Should be assigned to Zone {new_zone}")
-    
+    print(f"  Activation = {w_opt[0]:.6f}×{new_house[0]} + {w_opt[1]:.6f}×{new_house[1]} + {b_opt:.6f}")
+    print(f"             = {new_activation:.6f}")
+    print(f"  Distance to road = |{new_activation:.6f}|/{np.linalg.norm(w_opt):.6f} = {new_distance:.6f} units")
+    print(f"  Since activation {'>' if new_activation > 0 else '<'} 0, assign to Zone {new_zone}")
+
+    if abs(new_distance - min_distance) < 1e-6:
+        print(f"  Special note: This house lies exactly on the margin boundary!")
+
     return w_opt, b_opt, new_zone
 
 w_opt, b_opt, new_zone = solve_city_planning()
