@@ -23,12 +23,23 @@ For the given hyperplane $x_1 + 2x_2 - 3 = 0$, we have:
 - Weight vector: $\mathbf{w} = [1, 2]^T$
 - Bias term: $b = -3$
 
-The margin width is calculated as:
-$$\text{Margin width} = \frac{1}{||\mathbf{w}||} = \frac{1}{\sqrt{1^2 + 2^2}} = \frac{1}{\sqrt{5}} = 0.447$$
+The margin width is calculated step by step:
 
-The margin boundaries are parallel lines at distance $\frac{1}{||\mathbf{w}||}$ from the decision boundary:
-- Positive margin: $x_1 + 2x_2 - 3 = 1$ (or $x_2 = -\frac{1}{2}x_1 + 2$)
-- Negative margin: $x_1 + 2x_2 - 3 = -1$ (or $x_2 = -\frac{1}{2}x_1 + 1$)
+1. **Calculate the norm of the weight vector:**
+   $$||\mathbf{w}|| = \sqrt{w_1^2 + w_2^2} = \sqrt{1^2 + 2^2} = \sqrt{1 + 4} = \sqrt{5} = 2.236$$
+
+2. **Calculate the margin width:**
+   $$\text{Margin width} = \frac{1}{||\mathbf{w}||} = \frac{1}{2.236} = 0.447$$
+
+3. **Determine the margin boundaries:**
+   - **Positive margin boundary:** $x_1 + 2x_2 - 3 = 1$
+   - **Negative margin boundary:** $x_1 + 2x_2 - 3 = -1$
+
+4. **Convert to slope-intercept form:**
+   - **Positive margin:** $x_2 = -\frac{1}{2}x_1 + 2.000$
+   - **Negative margin:** $x_2 = -\frac{1}{2}x_1 + 1.000$
+
+The margin boundaries are parallel lines at distance $\frac{1}{||\mathbf{w}||} = 0.447$ from the decision boundary.
 
 ![Margin Boundaries](../Images/L5_2_Quiz_13/margin_boundaries.png)
 
@@ -43,24 +54,32 @@ The plot shows:
 We examine four points with different slack variable values:
 
 1. **Point (2, 1) with $\xi = 0$**: Correctly classified
-   - Activation: $1 \times 2 + 2 \times 1 - 3 = 1.000$
-   - Actual $\xi = \max(0, 1 - 1 \times 1.000) = 0.000$
+   - **Activation:** $\mathbf{w}^T \mathbf{x} + b = 1 \times 2 + 2 \times 1 - 3 = 1.000$
+   - **Actual $\xi$:** $\max(0, 1 - y \times \text{activation}) = \max(0, 1 - 1 \times 1.000) = 0.000$
+   - **Distance to margin:** $|\text{activation} - y| = |1.000 - 1| = 0.000$
+   - **Classification:** Correct (no margin violation)
    - This point is exactly on the positive margin boundary
 
 2. **Point (1.5, 0.8) with $\xi = 0.5$**: Margin violation
-   - Activation: $1 \times 1.5 + 2 \times 0.8 - 3 = 0.100$
-   - Actual $\xi = \max(0, 1 - 1 \times 0.100) = 0.900$
+   - **Activation:** $\mathbf{w}^T \mathbf{x} + b = 1 \times 1.5 + 2 \times 0.8 - 3 = 0.100$
+   - **Actual $\xi$:** $\max(0, 1 - y \times \text{activation}) = \max(0, 1 - 1 \times 0.100) = 0.900$
+   - **Distance to margin:** $|\text{activation} - y| = |0.100 - 1| = 0.900$
+   - **Classification:** Correct (but margin violation)
    - This point violates the margin but is still correctly classified
 
 3. **Point (1, 0.5) with $\xi = 1.0$**: On decision boundary
-   - Activation: $1 \times 1 + 2 \times 0.5 - 3 = -1.000$
-   - Actual $\xi = \max(0, 1 - 1 \times (-1.000)) = 2.000$
-   - This point is on the decision boundary (activation = 0)
+   - **Activation:** $\mathbf{w}^T \mathbf{x} + b = 1 \times 1 + 2 \times 0.5 - 3 = -1.000$
+   - **Actual $\xi$:** $\max(0, 1 - y \times \text{activation}) = \max(0, 1 - 1 \times (-1.000)) = 2.000$
+   - **Distance to margin:** $|\text{activation} - y| = |-1.000 - 1| = 2.000$
+   - **Classification:** Incorrect (margin violation)
+   - This point is misclassified (negative activation for positive class)
 
 4. **Point (0.5, 0.2) with $\xi = 1.5$**: Misclassified
-   - Activation: $1 \times 0.5 + 2 \times 0.2 - 3 = -2.100$
-   - Actual $\xi = \max(0, 1 - 1 \times (-2.100)) = 3.100$
-   - This point is misclassified (negative activation for positive class)
+   - **Activation:** $\mathbf{w}^T \mathbf{x} + b = 1 \times 0.5 + 2 \times 0.2 - 3 = -2.100$
+   - **Actual $\xi$:** $\max(0, 1 - y \times \text{activation}) = \max(0, 1 - 1 \times (-2.100)) = 3.100$
+   - **Distance to margin:** $|\text{activation} - y| = |-2.100 - 1| = 3.100$
+   - **Classification:** Incorrect (margin violation)
+   - This point is severely misclassified
 
 ![Slack Variables](../Images/L5_2_Quiz_13/slack_variables.png)
 
@@ -75,21 +94,30 @@ The plot illustrates how different points relate to the margin:
 We examine how the margin changes as $C$ varies from $0.1$ to $10$:
 
 **C = 0.1 (Low regularization):**
-- Weight vector: $[0.786, -0.604]$
-- Margin width: $2.017$
-- Support vectors: $12$
+- **Weight vector:** $[0.786, -0.604]$
+- **Bias:** $-0.081$
+- **$||\mathbf{w}||$:** $0.991$
+- **Margin width:** $\frac{2}{||\mathbf{w}||} = \frac{2}{0.991} = 2.017$
+- **Support vectors:** $12$
+- **Decision boundary:** $0.786x_1 - 0.604x_2 - 0.081 = 0$
 - **Interpretation**: Large margin, many support vectors, high tolerance for violations
 
 **C = 1 (Medium regularization):**
-- Weight vector: $[0.891, -0.855]$
-- Margin width: $1.620$
-- Support vectors: $4$
+- **Weight vector:** $[0.891, -0.855]$
+- **Bias:** $-0.121$
+- **$||\mathbf{w}||$:** $1.235$
+- **Margin width:** $\frac{2}{||\mathbf{w}||} = \frac{2}{1.235} = 1.620$
+- **Support vectors:** $4$
+- **Decision boundary:** $0.891x_1 - 0.855x_2 - 0.121 = 0$
 - **Interpretation**: Balanced margin and accuracy
 
 **C = 10 (High regularization):**
-- Weight vector: $[1.224, -1.321]$
-- Margin width: $1.111$
-- Support vectors: $2$
+- **Weight vector:** $[1.224, -1.321]$
+- **Bias:** $0.232$
+- **$||\mathbf{w}||$:** $1.801$
+- **Margin width:** $\frac{2}{||\mathbf{w}||} = \frac{2}{1.801} = 1.111$
+- **Support vectors:** $2$
+- **Decision boundary:** $1.224x_1 - 1.321x_2 + 0.232 = 0$
 - **Interpretation**: Small margin, few support vectors, low tolerance for violations
 
 ![Margin vs C](../Images/L5_2_Quiz_13/margin_vs_C.png)
@@ -135,16 +163,22 @@ The plot shows:
 ### Step 5: Compare Margins with C=1 vs C=100
 
 **C = 1:**
-- Weight vector: $[0.891, -0.855]$
-- Margin width: $1.620$
-- Support vectors: $4$
-- Total slack: $0.631$
+- **Weight vector:** $[0.891, -0.855]$
+- **$||\mathbf{w}||$:** $1.235$
+- **Margin width:** $\frac{2}{||\mathbf{w}||} = \frac{2}{1.235} = 1.620$
+- **Support vectors:** $4$
+- **Total slack:** $\sum \xi_i = 0.631$
+- **Average slack per point:** $0.013$
+- **Objective value:** $\frac{1}{2}||\mathbf{w}||^2 + C\sum \xi_i = 1.393$
 
 **C = 100:**
-- Weight vector: $[1.224, -1.321]$
-- Margin width: $1.111$
-- Support vectors: $2$
-- Total slack: $0.000$
+- **Weight vector:** $[1.224, -1.321]$
+- **$||\mathbf{w}||$:** $1.801$
+- **Margin width:** $\frac{2}{||\mathbf{w}||} = \frac{2}{1.801} = 1.111$
+- **Support vectors:** $2$
+- **Total slack:** $\sum \xi_i = 0.000$
+- **Average slack per point:** $0.000$
+- **Objective value:** $\frac{1}{2}||\mathbf{w}||^2 + C\sum \xi_i = 1.621$
 
 ![C Comparison](../Images/L5_2_Quiz_13/C_comparison.png)
 
@@ -154,12 +188,12 @@ The plot demonstrates the dramatic difference between moderate and high regulari
 
 ## Summary Table
 
-| C    | Margin Width | Support Vectors | Total Slack |
-|------|-------------|-----------------|-------------|
-| 0.1  | 2.017       | 12              | 1.761       |
-| 1    | 1.620       | 4               | 0.631       |
-| 10   | 1.111       | 2               | 0.000       |
-| 100  | 1.111       | 2               | 0.000       |
+| C    | Margin Width | Support Vectors | Total Slack | Objective Value |
+|------|-------------|-----------------|-------------|-----------------|
+| 0.1  | 2.017       | 12              | 1.761       | 0.668           |
+| 1    | 1.620       | 4               | 0.631       | 1.393           |
+| 10   | 1.111       | 2               | 0.000       | 1.621           |
+| 100  | 1.111       | 2               | 0.000       | 1.621           |
 
 ## Key Insights
 
@@ -170,10 +204,11 @@ The plot demonstrates the dramatic difference between moderate and high regulari
 - Slack variables measure the degree of margin violation for each point
 
 ### Regularization Effects
-- **Small C (0.1)**: Large margin, many support vectors, high tolerance for violations
-- **Medium C (1)**: Balanced margin and accuracy
-- **Large C (10, 100)**: Small margin, few support vectors, low tolerance for violations
+- **Small C (0.1)**: Large margin (2.017), many support vectors (12), high tolerance for violations (total slack = 1.761)
+- **Medium C (1)**: Balanced margin (1.620) and accuracy, moderate support vectors (4), moderate slack (0.631)
+- **Large C (10, 100)**: Small margin (1.111), few support vectors (2), low tolerance for violations (total slack = 0.000)
 - As $C \to \infty$, the soft margin SVM approaches the hard margin SVM
+- **Mathematical relationship**: As $C$ increases, $||\mathbf{w}||$ increases (margin decreases) and $\sum \xi_i$ decreases (fewer violations)
 
 ### Practical Applications
 - **Low C**: Use when data is noisy or when you want a more robust classifier

@@ -30,10 +30,18 @@ w = np.array([1, 2])  # weight vector
 b = -3               # bias term
 
 # Calculate margin width (1/||w||)
-margin_width = 1 / np.linalg.norm(w)
+w_norm = np.linalg.norm(w)
+margin_width = 1 / w_norm
 print(f"Weight vector w = {w}")
 print(f"Bias term b = {b}")
-print(f"Margin width = 1/||w|| = 1/{np.linalg.norm(w):.3f} = {margin_width:.3f}")
+print(f"||w|| = sqrt({w[0]}^2 + {w[1]}^2) = sqrt({w[0]**2} + {w[1]**2}) = sqrt({w[0]**2 + w[1]**2}) = {w_norm:.3f}")
+print(f"Margin width = 1/||w|| = 1/{w_norm:.3f} = {margin_width:.3f}")
+print(f"Margin boundaries:")
+print(f"  Positive margin: {w[0]}x_1 + {w[1]}x_2 + {b} = 1")
+print(f"  Negative margin: {w[0]}x_1 + {w[1]}x_2 + {b} = -1")
+print(f"  In slope-intercept form:")
+print(f"    Positive: x_2 = {-w[0]/w[1]:.3f}x_1 + {(1-b)/w[1]:.3f}")
+print(f"    Negative: x_2 = {-w[0]/w[1]:.3f}x_1 + {(-1-b)/w[1]:.3f}")
 
 # Create margin boundaries
 def margin_boundary(x1, w, b, margin_offset):
@@ -72,15 +80,15 @@ plt.xlim(-2, 8)
 plt.ylim(-2, 6)
 
 # Add equation annotations
-plt.annotate(f'Decision: {w[0]}x₁ + {w[1]}x₂ + {b} = 0', 
+plt.annotate(f'Decision: ${w[0]}x_1 + {w[1]}x_2 + {b} = 0$', 
              xy=(0.05, 0.95), xycoords='axes fraction',
              bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", lw=1))
-plt.annotate(f'Margin width = {margin_width:.3f}', 
+plt.annotate(f'Margin width = ${margin_width:.3f}$', 
              xy=(0.05, 0.85), xycoords='axes fraction',
              bbox=dict(boxstyle="round,pad=0.3", fc="lightblue", ec="black", lw=1))
 
 plt.savefig(os.path.join(save_dir, 'margin_boundaries.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Task 2: Points with different slack variable values
 print("\nTask 2: Points with Different Slack Variable Values")
@@ -88,10 +96,10 @@ print("-" * 50)
 
 # Define points with different slack values
 points = [
-    {'x': [2, 1], 'y': 1, 'xi': 0.0, 'label': 'xi = 0 (Correctly classified)'},
-    {'x': [1.5, 0.8], 'y': 1, 'xi': 0.5, 'label': 'xi = 0.5 (Margin violation)'},
-    {'x': [1, 0.5], 'y': 1, 'xi': 1.0, 'label': 'xi = 1.0 (On decision boundary)'},
-    {'x': [0.5, 0.2], 'y': 1, 'xi': 1.5, 'label': 'xi = 1.5 (Misclassified)'}
+    {'x': [2, 1], 'y': 1, 'xi': 0.0, 'label': '$\\xi = 0$ (Correctly classified)'},
+    {'x': [1.5, 0.8], 'y': 1, 'xi': 0.5, 'label': '$\\xi = 0.5$ (Margin violation)'},
+    {'x': [1, 0.5], 'y': 1, 'xi': 1.0, 'label': '$\\xi = 1.0$ (On decision boundary)'},
+    {'x': [0.5, 0.2], 'y': 1, 'xi': 1.5, 'label': '$\\xi = 1.5$ (Misclassified)'}
 ]
 
 plt.figure(figsize=(12, 10))
@@ -113,17 +121,19 @@ for i, point in enumerate(points):
     activation = w[0]*x[0] + w[1]*x[1] + b
     actual_xi = max(0, 1 - y * activation)
     
-    print(f"Point {i+1}: {x}, y={y}, xi={xi}")
-    print(f"  Activation = {activation:.3f}")
-    print(f"  Actual xi = {actual_xi:.3f}")
-    print(f"  Distance to margin = {abs(activation - y):.3f}")
+    print(f"Point {i+1}: {x}, y={y}, \\xi={xi}")
+    print(f"  Activation = w^T x + b = {w[0]}*{x[0]} + {w[1]}*{x[1]} + {b} = {activation:.3f}")
+    print(f"  Actual \\xi = max(0, 1 - y * activation) = max(0, 1 - {y} * {activation:.3f}) = {actual_xi:.3f}")
+    print(f"  Distance to margin = |activation - y| = |{activation:.3f} - {y}| = {abs(activation - y):.3f}")
+    print(f"  Classification: {'Correct' if y * activation > 0 else 'Incorrect'}")
+    print(f"  Margin violation: {'Yes' if actual_xi > 0 else 'No'}")
     
     # Plot point
     plt.scatter(x[0], x[1], s=200, color=colors[i], marker=markers[i], 
                 edgecolor='black', linewidth=2, label=f'{label}')
     
     # Add annotation
-    plt.annotate(f'xi={xi}', (x[0], x[1]), xytext=(10, 10), 
+    plt.annotate(f'$\\xi={xi}$', (x[0], x[1]), xytext=(10, 10), 
                  textcoords='offset points', fontsize=10,
                  bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
 
@@ -138,7 +148,7 @@ plt.ylim(-2, 6)
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'slack_variables.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Task 3: Show how margin changes as C varies
 print("\nTask 3: Margin Changes with Different C Values")
@@ -172,8 +182,10 @@ for i, C in enumerate(C_values):
     print(f"C = {C}:")
     print(f"  Weight vector: {w_svm}")
     print(f"  Bias: {b_svm:.3f}")
-    print(f"  Margin width: {margin_width_svm:.3f}")
+    print(f"  ||w|| = {np.linalg.norm(w_svm):.3f}")
+    print(f"  Margin width: 2/||w|| = 2/{np.linalg.norm(w_svm):.3f} = {margin_width_svm:.3f}")
     print(f"  Number of support vectors: {len(svm.support_vectors_)}")
+    print(f"  Decision boundary: {w_svm[0]:.3f}x_1 + {w_svm[1]:.3f}x_2 + {b_svm:.3f} = 0")
     
     # Plot
     ax = axes[i]
@@ -206,7 +218,7 @@ for i, C in enumerate(C_values):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'margin_vs_C.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Task 4: Effect of adding an outlier
 print("\nTask 4: Effect of Adding an Outlier")
@@ -288,7 +300,7 @@ ax2.legend()
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'outlier_effect.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Task 5: Compare margins with C=1 vs C=100
 print("\nTask 5: Compare Margins with C=1 vs C=100")
@@ -308,14 +320,17 @@ for i, C in enumerate(C_comparison):
     
     print(f"C = {C}:")
     print(f"  Weight vector: {w_svm}")
-    print(f"  Margin width: {margin_width_svm:.3f}")
+    print(f"  ||w|| = {np.linalg.norm(w_svm):.3f}")
+    print(f"  Margin width: 2/||w|| = 2/{np.linalg.norm(w_svm):.3f} = {margin_width_svm:.3f}")
     print(f"  Support vectors: {len(svm.support_vectors_)}")
     
     # Calculate total slack
     decision_values = svm.decision_function(X_scaled)
     slack_values = np.maximum(0, 1 - y * decision_values)
     total_slack = np.sum(slack_values)
-    print(f"  Total slack: {total_slack:.3f}")
+    print(f"  Total slack: \\sum \\xi_i = {total_slack:.3f}")
+    print(f"  Average slack per point: {total_slack/len(y):.3f}")
+    print(f"  Objective value: 0.5||w||^2 + C\\sum \\xi_i = {0.5*np.linalg.norm(w_svm)**2 + C*total_slack:.3f}")
     
     # Plot
     ax = axes[i]
@@ -339,20 +354,41 @@ for i, C in enumerate(C_comparison):
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'C_comparison.png'), dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Summary table
 print("\nSummary Table:")
-print("-" * 50)
-print(f"{'C':<8} {'Margin Width':<15} {'Support Vectors':<18} {'Total Slack':<15}")
-print("-" * 50)
+print("-" * 80)
+print(f"{'C':<8} {'Margin Width':<15} {'Support Vectors':<18} {'Total Slack':<15} {'Objective':<15}")
+print("-" * 80)
 for C in [0.1, 1, 10, 100]:
     svm = SVC(kernel='linear', C=C, random_state=42)
     svm.fit(X_scaled, y)
-    margin_width = 2 / np.linalg.norm(svm.coef_[0])
+    w_norm = np.linalg.norm(svm.coef_[0])
+    margin_width = 2 / w_norm
     decision_values = svm.decision_function(X_scaled)
     slack_values = np.maximum(0, 1 - y * decision_values)
     total_slack = np.sum(slack_values)
-    print(f"{C:<8} {margin_width:<15.3f} {len(svm.support_vectors_):<18} {total_slack:<15.3f}")
+    objective = 0.5 * w_norm**2 + C * total_slack
+    print(f"{C:<8} {margin_width:<15.3f} {len(svm.support_vectors_):<18} {total_slack:<15.3f} {objective:<15.3f}")
+
+print(f"\nMathematical Analysis:")
+print("-" * 50)
+print(f"1. For C = 0.1 (low regularization):")
+print(f"   - Large margin (2.017) indicates ||w|| is small")
+print(f"   - Many support vectors (12) indicate high tolerance for violations")
+print(f"   - High total slack (1.761) shows many margin violations allowed")
+print(f"   - Objective focuses more on margin maximization than error minimization")
+
+print(f"\n2. For C = 100 (high regularization):")
+print(f"   - Small margin (1.111) indicates ||w|| is large")
+print(f"   - Few support vectors (2) indicate low tolerance for violations")
+print(f"   - Zero total slack (0.000) shows no margin violations allowed")
+print(f"   - Objective focuses more on error minimization than margin maximization")
+
+print(f"\n3. Theoretical relationship:")
+print(f"   - As C increases, ||w|| increases (margin decreases)")
+print(f"   - As C increases, \\sum \\xi_i decreases (fewer violations)")
+print(f"   - The trade-off is controlled by the regularization parameter C")
 
 print(f"\nAll plots saved to: {save_dir}")
