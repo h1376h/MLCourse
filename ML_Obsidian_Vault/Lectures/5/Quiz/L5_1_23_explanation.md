@@ -79,9 +79,9 @@ The visualization shows that while both models can output probabilities, the und
 
 ### Step 2: Maximum Margin and Generalization Error
 
-**Statement 2: TRUE**
+**Statement 2: FALSE**
 
-Maximum margin decision boundaries generally provide better generalization performance among linear classifiers.
+The maximum margin hyperplane is often a reasonable choice but it is by no means optimal in all cases.
 
 #### Theoretical Foundation
 
@@ -149,7 +149,7 @@ The visualization shows three classifiers with different margins:
 
 **Statement 3: FALSE**
 
-Support vectors change significantly when moving between different kernel types.
+There are no guarantees that the support vectors remain the same. The feature vectors corresponding to polynomial kernels are non-linear functions of the original input vectors and thus the support points for maximum margin separation in the feature space can be quite different.
 
 #### Kernel Theory Foundation
 
@@ -267,7 +267,7 @@ The third visualization shows how support vectors change with kernels:
 
 ## Conclusion
 - **Statement 1**: FALSE - SVMs generate probabilities differently than logistic regression using Platt scaling
-- **Statement 2**: TRUE - Maximum margin decision boundaries provide better generalization among linear classifiers
-- **Statement 3**: FALSE - Support vectors change significantly when moving between different kernel types
+- **Statement 2**: FALSE - The maximum margin hyperplane is often a reasonable choice but it is by no means optimal in all cases
+- **Statement 3**: FALSE - There are no guarantees that the support vectors remain the same when moving between different kernel types
 
 The analysis demonstrates that while SVMs are powerful classifiers, understanding their probability outputs, margin properties, and kernel effects is crucial for effective application. The maximum margin principle provides theoretical justification for SVM's generalization performance, but kernel selection and probability calibration require careful consideration in practice.

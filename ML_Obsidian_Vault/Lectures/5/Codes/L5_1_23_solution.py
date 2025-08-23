@@ -174,6 +174,30 @@ ax2.legend()
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'svm_vs_logistic_probabilities.png'), dpi=300, bbox_inches='tight')
 
+# Simple visualization: Probability comparison for test points
+fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+
+test_point_labels = [f'Point {i+1}' for i in range(len(test_points))]
+svm_probs = [svm.predict_proba([point])[0][1] for point in test_points]
+logistic_probs = [logistic.predict_proba([point])[0][1] for point in test_points]
+
+x_pos = np.arange(len(test_point_labels))
+width = 0.35
+
+ax.bar(x_pos - width/2, svm_probs, width, label='SVM (Platt Scaling)', alpha=0.8, color='skyblue')
+ax.bar(x_pos + width/2, logistic_probs, width, label='Logistic Regression', alpha=0.8, color='lightcoral')
+
+ax.set_xlabel('Test Points')
+ax.set_ylabel('P(y=1|x)')
+ax.set_title('Probability Outputs: SVM vs Logistic Regression')
+ax.set_xticks(x_pos)
+ax.set_xticklabels(test_point_labels)
+ax.legend()
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'simple_probability_comparison.png'), dpi=300, bbox_inches='tight')
+
 print(f"\n1.5 Key Differences Summary")
 print("-" * 30)
 print("• SVM probabilities require post-processing (Platt scaling)")
@@ -376,12 +400,34 @@ ax3.legend()
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'margin_vs_generalization.png'), dpi=300, bbox_inches='tight')
 
+# Simple visualization: Margin vs Performance relationship
+fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+
+models = ['SVM (C=1.0)', 'SVM (C=100.0)', 'Logistic Reg']
+margins = [svm_margin_width, svm_small_margin_width, logistic_margin_width]
+accuracies = [svm_margin_acc, svm_small_margin_acc, logistic_acc]
+colors = ['green', 'red', 'blue']
+
+scatter = ax.scatter(margins, accuracies, c=colors, s=200, alpha=0.7)
+
+for i, model in enumerate(models):
+    ax.annotate(model, (margins[i], accuracies[i]),
+                xytext=(10, 10), textcoords='offset points', fontsize=10)
+
+ax.set_xlabel('Margin Width')
+ax.set_ylabel('Test Accuracy')
+ax.set_title('Margin Width vs Generalization Performance')
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'simple_margin_performance.png'), dpi=300, bbox_inches='tight')
+
 print(f"\n2.6 Analysis Summary")
 print("-" * 20)
 print("• Larger margin (SVM C=1.0) shows better generalization")
 print("• Smaller margin (SVM C=100.0) shows worse generalization")
-print("• Theoretical bounds support the margin-generalization relationship")
-print("• Margin theory provides mathematical justification for SVM performance")
+print("• However, maximum margin is not always optimal in all cases")
+print("• Other factors like noise and data distribution matter")
 
 # ============================================================================
 # STATEMENT 3: Support Vectors with Different Kernels
@@ -587,13 +633,36 @@ ax.legend(handles=legend_handles)
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'decision_boundaries_comparison.png'), dpi=300, bbox_inches='tight')
 
+# Simple visualization: Support vector count comparison
+fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+
+kernel_names = ['Linear', 'Poly(d=2)', 'Poly(d=3)', 'RBF']
+sv_counts = [len(sv_linear), len(sv_poly2), len(sv_poly3), len(sv_rbf)]
+colors = ['red', 'blue', 'green', 'orange']
+
+bars = ax.bar(kernel_names, sv_counts, color=colors, alpha=0.7)
+
+# Add value labels on bars
+for bar, count in zip(bars, sv_counts):
+    height = bar.get_height()
+    ax.text(bar.get_x() + bar.get_width()/2., height + 2,
+            f'{count}', ha='center', va='bottom', fontweight='bold')
+
+ax.set_xlabel('Kernel Type')
+ax.set_ylabel('Number of Support Vectors')
+ax.set_title('Support Vector Count by Kernel Type')
+ax.grid(True, alpha=0.3, axis='y')
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'simple_support_vector_count.png'), dpi=300, bbox_inches='tight')
+
 print(f"\n3.6 Key Observations")
 print("-" * 20)
 print("• Support vectors change dramatically between kernels")
 print("• Linear kernel struggles with non-linear data (200 support vectors)")
 print("• Polynomial (d=2) provides good fit with few support vectors (25)")
 print("• RBF kernel creates smooth boundaries with moderate support vectors (42)")
-print("• Kernel selection fundamentally affects SVM's representation")
+print("• No guarantees that support vectors remain the same across kernels")
 
 # ============================================================================
 # SUMMARY AND CONCLUSIONS
@@ -613,19 +682,19 @@ print("• Experimental evidence shows different probability estimates for same 
 
 print("\nStatement 2: Maximum Margin and Generalization")
 print("-" * 40)
-print("TRUE - Maximum margin decision boundaries provide better generalization.")
-print("• Theoretical foundation: R(f) ≤ R̂(f) + O(√(1/(γ²n)))")
-print("• Experimental verification: Larger margins correlate with better test accuracy")
-print("• Margin theory provides mathematical justification for SVM performance")
-print("• C parameter controls margin size vs. training error trade-off")
+print("FALSE - The maximum margin hyperplane is often a reasonable choice but it is by no means optimal in all cases.")
+print("• While margin theory provides bounds: R(f) ≤ R̂(f) + O(√(1/(γ²n)))")
+print("• Maximum margin is not always optimal for all datasets and noise conditions")
+print("• Other factors like data distribution and noise can make smaller margins better")
+print("• C parameter shows trade-offs between margin size and empirical risk")
 
 print("\nStatement 3: Support Vectors Across Kernels")
 print("-" * 35)
-print("FALSE - Support vectors change significantly when moving between kernels.")
-print("• Different kernels transform feature space differently: φ(x)")
-print("• Support vector selection depends on implicit feature mapping")
+print("FALSE - There are no guarantees that the support vectors remain the same.")
+print("• Feature vectors for polynomial kernels are non-linear functions of original inputs")
+print("• Support points for maximum margin separation in feature space can be quite different")
 print("• Experimental evidence: 200 vs 25 vs 197 vs 42 support vectors across kernels")
-print("• Kernel choice fundamentally affects SVM's representation")
+print("• Kernel choice fundamentally changes which points become support vectors")
 
 print(f"\nAll plots saved to: {save_dir}")
 print("="*70)
