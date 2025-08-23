@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import os
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
-import cvxpy as cp
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
