@@ -403,11 +403,9 @@ For a detailed explanation of this problem, see [Question 24: Soft Margin Formul
 ## Question 25
 
 ### Problem Statement
-Perform basic soft margin SVM calculations and analysis.
-
-#### Task
 For point $(\mathbf{x}_1, y_1) = ((2, 3), +1)$ with hyperplane $f(\mathbf{x}) = x_1 + 2x_2 - 4$:
 
+#### Task
 1. Calculate $f(\mathbf{x}_1)$ ?
 2. Calculate the functional margin: $y_1 \cdot f(\mathbf{x}_1)$ ?
 3. Calculate the slack variable: $\xi_1 = \max(0, 1 - y_1 \cdot f(\mathbf{x}_1))$ ?
