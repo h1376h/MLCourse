@@ -9,8 +9,11 @@ images_dir = os.path.join(os.path.dirname(script_dir), "Images")
 save_dir = os.path.join(images_dir, "L5_3_Quiz_4")
 os.makedirs(save_dir, exist_ok=True)
 
-# Disable LaTeX to avoid compilation issues
+# Enable LaTeX style plotting
+plt.rcParams['text.usetex'] = True
+plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 12
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
 
 print("=" * 60)
 print("QUESTION 4: RBF KERNEL PROPERTIES")
@@ -146,11 +149,11 @@ def analyze_distance_behavior():
     
     for gamma in [0.1, 0.5, 1, 2, 5]:
         kernel_values = np.exp(-gamma * distances**2)
-        plt.plot(distances, kernel_values, linewidth=2, label=f'γ = {gamma}')
+        plt.plot(distances, kernel_values, linewidth=2, label=rf'$\gamma = {gamma}$')
     
-    plt.xlabel('Distance ||x - z||')
-    plt.ylabel('Kernel Value K(x,z)')
-    plt.title('RBF Kernel Decay with Distance')
+    plt.xlabel(r'Distance $\|x - z\|$')
+    plt.ylabel(r'Kernel Value $K(x,z)$')
+    plt.title(r'RBF Kernel Decay with Distance')
     plt.grid(True, alpha=0.3)
     plt.legend()
     plt.xlim(0, 5)
@@ -337,9 +340,9 @@ def design_recommendation_system():
         plt.annotate(name, (prefs[0], prefs[1]), xytext=(5, 5), 
                     textcoords='offset points', fontsize=10)
     
-    plt.xlabel('Action Rating')
-    plt.ylabel('Romance Rating')
-    plt.title('User Preferences')
+    plt.xlabel(r'Action Rating')
+    plt.ylabel(r'Romance Rating')
+    plt.title(r'User Preferences')
     plt.grid(True, alpha=0.3)
     plt.legend()
     plt.xlim(0, 10)
@@ -348,13 +351,13 @@ def design_recommendation_system():
     # Plot 2: Similarity vs gamma
     plt.subplot(1, 3, 2)
     plt.plot(gamma_range, similarities_ac, 'b-', linewidth=2, label='User A vs User C')
-    plt.axhline(y=target_similarity, color='red', linestyle='--', 
+    plt.axhline(y=target_similarity, color='red', linestyle='--',
                 label=f'{target_similarity:.0%} threshold')
-    plt.axvline(x=optimal_gamma, color='green', linestyle='--', 
-                label=f'Optimal γ={optimal_gamma:.3f}')
-    plt.xlabel('γ parameter')
-    plt.ylabel('Similarity')
-    plt.title('Similarity vs γ Parameter')
+    plt.axvline(x=optimal_gamma, color='green', linestyle='--',
+                label=rf'Optimal $\gamma={optimal_gamma:.3f}$')
+    plt.xlabel(r'$\gamma$ parameter')
+    plt.ylabel(r'Similarity')
+    plt.title(r'Similarity vs $\gamma$ Parameter')
     plt.grid(True, alpha=0.3)
     plt.legend()
     
@@ -370,7 +373,7 @@ def design_recommendation_system():
     plt.colorbar(im)
     plt.xticks(range(3), user_names)
     plt.yticks(range(3), user_names)
-    plt.title(f'Similarity Matrix (γ={optimal_gamma:.3f})')
+    plt.title(rf'Similarity Matrix ($\gamma={optimal_gamma:.3f}$)')
     
     # Add text annotations
     for i in range(3):

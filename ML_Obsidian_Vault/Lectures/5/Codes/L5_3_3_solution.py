@@ -9,8 +9,11 @@ images_dir = os.path.join(os.path.dirname(script_dir), "Images")
 save_dir = os.path.join(images_dir, "L5_3_Quiz_3")
 os.makedirs(save_dir, exist_ok=True)
 
-# Disable LaTeX to avoid compilation issues
+# Enable LaTeX style plotting
+plt.rcParams['text.usetex'] = True
+plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 12
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
 
 print("=" * 60)
 print("QUESTION 3: POLYNOMIAL KERNEL CALCULATIONS")
@@ -244,14 +247,14 @@ def visualize_feature_mapping():
     ax1.contour(X1, X2, X1**2 + X2**2, levels=10, alpha=0.6)
     ax1.scatter(x[0], x[1], color='red', s=100, label='x', zorder=5)
     ax1.scatter(z[0], z[1], color='blue', s=100, label='z', zorder=5)
-    ax1.set_xlabel('x1')
-    ax1.set_ylabel('x2')
-    ax1.set_title('Original Space (x3=0)')
+    ax1.set_xlabel(r'$x_1$')
+    ax1.set_ylabel(r'$x_2$')
+    ax1.set_title(r'Original Space ($x_3=0$)')
     ax1.legend()
     ax1.grid(True, alpha=0.3)
     
     # Feature dimensions
-    feature_names = ['x1^2', 'x2^2', 'x3^2', '√2*x1*x2', '√2*x1*x3', '√2*x2*x3']
+    feature_names = [r'$x_1^2$', r'$x_2^2$', r'$x_3^2$', r'$\sqrt{2}x_1x_2$', r'$\sqrt{2}x_1x_3$', r'$\sqrt{2}x_2x_3$']
     
     for idx in range(5):  # Show first 5 feature dimensions
         ax = fig.add_subplot(2, 3, idx + 2)
@@ -262,11 +265,11 @@ def visualize_feature_mapping():
             ax.clabel(contour, inline=True, fontsize=8)
             
             # Mark our specific points
-            ax.scatter(x[0], x[1], color='red', s=100, label=f'φ(x)[{idx}]={phi_x[idx]:.2f}', zorder=5)
-            ax.scatter(z[0], z[1], color='blue', s=100, label=f'φ(z)[{idx}]={phi_z[idx]:.2f}', zorder=5)
+            ax.scatter(x[0], x[1], color='red', s=100, label=rf'$\phi(x)[{idx}]={phi_x[idx]:.2f}$', zorder=5)
+            ax.scatter(z[0], z[1], color='blue', s=100, label=rf'$\phi(z)[{idx}]={phi_z[idx]:.2f}$', zorder=5)
         
-        ax.set_xlabel('x1')
-        ax.set_ylabel('x2')
+        ax.set_xlabel(r'$x_1$')
+        ax.set_ylabel(r'$x_2$')
         ax.set_title(f'Feature: {feature_names[idx]}')
         ax.legend(fontsize=8)
         ax.grid(True, alpha=0.3)
