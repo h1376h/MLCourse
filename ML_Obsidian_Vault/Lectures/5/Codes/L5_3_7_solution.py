@@ -34,7 +34,8 @@ def compute_kernel_matrix(points, kernel_func):
 def is_psd(matrix, tolerance=1e-10):
     """Check if matrix is positive semi-definite."""
     eigenvals = eigvals(matrix)
-    return np.all(eigenvals.real >= -tolerance)
+    eigenvals_real = np.real(eigenvals)  # Extract real parts to avoid complex warnings
+    return np.all(eigenvals_real >= -tolerance)
 
 # Define basic kernel functions
 def linear_kernel(x, z):
@@ -57,19 +58,22 @@ K_rbf = compute_kernel_matrix(test_points, lambda x, z: rbf_kernel(x, z, gamma=1
 print("Linear kernel matrix K1:")
 print(K_linear)
 print(f"PSD: {is_psd(K_linear)}")
-print(f"Eigenvalues: {eigvals(K_linear).real}")
+eigs_linear = np.real(eigvals(K_linear))
+print(f"Eigenvalues: {eigs_linear}")
 
 print("\nRBF kernel matrix K2:")
 print(K_rbf)
 print(f"PSD: {is_psd(K_rbf)}")
-print(f"Eigenvalues: {eigvals(K_rbf).real}")
+eigs_rbf = np.real(eigvals(K_rbf))
+print(f"Eigenvalues: {eigs_rbf}")
 
 # Compute sum
 K_sum = K_linear + K_rbf
 print("\nSum kernel matrix K = K1 + K2:")
 print(K_sum)
 print(f"PSD: {is_psd(K_sum)}")
-print(f"Eigenvalues: {eigvals(K_sum).real}")
+eigs_sum = np.real(eigvals(K_sum))
+print(f"Eigenvalues: {eigs_sum}")
 
 print("\nMathematical proof:")
 print("Theorem: If K₁ and K₂ are valid kernels, then K = K₁ + K₂ is valid.")
@@ -88,7 +92,8 @@ c_values = [0.5, 2.0, 10.0]
 for c in c_values:
     K_scaled = c * K_linear
     print(f"\nFor c = {c}:")
-    print(f"Scaled kernel matrix eigenvalues: {eigvals(K_scaled).real}")
+    eigs_scaled = np.real(eigvals(K_scaled))
+    print(f"Scaled kernel matrix eigenvalues: {eigs_scaled}")
     print(f"PSD: {is_psd(K_scaled)}")
 
 print("\nMathematical proof:")
@@ -110,7 +115,8 @@ K_product = K_linear * K_rbf
 print("Product kernel matrix K = K1 ⊙ K2 (element-wise):")
 print(K_product)
 print(f"PSD: {is_psd(K_product)}")
-print(f"Eigenvalues: {eigvals(K_product).real}")
+eigs_product = np.real(eigvals(K_product))
+print(f"Eigenvalues: {eigs_product}")
 
 print("\nMathematical explanation:")
 print("The element-wise product of two PSD matrices is PSD.")
@@ -129,7 +135,8 @@ K_combined = alpha * K_linear + beta * K_rbf
 print(f"Combined kernel with α = {alpha}, β = {beta}:")
 print(K_combined)
 print(f"PSD: {is_psd(K_combined)}")
-print(f"Eigenvalues: {eigvals(K_combined).real}")
+eigs_combined = np.real(eigvals(K_combined))
+print(f"Eigenvalues: {eigs_combined}")
 
 print(f"\nRationale for choosing α = {alpha}, β = {beta}:")
 print("- α + β = 1 provides a convex combination")
@@ -144,7 +151,7 @@ K_min = np.minimum(K_linear, K_rbf)
 print("Minimum kernel matrix K = min(K1, K2):")
 print(K_min)
 print(f"PSD: {is_psd(K_min)}")
-eigenvals_min = eigvals(K_min).real
+eigenvals_min = np.real(eigvals(K_min))
 print(f"Eigenvalues: {eigenvals_min}")
 
 if not is_psd(K_min):
@@ -171,7 +178,8 @@ K_min_counter = np.minimum(K1_counter, K2_counter)
 print("min(K1, K2):")
 print(K_min_counter)
 print(f"PSD: {is_psd(K_min_counter)}")
-print(f"Eigenvalues: {eigvals(K_min_counter).real}")
+eigs_min_counter = np.real(eigvals(K_min_counter))
+print(f"Eigenvalues: {eigs_min_counter}")
 
 # Visualization of kernel combinations
 fig, axes = plt.subplots(2, 3, figsize=(15, 10))
@@ -212,7 +220,7 @@ plt.close()
 fig, ax = plt.subplots(1, 1, figsize=(12, 8))
 
 kernel_names = [name for name, _ in kernels_to_plot]
-eigenvals_list = [eigvals(K).real for _, K in kernels_to_plot]
+eigenvals_list = [np.real(eigvals(K)) for _, K in kernels_to_plot]
 
 x_pos = np.arange(len(kernel_names))
 colors = ['green' if is_psd(K) else 'red' for _, K in kernels_to_plot]

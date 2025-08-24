@@ -43,10 +43,11 @@ print(f"\nSymmetric: {is_symmetric}")
 
 # Compute eigenvalues
 eigenvalues = eigvals(K_matrix)
-print(f"Eigenvalues: {eigenvalues}")
+eigenvalues_real = np.real(eigenvalues)  # Extract real parts to avoid complex warnings
+print(f"Eigenvalues: {eigenvalues_real}")
 
 # Check if all eigenvalues are non-negative
-is_psd = np.all(eigenvalues >= -1e-10)  # Allow for small numerical errors
+is_psd = np.all(eigenvalues_real >= -1e-10)  # Allow for small numerical errors
 print(f"All eigenvalues ≥ 0: {is_psd}")
 print(f"Therefore, K is positive semi-definite: {is_psd}")
 
@@ -61,7 +62,7 @@ axes[0].set_xlabel('Data Point Index')
 axes[0].set_ylabel('Data Point Index')
 
 # Plot eigenvalues
-axes[1].bar(range(len(eigenvalues)), eigenvalues, color='skyblue', 
+axes[1].bar(range(len(eigenvalues_real)), eigenvalues_real, color='skyblue',
             edgecolor='black', alpha=0.7)
 axes[1].axhline(y=0, color='red', linestyle='--', alpha=0.7, 
                 label='Zero Line')
@@ -96,8 +97,9 @@ print(K_exp)
 
 # Check eigenvalues
 eigenvals_exp = eigvals(K_exp)
-print(f"Eigenvalues: {eigenvals_exp}")
-is_psd_exp = np.all(eigenvals_exp >= -1e-10)
+eigenvals_exp_real = np.real(eigenvals_exp)  # Extract real parts
+print(f"Eigenvalues: {eigenvals_exp_real}")
+is_psd_exp = np.all(eigenvals_exp_real >= -1e-10)
 print(f"Positive semi-definite: {is_psd_exp}")
 
 if is_psd_exp:
@@ -135,8 +137,9 @@ print(K_negative)
 
 # Check eigenvalues
 eigenvals_neg = eigvals(K_negative)
-print(f"Eigenvalues: {eigenvals_neg}")
-is_psd_neg = np.all(eigenvals_neg >= -1e-10)
+eigenvals_neg_real = np.real(eigenvals_neg)  # Extract real parts
+print(f"Eigenvalues: {eigenvals_neg_real}")
+is_psd_neg = np.all(eigenvals_neg_real >= -1e-10)
 print(f"Positive semi-definite: {is_psd_neg}")
 
 if not is_psd_neg:
@@ -166,11 +169,14 @@ for i, (title, K) in enumerate(kernels_info):
     
     # Plot eigenvalues
     eigs = eigvals(K)
-    colors = ['green' if e >= 0 else 'red' for e in eigs]
-    axes[1, i].bar(range(len(eigs)), eigs, color=colors, 
+    eigs_real = np.real(eigs)  # Extract real parts
+    colors = ['green' if e >= 0 else 'red' for e in eigs_real]
+    axes[1, i].bar(range(len(eigs_real)), eigs_real, color=colors,
                    edgecolor='black', alpha=0.7)
     axes[1, i].axhline(y=0, color='black', linestyle='--', alpha=0.7)
-    axes[1, i].set_title(f'Eigenvalues: {eigs}')
+    # Format eigenvalues for display (round to 3 decimal places)
+    eigs_formatted = [f'{e:.3f}' for e in eigs_real]
+    axes[1, i].set_title(f'Eigenvalues: {eigs_formatted}')
     axes[1, i].set_ylabel('Eigenvalue')
     axes[1, i].grid(True, alpha=0.3)
 
