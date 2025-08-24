@@ -299,7 +299,7 @@ surf = ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.6)
 for i, point in enumerate([x1, x2, x3]):
     # Original point in 2D
     ax.scatter(point[0], point[1], 0, c=['red', 'blue', 'green'][i], 
-              s=100, marker='o', edgecolors='black', label=f'x_{i+1} (original)')
+              s=100, marker='o', edgecolors='black', label=f'$x_{{{i+1}}}$ (original)')
     
     # Mapped point in 3D (simplified)
     mapped_z = gaussian_kernel(point, np.array([0, 0]))  # Distance from origin

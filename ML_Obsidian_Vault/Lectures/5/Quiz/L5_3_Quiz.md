@@ -410,10 +410,10 @@ For a detailed explanation of this problem, see [Question 28: Kernel Formula Und
 For points $\mathbf{x} = (1, 2)$ and $\mathbf{z} = (3, 0)$:
 
 #### Task
-1. Calculate the linear kernel: $K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T\mathbf{z} = $ ?
-2. Calculate the polynomial kernel with $d=2, c=1$: $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z} + 1)^2 = $ ?
-3. Calculate $||\mathbf{x} - \mathbf{z}||^2 = $ ?
-4. Calculate the RBF kernel with $\gamma=0.5$: $K(\mathbf{x}, \mathbf{z}) = \exp(-0.5||\mathbf{x} - \mathbf{z}||^2) = $ ?
+1. Calculate the linear kernel: $K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T\mathbf{z}$
+2. Calculate the polynomial kernel with $d=2, c=1$: $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z} + 1)^2$
+3. Calculate $||\mathbf{x} - \mathbf{z}||^2$
+4. Calculate the RBF kernel with $\gamma=0.5$: $K(\mathbf{x}, \mathbf{z}) = \exp(-0.5||\mathbf{x} - \mathbf{z}||^2)$
 5. Which kernel gives the highest similarity score for these points?
 6. For the same points $\mathbf{x} = (1, 2)$ and $\mathbf{z} = (3, 0)$, calculate the polynomial kernel with $d=3, c=0$: $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z})^3$. Compare this result with your answer from task 2 and explain how the degree parameter affects the kernel value.
 

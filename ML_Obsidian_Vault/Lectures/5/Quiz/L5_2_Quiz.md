@@ -406,10 +406,10 @@ For a detailed explanation of this problem, see [Question 24: Soft Margin Formul
 For point $(\mathbf{x}_1, y_1) = ((2, 3), +1)$ with hyperplane $f(\mathbf{x}) = x_1 + 2x_2 - 4$:
 
 #### Task
-1. Calculate $f(\mathbf{x}_1)$ ?
-2. Calculate the functional margin: $y_1 \cdot f(\mathbf{x}_1)$ ?
-3. Calculate the slack variable: $\xi_1 = \max(0, 1 - y_1 \cdot f(\mathbf{x}_1))$ ?
-4. Calculate the hinge loss: $L_h = \max(0, 1 - y_1 \cdot f(\mathbf{x}_1))$ ?
+1. Calculate $f(\mathbf{x}_1)$
+2. Calculate the functional margin: $y_1 \cdot f(\mathbf{x}_1)$
+3. Calculate the slack variable: $\xi_1 = \max(0, 1 - y_1 \cdot f(\mathbf{x}_1))$
+4. Calculate the hinge loss: $L_h = \max(0, 1 - y_1 \cdot f(\mathbf{x}_1))$
 5. Is this point correctly classified? Is it a support vector? Explain your reasoning.
 6. If the hyperplane changes to $f(\mathbf{x}) = 0.5x_1 + x_2 - 2$, recalculate all the above values.
 7. For a dataset with points $(1, 1, +1)$, $(2, 2, +1)$, $(0, 0, -1)$, $(1, 0, -1)$, calculate slack variables for each point using the original hyperplane.

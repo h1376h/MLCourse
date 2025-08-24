@@ -20,76 +20,101 @@ These properties are crucial for the theoretical foundations of kernel methods a
 
 ### Part 1: Proving Euclidean Distance < 2
 
-#### Step 1: Understanding the Relationship Between Kernel and Distance
-For any kernel $k(x_i, x_j)$, we have:
+**Objective**: Prove that for any two points $x_i$ and $x_j$, the Euclidean distance between their mapped representations $\phi(x_i)$ and $\phi(x_j)$ in the feature space is less than 2.
+
+**Given**: Gaussian kernel $k(x_i, x_j) = \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$
+
+**To Prove**: $\|\phi(x_i) - \phi(x_j)\| < 2$ for any $x_i, x_j$
+
+#### Step 1: Understanding the Kernel-Feature Space Relationship
+
+**Key Insight**: A kernel function $k(x_i, x_j)$ implicitly defines an inner product in a feature space:
 $$k(x_i, x_j) = \langle \phi(x_i), \phi(x_j) \rangle$$
-where $\phi(x)$ is the feature mapping.
+
+where:
+- $\phi(x)$ is the feature mapping function
+- $\langle \cdot, \cdot \rangle$ denotes the inner product in the feature space
+
+**Why this matters**: This relationship allows us to compute distances in the feature space using only kernel values, without explicitly knowing the feature mapping $\phi$.
 
 #### Step 2: Expressing Distance in Terms of Kernel Values
-The squared Euclidean distance between mapped points is:
+
+**Goal**: Find a formula for $\|\phi(x_i) - \phi(x_j)\|^2$ using only kernel values.
+
+**Step 2.1**: Expand the squared distance using the definition of norm:
+$$\|\phi(x_i) - \phi(x_j)\|^2 = \langle \phi(x_i) - \phi(x_j), \phi(x_i) - \phi(x_j) \rangle$$
+
+**Step 2.2**: Use the bilinearity of inner product to expand:
 $$\begin{align}
-\|\phi(x_i) - \phi(x_j)\|^2 &= \langle \phi(x_i) - \phi(x_j), \phi(x_i) - \phi(x_j) \rangle \\
-&= \langle \phi(x_i), \phi(x_i) \rangle + \langle \phi(x_j), \phi(x_j) \rangle - 2\langle \phi(x_i), \phi(x_j) \rangle \\
-&= k(x_i, x_i) + k(x_j, x_j) - 2k(x_i, x_j)
+\langle \phi(x_i) - \phi(x_j), \phi(x_i) - \phi(x_j) \rangle &= \langle \phi(x_i), \phi(x_i) - \phi(x_j) \rangle - \langle \phi(x_j), \phi(x_i) - \phi(x_j) \rangle \\
+&= \langle \phi(x_i), \phi(x_i) \rangle - \langle \phi(x_i), \phi(x_j) \rangle - \langle \phi(x_j), \phi(x_i) \rangle + \langle \phi(x_j), \phi(x_j) \rangle
 \end{align}$$
 
-#### Step 3: Calculating Kernel Values for Gaussian Kernel
-For the Gaussian kernel $k(x_i, x_j) = \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$:
-- $k(x_i, x_i) = \exp\left(-\frac{1}{2}\|x_i - x_i\|^2\right) = \exp(0) = 1$
-- $k(x_j, x_j) = \exp\left(-\frac{1}{2}\|x_j - x_j\|^2\right) = \exp(0) = 1$
-- $k(x_i, x_j) = \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$
-
-#### Step 4: Substituting into Distance Formula
+**Step 2.3**: Use the symmetry of inner product ($\langle a, b \rangle = \langle b, a \rangle$):
 $$\begin{align}
-\|\phi(x_i) - \phi(x_j)\|^2 &= 1 + 1 - 2 \cdot \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right) \\
-&= 2 - 2 \cdot \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right) \\
-&= 2 \cdot \left(1 - \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)\right)
+\langle \phi(x_i), \phi(x_i) \rangle - \langle \phi(x_i), \phi(x_j) \rangle - \langle \phi(x_j), \phi(x_i) \rangle + \langle \phi(x_j), \phi(x_j) \rangle &= \langle \phi(x_i), \phi(x_i) \rangle - 2\langle \phi(x_i), \phi(x_j) \rangle + \langle \phi(x_j), \phi(x_j) \rangle \\
+&= \langle \phi(x_i), \phi(x_i) \rangle + \langle \phi(x_j), \phi(x_j) \rangle - 2\langle \phi(x_i), \phi(x_j) \rangle
 \end{align}$$
 
-#### Step 5: Analyzing the Expression
-Since $\exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right) > 0$ for any finite $\|x_i - x_j\|$:
+**Step 2.4**: Substitute kernel values using the kernel-feature space relationship:
+$$\|\phi(x_i) - \phi(x_j)\|^2 = k(x_i, x_i) + k(x_j, x_j) - 2k(x_i, x_j)$$
+
+**Result**: We now have a formula for the squared distance in terms of kernel values only!
+
+#### Step 3: Analyzing the Gaussian Kernel Properties
+
+**Given**: Gaussian kernel $k(x_i, x_j) = \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$
+
+**Step 3.1**: Calculate $k(x_i, x_i)$ (kernel of a point with itself):
+$$\begin{align}
+k(x_i, x_i) &= \exp\left(-\frac{1}{2}\|x_i - x_i\|^2\right) \\
+&= \exp\left(-\frac{1}{2} \cdot 0^2\right) \\
+&= \exp(0) \\
+&= 1
+\end{align}$$
+
+**Step 3.2**: Calculate $k(x_j, x_j)$ (kernel of a point with itself):
+$$\begin{align}
+k(x_j, x_j) &= \exp\left(-\frac{1}{2}\|x_j - x_j\|^2\right) \\
+&= \exp\left(-\frac{1}{2} \cdot 0^2\right) \\
+&= \exp(0) \\
+&= 1
+\end{align}$$
+
+**Step 3.3**: The cross-term $k(x_i, x_j)$:
+$$k(x_i, x_j) = \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$$
+
+**Key Observation**: Since $\|x_i - x_j\|^2 \geq 0$ for any real vectors, we have:
+$$0 < \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right) \leq 1$$
+
+#### Step 4: Substituting into the Distance Formula
+
+**Step 4.1**: Substitute the kernel values into our distance formula:
+$$\begin{align}
+\|\phi(x_i) - \phi(x_j)\|^2 &= k(x_i, x_i) + k(x_j, x_j) - 2k(x_i, x_j) \\
+&= 1 + 1 - 2 \cdot \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right) \\
+&= 2 - 2 \cdot \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)
+\end{align}$$
+
+**Step 4.2**: Factor out the common term:
+$$\|\phi(x_i) - \phi(x_j)\|^2 = 2 \cdot \left(1 - \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)\right)$$
+
+#### Step 5: Analyzing the Bounded Expression
+
+**Step 5.1**: Let's analyze the term inside the parentheses:
+$$1 - \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$$
+
+**Step 5.2**: Since $\exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right) > 0$ for any finite distance:
 $$1 - \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right) < 1$$
 
-Therefore:
-$$\|\phi(x_i) - \phi(x_j)\|^2 < 2$$
+**Step 5.3**: Therefore:
+$$\|\phi(x_i) - \phi(x_j)\|^2 < 2 \cdot 1 = 2$$
 
-Taking the square root:
-$$\|\phi(x_i) - \phi(x_j)\| < \sqrt{2} \approx 1.414 < 2$$
+**Step 5.4**: Taking the square root of both sides:
+$$\|\phi(x_i) - \phi(x_j)\| < \sqrt{2} \approx 1.414$$
 
-#### Step 6: Verification with Numerical Examples
-Let's verify our theoretical result with concrete examples using the points from Part 2: $x_1 = (0,0)$, $x_2 = (1,0)$, $x_3 = (0,1)$.
-
-**Example 1**: $x_1 = (0, 0)$, $x_2 = (1, 0)$
-
-Step-by-step calculation:
-1. **Original distance**: $\|x_1 - x_2\| = \|(0,0) - (1,0)\| = \|(-1,0)\| = \sqrt{(-1)^2 + 0^2} = 1.0000$
-2. **Squared distance**: $\|x_1 - x_2\|^2 = 1.0000$
-3. **Kernel value**: $k(x_1, x_2) = \exp\left(-\frac{1}{2} \cdot 1.0000\right) = \exp(-0.5000) = 0.606531$
-4. **Mapped distance squared**: $\|\phi(x_1) - \phi(x_2)\|^2 = 2 - 2 \cdot 0.606531 = 0.786939$
-5. **Mapped distance**: $\|\phi(x_1) - \phi(x_2)\| = \sqrt{0.786939} = 0.887096$
-6. **Bound check**: $0.887096 < 2$ ✓
-
-**Example 2**: $x_1 = (0, 0)$, $x_3 = (0, 1)$
-
-Step-by-step calculation:
-1. **Original distance**: $\|x_1 - x_3\| = \|(0,0) - (0,1)\| = \|(0,-1)\| = \sqrt{0^2 + (-1)^2} = 1.0000$
-2. **Squared distance**: $\|x_1 - x_3\|^2 = 1.0000$
-3. **Kernel value**: $k(x_1, x_3) = \exp\left(-\frac{1}{2} \cdot 1.0000\right) = \exp(-0.5000) = 0.606531$
-4. **Mapped distance squared**: $\|\phi(x_1) - \phi(x_3)\|^2 = 2 - 2 \cdot 0.606531 = 0.786939$
-5. **Mapped distance**: $\|\phi(x_1) - \phi(x_3)\| = \sqrt{0.786939} = 0.887096$
-6. **Bound check**: $0.887096 < 2$ ✓
-
-**Example 3**: $x_2 = (1, 0)$, $x_3 = (0, 1)$
-
-Step-by-step calculation:
-1. **Original distance**: $\|x_2 - x_3\| = \|(1,0) - (0,1)\| = \|(1,-1)\| = \sqrt{1^2 + (-1)^2} = \sqrt{2} \approx 1.4142$
-2. **Squared distance**: $\|x_2 - x_3\|^2 = 2.0000$
-3. **Kernel value**: $k(x_2, x_3) = \exp\left(-\frac{1}{2} \cdot 2.0000\right) = \exp(-1.0000) = 0.367879$
-4. **Mapped distance squared**: $\|\phi(x_2) - \phi(x_3)\|^2 = 2 - 2 \cdot 0.367879 = 1.264241$
-5. **Mapped distance**: $\|\phi(x_2) - \phi(x_3)\| = \sqrt{1.264241} = 1.124385$
-6. **Bound check**: $1.124385 < 2$ ✓
-
-All mapped distances are indeed less than 2, confirming our theoretical result. The actual bound is $\sqrt{2} \approx 1.414$, which is tighter than the required bound of 2.
+**Step 5.5**: Since $\sqrt{2} < 2$, we have:
+$$\|\phi(x_i) - \phi(x_j)\| < 2$$
 
 ### Part 2: Kernel Matrix and Positive Semi-definiteness
 
@@ -191,33 +216,6 @@ This result is expected because:
 2. By Mercer's theorem, any valid kernel function produces a positive semi-definite kernel matrix
 3. The positive semi-definiteness ensures that the kernel can be used in convex optimization problems
 
-## Practical Implementation
-
-### Numerical Verification
-The code implementation confirms our theoretical results with high precision:
-
-```python
-# Kernel matrix calculation
-K = [[1.000000, 0.606531, 0.606531],
-     [0.606531, 1.000000, 0.367879],
-     [0.606531, 0.367879, 1.000000]]
-
-# Eigenvalues
-eigenvalues = [0.306675, 2.061204, 0.632121]
-
-# All eigenvalues ≥ 0: True
-# Minimum eigenvalue: 0.306675
-```
-
-### Distance Bounds Verification
-The numerical examples show that all mapped distances are indeed bounded:
-
-| Point Pair | Original Distance | Mapped Distance | Bound Check |
-|------------|-------------------|-----------------|-------------|
-| $(x_1, x_2)$ | 1.000 | 0.887 | ✓ < 2 |
-| $(x_1, x_3)$ | 1.000 | 0.887 | ✓ < 2 |
-| $(x_2, x_3)$ | 1.414 | 1.124 | ✓ < 2 |
-
 ## Visual Explanations
 
 ### Kernel Matrix Visualization
@@ -233,7 +231,7 @@ The left plot shows the eigenvalues of the kernel matrix, confirming that all ar
 ### Feature Space Mapping Concept
 ![Feature Space Mapping](../Images/L5_3_Quiz_31/feature_space_mapping.png)
 
-This 3D visualization conceptually represents how the Gaussian kernel maps 2D points to a higher-dimensional feature space. The surface shows the simplified mapping, while the points show both original (circles) and mapped (triangles) representations. In reality, the Gaussian kernel maps to an infinite-dimensional space.
+This 3D visualization conceptually represents how the Gaussian kernel maps 2D points to a higher-dimensional feature space. The surface shows the simplified mapping, while the points show both original (circles) and mapped (triangles) representations with proper LaTeX subscripts ($x_1$, $x_2$, $x_3$ and $\phi(x_1)$, $\phi(x_2)$, $\phi(x_3)$). In reality, the Gaussian kernel maps to an infinite-dimensional space.
 
 ### Kernel Function Behavior Analysis
 ![Kernel Behavior Analysis](../Images/L5_3_Quiz_31/kernel_behavior_analysis.png)
