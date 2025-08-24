@@ -14,6 +14,7 @@ plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 12
 plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
 
 print("=" * 60)
 print("QUESTION 3: POLYNOMIAL KERNEL CALCULATIONS")
@@ -279,6 +280,67 @@ def visualize_feature_mapping():
     plt.close()
 
 visualize_feature_mapping()
+
+# Add simple visualization for kernel calculation concept
+print("\n" + "="*50)
+print("SIMPLE VISUALIZATION: KERNEL CALCULATION CONCEPT")
+print("="*50)
+
+def create_simple_kernel_visualization():
+    """
+    Create a simple, clean visualization showing kernel calculation concept
+    """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Left: Vector representation
+    ax1.quiver(0, 0, x[0], x[1], angles='xy', scale_units='xy', scale=1,
+               color='red', width=0.01, label=f'x = ({x[0]}, {x[1]})')
+    ax1.quiver(0, 0, z[0], z[1], angles='xy', scale_units='xy', scale=1,
+               color='blue', width=0.01, label=f'z = ({z[0]}, {z[1]})')
+
+    # Show dot product geometrically
+    dot_product = np.dot(x[:2], z[:2])  # Use only first 2 dimensions for visualization
+    ax1.text(1.5, 2.5, f'x·z = {dot_product}', fontsize=16, fontweight='bold',
+             bbox=dict(boxstyle="round,pad=0.3", fc="yellow", alpha=0.8))
+
+    ax1.set_xlim(-0.5, 3.5)
+    ax1.set_ylim(-1.5, 3)
+    ax1.set_aspect('equal')
+    ax1.grid(True, alpha=0.3)
+    ax1.legend(fontsize=12)
+    ax1.set_title('Input Vectors', fontsize=16, fontweight='bold')
+
+    # Right: Kernel values for different parameters
+    c_values = [0, 0.5, 1, 2]
+    d_values = [1, 2, 3]
+
+    kernel_matrix = np.zeros((len(c_values), len(d_values)))
+
+    for i, c in enumerate(c_values):
+        for j, d in enumerate(d_values):
+            kernel_val = (dot_product + c) ** d
+            kernel_matrix[i, j] = kernel_val
+
+    im = ax2.imshow(kernel_matrix, cmap='viridis', aspect='auto')
+
+    # Add text annotations
+    for i in range(len(c_values)):
+        for j in range(len(d_values)):
+            ax2.text(j, i, f'{kernel_matrix[i, j]:.1f}',
+                     ha="center", va="center", color="white", fontweight='bold', fontsize=12)
+
+    ax2.set_xticks(range(len(d_values)))
+    ax2.set_xticklabels([f'd={d}' for d in d_values])
+    ax2.set_yticks(range(len(c_values)))
+    ax2.set_yticklabels([f'c={c}' for c in c_values])
+    ax2.set_title('Kernel Values K(x,z)', fontsize=16, fontweight='bold')
+
+    plt.colorbar(im, ax=ax2)
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'simple_kernel_concept.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+
+create_simple_kernel_visualization()
 
 print(f"\nPlots saved to: {save_dir}")
 print("\n" + "="*60)

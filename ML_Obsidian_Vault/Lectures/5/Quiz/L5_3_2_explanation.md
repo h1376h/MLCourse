@@ -121,6 +121,11 @@ This occurs when:
 
 ## Visual Explanations
 
+### Simple Complexity Comparison
+![Simple Complexity](../Images/L5_3_Quiz_2/complexity_simple_visualization.png)
+
+This clean visualization shows the core concept: the kernel trick maintains linear complexity O(n) while explicit feature mapping grows exponentially. The right panel shows the dramatic speedup advantages, with the orange line indicating the 10× threshold where kernel methods become significantly beneficial.
+
 ### Computational Complexity Comparison
 ![Computational Complexity](../Images/L5_3_Quiz_2/computational_complexity_comparison.png)
 

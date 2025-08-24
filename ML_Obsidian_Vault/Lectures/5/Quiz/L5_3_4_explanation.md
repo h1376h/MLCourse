@@ -134,6 +134,11 @@ For a 70% similarity threshold between moderately different users (A and C), the
 
 ## Visual Explanations
 
+### Simple RBF Concept
+![Simple RBF Concept](../Images/L5_3_Quiz_4/simple_rbf_concept.png)
+
+This clean visualization shows the core RBF kernel concept: how the kernel value depends on the distance between two points, with different $\gamma$ parameters controlling the decay rate. The visualization demonstrates the fundamental property that closer points have higher similarity.
+
 ### RBF Kernel Distance Decay
 ![RBF Distance Decay](../Images/L5_3_Quiz_4/rbf_distance_decay.png)
 

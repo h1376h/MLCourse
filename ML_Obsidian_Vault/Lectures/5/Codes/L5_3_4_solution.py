@@ -14,6 +14,7 @@ plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 12
 plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
 
 print("=" * 60)
 print("QUESTION 4: RBF KERNEL PROPERTIES")
@@ -386,6 +387,65 @@ def design_recommendation_system():
     plt.close()
 
 design_recommendation_system()
+
+# Add simple visualization for RBF kernel concept
+print("\n" + "="*50)
+print("SIMPLE VISUALIZATION: RBF KERNEL CONCEPT")
+print("="*50)
+
+def create_simple_rbf_visualization():
+    """
+    Create a simple, clean visualization showing RBF kernel concept
+    """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Left: Distance vs Kernel Value
+    distances = np.linspace(0, 3, 100)
+    gamma_values = [0.5, 1, 2]
+    colors = ['blue', 'green', 'red']
+
+    for gamma, color in zip(gamma_values, colors):
+        kernel_values = np.exp(-gamma * distances**2)
+        ax1.plot(distances, kernel_values, color=color, linewidth=4,
+                label=f'$\\gamma = {gamma}$')
+
+    ax1.axhline(y=1, color='black', linestyle='--', alpha=0.5)
+    ax1.axhline(y=0, color='black', linestyle='--', alpha=0.5)
+    ax1.set_xlabel('Distance $||\\mathbf{x} - \\mathbf{z}||$', fontsize=14, fontweight='bold')
+    ax1.set_ylabel('Kernel Value', fontsize=14, fontweight='bold')
+    ax1.set_title('RBF Kernel Decay', fontsize=16, fontweight='bold')
+    ax1.grid(True, alpha=0.3)
+    ax1.legend(fontsize=12)
+    ax1.set_ylim(-0.1, 1.1)
+
+    # Right: Our specific calculation
+    x_point = np.array([1, 0])
+    z_point = np.array([0, 1])
+    distance = np.linalg.norm(x_point - z_point)
+
+    gamma_calc = [0.5, 1, 2]
+    kernel_calc = [np.exp(-g * distance**2) for g in gamma_calc]
+
+    bars = ax2.bar(range(len(gamma_calc)), kernel_calc,
+                   color=['blue', 'green', 'red'], alpha=0.7, width=0.6)
+
+    # Add value labels on bars
+    for bar, val in zip(bars, kernel_calc):
+        ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.02,
+                f'{val:.3f}', ha='center', va='bottom', fontweight='bold', fontsize=12)
+
+    ax2.set_xticks(range(len(gamma_calc)))
+    ax2.set_xticklabels([f'$\\gamma = {g}$' for g in gamma_calc])
+    ax2.set_ylabel('Kernel Value', fontsize=14, fontweight='bold')
+    ax2.set_title(f'$K(\\mathbf{{x}},\\mathbf{{z}})$ for $||\\mathbf{{x}}-\\mathbf{{z}}|| = {distance:.3f}$', fontsize=16, fontweight='bold')
+    ax2.grid(True, alpha=0.3, axis='y')
+    ax2.set_ylim(0, 0.5)
+
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'simple_rbf_concept.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+
+create_simple_rbf_visualization()
 
 print(f"\nPlots saved to: {save_dir}")
 print("\n" + "="*60)

@@ -72,31 +72,39 @@ Notice that positive class points have $x_1x_2 = 0$, while negative class points
 In 3D, we need to find $w_1, w_2, w_3, w_0$ such that:
 $$w_1x_1 + w_2x_2 + w_3x_1x_2 + w_0 = 0$$
 
-We can use the hyperplane: $x_3 - 0.5 = 0$, or $x_1x_2 = 0.5$
-This gives us $\mathbf{w} = [0, 0, 1, -0.5]$
+Analyzing the transformed points:
+- **Negative class**: $(0,0,0)$ and $(1,1,1)$
+- **Positive class**: $(0,1,0)$ and $(1,0,0)$
+
+Key insight: Positive points have $x_1 + x_2 = 1$ and $x_1x_2 = 0$, while negative points have $x_1 + x_2 = 0$ or $2$.
+
+We can use the hyperplane: $x_1 + x_2 - 2x_1x_2 - 0.5 = 0$
+This gives us $\mathbf{w} = [1, 1, -2, -0.5]$
 
 Testing this hyperplane:
-- $(0,0,0)$: $0 \cdot 0 + 0 \cdot 0 + 1 \cdot 0 - 0.5 = -0.5 < 0$ → Class $-1$ ✓
-- $(0,1,0)$: $0 \cdot 0 + 0 \cdot 1 + 1 \cdot 0 - 0.5 = -0.5 < 0$ → Class $+1$ ✗
-- $(1,0,0)$: $0 \cdot 1 + 0 \cdot 0 + 1 \cdot 0 - 0.5 = -0.5 < 0$ → Class $+1$ ✗
-- $(1,1,1)$: $0 \cdot 1 + 0 \cdot 1 + 1 \cdot 1 - 0.5 = 0.5 > 0$ → Class $-1$ ✗
+- $(0,0,0)$: $1 \cdot 0 + 1 \cdot 0 + (-2) \cdot 0 - 0.5 = -0.5 < 0$ → Class $-1$ ✓
+- $(0,1,0)$: $1 \cdot 0 + 1 \cdot 1 + (-2) \cdot 0 - 0.5 = 0.5 > 0$ → Class $+1$ ✓
+- $(1,0,0)$: $1 \cdot 1 + 1 \cdot 0 + (-2) \cdot 0 - 0.5 = 0.5 > 0$ → Class $+1$ ✓
+- $(1,1,1)$: $1 \cdot 1 + 1 \cdot 1 + (-2) \cdot 1 - 0.5 = -0.5 < 0$ → Class $-1$ ✓
 
-We need to adjust our approach. Let's use: $-x_3 + 0.5 = 0$, giving $\mathbf{w} = [0, 0, -1, 0.5]$
+**Perfect separation achieved!**
 
 ### Step 4: Decision Boundary in Original 2D Space
 
-The separating condition $x_1x_2 = 0.5$ in the 3D feature space translates back to the original 2D space as:
-$$x_1x_2 = 0.5$$
+The separating hyperplane $x_1 + x_2 - 2x_1x_2 - 0.5 = 0$ in the 3D feature space translates back to the original 2D space as:
+$$x_1 + x_2 - 2x_1x_2 = 0.5$$
 
-This is a **hyperbola**! The decision rule becomes:
-- **Positive class**: $x_1x_2 < 0.5$
-- **Negative class**: $x_1x_2 > 0.5$
+This is a **more complex curve** than a simple hyperbola! The decision rule becomes:
+- **Positive class**: $x_1 + x_2 - 2x_1x_2 > 0.5$
+- **Negative class**: $x_1 + x_2 - 2x_1x_2 < 0.5$
 
 Verification with original points:
-- $(0,0)$: $0 \cdot 0 = 0 < 0.5$ → Predicted $+1$, True $-1$ ✗
-- $(0,1)$: $0 \cdot 1 = 0 < 0.5$ → Predicted $+1$, True $+1$ ✓
-- $(1,0)$: $1 \cdot 0 = 0 < 0.5$ → Predicted $+1$, True $+1$ ✓
-- $(1,1)$: $1 \cdot 1 = 1 > 0.5$ → Predicted $-1$, True $-1$ ✓
+- $(0,0)$: $0 + 0 - 2(0)(0) = 0 < 0.5$ → Predicted $-1$, True $-1$ ✓
+- $(0,1)$: $0 + 1 - 2(0)(1) = 1 > 0.5$ → Predicted $+1$, True $+1$ ✓
+- $(1,0)$: $1 + 0 - 2(1)(0) = 1 > 0.5$ → Predicted $+1$, True $+1$ ✓
+- $(1,1)$: $1 + 1 - 2(1)(1) = 0 < 0.5$ → Predicted $-1$, True $-1$ ✓
+
+**Perfect classification achieved!**
 
 ### Step 5: Kernel Function Calculation
 
@@ -141,6 +149,11 @@ A pattern is SOLVABLE (valid) if:
 
 ## Visual Explanations
 
+### Simple Concept Visualization
+![XOR Simple Concept](../Images/L5_3_Quiz_1/xor_simple_concept.png)
+
+This clean visualization shows the core concept: the XOR problem is impossible to solve in 2D (left) but becomes perfectly separable when transformed to 3D (right). The transformation $\phi(x_1, x_2) = (x_1, x_2, x_1x_2)$ maps the data to a space where a linear hyperplane can separate the classes.
+
 ### XOR Problem Visualization
 ![XOR Not Separable](../Images/L5_3_Quiz_1/xor_not_separable.png)
 
@@ -154,12 +167,22 @@ This 3D visualization shows how the XOR data points are transformed using $\phi(
 ### Separating Hyperplane in 3D
 ![XOR Separating Hyperplane](../Images/L5_3_Quiz_1/xor_separating_hyperplane.png)
 
-The green plane represents the separating hyperplane $x_1x_2 = 0.5$ in the 3D feature space. This plane successfully separates the positive and negative class points.
+The green plane represents the separating hyperplane $x_1 + x_2 - 2x_1x_2 - 0.5 = 0$ in the 3D feature space. This plane successfully separates the positive and negative class points with perfect accuracy.
 
 ### Decision Boundary in Original 2D Space
 ![XOR 2D Decision Boundary](../Images/L5_3_Quiz_1/xor_2d_decision_boundary.png)
 
-When projected back to the original 2D space, the linear hyperplane from 3D becomes a hyperbola $x_1x_2 = 0.5$. The light blue region represents the positive class ($x_1x_2 < 0.5$) and the light pink region represents the negative class ($x_1x_2 > 0.5$).
+When projected back to the original 2D space, the linear hyperplane from 3D becomes the curve $x_1 + x_2 - 2x_1x_2 = 0.5$. The light blue region represents the positive class ($x_1 + x_2 - 2x_1x_2 > 0.5$) and the light pink region represents the negative class ($x_1 + x_2 - 2x_1x_2 < 0.5$).
+
+### Kernel Transformation Visualization
+![XOR Kernel Transformation](../Images/L5_3_Quiz_1/xor_kernel_transformation.png)
+
+This visualization demonstrates the kernel transformation concept, showing how the kernel function $K(\mathbf{x}, \mathbf{z}) = \phi(\mathbf{x})^T\phi(\mathbf{z})$ relates to the explicit feature mapping.
+
+### Simple Visualization
+![XOR Simple Visualization](../Images/L5_3_Quiz_1/xor_simple_visualization.png)
+
+A clean, side-by-side comparison showing the XOR problem in the original 2D space (left) where it's not linearly separable, and in the transformed 3D space (right) where it becomes linearly separable.
 
 ### Puzzle Game Visualization
 ![XOR Puzzle Game](../Images/L5_3_Quiz_1/xor_puzzle_game.png)
@@ -189,8 +212,8 @@ The three panels show: (1) valid patterns in 3D space, (2) invalid patterns in 3
 ## Conclusion
 - We proved that XOR data is not linearly separable in $\mathbb{R}^2$ through contradiction
 - The feature transformation $\phi(x_1, x_2) = (x_1, x_2, x_1x_2)$ maps the data to a 3D space where it becomes separable
-- The separating hyperplane $x_1x_2 = 0.5$ in 3D corresponds to a hyperbolic decision boundary in the original 2D space
-- The kernel function $K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T\mathbf{z} + (\mathbf{x}^T\mathbf{z})^2$ allows efficient computation without explicit feature mapping
+- The separating hyperplane $x_1 + x_2 - 2x_1x_2 - 0.5 = 0$ in 3D corresponds to the decision boundary $x_1 + x_2 - 2x_1x_2 = 0.5$ in the original 2D space
+- The kernel function $K(\mathbf{x}, \mathbf{z}) = \phi(\mathbf{x})^T\phi(\mathbf{z})$ allows efficient computation without explicit feature mapping
 - The puzzle game design demonstrates practical applications of the 3D thinking approach to pattern classification
 
 This example illustrates the fundamental power of the kernel trick: transforming an impossible linear classification problem into a solvable one through clever feature space mapping.

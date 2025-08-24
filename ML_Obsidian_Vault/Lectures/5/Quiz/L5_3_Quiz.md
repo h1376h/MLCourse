@@ -360,8 +360,8 @@ Consider an SVM classifier using a second-order polynomial kernel. We compare tw
 - **Mapping 2**: $\phi_2(x) = [2x, 2x^2]^T$
 
 ### Task
-1.  In general, is the geometric margin we would attain using the feature map $\phi_2(x)$ **greater than**, **equal to**, or **smaller than** the margin from using $\phi_1(x)$?
-2.  Explain your reasoning by describing how scaling the feature vectors affects the optimal weight vector $\|\mathbf{w}\|$ and the geometric margin $1/\|\mathbf{w}\|$.
+1. In general, is the geometric margin we would attain using the feature map $\phi_2(x)$ **greater than**, **equal to**, or **smaller than** the margin from using $\phi_1(x)$?
+2. Explain your reasoning by describing how scaling the feature vectors affects the optimal weight vector $\|\mathbf{w}\|$ and the geometric margin $\frac{1}{\|\mathbf{w}\|}$.
 
 For a detailed explanation of this problem, see [Question 25: Feature Space Scaling and Margin](L5_3_25_explanation.md).
 

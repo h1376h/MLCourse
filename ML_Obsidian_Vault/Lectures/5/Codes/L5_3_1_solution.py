@@ -14,6 +14,7 @@ plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 12
 plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
 
 print("=" * 60)
 print("QUESTION 1: XOR PROBLEM AND FEATURE TRANSFORMATION")
@@ -177,15 +178,14 @@ def find_separating_hyperplane(X_transformed, y):
     print("Negative class: (0,0,0) and (1,1,1)")
     print("Positive class: (0,1,0) and (1,0,0)")
 
-    print("\nNotice that:")
-    print("- Positive class points have x1*x2 = 0")
-    print("- One negative point has x1*x2 = 0, the other has x1*x2 = 1")
-    print("- We need to separate based on the third dimension (x1*x2)")
+    print("\nKey insight: We need to find a hyperplane that separates:")
+    print("- Positive: (0,1,0) and (1,0,0) - these have x1+x2=1, x1*x2=0")
+    print("- Negative: (0,0,0) and (1,1,1) - these have x1+x2=0 or 2, x1*x2=0 or 1")
 
-    print("\nLet's try the hyperplane: -x3 + 0.5 = 0, or x1*x2 = 0.5")
-    print("This gives us w = [0, 0, -1, 0.5]")
+    print("\nLet's try the hyperplane: x1 + x2 - 2*x1*x2 - 0.5 = 0")
+    print("This gives us w = [1, 1, -2, -0.5]")
 
-    w = np.array([0, 0, -1, 0.5])
+    w = np.array([1, 1, -2, -0.5])
 
     print(f"\nTesting hyperplane with w = {w}:")
     all_correct = True
@@ -238,11 +238,14 @@ for i, label in enumerate([-1, 1]):
                c=colors[i], marker=markers[i], s=200, edgecolor='black', linewidth=2,
                label=labels[i])
 
-# Plot the separating hyperplane x3 = 0.5
-x1_plane = np.linspace(-0.2, 1.2, 10)
-x2_plane = np.linspace(-0.2, 1.2, 10)
+# Plot the separating hyperplane x1 + x2 - 2*x1*x2 - 0.5 = 0
+# Rearranged: x3 = (x1 + x2 - 0.5) / 2
+x1_plane = np.linspace(-0.2, 1.2, 20)
+x2_plane = np.linspace(-0.2, 1.2, 20)
 X1_plane, X2_plane = np.meshgrid(x1_plane, x2_plane)
-X3_plane = np.full_like(X1_plane, 0.5)
+# From w1*x1 + w2*x2 + w3*x3 + w0 = 0, we get x3 = -(w1*x1 + w2*x2 + w0)/w3
+# For w = [1, 1, -2, -0.5]: x3 = -(1*x1 + 1*x2 - 0.5)/(-2) = (x1 + x2 - 0.5)/2
+X3_plane = (X1_plane + X2_plane - 0.5) / 2
 
 ax.plot_surface(X1_plane, X2_plane, X3_plane, alpha=0.3, color='green')
 
@@ -254,7 +257,7 @@ for i, (point, label) in enumerate(zip(X_transformed, y)):
 ax.set_xlabel('$x_1$', fontsize=12)
 ax.set_ylabel('$x_2$', fontsize=12)
 ax.set_zlabel('$x_1 x_2$', fontsize=12)
-ax.set_title('Separating Hyperplane in 3D Feature Space\n$x_1 x_2 = 0.5$', fontsize=14)
+ax.set_title('Separating Hyperplane in 3D Feature Space\n$x_1 + x_2 - 2x_1x_2 - 0.5 = 0$', fontsize=14)
 ax.legend()
 
 plt.tight_layout()
@@ -295,24 +298,26 @@ for i, label in enumerate([-1, 1]):
     plt.scatter(X[mask, 0], X[mask, 1], c=colors[i], marker=markers[i],
                 s=200, edgecolor='black', linewidth=2, label=labels[i])
 
-# Plot the hyperbola x1*x2 = 0.5
-x1_hyp = np.linspace(0.1, 1.5, 100)
-x2_hyp = 0.5 / x1_hyp
-plt.plot(x1_hyp, x2_hyp, 'g-', linewidth=3, label='Decision Boundary: $x_1 x_2 = 0.5$')
+# Plot the correct decision boundary: x1 + x2 - 2*x1*x2 = 0.5
+# This is more complex than a simple hyperbola
 
-# Shade the regions
-x1_grid = np.linspace(0.01, 1.5, 100)
-x2_grid = np.linspace(0.01, 1.5, 100)
+# Create grid for the correct decision boundary
+x1_grid = np.linspace(-0.1, 1.5, 200)
+x2_grid = np.linspace(-0.1, 1.5, 200)
 X1_grid, X2_grid = np.meshgrid(x1_grid, x2_grid)
-Z_grid = X1_grid * X2_grid
+Z_grid = X1_grid + X2_grid - 2*X1_grid*X2_grid  # The correct expression
 
-plt.contourf(X1_grid, X2_grid, Z_grid, levels=[0, 0.5], colors=['lightblue'], alpha=0.3)
-plt.contourf(X1_grid, X2_grid, Z_grid, levels=[0.5, 2], colors=['lightpink'], alpha=0.3)
+# Plot the decision boundary contour
+plt.contour(X1_grid, X2_grid, Z_grid, levels=[0.5], colors=['green'], linewidths=3)
 
-# Add region labels
-plt.text(0.2, 0.8, 'Positive Class\n$x_1 x_2 < 0.5$', fontsize=12, ha='center',
+# Shade the regions correctly
+plt.contourf(X1_grid, X2_grid, Z_grid, levels=[-1, 0.5], colors=['lightpink'], alpha=0.3)
+plt.contourf(X1_grid, X2_grid, Z_grid, levels=[0.5, 2], colors=['lightblue'], alpha=0.3)
+
+# Add region labels with correct expressions
+plt.text(0.2, 0.8, 'Positive Class\nx1+x2-2*x1*x2 > 0.5', fontsize=10, ha='center',
          bbox=dict(boxstyle="round,pad=0.3", fc="lightblue", alpha=0.7))
-plt.text(1.2, 1.2, 'Negative Class\n$x_1 x_2 > 0.5$', fontsize=12, ha='center',
+plt.text(0.8, 0.2, 'Negative Class\nx1+x2-2*x1*x2 < 0.5', fontsize=10, ha='center',
          bbox=dict(boxstyle="round,pad=0.3", fc="lightpink", alpha=0.7))
 
 # Add point labels
@@ -325,7 +330,7 @@ for i, (point, label) in enumerate(zip(X, y)):
 
 plt.xlabel('$x_1$', fontsize=14)
 plt.ylabel('$x_2$', fontsize=14)
-plt.title('XOR Decision Boundary in Original 2D Space\n$x_1 x_2 = 0.5$', fontsize=16)
+plt.title('XOR Decision Boundary in Original 2D Space\n$x_1 + x_2 - 2x_1x_2 = 0.5$', fontsize=16)
 plt.grid(True, alpha=0.3)
 plt.legend(fontsize=12)
 plt.xlim(-0.1, 1.5)
@@ -334,6 +339,78 @@ plt.ylim(-0.1, 1.5)
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'xor_2d_decision_boundary.png'), dpi=300, bbox_inches='tight')
 plt.close()
+
+# Add a simple, clean visualization for better understanding
+print("\n" + "="*50)
+print("SIMPLE VISUALIZATION: XOR TRANSFORMATION CONCEPT")
+print("="*50)
+
+def create_simple_visualization():
+    """
+    Create a simple, clean visualization showing the XOR transformation concept
+    """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 7))
+
+    # Left plot: 2D XOR problem (impossible to separate)
+    ax1.scatter(X[y == -1, 0], X[y == -1, 1], c='red', s=300, marker='o',
+                edgecolor='black', linewidth=3, alpha=0.8)
+    ax1.scatter(X[y == 1, 0], X[y == 1, 1], c='blue', s=300, marker='s',
+                edgecolor='black', linewidth=3, alpha=0.8)
+
+    # Draw some failed separation attempts
+    x_line = np.linspace(-0.3, 1.3, 100)
+    failed_lines = [
+        (0, 1, -0.5),  # Horizontal-ish
+        (1, 0, -0.5),  # Vertical-ish
+        (1, 1, -1),    # Diagonal
+        (-1, 1, 0)     # Anti-diagonal
+    ]
+
+    for w1, w2, w0 in failed_lines:
+        if w2 != 0:
+            y_line = (-w1 * x_line - w0) / w2
+            ax1.plot(x_line, y_line, '--', alpha=0.4, color='gray', linewidth=2)
+
+    ax1.set_xlim(-0.3, 1.3)
+    ax1.set_ylim(-0.3, 1.3)
+    ax1.set_aspect('equal')
+    ax1.grid(True, alpha=0.3)
+    ax1.set_title('2D: Impossible to Separate', fontsize=16, fontweight='bold')
+
+    # Right plot: 3D transformed space (separable)
+    ax2 = fig.add_subplot(122, projection='3d')
+
+    # Plot transformed points
+    ax2.scatter(X_transformed[y == -1, 0], X_transformed[y == -1, 1], X_transformed[y == -1, 2],
+                c='red', s=300, marker='o', edgecolor='black', linewidth=3, alpha=0.8)
+    ax2.scatter(X_transformed[y == 1, 0], X_transformed[y == 1, 1], X_transformed[y == 1, 2],
+                c='blue', s=300, marker='s', edgecolor='black', linewidth=3, alpha=0.8)
+
+    # Plot the separating hyperplane
+    x1_plane = np.linspace(-0.2, 1.2, 15)
+    x2_plane = np.linspace(-0.2, 1.2, 15)
+    X1_plane, X2_plane = np.meshgrid(x1_plane, x2_plane)
+    X3_plane = (X1_plane + X2_plane - 0.5) / 2
+
+    ax2.plot_surface(X1_plane, X2_plane, X3_plane, alpha=0.4, color='green')
+
+    ax2.set_xlim(-0.2, 1.2)
+    ax2.set_ylim(-0.2, 1.2)
+    ax2.set_zlim(-0.2, 1.2)
+    ax2.set_title('3D: Perfectly Separable', fontsize=16, fontweight='bold')
+
+    # Remove axis labels for cleaner look
+    ax1.set_xticks([0, 1])
+    ax1.set_yticks([0, 1])
+    ax2.set_xticks([0, 1])
+    ax2.set_yticks([0, 1])
+    ax2.set_zticks([0, 1])
+
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'xor_simple_concept.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+
+create_simple_visualization()
 
 # Task 5: Calculate the kernel function
 print("\n" + "="*50)
@@ -518,6 +595,78 @@ def design_puzzle_game():
     return valid_patterns, invalid_patterns
 
 valid_patterns, invalid_patterns = design_puzzle_game()
+
+# Additional simple visualization for better understanding
+print("\n" + "="*50)
+print("CREATING SIMPLE VISUALIZATION")
+print("="*50)
+
+def create_simple_visualization():
+    """
+    Create a simple, clean visualization showing the XOR transformation concept
+    """
+    fig, axes = plt.subplots(1, 3, figsize=(18, 6))
+
+    # Plot 1: Original XOR problem (clean)
+    ax1 = axes[0]
+    for i, label in enumerate([-1, 1]):
+        mask = y == label
+        ax1.scatter(X[mask, 0], X[mask, 1], c=colors[i], marker=markers[i],
+                   s=300, edgecolor='black', linewidth=3, alpha=0.8)
+
+    ax1.set_xlim(-0.3, 1.3)
+    ax1.set_ylim(-0.3, 1.3)
+    ax1.set_aspect('equal')
+    ax1.grid(True, alpha=0.3)
+    ax1.set_title('Original XOR Problem\n(Not Separable)', fontsize=14, fontweight='bold')
+
+    # Plot 2: 3D transformation (clean)
+    ax2 = fig.add_subplot(132, projection='3d')
+    for i, label in enumerate([-1, 1]):
+        mask = y == label
+        ax2.scatter(X_transformed[mask, 0], X_transformed[mask, 1], X_transformed[mask, 2],
+                   c=colors[i], marker=markers[i], s=300, edgecolor='black', linewidth=3, alpha=0.8)
+
+    # Add the separating plane (clean)
+    xx, yy = np.meshgrid(np.linspace(-0.2, 1.2, 10), np.linspace(-0.2, 1.2, 10))
+    zz = (0.5 - xx - yy) / (-2)  # From x1 + x2 - 2*x1*x2 = 0.5
+    ax2.plot_surface(xx, yy, zz, alpha=0.3, color='green')
+
+    ax2.set_title('3D Feature Space\n(Separable)', fontsize=14, fontweight='bold')
+    ax2.view_init(elev=20, azim=45)
+
+    # Plot 3: Decision boundary in 2D (clean)
+    ax3 = axes[2]
+
+    # Create a fine grid for the decision boundary
+    x1_fine = np.linspace(-0.1, 1.1, 200)
+    x2_fine = np.linspace(-0.1, 1.1, 200)
+    X1_fine, X2_fine = np.meshgrid(x1_fine, x2_fine)
+
+    # Calculate decision function: x1 + x2 - 2*x1*x2 - 0.5
+    Z_fine = X1_fine + X2_fine - 2*X1_fine*X2_fine - 0.5
+
+    # Plot decision regions
+    ax3.contourf(X1_fine, X2_fine, Z_fine, levels=[-10, 0, 10], colors=['lightcoral', 'lightblue'], alpha=0.6)
+    ax3.contour(X1_fine, X2_fine, Z_fine, levels=[0], colors=['green'], linewidths=4)
+
+    # Plot data points
+    for i, label in enumerate([-1, 1]):
+        mask = y == label
+        ax3.scatter(X[mask, 0], X[mask, 1], c=colors[i], marker=markers[i],
+                   s=300, edgecolor='black', linewidth=3, alpha=0.9, zorder=5)
+
+    ax3.set_xlim(-0.1, 1.1)
+    ax3.set_ylim(-0.1, 1.1)
+    ax3.set_aspect('equal')
+    ax3.grid(True, alpha=0.3)
+    ax3.set_title('Nonlinear Decision Boundary\n(Solved)', fontsize=14, fontweight='bold')
+
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'xor_simple_visualization.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+
+create_simple_visualization()
 
 print(f"\nPlots saved to: {save_dir}")
 print("\n" + "="*60)

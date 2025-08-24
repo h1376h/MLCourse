@@ -107,6 +107,11 @@ For our vectors with $\mathbf{x}^T\mathbf{z} = -3$:
 
 ## Visual Explanations
 
+### Simple Kernel Concept
+![Simple Kernel Concept](../Images/L5_3_Quiz_3/simple_kernel_concept.png)
+
+This clean visualization shows the core concept: given two input vectors, we can compute their dot product geometrically (left), then apply the polynomial kernel formula with different parameters c and d to get various kernel values (right). The color map shows how kernel values change with different parameter combinations.
+
 ### Parameter $c$ Analysis
 ![Parameter c Analysis](../Images/L5_3_Quiz_3/parameter_c_analysis.png)
 

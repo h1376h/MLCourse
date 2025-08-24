@@ -15,6 +15,7 @@ plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 12
 plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
 
 print("=" * 60)
 print("QUESTION 2: COMPUTATIONAL COMPLEXITY ANALYSIS")
@@ -275,6 +276,72 @@ def analyze_memory_requirements():
     plt.close()
 
 analyze_memory_requirements()
+
+# Additional simple visualization for better understanding
+print("\n" + "="*50)
+print("CREATING SIMPLE VISUALIZATION")
+print("="*50)
+
+def create_simple_complexity_visualization():
+    """
+    Create a simple visualization showing the complexity difference
+    """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
+
+    # Simple comparison chart
+    methods = ['Kernel Trick', 'Explicit Mapping']
+    n10_d3_costs = [10, 286]  # For n=10, d=3
+    n100_d2_costs = [100, 5151]  # For n=100, d=2
+
+    x = np.arange(len(methods))
+    width = 0.35
+
+    bars1 = ax1.bar(x - width/2, n10_d3_costs, width, label='n=10, d=3', color='skyblue', alpha=0.8)
+    bars2 = ax1.bar(x + width/2, n100_d2_costs, width, label='n=100, d=2', color='lightcoral', alpha=0.8)
+
+    ax1.set_ylabel('Computational Cost', fontsize=12, fontweight='bold')
+    ax1.set_title('Kernel Trick vs Explicit Mapping', fontsize=14, fontweight='bold')
+    ax1.set_xticks(x)
+    ax1.set_xticklabels(methods, fontsize=12)
+    ax1.legend(fontsize=11)
+    ax1.set_yscale('log')
+    ax1.grid(True, alpha=0.3)
+
+    # Add value labels on bars
+    for bar in bars1:
+        height = bar.get_height()
+        ax1.text(bar.get_x() + bar.get_width()/2., height,
+                f'{int(height)}', ha='center', va='bottom', fontweight='bold')
+
+    for bar in bars2:
+        height = bar.get_height()
+        ax1.text(bar.get_x() + bar.get_width()/2., height,
+                f'{int(height)}', ha='center', va='bottom', fontweight='bold')
+
+    # Growth visualization
+    degrees = [1, 2, 3, 4, 5]
+    n = 10
+
+    kernel_costs = [n] * len(degrees)  # Always O(n)
+    explicit_costs = [comb(n + d, d) for d in degrees]
+
+    ax2.plot(degrees, kernel_costs, 'o-', linewidth=3, markersize=8,
+             color='green', label='Kernel Trick', alpha=0.8)
+    ax2.plot(degrees, explicit_costs, 's-', linewidth=3, markersize=8,
+             color='red', label='Explicit Mapping', alpha=0.8)
+
+    ax2.set_xlabel('Polynomial Degree (d)', fontsize=12, fontweight='bold')
+    ax2.set_ylabel('Features/Operations', fontsize=12, fontweight='bold')
+    ax2.set_title('Growth with Polynomial Degree (n=10)', fontsize=14, fontweight='bold')
+    ax2.legend(fontsize=11)
+    ax2.grid(True, alpha=0.3)
+    ax2.set_yscale('log')
+
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'complexity_simple_visualization.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+
+create_simple_complexity_visualization()
 
 print(f"\nPlots saved to: {save_dir}")
 print("\n" + "="*60)
