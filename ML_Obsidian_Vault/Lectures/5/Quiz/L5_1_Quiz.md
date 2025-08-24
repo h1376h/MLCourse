@@ -445,10 +445,9 @@ For a detailed explanation of this problem, see [Question 28: Key Terminology](L
 ## Question 29
 
 ### Problem Statement
-Perform basic SVM calculations.
+Given the hyperplane $2x_1 + 3x_2 - 6 = 0$:
 
 #### Task
-Given the hyperplane $2x_1 + 3x_2 - 6 = 0$:
 1. [📚] Calculate the distance from point $(1, 1)$ to this hyperplane.
 2. [📚] If point $(1, 1)$ has label $y = +1$, what is its functional margin?
 3. [📚] What is the magnitude of the weight vector $||\mathbf{w}||$?
