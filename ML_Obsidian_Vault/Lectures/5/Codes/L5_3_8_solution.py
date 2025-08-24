@@ -194,7 +194,8 @@ axes[0].scatter(sv_points[:, 0], sv_points[:, 1],
                label='Support Vectors')
 axes[0].set_xlabel('Feature 1')
 axes[0].set_ylabel('Feature 2')
-axes[0].set_title(f'Support Vector Sparsity\n({n_support_vectors}/{n_samples} = {n_support_vectors/n_samples:.1%} are SVs)')
+percentage_text = f'{n_support_vectors/n_samples:.1%}'.replace('%', '\\%')
+axes[0].set_title(f'Support Vector Sparsity\n({n_support_vectors}/{n_samples} = {percentage_text} are support vectors)')
 axes[0].legend()
 axes[0].grid(True, alpha=0.3)
 
