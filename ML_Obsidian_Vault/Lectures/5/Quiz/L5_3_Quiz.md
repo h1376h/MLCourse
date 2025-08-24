@@ -433,7 +433,7 @@ Test your understanding of kernel concepts.
 
 For a detailed explanation of this problem, see [Question 30: Kernel Concept Check](L5_3_30_explanation.md).
 
-## Question 31
+## [⭐] Question 31
 
 ### Problem Statement
 Assume we are using the Gaussian kernel $k(x_i, x_j) = \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$.
