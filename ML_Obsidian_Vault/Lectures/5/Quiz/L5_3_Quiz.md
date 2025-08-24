@@ -1,7 +1,7 @@
 # Lecture 5.3: Kernel Trick for Nonlinear Classification Quiz
 
 ## Overview
-This quiz contains 31 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
+This quiz contains 33 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
 
 ## Question 1
 
@@ -433,7 +433,7 @@ Test your understanding of kernel concepts.
 
 For a detailed explanation of this problem, see [Question 30: Kernel Concept Check](L5_3_30_explanation.md).
 
-## [⭐] Question 31
+## Question 31
 
 ### Problem Statement
 Assume we are using the Gaussian kernel $k(x_i, x_j) = \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$.
@@ -443,3 +443,43 @@ Assume we are using the Gaussian kernel $k(x_i, x_j) = \exp\left(-\frac{1}{2}\|x
 2. Using the same Gaussian kernel, calculate the kernel values for three points: $x_1 = (0, 0)$, $x_2 = (1, 0)$, and $x_3 = (0, 1)$. Then prove that the resulting $3 \times 3$ kernel matrix is positive semi-definite by showing that all its eigenvalues are non-negative.
 
 For a detailed explanation of this problem, see [Question 31: Gaussian Kernel Proof](L5_3_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
+Given two valid kernels $k_1(x, x')$ and $k_2(x, x')$, and the radial basis kernel function $K(x_i, x_j) = \phi(x_i)^T\phi(x_j) = \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$, consider the following tasks related to kernel properties and their application in support vector machines.
+
+#### Task
+1. Show that $k(x, x') = k_1(x, x') + k_2(x, x')$ is a valid kernel.
+2. Show that $k(x, x') = k_1(x, x')k_2(x, x')$ is a valid kernel.
+3. Show that for any two input points $x_i$ and $x_j$, $\|\phi(x_i) - \phi(x_j)\|^2 \leq 2$.
+4. Compute the value of $K(x_i, x_j)$ for $\|x_i - x_j\|_2 \in \{0, 1, 10, 100\}$. What do you observe? Use your observation to answer the next part.
+5. Consider a kernel SVM with RBF kernel. The decision function is $f(x; \alpha, b) = \sum_{i \in S} y^i \alpha^i K(x^i, x) + b$ where $S$ is the set of support vectors. Assuming linearly separable training data, prove that for a test point $y_{far}$ far from any training point $x^i$, we have $f(y_{far}; \alpha, b) \approx b$.
+
+For a detailed explanation of this problem, see [Question 32: Comprehensive Kernel Methods](L5_3_32_explanation.md).
+
+## Question 33
+
+### Problem Statement
+Consider the decision boundary of a Support Vector Machine (SVM) with a kernel function via implicit feature mapping $\phi(.)$. The decision boundary is given by:
+
+$$w \cdot \phi(x) + b = \sum_{i \in SV} y^i \alpha^i K(x^i, x) + b = f(x; \alpha, b)$$
+
+where $w$ and $b$ are parameters of the decision boundary in the feature space $\phi$ defined by the kernel function $K$, $SV$ is the set of support vectors, and $\alpha^i$ is the dual weight of the $i^{th}$ support vector.
+
+Assume that:
+- The kernel used is the Radial Basis Function (RBF) kernel: $K(x_i, x_j) = \exp(-\frac{1}{2} \|x_i - x_j\|^2)$
+- The training examples are linearly separable in the feature space $\phi$, and the SVM finds a decision boundary that perfectly separates them
+
+#### Task
+1. If we choose a testing example $x_{far}$ that is far away from any training instance $x^i$ (distance here is measured in the original feature space $\mathbb{R}^d$), prove that $f(x_{far}; \alpha, b) \approx b$.
+2. For the RBF kernel $K(x_i, x_j) = \exp(-\frac{1}{2} \|x_i - x_j\|^2)$, compute $K(x_i, x_j)$ for the following pairs of points:
+   - $x_i = (0, 0)$ and $x_j = (1, 0)$
+   - $x_i = (0, 0)$ and $x_j = (2, 0)$
+   - $x_i = (0, 0)$ and $x_j = (10, 0)$
+   What pattern do you observe as the distance increases?
+3. Using your observations from task 2, explain why $f(x_{far}; \alpha, b) \approx b$ for distant test points.
+4. Consider a simple 1D example with training points $x^1 = -1$ and $x^2 = 1$ (both with $y^1 = y^2 = 1$). If $\alpha^1 = \alpha^2 = 0.5$ and $b = 0$, compute $f(5; \alpha, b)$ and $f(10; \alpha, b)$. Verify that both values are approximately equal to $b$.
+5. What happens to the decision function $f(x; \alpha, b)$ as the distance $\|x - x^i\|$ approaches infinity for any support vector $x^i$? Provide a mathematical justification.
+
+For a detailed explanation of this problem, see [Question 33: SVM Decision Boundary with RBF Kernel](L5_3_33_explanation.md).
