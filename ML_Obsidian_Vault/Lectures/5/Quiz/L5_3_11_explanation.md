@@ -5,7 +5,7 @@ Analyze the computational and storage complexity of different kernels.
 
 ### Task
 1. Compare the evaluation time for linear, polynomial (degree 3), and RBF kernels
-2. Calculate the space complexity of storing the kernel matrix for n = 10³, 10⁴, 10⁵ samples
+2. Calculate the space complexity of storing the kernel matrix for $n = 10^3, 10^4, 10^5$ samples
 3. Design strategies for reducing kernel matrix storage requirements
 4. What is the trade-off between kernel complexity and classification accuracy?
 5. How does the choice of kernel affect training vs prediction time?

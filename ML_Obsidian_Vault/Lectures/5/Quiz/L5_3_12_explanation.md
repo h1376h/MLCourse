@@ -5,7 +5,7 @@ Implement kernel approximation techniques for large-scale problems.
 
 ### Task
 1. Describe the Nyström method for low-rank kernel matrix approximation
-2. For a rank-r approximation of an n×n kernel matrix, what are the computational savings?
+2. For a rank-$r$ approximation of an $n \times n$ kernel matrix, what are the computational savings?
 3. Design random Fourier features for RBF kernel approximation
 4. How does the approximation quality affect SVM performance?
 5. Design an adaptive algorithm that chooses the approximation rank based on desired accuracy
