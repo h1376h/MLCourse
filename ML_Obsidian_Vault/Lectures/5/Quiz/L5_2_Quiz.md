@@ -387,16 +387,16 @@ For a detailed explanation of this problem, see [Question 23: The Role of the Re
 Answer these basic questions about soft margin SVM formulas and concepts.
 
 #### Task
-1. In the soft margin objective $$\frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i$$, what does each term represent?
+1. [📚] In the soft margin objective $$\frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i$$, what does each term represent?
 2. What is the formula for hinge loss? Write it mathematically and explain its properties.
-3. If $\xi_i = 0.5$ for a point, is it correctly classified? Explain the geometric interpretation.
-4. Write the constraint that relates slack variables to the margin violations and explain its meaning.
-5. What does $\alpha_i + \mu_i = C$ mean in the KKT conditions? Derive this relationship.
-6. Explain the difference between functional margin and geometric margin in soft margin SVM.
-7. How does the value of $C$ affect the trade-off between margin width and classification accuracy?
-8. Design a simple example with 3 points to illustrate how slack variables work in practice.
-9. What happens to the slack variables when $C \to 0$ and when $C \to \infty$?
-10. Compare the computational complexity of hard margin vs soft margin SVM optimization.
+3. [📚] If $\xi_i = 0.5$ for a point, is it correctly classified? Explain the geometric interpretation.
+4. [📚] Write the constraint that relates slack variables to the margin violations and explain its meaning.
+5. [📚] What does $\alpha_i + \mu_i = C$ mean in the KKT conditions? Derive this relationship.
+6. [📚] Explain the difference between functional margin and geometric margin in soft margin SVM.
+7. [📚] How does the value of $C$ affect the trade-off between margin width and classification accuracy?
+8. [📚] Design a simple example with 3 points to illustrate how slack variables work in practice.
+9. [📚] What happens to the slack variables when $C \to 0$ and when $C \to \infty$?
+10. [📚] Compare the computational complexity of hard margin vs soft margin SVM optimization.
 
 For a detailed explanation of this problem, see [Question 24: Soft Margin Formula Understanding](L5_2_24_explanation.md).
 
