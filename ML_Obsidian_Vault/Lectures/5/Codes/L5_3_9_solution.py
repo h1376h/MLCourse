@@ -368,7 +368,7 @@ def demonstrate_time_series_kernel():
     ts5 = np.random.randn(len(t))
     time_series.append(ts5)
 
-    series_names = ['Sin(t)', 'Sin(t+π/4)', 'Cos(t)', 'Sin(2t)', 'Noise']
+    series_names = [r'$\sin(t)$', r'$\sin(t+\pi/4)$', r'$\cos(t)$', r'$\sin(2t)$', r'Noise']
 
     # Compute kernel matrix
     n = len(time_series)
@@ -469,7 +469,7 @@ def create_detailed_kernel_analysis():
 
     # Add total sum annotation
     total_sum = np.sum(dot_products)
-    ax.text(0.7, 0.9, f'$\\sum = {total_sum:.0f}$', transform=ax.transAxes,
+    ax.text(0.7, 0.9, r'$\sum = ' + f'{total_sum:.0f}' + r'$', transform=ax.transAxes,
             fontsize=14, bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
 
     # 3. Graph kernel feature extraction

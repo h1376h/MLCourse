@@ -22,14 +22,20 @@ We'll develop a comprehensive kernel selection methodology that combines rule-ba
 ### Step 1: Factors for Kernel Selection
 
 **Dataset Size Considerations:**
-- **Small datasets (n < 1000)**: Linear or RBF kernels preferred to avoid overfitting
-- **Medium datasets (1000 < n < 10000)**: All kernels viable, use cross-validation
-- **Large datasets (n > 10000)**: Linear kernel preferred for computational efficiency
+
+| Dataset Size | Recommendation | Rationale |
+|--------------|----------------|-----------|
+| Small ($n < 10^3$) | Linear or RBF | Avoid overfitting |
+| Medium ($10^3 < n < 10^4$) | All kernels viable | Use cross-validation |
+| Large ($n > 10^4$) | Linear preferred | Computational efficiency |
 
 **Dimensionality Analysis:**
-- **Low-dimensional (d < 10)**: RBF or polynomial kernels can capture non-linear patterns
-- **Medium-dimensional (10 < d < 100)**: Balance between RBF and linear kernels
-- **High-dimensional (d > 100)**: Linear kernel preferred due to curse of dimensionality
+
+| Dimensionality | Recommendation | Rationale |
+|----------------|----------------|-----------|
+| Low-dim ($d < 10$) | RBF or Polynomial | Capture non-linear patterns |
+| Medium-dim ($10 < d < 100$) | RBF or Linear | Balance complexity |
+| High-dim ($d > 100$) | Linear | Curse of dimensionality |
 
 **Data Characteristics:**
 - **Linear separability**: Linear kernel sufficient if data is linearly separable
@@ -90,16 +96,20 @@ We'll develop a comprehensive kernel selection methodology that combines rule-ba
 
 **Step 3.1: Stratified partitioning**
 For a dataset with $n$ samples and $K$ folds, create partitions $D_1, D_2, \ldots, D_K$ such that:
-$$|D_i| \approx \frac{n}{K} \text{ and } \frac{|D_i^{(+)}|}{|D_i|} \approx \frac{|D^{(+)}|}{|D|}$$
+
+$$|D_i| \approx \frac{n}{K} \quad \text{and} \quad \frac{|D_i^{(+)}|}{|D_i|} \approx \frac{|D^{(+)}|}{|D|}$$
 
 where $D^{(+)}$ denotes positive class samples.
 
 **Step 3.2: Cross-validation score computation**
 For each fold $i$:
-- Training set: $D_{train}^{(i)} = D \setminus D_i$
-- Test set: $D_{test}^{(i)} = D_i$
-- Train SVM: $f_i = \text{SVM}(D_{train}^{(i)}, \theta)$ where $\theta$ are hyperparameters
-- Compute accuracy: $A_i = \frac{1}{|D_i|} \sum_{(\mathbf{x}, y) \in D_i} \mathbb{I}[f_i(\mathbf{x}) = y]$
+
+| Component | Definition | Description |
+|-----------|------------|-------------|
+| Training set | $D_{\text{train}}^{(i)} = D \setminus D_i$ | All data except fold $i$ |
+| Test set | $D_{\text{test}}^{(i)} = D_i$ | Data in fold $i$ |
+| SVM model | $f_i = \text{SVM}(D_{\text{train}}^{(i)}, \theta)$ | Trained with hyperparameters $\theta$ |
+| Accuracy | $A_i = \frac{1}{|D_i|} \sum_{(\mathbf{x}, y) \in D_i} \mathbb{I}[f_i(\mathbf{x}) = y]$ | Fraction of correct predictions |
 
 **Step 3.3: Final score calculation**
 $$\text{CV-Score}(\theta) = \frac{1}{K} \sum_{i=1}^K A_i$$

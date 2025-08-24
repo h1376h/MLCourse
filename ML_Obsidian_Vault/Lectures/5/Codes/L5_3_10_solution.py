@@ -21,12 +21,13 @@ import seaborn as sns
 import pandas as pd
 from itertools import product
 
-# Set style for better plots
+# Set style for better plots with LaTeX
 plt.style.use('default')
 sns.set_palette("husl")
-plt.rcParams['text.usetex'] = False  # Disable LaTeX for compatibility
+plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 12
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
 
 def create_output_directory():
     """Create directory for saving plots"""
@@ -328,25 +329,25 @@ def visualize_kernel_selection_analysis():
     ax.set_title('Kernel Selection Decision Tree')
 
     # Decision tree text
-    tree_text = """
+    tree_text = r"""
     Decision Tree Rules:
 
-    1. n_features > n_samples?
-       → LINEAR (prevent overfitting)
+    1. n\_features > n\_samples?
+       $\rightarrow$ LINEAR (prevent overfitting)
 
     2. Linear separability > 0.9?
-       → LINEAR (sufficient)
+       $\rightarrow$ LINEAR (sufficient)
 
     3. Sparsity > 0.5?
-       → LINEAR (sparse data)
+       $\rightarrow$ LINEAR (sparse data)
 
-    4. Low-dim & non-linear?
-       → RBF (complex patterns)
+    4. Low-dim \& non-linear?
+       $\rightarrow$ RBF (complex patterns)
 
-    5. Many samples & polynomial?
-       → POLYNOMIAL (interactions)
+    5. Many samples \& polynomial?
+       $\rightarrow$ POLYNOMIAL (interactions)
 
-    6. Default → RBF (versatile)
+    6. Default $\rightarrow$ RBF (versatile)
     """
     ax.text(0.1, 0.9, tree_text, transform=ax.transAxes, fontsize=10,
             verticalalignment='top', fontfamily='monospace')
@@ -404,20 +405,20 @@ def visualize_kernel_selection_analysis():
     ax.set_title('Cross-Validation Strategy')
     ax.axis('off')
 
-    cv_text = """
+    cv_text = r"""
     Cross-Validation Protocol:
 
     1. Stratified K-Fold (K=5)
     2. Grid search over parameters:
-       • Linear: C ∈ [0.1, 1, 10]
-       • RBF: C ∈ [0.1, 1, 10]
-             γ ∈ [0.001, 0.01, 0.1, 1]
-       • Poly: degree ∈ [2, 3]
-              C ∈ [0.1, 1, 10]
-              coef0 ∈ [0, 1]
+       $\bullet$ Linear: $C \in [0.1, 1, 10]$
+       $\bullet$ RBF: $C \in [0.1, 1, 10]$
+             $\gamma \in [0.001, 0.01, 0.1, 1]$
+       $\bullet$ Poly: degree $\in [2, 3]$
+              $C \in [0.1, 1, 10]$
+              coef0 $\in [0, 1]$
 
     3. Combine CV score + alignment:
-       Score = 0.7 × CV + 0.3 × Alignment
+       Score = $0.7 \times CV + 0.3 \times$ Alignment
     """
     ax.text(0.1, 0.9, cv_text, transform=ax.transAxes, fontsize=9,
             verticalalignment='top', fontfamily='monospace')

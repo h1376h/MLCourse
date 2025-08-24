@@ -22,23 +22,27 @@ We'll systematically analyze computational aspects of kernel methods through bot
 ### Step 1: Kernel Evaluation Time Comparison
 
 **Theoretical Time Complexity:**
-- **Linear Kernel**: $K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T\mathbf{z}$
-  - Single evaluation: $O(d)$ where $d$ is feature dimension
-  - Full kernel matrix: $O(n^2d)$ for $n$ samples
 
-- **Polynomial Kernel**: $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z} + c)^p$
-  - Single evaluation: $O(d + 1)$ (dot product + power operation)
-  - Full kernel matrix: $O(n^2d)$ plus polynomial computation
+| Kernel Type | Formula | Single Evaluation | Full Matrix |
+|-------------|---------|-------------------|-------------|
+| Linear | $K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T\mathbf{z}$ | $O(d)$ | $O(n^2d)$ |
+| Polynomial | $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z} + c)^p$ | $O(d + 1)$ | $O(n^2d) + O(n^2)$ |
+| RBF | $K(\mathbf{x}, \mathbf{z}) = \exp(-\gamma \|\mathbf{x} - \mathbf{z}\|^2)$ | $O(d)$ | $O(n^2d)$ |
 
-- **RBF Kernel**: $K(\mathbf{x}, \mathbf{z}) = \exp(-\gamma ||\mathbf{x} - \mathbf{z}||^2)$
-  - Single evaluation: $O(d)$ for distance + exponential
-  - Full kernel matrix: $O(n^2d)$ plus distance computations
+where:
+- $n$ = number of samples
+- $d$ = feature dimension
+- $c$ = polynomial coefficient
+- $p$ = polynomial degree
+- $\gamma$ = RBF bandwidth parameter
 
 **Empirical Results:**
-Our benchmarking shows:
-- **Small datasets (n=100)**: All kernels perform similarly (~0.0003-0.0006s)
-- **Medium datasets (n=1000)**: RBF slightly faster (0.0094s) vs Linear (0.0104s) vs Polynomial (0.0134s)
-- **Large datasets (n=5000)**: RBF fastest (0.178s), Polynomial (0.184s), Linear (0.213s)
+
+| Dataset Size | Linear | Polynomial | RBF | Fastest |
+|--------------|--------|------------|-----|---------|
+| Small ($n = 100$) | $0.0006$s | $0.0005$s | $0.0003$s | RBF |
+| Medium ($n = 1000$) | $0.0104$s | $0.0134$s | $0.0094$s | RBF |
+| Large ($n = 5000$) | $0.213$s | $0.184$s | $0.178$s | RBF |
 
 **Key Insight**: While theoretical complexity is similar, implementation details and optimizations can significantly affect practical performance.
 

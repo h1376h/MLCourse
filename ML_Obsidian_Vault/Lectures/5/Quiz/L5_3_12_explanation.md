@@ -55,11 +55,15 @@ $$\tilde{K} = K_{nm} K_{mm}^{-1} K_{nm}^T$$
 
 **Computational Analysis:**
 For $n = 10,000$ and $m = 100$:
-- $K_{mm}$ computation: $O(m^2 d) = O(100^2 \times d) = O(10^4 d)$
-- $K_{nm}$ computation: $O(nmd) = O(10^7 d)$
-- Matrix inversion: $O(m^3) = O(10^6)$
-- Final multiplication: $O(nm^2) = O(10^9)$
-- Total: $O(nm^2 + nmd + m^3)$ vs $O(n^2d)$ for full kernel
+
+| Operation | Complexity | Numerical Value |
+|-----------|------------|-----------------|
+| $K_{mm}$ computation | $O(m^2 d)$ | $O(10^4 d)$ |
+| $K_{nm}$ computation | $O(nmd)$ | $O(10^7 d)$ |
+| Matrix inversion | $O(m^3)$ | $O(10^6)$ |
+| Final multiplication | $O(nm^2)$ | $O(10^9)$ |
+| **Total Nyström** | $O(nm^2 + nmd + m^3)$ | $O(10^9 + 10^7 d + 10^6)$ |
+| **Full kernel** | $O(n^2d)$ | $O(10^8 d)$ |
 
 ### Step 2: Computational Savings Analysis
 
@@ -117,10 +121,13 @@ $$K(\mathbf{x}_i, \mathbf{x}_j) \approx \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j) 
 
 **Computational Complexity Analysis:**
 For $n$ samples, $d$ features, and $D$ components:
-- Feature computation: $O(ndD)$
-- Kernel matrix approximation: $O(n^2 D)$ or $O(nD)$ for linear methods
-- Memory: $O(nD)$ instead of $O(n^2)$
-- Prediction: $O(D)$ instead of $O(n_{sv} d)$
+
+| Operation | RFF Complexity | Full Kernel Complexity |
+|-----------|----------------|------------------------|
+| Feature computation | $O(ndD)$ | $O(n^2d)$ |
+| Kernel approximation | $O(n^2D)$ or $O(nD)$ | $O(n^2)$ |
+| Memory requirement | $O(nD)$ | $O(n^2)$ |
+| Prediction time | $O(D)$ | $O(n_{\text{sv}} d)$ |
 
 **Advantages:**
 - **Linear method conversion**: Transforms kernel SVM into linear SVM
@@ -217,12 +224,13 @@ $$\text{Computation Reduction} = 1 - \frac{r^* n^2}{n^3} = 1 - \frac{r^*}{n}$$
 ### Computational Savings Summary
 
 **Storage Complexity Comparison:**
-| Method | Original | Approximated | Reduction |
-|--------|----------|--------------|-----------|
-| Full Kernel | $O(n^2)$ | - | - |
-| SVD (r=50) | $O(n^2)$ | $O(rn)$ | 90-95% |
-| RFF (D=100) | $O(n^2)$ | $O(nD)$ | 90-99% |
-| Nyström (m=100) | $O(n^2)$ | $O(nm)$ | 90% |
+
+| Method | Original | Approximated | Reduction | Example ($n=10^4$) |
+|--------|----------|--------------|-----------|-------------------|
+| Full Kernel | $O(n^2)$ | - | - | $800$ MB |
+| SVD ($r=50$) | $O(n^2)$ | $O(rn)$ | $90$-$95\%$ | $8$ MB |
+| RFF ($D=100$) | $O(n^2)$ | $O(nD)$ | $90$-$99\%$ | $8$ MB |
+| Nyström ($m=100$) | $O(n^2)$ | $O(nm)$ | $90\%$ | $80$ MB |
 
 **Time Complexity Benefits:**
 - **Training**: 2-10x speedup typical

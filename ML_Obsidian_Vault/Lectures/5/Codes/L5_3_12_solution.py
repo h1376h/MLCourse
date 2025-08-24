@@ -22,12 +22,13 @@ import pandas as pd
 from scipy.linalg import svd, eigh
 import time
 
-# Set style for better plots
+# Set style for better plots with LaTeX
 plt.style.use('default')
 sns.set_palette("husl")
-plt.rcParams['text.usetex'] = False  # Disable LaTeX for compatibility
+plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 12
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath,amssymb}'
 
 def create_output_directory():
     """Create directory for saving plots"""
