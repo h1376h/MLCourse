@@ -3,7 +3,7 @@
 ## Problem Statement
 Work through a concrete OvR (One-vs-Rest) example.
 
-Consider a 3-class problem with the following OvR classifier outputs for a test point $\mathbf{x}$:
+Consider a 3-class problem with the following OvR classifier decision values for a test point $\mathbf{x}$:
 - $f_1(\mathbf{x}) = +1.2$ (Class 1 vs Rest)
 - $f_2(\mathbf{x}) = -0.3$ (Class 2 vs Rest)  
 - $f_3(\mathbf{x}) = +0.8$ (Class 3 vs Rest)
@@ -42,8 +42,8 @@ This approach is computationally efficient (only $K$ classifiers needed) but can
    $$\max([1.2, -0.3, 0.8]) = 1.2$$
 
 4. **Find the index of the maximum:**
-   $$\arg\max([1.2, -0.3, 0.8]) = 0$$
-   Note: Python uses 0-based indexing, so we add 1 for class labels
+   $$\arg\max([1.2, -0.3, 0.8]) = 1$$
+   Note: We use 1-based indexing for class labels
 
 5. **Final prediction:**
    $$\hat{y} = 1$$
@@ -52,7 +52,7 @@ This approach is computationally efficient (only $K$ classifiers needed) but can
 
 ![OvR Decision Analysis](../Images/L5_4_Quiz_3/ovr_decision_analysis.png)
 
-The visualization shows that Class 1 has the highest decision value (1.2), making it the clear winner in the OvR classification.
+The decision boundary analysis shows that Class 1 has the highest decision value (1.2), making it the clear winner in the OvR classification.
 
 ### Step 2: Confidence Score Calculation
 
@@ -140,7 +140,7 @@ The confidence analysis shows:
 
 ![Ambiguous Case](../Images/L5_4_Quiz_3/ovr_decision_analysis.png)
 
-The ambiguous case visualization shows the tie between Classes 1 and 3, highlighting the need for tie-breaking strategies.
+The ambiguous case analysis shows the tie between Classes 1 and 3, highlighting the need for tie-breaking strategies.
 
 ### Step 4: Softmax Probabilities
 
@@ -252,7 +252,7 @@ The step-by-step analysis shows how different information sources can be combine
 ### Decision Space Analysis
 ![Decision Space](../Images/L5_4_Quiz_3/ovr_confidence_analysis.png)
 
-The decision space visualization shows how the 2D space of $f_1(\mathbf{x})$ vs $f_3(\mathbf{x})$ is divided into decision regions. Our test point (marked with a star) falls clearly in the Class 1 region.
+The decision space analysis shows how the 2D space of $f_1(\mathbf{x})$ vs $f_3(\mathbf{x})$ is divided into decision regions. Our test point falls clearly in the Class 1 region.
 
 ### Confidence vs Margin Relationship
 The confidence analysis shows that:
@@ -264,7 +264,7 @@ The confidence analysis shows that:
 ![Step-by-Step Analysis](../Images/L5_4_Quiz_3/ovr_step_by_step.png)
 
 The detailed breakdown shows:
-1. **Decision Values**: Initial classifier outputs
+1. **Decision Values**: Initial classifier decision values
 2. **Argmax Operation**: Finding the maximum value
 3. **Margin Calculation**: Computing the gap between top two
 4. **Confidence Calculation**: Normalizing the margin
