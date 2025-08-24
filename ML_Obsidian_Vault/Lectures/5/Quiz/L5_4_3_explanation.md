@@ -303,7 +303,7 @@ The detailed breakdown shows:
 ## Conclusion
 - **Predicted Class**: Class 1 (highest decision value: 1.2)
 - **Confidence Score**: 0.2 (moderate confidence based on margin)
-- **Softmax Probabilities**: [0.528, 0.118, 0.354] (Class 1 most likely)
+- **Softmax Probabilities**: $[0.528, 0.118, 0.354]$ (Class 1 most likely)
 - **Ambiguous Case Handling**: Multiple strategies available (random, priors, ensemble)
 - **Additional Information**: Class priors, feature weights, and domain knowledge can improve predictions
 
