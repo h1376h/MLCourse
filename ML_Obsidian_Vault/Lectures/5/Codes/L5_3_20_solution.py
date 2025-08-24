@@ -14,9 +14,10 @@ save_dir = os.path.join(images_dir, "L5_3_Quiz_20")
 os.makedirs(save_dir, exist_ok=True)
 
 # Enable LaTeX style plotting
-plt.rcParams['text.usetex'] = False  # Disable LaTeX to avoid Unicode issues
+plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
 plt.rcParams['font.size'] = 12
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath} \usepackage{amssymb}'
 
 print("=" * 80)
 print("QUESTION 20: KERNEL VALIDITY TESTING - DETAILED CALCULATIONS")
@@ -439,20 +440,22 @@ print("="*60)
 
 # Create a comprehensive visualization
 fig, axes = plt.subplots(2, 3, figsize=(18, 12))
-fig.suptitle('Kernel Validity Analysis - Detailed Calculations', fontsize=16, fontweight='bold')
+fig.suptitle(r'Kernel Validity Analysis - Detailed Calculations', fontsize=16, fontweight='bold')
 
 # 1. Eigenvalue plots for the three main kernels
 eigenvalues_data = [eig1, eig2, eig3]
-kernel_names = ['Polynomial', 'Exponential', 'Sine']
+kernel_names = [r'$K(\mathbf{x},\mathbf{z}) = (\mathbf{x}^T\mathbf{z})^2 + (\mathbf{x}^T\mathbf{z})^3$', 
+                r'$K(\mathbf{x},\mathbf{z}) = \exp(\mathbf{x}^T\mathbf{z})$', 
+                r'$K(\mathbf{x},\mathbf{z}) = \sin(\mathbf{x}^T\mathbf{z})$']
 colors = ['blue', 'green', 'red']
 
 for i, (eig, name, color) in enumerate(zip(eigenvalues_data, kernel_names, colors)):
     ax = axes[0, i]
     ax.bar(range(len(eig)), eig, color=color, alpha=0.7)
     ax.axhline(y=0, color='black', linestyle='--', alpha=0.5)
-    ax.set_title(f'{name} Kernel Eigenvalues')
-    ax.set_xlabel('Eigenvalue Index')
-    ax.set_ylabel('Eigenvalue')
+    ax.set_title(name, fontsize=10)
+    ax.set_xlabel(r'Eigenvalue Index $i$')
+    ax.set_ylabel(r'Eigenvalue $\lambda_i$')
     ax.grid(True, alpha=0.3)
     
     # Add validity indicator
@@ -460,15 +463,27 @@ for i, (eig, name, color) in enumerate(zip(eigenvalues_data, kernel_names, color
     ax.text(0.05, 0.95, f'Valid: {"YES" if is_valid else "NO"}', 
             transform=ax.transAxes, fontsize=12, fontweight='bold',
             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black"))
+    
+    # Add min eigenvalue annotation (handle complex numbers)
+    min_eig = np.min(eig)
+    if np.iscomplexobj(min_eig):
+        min_eig_real = min_eig.real
+        ax.text(0.05, 0.85, f'$\\min\\lambda = {min_eig_real:.3f}$', 
+                transform=ax.transAxes, fontsize=10,
+                bbox=dict(boxstyle="round,pad=0.2", fc="lightblue", ec="black", alpha=0.8))
+    else:
+        ax.text(0.05, 0.85, f'$\\min\\lambda = {min_eig:.3f}$', 
+                transform=ax.transAxes, fontsize=10,
+                bbox=dict(boxstyle="round,pad=0.2", fc="lightblue", ec="black", alpha=0.8))
 
 # 2. Heatmaps of Gram matrices
 gram_matrices = [K1, K2, K3]
 for i, (K, name) in enumerate(zip(gram_matrices, kernel_names)):
     ax = axes[1, i]
     im = ax.imshow(K, cmap='viridis', aspect='auto')
-    ax.set_title(f'{name} Kernel Gram Matrix')
-    ax.set_xlabel('Point Index')
-    ax.set_ylabel('Point Index')
+    ax.set_title(r'Gram Matrix $\mathbf{K}$', fontsize=10)
+    ax.set_xlabel(r'Point Index $j$')
+    ax.set_ylabel(r'Point Index $i$')
     
     # Add text annotations
     for j in range(K.shape[0]):
@@ -486,14 +501,15 @@ fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
 # Set kernel heatmaps
 set_kernels = [K_set_rbf, K_set_linear]
-set_names = ['RBF Set Kernel', 'Linear Set Kernel']
+set_names = [r'RBF Set Kernel: $k(a,b) = \exp(-\gamma\|a-b\|^2)$', 
+             r'Linear Set Kernel: $k(a,b) = a^T b$']
 
 for i, (K, name) in enumerate(zip(set_kernels, set_names)):
     ax = axes[i]
     im = ax.imshow(K, cmap='plasma', aspect='auto')
-    ax.set_title(name)
-    ax.set_xlabel('Set Index')
-    ax.set_ylabel('Set Index')
+    ax.set_title(name, fontsize=10)
+    ax.set_xlabel(r'Set Index')
+    ax.set_ylabel(r'Set Index')
     ax.set_xticks(range(3))
     ax.set_yticks(range(3))
     ax.set_xticklabels(['A', 'B', 'C'])
@@ -505,6 +521,13 @@ for i, (K, name) in enumerate(zip(set_kernels, set_names)):
             ax.text(k, j, f'{K[j, k]:.3f}', ha='center', va='center', 
                    color='white' if K[j, k] > 0.5 else 'black', fontsize=10)
     
+    # Add eigenvalue information
+    eig_vals = eigvals(K)
+    is_psd = np.all(eig_vals >= -1e-10)
+    ax.text(0.05, 0.95, f'PSD: {"YES" if is_psd else "NO"}', 
+            transform=ax.transAxes, fontsize=10, fontweight='bold',
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black"))
+    
     plt.colorbar(im, ax=ax)
 
 plt.tight_layout()
@@ -515,22 +538,22 @@ fig, ax = plt.subplots(1, 1, figsize=(10, 8))
 
 # Plot test points
 ax.scatter(test_points[:, 0], test_points[:, 1], s=200, c='red', alpha=0.7, 
-          edgecolors='black', linewidth=2, label='Test Points')
+          edgecolors='black', linewidth=2, label=r'Test Points $\{\mathbf{x}_1, \ldots, \mathbf{x}_5\}$')
 
 # Plot specific points with different colors
 ax.scatter(specific_points[:, 0], specific_points[:, 1], s=300, c='blue', alpha=0.7,
-          edgecolors='black', linewidth=2, marker='s', label='Specific Points (Task 2)')
+          edgecolors='black', linewidth=2, marker='s', label=r'Specific Points $\{\mathbf{x}_1, \mathbf{x}_2, \mathbf{x}_3\}$')
 
-# Add point labels
+# Add point labels with LaTeX formatting
 for i, point in enumerate(test_points):
-    ax.annotate(f'x_{i+1}({point[0]},{point[1]})', 
+    ax.annotate(r'$\mathbf{x}_{' + f'{i+1}' + r'}$', 
                 (point[0], point[1]), xytext=(10, 10), 
-                textcoords='offset points', fontsize=10,
+                textcoords='offset points', fontsize=12,
                 bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="black", alpha=0.8))
 
-ax.set_xlabel('$x_1$')
-ax.set_ylabel('$x_2$')
-ax.set_title('Test Points for Kernel Evaluation')
+ax.set_xlabel(r'$x_1$')
+ax.set_ylabel(r'$x_2$')
+ax.set_title(r'Test Points for Kernel Evaluation')
 ax.grid(True, alpha=0.3)
 ax.legend()
 ax.set_xlim(-1.5, 1.5)
@@ -538,6 +561,81 @@ ax.set_ylim(-0.5, 1.5)
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'test_points_detailed.png'), dpi=300, bbox_inches='tight')
+
+# Create a mathematical summary visualization
+fig, ax = plt.subplots(1, 1, figsize=(12, 8))
+
+# Create a text-based summary with LaTeX formatting (avoiding Unicode issues)
+summary_text = r'''
+Kernel Validity Summary
+
+Valid Kernels:
+• $K(\mathbf{x},\mathbf{z}) = (\mathbf{x}^T\mathbf{z})^2 + (\mathbf{x}^T\mathbf{z})^3$ (VALID)
+• $K(\mathbf{x},\mathbf{z}) = \exp(\mathbf{x}^T\mathbf{z})$ (VALID)
+
+Invalid Kernels:
+• $K(\mathbf{x},\mathbf{z}) = \sin(\mathbf{x}^T\mathbf{z})$ (INVALID - negative eigenvalues)
+• $K(\mathbf{x},\mathbf{z}) = -\|\mathbf{x}-\mathbf{z}\|^2$ (INVALID - negative eigenvalues)
+• $K(\mathbf{x},\mathbf{z}) = x_0 \cdot z_1$ (INVALID - asymmetric)
+
+Mercer's Theorem:
+A kernel $K(\mathbf{x},\mathbf{z})$ is valid if and only if:
+1. $\mathbf{K} = \mathbf{K}^T$ (symmetry)
+2. $\lambda_i \geq 0$ for all eigenvalues $\lambda_i$ of $\mathbf{K}$ (PSD)
+
+where $\mathbf{K}_{ij} = K(\mathbf{x}_i, \mathbf{x}_j)$ is the Gram matrix.
+'''
+
+ax.text(0.05, 0.95, summary_text, transform=ax.transAxes, fontsize=12,
+        verticalalignment='top', bbox=dict(boxstyle="round,pad=0.5", 
+        fc="lightblue", ec="black", alpha=0.9))
+
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+ax.axis('off')
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'kernel_summary_latex.png'), dpi=300, bbox_inches='tight')
+
+# Create a simple 3D surface visualization of kernel functions
+fig = plt.figure(figsize=(15, 5))
+
+# Create a grid of points for visualization
+x = np.linspace(-2, 2, 50)
+y = np.linspace(-2, 2, 50)
+X, Y = np.meshgrid(x, y)
+
+# Define kernel functions for 3D visualization
+def kernel_3d_poly(x, y):
+    return (x**2 + y**2)**2 + (x**2 + y**2)**3
+
+def kernel_3d_exp(x, y):
+    return np.exp(x**2 + y**2)
+
+def kernel_3d_sin(x, y):
+    return np.sin(x**2 + y**2)
+
+# Compute kernel values
+Z_poly = kernel_3d_poly(X, Y)
+Z_exp = kernel_3d_exp(X, Y)
+Z_sin = kernel_3d_sin(X, Y)
+
+# Create subplots
+kernels_3d = [Z_poly, Z_exp, Z_sin]
+titles = ['Polynomial Kernel', 'Exponential Kernel', 'Sine Kernel']
+colors = ['viridis', 'plasma', 'coolwarm']
+
+for i, (Z, title, cmap) in enumerate(zip(kernels_3d, titles, colors)):
+    ax = fig.add_subplot(1, 3, i+1, projection='3d')
+    surf = ax.plot_surface(X, Y, Z, cmap=cmap, alpha=0.8, linewidth=0, antialiased=True)
+    ax.set_title(title, fontsize=12)
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_zlabel('K(x,y)')
+    ax.view_init(elev=20, azim=45)
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'kernel_3d_surfaces.png'), dpi=300, bbox_inches='tight')
 
 print(f"\nVisualizations saved to: {save_dir}")
 

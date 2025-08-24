@@ -25,86 +25,163 @@ The key properties of valid kernels are:
 
 ### Step 1: Check Validity of Specific Kernels
 
-We test each kernel function on a set of 5 test points: $(0,0)$, $(1,0)$, $(0,1)$, $(1,1)$, and $(-1,0)$.
+We test each kernel function on a set of 5 test points: $\mathbf{x}_1 = (0,0)$, $\mathbf{x}_2 = (1,0)$, $\mathbf{x}_3 = (0,1)$, $\mathbf{x}_4 = (1,1)$, and $\mathbf{x}_5 = (-1,0)$.
 
 #### 1.1 $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z})^2 + (\mathbf{x}^T\mathbf{z})^3$
 
-**Gram Matrix:**
-```
-[[ 0.  0.  0.  0.  0.]
- [ 0.  2.  0.  2.  0.]
- [ 0.  0.  2.  2.  0.]
- [ 0.  2.  2. 12.  0.]
- [ 0.  0.  0.  0.  2.]]
-```
+**Mathematical Analysis:**
+This is a polynomial kernel combining quadratic and cubic terms. Since both $(\mathbf{x}^T\mathbf{z})^2$ and $(\mathbf{x}^T\mathbf{z})^3$ are valid polynomial kernels, their sum with positive coefficients should also be valid.
 
-**Eigenvalues:** $[12.74, 1.26, 2.00, 0.00, 2.00]$
+**Step-by-Step Calculation:**
 
-**Analysis:** All eigenvalues are non-negative (minimum eigenvalue = 0.000000), so this kernel is **VALID**.
+1. **Compute individual kernel values:**
+   - $K(\mathbf{x}_1, \mathbf{x}_1) = K([0,0], [0,0]) = (0)^2 + (0)^3 = 0$
+   - $K(\mathbf{x}_2, \mathbf{x}_2) = K([1,0], [1,0]) = (1)^2 + (1)^3 = 1 + 1 = 2$
+   - $K(\mathbf{x}_3, \mathbf{x}_3) = K([0,1], [0,1]) = (1)^2 + (1)^3 = 1 + 1 = 2$
+   - $K(\mathbf{x}_4, \mathbf{x}_4) = K([1,1], [1,1]) = (2)^2 + (2)^3 = 4 + 8 = 12$
+   - $K(\mathbf{x}_5, \mathbf{x}_5) = K([-1,0], [-1,0]) = (1)^2 + (1)^3 = 1 + 1 = 2$
+   - $K(\mathbf{x}_2, \mathbf{x}_4) = K([1,0], [1,1]) = (1)^2 + (1)^3 = 2$
+   - $K(\mathbf{x}_3, \mathbf{x}_4) = K([0,1], [1,1]) = (1)^2 + (1)^3 = 2$
 
-**Explanation:** This is a polynomial kernel that combines quadratic and cubic terms. Since both $(\mathbf{x}^T\mathbf{z})^2$ and $(\mathbf{x}^T\mathbf{z})^3$ are valid kernels (polynomial kernels), their sum is also valid.
+2. **Complete Gram Matrix:**
+   $$\mathbf{K} = \begin{bmatrix}
+   0 & 0 & 0 & 0 & 0 \\
+   0 & 2 & 0 & 2 & 0 \\
+   0 & 0 & 2 & 2 & 0 \\
+   0 & 2 & 2 & 12 & 0 \\
+   0 & 0 & 0 & 0 & 2
+   \end{bmatrix}$$
+
+3. **Check Symmetry:** $\mathbf{K} = \mathbf{K}^T$ ✓ **YES**
+
+4. **Compute Eigenvalues:** $\lambda = [12.74, 1.26, 2.00, 0.00, 2.00]$
+
+5. **Check PSD:** All eigenvalues ≥ 0 ✓ **YES**
+
+**Result:** This kernel is **VALID**.
 
 #### 1.2 $K(\mathbf{x}, \mathbf{z}) = \exp(\mathbf{x}^T\mathbf{z})$
 
-**Gram Matrix:**
-```
-[[1.00  1.00  1.00  1.00  1.00]
- [1.00  2.72  1.00  2.72  0.37]
- [1.00  1.00  2.72  2.72  1.00]
- [1.00  2.72  2.72  7.39  0.37]
- [1.00  0.37  1.00  0.37  2.72]]
-```
+**Mathematical Analysis:**
+This is the exponential kernel. It can be written as:
+$$\exp(\mathbf{x}^T\mathbf{z}) = \sum_{k=0}^{\infty} \frac{(\mathbf{x}^T\mathbf{z})^k}{k!}$$
+This is an infinite sum of polynomial kernels with positive coefficients, so it should be a valid kernel.
 
-**Eigenvalues:** $[10.23, 3.33, 0.21, 1.72, 1.06]$
+**Step-by-Step Calculation:**
 
-**Analysis:** All eigenvalues are positive (minimum eigenvalue = 0.209130), so this kernel is **VALID**.
+1. **Compute individual kernel values:**
+   - $K(\mathbf{x}_1, \mathbf{x}_1) = \exp(0) = 1$
+   - $K(\mathbf{x}_2, \mathbf{x}_2) = \exp(1) = e \approx 2.718$
+   - $K(\mathbf{x}_3, \mathbf{x}_3) = \exp(1) = e \approx 2.718$
+   - $K(\mathbf{x}_4, \mathbf{x}_4) = \exp(2) = e^2 \approx 7.389$
+   - $K(\mathbf{x}_5, \mathbf{x}_5) = \exp(1) = e \approx 2.718$
+   - $K(\mathbf{x}_2, \mathbf{x}_4) = \exp(1) = e \approx 2.718$
+   - $K(\mathbf{x}_2, \mathbf{x}_5) = \exp(-1) = e^{-1} \approx 0.368$
 
-**Explanation:** This is the exponential kernel, which is a valid kernel because it can be written as $\exp(\mathbf{x}^T\mathbf{z}) = \sum_{k=0}^{\infty} \frac{(\mathbf{x}^T\mathbf{z})^k}{k!}$, a sum of polynomial kernels with positive coefficients.
+2. **Complete Gram Matrix:**
+   $$\mathbf{K} = \begin{bmatrix}
+   1.000 & 1.000 & 1.000 & 1.000 & 1.000 \\
+   1.000 & 2.718 & 1.000 & 2.718 & 0.368 \\
+   1.000 & 1.000 & 2.718 & 2.718 & 1.000 \\
+   1.000 & 2.718 & 2.718 & 7.389 & 0.368 \\
+   1.000 & 0.368 & 1.000 & 0.368 & 2.718
+   \end{bmatrix}$$
+
+3. **Check Symmetry:** $\mathbf{K} = \mathbf{K}^T$ ✓ **YES**
+
+4. **Compute Eigenvalues:** $\lambda = [10.23, 3.33, 0.21, 1.72, 1.06]$
+
+5. **Check PSD:** All eigenvalues > 0 ✓ **YES**
+
+**Result:** This kernel is **VALID**.
 
 #### 1.3 $K(\mathbf{x}, \mathbf{z}) = \sin(\mathbf{x}^T\mathbf{z})$
 
-**Gram Matrix:**
-```
-[[ 0.00  0.00  0.00  0.00  0.00]
- [ 0.00  0.84  0.00  0.84 -0.84]
- [ 0.00  0.00  0.84  0.84  0.00]
- [ 0.00  0.84  0.84  0.91 -0.84]
- [ 0.00 -0.84  0.00 -0.84  0.84]]
-```
+**Mathematical Analysis:**
+This is the sine kernel. The sine function oscillates between -1 and 1, and can produce negative values, which may violate the positive semi-definiteness requirement.
 
-**Eigenvalues:** $[2.69, 1.11, 0.00, -0.37, 0.00]$
+**Step-by-Step Calculation:**
 
-**Analysis:** One eigenvalue is negative (-0.367247), so this kernel is **INVALID**.
+1. **Compute individual kernel values:**
+   - $K(\mathbf{x}_1, \mathbf{x}_1) = \sin(0) = 0$
+   - $K(\mathbf{x}_2, \mathbf{x}_2) = \sin(1) \approx 0.841$
+   - $K(\mathbf{x}_3, \mathbf{x}_3) = \sin(1) \approx 0.841$
+   - $K(\mathbf{x}_4, \mathbf{x}_4) = \sin(2) \approx 0.909$
+   - $K(\mathbf{x}_5, \mathbf{x}_5) = \sin(1) \approx 0.841$
+   - $K(\mathbf{x}_2, \mathbf{x}_4) = \sin(1) \approx 0.841$
+   - $K(\mathbf{x}_2, \mathbf{x}_5) = \sin(-1) \approx -0.841$
 
-**Explanation:** The sine function is not a valid kernel because it can produce negative values and doesn't satisfy the positive semi-definiteness requirement. The sine function oscillates between positive and negative values, which leads to negative eigenvalues in the Gram matrix.
+2. **Complete Gram Matrix:**
+   $$\mathbf{K} = \begin{bmatrix}
+   0.000 & 0.000 & 0.000 & 0.000 & 0.000 \\
+   0.000 & 0.841 & 0.000 & 0.841 & -0.841 \\
+   0.000 & 0.000 & 0.841 & 0.841 & 0.000 \\
+   0.000 & 0.841 & 0.841 & 0.909 & -0.841 \\
+   0.000 & -0.841 & 0.000 & -0.841 & 0.841
+   \end{bmatrix}$$
+
+3. **Check Symmetry:** $\mathbf{K} = \mathbf{K}^T$ ✓ **YES**
+
+4. **Compute Eigenvalues:** $\lambda = [2.69, 1.11, 0.00, -0.37, 0.00]$
+
+5. **Check PSD:** One eigenvalue < 0 ✗ **NO**
+
+**Result:** This kernel is **INVALID** due to negative eigenvalue (-0.37).
 
 ### Step 2: Gram Matrices for Specific 3 Points
 
-For the points $(0,0)$, $(1,0)$, and $(0,1)$, we compute the Gram matrices:
+For the points $\mathbf{x}_1 = (0,0)$, $\mathbf{x}_2 = (1,0)$, and $\mathbf{x}_3 = (0,1)$, we compute the Gram matrices:
 
 #### Polynomial Kernel $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z})^2 + (\mathbf{x}^T\mathbf{z})^3$
-```
-[[0. 0. 0.]
- [0. 2. 0.]
- [0. 0. 2.]]
-```
-**Eigenvalues:** $[0, 2, 2]$ ✓ **PSD**
+
+**Detailed Calculations:**
+- $K(\mathbf{x}_1, \mathbf{x}_1) = (0)^2 + (0)^3 = 0$
+- $K(\mathbf{x}_2, \mathbf{x}_2) = (1)^2 + (1)^3 = 1 + 1 = 2$
+- $K(\mathbf{x}_3, \mathbf{x}_3) = (1)^2 + (1)^3 = 1 + 1 = 2$
+- $K(\mathbf{x}_1, \mathbf{x}_2) = K(\mathbf{x}_1, \mathbf{x}_3) = K(\mathbf{x}_2, \mathbf{x}_3) = 0$
+
+**Gram Matrix:**
+$$\mathbf{K} = \begin{bmatrix}
+0 & 0 & 0 \\
+0 & 2 & 0 \\
+0 & 0 & 2
+\end{bmatrix}$$
+
+**Eigenvalues:** $\lambda = [0, 2, 2]$ ✓ **PSD**
 
 #### Exponential Kernel $K(\mathbf{x}, \mathbf{z}) = \exp(\mathbf{x}^T\mathbf{z})$
-```
-[[1.00  1.00  1.00]
- [1.00  2.72  1.00]
- [1.00  1.00  2.72]]
-```
-**Eigenvalues:** $[0.40, 4.32, 1.72]$ ✓ **PSD**
+
+**Detailed Calculations:**
+- $K(\mathbf{x}_1, \mathbf{x}_1) = \exp(0) = 1$
+- $K(\mathbf{x}_2, \mathbf{x}_2) = \exp(1) = e \approx 2.718$
+- $K(\mathbf{x}_3, \mathbf{x}_3) = \exp(1) = e \approx 2.718$
+- $K(\mathbf{x}_1, \mathbf{x}_2) = K(\mathbf{x}_1, \mathbf{x}_3) = K(\mathbf{x}_2, \mathbf{x}_3) = \exp(0) = 1$
+
+**Gram Matrix:**
+$$\mathbf{K} = \begin{bmatrix}
+1.000 & 1.000 & 1.000 \\
+1.000 & 2.718 & 1.000 \\
+1.000 & 1.000 & 2.718
+\end{bmatrix}$$
+
+**Eigenvalues:** $\lambda = [0.40, 4.32, 1.72]$ ✓ **PSD**
 
 #### Sine Kernel $K(\mathbf{x}, \mathbf{z}) = \sin(\mathbf{x}^T\mathbf{z})$
-```
-[[0.00  0.00  0.00]
- [0.00  0.84  0.00]
- [0.00  0.00  0.84]]
-```
-**Eigenvalues:** $[0, 0.84, 0.84]$ ✓ **PSD**
+
+**Detailed Calculations:**
+- $K(\mathbf{x}_1, \mathbf{x}_1) = \sin(0) = 0$
+- $K(\mathbf{x}_2, \mathbf{x}_2) = \sin(1) \approx 0.841$
+- $K(\mathbf{x}_3, \mathbf{x}_3) = \sin(1) \approx 0.841$
+- $K(\mathbf{x}_1, \mathbf{x}_2) = K(\mathbf{x}_1, \mathbf{x}_3) = K(\mathbf{x}_2, \mathbf{x}_3) = \sin(0) = 0$
+
+**Gram Matrix:**
+$$\mathbf{K} = \begin{bmatrix}
+0.000 & 0.000 & 0.000 \\
+0.000 & 0.841 & 0.000 \\
+0.000 & 0.000 & 0.841
+\end{bmatrix}$$
+
+**Eigenvalues:** $\lambda = [0, 0.841, 0.841]$ ✓ **PSD**
 
 **Note:** Interestingly, the sine kernel appears valid for this specific set of 3 points, but fails for the larger set of 5 points. This demonstrates that kernel validity must be checked for all possible finite sets of points.
 
@@ -112,58 +189,87 @@ For the points $(0,0)$, $(1,0)$, and $(0,1)$, we compute the Gram matrices:
 
 We demonstrate that if $K_1$ and $K_2$ are valid kernels, then $K = 2K_1 + 3K_2$ is also valid.
 
-**Individual Kernels:**
-- $K_1(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T\mathbf{z}$ (Linear kernel)
-- $K_2(\mathbf{x}, \mathbf{z}) = \exp(-0.1\|\mathbf{x}-\mathbf{z}\|^2)$ (RBF kernel)
+**Mathematical Analysis:**
+$$K(\mathbf{x}, \mathbf{z}) = 2K_1(\mathbf{x}, \mathbf{z}) + 3K_2(\mathbf{x}, \mathbf{z})$$
+where $K_1(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T\mathbf{z}$ (linear kernel)
+and $K_2(\mathbf{x}, \mathbf{z}) = \exp(-0.1\|\mathbf{x}-\mathbf{z}\|^2)$ (RBF kernel)
 
-**Combined Kernel:** $K(\mathbf{x}, \mathbf{z}) = 2K_1(\mathbf{x}, \mathbf{z}) + 3K_2(\mathbf{x}, \mathbf{z})$
+**Theoretical Justification:**
+1. If $K_1$ and $K_2$ are valid kernels, their Gram matrices $\mathbf{K}_1$ and $\mathbf{K}_2$ are PSD
+2. For any positive constants $a, b > 0$, $a\mathbf{K}_1 + b\mathbf{K}_2$ is also PSD
+3. This follows from: $(a\mathbf{K}_1 + b\mathbf{K}_2)^T = a\mathbf{K}_1^T + b\mathbf{K}_2^T = a\mathbf{K}_1 + b\mathbf{K}_2$ (symmetry)
+   and all eigenvalues of $a\mathbf{K}_1 + b\mathbf{K}_2$ are non-negative (PSD)
 
 **Verification:**
 - Both individual kernels are valid (all eigenvalues ≥ 0)
-- The combined kernel Gram matrix equals $2 \times K_1 + 3 \times K_2$
+- The combined kernel Gram matrix equals $2 \times \mathbf{K}_1 + 3 \times \mathbf{K}_2$
 - All eigenvalues of the combined kernel are non-negative (minimum = 0.020492)
 
 **Result:** The linear combination is **VALID**.
-
-**Theoretical Justification:** If $K_1$ and $K_2$ are valid kernels, then for any positive constants $a, b > 0$, the kernel $K = aK_1 + bK_2$ is also valid. This follows from the fact that:
-1. The sum of PSD matrices is PSD
-2. Scaling a PSD matrix by a positive constant preserves PSD property
 
 ### Step 4: Examples of Invalid Kernels
 
 #### 4.1 $K(\mathbf{x}, \mathbf{z}) = -\|\mathbf{x}-\mathbf{z}\|^2$
 
-**Gram Matrix:**
-```
-[[ 0. -1. -1. -2. -1.]
- [-1.  0. -2. -1. -4.]
- [-1. -2.  0. -1. -2.]
- [-2. -1. -1.  0. -5.]
- [-1. -4. -2. -5.  0.]]
-```
+**Mathematical Analysis:**
+This kernel is the negative of the squared Euclidean distance. While $\|\mathbf{x}-\mathbf{z}\|^2$ is a valid kernel (it's the negative of the RBF kernel), the negative sign makes it invalid because it violates PSD property.
 
-**Eigenvalues:** $[-8.66, 6.05, 2.00, 0.00, 0.61]$
+**Step-by-Step Calculation:**
 
-**Analysis:** One eigenvalue is negative (-8.66), so this kernel is **INVALID**.
+1. **Compute individual kernel values:**
+   - $K(\mathbf{x}_1, \mathbf{x}_2) = -\|[0,0] - [1,0]\|^2 = -1$
+   - $K(\mathbf{x}_1, \mathbf{x}_3) = -\|[0,0] - [0,1]\|^2 = -1$
+   - $K(\mathbf{x}_1, \mathbf{x}_4) = -\|[0,0] - [1,1]\|^2 = -2$
+   - $K(\mathbf{x}_2, \mathbf{x}_5) = -\|[1,0] - [-1,0]\|^2 = -4$
 
-**Explanation:** The negative sign makes this kernel violate the positive semi-definiteness requirement. Distance-based kernels must be positive to be valid.
+2. **Complete Gram Matrix:**
+   $$\mathbf{K} = \begin{bmatrix}
+   0 & -1 & -1 & -2 & -1 \\
+   -1 & 0 & -2 & -1 & -4 \\
+   -1 & -2 & 0 & -1 & -2 \\
+   -2 & -1 & -1 & 0 & -5 \\
+   -1 & -4 & -2 & -5 & 0
+   \end{bmatrix}$$
+
+3. **Check Symmetry:** $\mathbf{K} = \mathbf{K}^T$ ✓ **YES**
+
+4. **Compute Eigenvalues:** $\lambda = [-8.66, 6.05, 2.00, 0.00, 0.61]$
+
+5. **Check PSD:** One eigenvalue < 0 ✗ **NO**
+
+**Result:** This kernel is **INVALID** due to negative eigenvalue (-8.66).
 
 #### 4.2 $K(\mathbf{x}, \mathbf{z}) = x_0 \cdot z_1$ (Asymmetric)
 
-**Gram Matrix:**
-```
-[[ 0.  0.  0.  0.  0.]
- [ 0.  0.  1.  1.  0.]
- [ 0.  0.  0.  0.  0.]
- [ 0.  0.  1.  1.  0.]
- [ 0.  0. -1. -1.  0.]]
-```
+**Mathematical Analysis:**
+This kernel is asymmetric: $K(\mathbf{x}, \mathbf{z}) \neq K(\mathbf{z}, \mathbf{x})$
+For example: $K([1,0], [0,1]) = 1 \cdot 1 = 1$
+but $K([0,1], [1,0]) = 0 \cdot 0 = 0$
+This violates the symmetry requirement for valid kernels.
 
-**Eigenvalues:** $[0, 0, 1, 0, 0]$
+**Step-by-Step Calculation:**
 
-**Analysis:** All eigenvalues are non-negative, so this kernel is **VALID** for this specific set of points.
+1. **Compute individual kernel values:**
+   - $K(\mathbf{x}_2, \mathbf{x}_3) = 1 \cdot 1 = 1$
+   - $K(\mathbf{x}_3, \mathbf{x}_2) = 0 \cdot 0 = 0$ (asymmetric!)
+   - $K(\mathbf{x}_5, \mathbf{x}_3) = -1 \cdot 1 = -1$
 
-**Explanation:** While this kernel is asymmetric ($K(\mathbf{x}, \mathbf{z}) \neq K(\mathbf{z}, \mathbf{x})$), it still produces a PSD Gram matrix for this particular set of points. However, asymmetry is generally a red flag for kernel validity.
+2. **Complete Gram Matrix:**
+   $$\mathbf{K} = \begin{bmatrix}
+   0 & 0 & 0 & 0 & 0 \\
+   0 & 0 & 1 & 1 & 0 \\
+   0 & 0 & 0 & 0 & 0 \\
+   0 & 0 & 1 & 1 & 0 \\
+   0 & 0 & -1 & -1 & 0
+   \end{bmatrix}$$
+
+3. **Check Symmetry:** $\mathbf{K} \neq \mathbf{K}^T$ ✗ **NO**
+
+4. **Compute Eigenvalues:** $\lambda = [0, 0, 1, 0, 0]$
+
+5. **Check PSD:** All eigenvalues ≥ 0 ✓ **YES**
+
+**Result:** This kernel is **INVALID** due to asymmetry, even though it produces a PSD matrix for this specific set of points.
 
 ### Step 5: Kernel for Comparing Sets of Different Sizes
 
@@ -175,39 +281,45 @@ $$K(A, B) = \frac{1}{|A| \cdot |B|} \sum_{a \in A} \sum_{b \in B} k(a, b)$$
 where $k(a, b)$ is a base kernel (e.g., RBF or linear).
 
 **Test Sets:**
-- Set A: $\{(0,0), (1,0)\}$ (2 points)
-- Set B: $\{(0,1), (1,1), (0.5,0.5)\}$ (3 points)
-- Set C: $\{(-1,0)\}$ (1 point)
+- Set A: $\{(0,0), (1,0)\}$ ($|A| = 2$)
+- Set B: $\{(0,1), (1,1), (0.5,0.5)\}$ ($|B| = 3$)
+- Set C: $\{(-1,0)\}$ ($|C| = 1$)
 
 #### RBF-based Set Kernel
+
+**Base Kernel:** $k(a,b) = \exp(-\gamma\|a-b\|^2)$ with $\gamma = 1.0$
+
 **Kernel Values:**
 - $K(A,B) = 0.3699$
 - $K(A,C) = 0.1931$
 - $K(B,C) = 0.0747$
 
 **Gram Matrix:**
-```
-[[0.68  0.37  0.19]
- [0.37  0.68  0.07]
- [0.19  0.07  1.00]]
-```
+$$\mathbf{K} = \begin{bmatrix}
+0.684 & 0.370 & 0.193 \\
+0.370 & 0.685 & 0.075 \\
+0.193 & 0.075 & 1.000
+\end{bmatrix}$$
 
-**Eigenvalues:** $[0.30, 1.22, 0.84]$ ✓ **PSD**
+**Eigenvalues:** $\lambda = [0.30, 1.22, 0.84]$ ✓ **PSD**
 
 #### Linear-based Set Kernel
+
+**Base Kernel:** $k(a,b) = a^T b$
+
 **Kernel Values:**
 - $K(A,B) = 0.2500$
 - $K(A,C) = -0.5000$
 - $K(B,C) = -0.5000$
 
 **Gram Matrix:**
-```
-[[ 0.25  0.25 -0.50]
- [ 0.25  0.94 -0.50]
- [-0.50 -0.50  1.00]]
-```
+$$\mathbf{K} = \begin{bmatrix}
+0.250 & 0.250 & -0.500 \\
+0.250 & 0.944 & -0.500 \\
+-0.500 & -0.500 & 1.000
+\end{bmatrix}$$
 
-**Eigenvalues:** $[1.68, 0.52, 0.00]$ ✓ **PSD**
+**Eigenvalues:** $\lambda = [1.68, 0.52, 0.00]$ ✓ **PSD**
 
 **Result:** Both set kernels are **VALID**.
 
@@ -220,12 +332,13 @@ where $k(a, b)$ is a base kernel (e.g., RBF or linear).
 
 ### Kernel Validity Analysis
 
-![Kernel Validity Analysis](../Images/L5_3_Quiz_20/kernel_validity_analysis.png)
+![Kernel Validity Analysis](../Images/L5_3_Quiz_20/kernel_validity_analysis_detailed.png)
 
 The visualization shows:
 - **Top row:** Eigenvalue distributions for the three main kernels
-- **Bottom row:** Heatmaps of the corresponding Gram matrices
+- **Bottom row:** Heatmaps of the corresponding Gram matrices with proper mathematical notation
 - **Validity indicators:** Clear YES/NO labels for each kernel
+- **Mathematical annotations:** Minimum eigenvalue values displayed for each kernel
 
 Key observations:
 1. **Polynomial kernel:** All eigenvalues are non-negative, confirming validity
@@ -234,21 +347,43 @@ Key observations:
 
 ### Set Kernel Analysis
 
-![Set Kernel Analysis](../Images/L5_3_Quiz_20/set_kernel_analysis.png)
+![Set Kernel Analysis](../Images/L5_3_Quiz_20/set_kernel_analysis_detailed.png)
 
 The visualization shows:
 - **Left:** RBF-based set kernel Gram matrix
 - **Right:** Linear-based set kernel Gram matrix
 - Both matrices are symmetric and have positive eigenvalues
+- **PSD indicators:** Clear validation of positive semi-definiteness
 
 ### Test Points Visualization
 
-![Test Points](../Images/L5_3_Quiz_20/test_points.png)
+![Test Points](../Images/L5_3_Quiz_20/test_points_detailed.png)
 
 The visualization shows:
 - **Red circles:** All test points used for kernel evaluation
 - **Blue squares:** Specific points (0,0), (1,0), (0,1) used in Task 2
-- **Point labels:** Coordinates for easy reference
+- **Point labels:** Mathematical notation using $\mathbf{x}_i$ format
+- **Legend:** Proper mathematical set notation
+
+### Mathematical Summary
+
+![Kernel Summary](../Images/L5_3_Quiz_20/kernel_summary_latex.png)
+
+This comprehensive summary visualization provides:
+- **Clear classification** of valid vs. invalid kernels with reasons
+- **Mercer's theorem statement** with proper mathematical notation
+- **Theoretical foundation** for kernel validity testing
+
+### 3D Kernel Surface Visualization
+
+![3D Kernel Surfaces](../Images/L5_3_Quiz_20/kernel_3d_surfaces.png)
+
+This simple but informative 3D visualization shows:
+- **Polynomial Kernel:** Smooth, monotonically increasing surface that grows rapidly
+- **Exponential Kernel:** Steep, exponential growth surface that demonstrates the rapid increase
+- **Sine Kernel:** Oscillating surface with peaks and valleys, showing why it can produce negative values
+
+The 3D surfaces provide an intuitive understanding of how each kernel function behaves across the input space, making it clear why the polynomial and exponential kernels are valid (always positive or non-decreasing) while the sine kernel is invalid (oscillating between positive and negative values).
 
 ## Key Insights
 
