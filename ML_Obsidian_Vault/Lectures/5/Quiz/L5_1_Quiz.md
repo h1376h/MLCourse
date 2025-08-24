@@ -1,7 +1,7 @@
 # Lecture 5.1: Maximum Margin Classifiers Quiz
 
 ## Overview
-This quiz contains 26 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
+This quiz contains 30 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
 
 ## Question 1
 
@@ -413,3 +413,60 @@ The central idea of a Support Vector Machine is to find a separating hyperplane 
 3.  How does the concept of maximizing the margin relate to the model's generalization capability on unseen data?
 
 For a detailed explanation of this problem, see [Question 26: The Margin and Generalization](L5_1_26_explanation.md).
+
+## Question 27
+
+### Problem Statement
+Answer these basic questions about SVM formulas and terminology.
+
+#### Task
+1. [📚] In the SVM objective function $\min \frac{1}{2}||\mathbf{w}||^2$, what does $||\mathbf{w}||$ represent geometrically?
+2. [📚] For the constraint $y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1$, explain what happens when this value equals exactly 1.
+3. [📚] What is the formula for the distance from a point $(x_0, y_0)$ to the line $ax + by + c = 0$?
+4. [📚] Define "functional margin" in your own words and write its formula.
+5. [📚] What is the relationship between functional margin and geometric margin?
+
+For a detailed explanation of this problem, see [Question 27: Basic Formula Understanding](L5_1_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+Define and explain key SVM terminology.
+
+#### Task
+1. [📚] What is a "support vector"? How can you identify them?
+2. [📚] What does "linearly separable" mean for a dataset?
+3. [📚] Explain the difference between "primal" and "dual" formulations.
+4. [📚] What is the "margin" in maximum margin classification?
+5. [📚] Define "hyperplane" and give an example equation in 2D.
+
+For a detailed explanation of this problem, see [Question 28: Key Terminology](L5_1_28_explanation.md).
+
+## Question 29
+
+### Problem Statement
+Perform basic SVM calculations.
+
+#### Task
+Given the hyperplane $2x_1 + 3x_2 - 6 = 0$:
+1. [📚] Calculate the distance from point $(1, 1)$ to this hyperplane.
+2. [📚] If point $(1, 1)$ has label $y = +1$, what is its functional margin?
+3. [📚] What is the magnitude of the weight vector $||\mathbf{w}||$?
+4. [📚] Write the hyperplane equation in the form $\mathbf{w}^T\mathbf{x} + b = 0$.
+5. [📚] If you double all coefficients to get $4x_1 + 6x_2 - 12 = 0$, how does the geometric margin change?
+
+For a detailed explanation of this problem, see [Question 29: Simple Calculations](L5_1_29_explanation.md).
+
+## Question 30
+
+### Problem Statement
+Test your understanding of basic SVM concepts.
+
+#### Task
+1. [📚] True or False: All training points are support vectors. Explain.
+2. [📚] True or False: The maximum margin hyperplane is unique. Explain.
+3. [📚] True or False: Increasing the margin always improves generalization. Explain.
+4. [📚] What happens to the decision boundary if you remove a non-support vector point?
+5. [📚] Why do we minimize $\frac{1}{2}||\mathbf{w}||^2$ instead of $||\mathbf{w}||$?
+
+For a detailed explanation of this problem, see [Question 30: Concept Check](L5_1_30_explanation.md).
