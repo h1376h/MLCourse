@@ -1,7 +1,7 @@
 # Lecture 5.3: Kernel Trick for Nonlinear Classification Quiz
 
 ## Overview
-This quiz contains 27 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
+This quiz contains 31 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
 
 ## Question 1
 
@@ -389,3 +389,55 @@ Not every function $K(\mathbf{x}, \mathbf{z})$ can be used as a valid kernel in 
 3.  Why is this condition important? What could go wrong during the SVM optimization if an invalid kernel is used?
 
 For a detailed explanation of this problem, see [Question 27: Understanding Mercer's Theorem](L5_3_27_explanation.md).
+
+## Question 28
+
+### Problem Statement
+Answer these basic questions about kernel formulas and concepts.
+
+#### Task
+1. What is the formula for the RBF (Gaussian) kernel?
+2. What is the formula for the polynomial kernel?
+3. In the kernel trick, what does $K(\mathbf{x}, \mathbf{z})$ represent mathematically?
+4. What does $\phi(\mathbf{x})$ represent in the context of kernels?
+5. Write the kernelized SVM decision function.
+
+For a detailed explanation of this problem, see [Question 28: Kernel Formula Understanding](L5_3_28_explanation.md).
+
+## Question 29
+
+### Problem Statement
+For points $\mathbf{x} = (1, 2)$ and $\mathbf{z} = (3, 0)$:
+
+#### Task
+1. Calculate the linear kernel: $K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T\mathbf{z} = $ ?
+2. Calculate the polynomial kernel with $d=2, c=1$: $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z} + 1)^2 = $ ?
+3. Calculate $||\mathbf{x} - \mathbf{z}||^2 = $ ?
+4. Calculate the RBF kernel with $\gamma=0.5$: $K(\mathbf{x}, \mathbf{z}) = \exp(-0.5||\mathbf{x} - \mathbf{z}||^2) = $ ?
+5. Which kernel gives the highest similarity score for these points?
+
+For a detailed explanation of this problem, see [Question 29: Basic Kernel Calculations](L5_3_29_explanation.md).
+
+## Question 30
+
+### Problem Statement
+Test your understanding of kernel concepts.
+
+#### Task
+1. True or False: The RBF kernel can separate any dataset. Explain.
+2. True or False: A higher degree polynomial kernel always performs better. Explain.
+3. What happens to RBF kernel values as $\gamma \to \infty$?
+4. Why can't we use $K(\mathbf{x}, \mathbf{z}) = -||\mathbf{x} - \mathbf{z}||^2$ as a kernel?
+5. What is the main advantage of the kernel trick over explicit feature mapping?
+
+For a detailed explanation of this problem, see [Question 30: Kernel Concept Check](L5_3_30_explanation.md).
+
+## Question 31
+
+### Problem Statement
+Assume we are using the Gaussian kernel $k(x_i, x_j) = \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$.
+
+#### Task
+1. Prove that the Euclidean distance between the mapped points $\phi(x_i)$ and $\phi(x_j)$ in the new feature space is less than 2.
+
+For a detailed explanation of this problem, see [Question 31: Gaussian Kernel Proof](L5_3_31_explanation.md).
