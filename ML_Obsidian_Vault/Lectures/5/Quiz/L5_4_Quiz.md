@@ -127,7 +127,7 @@ For a detailed explanation of this problem, see [Question 7: Error-Correcting Co
 Design and implement multi-class evaluation metrics.
 
 Consider a 3-class confusion matrix:
-$$C = \begin{pmatrix} 85 & 5 & 10 \\ 8 & 78 & 14 \\ 12 & 7 & 81 \end{pmatrix}$$
+$$C = \begin{bmatrix} 85 & 5 & 10 \\ 8 & 78 & 14 \\ 12 & 7 & 81 \end{bmatrix}$$
 
 #### Task
 1. Calculate the overall accuracy
