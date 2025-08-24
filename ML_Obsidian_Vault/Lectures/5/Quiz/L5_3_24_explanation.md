@@ -50,6 +50,8 @@ Let's examine how data scaling affects margin values even for the same kernel:
 
 **Key Insight**: The same underlying decision boundary produces dramatically different margin values simply due to data scaling, yet the classification performance remains essentially the same.
 
+**Critical Point**: We need to normalize the margin for it to be meaningful. A simple scaling of the feature vectors would lead to a larger margin. Such a scaling does not change the decision boundary, however, and so the larger margin cannot directly inform us about generalization. This is why raw margin values from different kernels cannot be directly compared.
+
 ### Step 3: Comparing Different Kernels on the Same Data
 
 Let's examine how different kernels perform on linearly separable data:
@@ -151,6 +153,7 @@ This contrast perfectly demonstrates why margin values alone cannot predict perf
 ### Theoretical Foundations
 - **Feature Space Geometry**: Each kernel induces a different feature space with different geometric properties. The "margin" in one feature space is not comparable to the "margin" in another.
 - **Scale Invariance**: Margin values are not scale-invariant. The same decision boundary produces different margin values depending on data scaling.
+- **Margin Normalization**: We need to normalize the margin for it to be meaningful. A simple scaling of the feature vectors would lead to a larger margin, but such scaling does not change the decision boundary and cannot directly inform us about generalization.
 - **Kernel Trick Interpretation**: The kernel trick allows us to work in high-dimensional feature spaces without explicitly computing the feature mappings, but this makes margin interpretation complex.
 
 ### Practical Applications
@@ -203,8 +206,9 @@ This contrast perfectly demonstrates why margin values alone cannot predict perf
 ## Conclusion
 - **The statement is TRUE**: Raw margin values from different kernels cannot be directly compared to predict test set performance.
 - **Scale Dependencies**: Margin values are highly sensitive to data scaling, making direct comparisons unreliable.
+- **Margin Normalization**: We need to normalize the margin for it to be meaningful. A simple scaling of the feature vectors would lead to a larger margin, but such scaling does not change the decision boundary and cannot directly inform us about generalization.
 - **Kernel-Specific Interpretations**: The meaning and scale of "margin" varies fundamentally between different kernels.
 - **Performance vs. Margin**: Test accuracy is independent of margin magnitude, as demonstrated by the circles dataset where the worst-performing linear kernel had the largest margins.
 - **Proper Evaluation**: Use cross-validation, test set performance, or other generalization metrics rather than raw margin values when comparing different kernels.
 
-The key lesson is that while margins are important for understanding SVM behavior within a single kernel, they are not a reliable metric for comparing different kernels or predicting generalization performance across different feature spaces.
+The key lesson is that while margins are important for understanding SVM behavior within a single kernel, they are not a reliable metric for comparing different kernels or predicting generalization performance across different feature spaces. The fundamental issue is that margin values need to be normalized to be meaningful, as simple feature scaling can artificially inflate margins without changing the underlying decision boundary or generalization properties.
