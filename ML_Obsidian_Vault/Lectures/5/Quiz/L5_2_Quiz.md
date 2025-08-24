@@ -1,7 +1,7 @@
 # Lecture 5.2: Hard Margin and Soft Margin SVMs Quiz
 
 ## Overview
-This quiz contains 23 questions covering different topics from section 5.2 of the lectures on Hard Margin SVM, Soft Margin SVM, Slack Variables, Regularization Trade-offs, Hinge Loss Function, and KKT Conditions.
+This quiz contains 25 questions covering different topics from section 5.2 of the lectures on Hard Margin SVM, Soft Margin SVM, Slack Variables, Regularization Trade-offs, Hinge Loss Function, and KKT Conditions.
 
 ## Question 1
 
@@ -380,3 +380,43 @@ The objective function for a soft-margin SVM is a trade-off between maximizing t
 4.  How does the choice of $C$ relate to the bias-variance trade-off?
 
 For a detailed explanation of this problem, see [Question 23: The Role of the Regularization Parameter C](L5_2_23_explanation.md).
+
+## Question 24
+
+### Problem Statement
+Answer these basic questions about soft margin SVM formulas and concepts.
+
+#### Task
+1. In the soft margin objective $$\frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i$$, what does each term represent?
+2. What is the formula for hinge loss? Write it mathematically and explain its properties.
+3. If $\xi_i = 0.5$ for a point, is it correctly classified? Explain the geometric interpretation.
+4. Write the constraint that relates slack variables to the margin violations and explain its meaning.
+5. What does $\alpha_i + \mu_i = C$ mean in the KKT conditions? Derive this relationship.
+6. Explain the difference between functional margin and geometric margin in soft margin SVM.
+7. How does the value of $C$ affect the trade-off between margin width and classification accuracy?
+8. Design a simple example with 3 points to illustrate how slack variables work in practice.
+9. What happens to the slack variables when $C \to 0$ and when $C \to \infty$?
+10. Compare the computational complexity of hard margin vs soft margin SVM optimization.
+
+For a detailed explanation of this problem, see [Question 24: Soft Margin Formula Understanding](L5_2_24_explanation.md).
+
+## Question 25
+
+### Problem Statement
+Perform basic soft margin SVM calculations and analysis.
+
+#### Task
+For point $(\mathbf{x}_1, y_1) = ((2, 3), +1)$ with hyperplane $f(\mathbf{x}) = x_1 + 2x_2 - 4$:
+
+1. Calculate $f(\mathbf{x}_1)$ ?
+2. Calculate the functional margin: $y_1 \cdot f(\mathbf{x}_1)$ ?
+3. Calculate the slack variable: $\xi_1 = \max(0, 1 - y_1 \cdot f(\mathbf{x}_1))$ ?
+4. Calculate the hinge loss: $L_h = \max(0, 1 - y_1 \cdot f(\mathbf{x}_1))$ ?
+5. Is this point correctly classified? Is it a support vector? Explain your reasoning.
+6. If the hyperplane changes to $f(\mathbf{x}) = 0.5x_1 + x_2 - 2$, recalculate all the above values.
+7. For a dataset with points $(1, 1, +1)$, $(2, 2, +1)$, $(0, 0, -1)$, $(1, 0, -1)$, calculate slack variables for each point using the original hyperplane.
+8. Design a credit scoring system where income and debt ratio are features. Given a customer with income=2, debt_ratio=3, and hyperplane $f(\mathbf{x}) = 0.3x_1 - 0.1x_2 - 0.5$, calculate their risk score and confidence level.
+9. If the regularization parameter $C = 2$, calculate the contribution of this point to the total objective function.
+10. Compare the geometric interpretation of this point's position relative to the margin boundaries.
+
+For a detailed explanation of this problem, see [Question 25: Basic Soft Margin Calculations](L5_2_25_explanation.md).
