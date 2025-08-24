@@ -156,6 +156,34 @@ Let's calculate slack variables for a specific case:
 The soft margin constraint is:
 $$y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - \xi_i$$
 
+**Detailed Mathematical Analysis:**
+
+1) **Original hard margin constraint**: $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1$
+   - This requires all points to be correctly classified with margin $\geq 1$
+
+2) **Soft margin relaxation**: $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - \xi_i$
+   - This allows margin violations by introducing slack variables
+
+3) **Constraint Analysis**:
+   - **Case 1**: $\xi_i = 0$
+     - Then: $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - 0 = 1$
+     - This is the original hard margin constraint
+   
+   - **Case 2**: $\xi_i > 0$
+     - Then: $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - \xi_i$
+     - The right-hand side is reduced, allowing margin violations
+
+4) **Relationship to Slack Variables**:
+   - From the constraint: $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - \xi_i$
+   - Rearranging: $\xi_i \geq 1 - y_i(\mathbf{w}^T \mathbf{x}_i + b)$
+   - But we also have: $\xi_i \geq 0$
+   - Therefore: $\xi_i = \max(0, 1 - y_i(\mathbf{w}^T \mathbf{x}_i + b))$
+
+5) **Complete Constraint Set**:
+   - $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - \xi_i$ for all $i$
+   - $\xi_i \geq 0$ for all $i$
+   - These constraints ensure the optimization problem is well-defined
+
 **Meaning:**
 - **If $\xi_i = 0$**: $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1$ (hard margin constraint)
 - **If $\xi_i > 0$**: $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - \xi_i$ (allows margin violation)
@@ -166,6 +194,39 @@ This constraint ensures that points are either correctly classified with the req
 ### Step 5: KKT Condition Derivation
 
 The KKT condition $\alpha_i + \mu_i = C$ comes from the Lagrangian optimization.
+
+**Detailed Mathematical Derivation:**
+
+1) **Lagrangian Function**:
+   $$L(\mathbf{w}, b, \boldsymbol{\xi}, \boldsymbol{\alpha}, \boldsymbol{\mu}) = \frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n \alpha_i[y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1 + \xi_i] - \sum_{i=1}^n \mu_i \xi_i$$
+
+2) **KKT Conditions (First-Order Optimality)**:
+   - **$\frac{\partial L}{\partial \mathbf{w}} = 0$**:
+     - $\mathbf{w} - \sum_{i=1}^n \alpha_i y_i \mathbf{x}_i = 0$
+     - Therefore: $\mathbf{w} = \sum_{i=1}^n \alpha_i y_i \mathbf{x}_i$
+   
+   - **$\frac{\partial L}{\partial b} = 0$**:
+     - $-\sum_{i=1}^n \alpha_i y_i = 0$
+     - Therefore: $\sum_{i=1}^n \alpha_i y_i = 0$
+   
+   - **$\frac{\partial L}{\partial \xi_i} = 0$**:
+     - $C - \alpha_i - \mu_i = 0$
+     - Therefore: $\alpha_i + \mu_i = C$
+
+3) **Complementary Slackness**:
+   - $\alpha_i[y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1 + \xi_i] = 0$
+   - $\mu_i \xi_i = 0$
+
+4) **Interpretation of $\alpha_i + \mu_i = C$**:
+   Since $\alpha_i \geq 0$ and $\mu_i \geq 0$, and $\alpha_i + \mu_i = C$:
+   - If $\alpha_i = 0$: $\mu_i = C$ (point not a support vector)
+   - If $0 < \alpha_i < C$: $\mu_i = C - \alpha_i$ (point is a support vector)
+   - If $\alpha_i = C$: $\mu_i = 0$ (point violates margin)
+
+5) **Dual Variables Relationship**:
+   - $\alpha_i$: Lagrange multiplier for margin constraint
+   - $\mu_i$: Lagrange multiplier for non-negativity constraint $\xi_i \geq 0$
+   - Their sum equals $C$, the regularization parameter
 
 **Derivation:**
 The Lagrangian for soft margin SVM is:
@@ -185,6 +246,37 @@ Therefore: $\alpha_i + \mu_i = C$
 
 ### Step 6: Functional vs Geometric Margin
 
+**Detailed Mathematical Analysis:**
+
+1) **Functional Margin Definition**:
+   - $\hat{\gamma} = y(\mathbf{w}^T \mathbf{x} + b)$
+   - This is the signed distance from the decision boundary
+
+2) **Geometric Margin Definition**:
+   - $\gamma = \frac{\hat{\gamma}}{||\mathbf{w}||}$
+   - This is the actual distance from the decision boundary
+
+3) **Relationship in Hard Margin SVM**:
+   - For hard margin: $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1$ for all $i$
+   - Therefore: $\hat{\gamma}_i \geq 1$ for all $i$
+   - The minimum functional margin is 1
+
+4) **Relationship in Soft Margin SVM**:
+   - For soft margin: $y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - \xi_i$ for all $i$
+   - Therefore: $\hat{\gamma}_i \geq 1 - \xi_i$ for all $i$
+   - The functional margin can be less than 1 due to slack variables
+
+5) **Optimization Objective**:
+   - Hard margin: $\max \gamma = \max \frac{1}{||\mathbf{w}||}$
+   - Soft margin: $\max \gamma$ subject to constraints
+   - Both aim to maximize the geometric margin
+
+6) **Numerical Example**:
+   - Suppose $\mathbf{w} = [2, -1]^T$, $b = -3$, $\mathbf{x} = [1, 2]^T$, $y = 1$
+   - Functional margin: $\hat{\gamma} = 1 \cdot (2 \cdot 1 + (-1) \cdot 2 + (-3)) = 1 \cdot (-3) = -3$
+   - Geometric margin: $\gamma = \frac{-3}{\sqrt{2^2 + (-1)^2}} = \frac{-3}{\sqrt{5}} \approx -1.34$
+   - Since $\hat{\gamma} < 1$, this point violates the margin
+
 **Functional margin**: $\hat{\gamma} = y(\mathbf{w}^T \mathbf{x} + b)$
 **Geometric margin**: $\gamma = \frac{\hat{\gamma}}{||\mathbf{w}||}$
 
@@ -201,6 +293,30 @@ The parameter $C$ controls the trade-off between margin width and classification
 
 ![Effect of C Parameter](../Images/L5_2_Quiz_24/effect_of_C.png)
 
+**Detailed Mathematical Analysis:**
+
+1) **Objective Function Trade-off**:
+   - $\min \frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i$
+   - First term: encourages large margin (small $||\mathbf{w}||$)
+   - Second term: penalizes margin violations
+
+2) **Effect of $C \to 0$**:
+   - The penalty term $C\sum_{i=1}^n \xi_i$ becomes negligible
+   - Optimization focuses on minimizing $||\mathbf{w}||^2$
+   - Results in large margin (small $||\mathbf{w}||$)
+   - Many slack variables can be large (many violations)
+
+3) **Effect of $C \to \infty$**:
+   - The penalty term $C\sum_{i=1}^n \xi_i$ dominates
+   - Optimization focuses on minimizing $\sum_{i=1}^n \xi_i$
+   - Results in small margin (large $||\mathbf{w}||$)
+   - Slack variables approach 0 (few violations)
+
+4) **Optimal $C$ Selection**:
+   - Cross-validation is typically used
+   - Balance between margin width and classification accuracy
+   - Depends on the specific dataset and noise level
+
 **Analysis:**
 - **$C \to 0$**: Large margin, many misclassifications allowed (underfitting)
 - **$C \to \infty$**: Small margin, few misclassifications allowed (overfitting)
@@ -213,6 +329,25 @@ The visualization shows how the margin width changes with different $C$ values, 
 Consider three points: $(1,1)$ and $(2,2)$ from class 1, and $(3,1)$ from class -1.
 
 ![Simple Example](../Images/L5_2_Quiz_24/simple_example.png)
+
+**Detailed Mathematical Analysis:**
+
+1) **Problem Setup**:
+   - Points: $(1,1)$, $(2,2)$ from class 1, $(3,1)$ from class -1
+   - Decision boundary: $w_1 x_1 + w_2 x_2 + b = 0$
+
+2) **Slack Variable Calculation**:
+   - For each point $i$: $\xi_i = \max(0, 1 - y_i(w_1 x_{i1} + w_2 x_{i2} + b))$
+   - The values of $w_1$, $w_2$, $b$ depend on the optimization with parameter $C$
+
+3) **Effect of $C$ on Slack Variables**:
+   - Small $C$: Allows larger slack variables
+   - Large $C$: Forces smaller slack variables
+   - The optimization balances margin width vs. classification accuracy
+
+4) **Decision Boundary Evolution**:
+   - As $C$ increases, the decision boundary becomes more sensitive to individual points, potentially leading to overfitting
+   - As $C$ decreases, the decision boundary becomes smoother
 
 **Analysis:**
 - **Point $(1,1)$**: Class 1, slack variable $\xi$ depends on $C$
@@ -239,6 +374,31 @@ As $C$ increases, the slack variables decrease, and the decision boundary become
 - Model becomes overfit
 - Total slack approaches 0
 
+**Detailed Mathematical Analysis:**
+
+1) **Limiting Behavior Analysis**:
+   - **As $C \to 0$**:
+     - The term $C\sum_{i=1}^n \xi_i$ becomes negligible
+     - Objective becomes: $\min \frac{1}{2}||\mathbf{w}||^2$
+     - This maximizes the margin (minimizes $||\mathbf{w}||$)
+     - Slack variables can be arbitrarily large
+   
+   - **As $C \to \infty$**:
+     - The term $C\sum_{i=1}^n \xi_i$ dominates
+     - Objective becomes: $\min C\sum_{i=1}^n \xi_i$ (equivalent to $\min \sum_{i=1}^n \xi_i$)
+     - This forces $\xi_i \to 0$ for all $i$
+     - Results in hard margin behavior
+
+2) **Theoretical Limits**:
+   - $C \to 0$: Approaches maximum margin classifier
+   - $C \to \infty$: Approaches hard margin SVM
+   - Both limits may not have solutions for non-separable data
+
+3) **Practical Implications**:
+   - Very small $C$: High bias, low variance (underfitting)
+   - Very large $C$: Low bias, high variance (overfitting)
+   - Optimal $C$: Balanced bias-variance trade-off
+
 This demonstrates the fundamental trade-off in soft margin SVM between model complexity and classification accuracy.
 
 ### Step 10: Computational Complexity Comparison
@@ -257,6 +417,33 @@ This demonstrates the fundamental trade-off in soft margin SVM between model com
 - **Complexity**: $O(n^3)$ for interior point methods
 - **Solution existence**: Always has a solution
 - **Additional variables**: Slack variables increase problem size slightly
+
+**Detailed Mathematical Analysis:**
+
+1) **Problem Size Comparison**:
+   - Hard margin: $n$ variables ($w_1, w_2, \ldots, w_n, b$)
+   - Soft margin: $n + n$ variables ($w_1, w_2, \ldots, w_n, b, \xi_1, \xi_2, \ldots, \xi_n$)
+   - Soft margin has $2n$ variables vs $n$ variables
+
+2) **Constraint Analysis**:
+   - Hard margin: $n$ constraints ($y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1$)
+   - Soft margin: $2n$ constraints ($y_i(\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - \xi_i$, $\xi_i \geq 0$)
+   - Soft margin has twice as many constraints
+
+3) **Solution Existence**:
+   - Hard margin: May not have solution for non-separable data
+   - Soft margin: Always has a solution (feasible region is non-empty)
+   - This makes soft margin more practical
+
+4) **Algorithmic Complexity**:
+   - Interior point methods: $O(n^3)$ for both
+   - SMO (Sequential Minimal Optimization): $O(n^2)$ average case
+   - The additional variables don't change asymptotic complexity
+
+5) **Memory Requirements**:
+   - Hard margin: $O(n)$ memory for variables
+   - Soft margin: $O(2n)$ memory for variables
+   - Soft margin requires twice the memory
 
 Both algorithms have the same asymptotic complexity, but soft margin SVM is more robust and always has a solution.
 
