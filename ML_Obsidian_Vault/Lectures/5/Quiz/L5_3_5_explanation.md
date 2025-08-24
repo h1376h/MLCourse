@@ -21,9 +21,33 @@ Understanding the effect of $\gamma$ is essential for proper model selection, as
 
 For a simple 1D dataset with two points $x_1 = -1$ (class -1) and $x_2 = 1$ (class +1), we can analyze how different $\gamma$ values affect the decision boundary.
 
-The RBF kernel creates a decision function that is a weighted combination of Gaussian-like functions centered at each support vector. For our 1D case:
+**Mathematical Setup:**
+- Training data: $x_1 = -1$ (class $y_1 = -1$), $x_2 = 1$ (class $y_2 = +1$)
+- RBF kernel: $K(x,z) = \exp(-\gamma(x-z)^2)$
 
-$$f(x) = \sum_{i} \alpha_i y_i \exp(-\gamma (x - x_i)^2) + b$$
+**Kernel Matrix Construction:**
+$$K = \begin{bmatrix}
+K(x_1,x_1) & K(x_1,x_2) \\
+K(x_2,x_1) & K(x_2,x_2)
+\end{bmatrix} = \begin{bmatrix}
+1 & \exp(-4\gamma) \\
+\exp(-4\gamma) & 1
+\end{bmatrix}$$
+
+**Decision Function:**
+The SVM decision function becomes:
+$$f(x) = \alpha_1 y_1 K(x_1,x) + \alpha_2 y_2 K(x_2,x) + b$$
+$$= -\alpha_1 \exp(-\gamma(x+1)^2) + \alpha_2 \exp(-\gamma(x-1)^2) + b$$
+
+**Analysis for Different $\gamma$ Values:**
+
+For $\gamma = 0.1$ (small): The kernel matrix becomes approximately:
+$$K \approx \begin{bmatrix} 1 & 0.67 \\ 0.67 & 1 \end{bmatrix}$$
+This creates a smooth, wide decision boundary.
+
+For $\gamma = 10$ (large): The kernel matrix becomes approximately:
+$$K \approx \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
+This creates sharp, localized decision boundaries around each training point.
 
 ![1D Decision Boundaries](../Images/L5_3_Quiz_5/rbf_1d_decision_boundaries.png)
 
@@ -53,20 +77,40 @@ The parameter $\gamma$ directly controls the complexity of the decision boundary
 
 ### Step 3: Limit Behavior Derivation
 
-**As $\gamma \rightarrow 0$:**
+**Mathematical Analysis of $\gamma \rightarrow 0$:**
 
-$$\lim_{\gamma \rightarrow 0} K(\mathbf{x}, \mathbf{z}) = \lim_{\gamma \rightarrow 0} \exp(-\gamma ||\mathbf{x} - \mathbf{z}||^2) = \exp(0) = 1$$
+Step 1: Apply the limit to the kernel function
+$$\lim_{\gamma \rightarrow 0} K(\mathbf{x}, \mathbf{z}) = \lim_{\gamma \rightarrow 0} \exp(-\gamma ||\mathbf{x} - \mathbf{z}||^2)$$
 
-This means all points become equally similar to each other. The kernel matrix becomes a matrix of all ones (plus regularization), and the decision boundary approaches that of a linear classifier. The SVM essentially ignores the spatial relationships between points.
+Step 2: Use continuity of the exponential function
+$$= \exp\left(\lim_{\gamma \rightarrow 0} (-\gamma ||\mathbf{x} - \mathbf{z}||^2)\right) = \exp(0) = 1$$
 
-**As $\gamma \rightarrow \infty$:**
+Step 3: Analyze the implications
+- All kernel values approach 1: $K(\mathbf{x}, \mathbf{z}) \rightarrow 1$ for all $\mathbf{x}, \mathbf{z}$
+- Kernel matrix becomes $\mathbf{K} \rightarrow \mathbf{1}\mathbf{1}^T$ (matrix of all ones)
+- Decision boundary becomes linear (similar to linear SVM)
+- Model underfits due to loss of non-linear discrimination
 
-$$\lim_{\gamma \rightarrow \infty} K(\mathbf{x}, \mathbf{z}) = \begin{cases} 
+**Mathematical Analysis of $\gamma \rightarrow \infty$:**
+
+Step 1: Consider two cases for the limit
+For $\mathbf{x} \neq \mathbf{z}$: $||\mathbf{x} - \mathbf{z}||^2 > 0$
+$$\lim_{\gamma \rightarrow \infty} \exp(-\gamma ||\mathbf{x} - \mathbf{z}||^2) = \exp(-\infty) = 0$$
+
+For $\mathbf{x} = \mathbf{z}$: $||\mathbf{x} - \mathbf{z}||^2 = 0$
+$$\lim_{\gamma \rightarrow \infty} \exp(-\gamma \cdot 0) = \exp(0) = 1$$
+
+Step 2: Express as Kronecker delta
+$$\lim_{\gamma \rightarrow \infty} K(\mathbf{x}, \mathbf{z}) = \delta(\mathbf{x}, \mathbf{z}) = \begin{cases}
 1 & \text{if } \mathbf{x} = \mathbf{z} \\
 0 & \text{if } \mathbf{x} \neq \mathbf{z}
 \end{cases}$$
 
-The kernel becomes extremely localized. Only identical points have non-zero similarity. Each training point creates its own "island" of influence, leading to a decision boundary that perfectly memorizes the training data but generalizes poorly.
+Step 3: Analyze the implications
+- Kernel matrix becomes identity: $\mathbf{K} \rightarrow \mathbf{I}$
+- Each training point creates isolated influence region
+- Decision boundary becomes extremely complex and wiggly
+- Model overfits by memorizing training data exactly
 
 ### Step 4: Synthetic Dataset Comparison
 
@@ -87,16 +131,31 @@ We designed two synthetic datasets to demonstrate when small vs. large $\gamma$ 
 
 The effective "width" of influence for each data point can be calculated by finding the distance at which the kernel value drops to $1/e \approx 0.368$.
 
-Setting $K(\mathbf{x}, \mathbf{z}) = 1/e$:
-$$\exp(-\gamma ||\mathbf{x} - \mathbf{z}||^2) = 1/e$$
+**Mathematical Derivation:**
 
-Taking the natural logarithm:
+Step 1: Set up the equation for characteristic width
+We want to find the distance $r$ where $K(\mathbf{x}, \mathbf{z}) = 1/e$:
+$$\exp(-\gamma ||\mathbf{x} - \mathbf{z}||^2) = \frac{1}{e}$$
+
+Step 2: Apply natural logarithm to both sides
+$$\ln(\exp(-\gamma ||\mathbf{x} - \mathbf{z}||^2)) = \ln(1/e)$$
 $$-\gamma ||\mathbf{x} - \mathbf{z}||^2 = -1$$
 
-Solving for the distance:
+Step 3: Solve for the distance
+$$\gamma ||\mathbf{x} - \mathbf{z}||^2 = 1$$
+$$||\mathbf{x} - \mathbf{z}||^2 = \frac{1}{\gamma}$$
 $$||\mathbf{x} - \mathbf{z}|| = \frac{1}{\sqrt{\gamma}}$$
 
-Therefore, the characteristic width of influence is $w = \frac{1}{\sqrt{\gamma}}$.
+Step 4: Define the characteristic width
+Therefore, the characteristic width of influence is:
+$$w = \frac{1}{\sqrt{\gamma}}$$
+
+**Physical Interpretation:**
+- This width represents the "radius of influence" for each training point
+- Points within distance $w$ from a training point have kernel value $> 1/e$
+- Points beyond distance $w$ have rapidly decreasing influence
+- Smaller $\gamma$ → larger $w$ → wider influence
+- Larger $\gamma$ → smaller $w$ → more localized influence
 
 ![RBF Influence Width](../Images/L5_3_Quiz_5/rbf_influence_width.png)
 

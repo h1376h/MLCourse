@@ -35,18 +35,36 @@ $$K \text{ is a valid kernel} \Leftrightarrow \mathbf{K} \succeq 0 \text{ (posit
 Given kernel matrix: $K = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 1 \end{bmatrix}$
 
 **Step 2.1: Check Symmetry**
+A necessary condition for PSD is symmetry. We verify:
+$$K^T = \begin{bmatrix} 1 & 0.5 \\ 0.5 & 1 \end{bmatrix} = K$$
 The matrix is symmetric since $K_{12} = K_{21} = 0.5$.
 
 **Step 2.2: Compute Eigenvalues**
-The characteristic polynomial is:
-$$\det(K - \lambda I) = \det\begin{bmatrix} 1-\lambda & 0.5 \\ 0.5 & 1-\lambda \end{bmatrix} = (1-\lambda)^2 - 0.25 = \lambda^2 - 2\lambda + 0.75$$
+For a $2 \times 2$ matrix, we solve the characteristic equation:
+$$\det(K - \lambda I) = 0$$
 
-Solving: $\lambda = \frac{2 \pm \sqrt{4-3}}{2} = \frac{2 \pm 1}{2}$
+Expanding the determinant:
+$$\det\begin{bmatrix} 1-\lambda & 0.5 \\ 0.5 & 1-\lambda \end{bmatrix} = (1-\lambda)^2 - (0.5)^2$$
+$$= (1-\lambda)^2 - 0.25 = \lambda^2 - 2\lambda + 1 - 0.25 = \lambda^2 - 2\lambda + 0.75$$
+
+Using the quadratic formula:
+$$\lambda = \frac{2 \pm \sqrt{4-3}}{2} = \frac{2 \pm 1}{2}$$
 
 Therefore: $\lambda_1 = 1.5, \lambda_2 = 0.5$
 
 **Step 2.3: Verify PSD Condition**
-Since both eigenvalues are positive ($\lambda_1 = 1.5 > 0$ and $\lambda_2 = 0.5 > 0$), the matrix is positive definite (and hence positive semi-definite).
+A symmetric matrix is PSD if and only if all eigenvalues are non-negative.
+Since $\lambda_1 = 1.5 > 0$ and $\lambda_2 = 0.5 > 0$, the matrix is positive definite (and hence positive semi-definite).
+
+**Alternative Verification Methods:**
+
+*Method 1: Leading Principal Minors*
+- $M_1 = 1 > 0$ ✓
+- $M_2 = \det(K) = 1 \cdot 1 - 0.5 \cdot 0.5 = 0.75 > 0$ ✓
+
+*Method 2: Quadratic Form*
+For any vector $\mathbf{c} = [c_1, c_2]^T$:
+$$\mathbf{c}^T K \mathbf{c} = c_1^2 + c_1c_2 + c_2^2 = (c_1 + \frac{c_2}{2})^2 + \frac{3c_2^2}{4} \geq 0$$
 
 ![Kernel Matrix Analysis](../Images/L5_3_Quiz_6/kernel_matrix_analysis.png)
 
@@ -93,7 +111,41 @@ $$K = \begin{bmatrix}
 
 **Conclusion**: Since $\lambda_1 < 0$, the kernel matrix is not positive semi-definite, violating Mercer's condition. Therefore, $K(\mathbf{x}, \mathbf{z}) = -||\mathbf{x} - \mathbf{z}||^2$ is **not a valid kernel**.
 
-**Mathematical proof**: For any kernel matrix with this form, the diagonal entries are always zero, while off-diagonal entries are negative. This structure inherently leads to negative eigenvalues for most point configurations.
+**Rigorous Mathematical Proof of Invalidity:**
+
+*Proof by Construction:* We will show that for any three distinct points, the kernel matrix has a negative eigenvalue.
+
+Consider three points: $x_1 = 0, x_2 = 1, x_3 = 2$ in $\mathbb{R}$.
+
+Step 1: Construct the kernel matrix
+$$K = \begin{bmatrix}
+-||x_1-x_1||^2 & -||x_1-x_2||^2 & -||x_1-x_3||^2 \\
+-||x_2-x_1||^2 & -||x_2-x_2||^2 & -||x_2-x_3||^2 \\
+-||x_3-x_1||^2 & -||x_3-x_2||^2 & -||x_3-x_3||^2
+\end{bmatrix}$$
+
+$$= \begin{bmatrix}
+0 & -1 & -4 \\
+-1 & 0 & -1 \\
+-4 & -1 & 0
+\end{bmatrix}$$
+
+Step 2: Analyze the structure
+- Diagonal entries are always 0
+- Off-diagonal entries are always negative
+- The matrix is symmetric
+
+Step 3: Show negative eigenvalue exists
+Consider the vector $\mathbf{v} = [1, 1, 1]^T$:
+$$\mathbf{v}^T K \mathbf{v} = [1, 1, 1] \begin{bmatrix} 0 & -1 & -4 \\ -1 & 0 & -1 \\ -4 & -1 & 0 \end{bmatrix} \begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix}$$
+$$= [1, 1, 1] \begin{bmatrix} -5 \\ -2 \\ -5 \end{bmatrix} = -12 < 0$$
+
+Since we found a vector $\mathbf{v}$ such that $\mathbf{v}^T K \mathbf{v} < 0$, the matrix is not PSD.
+
+*General Proof:* For any set of $n \geq 3$ distinct points, the all-ones vector $\mathbf{1} = [1, 1, \ldots, 1]^T$ gives:
+$$\mathbf{1}^T K \mathbf{1} = \sum_{i=1}^n \sum_{j=1}^n K_{ij} = -2\sum_{i<j} ||x_i - x_j||^2 < 0$$
+
+This is always negative for distinct points, proving the kernel is invalid.
 
 ### Step 5: Optimization Problems with Invalid Kernels
 

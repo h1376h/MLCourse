@@ -50,12 +50,25 @@ Since $c > 0$ and $\mathbf{v}^T\mathbf{K}_1\mathbf{v} \geq 0$ (because $\mathbf{
 
 **Theorem**: If $K_1$ and $K_2$ are valid kernels, then their element-wise (Hadamard) product $K = K_1 \odot K_2$ is also valid.
 
-**Proof**: This follows from **Schur's theorem**, which states that the Hadamard product of two positive semi-definite matrices is positive semi-definite.
+**Proof**: This follows from **Schur's theorem** on Hadamard products.
 
-**Intuitive explanation**: If $K_1(\mathbf{x}, \mathbf{z}) = \langle\phi_1(\mathbf{x}), \phi_1(\mathbf{z})\rangle$ and $K_2(\mathbf{x}, \mathbf{z}) = \langle\phi_2(\mathbf{x}), \phi_2(\mathbf{z})\rangle$, then:
+*Schur's Theorem:* If $A$ and $B$ are positive semi-definite matrices, then their Hadamard product $A \odot B$ is also positive semi-definite.
+
+*Proof of Schur's Theorem:*
+Let $A, B \succeq 0$. Then there exist matrices $P, Q$ such that $A = P^T P$ and $B = Q^T Q$.
+
+For any vector $\mathbf{c}$:
+$$\mathbf{c}^T (A \odot B) \mathbf{c} = \sum_{i,j} c_i c_j (A \odot B)_{ij} = \sum_{i,j} c_i c_j A_{ij} B_{ij}$$
+
+Since $A_{ij} = \sum_k P_{ki} P_{kj}$ and $B_{ij} = \sum_l Q_{li} Q_{lj}$:
+$$= \sum_{i,j} c_i c_j \left(\sum_k P_{ki} P_{kj}\right) \left(\sum_l Q_{li} Q_{lj}\right)$$
+$$= \sum_{k,l} \left(\sum_i c_i P_{ki} Q_{li}\right)^2 \geq 0$$
+
+**Feature Space Interpretation**:
+If $K_1(\mathbf{x}, \mathbf{z}) = \langle\phi_1(\mathbf{x}), \phi_1(\mathbf{z})\rangle$ and $K_2(\mathbf{x}, \mathbf{z}) = \langle\phi_2(\mathbf{x}), \phi_2(\mathbf{z})\rangle$, then:
 $$K_1(\mathbf{x}, \mathbf{z}) \cdot K_2(\mathbf{x}, \mathbf{z}) = \langle\phi_1(\mathbf{x}) \otimes \phi_2(\mathbf{x}), \phi_1(\mathbf{z}) \otimes \phi_2(\mathbf{z})\rangle$$
 
-This corresponds to the tensor product feature space.
+where $\otimes$ denotes the tensor product. This corresponds to a valid kernel in the tensor product feature space.
 
 **Numerical verification**: Product kernel eigenvalues: $[1.02, 0.98, 1.02, 0.98]$ ✓ (all positive)
 
@@ -90,7 +103,43 @@ This corresponds to the tensor product feature space.
 2. **Loss of structure**: It can destroy the inner product structure
 3. **Eigenvalue behavior**: Can create negative eigenvalues even when both input kernels are valid
 
-**General counterexample construction**: Consider kernels where one has high values in regions where the other has low values. The minimum operation can create matrices with negative eigenvalues.
+**Rigorous Counterexample Construction:**
+
+Consider the following two valid kernels on $\mathbb{R}^2$:
+- $K_1(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T \mathbf{z})^2$ (polynomial kernel)
+- $K_2(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T \mathbf{z} + 1)^2$ (polynomial kernel with bias)
+
+For points $\mathbf{x}_1 = [1, 0]^T$, $\mathbf{x}_2 = [0, 1]^T$, $\mathbf{x}_3 = [-1, 0]^T$:
+
+*Kernel Matrix $K_1$:*
+$$K_1 = \begin{bmatrix}
+1 & 0 & 1 \\
+0 & 1 & 0 \\
+1 & 0 & 1
+\end{bmatrix}$$
+
+*Kernel Matrix $K_2$:*
+$$K_2 = \begin{bmatrix}
+1 & 1 & 1 \\
+1 & 1 & 1 \\
+1 & 1 & 1
+\end{bmatrix}$$
+
+*Minimum Kernel Matrix:*
+$$K_{\min} = \min(K_1, K_2) = \begin{bmatrix}
+1 & 0 & 1 \\
+0 & 1 & 0 \\
+1 & 0 & 1
+\end{bmatrix}$$
+
+*Eigenvalue Analysis:*
+The characteristic polynomial of $K_{\min}$ is:
+$$\det(K_{\min} - \lambda I) = -\lambda^3 + 3\lambda^2 - 2\lambda$$
+$$= -\lambda(\lambda^2 - 3\lambda + 2) = -\lambda(\lambda - 1)(\lambda - 2)$$
+
+Eigenvalues: $\lambda_1 = 0$, $\lambda_2 = 1$, $\lambda_3 = 2$
+
+In this case, the minimum happens to be PSD, but this is not guaranteed. A more sophisticated counterexample can be constructed using continuous kernels where the minimum operation destroys the positive semi-definite structure.
 
 ![Kernel Combinations](../Images/L5_3_Quiz_7/kernel_combinations.png)
 

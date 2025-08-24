@@ -10,9 +10,10 @@ images_dir = os.path.join(os.path.dirname(script_dir), "Images")
 save_dir = os.path.join(images_dir, "L5_3_Quiz_8")
 os.makedirs(save_dir, exist_ok=True)
 
-# Disable LaTeX to avoid issues
-plt.rcParams['text.usetex'] = False
+# Enable LaTeX style plotting
+plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 print("Question 8: Feature Space Dimensionality and the Kernel Trick")
 print("=" * 60)
@@ -26,6 +27,12 @@ def polynomial_feature_dim(n, d):
     Calculate the dimensionality of polynomial feature space.
     For polynomial kernel of degree d in n dimensions:
     Dimensionality = C(n+d, d) = (n+d)! / (d! * n!)
+
+    Mathematical derivation:
+    - We need to count monomials x₁^i₁ x₂^i₂ ... xₙ^iₙ where i₁+i₂+...+iₙ ≤ d
+    - This is equivalent to distributing d identical balls into n+1 bins
+    - The extra bin accounts for the "unused degree"
+    - By stars and bars: C(n+d, d) = C(n+d, n)
     """
     return comb(n + d, d)
 
@@ -51,9 +58,9 @@ for i, (d, dim) in enumerate(zip(degrees, dimensions)):
     plt.annotate(f'{dim}', (d, dim), textcoords="offset points", 
                 xytext=(0,10), ha='center')
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'polynomial_dimensionality_growth.png'), 
+plt.savefig(os.path.join(save_dir, 'polynomial_dimensionality_growth.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Task 2: RBF kernel dimensionality
 print("\n2. RBF Kernel Feature Space Dimensionality")
@@ -137,9 +144,9 @@ axes[1].legend()
 axes[1].grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'computational_complexity_comparison.png'), 
+plt.savefig(os.path.join(save_dir, 'computational_complexity_comparison.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Task 5: Decision function in terms of kernel evaluations
 print("\n5. Decision Function in Terms of Kernel Evaluations")
@@ -198,13 +205,13 @@ alphas[sv_indices] = np.random.exponential(1, n_support_vectors)
 axes[1].bar(range(n_samples), alphas, color='skyblue', alpha=0.7)
 axes[1].set_xlabel('Training Sample Index')
 axes[1].set_ylabel('Alpha Coefficient')
-axes[1].set_title('Lagrange Multipliers (α)\nMost are zero (non-support vectors)')
+axes[1].set_title('Lagrange Multipliers ($\\alpha$)\nMost are zero (non-support vectors)')
 axes[1].grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'support_vector_sparsity.png'), 
+plt.savefig(os.path.join(save_dir, 'support_vector_sparsity.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Summary table
 print("\n" + "="*60)

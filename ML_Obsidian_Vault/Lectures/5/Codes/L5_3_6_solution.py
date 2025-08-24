@@ -13,6 +13,7 @@ os.makedirs(save_dir, exist_ok=True)
 # Enable LaTeX style plotting
 plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 print("Question 6: Mercer's Theorem and Kernel Validity")
 print("=" * 50)
@@ -71,9 +72,9 @@ axes[1].legend()
 axes[1].grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'kernel_matrix_analysis.png'), 
+plt.savefig(os.path.join(save_dir, 'kernel_matrix_analysis.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Task 3: Check if K(x,z) = exp(x^T z) is a valid kernel
 print("\n3. Validity of K(x,z) = exp(x^T z)")
@@ -107,6 +108,15 @@ else:
 # Task 4: Prove that K(x,z) = -||x-z||² is not a valid kernel
 print("\n4. Invalidity of K(x,z) = -||x-z||²")
 print("-" * 40)
+
+print("Mathematical proof that K(x,z) = -||x-z||² is invalid:")
+print("Step 1: Expand the squared distance")
+print("||x-z||² = (x-z)ᵀ(x-z) = xᵀx - 2xᵀz + zᵀz")
+print("So K(x,z) = -(xᵀx - 2xᵀz + zᵀz) = -xᵀx + 2xᵀz - zᵀz")
+print("\nStep 2: Check if this can be written as ⟨φ(x), φ(z)⟩")
+print("For any valid kernel, we need K(x,z) = φ(x)ᵀφ(z)")
+print("But K(x,z) = -xᵀx + 2xᵀz - zᵀz cannot be factored this way")
+print("The negative terms -xᵀx and -zᵀz prevent valid factorization")
 
 # Test with simple 1D points
 test_points_1d = np.array([[0], [1], [2]])
@@ -165,9 +175,9 @@ for i, (title, K) in enumerate(kernels_info):
     axes[1, i].grid(True, alpha=0.3)
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'valid_vs_invalid_kernels.png'), 
+plt.savefig(os.path.join(save_dir, 'valid_vs_invalid_kernels.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Demonstrate optimization issues
 print("\nWhy non-PSD kernels cause optimization problems:")
@@ -214,9 +224,9 @@ axes[1].plot(0, 0, 'r*', markersize=15, label='Saddle Point')
 axes[1].legend()
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'optimization_landscapes.png'), 
+plt.savefig(os.path.join(save_dir, 'optimization_landscapes.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 print(f"\nAll plots saved to: {save_dir}")
 print("\nSummary:")

@@ -14,6 +14,7 @@ os.makedirs(save_dir, exist_ok=True)
 # Enable LaTeX style plotting
 plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 print("Question 5: RBF Kernel Parameter Effects")
 print("=" * 50)
@@ -21,6 +22,17 @@ print("=" * 50)
 # Task 1: 1D dataset with points x1 = -1, x2 = 1 (different classes)
 print("\n1. 1D Dataset Decision Boundaries for Different Gamma Values")
 print("-" * 60)
+
+print("Mathematical analysis for 1D RBF SVM:")
+print("Training data: x₁ = -1 (class -1), x₂ = 1 (class +1)")
+print("RBF kernel: K(x,z) = exp(-γ(x-z)²)")
+print("\nKernel matrix K:")
+print("K₁₁ = K(-1,-1) = exp(-γ·0) = 1")
+print("K₁₂ = K(-1,1) = exp(-γ·4) = exp(-4γ)")
+print("K₂₁ = K(1,-1) = exp(-γ·4) = exp(-4γ)")
+print("K₂₂ = K(1,1) = exp(-γ·0) = 1")
+print("\nDecision function: f(x) = α₁(-1)K(-1,x) + α₂(+1)K(1,x) + b")
+print("= -α₁exp(-γ(x+1)²) + α₂exp(-γ(x-1)²) + b")
 
 # Define the 1D dataset
 X_1d = np.array([[-1], [1]])
@@ -69,9 +81,9 @@ for i, gamma in enumerate(gamma_values):
     axes[i].legend()
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'rbf_1d_decision_boundaries.png'), 
+plt.savefig(os.path.join(save_dir, 'rbf_1d_decision_boundaries.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Task 2: Analyze overfitting and underfitting
 print("\n2. Overfitting and Underfitting Analysis")
@@ -87,18 +99,23 @@ print("  → Tends to overfit (low bias, high variance)")
 print("\n3. Limit Behavior Analysis")
 print("-" * 30)
 
-print("As γ → 0:")
-print("- RBF kernel K(x,z) = exp(-γ||x-z||²) → exp(0) = 1 for all x,z")
-print("- All points become equally similar")
+print("Mathematical derivation of limit behaviors:")
+print("\nAs γ → 0:")
+print("lim(γ→0) K(x,z) = lim(γ→0) exp(-γ||x-z||²)")
+print("= exp(lim(γ→0) -γ||x-z||²) = exp(0) = 1")
+print("- All points become equally similar (K(x,z) = 1 for all x,z)")
+print("- Kernel matrix becomes K = 1₁ᵀ (matrix of all ones)")
 print("- Decision boundary becomes linear (similar to linear kernel)")
-print("- Model underfits")
+print("- Model underfits due to lack of discrimination between points")
 
 print("\nAs γ → ∞:")
-print("- RBF kernel becomes very localized")
-print("- K(x,z) → 0 unless x ≈ z (very close)")
-print("- Each training point creates its own 'island' of influence")
+print("lim(γ→∞) K(x,z) = lim(γ→∞) exp(-γ||x-z||²)")
+print("For x ≠ z: ||x-z||² > 0, so -γ||x-z||² → -∞, thus K(x,z) → 0")
+print("For x = z: ||x-z||² = 0, so K(x,z) = exp(0) = 1")
+print("- Kernel becomes Kronecker delta: K(x,z) = δ(x,z)")
+print("- Each training point creates isolated 'island' of influence")
 print("- Decision boundary becomes very complex and wiggly")
-print("- Model overfits")
+print("- Model overfits by memorizing training data")
 
 # Task 4: Design synthetic 2D dataset where small gamma performs better
 print("\n4. Synthetic 2D Dataset: Small vs Large Gamma Performance")
@@ -165,9 +182,9 @@ for i, gamma in enumerate(gamma_test):
     axes[1, i].set_ylabel('$x_2$')
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'gamma_comparison_datasets.png'), 
+plt.savefig(os.path.join(save_dir, 'gamma_comparison_datasets.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Task 5: Calculate effective "width" of influence
 print("\n5. Effective Width of Influence Analysis")
@@ -212,9 +229,9 @@ plt.title('RBF Kernel Influence vs Distance for Different $\\gamma$ Values')
 plt.legend()
 plt.grid(True, alpha=0.3)
 plt.ylim(0, 1.1)
-plt.savefig(os.path.join(save_dir, 'rbf_influence_width.png'), 
+plt.savefig(os.path.join(save_dir, 'rbf_influence_width.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 print(f"\nAll plots saved to: {save_dir}")
 print("\nSummary:")

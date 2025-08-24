@@ -11,8 +11,9 @@ save_dir = os.path.join(images_dir, "L5_3_Quiz_7")
 os.makedirs(save_dir, exist_ok=True)
 
 # Enable LaTeX style plotting
-plt.rcParams['text.usetex'] = False
+plt.rcParams['text.usetex'] = True
 plt.rcParams['font.family'] = 'serif'
+plt.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 print("Question 7: Kernel Combinations and Closure Properties")
 print("=" * 55)
@@ -71,9 +72,13 @@ print(f"PSD: {is_psd(K_sum)}")
 print(f"Eigenvalues: {eigvals(K_sum).real}")
 
 print("\nMathematical proof:")
-print("If K1 and K2 are PSD, then for any vector c:")
-print("c^T(K1 + K2)c = c^T K1 c + c^T K2 c ≥ 0 + 0 = 0")
-print("Therefore, K1 + K2 is also PSD and hence a valid kernel.")
+print("Theorem: If K₁ and K₂ are valid kernels, then K = K₁ + K₂ is valid.")
+print("Proof:")
+print("Step 1: K₁ and K₂ are PSD ⟹ ∀c ∈ ℝⁿ: cᵀK₁c ≥ 0 and cᵀK₂c ≥ 0")
+print("Step 2: For any vector c:")
+print("       cᵀ(K₁ + K₂)c = cᵀK₁c + cᵀK₂c ≥ 0 + 0 = 0")
+print("Step 3: Therefore K₁ + K₂ ⪰ 0 (PSD)")
+print("Step 4: By Mercer's theorem, K₁ + K₂ is a valid kernel. ∎")
 
 # Task 2: Prove that cK1 is valid for c > 0
 print("\n2. Kernel Scaling: K(x,z) = c·K1(x,z) for c > 0")
@@ -87,9 +92,14 @@ for c in c_values:
     print(f"PSD: {is_psd(K_scaled)}")
 
 print("\nMathematical proof:")
-print("If K1 is PSD and c > 0, then for any vector v:")
-print("v^T(cK1)v = c(v^T K1 v) ≥ c·0 = 0 (since c > 0 and v^T K1 v ≥ 0)")
-print("Therefore, cK1 is PSD and hence a valid kernel.")
+print("Theorem: If K₁ is a valid kernel and c > 0, then K = cK₁ is valid.")
+print("Proof:")
+print("Step 1: K₁ is PSD ⟹ ∀v ∈ ℝⁿ: vᵀK₁v ≥ 0")
+print("Step 2: For any vector v and c > 0:")
+print("       vᵀ(cK₁)v = c(vᵀK₁v) ≥ c·0 = 0")
+print("       (since c > 0 and vᵀK₁v ≥ 0)")
+print("Step 3: Therefore cK₁ ⪰ 0 (PSD)")
+print("Step 4: By Mercer's theorem, cK₁ is a valid kernel. ∎")
 
 # Task 3: Prove that K1 * K2 is valid (element-wise product)
 print("\n3. Kernel Product: K(x,z) = K1(x,z) · K2(x,z)")
@@ -194,9 +204,9 @@ for i, (title, K) in enumerate(kernels_to_plot):
                        verticalalignment='top')
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'kernel_combinations.png'), 
+plt.savefig(os.path.join(save_dir, 'kernel_combinations.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # Eigenvalue comparison
 fig, ax = plt.subplots(1, 1, figsize=(12, 8))
@@ -220,9 +230,9 @@ ax.grid(True, alpha=0.3)
 ax.legend()
 
 plt.tight_layout()
-plt.savefig(os.path.join(save_dir, 'eigenvalue_comparison.png'), 
+plt.savefig(os.path.join(save_dir, 'eigenvalue_comparison.png'),
             dpi=300, bbox_inches='tight')
-plt.show()
+plt.close()
 
 print(f"\nAll plots saved to: {save_dir}")
 print("\nSummary of Closure Properties:")
