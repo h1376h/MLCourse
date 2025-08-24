@@ -1,7 +1,7 @@
 # Lecture 5.6: Computational Considerations Quiz
 
 ## Overview
-This quiz contains 23 questions covering different topics from section 5.6 of the lectures on SVM Optimization, Sequential Minimal Optimization (SMO), Scaling Issues, Memory Management, and Implementation Best Practices.
+This quiz contains 26 questions covering different topics from section 5.6 of the lectures on SVM Optimization, Sequential Minimal Optimization (SMO), Scaling Issues, Memory Management, and Implementation Best Practices.
 
 ## Question 1
 
@@ -341,3 +341,45 @@ SVMs can be solved using either the primal or the dual optimization problem. The
 4.  Conversely, for a linear SVM on a dataset with a huge number of samples but few features ($n \gg d$), which formulation might be more efficient?
 
 For a detailed explanation of this problem, see [Question 23: Primal vs. Dual Formulation Computational Advantages](L5_6_23_explanation.md).
+
+## Question 24
+
+### Problem Statement
+Answer these basic questions about SVM optimization algorithms.
+
+#### Task
+1. What does SMO stand for?
+2. What is the main idea behind SMO algorithm?
+3. Why does SMO optimize two variables at a time instead of one?
+4. What is a "working set" in SVM optimization?
+5. What type of optimization problem is the SVM dual formulation?
+
+For a detailed explanation of this problem, see [Question 24: Algorithm Understanding](L5_6_24_explanation.md).
+
+## Question 25
+
+### Problem Statement
+Answer questions about SVM computational complexity.
+
+#### Task
+1. For $n$ training samples, what is the size of the kernel matrix?
+2. What is the space complexity for storing the full kernel matrix?
+3. How many support vectors can an SVM have at most?
+4. If you have 100 support vectors, what is the prediction time complexity for one new sample?
+5. Which is more expensive: training or prediction? Why?
+
+For a detailed explanation of this problem, see [Question 25: Computational Complexity](L5_6_25_explanation.md).
+
+## Question 26
+
+### Problem Statement
+Test your understanding of SVM computational concepts.
+
+#### Task
+1. True or False: The kernel matrix must always be stored in memory. Explain.
+2. True or False: More support vectors always mean better accuracy. Explain.
+3. What is the advantage of SMO over standard quadratic programming?
+4. Why might you prefer the primal formulation for linear SVMs with many features?
+5. What computational challenges arise when training SVMs on very large datasets?
+
+For a detailed explanation of this problem, see [Question 26: Computational Concept Check](L5_6_26_explanation.md).
