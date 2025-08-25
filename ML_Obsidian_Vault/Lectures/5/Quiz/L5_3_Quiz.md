@@ -1,7 +1,7 @@
 # Lecture 5.3: Kernel Trick for Nonlinear Classification Quiz
 
 ## Overview
-This quiz contains 33 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
+This quiz contains 34 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
 
 ## Question 1
 
@@ -483,3 +483,16 @@ Assume that:
 5. What happens to the decision function $f(x; \alpha, b)$ as the distance $\|x - x^i\|$ approaches infinity for any support vector $x^i$? Provide a mathematical justification.
 
 For a detailed explanation of this problem, see [Question 33: SVM Decision Boundary with RBF Kernel](L5_3_33_explanation.md).
+
+## [⭐] Question 34
+
+### Problem Statement
+Consider the second-degree polynomial kernel defined as $K(t, s) = (1 + t^T s)^2$ where $t, s \in \mathbb{R}^2$. It is known that $K(t, s) = \phi(t)^T \phi(s)$ for some feature map $\phi : \mathbb{R}^2 \rightarrow \mathbb{R}^6$ given by:
+
+$$\phi(t) = (1, \sqrt{2}t_1, \sqrt{2}t_2, t_1^2, t_2^2, \sqrt{2}t_1t_2)^T$$
+
+#### Task
+1. Explain the kernel trick in SVM: describe how it works and why it is beneficial.
+2. Use the second-degree polynomial kernel as an example to illustrate the kernel trick.
+
+For a detailed explanation of this problem, see [Question 34: Kernel Trick and Polynomial Kernel Example](L5_3_34_explanation.md).
