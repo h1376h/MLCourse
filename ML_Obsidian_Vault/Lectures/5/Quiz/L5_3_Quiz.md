@@ -1,7 +1,7 @@
 # Lecture 5.3: Kernel Trick for Nonlinear Classification Quiz
 
 ## Overview
-This quiz contains 36 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
+This quiz contains 38 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
 
 ## Question 1
 
@@ -539,3 +539,68 @@ Consider the following $\phi((d_1,d_2))$ mapping:
    and their trained parameter set $w_0 = 0.11$, $\alpha_0 = 0.83$, and $\alpha_1 = 0.99$, predict the class of $v_2$ with this kernel function based on the SVM decision function $f(x) = \sum_{i \in S} \alpha_i y_i K(x_i, x) + b$. Provide calculation details along with the results.
 
 For a detailed explanation of this problem, see [Question 36: Kernel Trick Calculations and SVM Prediction](L5_3_36_explanation.md).
+
+## Question 37
+
+### Problem Statement
+A medical research team has trained an SVM classifier using the RBF kernel to diagnose a rare disease based on two blood markers (X1, X2). The trained model has the following parameters:
+
+**Support Vectors and their properties:**
+- Support Vector 1: $\mathbf{x}^{(1)} = (2.5, 1.8)$, $y^{(1)} = +1$, $\alpha_1 = 0.8$
+- Support Vector 2: $\mathbf{x}^{(2)} = (1.2, 3.1)$, $y^{(2)} = +1$, $\alpha_2 = 0.6$
+- Support Vector 3: $\mathbf{x}^{(3)} = (4.1, 0.9)$, $y^{(3)} = -1$, $\alpha_3 = 0.4$
+- Support Vector 4: $\mathbf{x}^{(4)} = (0.8, 2.5)$, $y^{(4)} = -1$, $\alpha_4 = 0.7$
+
+**Kernel Parameters:**
+- RBF kernel: $k(\mathbf{x}^{(i)}, \mathbf{x}) = \exp\left(-\frac{||\mathbf{x}^{(i)} - \mathbf{x}||^2}{2\sigma^2}\right)$
+- $\sigma = 1.5$
+
+**Bias Calculation:**
+Using support vector $\mathbf{x}^{(s)} = (2.5, 1.8)$ with $y^{(s)} = +1$, the bias term is:
+$w_0 = y^{(s)} - \sum_{\alpha_n > 0} \alpha_n y^{(n)} k(\mathbf{x}^{(n)}, \mathbf{x}^{(s)})$
+
+#### Task
+1. Calculate the bias term $w_0$ using the given support vector $\mathbf{x}^{(s)} = (2.5, 1.8)$
+2. Classify a new patient with blood markers $\mathbf{x} = (2.0, 2.2)$ using the decision function:
+   $\hat{y} = \text{sign}\left(w_0 + \sum_{\alpha_n > 0} \alpha_n y^{(n)} k(\mathbf{x}^{(n)}, \mathbf{x})\right)$
+3. Calculate the confidence score (the value inside the sign function) for this patient
+4. Determine the most influential support vector for this classification by calculating the contribution of each support vector to the decision
+5. If the disease has a 15% prevalence in the population and false positives cost $500 in unnecessary tests while false negatives cost $50,000 in delayed treatment, should the hospital adjust the decision threshold? Justify your answer with calculations.
+
+**Hint**: For the RBF kernel calculations, use: $||\mathbf{a} - \mathbf{b}||^2 = (a_1 - b_1)^2 + (a_2 - b_2)^2$
+
+For a detailed explanation of this problem, see [Question 37: Medical Diagnosis with RBF Kernel SVM](L5_3_37_explanation.md).
+
+## Question 38
+
+### Problem Statement
+A bank has implemented an SVM fraud detection system using a polynomial kernel. The system analyzes transaction patterns based on two features: transaction amount (X1, in thousands of dollars) and time of day (X2, in hours from midnight).
+
+**Trained Model Parameters:**
+- Support Vector 1: $\mathbf{x}^{(1)} = (5.2, 14.5)$, $y^{(1)} = +1$ (fraud), $\alpha_1 = 1.2$
+- Support Vector 2: $\mathbf{x}^{(2)} = (8.1, 23.2)$, $y^{(2)} = +1$ (fraud), $\alpha_2 = 0.9$
+- Support Vector 3: $\mathbf{x}^{(3)} = (1.8, 9.3)$, $y^{(3)} = -1$ (legitimate), $\alpha_3 = 0.8$
+- Support Vector 4: $\mathbf{x}^{(4)} = (12.5, 16.8)$, $y^{(4)} = -1$ (legitimate), $\alpha_4 = 0.6$
+
+**Kernel Parameters:**
+- Polynomial kernel: $k(\mathbf{x}^{(i)}, \mathbf{x}) = (\gamma \langle \mathbf{x}^{(i)}, \mathbf{x} \rangle + r)^d$
+- $\gamma = 0.1$, $r = 1$, $d = 3$
+
+**Bias Calculation:**
+Using support vector $\mathbf{x}^{(s)} = (5.2, 14.5)$ with $y^{(s)} = +1$, calculate:
+$w_0 = y^{(s)} - \sum_{\alpha_n > 0} \alpha_n y^{(n)} k(\mathbf{x}^{(n)}, \mathbf{x}^{(s)})$
+
+#### Task
+1. Calculate the bias term $w_0$ using the given support vector $\mathbf{x}^{(s)} = (5.2, 14.5)$
+2. Classify a suspicious transaction with features $\mathbf{x} = (7.5, 22.0)$ using the decision function:
+   $\hat{y} = \text{sign}\left(w_0 + \sum_{\alpha_n > 0} \alpha_n y^{(n)} k(\mathbf{x}^{(n)}, \mathbf{x})\right)$
+3. Calculate the fraud probability score (the value inside the sign function) and interpret its magnitude
+4. If the bank processes 10,000 transactions per day with an average fraud rate of 0.5%, and the SVM flags 150 transactions as suspicious, calculate:
+   - The precision of the model
+   - The expected daily cost if each flagged transaction requires manual review ($50 cost)
+   - The expected savings from preventing fraud ($10,000 average loss per fraudulent transaction)
+5. The bank's risk management team wants to adjust the decision threshold to flag only transactions with a confidence score above 0.5. Calculate how many transactions would be flagged with this new threshold and whether this change is cost-effective.
+
+**Hint**: For polynomial kernel calculations, use: $\langle \mathbf{a}, \mathbf{b} \rangle = a_1 b_1 + a_2 b_2$
+
+For a detailed explanation of this problem, see [Question 38: Financial Fraud Detection with Polynomial Kernel](L5_3_38_explanation.md).
