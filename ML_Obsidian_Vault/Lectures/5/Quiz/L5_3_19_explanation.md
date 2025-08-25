@@ -88,14 +88,14 @@ where $d = ||\mathbf{x} - \mathbf{z}||$ is the Euclidean distance.
 ![RBF Kernel vs Distance](../Images/L5_3_Quiz_19/rbf_kernel_vs_distance.png)
 
 **Key observations:**
-- **γ = 0.1**: Very slow decay, kernel values remain high even for large distances
-- **γ = 1**: Moderate decay, kernel values drop to about 0.5 at distance ≈ 0.83
-- **γ = 10**: Very fast decay, kernel values drop rapidly with distance
+- **$\gamma = 0.1$**: Very slow decay, kernel values remain high even for large distances
+- **$\gamma = 1$**: Moderate decay, kernel values drop to about 0.5 at distance $\approx 0.83$
+- **$\gamma = 10$**: Very fast decay, kernel values drop rapidly with distance
 
 **Mathematical analysis:**
-- For γ = 0.1: $K(d) = \exp(-0.1 \cdot d^2)$
-- For γ = 1: $K(d) = \exp(-1 \cdot d^2)$
-- For γ = 10: $K(d) = \exp(-10 \cdot d^2)$
+- For $\gamma = 0.1$: $K(d) = \exp(-0.1 \cdot d^2)$
+- For $\gamma = 1$: $K(d) = \exp(-1 \cdot d^2)$
+- For $\gamma = 10$: $K(d) = \exp(-10 \cdot d^2)$
 
 The distance at which the kernel value equals 0.5 can be found by solving:
 $$\exp(-\gamma \cdot d^2) = 0.5$$
@@ -103,38 +103,38 @@ $$-\gamma \cdot d^2 = \ln(0.5)$$
 $$d = \sqrt{-\ln(0.5)/\gamma} = \sqrt{\ln(2)/\gamma}$$
 
 This gives us:
-- γ = 0.1: $d = \sqrt{\ln(2)/0.1} \approx 2.63$
-- γ = 1: $d = \sqrt{\ln(2)/1} \approx 0.83$
-- γ = 10: $d = \sqrt{\ln(2)/10} \approx 0.26$
+- $\gamma = 0.1$: $d = \sqrt{\ln(2)/0.1} \approx 2.63$
+- $\gamma = 1$: $d = \sqrt{\ln(2)/1} \approx 0.83$
+- $\gamma = 10$: $d = \sqrt{\ln(2)/10} \approx 0.26$
 
-### Step 3: Decision Boundary Complexity with γ
+### Step 3: Decision Boundary Complexity with $\gamma$
 
-The γ parameter significantly affects the complexity of the decision boundary in SVM classification:
+The $\gamma$ parameter significantly affects the complexity of the decision boundary in SVM classification:
 
 ![Decision Boundary Complexity](../Images/L5_3_Quiz_19/decision_boundary_complexity.png)
 
-**Effect of γ on decision boundary complexity:**
+**Effect of $\gamma$ on decision boundary complexity:**
 
-1. **Small γ (e.g., γ = 0.1)**:
+1. **Small $\gamma$ (e.g., $\gamma = 0.1$)**:
    - Kernel values decay slowly with distance
    - Decision boundary tends to be smoother and more linear
    - Lower model complexity, higher bias, lower variance
    - Good for avoiding overfitting
 
-2. **Medium γ (e.g., γ = 1)**:
+2. **Medium $\gamma$ (e.g., $\gamma = 1$)**:
    - Balanced decay rate
    - Moderate decision boundary complexity
    - Good balance between bias and variance
 
-3. **Large γ (e.g., γ = 10)**:
+3. **Large $\gamma$ (e.g., $\gamma = 10$)**:
    - Kernel values decay very rapidly with distance
    - Decision boundary becomes very complex and wiggly
    - Higher model complexity, lower bias, higher variance
    - Risk of overfitting
 
 **Mathematical intuition:**
-- Small γ: Points far apart still have significant influence on each other
-- Large γ: Only very close points influence each other significantly
+- Small $\gamma$: Points far apart still have significant influence on each other
+- Large $\gamma$: Only very close points influence each other significantly
 - This directly affects the smoothness of the decision function
 
 ### Step 4: Kernel Values as Similarity Scores
@@ -145,29 +145,29 @@ Interpreting kernel values as similarity scores, we can rank point pairs by thei
 
 **Ranking by similarity (kernel value):**
 
-1. **Rank 1**: Points (1,0) and (0,1) - Similarity = 0.3679
-   - Distance = 1.414 (√2)
+1. **Rank 1**: Points $(1,0)$ and $(0,1)$ - Similarity = $0.3679$
+   - Distance = $1.414$ ($\sqrt{2}$)
    - These points are closest together
 
-2. **Rank 2**: Points (1,0) and (2,2) - Similarity = 0.0821
-   - Distance = 2.236 (√5)
+2. **Rank 2**: Points $(1,0)$ and $(2,2)$ - Similarity = $0.0821$
+   - Distance = $2.236$ ($\sqrt{5}$)
    - These points are farthest apart
 
-3. **Rank 3**: Points (0,1) and (2,2) - Similarity = 0.0821
-   - Distance = 2.236 (√5)
+3. **Rank 3**: Points $(0,1)$ and $(2,2)$ - Similarity = $0.0821$
+   - Distance = $2.236$ ($\sqrt{5}$)
    - Same distance as pair 2
 
 **Interpretation:**
 - Higher kernel values indicate greater similarity
-- Kernel values range from 0 (completely dissimilar) to 1 (identical)
+- Kernel values range from $0$ (completely dissimilar) to $1$ (identical)
 - The exponential decay means similarity drops off rapidly with distance
-- Points (1,0) and (0,1) are most similar because they are closest in Euclidean space
+- Points $(1,0)$ and $(0,1)$ are most similar because they are closest in Euclidean space
 
-### Step 5: Appropriate γ Range for d_avg = 2
+### Step 5: Appropriate $\gamma$ Range for $d_{avg} = 2$
 
-For a dataset with average pairwise distance $d_{avg} = 2$, we want to choose γ so that kernel values are meaningful for typical distances in the dataset.
+For a dataset with average pairwise distance $d_{avg} = 2$, we want to choose $\gamma$ so that kernel values are meaningful for typical distances in the dataset.
 
-**Target kernel value range: [0.1, 0.9]**
+**Target kernel value range: $[0.1, 0.9]$**
 
 We want:
 $$0.1 \leq \exp(-\gamma \cdot d_{avg}^2) \leq 0.9$$
@@ -175,7 +175,7 @@ $$0.1 \leq \exp(-\gamma \cdot d_{avg}^2) \leq 0.9$$
 Since $d_{avg} = 2$, we have:
 $$0.1 \leq \exp(-\gamma \cdot 4) \leq 0.9$$
 
-**Solving for γ:**
+**Solving for $\gamma$:**
 
 For the upper bound:
 $$\exp(-4\gamma) = 0.9$$
@@ -187,18 +187,18 @@ $$\exp(-4\gamma) = 0.1$$
 $$-4\gamma = \ln(0.1)$$
 $$\gamma = -\ln(0.1)/4 \approx 0.576$$
 
-**Appropriate γ range: [0.026, 0.576]**
+**Appropriate $\gamma$ range: $[0.026, 0.576]$**
 
 ![Gamma Recommendation](../Images/L5_3_Quiz_19/gamma_recommendation.png)
 
 **Verification:**
-- γ = 0.026 → K(d=2) = 0.900
-- γ = 0.576 → K(d=2) = 0.100
+- $\gamma = 0.026$ → $K(d=2) = 0.900$
+- $\gamma = 0.576$ → $K(d=2) = 0.100$
 
 **Practical guidelines:**
-- γ < 0.026: Kernel values too high, model may be too smooth
-- γ > 0.576: Kernel values too low, model may be too complex
-- γ ≈ 0.1-0.3: Good starting range for datasets with d_avg ≈ 2
+- $\gamma < 0.026$: Kernel values too high, model may be too smooth
+- $\gamma > 0.576$: Kernel values too low, model may be too complex
+- $\gamma \approx 0.1\text{-}0.3$: Good starting range for datasets with $d_{avg} \approx 2$
 
 ## Visual Explanations
 
@@ -211,22 +211,22 @@ The RBF kernel function $K(\mathbf{x}, \mathbf{z}) = \exp(-\gamma ||\mathbf{x} -
 3. **Identity**: $K(\mathbf{x}, \mathbf{x}) = 1$ for any point
 4. **Monotonicity**: Kernel value decreases as distance increases
 
-### γ Parameter Impact
+### $\gamma$ Parameter Impact
 
-The γ parameter controls the "locality" of the kernel:
+The $\gamma$ parameter controls the "locality" of the kernel:
 
-- **Small γ**: Global influence, smooth decision boundaries
-- **Large γ**: Local influence, complex decision boundaries
-- **Optimal γ**: Depends on the scale of distances in your data
+- **Small $\gamma$**: Global influence, smooth decision boundaries
+- **Large $\gamma$**: Local influence, complex decision boundaries
+- **Optimal $\gamma$**: Depends on the scale of distances in your data
 
 ### Similarity Interpretation
 
 Kernel values can be directly interpreted as similarity scores:
-- 1.0: Identical points
-- 0.9: Very similar points
-- 0.5: Moderately similar points
-- 0.1: Dissimilar points
-- 0.0: Completely different points (in the limit)
+- $1.0$: Identical points
+- $0.9$: Very similar points
+- $0.5$: Moderately similar points
+- $0.1$: Dissimilar points
+- $0.0$: Completely different points (in the limit)
 
 ## Key Insights
 
@@ -237,27 +237,27 @@ Kernel values can be directly interpreted as similarity scores:
 - The squared distance term makes the kernel rotationally invariant
 
 ### Practical Applications
-- γ selection is crucial for SVM performance
-- Cross-validation is typically used to find optimal γ
-- γ should be chosen based on the scale of distances in your data
-- Too small γ leads to underfitting, too large γ leads to overfitting
+- $\gamma$ selection is crucial for SVM performance
+- Cross-validation is typically used to find optimal $\gamma$
+- $\gamma$ should be chosen based on the scale of distances in your data
+- Too small $\gamma$ leads to underfitting, too large $\gamma$ leads to overfitting
 
 ### Computational Considerations
-- RBF kernel computation is $O(d)$ per pair, where d is the dimension
-- For n points, computing the full kernel matrix is $O(n^2d)$
-- γ affects the sparsity of the kernel matrix (larger γ → more zeros)
+- RBF kernel computation is $O(d)$ per pair, where $d$ is the dimension
+- For $n$ points, computing the full kernel matrix is $O(n^2d)$
+- $\gamma$ affects the sparsity of the kernel matrix (larger $\gamma$ → more zeros)
 
 ### Common Pitfalls
-- Choosing γ without considering data scale
-- Using the same γ for datasets with different distance scales
-- Not validating γ choice with cross-validation
-- Ignoring the relationship between γ and model complexity
+- Choosing $\gamma$ without considering data scale
+- Using the same $\gamma$ for datasets with different distance scales
+- Not validating $\gamma$ choice with cross-validation
+- Ignoring the relationship between $\gamma$ and model complexity
 
 ## Conclusion
-- We calculated the complete kernel matrix for the given points with γ = 0.5
-- We analyzed how γ affects the kernel function behavior and decision boundary complexity
+- We calculated the complete kernel matrix for the given points with $\gamma = 0.5$
+- We analyzed how $\gamma$ affects the kernel function behavior and decision boundary complexity
 - We ranked point pairs by similarity using kernel values
-- We determined an appropriate γ range [0.026, 0.576] for datasets with average distance 2
-- The γ parameter is crucial for controlling model complexity and should be chosen based on data characteristics
+- We determined an appropriate $\gamma$ range $[0.026, 0.576]$ for datasets with average distance $2$
+- The $\gamma$ parameter is crucial for controlling model complexity and should be chosen based on data characteristics
 
-The RBF kernel provides a flexible way to measure similarity between points, with γ serving as a key hyperparameter that balances model complexity and generalization ability. Understanding the relationship between γ, distance, and kernel values is essential for effective use of kernel methods in machine learning.
+The RBF kernel provides a flexible way to measure similarity between points, with $\gamma$ serving as a key hyperparameter that balances model complexity and generalization ability. Understanding the relationship between $\gamma$, distance, and kernel values is essential for effective use of kernel methods in machine learning.
