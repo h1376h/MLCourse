@@ -1,7 +1,7 @@
 # Lecture 5.1: Maximum Margin Classifiers Quiz
 
 ## Overview
-This quiz contains 31 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
+This quiz contains 34 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, Decision Functions, and foundational Linear Algebra concepts.
 
 ## Question 1
 
@@ -489,3 +489,50 @@ Consider the following 2D dataset. We will learn a linear SVM of the form $f(\ma
 3.  What is the leave-one-out cross-validation (LOOCV) error of this classifier, expressed as a percentage?
 
 For a detailed explanation of this problem, see [Question 31: 2D Hard-Margin SVM with Three Support Vectors](L5_1_31_explanation.md).
+
+## Question 32
+
+### Problem Statement
+Compute the value of $X$ that makes the following triple an orthogonal basis for $\mathbb{R}^{3}$:
+
+$$\mathbf{v}_1 = (2, -1, 0)$$
+$$\mathbf{v}_2 = (-2, -4, 3)$$
+$$\mathbf{v}_3 = (3, 6, X)$$
+
+#### Task
+1. Calculate the dot product between the first and second vectors to verify they are orthogonal
+2. Calculate the dot product between the first and third vectors and set it equal to zero
+3. Calculate the dot product between the second and third vectors and set it equal to zero
+4. Solve for $X$ using the orthogonality conditions
+5. Verify that all three vectors are linearly independent
+
+For a detailed explanation of this problem, see [Question 32: Orthogonal Basis](L5_1_32_explanation.md).
+
+## Question 33
+
+### Problem Statement
+The hyperplane in $\mathbb{R}^{5}$ containing the point $\mathbf{p} = (-2, -2, -4, -2, 4)$ and normal to the vector $\mathbf{a} = (4, 0, 4, 2, -4)$ is determined by the equation below for what value of $X$?
+
+$$-12 \cdot x_1 - 12 \cdot x_3 - 6 \cdot x_4 + 12 \cdot x_5 = X$$
+
+#### Task
+1. Write the general equation of a hyperplane in $\mathbb{R}^{5}$ with normal vector $\mathbf{a}$
+2. Use the fact that the point $\mathbf{p}$ lies on the hyperplane to find the constant term
+3. Compare the given equation with the standard form to identify the value of $X$
+4. Verify that the normal vector $\mathbf{a}$ is indeed perpendicular to any vector in the hyperplane
+
+For a detailed explanation of this problem, see [Question 33: Hyperplane Equation](L5_1_33_explanation.md).
+
+## Question 34
+
+### Problem Statement
+Compute the coordinates of the point on the 2-dimensional plane $H \subset \mathbb{R}^{3}$ given by equation $x_1 + x_2 - x_3 = 0$, which is closest to $\mathbf{p} = (2, 2, 0) \in \mathbb{R}^{3}$.
+
+#### Task
+1. Identify the normal vector to the plane $H$
+2. Use the formula for the closest point on a plane to a given point
+3. Calculate the projection of the vector from the origin to $\mathbf{p}$ onto the normal vector
+4. Subtract this projection from $\mathbf{p}$ to find the closest point
+5. Verify that the resulting point satisfies the plane equation
+
+For a detailed explanation of this problem, see [Question 34: Closest Point on a Plane](L5_1_34_explanation.md).
