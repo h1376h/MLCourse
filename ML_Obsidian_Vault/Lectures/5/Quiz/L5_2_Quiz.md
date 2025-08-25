@@ -391,7 +391,7 @@ Answer these basic questions about soft margin SVM formulas and concepts.
 2. What is the formula for hinge loss? Write it mathematically and explain its properties.
 3. [📚] If $\xi_i = 0.5$ for a point, is it correctly classified? Explain the geometric interpretation.
 4. [📚] Write the constraint that relates slack variables to the margin violations and explain its meaning.
-5. [📚] What does $\alpha_i + \mu_i = C$ mean in the KKT conditions? Derive this relationship.
+5. [📚] What does $\alpha_i + \beta_i = C$ mean in the KKT conditions? Derive this relationship.
 6. [📚] Explain the difference between functional margin and geometric margin in soft margin SVM.
 7. [📚] How does the value of $C$ affect the trade-off between margin width and classification accuracy?
 8. [📚] Design a simple example with 3 points to illustrate how slack variables work in practice.
