@@ -150,32 +150,6 @@ The visualization shows:
 
 The asymptotic behavior plot shows how the decision function approaches the bias value as the distance from support vectors increases, confirming our mathematical analysis. The plot uses proper LaTeX notation for mathematical expressions.
 
-## Practical Implementation
-
-### Numerical Verification
-The code implementation demonstrates the theoretical results through numerical computation:
-
-```python
-# RBF kernel function
-def rbf_kernel(x1, x2, sigma=1.0):
-    distance_squared = np.sum((np.array(x1) - np.array(x2))**2)
-    return np.exp(-(1/(2*sigma**2)) * distance_squared)
-
-# SVM decision function
-def svm_decision_function_1d(x, support_vectors, labels, alphas, bias):
-    result = bias
-    for i, (sv, label, alpha) in enumerate(zip(support_vectors, labels, alphas)):
-        kernel_val = rbf_kernel([sv], [x])
-        result += label * alpha * kernel_val
-    return result
-```
-
-### Key Observations from Implementation
-1. **Exponential Decay**: Kernel values decrease exponentially with distance
-2. **Numerical Precision**: For distances ≥ 10, kernel values become effectively zero
-3. **Bias Dominance**: Distant points are classified based on the bias term
-4. **Asymptotic Behavior**: The decision function approaches the bias value as distance increases
-
 ## Visual Explanations
 
 ### RBF Kernel Decay Pattern
