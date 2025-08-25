@@ -92,13 +92,50 @@ print(f"\nTransformed points in 6D feature space:")
 for i, phi_x in enumerate(X_6d):
     print(f"$\\phi(x_{i+1}) = {phi_x}$")
 
-# Verify kernel computation
-print(f"\nVerifying kernel computation:")
+# Detailed step-by-step calculations
+print(f"\n=== DETAILED CALCULATIONS ===")
+print(f"Step-by-step verification of polynomial kernel mapping:")
+
 for i in range(len(X_2d)):
     for j in range(i+1, len(X_2d)):
-        k_direct = poly_kernel_2d(X_2d[i], X_2d[j])
-        k_feature = np.dot(X_6d[i], X_6d[j])
-        print(f"K(x{i+1}, x{j+1}) = {k_direct:.3f} = {k_feature:.3f} ✓")
+        x = X_2d[i]
+        z = X_2d[j]
+        
+        print(f"\n--- Verification for K(x_{i+1}, x_{j+1}) ---")
+        print(f"x_{i+1} = {x}, x_{j+1} = {z}")
+        
+        # Step 1: Direct kernel computation
+        print(f"Step 1: Direct kernel computation")
+        print(f"K(x, z) = (x^T z + 1)^2")
+        print(f"x^T z = {x[0]}*{z[0]} + {x[1]}*{z[1]} = {x[0]*z[0]} + {x[1]*z[1]} = {np.dot(x, z)}")
+        print(f"x^T z + 1 = {np.dot(x, z)} + 1 = {np.dot(x, z) + 1}")
+        print(f"K(x, z) = ({np.dot(x, z) + 1})^2 = {(np.dot(x, z) + 1)**2}")
+        
+        # Step 2: Feature space computation
+        print(f"\nStep 2: Feature space computation")
+        phi_x = X_6d[i]
+        phi_z = X_6d[j]
+        print(f"φ(x) = {phi_x}")
+        print(f"φ(z) = {phi_z}")
+        print(f"φ(x)^T φ(z) = {phi_x[0]}*{phi_z[0]} + {phi_x[1]}*{phi_z[1]} + {phi_x[2]}*{phi_z[2]} + {phi_x[3]}*{phi_z[3]} + {phi_x[4]}*{phi_z[4]} + {phi_x[5]}*{phi_z[5]}")
+        
+        # Calculate each term
+        terms = []
+        for k in range(6):
+            term = phi_x[k] * phi_z[k]
+            terms.append(term)
+            print(f"  Term {k+1}: {phi_x[k]} * {phi_z[k]} = {term}")
+        
+        print(f"φ(x)^T φ(z) = {' + '.join([f'{term:.3f}' for term in terms])} = {sum(terms):.3f}")
+        
+        # Step 3: Verification
+        k_direct = poly_kernel_2d(x, z)
+        k_feature = np.dot(phi_x, phi_z)
+        print(f"\nStep 3: Verification")
+        print(f"Direct computation: K(x, z) = {k_direct:.3f}")
+        print(f"Feature space computation: φ(x)^T φ(z) = {k_feature:.3f}")
+        print(f"Verification: {k_direct:.3f} = {k_feature:.3f} ✓")
+        print(f"=" * 50)
 
 # Visualize 6D feature space (first 3 dimensions)
 plt.subplot(2, 3, 2)
@@ -133,9 +170,37 @@ z_test = np.array([3, 1])
 exact_rbf = rbf_kernel_manual(x_test, z_test)
 print(f"\nExact RBF: K({x_test}, {z_test}) = {exact_rbf:.6f}")
 
+print(f"\n=== DETAILED RBF TAYLOR SERIES EXPANSION ===")
+print(f"RBF kernel: K(x,z) = exp(-γ||x-z||²)")
+print(f"Taylor series: K(x,z) = Σₙ (γⁿ/n!) (x^T z)ⁿ")
+
+# Calculate ||x-z||²
+diff = x_test - z_test
+squared_norm = np.sum(diff**2)
+print(f"\nStep 1: Calculate squared distance")
+print(f"x = {x_test}, z = {z_test}")
+print(f"x - z = {x_test} - {z_test} = {diff}")
+print(f"||x-z||² = {diff[0]}² + {diff[1]}² = {diff[0]**2} + {diff[1]**2} = {squared_norm}")
+
+# Calculate x^T z
+dot_product = np.dot(x_test, z_test)
+print(f"\nStep 2: Calculate dot product")
+print(f"x^T z = {x_test[0]}*{z_test[0]} + {x_test[1]}*{z_test[1]} = {x_test[0]*z_test[0]} + {x_test[1]*z_test[1]} = {dot_product}")
+
+print(f"\nStep 3: Taylor series expansion")
+print(f"K(x,z) = exp(-{squared_norm}) = {exact_rbf:.6f}")
+
 for terms in [1, 3, 5, 10]:
-    approx_rbf = rbf_kernel_expansion(x_test, z_test, max_terms=terms)
-    print(f"Approximated RBF ({terms} terms): {approx_rbf:.6f}")
+    print(f"\n--- Approximation with {terms} terms ---")
+    approx_rbf = 0
+    for n in range(terms):
+        gamma_n = 1.0**n  # gamma = 1
+        factorial_n = math.factorial(n)
+        term = (gamma_n / factorial_n) * (dot_product**n)
+        approx_rbf += term
+        print(f"  Term {n}: (1^{n}/{n}!) * ({dot_product})^{n} = ({gamma_n}/{factorial_n}) * {dot_product**n} = {term:.6f}")
+    print(f"  Sum of {terms} terms: {approx_rbf:.6f}")
+    print(f"  Error: |exact - approx| = |{exact_rbf:.6f} - {approx_rbf:.6f}| = {abs(exact_rbf - approx_rbf):.6f}")
 
 # Visualize RBF kernel values
 plt.subplot(2, 3, 3)
@@ -207,26 +272,77 @@ for i in range(len(vectors)):
         print(f"Original angle between v{i+1} and v{j+1}: {np.degrees(angle):.2f}°")
 
 # Linear kernel preserves angles
-print(f"\nLinear kernel preserves angles:")
+print(f"\n=== LINEAR KERNEL ANGLE PRESERVATION ===")
 for i in range(len(vectors)):
     for j in range(i+1, len(vectors)):
-        k_ij = linear_kernel(vectors[i], vectors[j])
-        k_ii = linear_kernel(vectors[i], vectors[i])
-        k_jj = linear_kernel(vectors[j], vectors[j])
-        cos_angle = k_ij / np.sqrt(k_ii * k_jj)
-        angle = np.arccos(np.clip(cos_angle, -1, 1))
-        print(f"Linear kernel angle between v{i+1} and v{j+1}: {np.degrees(angle):.2f}°")
+        v1 = vectors[i]
+        v2 = vectors[j]
+        
+        print(f"\n--- Linear kernel: v_{i+1} and v_{j+1} ---")
+        print(f"v_{i+1} = {v1}, v_{j+1} = {v2}")
+        
+        # Original angle calculation
+        cos_orig = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
+        angle_orig = np.arccos(np.clip(cos_orig, -1, 1))
+        print(f"Original angle: cos(θ) = v_{i+1}^T v_{j+1} / (||v_{i+1}|| ||v_{j+1}||)")
+        print(f"v_{i+1}^T v_{j+1} = {v1[0]}*{v2[0]} + {v1[1]}*{v2[1]} = {np.dot(v1, v2)}")
+        print(f"||v_{i+1}|| = √({v1[0]}² + {v1[1]}²) = √{v1[0]**2 + v1[1]**2} = {np.linalg.norm(v1):.3f}")
+        print(f"||v_{j+1}|| = √({v2[0]}² + {v2[1]}²) = √{v2[0]**2 + v2[1]**2} = {np.linalg.norm(v2):.3f}")
+        print(f"cos(θ) = {np.dot(v1, v2)} / ({np.linalg.norm(v1):.3f} * {np.linalg.norm(v2):.3f}) = {cos_orig:.3f}")
+        print(f"θ = arccos({cos_orig:.3f}) = {np.degrees(angle_orig):.2f}°")
+        
+        # Linear kernel angle calculation
+        k_ij = linear_kernel(v1, v2)
+        k_ii = linear_kernel(v1, v1)
+        k_jj = linear_kernel(v2, v2)
+        cos_kernel = k_ij / np.sqrt(k_ii * k_jj)
+        angle_kernel = np.arccos(np.clip(cos_kernel, -1, 1))
+        
+        print(f"\nLinear kernel calculation:")
+        print(f"K(v_{i+1}, v_{j+1}) = v_{i+1}^T v_{j+1} = {k_ij}")
+        print(f"K(v_{i+1}, v_{i+1}) = v_{i+1}^T v_{i+1} = ||v_{i+1}||² = {k_ii}")
+        print(f"K(v_{j+1}, v_{j+1}) = v_{j+1}^T v_{j+1} = ||v_{j+1}||² = {k_jj}")
+        print(f"cos(θ_kernel) = K(v_{i+1}, v_{j+1}) / √(K(v_{i+1}, v_{i+1}) K(v_{j+1}, v_{j+1}))")
+        print(f"cos(θ_kernel) = {k_ij} / √({k_ii} * {k_jj}) = {k_ij} / {np.sqrt(k_ii * k_jj):.3f} = {cos_kernel:.3f}")
+        print(f"θ_kernel = arccos({cos_kernel:.3f}) = {np.degrees(angle_kernel):.2f}°")
+        print(f"Verification: {np.degrees(angle_orig):.2f}° = {np.degrees(angle_kernel):.2f}° ✓")
 
 # RBF kernel doesn't preserve angles
-print(f"\nRBF kernel doesn't preserve angles:")
+print(f"\n=== RBF KERNEL ANGLE DISTORTION ===")
 for i in range(len(vectors)):
     for j in range(i+1, len(vectors)):
-        k_ij = rbf_kernel_manual(vectors[i], vectors[j])
-        k_ii = rbf_kernel_manual(vectors[i], vectors[i])  # = 1
-        k_jj = rbf_kernel_manual(vectors[j], vectors[j])  # = 1
-        cos_angle = k_ij / np.sqrt(k_ii * k_jj)
-        angle = np.arccos(np.clip(cos_angle, -1, 1))
-        print(f"RBF kernel angle between v{i+1} and v{j+1}: {np.degrees(angle):.2f}°")
+        v1 = vectors[i]
+        v2 = vectors[j]
+        
+        print(f"\n--- RBF kernel: v_{i+1} and v_{j+1} ---")
+        print(f"v_{i+1} = {v1}, v_{j+1} = {v2}")
+        
+        # Original angle (same as above)
+        cos_orig = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))
+        angle_orig = np.arccos(np.clip(cos_orig, -1, 1))
+        print(f"Original angle: θ = {np.degrees(angle_orig):.2f}°")
+        
+        # RBF kernel angle calculation
+        k_ij = rbf_kernel_manual(v1, v2)
+        k_ii = rbf_kernel_manual(v1, v1)  # = 1
+        k_jj = rbf_kernel_manual(v2, v2)  # = 1
+        
+        print(f"\nRBF kernel calculation:")
+        print(f"K(v_{i+1}, v_{j+1}) = exp(-||v_{i+1} - v_{j+1}||²)")
+        diff = v1 - v2
+        squared_norm = np.sum(diff**2)
+        print(f"v_{i+1} - v_{j+1} = {v1} - {v2} = {diff}")
+        print(f"||v_{i+1} - v_{j+1}||² = {diff[0]}² + {diff[1]}² = {diff[0]**2} + {diff[1]**2} = {squared_norm}")
+        print(f"K(v_{i+1}, v_{j+1}) = exp(-{squared_norm}) = {k_ij:.6f}")
+        print(f"K(v_{i+1}, v_{i+1}) = exp(-||v_{i+1} - v_{i+1}||²) = exp(0) = 1")
+        print(f"K(v_{j+1}, v_{j+1}) = exp(-||v_{j+1} - v_{j+1}||²) = exp(0) = 1")
+        
+        cos_kernel = k_ij / np.sqrt(k_ii * k_jj)
+        angle_kernel = np.arccos(np.clip(cos_kernel, -1, 1))
+        print(f"cos(θ_kernel) = K(v_{i+1}, v_{j+1}) / √(K(v_{i+1}, v_{i+1}) K(v_{j+1}, v_{j+1}))")
+        print(f"cos(θ_kernel) = {k_ij:.6f} / √(1 * 1) = {k_ij:.6f}")
+        print(f"θ_kernel = arccos({cos_kernel:.6f}) = {np.degrees(angle_kernel):.2f}°")
+        print(f"Distortion: {np.degrees(angle_orig):.2f}° → {np.degrees(angle_kernel):.2f}° (difference: {abs(np.degrees(angle_orig) - np.degrees(angle_kernel)):.2f}°)")
 
 # Visualize angle preservation
 plt.subplot(2, 3, 4)
@@ -263,29 +379,53 @@ def test_separability(X, y, max_dim=10):
     """Test if dataset becomes separable in higher dimensions"""
     separability_results = []
     
+    print(f"\n=== DETAILED SEPARABILITY ANALYSIS ===")
+    print(f"Dataset: {len(X)} points in {X.shape[1]}D")
+    print(f"Class distribution: {np.bincount(((y + 1) // 2).astype(int))}")
+    
     for dim in range(2, max_dim + 1):
+        print(f"\n--- Testing dimension {dim} ---")
+        
         # Create random projection to higher dimension
         projection_matrix = np.random.randn(X.shape[1], dim)
         X_projected = X @ projection_matrix
         
+        print(f"Projection matrix shape: {projection_matrix.shape}")
+        print(f"Projected data shape: {X_projected.shape}")
+        
         # Check if linearly separable (simple heuristic)
-        # Compute convex hull or use SVM-like separation
         separable = False
         
         # Simple test: check if there's a hyperplane that separates the classes
         if dim <= 3:  # For low dimensions, we can visualize
             # Use perceptron-like algorithm
             w = np.random.randn(dim)
-            for _ in range(100):
+            print(f"Initial weight vector: w = {w}")
+            
+            for iteration in range(100):
                 misclassified = False
+                misclassified_count = 0
+                
                 for i in range(len(X_projected)):
                     pred = np.sign(np.dot(w, X_projected[i]))
-                    if pred != y_sep[i]:
-                        w += y_sep[i] * X_projected[i]
+                    if pred != y[i]:
                         misclassified = True
+                        misclassified_count += 1
+                        # Update rule: w = w + η * y * x
+                        w += y[i] * X_projected[i]
+                
+                if iteration % 20 == 0:
+                    print(f"  Iteration {iteration}: {misclassified_count} misclassified points")
+                
                 if not misclassified:
                     separable = True
+                    print(f"  ✓ Converged after {iteration + 1} iterations!")
+                    print(f"  Final weight vector: w = {w}")
                     break
+            else:
+                print(f"  ✗ Did not converge after 100 iterations")
+        else:
+            print(f"  Skipping detailed analysis for high dimension (computational complexity)")
         
         separability_results.append((dim, separable))
         print(f"Dimension {dim}: {'Separable' if separable else 'Not separable'}")
