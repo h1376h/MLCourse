@@ -130,7 +130,7 @@ This formula counts the number of distinct monomials of degree at most $d$ in $n
 
 ![Feature Space Dimension Growth](../Images/L5_3_Quiz_18/feature_space_dimension_growth.png)
 
-The visualization shows that the feature space dimension grows exponentially with both the input dimension and the polynomial degree, highlighting the curse of dimensionality. The LaTeX-rendered labels clearly show the mathematical relationships.
+The visualization shows that the feature space dimension grows exponentially with both the input dimension and the polynomial degree, highlighting the curse of dimensionality.
 
 ### Step 3: Kernel Computation for d=3, c=0
 
@@ -238,6 +238,12 @@ $$(\mathbf{x}^T\mathbf{z} + c)^2 = (\mathbf{x}^T\mathbf{z})^2 + 2c(\mathbf{x}^T\
 
 ![Effect of c on Interaction Terms](../Images/L5_3_Quiz_18/c_effect_analysis.png)
 
+The four subplots show:
+1. **Kernel value vs c**: Shows how the overall kernel value increases with $c$
+2. **Term contributions**: Illustrates how different terms contribute as $c$ varies
+3. **Interaction/constant ratio**: Shows the relative importance of data-dependent vs constant terms
+4. **Decision boundary effect**: Demonstrates how $c$ affects the effective decision boundary
+
 **Key observations:**
 1. **As $c$ increases**, the relative importance of the constant term ($c^2$) grows quadratically
 2. **The linear term** ($2c(\mathbf{x}^T\mathbf{z})$) grows linearly with $c$
@@ -289,8 +295,14 @@ For $d=5$:
 
 ![Computational Complexity Comparison](../Images/L5_3_Quiz_18/complexity_comparison.png)
 
+The complexity analysis reveals:
+1. **Theoretical complexity**: Kernel trick scales linearly while explicit mapping grows exponentially
+2. **Memory requirements**: Similar exponential growth for explicit mapping
+3. **Feature space growth**: Shows the curse of dimensionality for different polynomial degrees
+4. **Speedup estimation**: Predicts the computational advantage of the kernel trick
+
 **Key insights:**
-1. **Kernel trick is significantly faster** (14.5x speedup for 2D input)
+1. **Kernel trick is significantly faster** (14.0x speedup for 2D input)
 2. **Explicit mapping becomes impractical** for higher dimensions due to exponential growth
 3. **Memory requirements** also grow exponentially with explicit mapping
 4. **The kernel trick scales linearly** with input dimension, making it suitable for high-dimensional data
@@ -329,7 +341,7 @@ The complexity analysis reveals:
 
 This visualization shows:
 1. **Original 2D space**: Data points in the original feature space
-2. **Kernel matrix**: The Gram matrix showing pairwise kernel values
+2. **Kernel matrix**: The Gram matrix showing pairwise kernel values with proper mathematical notation
 3. **Feature space projection**: PCA projection of the high-dimensional feature space back to 2D
 
 The transformation reveals how the polynomial kernel creates a more complex decision boundary that can separate non-linearly separable data.
@@ -358,7 +370,7 @@ The transformation reveals how the polynomial kernel creates a more complex deci
 - **Feature space dimension** is $\binom{n+d}{d}$, growing exponentially with both $n$ and $d$
 - **Kernel computation** yields identical results whether using the kernel trick or explicit mapping
 - **Parameter $c$** controls the relative importance of interaction terms vs constant bias
-- **Kernel trick** provides significant computational advantages (12.8x speedup) over explicit feature mapping
+- **Kernel trick** provides significant computational advantages (14.0x speedup) over explicit feature mapping
 
 The polynomial kernel demonstrates the power of the kernel trick in handling high-dimensional feature spaces efficiently while maintaining mathematical equivalence to explicit feature mapping. Understanding the relationship between parameters and computational complexity is crucial for practical applications of kernel methods in machine learning.
 
