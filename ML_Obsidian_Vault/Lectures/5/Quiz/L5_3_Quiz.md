@@ -444,7 +444,7 @@ Assume we are using the Gaussian kernel $k(x_i, x_j) = \exp\left(-\frac{1}{2}\|x
 
 For a detailed explanation of this problem, see [Question 31: Gaussian Kernel Proof](L5_3_31_explanation.md).
 
-## Question 32
+## [⭐] Question 32
 
 ### Problem Statement
 Given two valid kernels $k_1(x, x')$ and $k_2(x, x')$, and the radial basis kernel function $K(x_i, x_j) = \phi(x_i)^T\phi(x_j) = \exp\left(-\frac{1}{2}\|x_i - x_j\|^2\right)$, consider the following tasks related to kernel properties and their application in support vector machines.
