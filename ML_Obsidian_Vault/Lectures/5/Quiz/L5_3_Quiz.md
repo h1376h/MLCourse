@@ -500,18 +500,18 @@ For a detailed explanation of this problem, see [Question 34: Kernel Trick and P
 ## [⭐] Question 35
 
 ### Problem Statement
-Consider a two-dimensional data context with support vector $[d_1, d_2]$ and query instance $[q_1, q_2]$. The polynomial kernel with exponent $p = 2$ is defined as $kernel(d, q) = (1 + d \cdot q)^2$.
+Consider a two-dimensional data context with support vector $\mathbf{d} = [d_1, d_2]$ and query instance $\mathbf{q} = [q_1, q_2]$. The polynomial kernel with exponent $p = 2$ is defined as $K(\mathbf{d}, \mathbf{q}) = (1 + \mathbf{d} \cdot \mathbf{q})^2$.
 
 #### Task
-1. Prove that applying the polynomial kernel $kernel(d, q) = (1 + d \cdot q)^2$ is equivalent to calculating the dot product after applying the following set of basis functions:
-   - $\Phi_0([d_1, d_2]) = d_1^2$
-   - $\Phi_1([d_1, d_2]) = d_2^2$
-   - $\Phi_2([d_1, d_2]) = \sqrt{2} \cdot d_1 \cdot d_2$
-   - $\Phi_3([d_1, d_2]) = \sqrt{2} \cdot d_1$
-   - $\Phi_4([d_1, d_2]) = \sqrt{2} \cdot d_2$
-   - $\Phi_5([d_1, d_2]) = 1$
-2. Show that the mapping $\Phi([d_1, d_2]) = [\Phi_0([d_1, d_2]), \Phi_1([d_1, d_2]), \Phi_2([d_1, d_2]), \Phi_3([d_1, d_2]), \Phi_4([d_1, d_2]), \Phi_5([d_1, d_2])]$ transforms a two-dimensional input to a six-dimensional feature space.
-3. Verify that $\Phi([d_1, d_2]) = [d_1^2, d_2^2, \sqrt{2} d_1 d_2, \sqrt{2} d_1, \sqrt{2} d_2, 1]$.
+1. Prove that applying the polynomial kernel $K(\mathbf{d}, \mathbf{q}) = (1 + \mathbf{d} \cdot \mathbf{q})^2$ is equivalent to calculating the dot product after applying the following set of basis functions:
+   - $\phi_0(\mathbf{d}) = d_1^2$
+   - $\phi_1(\mathbf{d}) = d_2^2$
+   - $\phi_2(\mathbf{d}) = \sqrt{2} \cdot d_1 \cdot d_2$
+   - $\phi_3(\mathbf{d}) = \sqrt{2} \cdot d_1$
+   - $\phi_4(\mathbf{d}) = \sqrt{2} \cdot d_2$
+   - $\phi_5(\mathbf{d}) = 1$
+2. Show that the mapping $\phi(\mathbf{d}) = [\phi_0(\mathbf{d}), \phi_1(\mathbf{d}), \phi_2(\mathbf{d}), \phi_3(\mathbf{d}), \phi_4(\mathbf{d}), \phi_5(\mathbf{d})]$ transforms a two-dimensional input to a six-dimensional feature space.
+3. Verify that $\phi(\mathbf{d}) = [d_1^2, d_2^2, \sqrt{2} d_1 d_2, \sqrt{2} d_1, \sqrt{2} d_2, 1]$.
 4. Explain why this transformation makes the data easier to classify in the context of Support Vector Machines.
 
 For a detailed explanation of this problem, see [Question 35: Kernel Function and Polynomial Kernel Proof](L5_3_35_explanation.md).
@@ -532,7 +532,7 @@ Consider the following $\phi((d_1,d_2))$ mapping:
 #### Task
 1. Obtain the corresponding 6-dimensional vectors $\phi(v_1)$ for $v_1 = (0.9, 1)$, and $\phi(v_2)$ for $v_2 = (1, 0.9)$.
 2. What is $\phi(v_1) \cdot \phi(v_2)$?
-3. Suppose $kernel(d,q) = (d \cdot q + 1)^2$. What is $kernel(v_1, v_2)$? Does this match your previous calculation in task 2?
+3. Suppose $K(d,q) = (d \cdot q + 1)^2$. What is $K(v_1, v_2)$? Does this match your previous calculation in task 2?
 4. Given two support vectors:
    - $v_0 = (0, 1)$, with class = -1
    - $v_1 = (0.9, 1)$, with class = +1
