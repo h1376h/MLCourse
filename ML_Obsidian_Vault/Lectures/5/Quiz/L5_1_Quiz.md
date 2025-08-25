@@ -1,7 +1,7 @@
 # Lecture 5.1: Maximum Margin Classifiers Quiz
 
 ## Overview
-This quiz contains 30 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
+This quiz contains 31 questions covering different topics from section 5.1 of the lectures on Maximum Margin Theory, Geometric Interpretation, Linear Separability, Support Vectors, Dual Formulation, and Decision Functions.
 
 ## Question 1
 
@@ -469,3 +469,23 @@ Test your understanding of basic SVM concepts.
 5. [📚] Why do we minimize $\frac{1}{2}||\mathbf{w}||^2$ instead of $||\mathbf{w}||$?
 
 For a detailed explanation of this problem, see [Question 30: Concept Check](L5_1_30_explanation.md).
+
+# Question 31
+
+## Problem Statement
+Consider the following 2D dataset. We will learn a linear SVM of the form $f(\mathbf{x}) = \text{sign}(\mathbf{w}^T\mathbf{x} + b)$ from it. The dataset contains five points, and it is known that the hard-margin SVM classifier is defined by **three support vectors**: two from the positive class (+1) and one from the negative class (-1).
+
+| Point ID | $x_1$ | $x_2$ | Class (Y) |
+| :---: | :---: | :---: | :---: |
+| 1 | 2 | 2 | -1 |
+| 2 | 0 | 2 | -1 |
+| 3 | 4 | 2 | 1 |
+| 4 | 3 | 3 | 1 |
+| 5 | 5 | 3 | 1 |
+
+### Task
+1.  Given that points **#1 (2,2)**, **#3 (4,2)**, and **#4 (3,3)** are the support vectors, what are the optimal values for the weight vector $\mathbf{w} = [w_1, w_2]^T$ and the bias $b$?
+2.  What is the training set error of this classifier, expressed as a percentage?
+3.  What is the leave-one-out cross-validation (LOOCV) error of this classifier, expressed as a percentage?
+
+For a detailed explanation of this problem, see [Question 31: 2D Hard-Margin SVM with Three Support Vectors](L5_1_31_explanation.md).
