@@ -1,7 +1,7 @@
 # Lecture 5.3: Kernel Trick for Nonlinear Classification Quiz
 
 ## Overview
-This quiz contains 39 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
+This quiz contains 40 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
 
 ## Question 1
 
@@ -624,3 +624,26 @@ $$\{(x_i, y_i)\} = \{(-3, 1), (-2, 1), (-1, -1), (0, -1), (1, -1), (2, 1), (3, 1
 **Hint**: After transformation, you should have points in the form $(x, x^2)$ with corresponding labels. Look for a simple linear boundary in this 2D space.
 
 For a detailed explanation of this problem, see [Question 39: Feature Transformation and Linear Separation](L5_3_39_explanation.md).
+
+## Question 40
+
+### Problem Statement
+Use kernel trick and find the equation for hyperplane using nonlinear SVM.
+
+**Dataset:**
+- **Positive Points**: $\{(1,0), (3,0), (5,0)\}$
+- **Negative Points**: $\{(0,0), (2,0), (4,0), (6,0)\}$
+
+#### Task
+1. Plot the original points in 1D space and show why they are not linearly separable
+2. Apply an appropriate feature transformation to make the data linearly separable
+3. Plot the transformed points in the new feature space
+4. Find the equation for the separating hyperplane in the transformed space
+5. Express the decision function in terms of the original input space
+6. Verify that the hyperplane correctly separates all points
+7. Calculate the margin of the separating hyperplane
+8. Identify the support vectors in the transformed space
+
+**Hint**: Consider using a polynomial transformation that maps 1D points to 2D space. The points are interleaved on a line, so a quadratic transformation might be effective.
+
+For a detailed explanation of this problem, see [Question 40: Kernel Trick and Nonlinear SVM Hyperplane](L5_3_40_explanation.md).
