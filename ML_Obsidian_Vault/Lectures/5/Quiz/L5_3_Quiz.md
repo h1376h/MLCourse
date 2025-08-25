@@ -1,7 +1,7 @@
 # Lecture 5.3: Kernel Trick for Nonlinear Classification Quiz
 
 ## Overview
-This quiz contains 34 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
+This quiz contains 36 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
 
 ## Question 1
 
@@ -496,3 +496,46 @@ $$\phi(t) = (1, \sqrt{2}t_1, \sqrt{2}t_2, t_1^2, t_2^2, \sqrt{2}t_1t_2)^T$$
 2. Use the second-degree polynomial kernel as an example to illustrate the kernel trick.
 
 For a detailed explanation of this problem, see [Question 34: Kernel Trick and Polynomial Kernel Example](L5_3_34_explanation.md).
+
+## [⭐] Question 35
+
+### Problem Statement
+Consider a two-dimensional data context with support vector $[d_1, d_2]$ and query instance $[q_1, q_2]$. The polynomial kernel with exponent $p = 2$ is defined as $kernel(d, q) = (1 + d \cdot q)^2$.
+
+#### Task
+1. Prove that applying the polynomial kernel $kernel(d, q) = (1 + d \cdot q)^2$ is equivalent to calculating the dot product after applying the following set of basis functions:
+   - $\Phi_0([d_1, d_2]) = d_1^2$
+   - $\Phi_1([d_1, d_2]) = d_2^2$
+   - $\Phi_2([d_1, d_2]) = \sqrt{2} \cdot d_1 \cdot d_2$
+   - $\Phi_3([d_1, d_2]) = \sqrt{2} \cdot d_1$
+   - $\Phi_4([d_1, d_2]) = \sqrt{2} \cdot d_2$
+   - $\Phi_5([d_1, d_2]) = 1$
+2. Show that the mapping $\Phi([d_1, d_2]) = [\Phi_0([d_1, d_2]), \Phi_1([d_1, d_2]), \Phi_2([d_1, d_2]), \Phi_3([d_1, d_2]), \Phi_4([d_1, d_2]), \Phi_5([d_1, d_2])]$ transforms a two-dimensional input to a six-dimensional feature space.
+3. Verify that $\Phi([d_1, d_2]) = [d_1^2, d_2^2, \sqrt{2} d_1 d_2, \sqrt{2} d_1, \sqrt{2} d_2, 1]$.
+4. Explain why this transformation makes the data easier to classify in the context of Support Vector Machines.
+
+For a detailed explanation of this problem, see [Question 35: Kernel Function and Polynomial Kernel Proof](L5_3_35_explanation.md).
+
+## [⭐] Question 36
+
+### Problem Statement
+The use of the **kernel trick** is key in obtaining efficient implementations of the **support vector machine** approach to predictive modeling. The kernel trick is based on the fact that the result of a **kernel function** applied to a support vector and a query instance is equivalent to the result of calculating the dot product between the support vector and the query instance after a specific set of basis functions have been applied to both. In other words, $kernel(d,q) = \phi(d) \cdot \phi(q)$.
+
+Consider the following $\phi((d_1,d_2))$ mapping:
+- $\phi_0((d_1, d_2)) = d_1^2$
+- $\phi_1((d_1, d_2)) = d_2^2$
+- $\phi_2((d_1, d_2)) = \sqrt{2} \times d_1 \times d_2$
+- $\phi_3((d_1, d_2)) = \sqrt{2} \times d_1$
+- $\phi_4((d_1, d_2)) = \sqrt{2} \times d_2$
+- $\phi_5((d_1, d_2)) = 1$
+
+#### Task
+1. Obtain the corresponding 6-dimensional vectors $\phi(v_1)$ for $v_1 = (0.9, 1)$, and $\phi(v_2)$ for $v_2 = (1, 0.9)$.
+2. What is $\phi(v_1) \cdot \phi(v_2)$?
+3. Suppose $kernel(d,q) = (d \cdot q + 1)^2$. What is $kernel(v_1, v_2)$? Does this match your previous calculation in task 2?
+4. Given two support vectors:
+   - $v_0 = (0, 1)$, with class = -1
+   - $v_1 = (0.9, 1)$, with class = +1
+   and their trained parameter set $w_0 = 0.11$, $\alpha_0 = 0.83$, and $\alpha_1 = 0.99$, predict the class of $v_2$ with this kernel function based on the SVM decision function $f(x) = \sum_{i \in S} \alpha_i y_i K(x_i, x) + b$. Provide calculation details along with the results.
+
+For a detailed explanation of this problem, see [Question 36: Kernel Trick Calculations and SVM Prediction](L5_3_36_explanation.md).
