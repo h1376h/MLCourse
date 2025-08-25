@@ -127,7 +127,7 @@ For a detailed explanation of this problem, see [Question 7: Error-Correcting Co
 Design and implement multi-class evaluation metrics.
 
 Consider a 3-class confusion matrix:
-$$C = \begin{pmatrix} 85 & 5 & 10 \\ 8 & 78 & 14 \\ 12 & 7 & 81 \end{pmatrix}$$
+$$C = \begin{bmatrix} 85 & 5 & 10 \\ 8 & 78 & 14 \\ 12 & 7 & 81 \end{bmatrix}$$
 
 #### Task
 1. Calculate the overall accuracy
@@ -295,19 +295,19 @@ For a detailed explanation of this problem, see [Question 17: Complexity Analysi
 Calculate comprehensive evaluation metrics for a 4-class confusion matrix.
 
 Confusion matrix:
-```
-     A   B   C   D
-A   85   3   2   0
-B    4  76   5   5
-C    1   8  82   4
-D    0   3   1  86
-```
+
+| Actual\Predicted | A | B | C | D |
+|------------------|---|---|---|---|
+| **A**            | 85| 3 | 2 | 0 |
+| **B**            | 4 | 76| 5 | 5 |
+| **C**            | 1 | 8 | 82| 4 |
+| **D**            | 0 | 3 | 1 | 86|
 
 #### Task
-1. Calculate overall accuracy and per-class accuracy
-2. Compute precision, recall, and F1-score for each class
-3. Calculate macro-averaged and micro-averaged precision, recall, F1
-4. Compute balanced accuracy accounting for class sizes
+1. Calculate overall accuracy $A = \frac{\sum_{i=1}^{4} TP_i}{N}$ and per-class accuracy $A_i = \frac{TP_i}{N_i}$
+2. Compute precision $P_i = \frac{TP_i}{TP_i + FP_i}$, recall $R_i = \frac{TP_i}{TP_i + FN_i}$, and F1-score $F1_i = \frac{2 \cdot P_i \cdot R_i}{P_i + R_i}$ for each class
+3. Calculate macro-averaged $\text{Macro-P} = \frac{1}{4}\sum_{i=1}^{4} P_i$ and micro-averaged $\text{Micro-P} = \frac{\sum_{i=1}^{4} TP_i}{\sum_{i=1}^{4} (TP_i + FP_i)}$ precision, recall, F1
+4. Compute balanced accuracy $\text{BA} = \frac{1}{4}\sum_{i=1}^{4} \frac{TP_i}{TP_i + FN_i}$ accounting for class sizes
 5. Identify the most confusing class pairs and suggest improvements
 
 For a detailed explanation of this problem, see [Question 18: Multi-class Metrics](L5_4_18_explanation.md).
