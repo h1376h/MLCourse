@@ -161,7 +161,7 @@ The visualization shows the SVM decision boundary in the feature space of transa
 
 ![Polynomial Kernel Matrix](../Images/L5_3_Quiz_38/polynomial_kernel_matrix.png)
 
-This heatmap shows the kernel values between all pairs of support vectors. The polynomial kernel transforms the input space, creating a high-dimensional feature space where the data becomes more separable. The large kernel values indicate strong similarity between support vectors in the transformed space.
+This heatmap shows the kernel values between all pairs of support vectors, with title $K(\mathbf{x}^{(i)}, \mathbf{x}^{(j)})$ and axis labels. The polynomial kernel transforms the input space, creating a high-dimensional feature space where the data becomes more separable. The large kernel values indicate strong similarity between support vectors in the transformed space.
 
 ### Cost-Benefit Analysis
 
