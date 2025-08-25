@@ -605,7 +605,7 @@ $w_0 = y^{(s)} - \sum_{\alpha_n > 0} \alpha_n y^{(n)} k(\mathbf{x}^{(n)}, \mathb
 
 For a detailed explanation of this problem, see [Question 38: Financial Fraud Detection with Polynomial Kernel](L5_3_38_explanation.md).
 
-## Question 39
+## [⭐] Question 39
 
 ### Problem Statement
 Consider a dataset with 7 points:
@@ -625,7 +625,7 @@ $$\{(x_i, y_i)\} = \{(-3, 1), (-2, 1), (-1, -1), (0, -1), (1, -1), (2, 1), (3, 1
 
 For a detailed explanation of this problem, see [Question 39: Feature Transformation and Linear Separation](L5_3_39_explanation.md).
 
-## Question 40
+## [⭐] Question 40
 
 ### Problem Statement
 Use kernel trick and find the equation for hyperplane using nonlinear SVM.
