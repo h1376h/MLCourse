@@ -375,35 +375,35 @@ $$D_3(i) = \frac{D_2(i) \cdot e^{-\alpha_2 y_i h_2(x_i)}}{Z_2}$$
 
 **Sample-by-Sample Calculations:**
 
-**Sample X₁** ($y_1 = +1$, $h_2(x_1) = -1$):
+**Sample $X_1$** ($y_1 = +1$, $h_2(x_1) = -1$):
 - $y_1 \times h_2(x_1) = 1 \times (-1) = -1$ (misclassified)
 - $D_3(1) = \frac{0.0833 \times e^{-0.8047 \times 1 \times (-1)}}{Z_2} = \frac{0.0833 \times e^{0.8047}}{Z_2} = \frac{0.0833 \times 2.2361}{Z_2} = \frac{0.1863}{Z_2}$
 
-**Sample X₂** ($y_2 = +1$, $h_2(x_2) = -1$):
+**Sample $X_2$** ($y_2 = +1$, $h_2(x_2) = -1$):
 - $y_2 \times h_2(x_2) = 1 \times (-1) = -1$ (misclassified)
 - $D_3(2) = \frac{0.0833 \times e^{-0.8047 \times 1 \times (-1)}}{Z_2} = \frac{0.0833 \times e^{0.8047}}{Z_2} = \frac{0.1863}{Z_2}$
 
-**Sample X₃** ($y_3 = -1$, $h_2(x_3) = -1$):
+**Sample $X_3$** ($y_3 = -1$, $h_2(x_3) = -1$):
 - $y_3 \times h_2(x_3) = (-1) \times (-1) = 1$ (correctly classified)
 - $D_3(3) = \frac{0.0833 \times e^{-0.8047 \times (-1) \times (-1)}}{Z_2} = \frac{0.0833 \times e^{-0.8047}}{Z_2} = \frac{0.0833 \times 0.4472}{Z_2} = \frac{0.0373}{Z_2}$
 
-**Sample X₄** ($y_4 = -1$, $h_2(x_4) = -1$):
+**Sample $X_4$** ($y_4 = -1$, $h_2(x_4) = -1$):
 - $y_4 \times h_2(x_4) = (-1) \times (-1) = 1$ (correctly classified)
 - $D_3(4) = \frac{0.0833 \times e^{-0.8047 \times (-1) \times (-1)}}{Z_2} = \frac{0.0833 \times e^{-0.8047}}{Z_2} = \frac{0.0373}{Z_2}$
 
-**Sample X₅** ($y_5 = +1$, $h_2(x_5) = +1$):
+**Sample $X_5$** ($y_5 = +1$, $h_2(x_5) = +1$):
 - $y_5 \times h_2(x_5) = 1 \times 1 = 1$ (correctly classified)
 - $D_3(5) = \frac{0.2500 \times e^{-0.8047 \times 1 \times 1}}{Z_2} = \frac{0.2500 \times e^{-0.8047}}{Z_2} = \frac{0.2500 \times 0.4472}{Z_2} = \frac{0.1118}{Z_2}$
 
-**Sample X₆** ($y_6 = +1$, $h_2(x_6) = +1$):
+**Sample $X_6$** ($y_6 = +1$, $h_2(x_6) = +1$):
 - $y_6 \times h_2(x_6) = 1 \times 1 = 1$ (correctly classified)
 - $D_3(6) = \frac{0.2500 \times e^{-0.8047 \times 1 \times 1}}{Z_2} = \frac{0.2500 \times e^{-0.8047}}{Z_2} = \frac{0.1118}{Z_2}$
 
-**Sample X₇** ($y_7 = -1$, $h_2(x_7) = -1$):
+**Sample $X_7$** ($y_7 = -1$, $h_2(x_7) = -1$):
 - $y_7 \times h_2(x_7) = (-1) \times (-1) = 1$ (correctly classified)
 - $D_3(7) = \frac{0.0833 \times e^{-0.8047 \times (-1) \times (-1)}}{Z_2} = \frac{0.0833 \times e^{-0.8047}}{Z_2} = \frac{0.0373}{Z_2}$
 
-**Sample X₈** ($y_8 = -1$, $h_2(x_8) = -1$):
+**Sample $X_8$** ($y_8 = -1$, $h_2(x_8) = -1$):
 - $y_8 \times h_2(x_8) = (-1) \times (-1) = 1$ (correctly classified)
 - $D_3(8) = \frac{0.0833 \times e^{-0.8047 \times (-1) \times (-1)}}{Z_2} = \frac{0.0833 \times e^{-0.8047}}{Z_2} = \frac{0.0373}{Z_2}$
 
@@ -417,14 +417,14 @@ $$D_3(i) = \frac{D_3(i)_{\text{before normalization}}}{Z_2}$$
 
 | Sample | Weight Before Normalization | Normalized Weight |
 |:------:|:---------------------------:|:-----------------:|
-| X₁ | 0.1863 | 0.1863/0.7454 = 0.2500 |
-| X₂ | 0.1863 | 0.1863/0.7454 = 0.2500 |
-| X₃ | 0.0373 | 0.0373/0.7454 = 0.0500 |
-| X₄ | 0.0373 | 0.0373/0.7454 = 0.0500 |
-| X₅ | 0.1118 | 0.1118/0.7454 = 0.1500 |
-| X₆ | 0.1118 | 0.1118/0.7454 = 0.1500 |
-| X₇ | 0.0373 | 0.0373/0.7454 = 0.0500 |
-| X₈ | 0.0373 | 0.0373/0.7454 = 0.0500 |
+| $X_1$ | 0.1863 | 0.1863/0.7454 = 0.2500 |
+| $X_2$ | 0.1863 | 0.1863/0.7454 = 0.2500 |
+| $X_3$ | 0.0373 | 0.0373/0.7454 = 0.0500 |
+| $X_4$ | 0.0373 | 0.0373/0.7454 = 0.0500 |
+| $X_5$ | 0.1118 | 0.1118/0.7454 = 0.1500 |
+| $X_6$ | 0.1118 | 0.1118/0.7454 = 0.1500 |
+| $X_7$ | 0.0373 | 0.0373/0.7454 = 0.0500 |
+| $X_8$ | 0.0373 | 0.0373/0.7454 = 0.0500 |
 
 **Final Weight Vector:**
 $$D_3 = [0.2500, 0.2500, 0.0500, 0.0500, 0.1500, 0.1500, 0.0500, 0.0500]$$
@@ -433,9 +433,9 @@ $$D_3 = [0.2500, 0.2500, 0.0500, 0.0500, 0.1500, 0.1500, 0.0500, 0.0500]$$
 $$\sum_{i=1}^{8} D_3(i) = 2 \times 0.2500 + 2 \times 0.0500 + 2 \times 0.1500 + 2 \times 0.0500 = 0.5000 + 0.1000 + 0.3000 + 0.1000 = 1.000$$
 
 **Key Insight**: The weight distribution shows that:
-- **Samples X₁, X₂** (misclassified by $h_2$) have the highest weights (0.2500)
-- **Samples X₅, X₆** (previously misclassified by $h_1$ but now correctly classified) have medium weights (0.1500)
-- **Samples X₃, X₄, X₇, X₈** (consistently correctly classified) have the lowest weights (0.0500)
+- **Samples $X_1$, $X_2$** (misclassified by $h_2$) have the highest weights (0.2500)
+- **Samples $X_5$, $X_6$** (previously misclassified by $h_1$ but now correctly classified) have medium weights (0.1500)
+- **Samples $X_3$, $X_4$, $X_7$, $X_8$** (consistently correctly classified) have the lowest weights (0.0500)
 
 #### Iteration 3
 
