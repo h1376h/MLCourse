@@ -148,19 +148,23 @@ $$D_3 = [0.25, 0.25, 0.05, 0.05, 0.15, 0.15, 0.05, 0.05]$$
 #### Iteration 3
 
 **Best Decision Stump:**
-- Feature: 1 (x₂)
-- Threshold: 0.75
-- Direction: +1
-- Predictions: [1, 1, -1, -1, 1, 1, 1, 1]
+- **Feature**: $1$ ($x_2$)
+- **Threshold**: $0.75$
+- **Direction**: $+1$
+- **Predictions**: $[1, 1, -1, -1, 1, 1, 1, 1]$
 
 **Weighted Error Calculation:**
-Misclassified samples: X₇, X₈ (both have true label -1 but predicted as +1)
+
+**Misclassified samples**: $X_7$, $X_8$ (both have true label $-1$ but predicted as $+1$)
+
 $$\epsilon_3 = 0.05 + 0.05 = 0.1$$
 
 **Alpha Calculation:**
+
 $$\alpha_3 = \frac{1}{2} \ln\left(\frac{1-0.1}{0.1}\right) = \frac{1}{2} \ln(9) = 1.0986$$
 
 **Final Weights:**
+
 $$D_4 = [0.1389, 0.1389, 0.0278, 0.0278, 0.0833, 0.0833, 0.25, 0.25]$$
 
 ### Task 2: Training Error Analysis and AdaBoost Advantages
