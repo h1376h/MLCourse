@@ -58,6 +58,14 @@ $$Error(S) = 1 - \max_i(p_i)$$
 
 **Cost-complexity pruning:** $R_\alpha(T) = R(T) + \alpha|T|$
 
+**Tie-Breaking Criteria (in order of preference):**
+When multiple splits have the same information gain or gain ratio:
+1. **Higher balance ratio** (more balanced splits)
+2. **Lower subset variance** (more uniform distribution)
+3. **Lower size entropy** (more balanced proportions)
+4. **More pure nodes** (better class separation)
+5. **Fewer total subsets** (simpler tree structure)
+
 ---
 
 ### Lecture 7: Ensemble Methods
