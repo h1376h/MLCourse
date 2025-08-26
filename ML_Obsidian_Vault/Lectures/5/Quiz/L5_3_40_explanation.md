@@ -302,16 +302,30 @@ We have an explicit $\phi: \mathbb{R} \rightarrow \mathbb{R}^2$ mapping ✓
 
 ### Alternative Kernels Validation
 
-**Sign-based Kernel**: $K(x,z) = xz + \text{sign}(x \bmod 2 - 0.5)\text{sign}(z \bmod 2 - 0.5)$
-- Eigenvalues: $[91.11, 6.89, 0, 0, 0, 0, 0]$ - All non-negative ✓
+**Original Alternative Kernels:**
+- **Sign-based**: $K(x,z) = xz + \text{sign}(x \bmod 2 - 0.5)\text{sign}(z \bmod 2 - 0.5)$
+  - Eigenvalues: $[91.11, 6.89, 0, 0, 0, 0, 0]$ - All non-negative ✓
 
-**Parity-weighted Kernel**: $K(x,z) = (x \bmod 2)(z \bmod 2)xz + (1-x \bmod 2)(1-z \bmod 2)xz$
-- Eigenvalues: $[56.00, 35.00, 0, 0, 0, 0, 0]$ - All non-negative ✓
+- **Parity-weighted**: $K(x,z) = (x \bmod 2)(z \bmod 2)xz + (1-x \bmod 2)(1-z \bmod 2)xz$
+  - Eigenvalues: $[56.00, 35.00, 0, 0, 0, 0, 0]$ - All non-negative ✓
 
-**Trigonometric Kernel**: $K(x,z) = \cos(\pi x)\cos(\pi z) + \sin(\pi x)\sin(\pi z) = \cos(\pi(x-z))$
-- Eigenvalues: $[7.00, 0, 0, 0, 0, 0, 0]$ - All non-negative ✓
+- **Trigonometric**: $K(x,z) = \cos(\pi x)\cos(\pi z) + \sin(\pi x)\sin(\pi z) = \cos(\pi(x-z))$
+  - Eigenvalues: $[7.00, 0, 0, 0, 0, 0, 0]$ - All non-negative ✓
 
-All four transformations satisfy Mercer's conditions, confirming their validity as kernel functions.
+**Novel Alternative Kernels:**
+- **Logarithmic-Modular**: $K(x,z) = \log(x+1)\log(z+1) + (x \bmod 2)(z \bmod 2)\log(x+1)\log(z+1)$
+  - All eigenvalues ≥ 0 - Valid Mercer kernel ✓
+
+- **Hyperbolic-Parity**: $K(x,z) = \tanh(x)\tanh(z) + [(2(x \bmod 2)-1)(2(z \bmod 2)-1)]\cosh(x/2)\cosh(z/2)$
+  - All eigenvalues ≥ 0 - Valid Mercer kernel ✓
+
+- **Polynomial-Alternating**: $K(x,z) = x^3z^3 + (-1)^{x+z}xz$
+  - All eigenvalues ≥ 0 - Valid Mercer kernel ✓
+
+- **Rational-Parity**: $K(x,z) = \frac{xz}{(x+1)(z+1)} + (x \bmod 2 - 0.5)(z \bmod 2 - 0.5)\frac{xz}{(x+1)(z+1)}$
+  - All eigenvalues ≥ 0 - Valid Mercer kernel ✓
+
+**Total Valid Kernels**: 8 different kernel transformations, all satisfying Mercer's conditions.
 
 ## Visual Explanations
 
@@ -348,6 +362,48 @@ Maps points to unit circle:
 - Hyperplane: $\phi_1 = 0$ (vertical line through origin)
 - **All 7 points are support vectors**
 - Margin: 1.000 (maximum possible)
+
+### Additional Novel Transformations
+
+#### Logarithmic-Modular Transformation: $\phi(x) = [\log(x+1), (x \bmod 2) \cdot \log(x+1)]$
+![Logarithmic-Modular Transformation](../Images/L5_3_Quiz_40/logarithmic_modular_transformation.png)
+
+Creates logarithmic scaling with modular separation:
+- Positive points (odd): Map to diagonal line $\phi_2 = \phi_1$
+- Negative points (even): Map to x-axis $\phi_2 = 0$
+- Hyperplane: $\phi_2 = 0.347$ (nearly horizontal)
+- **5 support vectors**
+- Margin: 0.347 (compact separation)
+
+#### Hyperbolic-Parity Transformation: $\phi(x) = [\tanh(x), (2(x \bmod 2) - 1) \cdot \cosh(x/2)]$
+![Hyperbolic-Parity Transformation](../Images/L5_3_Quiz_40/hyperbolic_parity_transformation.png)
+
+Uses hyperbolic functions with parity detection:
+- Positive points: Map to upper half-plane with $\phi_2 > 0$
+- Negative points: Map to lower half-plane with $\phi_2 < 0$
+- Hyperplane: Diagonal separation
+- **Only 2 support vectors** (most efficient)
+- Margin: 1.130 (largest margin found)
+
+#### Polynomial-Alternating Transformation: $\phi(x) = [x^3, (-1)^x \cdot x]$
+![Polynomial-Alternating Transformation](../Images/L5_3_Quiz_40/polynomial_alternating_transformation.png)
+
+Combines cubic scaling with alternating signs:
+- Positive points: Map to lower half-plane with negative $\phi_2$
+- Negative points: Map to upper half-plane with positive $\phi_2$
+- Hyperplane: Diagonal separation with negative slope
+- **3 support vectors**
+- Margin: 0.514
+
+#### Rational-Parity Transformation: $\phi(x) = [\frac{x}{x+1}, (x \bmod 2 - 0.5) \cdot \frac{x}{x+1}]$
+![Rational-Parity Transformation](../Images/L5_3_Quiz_40/rational_parity_transformation.png)
+
+Uses rational functions with parity structure:
+- Bounded first component: $\phi_1 \in [0, 1)$
+- Parity-based second component separation
+- Hyperplane: Steep diagonal separation
+- **5 support vectors**
+- Margin: 0.224 (tightest separation)
 
 ## Key Insights
 
@@ -395,20 +451,41 @@ This comprehensive analysis demonstrates the power and mathematical elegance of 
 
 ### Support Vector Distribution Analysis
 
-The number of support vectors varies significantly across transformations:
-- **Primary**: 5/7 points (most points lie on margin boundaries)
-- **Sign-based**: 7/7 points (all points are support vectors)
-- **Parity-weighted**: 5/7 points (axis-aligned separation)
-- **Trigonometric**: 7/7 points (perfect unit circle mapping)
+The number of support vectors varies dramatically across the 8 different transformations:
 
-This reveals that different kernels create different margin geometries, with some transformations requiring all points to define the optimal boundary.
+**Original Kernels:**
+- **Primary**: 5/7 points (diagonal separation with parity scaling)
+- **Sign-based**: 7/7 points (horizontal stripe separation)
+- **Parity-weighted**: 5/7 points (axis-aligned cluster separation)
+- **Trigonometric**: 7/7 points (unit circle mapping)
+
+**Novel Kernels:**
+- **Logarithmic-Modular**: 5/7 points (logarithmic scaling with modular structure)
+- **Hyperbolic-Parity**: 2/7 points (most efficient - largest margin)
+- **Polynomial-Alternating**: 3/7 points (cubic scaling with alternating signs)
+- **Rational-Parity**: 5/7 points (bounded rational functions with parity)
+
+**Key Insight**: The **Hyperbolic-Parity** transformation achieves perfect separation with only 2 support vectors and the largest margin (1.130), making it the most geometrically efficient solution.
 
 ### Practical Applications
 
-This analysis demonstrates that:
-- **Multiple valid solutions** exist for the same nonlinear problem
-- **Geometric intuition** guides kernel design more than mathematical complexity
-- **Kernel validity** can be rigorously verified through eigenvalue analysis
-- **Pattern-specific transformations** are more effective than generic polynomial kernels
+This comprehensive analysis demonstrates remarkable diversity in kernel design:
 
-The kernel trick successfully transforms an impossible 1D classification problem into multiple elegant 2D solutions, each providing unique geometric insights while maintaining mathematical rigor and achieving perfect classification accuracy.
+**Mathematical Diversity**: We discovered **8 fundamentally different** kernel approaches:
+- **Algebraic**: Primary (quadratic-parity), Polynomial-alternating (cubic-alternating)
+- **Transcendental**: Trigonometric (circular), Hyperbolic-parity (hyperbolic functions)
+- **Logarithmic**: Logarithmic-modular (logarithmic scaling)
+- **Rational**: Rational-parity (bounded rational functions)
+- **Discrete**: Sign-based (discrete parity), Parity-weighted (modular arithmetic)
+
+**Efficiency Spectrum**: Support vector requirements range from 2/7 (Hyperbolic-parity) to 7/7 (Sign-based, Trigonometric), showing different geometric efficiencies.
+
+**Margin Variation**: Margins range from 0.224 (Rational-parity) to 1.130 (Hyperbolic-parity), demonstrating different separation geometries.
+
+**Key Insights**:
+- **Pattern-specific design** outperforms generic polynomial approaches
+- **Mathematical function diversity** (algebraic, transcendental, rational) all work when properly designed
+- **Geometric intuition** guides successful kernel construction
+- **Kernel validity** can be rigorously verified through Mercer's theorem
+
+The kernel trick transforms one impossible 1D problem into **8 different solvable 2D problems**, each offering unique mathematical perspectives while achieving perfect classification. This demonstrates the profound flexibility and power of kernel methods in machine learning.
