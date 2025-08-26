@@ -99,6 +99,12 @@ $$r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x
 **Mutual Information:**
 $$I(X;Y) = \sum_{x,y} p(x,y) \log\left(\frac{p(x,y)}{p(x)p(y)}\right)$$
 
+**Alternative Forms of Mutual Information:**
+$$I(X;Y) = H(X) - H(X|Y) = H(Y) - H(Y|X) = H(X) + H(Y) - H(X,Y)$$
+
+**Conditional Mutual Information:**
+$$I(X;Y|Z) = \sum_{x,y,z} p(x,y,z) \log\left(\frac{p(x,y|z)}{p(x|z)p(y|z)}\right)$$
+
 **Curse of Dimensionality:**
 - **Sample density**: Decreases as $1/n^d$ where $d$ is dimensions
 - **Expected distance**: $E[d] = \sqrt{d/6}$ for unit hypercube
