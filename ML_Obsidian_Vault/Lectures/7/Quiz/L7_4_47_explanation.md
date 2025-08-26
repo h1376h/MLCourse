@@ -181,38 +181,40 @@ After 3 iterations, the training error is **0.0000**, meaning all training sampl
 **Detailed Ensemble Prediction Analysis:**
 
 **Final Ensemble Classifier:**
+
 $$H(x) = \text{sign}\left(\sum_{t=1}^{3} \alpha_t h_t(x)\right)$$
 
 **Step-by-Step Ensemble Predictions:**
 
-**Weak Learner 1 ($\alpha_1 = 0.5493$):**
-- Feature: 0, Threshold: -0.25, Direction: +1
-- Stump predictions: [1, 1, -1, -1, -1, -1, -1, -1]
-- Weighted contributions: [0.5493, 0.5493, -0.5493, -0.5493, -0.5493, -0.5493, -0.5493, -0.5493]
-- Cumulative predictions: [0.5493, 0.5493, -0.5493, -0.5493, -0.5493, -0.5493, -0.5493, -0.5493]
+**Weak Learner 1** ($\alpha_1 = 0.5493$):
+- **Feature**: $0$, **Threshold**: $-0.25$, **Direction**: $+1$
+- **Stump predictions**: $[1, 1, -1, -1, -1, -1, -1, -1]$
+- **Weighted contributions**: $[0.5493, 0.5493, -0.5493, -0.5493, -0.5493, -0.5493, -0.5493, -0.5493]$
+- **Cumulative predictions**: $[0.5493, 0.5493, -0.5493, -0.5493, -0.5493, -0.5493, -0.5493, -0.5493]$
 
-**Weak Learner 2 ($\alpha_2 = 0.8047$):**
-- Feature: 0, Threshold: 0.75, Direction: -1
-- Stump predictions: [-1, -1, -1, -1, 1, 1, -1, -1]
-- Weighted contributions: [-0.8047, -0.8047, -0.8047, -0.8047, 0.8047, 0.8047, -0.8047, -0.8047]
-- Cumulative predictions: [-0.2554, -0.2554, -1.3540, -1.3540, 0.2554, 0.2554, -1.3540, -1.3540]
+**Weak Learner 2** ($\alpha_2 = 0.8047$):
+- **Feature**: $0$, **Threshold**: $0.75$, **Direction**: $-1$
+- **Stump predictions**: $[-1, -1, -1, -1, 1, 1, -1, -1]$
+- **Weighted contributions**: $[-0.8047, -0.8047, -0.8047, -0.8047, 0.8047, 0.8047, -0.8047, -0.8047]$
+- **Cumulative predictions**: $[-0.2554, -0.2554, -1.3540, -1.3540, 0.2554, 0.2554, -1.3540, -1.3540]$
 
-**Weak Learner 3 ($\alpha_3 = 1.0986$):**
-- Feature: 1, Threshold: 0.75, Direction: +1
-- Stump predictions: [1, 1, -1, -1, 1, 1, 1, 1]
-- Weighted contributions: [1.0986, 1.0986, -1.0986, -1.0986, 1.0986, 1.0986, 1.0986, 1.0986]
-- Cumulative predictions: [0.8432, 0.8432, -2.4526, -2.4526, 1.3540, 1.3540, -0.2554, -0.2554]
+**Weak Learner 3** ($\alpha_3 = 1.0986$):
+- **Feature**: $1$, **Threshold**: $0.75$, **Direction**: $+1$
+- **Stump predictions**: $[1, 1, -1, -1, 1, 1, 1, 1]$
+- **Weighted contributions**: $[1.0986, 1.0986, -1.0986, -1.0986, 1.0986, 1.0986, 1.0986, 1.0986]$
+- **Cumulative predictions**: $[0.8432, 0.8432, -2.4526, -2.4526, 1.3540, 1.3540, -0.2554, -0.2554]$
 
 **Final Ensemble Predictions:**
-- Raw ensemble scores: [0.8432, 0.8432, -2.4526, -2.4526, 1.3540, 1.3540, -0.2554, -0.2554]
-- Final predictions (sign): [1, 1, -1, -1, 1, 1, -1, -1]
-- True labels: [1, 1, -1, -1, 1, 1, -1, -1]
+- **Raw ensemble scores**: $[0.8432, 0.8432, -2.4526, -2.4526, 1.3540, 1.3540, -0.2554, -0.2554]$
+- **Final predictions (sign)**: $[1, 1, -1, -1, 1, 1, -1, -1]$
+- **True labels**: $[1, 1, -1, -1, 1, 1, -1, -1]$
 
 
 
 ### Task 3: Theoretical Bound Analysis
 
 **Theoretical Bound Formula:**
+
 $$E_{train} \leq \prod_{t=1}^{T} 2\sqrt{\epsilon_t(1-\epsilon_t)}$$
 
 **Step-by-Step Calculation:**
@@ -236,6 +238,7 @@ $$E_{train} \leq \prod_{t=1}^{T} 2\sqrt{\epsilon_t(1-\epsilon_t)}$$
 - $2\sqrt{\epsilon_3(1-\epsilon_3)} = 2\sqrt{0.09} = 2 \times 0.3 = 0.6$
 
 **Final Bound Calculation:**
+
 $$\prod_{t=1}^{3} 2\sqrt{\epsilon_t(1-\epsilon_t)} = 0.8660 \times 0.7454 \times 0.6 = 0.3873$$
 
 **Comparison Results:**
