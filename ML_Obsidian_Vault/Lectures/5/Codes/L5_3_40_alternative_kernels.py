@@ -79,6 +79,10 @@ def phi_sigmoid_parity(x):
     parity_linear = (2 * (x % 2) - 1) * x
     return np.column_stack([sigmoid_term, parity_linear])
 
+def phi_sin_kernel(x):
+    """Sine kernel: φ(x) = sin((2x-1)π/2) - 1D transformation"""
+    return np.sin((2*x - 1) * np.pi / 2).reshape(-1, 1)
+
 # Store all new transformations
 new_transformations = {
     'Exponential-Parity': phi_exponential_parity,
@@ -88,7 +92,8 @@ new_transformations = {
     'Fourier-Series': phi_fourier_series,
     'Rational-Parity': phi_rational_parity,
     'Power-Alternating': phi_power_alternating,
-    'Sigmoid-Parity': phi_sigmoid_parity
+    'Sigmoid-Parity': phi_sigmoid_parity,
+    'Sin-Kernel': phi_sin_kernel
 }
 
 # Test each transformation

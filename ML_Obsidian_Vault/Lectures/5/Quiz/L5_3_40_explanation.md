@@ -325,7 +325,10 @@ We have an explicit $\phi: \mathbb{R} \rightarrow \mathbb{R}^2$ mapping ✓
 - **Rational-Parity**: $K(x,z) = \frac{xz}{(x+1)(z+1)} + (x \bmod 2 - 0.5)(z \bmod 2 - 0.5)\frac{xz}{(x+1)(z+1)}$
   - All eigenvalues ≥ 0 - Valid Mercer kernel ✓
 
-**Total Valid Kernels**: 8 different kernel transformations, all satisfying Mercer's conditions.
+- **Sin-Kernel**: $K(x,z) = \sin((2x-1)\pi/2)\sin((2z-1)\pi/2)$
+  - All eigenvalues ≥ 0 - Valid Mercer kernel ✓
+
+**Total Valid Kernels**: 9 different kernel transformations, all satisfying Mercer's conditions.
 
 ## Visual Explanations
 
@@ -405,6 +408,18 @@ Uses rational functions with parity structure:
 - **5 support vectors**
 - Margin: 0.224 (tightest separation)
 
+#### Sin-Kernel Transformation: $\phi(x) = \sin((2x-1)\pi/2)$
+![1D Sin-Kernel Transformation](../Images/L5_3_Quiz_40/1d_sin_kernel_transformation.png)
+
+Creates perfect binary separation using a **1D trigonometric transformation**:
+- **Positive points (odd x)**: Map to $+1$ in 1D space
+- **Negative points (even x)**: Map to $-1$ in 1D space
+- **Decision boundary**: Simple threshold at $\phi = 0$
+- **All 7 points are support vectors** (maximum support vector utilization)
+- **Margin: 1.000** (maximum possible margin)
+- **Mathematical elegance**: Perfect binary separation achieved in 1D space
+- **Key insight**: No need for 2D feature space - the transformation solves the problem directly in 1D
+
 ## Key Insights
 
 ### Kernel Design Principles
@@ -432,7 +447,7 @@ This comprehensive analysis demonstrates the power and mathematical elegance of 
 - **Decision Function**: $f(x) = \text{sign}(2x^2 - 1)$ for odd $x$, $f(x) = -1$ for even $x$
 - **Margin**: $\frac{1}{\sqrt{5}} \approx 0.447$ in the transformed space
 - **Support Vectors**: 5 critical points $(x = 0, 1, 2, 4, 6)$ determining optimal boundary
-- **Perfect Separation**: 100% accuracy achieved through all four kernel transformations
+- **Perfect Separation**: 100% accuracy achieved through all nine kernel transformations
 
 ### Fundamental Insights
 
@@ -443,6 +458,7 @@ This comprehensive analysis demonstrates the power and mathematical elegance of 
 - **Sign-based**: Horizontal stripe separation
 - **Parity-weighted**: Axis-aligned cluster separation
 - **Trigonometric**: Unit circle mapping with vertical separation
+- **Sin-Kernel**: Perfect binary separation in 1D space with maximum margin
 
 **Mathematical Rigor**: All transformations satisfy Mercer's theorem conditions:
 - Symmetry: $K(x,z) = K(z,x)$
@@ -464,23 +480,24 @@ The number of support vectors varies dramatically across the 8 different transfo
 - **Hyperbolic-Parity**: 2/7 points (most efficient - largest margin)
 - **Polynomial-Alternating**: 3/7 points (cubic scaling with alternating signs)
 - **Rational-Parity**: 5/7 points (bounded rational functions with parity)
+- **Sin-Kernel**: 7/7 points (1D trigonometric binary separation - maximum margin)
 
-**Key Insight**: The **Hyperbolic-Parity** transformation achieves perfect separation with only 2 support vectors and the largest margin (1.130), making it the most geometrically efficient solution.
+**Key Insight**: The **Hyperbolic-Parity** transformation achieves perfect separation with only 2 support vectors and the largest margin (1.130), making it the most geometrically efficient solution. The **Sin-Kernel** achieves maximum margin (1.000) with all points as support vectors.
 
 ### Practical Applications
 
 This comprehensive analysis demonstrates remarkable diversity in kernel design:
 
-**Mathematical Diversity**: We discovered **8 fundamentally different** kernel approaches:
+**Mathematical Diversity**: We discovered **9 fundamentally different** kernel approaches:
 - **Algebraic**: Primary (quadratic-parity), Polynomial-alternating (cubic-alternating)
-- **Transcendental**: Trigonometric (circular), Hyperbolic-parity (hyperbolic functions)
+- **Transcendental**: Trigonometric (circular), Sin-Kernel (1D trigonometric), Hyperbolic-parity (hyperbolic functions)
 - **Logarithmic**: Logarithmic-modular (logarithmic scaling)
 - **Rational**: Rational-parity (bounded rational functions)
 - **Discrete**: Sign-based (discrete parity), Parity-weighted (modular arithmetic)
 
-**Efficiency Spectrum**: Support vector requirements range from 2/7 (Hyperbolic-parity) to 7/7 (Sign-based, Trigonometric), showing different geometric efficiencies.
+**Efficiency Spectrum**: Support vector requirements range from 2/7 (Hyperbolic-parity) to 7/7 (Sign-based, Trigonometric, Sin-Kernel), showing different geometric efficiencies. The Sin-Kernel is unique as it achieves perfect separation in 1D space.
 
-**Margin Variation**: Margins range from 0.224 (Rational-parity) to 1.130 (Hyperbolic-parity), demonstrating different separation geometries.
+**Margin Variation**: Margins range from 0.224 (Rational-parity) to 1.130 (Hyperbolic-parity), with Sin-Kernel achieving the theoretical maximum margin of 1.000.
 
 **Key Insights**:
 - **Pattern-specific design** outperforms generic polynomial approaches
@@ -488,4 +505,4 @@ This comprehensive analysis demonstrates remarkable diversity in kernel design:
 - **Geometric intuition** guides successful kernel construction
 - **Kernel validity** can be rigorously verified through Mercer's theorem
 
-The kernel trick transforms one impossible 1D problem into **8 different solvable 2D problems**, each offering unique mathematical perspectives while achieving perfect classification. This demonstrates the profound flexibility and power of kernel methods in machine learning.
+The kernel trick transforms one impossible 1D problem into **9 different solvable 2D problems**, each offering unique mathematical perspectives while achieving perfect classification. This demonstrates the profound flexibility and power of kernel methods in machine learning.
