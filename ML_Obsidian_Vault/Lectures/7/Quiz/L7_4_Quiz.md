@@ -931,5 +931,8 @@ Run through $T = 3$ iterations of AdaBoost using decision stumps as weak learner
 #### Task
 1. For each iteration $t = 1, 2, 3$, compute $\epsilon_t$, $\alpha_t$, $Z_t$, $D_t$ by hand (i.e., show the calculation steps) and draw the decision stumps on the figure (you can draw this by hand).
 2. What is the training error of this AdaBoost? Give a short explanation for why AdaBoost outperforms a single decision stump.
+3. Using the theoretical bound $E_{train} \leq \prod_{t=1}^{T} 2\sqrt{\epsilon_t(1-\epsilon_t)}$, calculate the upper bound on training error after 3 iterations. Compare this bound with your actual training error from part (b) and explain any discrepancy.
+4. If you were to add a new sample $X_9 = (0.25, 0.25, +1)$ to the dataset, would this make the classification problem easier or harder for AdaBoost? Justify your answer by analyzing the geometric position of this new point relative to the existing decision boundaries.
+5. Suppose you want to modify the dataset to make it linearly separable. What is the minimum number of samples you would need to change, and which samples would you modify? Explain your reasoning.
 
 For a detailed explanation of this question, see [Question 47: AdaBoost Manual Calculation](L7_4_47_explanation.md).
