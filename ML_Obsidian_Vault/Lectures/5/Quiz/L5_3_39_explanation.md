@@ -63,8 +63,8 @@ Let's group the transformed points by class:
 **Class -1 points**: $\{(-1, 1), (0, 0), (1, 1)\}$
 
 **Key Observation**: Looking at the $x^2$ coordinate (second dimension):
-- Positive class: $x^2 \in \{4, 9\}$ (minimum value: 4)
-- Negative class: $x^2 \in \{0, 1\}$ (maximum value: 1)
+- **Positive class**: $x^2 \in \{4, 9\}$ (minimum value: 4)
+- **Negative class**: $x^2 \in \{0, 1\}$ (maximum value: 1)
 
 **Gap exists**: $1 < x^2 < 4$
 
@@ -146,8 +146,8 @@ Let's verify that our decision boundary correctly classifies all points using de
 
 **Summary Table**:
 
-| Point | x | x² | x² - 2.5 | sign(x² - 2.5) | True Label | Correct? | Support Vector? |
-|-------|---|----|---------|-----------------|-----------|---------|----------------|
+| Point | $x$ | $x^2$ | $x^2 - 2.5$ | $\text{sign}(x^2 - 2.5)$ | True Label | Correct? | Support Vector? |
+|-------|-----|-------|-------------|---------------------------|-----------|---------|----------------|
 | 1 | -3 | 9 | 6.5 | +1 | +1 | ✓ | No |
 | 2 | -2 | 4 | 1.5 | +1 | +1 | ✓ | **Yes** |
 | 3 | -1 | 1 | -1.5 | -1 | -1 | ✓ | **Yes** |
@@ -180,8 +180,8 @@ Calculate the distance from each point to our proposed boundary $x^2 = 2.5$:
 
 **Distance Summary Table**:
 
-| Point | x | x² | Label | Distance to Boundary |
-|-------|---|----|---------|--------------------|
+| Point | $x$ | $x^2$ | Label | Distance to Boundary |
+|-------|-----|-------|---------|--------------------|
 | 2 | -2 | 4 | +1 | 1.5 |
 | 3 | -1 | 1 | -1 | 1.5 |
 | 5 | 1 | 1 | -1 | 1.5 |
@@ -309,8 +309,8 @@ This creates a **"band" classifier** in the original space:
 
 | Region | Condition | Prediction | Interpretation |
 |--------|-----------|------------|----------------|
-| Inner band | $\|x\| < 1.581$ | Class -1 | Points close to origin |
-| Outer regions | $\|x\| > 1.581$ | Class +1 | Points far from origin |
+| Inner band | $|x| < 1.581$ | Class -1 | Points close to origin |
+| Outer regions | $|x| > 1.581$ | Class +1 | Points far from origin |
 
 **Mathematical boundaries**:
 - Left boundary: $x = -1.581$
