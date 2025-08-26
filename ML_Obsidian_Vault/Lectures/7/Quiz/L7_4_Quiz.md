@@ -1,7 +1,7 @@
 # Lecture 7.4: AdaBoost Algorithm Quiz
 
 ## Overview
-This quiz contains 46 comprehensive questions covering the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, theoretical foundations, convergence properties, practical applications, and advanced concepts. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
+This quiz contains 47 comprehensive questions covering the AdaBoost algorithm, including weak learners, weight updates, algorithm steps, theoretical foundations, convergence properties, practical applications, and advanced concepts. All questions are designed to be solvable using pen and paper with concrete examples and calculations.
 
 ## Question 1
 
@@ -910,3 +910,26 @@ Let's trace the first round of the example presented in the Ensemble-Learning ma
 5. In Round 2, the error is $\epsilon_2 = 0.21$ and the weight is $\alpha_2 \approx 0.65$. Which learner, $h_1$ or $h_2$, will have a greater influence on the final prediction, and why?
 
 For a detailed explanation of this question, see [Question 46: PDF Example Calculation](L7_4_46_explanation.md).
+
+## Question 47
+
+### Problem Statement
+Consider the following dataset with two features (first two coordinates) and a binary label (last coordinate):
+
+**Dataset:**
+- $X_1 = (-1, 0, +1)$
+- $X_2 = (-0.5, 0.5, +1)$
+- $X_3 = (0, 1, -1)$
+- $X_4 = (0.5, 1, -1)$
+- $X_5 = (1, 0, +1)$
+- $X_6 = (1, -1, +1)$
+- $X_7 = (0, -1, -1)$
+- $X_8 = (0, 0, -1)$
+
+Run through $T = 3$ iterations of AdaBoost using decision stumps as weak learners.
+
+#### Task
+1. For each iteration $t = 1, 2, 3$, compute $\epsilon_t$, $\alpha_t$, $Z_t$, $D_t$ by hand (i.e., show the calculation steps) and draw the decision stumps on the figure (you can draw this by hand).
+2. What is the training error of this AdaBoost? Give a short explanation for why AdaBoost outperforms a single decision stump.
+
+For a detailed explanation of this question, see [Question 47: AdaBoost Manual Calculation](L7_4_47_explanation.md).
