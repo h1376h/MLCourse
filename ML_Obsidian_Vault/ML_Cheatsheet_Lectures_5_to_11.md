@@ -104,6 +104,26 @@ $$I(X;Y) = \sum_{x,y} p(x,y) \log\left(\frac{p(x,y)}{p(x)p(y)}\right)$$
 - **Expected distance**: $E[d] = \sqrt{d/6}$ for unit hypercube
 - **Volume ratio**: $S/V = 2d$ (increases with dimensions)
 
+**Feature Selection Methods:**
+
+**Filter Methods:**
+- **Definition**: Select features based on statistical measures (correlation, mutual information, chi-square)
+- **Pros**: Fast, independent of learning algorithm, generalizable
+- **Cons**: Ignores feature interactions, may miss important features
+- **Examples**: Correlation, mutual information, chi-square test, ANOVA F-test
+
+**Wrapper Methods:**
+- **Definition**: Use the learning algorithm itself to evaluate feature subsets
+- **Pros**: Considers feature interactions, optimized for specific algorithm
+- **Cons**: Computationally expensive, prone to overfitting
+- **Examples**: Forward selection, backward elimination, recursive feature elimination (RFE)
+
+**Embedded Methods:**
+- **Definition**: Feature selection is built into the learning algorithm
+- **Pros**: Efficient, considers feature interactions, less overfitting
+- **Cons**: Algorithm-specific, may not be interpretable
+- **Examples**: Lasso (L1 regularization), Ridge (L2 regularization), Elastic Net, Random Forest feature importance
+
 ---
 
 ### Lecture 9: Model Evaluation and Validation
