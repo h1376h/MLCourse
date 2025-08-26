@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from scipy.optimize import minimize
-import cvxpy as cp
 
 # Create directory to save figures
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -66,67 +65,106 @@ print("\n" + "="*50)
 print("STEP 2: SOLVE THE DUAL PROBLEM ANALYTICALLY")
 print("="*50)
 
-# The dual problem is:
-# maximize: α1 + α2 + α3 - (1/2)(α1²K11 + α2²K22 + α3²K33 + 2α1α2K12 + 2α1α3K13 + 2α2α3K23)
-# subject to: α1 + α2 - α3 = 0 (since y1=1, y2=1, y3=-1)
-#            α1, α2, α3 ≥ 0
-
 print("Constraint: α1*y1 + α2*y2 + α3*y3 = α1*(1) + α2*(1) + α3*(-1) = α1 + α2 - α3 = 0")
 print("Therefore: α3 = α1 + α2")
 
-print("\nSubstituting α3 = α1 + α2 into the objective:")
-print("L(α1, α2) = α1 + α2 + (α1 + α2) - (1/2)[α1²*1 + α2²*1 + (α1+α2)²*1 + 2α1α2*1 + 2α1(α1+α2)*(-2) + 2α2(α1+α2)*(-2)]")
+print("\n" + "-"*60)
+print("DETAILED OBJECTIVE FUNCTION EXPANSION")
+print("-"*60)
 
-# Expand the objective function
-print("\nExpanding the quadratic terms:")
-print("= 2α1 + 2α2 - (1/2)[α1² + α2² + α1² + 2α1α2 + α2² + 2α1α2 - 4α1² - 4α1α2 - 4α1α2 - 4α2²]")
-print("= 2α1 + 2α2 - (1/2)[2α1² + 2α2² + 2α1α2 - 4α1² - 8α1α2 - 4α2²]")
-print("= 2α1 + 2α2 - (1/2)[-2α1² - 2α2² - 6α1α2]")
-print("= 2α1 + 2α2 + α1² + α2² + 3α1α2")
+print("\nThe dual objective function is:")
+print("L(α1, α2, α3) = α1 + α2 + α3 - (1/2) * [α1²*K11 + α2²*K22 + α3²*K33 + 2*α1*α2*K12 + 2*α1*α3*K13 + 2*α2*α3*K23]")
 
-# Take derivatives to find critical points
+print("\nSubstituting the kernel matrix values:")
+print("L(α1, α2, α3) = α1 + α2 + α3 - (1/2) * [α1²*1 + α2²*1 + α3²*2 + 2*α1*α2*0 + 2*α1*α3*1 + 2*α2*α3*1]")
+print("L(α1, α2, α3) = α1 + α2 + α3 - (1/2) * [α1² + α2² + 2*α3² + 2*α1*α3 + 2*α2*α3]")
+
+print("\nNow substitute α3 = α1 + α2:")
+print("L(α1, α2) = α1 + α2 + (α1 + α2) - (1/2) * [α1² + α2² + 2*(α1 + α2)² + 2*α1*(α1 + α2) + 2*α2*(α1 + α2)]")
+
+print("\nExpand the quadratic terms step by step:")
+print("1. (α1 + α2)² = α1² + 2*α1*α2 + α2²")
+print("2. 2*(α1 + α2)² = 2*α1² + 4*α1*α2 + 2*α2²")
+print("3. 2*α1*(α1 + α2) = 2*α1² + 2*α1*α2")
+print("4. 2*α2*(α1 + α2) = 2*α1*α2 + 2*α2²")
+
+print("\nSubstituting these expansions:")
+print("L(α1, α2) = 2*α1 + 2*α2 - (1/2) * [α1² + α2² + 2*α1² + 4*α1*α2 + 2*α2² + 2*α1² + 2*α1*α2 + 2*α1*α2 + 2*α2²]")
+
+print("\nCollecting like terms:")
+print("L(α1, α2) = 2*α1 + 2*α2 - (1/2) * [α1² + 2*α1² + 2*α1² + α2² + 2*α2² + 2*α2² + 4*α1*α2 + 2*α1*α2 + 2*α1*α2]")
+print("L(α1, α2) = 2*α1 + 2*α2 - (1/2) * [5*α1² + 5*α2² + 8*α1*α2]")
+print("L(α1, α2) = 2*α1 + 2*α2 - (5/2)*α1² - (5/2)*α2² - 4*α1*α2")
+
+print("\n" + "-"*60)
+print("FINDING CRITICAL POINTS")
+print("-"*60)
+
 print("\nTaking partial derivatives:")
-print("∂L/∂α1 = 2 + 2α1 + 3α2 = 0")
-print("∂L/∂α2 = 2 + 2α2 + 3α1 = 0")
+print("∂L/∂α1 = 2 - 5*α1 - 4*α2")
+print("∂L/∂α2 = 2 - 5*α2 - 4*α1")
 
-print("\nSolving the system:")
-print("2α1 + 3α2 = -2")
-print("3α1 + 2α2 = -2")
+print("\nSetting partial derivatives to zero:")
+print("2 - 5*α1 - 4*α2 = 0  →  5*α1 + 4*α2 = 2  (Equation 1)")
+print("2 - 5*α2 - 4*α1 = 0  →  4*α1 + 5*α2 = 2  (Equation 2)")
 
-# Solve the linear system
-A_system = np.array([[2, 3], [3, 2]])
-b_system = np.array([-2, -2])
-alpha_solution = np.linalg.solve(A_system, b_system)
+print("\n" + "-"*60)
+print("SOLVING THE LINEAR SYSTEM")
+print("-"*60)
 
-print(f"\nSolution: α1 = {alpha_solution[0]:.3f}, α2 = {alpha_solution[1]:.3f}")
-print(f"Therefore: α3 = α1 + α2 = {alpha_solution[0]:.3f} + {alpha_solution[1]:.3f} = {alpha_solution[0] + alpha_solution[1]:.3f}")
+print("\nWe have the system:")
+print("5*α1 + 4*α2 = 2  (Equation 1)")
+print("4*α1 + 5*α2 = 2  (Equation 2)")
 
-# Check if solution satisfies constraints
-alpha_opt = np.array([alpha_solution[0], alpha_solution[1], alpha_solution[0] + alpha_solution[1]])
+print("\nMethod 1: Elimination")
+print("Multiply Equation 1 by 4:  20*α1 + 16*α2 = 8")
+print("Multiply Equation 2 by 5:  20*α1 + 25*α2 = 10")
+print("Subtract:  -9*α2 = -2")
+print("Therefore: α2 = 2/9")
 
-print(f"\nChecking constraints:")
-print(f"α1 = {alpha_opt[0]:.3f} ≥ 0? {alpha_opt[0] >= 0}")
-print(f"α2 = {alpha_opt[1]:.3f} ≥ 0? {alpha_opt[1] >= 0}")
-print(f"α3 = {alpha_opt[2]:.3f} ≥ 0? {alpha_opt[2] >= 0}")
+print("\nSubstitute α2 = 2/9 back into Equation 1:")
+print("5*α1 + 4*(2/9) = 2")
+print("5*α1 + 8/9 = 2")
+print("5*α1 = 2 - 8/9 = 18/9 - 8/9 = 10/9")
+print("α1 = (10/9)/5 = 2/9")
 
-constraint_sum = np.sum(alpha_opt * y)
-print(f"Constraint check: Σ α_i y_i = {constraint_sum:.6f} ≈ 0? {abs(constraint_sum) < 1e-10}")
+print("\nMethod 2: Matrix solution")
+print("The system can be written as:")
+print("[[5, 4], [4, 5]] * [[α1], [α2]] = [[2], [2]]")
 
-# Since we get negative alphas, we need to solve with proper constraints
-print("\nSince the unconstrained solution gives negative α values, we need to solve with constraints.")
-print("Using quadratic programming to solve the constrained problem...")
+A = np.array([[5, 4], [4, 5]])
+b = np.array([2, 2])
+alpha_solution = np.linalg.solve(A, b)
 
-# Solve using cvxpy
-alpha = cp.Variable(3)
-objective = cp.Maximize(cp.sum(alpha) - 0.5 * cp.quad_form(alpha, K))
-constraints = [alpha >= 0, cp.sum(cp.multiply(alpha, y)) == 0]
-prob = cp.Problem(objective, constraints)
-prob.solve()
+print(f"\nMatrix solution: α1 = {alpha_solution[0]:.6f}, α2 = {alpha_solution[1]:.6f}")
+print(f"Fractional form: α1 = {alpha_solution[0]}, α2 = {alpha_solution[1]}")
 
-alpha_optimal = alpha.value
+print("\n" + "-"*60)
+print("VERIFICATION OF SOLUTION")
+print("-"*60)
+
+# Calculate the optimal solution
+alpha_optimal = np.array([alpha_solution[0], alpha_solution[1], alpha_solution[0] + alpha_solution[1]])
+
 print(f"\nOptimal solution:")
 for i in range(3):
     print(f"α_{i+1}* = {alpha_optimal[i]:.6f}")
+
+print("\nVerifying constraints:")
+print(f"α1 = {alpha_optimal[0]:.6f} ≥ 0? {alpha_optimal[0] >= 0} ✓")
+print(f"α2 = {alpha_optimal[1]:.6f} ≥ 0? {alpha_optimal[1] >= 0} ✓")
+print(f"α3 = {alpha_optimal[2]:.6f} ≥ 0? {alpha_optimal[2] >= 0} ✓")
+
+constraint_sum = np.sum(alpha_optimal * y)
+print(f"Constraint check: Σ α_i y_i = {constraint_sum:.6f} ≈ 0? {abs(constraint_sum) < 1e-10} ✓")
+
+print("\nVerifying the solution satisfies the original equations:")
+print(f"Equation 1: 5*α1 + 4*α2 = 5*{alpha_optimal[0]:.6f} + 4*{alpha_optimal[1]:.6f} = {5*alpha_optimal[0] + 4*alpha_optimal[1]:.6f} = 2? {abs(5*alpha_optimal[0] + 4*alpha_optimal[1] - 2) < 1e-10} ✓")
+print(f"Equation 2: 4*α1 + 5*α2 = 4*{alpha_optimal[0]:.6f} + 5*{alpha_optimal[1]:.6f} = {4*alpha_optimal[0] + 5*alpha_optimal[1]:.6f} = 2? {abs(4*alpha_optimal[0] + 5*alpha_optimal[1] - 2) < 1e-10} ✓")
+
+# Calculate objective value
+obj_value = 2*alpha_optimal[0] + 2*alpha_optimal[1] - (5/2)*alpha_optimal[0]**2 - (5/2)*alpha_optimal[1]**2 - 4*alpha_optimal[0]*alpha_optimal[1]
+print(f"\nObjective value: L({alpha_optimal[0]:.6f}, {alpha_optimal[1]:.6f}) = {obj_value:.6f}")
 
 print("\n" + "="*50)
 print("STEP 3: CALCULATE THE OPTIMAL WEIGHT VECTOR")

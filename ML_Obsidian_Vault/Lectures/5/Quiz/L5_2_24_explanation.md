@@ -8,7 +8,7 @@ Answer these basic questions about soft margin SVM formulas and concepts.
 2. What is the formula for hinge loss? Write it mathematically and explain its properties.
 3. If $\xi_i = 0.5$ for a point, is it correctly classified? Explain the geometric interpretation.
 4. Write the constraint that relates slack variables to the margin violations and explain its meaning.
-5. What does $\alpha_i + \mu_i = C$ mean in the KKT conditions? Derive this relationship.
+5. What does $\alpha_i + \beta_i = C$ mean in the KKT conditions? Derive this relationship.
 6. Explain the difference between functional margin and geometric margin in soft margin SVM.
 7. How does the value of $C$ affect the trade-off between margin width and classification accuracy?
 8. Design a simple example with 3 points to illustrate how slack variables work in practice.
@@ -193,12 +193,12 @@ This constraint ensures that points are either correctly classified with the req
 
 ### Step 5: KKT Condition Derivation
 
-The KKT condition $\alpha_i + \mu_i = C$ comes from the Lagrangian optimization.
+The KKT condition $\alpha_i + \beta_i = C$ comes from the Lagrangian optimization.
 
 **Detailed Mathematical Derivation:**
 
 1) **Lagrangian Function**:
-   $$L(\mathbf{w}, b, \boldsymbol{\xi}, \boldsymbol{\alpha}, \boldsymbol{\mu}) = \frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n \alpha_i[y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1 + \xi_i] - \sum_{i=1}^n \mu_i \xi_i$$
+   $$L(\mathbf{w}, b, \boldsymbol{\xi}, \boldsymbol{\alpha}, \boldsymbol{\beta}) = \frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n \alpha_i[y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1 + \xi_i] - \sum_{i=1}^n \beta_i \xi_i$$
 
 2) **KKT Conditions (First-Order Optimality)**:
    - **$\frac{\partial L}{\partial \mathbf{w}} = 0$**:
@@ -210,39 +210,39 @@ The KKT condition $\alpha_i + \mu_i = C$ comes from the Lagrangian optimization.
      - Therefore: $\sum_{i=1}^n \alpha_i y_i = 0$
    
    - **$\frac{\partial L}{\partial \xi_i} = 0$**:
-     - $C - \alpha_i - \mu_i = 0$
-     - Therefore: $\alpha_i + \mu_i = C$
+     - $C - \alpha_i - \beta_i = 0$
+     - Therefore: $\alpha_i + \beta_i = C$
 
 3) **Complementary Slackness**:
    - $\alpha_i[y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1 + \xi_i] = 0$
-   - $\mu_i \xi_i = 0$
+   - $\beta_i \xi_i = 0$
 
-4) **Interpretation of $\alpha_i + \mu_i = C$**:
-   Since $\alpha_i \geq 0$ and $\mu_i \geq 0$, and $\alpha_i + \mu_i = C$:
-   - If $\alpha_i = 0$: $\mu_i = C$ (point not a support vector)
-   - If $0 < \alpha_i < C$: $\mu_i = C - \alpha_i$ (point is a support vector)
-   - If $\alpha_i = C$: $\mu_i = 0$ (point violates margin)
+4) **Interpretation of $\alpha_i + \beta_i = C$**:
+   Since $\alpha_i \geq 0$ and $\beta_i \geq 0$, and $\alpha_i + \beta_i = C$:
+   - If $\alpha_i = 0$: $\beta_i = C$ (point not a support vector)
+   - If $0 < \alpha_i < C$: $\beta_i = C - \alpha_i$ (point is a support vector)
+   - If $\alpha_i = C$: $\beta_i = 0$ (point violates margin)
 
 5) **Dual Variables Relationship**:
    - $\alpha_i$: Lagrange multiplier for margin constraint
-   - $\mu_i$: Lagrange multiplier for non-negativity constraint $\xi_i \geq 0$
+   - $\beta_i$: Lagrange multiplier for non-negativity constraint $\xi_i \geq 0$
    - Their sum equals $C$, the regularization parameter
 
 **Derivation:**
 The Lagrangian for soft margin SVM is:
-$$L(\mathbf{w}, b, \boldsymbol{\xi}, \boldsymbol{\alpha}, \boldsymbol{\mu}) = \frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n \alpha_i[y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1 + \xi_i] - \sum_{i=1}^n \mu_i \xi_i$$
+$$L(\mathbf{w}, b, \boldsymbol{\xi}, \boldsymbol{\alpha}, \boldsymbol{\beta}) = \frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i - \sum_{i=1}^n \alpha_i[y_i(\mathbf{w}^T \mathbf{x}_i + b) - 1 + \xi_i] - \sum_{i=1}^n \beta_i \xi_i$$
 
 Taking derivatives:
 - **$\frac{\partial L}{\partial \mathbf{w}} = 0$**: $\mathbf{w} = \sum_{i=1}^n \alpha_i y_i \mathbf{x}_i$
 - **$\frac{\partial L}{\partial b} = 0$**: $\sum_{i=1}^n \alpha_i y_i = 0$
-- **$\frac{\partial L}{\partial \xi_i} = 0$**: $C - \alpha_i - \mu_i = 0$
+- **$\frac{\partial L}{\partial \xi_i} = 0$**: $C - \alpha_i - \beta_i = 0$
 
-Therefore: $\alpha_i + \mu_i = C$
+Therefore: $\alpha_i + \beta_i = C$
 
 **Interpretation:**
-- **If $\alpha_i = 0$**: $\mu_i = C$ (point is not a support vector)
-- **If $0 < \alpha_i < C$**: $\mu_i = C - \alpha_i$ (point is a support vector)
-- **If $\alpha_i = C$**: $\mu_i = 0$ (point violates margin)
+- **If $\alpha_i = 0$**: $\beta_i = C$ (point is not a support vector)
+- **If $0 < \alpha_i < C$**: $\beta_i = C - \alpha_i$ (point is a support vector)
+- **If $\alpha_i = C$**: $\beta_i = 0$ (point violates margin)
 
 ### Step 6: Functional vs Geometric Margin
 
@@ -491,7 +491,7 @@ The extreme $C$ values visualization shows the behavior of the algorithm in the 
 - The soft margin SVM objective function balances margin maximization with classification accuracy through slack variables
 - Hinge loss provides a mathematical foundation for understanding margin violations
 - Slack variables offer geometric interpretation of classification errors and margin violations
-- The KKT condition $\alpha_i + \mu_i = C$ reveals the relationship between dual variables and regularization
+- The KKT condition $\alpha_i + \beta_i = C$ reveals the relationship between dual variables and regularization
 - Functional and geometric margins differ in soft margin SVM due to allowed violations
 - Parameter $C$ controls the fundamental trade-off between model complexity and accuracy
 - Simple examples demonstrate how slack variables work in practice

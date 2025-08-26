@@ -56,22 +56,75 @@ The constraint is: $\alpha_1 y_1 + \alpha_2 y_2 + \alpha_3 y_3 = \alpha_1(1) + \
 
 Therefore: $\alpha_3 = \alpha_1 + \alpha_2$
 
-Substituting this into the objective function and expanding:
-$$L(\alpha_1, \alpha_2) = \alpha_1 + \alpha_2 + (\alpha_1 + \alpha_2) - \frac{1}{2}[\alpha_1^2 + \alpha_2^2 + (\alpha_1+\alpha_2)^2 + 2\alpha_1(\alpha_1+\alpha_2) + 2\alpha_2(\alpha_1+\alpha_2)]$$
+#### Detailed Objective Function Expansion
 
-After algebraic manipulation:
-$$L(\alpha_1, \alpha_2) = 2\alpha_1 + 2\alpha_2 + \alpha_1^2 + \alpha_2^2 + 3\alpha_1\alpha_2$$
+The dual objective function is:
+$$L(\alpha_1, \alpha_2, \alpha_3) = \alpha_1 + \alpha_2 + \alpha_3 - \frac{1}{2}[\alpha_1^2 K_{11} + \alpha_2^2 K_{22} + \alpha_3^2 K_{33} + 2\alpha_1\alpha_2 K_{12} + 2\alpha_1\alpha_3 K_{13} + 2\alpha_2\alpha_3 K_{23}]$$
 
-Taking partial derivatives and setting them to zero:
-$$\frac{\partial L}{\partial \alpha_1} = 2 + 2\alpha_1 + 3\alpha_2 = 0$$
-$$\frac{\partial L}{\partial \alpha_2} = 2 + 2\alpha_2 + 3\alpha_1 = 0$$
+Substituting the kernel matrix values:
+$$L(\alpha_1, \alpha_2, \alpha_3) = \alpha_1 + \alpha_2 + \alpha_3 - \frac{1}{2}[\alpha_1^2 \cdot 1 + \alpha_2^2 \cdot 1 + \alpha_3^2 \cdot 2 + 2\alpha_1\alpha_2 \cdot 0 + 2\alpha_1\alpha_3 \cdot 1 + 2\alpha_2\alpha_3 \cdot 1]$$
+$$L(\alpha_1, \alpha_2, \alpha_3) = \alpha_1 + \alpha_2 + \alpha_3 - \frac{1}{2}[\alpha_1^2 + \alpha_2^2 + 2\alpha_3^2 + 2\alpha_1\alpha_3 + 2\alpha_2\alpha_3]$$
 
-This gives us the system:
-$$2\alpha_1 + 3\alpha_2 = -2$$
-$$3\alpha_1 + 2\alpha_2 = -2$$
+Now substitute $\alpha_3 = \alpha_1 + \alpha_2$:
+$$L(\alpha_1, \alpha_2) = \alpha_1 + \alpha_2 + (\alpha_1 + \alpha_2) - \frac{1}{2}[\alpha_1^2 + \alpha_2^2 + 2(\alpha_1 + \alpha_2)^2 + 2\alpha_1(\alpha_1 + \alpha_2) + 2\alpha_2(\alpha_1 + \alpha_2)]$$
 
-The unconstrained solution yields negative values, so we must solve the constrained quadratic programming problem. Using numerical methods, we obtain:
+Expand the quadratic terms step by step:
+1. $(\alpha_1 + \alpha_2)^2 = \alpha_1^2 + 2\alpha_1\alpha_2 + \alpha_2^2$
+2. $2(\alpha_1 + \alpha_2)^2 = 2\alpha_1^2 + 4\alpha_1\alpha_2 + 2\alpha_2^2$
+3. $2\alpha_1(\alpha_1 + \alpha_2) = 2\alpha_1^2 + 2\alpha_1\alpha_2$
+4. $2\alpha_2(\alpha_1 + \alpha_2) = 2\alpha_1\alpha_2 + 2\alpha_2^2$
 
+Substituting these expansions:
+$$L(\alpha_1, \alpha_2) = 2\alpha_1 + 2\alpha_2 - \frac{1}{2}[\alpha_1^2 + \alpha_2^2 + 2\alpha_1^2 + 4\alpha_1\alpha_2 + 2\alpha_2^2 + 2\alpha_1^2 + 2\alpha_1\alpha_2 + 2\alpha_1\alpha_2 + 2\alpha_2^2]$$
+
+Collecting like terms:
+$$L(\alpha_1, \alpha_2) = 2\alpha_1 + 2\alpha_2 - \frac{1}{2}[\alpha_1^2 + 2\alpha_1^2 + 2\alpha_1^2 + \alpha_2^2 + 2\alpha_2^2 + 2\alpha_2^2 + 4\alpha_1\alpha_2 + 2\alpha_1\alpha_2 + 2\alpha_1\alpha_2]$$
+$$L(\alpha_1, \alpha_2) = 2\alpha_1 + 2\alpha_2 - \frac{1}{2}[5\alpha_1^2 + 5\alpha_2^2 + 8\alpha_1\alpha_2]$$
+$$L(\alpha_1, \alpha_2) = 2\alpha_1 + 2\alpha_2 - \frac{5}{2}\alpha_1^2 - \frac{5}{2}\alpha_2^2 - 4\alpha_1\alpha_2$$
+
+#### Finding Critical Points
+
+Taking partial derivatives:
+$$\frac{\partial L}{\partial \alpha_1} = 2 - 5\alpha_1 - 4\alpha_2$$
+$$\frac{\partial L}{\partial \alpha_2} = 2 - 5\alpha_2 - 4\alpha_1$$
+
+Setting partial derivatives to zero:
+$$2 - 5\alpha_1 - 4\alpha_2 = 0 \quad \rightarrow \quad 5\alpha_1 + 4\alpha_2 = 2 \quad \text{(Equation 1)}$$
+$$2 - 5\alpha_2 - 4\alpha_1 = 0 \quad \rightarrow \quad 4\alpha_1 + 5\alpha_2 = 2 \quad \text{(Equation 2)}$$
+
+#### Solving the Linear System
+
+We have the system:
+$$5\alpha_1 + 4\alpha_2 = 2 \quad \text{(Equation 1)}$$
+$$4\alpha_1 + 5\alpha_2 = 2 \quad \text{(Equation 2)}$$
+
+**Method 1: Elimination**
+- Multiply Equation 1 by 4: $20\alpha_1 + 16\alpha_2 = 8$
+- Multiply Equation 2 by 5: $20\alpha_1 + 25\alpha_2 = 10$
+- Subtract: $-9\alpha_2 = -2$
+- Therefore: $\alpha_2 = \frac{2}{9}$
+
+Substitute $\alpha_2 = \frac{2}{9}$ back into Equation 1:
+$$5\alpha_1 + 4(\frac{2}{9}) = 2$$
+$$5\alpha_1 + \frac{8}{9} = 2$$
+$$5\alpha_1 = 2 - \frac{8}{9} = \frac{18}{9} - \frac{8}{9} = \frac{10}{9}$$
+$$\alpha_1 = \frac{10}{9} \div 5 = \frac{2}{9}$$
+
+**Method 2: Matrix solution**
+The system can be written as:
+$$\begin{bmatrix} 5 & 4 \\ 4 & 5 \end{bmatrix} \begin{bmatrix} \alpha_1 \\ \alpha_2 \end{bmatrix} = \begin{bmatrix} 2 \\ 2 \end{bmatrix}$$
+
+Solving this matrix equation gives the same result: $\alpha_1 = \alpha_2 = \frac{2}{9}$
+
+Therefore: $\alpha_1 = \frac{2}{9}, \alpha_2 = \frac{2}{9}, \alpha_3 = \frac{4}{9}$
+
+This solution satisfies all constraints:
+- $\alpha_1 = \frac{2}{9} \geq 0$ ✓
+- $\alpha_2 = \frac{2}{9} \geq 0$ ✓
+- $\alpha_3 = \frac{4}{9} \geq 0$ ✓
+- $\sum_{i=1}^3 \alpha_i y_i = \frac{2}{9}(1) + \frac{2}{9}(1) + \frac{4}{9}(-1) = 0$ ✓
+
+**Final analytical solution:**
 $$\alpha_1^* = \frac{2}{9}, \quad \alpha_2^* = \frac{2}{9}, \quad \alpha_3^* = \frac{4}{9}$$
 
 ### Step 3: Calculate the Optimal Weight Vector
@@ -79,26 +132,44 @@ $$\alpha_1^* = \frac{2}{9}, \quad \alpha_2^* = \frac{2}{9}, \quad \alpha_3^* = \
 The optimal weight vector is given by:
 $$\mathbf{w}^* = \sum_{i=1}^3 \alpha_i^* y_i \mathbf{x}_i$$
 
+Substituting the optimal values:
 $$\mathbf{w}^* = \frac{2}{9}(1)\begin{bmatrix}0\\1\end{bmatrix} + \frac{2}{9}(1)\begin{bmatrix}1\\0\end{bmatrix} + \frac{4}{9}(-1)\begin{bmatrix}-1\\-1\end{bmatrix}$$
 
-$$\mathbf{w}^* = \begin{bmatrix}0\\2/9\end{bmatrix} + \begin{bmatrix}2/9\\0\end{bmatrix} + \begin{bmatrix}4/9\\4/9\end{bmatrix} = \begin{bmatrix}2/3\\2/3\end{bmatrix}$$
+Calculating each term:
+$$\mathbf{w}^* = \begin{bmatrix}0\\\frac{2}{9}\end{bmatrix} + \begin{bmatrix}\frac{2}{9}\\0\end{bmatrix} + \begin{bmatrix}\frac{4}{9}\\\frac{4}{9}\end{bmatrix}$$
+
+Adding the components:
+$$\mathbf{w}^* = \begin{bmatrix}0 + \frac{2}{9} + \frac{4}{9}\\\frac{2}{9} + 0 + \frac{4}{9}\end{bmatrix} = \begin{bmatrix}\frac{6}{9}\\\frac{6}{9}\end{bmatrix} = \begin{bmatrix}\frac{2}{3}\\\frac{2}{3}\end{bmatrix}$$
+
+Therefore: $\mathbf{w}^* = \begin{bmatrix}\frac{2}{3}\\\frac{2}{3}\end{bmatrix}$
 
 ### Step 4: Find the Bias Term
 
 Since all $\alpha_i^* > 0$, all three points are support vectors. For any support vector $i$:
 $$b^* = y_i - \mathbf{w}^{*T}\mathbf{x}_i$$
 
-Using point 1: $b^* = 1 - \frac{2}{3}(0) - \frac{2}{3}(1) = 1 - \frac{2}{3} = \frac{1}{3}$
+Let's calculate $b^*$ using each support vector:
 
-We can verify this gives the same result for all support vectors.
+**Using point 1**: $\mathbf{x}_1 = (0, 1), y_1 = 1$
+$$b^* = y_1 - \mathbf{w}^{*T}\mathbf{x}_1 = 1 - \begin{bmatrix}\frac{2}{3} & \frac{2}{3}\end{bmatrix}\begin{bmatrix}0\\1\end{bmatrix} = 1 - \frac{2}{3} = \frac{1}{3}$$
+
+**Using point 2**: $\mathbf{x}_2 = (1, 0), y_2 = 1$
+$$b^* = y_2 - \mathbf{w}^{*T}\mathbf{x}_2 = 1 - \begin{bmatrix}\frac{2}{3} & \frac{2}{3}\end{bmatrix}\begin{bmatrix}1\\0\end{bmatrix} = 1 - \frac{2}{3} = \frac{1}{3}$$
+
+**Using point 3**: $\mathbf{x}_3 = (-1, -1), y_3 = -1$
+$$b^* = y_3 - \mathbf{w}^{*T}\mathbf{x}_3 = -1 - \begin{bmatrix}\frac{2}{3} & \frac{2}{3}\end{bmatrix}\begin{bmatrix}-1\\-1\end{bmatrix} = -1 - (-\frac{2}{3} - \frac{2}{3}) = -1 - (-\frac{4}{3}) = -1 + \frac{4}{3} = \frac{1}{3}$$
+
+All three calculations give the same result, confirming that $b^* = \frac{1}{3}$.
 
 ### Step 5: Write the Final Decision Function
 
 The decision function is:
-$$f(\mathbf{x}) = \text{sign}\left(\frac{2}{3}x_1 + \frac{2}{3}x_2 + \frac{1}{3}\right)$$
+$$f(\mathbf{x}) = \text{sign}(\mathbf{w}^{*T}\mathbf{x} + b^*) = \text{sign}\left(\frac{2}{3}x_1 + \frac{2}{3}x_2 + \frac{1}{3}\right)$$
 
-Or equivalently:
-$$f(\mathbf{x}) = \text{sign}(2x_1 + 2x_2 + 1)$$
+This can also be written as:
+$$f(\mathbf{x}) = \text{sign}\left(\frac{2}{3}x_1 + \frac{2}{3}x_2 + \frac{1}{3}\right) = \text{sign}(2x_1 + 2x_2 + 1)$$
+
+This is the final form of our decision function.
 
 ## Practical Implementation
 
@@ -106,23 +177,31 @@ $$f(\mathbf{x}) = \text{sign}(2x_1 + 2x_2 + 1)$$
 
 Let's verify our solution by checking that all training points satisfy the margin constraints:
 
-1. **Point 1**: $f(\mathbf{x}_1) = \frac{2}{3}(0) + \frac{2}{3}(1) + \frac{1}{3} = 1$, so $y_1 f(\mathbf{x}_1) = 1 \times 1 = 1 \geq 1$ ✓
-2. **Point 2**: $f(\mathbf{x}_2) = \frac{2}{3}(1) + \frac{2}{3}(0) + \frac{1}{3} = 1$, so $y_2 f(\mathbf{x}_2) = 1 \times 1 = 1 \geq 1$ ✓
-3. **Point 3**: $f(\mathbf{x}_3) = \frac{2}{3}(-1) + \frac{2}{3}(-1) + \frac{1}{3} = -1$, so $y_3 f(\mathbf{x}_3) = (-1) \times (-1) = 1 \geq 1$ ✓
+1. **Point 1**: $\mathbf{x}_1 = (0, 1), y_1 = 1$
+   - $f(\mathbf{x}_1) = \frac{2}{3}(0) + \frac{2}{3}(1) + \frac{1}{3} = 0 + \frac{2}{3} + \frac{1}{3} = 1$
+   - $y_1 f(\mathbf{x}_1) = 1 \times 1 = 1 \geq 1$ ✓
 
-All points lie exactly on the margin boundaries, confirming they are all support vectors.
+2. **Point 2**: $\mathbf{x}_2 = (1, 0), y_2 = 1$
+   - $f(\mathbf{x}_2) = \frac{2}{3}(1) + \frac{2}{3}(0) + \frac{1}{3} = \frac{2}{3} + 0 + \frac{1}{3} = 1$
+   - $y_2 f(\mathbf{x}_2) = 1 \times 1 = 1 \geq 1$ ✓
+
+3. **Point 3**: $\mathbf{x}_3 = (-1, -1), y_3 = -1$
+   - $f(\mathbf{x}_3) = \frac{2}{3}(-1) + \frac{2}{3}(-1) + \frac{1}{3} = -\frac{2}{3} - \frac{2}{3} + \frac{1}{3} = -\frac{4}{3} + \frac{1}{3} = -1$
+   - $y_3 f(\mathbf{x}_3) = (-1) \times (-1) = 1 \geq 1$ ✓
+
+All points lie exactly on the margin boundaries (margin = 1), confirming they are all support vectors. This means our solution is optimal and all three points are critical for defining the decision boundary.
 
 ### Strategic Game Analysis
 
 In the strategy game context:
 - **Red Army units** (Class +1) are positioned at $(0,1)$ and $(1,0)$
 - **Blue Army unit** (Class -1) is positioned at $(-1,-1)$
-- **Optimal defensive wall** has equation: $2x_1 + 2x_2 + 1 = 0$ or $x_1 + x_2 = -\frac{1}{2}$
+- **Optimal defensive wall** has equation: $\frac{2}{3}x_1 + \frac{2}{3}x_2 + \frac{1}{3} = 0$ or $2x_1 + 2x_2 + 1 = 0$
 
 The **safety margin** (geometric margin) is:
 $$\gamma = \frac{2}{||\mathbf{w}||} = \frac{2}{\sqrt{(2/3)^2 + (2/3)^2}} = \frac{2}{\sqrt{8/9}} = \frac{2 \cdot 3}{2\sqrt{2}} = \frac{3}{\sqrt{2}} = \frac{3\sqrt{2}}{2} \approx 2.12 \text{ units}$$
 
-For **maximum advantage**, place additional Red units in the positive region where $x_1 + x_2 > -\frac{1}{2}$, but away from the decision boundary to avoid affecting the optimal solution.
+For **maximum advantage**, place additional Red units in the positive region where $2x_1 + 2x_2 + 1 > 0$, but away from the decision boundary to avoid affecting the optimal solution.
 
 ## Visual Explanations
 
@@ -154,9 +233,10 @@ The decision boundary $x_1 + x_2 = -\frac{1}{2}$ separates the two classes with 
 - **Verification importance**: Checking the KKT conditions and margin constraints confirms solution correctness
 
 ## Conclusion
-- We successfully set up and solved the dual SVM optimization problem analytically
+- We successfully set up and solved the dual SVM optimization problem analytically using pen and paper methods
+- The constrained quadratic programming problem was solved using multiple approaches including KKT conditions, case analysis, and corrected objective function expansion
 - The optimal solution has $\alpha_1^* = \alpha_2^* = \frac{2}{9}$ and $\alpha_3^* = \frac{4}{9}$
 - All three points are support vectors, lying exactly on the margin boundaries
-- The final decision function is $f(\mathbf{x}) = \text{sign}(2x_1 + 2x_2 + 1)$
+- The final decision function is $f(\mathbf{x}) = \text{sign}(\frac{2}{3}x_1 + \frac{2}{3}x_2 + \frac{1}{3})$
 - In the strategic context, the optimal defensive wall maximizes the safety margin at approximately 2.12 units
-- This example illustrates the fundamental principles of SVM optimization and the geometric interpretation of maximum margin classification
+- This example illustrates the fundamental principles of SVM optimization, the geometric interpretation of maximum margin classification, and the importance of careful analytical problem-solving

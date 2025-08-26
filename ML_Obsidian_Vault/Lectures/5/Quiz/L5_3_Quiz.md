@@ -1,7 +1,7 @@
 # Lecture 5.3: Kernel Trick for Nonlinear Classification Quiz
 
 ## Overview
-This quiz contains 38 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
+This quiz contains 40 questions covering different topics from section 5.3 of the lectures on Kernel Trick, Feature Space Transformation, Common Kernels, RBF Kernels, Polynomial Kernels, Mercer's Theorem, and Kernel Selection.
 
 ## Question 1
 
@@ -604,3 +604,46 @@ $w_0 = y^{(s)} - \sum_{\alpha_n > 0} \alpha_n y^{(n)} k(\mathbf{x}^{(n)}, \mathb
 **Hint**: For polynomial kernel calculations, use: $\langle \mathbf{a}, \mathbf{b} \rangle = a_1 b_1 + a_2 b_2$
 
 For a detailed explanation of this problem, see [Question 38: Financial Fraud Detection with Polynomial Kernel](L5_3_38_explanation.md).
+
+## [⭐] Question 39
+
+### Problem Statement
+Consider a dataset with 7 points:
+$$\{(x_i, y_i)\} = \{(-3, 1), (-2, 1), (-1, -1), (0, -1), (1, -1), (2, 1), (3, 1)\}$$
+
+#### Task
+1. Apply the feature transformation $\phi(x) = (x, x^2)$ to all 7 data points and plot them in the 2D feature space
+2. Verify that the transformed data is linearly separable in the feature space
+3. Find a linear decision boundary (line) that perfectly separates the two classes in the transformed space
+4. Express the decision boundary in the form $w_1 \cdot x + w_2 \cdot x^2 + b = 0$
+5. Calculate the margin of this separating line
+6. Identify which points become support vectors in this transformed space
+7. Express the decision function $f(x) = \text{sign}(w_1 \cdot x + w_2 \cdot x^2 + b)$
+8. Verify that this decision function correctly classifies all original data points
+
+**Hint**: After transformation, you should have points in the form $(x, x^2)$ with corresponding labels. Look for a simple linear boundary in this 2D space.
+
+For a detailed explanation of this problem, see [Question 39: Feature Transformation and Linear Separation](L5_3_39_explanation.md).
+
+## [⭐] Question 40
+
+### Problem Statement
+Use kernel trick and find the equation for hyperplane using nonlinear SVM.
+
+**Dataset:**
+- **Positive Points**: $\{(1,0), (3,0), (5,0)\}$
+- **Negative Points**: $\{(0,0), (2,0), (4,0), (6,0)\}$
+
+#### Task
+1. Plot the original points in 1D space and show why they are not linearly separable
+2. Apply an appropriate feature transformation to make the data linearly separable
+3. Plot the transformed points in the new feature space
+4. Find the equation for the separating hyperplane in the transformed space
+5. Express the decision function in terms of the original input space
+6. Verify that the hyperplane correctly separates all points
+7. Calculate the margin of the separating hyperplane
+8. Identify the support vectors in the transformed space
+
+**Hint**: Consider using a polynomial transformation that maps 1D points to 2D space. The points are interleaved on a line, so a quadratic transformation might be effective.
+
+For a detailed explanation of this problem, see [Question 40: Kernel Trick and Nonlinear SVM Hyperplane](L5_3_40_explanation.md).
