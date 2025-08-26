@@ -24,18 +24,30 @@ The key insight is that while the points cannot be separated by any single thres
 
 ## Solution
 
-We will explore multiple kernel transformations to find effective ways to separate this challenging dataset.
+We will systematically work through each task to demonstrate the kernel trick for this nonlinear classification problem.
 
-### Step 1: Analyze Original 1D Space
+### Step 1: Plot Original Points and Show Non-Linear Separability
+
 The original dataset consists of points on a line:
-- Positive: $x \in \{1, 3, 5\}$ 
-- Negative: $x \in \{0, 2, 4, 6\}$
+- **Positive Points**: $x \in \{1, 3, 5\}$
+- **Negative Points**: $x \in \{0, 2, 4, 6\}$
 
-These points alternate between positive and negative classes, making them impossible to separate with any single threshold. No matter where we place a decision boundary, we will misclassify some points.
+These points alternate between positive and negative classes along the number line. To show they are not linearly separable, consider any threshold $t$:
 
-### Step 2: Understanding the Primary Transformation
+- If $t < 1$: Points $\{1, 2, 3, 4, 5, 6\}$ are classified as positive, but $\{2, 4, 6\}$ should be negative
+- If $1 \leq t < 2$: Points $\{2, 3, 4, 5, 6\}$ are classified as positive, but $\{2, 4, 6\}$ should be negative
+- If $2 \leq t < 3$: Points $\{3, 4, 5, 6\}$ are classified as positive, but $\{4, 6\}$ should be negative
+- And so on...
 
-Let's focus on the **Primary Transformation**: $\phi(x) = [x^2, (x \bmod 2 - 0.5)x^2]$
+**Conclusion**: No single threshold can separate the alternating pattern, proving linear non-separability.
+
+![Original 1D Dataset](../Images/L5_3_Quiz_40/original_1d_dataset.png)
+
+This plot demonstrates the impossibility of linear separation in the original 1D space. The alternating pattern of positive (red circles) and negative (blue squares) points along the number line shows that no single threshold can separate the classes without misclassification.
+
+### Step 2: Apply Feature Transformation
+
+We apply the **Primary Transformation**: $\phi(x) = [x^2, (x \bmod 2 - 0.5)x^2]$
 
 This transformation has two components:
 - $\phi_1(x) = x^2$: Quadratic scaling
@@ -45,39 +57,43 @@ This transformation has two components:
 - For odd $x$: $x \bmod 2 = 1$, so $\phi_2(x) = (1 - 0.5)x^2 = 0.5x^2$
 - For even $x$: $x \bmod 2 = 0$, so $\phi_2(x) = (0 - 0.5)x^2 = -0.5x^2$
 
-**Step-by-Step Transformation Calculations:**
+**Detailed Transformation Calculations:**
 
-For $x = 1$ (positive class):
+**Positive Points (Odd $x$):**
+
+For $x = 1$:
 $$\phi_1(1) = 1^2 = 1$$
 $$\phi_2(1) = (1 \bmod 2 - 0.5) \times 1^2 = (1 - 0.5) \times 1 = 0.5$$
 $$\phi(1) = [1, 0.5]$$
 
-For $x = 3$ (positive class):
+For $x = 3$:
 $$\phi_1(3) = 3^2 = 9$$
 $$\phi_2(3) = (3 \bmod 2 - 0.5) \times 3^2 = (1 - 0.5) \times 9 = 4.5$$
 $$\phi(3) = [9, 4.5]$$
 
-For $x = 5$ (positive class):
+For $x = 5$:
 $$\phi_1(5) = 5^2 = 25$$
 $$\phi_2(5) = (5 \bmod 2 - 0.5) \times 5^2 = (1 - 0.5) \times 25 = 12.5$$
 $$\phi(5) = [25, 12.5]$$
 
-For $x = 0$ (negative class):
+**Negative Points (Even $x$):**
+
+For $x = 0$:
 $$\phi_1(0) = 0^2 = 0$$
 $$\phi_2(0) = (0 \bmod 2 - 0.5) \times 0^2 = (0 - 0.5) \times 0 = 0$$
 $$\phi(0) = [0, 0]$$
 
-For $x = 2$ (negative class):
+For $x = 2$:
 $$\phi_1(2) = 2^2 = 4$$
 $$\phi_2(2) = (2 \bmod 2 - 0.5) \times 2^2 = (0 - 0.5) \times 4 = -2$$
 $$\phi(2) = [4, -2]$$
 
-For $x = 4$ (negative class):
+For $x = 4$:
 $$\phi_1(4) = 4^2 = 16$$
 $$\phi_2(4) = (4 \bmod 2 - 0.5) \times 4^2 = (0 - 0.5) \times 16 = -8$$
 $$\phi(4) = [16, -8]$$
 
-For $x = 6$ (negative class):
+For $x = 6$:
 $$\phi_1(6) = 6^2 = 36$$
 $$\phi_2(6) = (6 \bmod 2 - 0.5) \times 6^2 = (0 - 0.5) \times 36 = -18$$
 $$\phi(6) = [36, -18]$$
@@ -86,31 +102,60 @@ $$\phi(6) = [36, -18]$$
 - All positive points (odd $x$) have $\phi_2(x) > 0$
 - All negative points (even $x$) have $\phi_2(x) \leq 0$
 
-This creates a clear linear separation in the 2D feature space!
+This creates clear linear separability in the 2D feature space!
 
-### Step 3: SVM Hyperplane Derivation
+### Step 3: Plot Transformed Points in Feature Space
+
+The transformed points in the $(\phi_1, \phi_2)$ feature space are:
+
+**Positive Class:**
+- $\phi(1) = [1, 0.5]$
+- $\phi(3) = [9, 4.5]$
+- $\phi(5) = [25, 12.5]$
+
+**Negative Class:**
+- $\phi(0) = [0, 0]$
+- $\phi(2) = [4, -2]$
+- $\phi(4) = [16, -8]$
+- $\phi(6) = [36, -18]$
+
+In this 2D space, all positive points lie above or on the $\phi_1$-axis ($\phi_2 \geq 0$), while all negative points except the origin lie below the $\phi_1$-axis ($\phi_2 < 0$). This creates a clear diagonal separation pattern.
+
+![Primary Transformation](../Images/L5_3_Quiz_40/primary_transformation.png)
+
+The primary transformation $\phi(x) = [x^2, (x \bmod 2 - 0.5)x^2]$ creates clear linear separability in the 2D feature space. Key features:
+- **Positive points** (red circles): All have $\phi_2 > 0$, lying above the $\phi_1$-axis
+- **Negative points** (blue squares): All have $\phi_2 \leq 0$, lying on or below the $\phi_1$-axis
+- **Hyperplane** (black line): Diagonal separation with equation $\phi_1 + 2\phi_2 - 1 = 0$
+- **Support vectors** (green/red circles): 5 points lying exactly on the margin boundaries
+- **Margin boundaries** (dashed lines): Show the maximum margin separation
+
+### Step 4: Find the Separating Hyperplane Equation
 
 The SVM finds the optimal separating hyperplane in the transformed space:
 $$w_1\phi_1 + w_2\phi_2 + b = 0$$
 
-From our analysis, the SVM computed:
+From our SVM analysis, the computed coefficients are:
 - $w_1 = 0.999813 \approx 1$
 - $w_2 = 1.999646 \approx 2$
 - $b = -0.999757 \approx -1$
 
-**Theoretical Hyperplane Equation:**
+**Hyperplane Equation in Feature Space:**
 $$\phi_1 + 2\phi_2 - 1 = 0$$
 
-Substituting our transformations:
+**Hyperplane Equation in Original Space:**
+Substituting our transformations $\phi_1(x) = x^2$ and $\phi_2(x) = (x \bmod 2 - 0.5)x^2$:
 $$x^2 + 2(x \bmod 2 - 0.5)x^2 - 1 = 0$$
 
 Factoring:
 $$x^2[1 + 2(x \bmod 2 - 0.5)] - 1 = 0$$
 
-### Step 4: Decision Function Analysis
+### Step 5: Express Decision Function in Original Input Space
 
-The decision function is:
+The decision function in the original space is:
 $$f(x) = \text{sign}(x^2[1 + 2(x \bmod 2 - 0.5)] - 1)$$
+
+**Case Analysis:**
 
 **Case 1: Odd numbers** ($x \bmod 2 = 1$):
 $$f(x) = \text{sign}(x^2[1 + 2(1 - 0.5)] - 1)$$
@@ -118,109 +163,126 @@ $$= \text{sign}(x^2[1 + 2(0.5)] - 1)$$
 $$= \text{sign}(x^2[1 + 1] - 1)$$
 $$= \text{sign}(2x^2 - 1)$$
 
-For $x \geq 1$ (our positive points), $2x^2 - 1 > 0$, so $f(x) = +1$ ✓
+For $x \geq 1$ (our positive points), $2x^2 - 1 > 0$, so $f(x) = +1$
 
 **Case 2: Even numbers** ($x \bmod 2 = 0$):
 $$f(x) = \text{sign}(x^2[1 + 2(0 - 0.5)] - 1)$$
 $$= \text{sign}(x^2[1 + 2(-0.5)] - 1)$$
 $$= \text{sign}(x^2[1 - 1] - 1)$$
-$$= \text{sign}(0 - 1)$$
-$$= \text{sign}(-1) = -1$$
+$$= \text{sign}(0 - 1) = -1$$
 
-All even numbers are classified as negative ✓
+All even numbers are classified as negative.
 
-### Step 5: Verification of Each Point
+### Step 6: Verify Hyperplane Correctly Separates All Points
 
 Let's verify our decision function works for each point:
 
-**Positive Points (Odd):**
-- $x = 1$: $f(1) = \text{sign}(2(1)^2 - 1) = \text{sign}(1) = +1$ ✓
-- $x = 3$: $f(3) = \text{sign}(2(3)^2 - 1) = \text{sign}(17) = +1$ ✓
-- $x = 5$: $f(5) = \text{sign}(2(5)^2 - 1) = \text{sign}(49) = +1$ ✓
+**Positive Points (Odd $x$):**
+- $x = 1$: $f(1) = \text{sign}(2(1)^2 - 1) = \text{sign}(2 - 1) = \text{sign}(1) = +1$ ✓
+- $x = 3$: $f(3) = \text{sign}(2(3)^2 - 1) = \text{sign}(18 - 1) = \text{sign}(17) = +1$ ✓
+- $x = 5$: $f(5) = \text{sign}(2(5)^2 - 1) = \text{sign}(50 - 1) = \text{sign}(49) = +1$ ✓
 
-**Negative Points (Even):**
+**Negative Points (Even $x$):**
 - $x = 0$: $f(0) = -1$ ✓
 - $x = 2$: $f(2) = -1$ ✓
 - $x = 4$: $f(4) = -1$ ✓
 - $x = 6$: $f(6) = -1$ ✓
 
-All points are correctly classified!
+**Verification Result**: All 7 points are correctly classified with 100% accuracy.
 
-### Step 6: Detailed Decision Function Calculations
+### Step 7: Calculate the Margin of the Separating Hyperplane
 
-Let's calculate the decision function value for each point step by step:
-
-**Decision Function**: $f(x) = w_1\phi_1(x) + w_2\phi_2(x) + b$
-
-Using computed coefficients: $w_1 = 0.999813$, $w_2 = 1.999646$, $b = -0.999757$
-
-**Point $x = 1$ (positive class):**
-$$f(1) = 0.999813 \times 1 + 1.999646 \times 0.5 + (-0.999757)$$
-$$= 0.999813 + 0.999823 - 0.999757 = 0.999879$$
-Since $|f(1)| \approx 1$, this is a **support vector**.
-
-**Point $x = 3$ (positive class):**
-$$f(3) = 0.999813 \times 9 + 1.999646 \times 4.5 + (-0.999757)$$
-$$= 8.998317 + 8.998408 - 0.999757 = 16.996968$$
-Since $f(3) > 1$, this point is beyond the positive margin.
-
-**Point $x = 5$ (positive class):**
-$$f(5) = 0.999813 \times 25 + 1.999646 \times 12.5 + (-0.999757)$$
-$$= 24.995325 + 24.995578 - 0.999757 = 48.991146$$
-Since $f(5) > 1$, this point is beyond the positive margin.
-
-**Point $x = 0$ (negative class):**
-$$f(0) = 0.999813 \times 0 + 1.999646 \times 0 + (-0.999757)$$
-$$= 0 + 0 - 0.999757 = -0.999757$$
-Since $|f(0)| \approx 1$, this is a **support vector**.
-
-**Point $x = 2$ (negative class):**
-$$f(2) = 0.999813 \times 4 + 1.999646 \times (-2) + (-0.999757)$$
-$$= 3.999252 - 3.999293 - 0.999757 = -0.999798$$
-Since $|f(2)| \approx 1$, this is a **support vector**.
-
-**Point $x = 4$ (negative class):**
-$$f(4) = 0.999813 \times 16 + 1.999646 \times (-8) + (-0.999757)$$
-$$= 15.997008 - 15.997170 - 0.999757 = -0.999919$$
-Since $|f(4)| \approx 1$, this is a **support vector**.
-
-**Point $x = 6$ (negative class):**
-$$f(6) = 0.999813 \times 36 + 1.999646 \times (-18) + (-0.999757)$$
-$$= 35.993269 - 35.993633 - 0.999757 = -1.000121$$
-Since $|f(6)| \approx 1$, this is a **support vector**.
-
-### Step 7: Support Vector Summary
-
-**Total Support Vectors: 5 points**
-- $x = 1$: $\phi(1) = [1, 0.5]$, $f(1) = 0.999879$ (positive margin)
-- $x = 0$: $\phi(0) = [0, 0]$, $f(0) = -0.999757$ (negative margin)
-- $x = 2$: $\phi(2) = [4, -2]$, $f(2) = -0.999798$ (negative margin)
-- $x = 4$: $\phi(4) = [16, -8]$, $f(4) = -0.999919$ (negative margin)
-- $x = 6$: $\phi(6) = [36, -18]$, $f(6) = -1.000121$ (negative margin)
-
-### Step 8: Margin Calculation
-
-The margin is the distance from the hyperplane to the support vectors:
+The margin is the distance from the hyperplane to the nearest points (support vectors):
 $$\text{margin} = \frac{1}{||\mathbf{w}||} = \frac{1}{\sqrt{w_1^2 + w_2^2}}$$
 
-$$\text{margin} = \frac{1}{\sqrt{(0.999813)^2 + (1.999646)^2}} = \frac{1}{\sqrt{4.998211}} = 0.447294$$
+Using our computed coefficients $w_1 = 0.999813$ and $w_2 = 1.999646$:
+$$\text{margin} = \frac{1}{\sqrt{(0.999813)^2 + (1.999646)^2}}$$
+$$= \frac{1}{\sqrt{0.999626 + 3.998585}}$$
+$$= \frac{1}{\sqrt{4.998211}}$$
+$$= \frac{1}{2.236} = 0.447294$$
+
+Using theoretical values $w_1 = 1$ and $w_2 = 2$:
+$$\text{margin} = \frac{1}{\sqrt{1^2 + 2^2}} = \frac{1}{\sqrt{5}} = \frac{\sqrt{5}}{5} \approx 0.447$$
 
 **Distance between margin boundaries**: $2 \times 0.447294 = 0.894588$
 
-### Step 9: Kernel Function Analysis
+### Step 8: Identify Support Vectors in Transformed Space
 
-The kernel function for our primary transformation is:
-$$K(x, z) = \phi(x)^T\phi(z) = \phi_1(x)\phi_1(z) + \phi_2(x)\phi_2(z)$$
+Support vectors are points that lie exactly on the margin boundaries, where $|f(x)| = 1$.
 
-Substituting our transformations:
-$$K(x, z) = x^2z^2 + (x \bmod 2 - 0.5)(z \bmod 2 - 0.5)x^2z^2$$
+Let's calculate the decision function value for each point:
+
+**Decision Function**: $f(x) = w_1\phi_1(x) + w_2\phi_2(x) + b$
+
+**Point $x = 1$ (positive class):**
+$$f(1) = 0.999813 \times 1 + 1.999646 \times 0.5 + (-0.999757)$$
+$$= 0.999813 + 0.999823 - 0.999757 = 0.999879 \approx 1$$
+**Support Vector** ✓
+
+**Point $x = 3$ (positive class):**
+$$f(3) = 0.999813 \times 9 + 1.999646 \times 4.5 + (-0.999757)$$
+$$= 8.998317 + 8.998408 - 0.999757 = 16.996968 > 1$$
+Not a support vector (beyond positive margin)
+
+**Point $x = 5$ (positive class):**
+$$f(5) = 0.999813 \times 25 + 1.999646 \times 12.5 + (-0.999757)$$
+$$= 24.995325 + 24.995578 - 0.999757 = 48.991146 > 1$$
+Not a support vector (beyond positive margin)
+
+**Point $x = 0$ (negative class):**
+$$f(0) = 0.999813 \times 0 + 1.999646 \times 0 + (-0.999757)$$
+$$= 0 + 0 - 0.999757 = -0.999757 \approx -1$$
+**Support Vector** ✓
+
+**Point $x = 2$ (negative class):**
+$$f(2) = 0.999813 \times 4 + 1.999646 \times (-2) + (-0.999757)$$
+$$= 3.999252 - 3.999293 - 0.999757 = -0.999798 \approx -1$$
+**Support Vector** ✓
+
+**Point $x = 4$ (negative class):**
+$$f(4) = 0.999813 \times 16 + 1.999646 \times (-8) + (-0.999757)$$
+$$= 15.997008 - 15.997170 - 0.999757 = -0.999919 \approx -1$$
+**Support Vector** ✓
+
+**Point $x = 6$ (negative class):**
+$$f(6) = 0.999813 \times 36 + 1.999646 \times (-18) + (-0.999757)$$
+$$= 35.993269 - 35.993633 - 0.999757 = -1.000121 \approx -1$$
+**Support Vector** ✓
+
+**Support Vector Summary:**
+- **Total Support Vectors**: 5 out of 7 points
+- **Positive Margin**: $x = 1$ with $\phi(1) = [1, 0.5]$
+- **Negative Margin**: $x \in \{0, 2, 4, 6\}$ with respective transformed coordinates:
+  - $\phi(0) = [0, 0]$
+  - $\phi(2) = [4, -2]$
+  - $\phi(4) = [16, -8]$
+  - $\phi(6) = [36, -18]$
+
+## Mathematical Proof of Kernel Validity
+
+### Mercer's Theorem and Kernel Conditions
+
+A function $K(x,z)$ is a valid kernel (Mercer kernel) if and only if it satisfies three fundamental conditions:
+
+1. **Symmetry**: $K(x,z) = K(z,x)$ for all $x,z$
+2. **Positive Semi-Definiteness**: The kernel matrix $\mathbf{K}$ has all non-negative eigenvalues
+3. **Inner Product Representation**: $K(x,z) = \langle\phi(x), \phi(z)\rangle$ for some feature mapping $\phi$
+
+### Primary Transformation Kernel Analysis
+
+For our primary transformation $\phi(x) = [x^2, (x \bmod 2 - 0.5)x^2]$:
+
+**Kernel Function:**
+$$K(x, z) = \phi(x)^T\phi(z) = x^2z^2 + (x \bmod 2 - 0.5)(z \bmod 2 - 0.5)x^2z^2$$
 $$= x^2z^2[1 + (x \bmod 2 - 0.5)(z \bmod 2 - 0.5)]$$
 
-**Kernel Matrix Calculation:**
+**Condition 1 - Symmetry Verification:**
+$$K(x,z) = x^2z^2[1 + (x \bmod 2 - 0.5)(z \bmod 2 - 0.5)]$$
+$$= z^2x^2[1 + (z \bmod 2 - 0.5)(x \bmod 2 - 0.5)] = K(z,x)$$ ✓
 
-For our dataset, the $7 \times 7$ kernel matrix is:
-
-$$K = \begin{bmatrix}
+**Condition 2 - Positive Semi-Definiteness:**
+The $7 \times 7$ kernel matrix for our dataset:
+$$\mathbf{K} = \begin{bmatrix}
 1.25 & 11.25 & 31.25 & 0 & 3 & 12 & 27 \\
 11.25 & 101.25 & 281.25 & 0 & 27 & 108 & 243 \\
 31.25 & 281.25 & 781.25 & 0 & 75 & 300 & 675 \\
@@ -230,60 +292,62 @@ $$K = \begin{bmatrix}
 27 & 243 & 675 & 0 & 180 & 720 & 1620
 \end{bmatrix}$$
 
-**Kernel Validity**: All eigenvalues are non-negative, confirming this is a valid Mercer kernel.
+**Eigenvalues**: $\lambda = [2377.47, 466.28, 0, 0, 0, 0, 0]$
+All eigenvalues $\geq 0$ ✓
 
-### Step 10: Alternative Successful Transformations
+**Condition 3 - Explicit Feature Mapping:**
+We have an explicit $\phi: \mathbb{R} \rightarrow \mathbb{R}^2$ mapping ✓
 
-**Sign-based Transformation**: $\phi(x) = [x, \text{sign}(x \bmod 2 - 0.5)]$
+**Conclusion**: Our primary kernel is mathematically valid.
 
-**Detailed Analysis:**
-- **All points are support vectors** (7 total)
-- Hyperplane: $0.000095\phi_1 + 0.999762\phi_2 - 0.000428 = 0$ (essentially $\phi_2 = 0$)
-- Creates perfect horizontal separation at $\phi_2 = 0$
-- Margin: 1.000238 (distance between $\phi_2 = +1$ and $\phi_2 = -1$)
+### Alternative Kernels Validation
 
-**Parity-weighted Transformation**: $\phi(x) = [(x \bmod 2)x, (1-x \bmod 2)x]$
+**Sign-based Kernel**: $K(x,z) = xz + \text{sign}(x \bmod 2 - 0.5)\text{sign}(z \bmod 2 - 0.5)$
+- Eigenvalues: $[91.11, 6.89, 0, 0, 0, 0, 0]$ - All non-negative ✓
 
-**Detailed Analysis:**
-- **5 support vectors**: $x \in \{0, 1, 2, 4, 6\}$
-- Hyperplane: $1.999962\phi_1 - 0.000006\phi_2 - 0.999974 = 0$ (essentially $\phi_1 = 0.5$)
-- Creates axis-aligned separation: odd numbers on x-axis, even numbers on y-axis
-- Margin: 0.500010
+**Parity-weighted Kernel**: $K(x,z) = (x \bmod 2)(z \bmod 2)xz + (1-x \bmod 2)(1-z \bmod 2)xz$
+- Eigenvalues: $[56.00, 35.00, 0, 0, 0, 0, 0]$ - All non-negative ✓
 
-**Trigonometric Transformation**: $\phi(x) = [\cos(\pi x), \sin(\pi x)]$
+**Trigonometric Kernel**: $K(x,z) = \cos(\pi x)\cos(\pi z) + \sin(\pi x)\sin(\pi z) = \cos(\pi(x-z))$
+- Eigenvalues: $[7.00, 0, 0, 0, 0, 0, 0]$ - All non-negative ✓
 
-**Detailed Analysis:**
-- **All points are support vectors** (7 total)
-- Hyperplane: $-\phi_1 = 0$ (vertical line through origin)
-- Perfect separation: odd numbers at $(-1, 0)$, even numbers at $(1, 0)$
-- Margin: 1.000000 (maximum possible for this configuration)
+All four transformations satisfy Mercer's conditions, confirming their validity as kernel functions.
 
 ## Visual Explanations
 
-### Original 1D Dataset
-![Original 1D Dataset](../Images/L5_3_Quiz_40/original_1d_dataset.png)
+### Alternative Successful Transformations
 
-The plot shows the alternating pattern of positive (red circles) and negative (blue squares) points along the number line, demonstrating the impossibility of linear separation in 1D.
+Our analysis revealed multiple valid kernel approaches that achieve perfect separation:
 
-### Primary Transformation
-![Primary Transformation](../Images/L5_3_Quiz_40/primary_transformation.png)
-
-The primary transformation $\phi(x) = [x^2, (x \bmod 2 - 0.5)x^2]$ creates a diagonal separation in the 2D feature space. Positive points (red circles) have positive $\phi_2$ values, while negative points (blue squares) have non-positive $\phi_2$ values. The black line shows the optimal hyperplane, and green circles indicate support vectors.
-
-### Sign-based Transformation
+#### Sign-based Transformation: $\phi(x) = [x, \text{sign}(x \bmod 2 - 0.5)]$
 ![Sign-based Transformation](../Images/L5_3_Quiz_40/sign_based_transformation.png)
 
-The sign-based transformation $\phi(x) = [x, \text{sign}(x \bmod 2 - 0.5)]$ creates horizontal stripes. All positive points lie on the line $\phi_2 = +1$, while all negative points lie on $\phi_2 = -1$. The hyperplane is approximately horizontal at $\phi_2 = 0$.
+Creates perfect horizontal stripe separation:
+- All positive points map to $(x, +1)$
+- All negative points map to $(x, -1)$
+- Hyperplane: $\phi_2 = 0$ (horizontal line)
+- **All 7 points are support vectors**
+- Margin: 1.000 (maximum possible)
 
-### Parity-weighted Transformation
+#### Parity-weighted Transformation: $\phi(x) = [(x \bmod 2)x, (1-x \bmod 2)x]$
 ![Parity-weighted Transformation](../Images/L5_3_Quiz_40/parity_weighted_transformation.png)
 
-The parity-weighted transformation $\phi(x) = [(x \bmod 2)x, (1-x \bmod 2)x]$ creates axis-aligned clusters. Positive points (odd numbers) lie on the x-axis, while negative points (even numbers) lie on the y-axis. The hyperplane is approximately vertical.
+Creates axis-aligned clusters:
+- Odd numbers map to $(x, 0)$ on the x-axis
+- Even numbers map to $(0, x)$ on the y-axis
+- Hyperplane: $\phi_1 = 0.5$ (vertical line)
+- **5 support vectors**
+- Margin: 0.500
 
-### Trigonometric Transformation
+#### Trigonometric Transformation: $\phi(x) = [\cos(\pi x), \sin(\pi x)]$
 ![Trigonometric Transformation](../Images/L5_3_Quiz_40/trigonometric_transformation.png)
 
-The trigonometric transformation $\phi(x) = [\cos(\pi x), \sin(\pi x)]$ maps all points to the unit circle. Positive points (odd numbers) map to $(-1, 0)$, while negative points (even numbers) map to $(1, 0)$. The hyperplane is a vertical line through the origin.
+Maps points to unit circle:
+- Odd numbers map to $(-1, 0)$
+- Even numbers map to $(1, 0)$
+- Hyperplane: $\phi_1 = 0$ (vertical line through origin)
+- **All 7 points are support vectors**
+- Margin: 1.000 (maximum possible)
 
 ## Key Insights
 
@@ -306,58 +370,45 @@ The trigonometric transformation $\phi(x) = [\cos(\pi x), \sin(\pi x)]$ maps all
 
 This comprehensive analysis demonstrates the power and mathematical elegance of the kernel trick for nonlinear classification:
 
-### Detailed Mathematical Results
+### Key Mathematical Results
 
-**Primary Transformation Analysis:**
-- **Hyperplane Equation**: $x^2[1 + 2(x \bmod 2 - 0.5)] - 1 = 0$
+- **Hyperplane Equation**: $x^2[1 + 2(x \bmod 2 - 0.5)] - 1 = 0$ in original space
 - **Decision Function**: $f(x) = \text{sign}(2x^2 - 1)$ for odd $x$, $f(x) = -1$ for even $x$
-- **Margin**: $0.447294$ in the transformed space
-- **Support Vectors**: **5 points** $(x = 0, 1, 2, 4, 6)$ - more than initially apparent
-- **Kernel Function**: $K(x,z) = x^2z^2[1 + (x \bmod 2 - 0.5)(z \bmod 2 - 0.5)]$
+- **Margin**: $\frac{1}{\sqrt{5}} \approx 0.447$ in the transformed space
+- **Support Vectors**: 5 critical points $(x = 0, 1, 2, 4, 6)$ determining optimal boundary
+- **Perfect Separation**: 100% accuracy achieved through all four kernel transformations
+
+### Fundamental Insights
+
+**Pattern Recognition**: The key insight is that successful kernels must capture the **alternating/parity structure** inherent in the data. The modular arithmetic $(x \bmod 2 - 0.5)$ effectively encodes the odd/even distinction that defines the class boundaries.
+
+**Geometric Transformation**: The kernel trick transforms an impossible 1D linear classification into multiple solvable 2D problems:
+- **Primary**: Diagonal separation with parity scaling
+- **Sign-based**: Horizontal stripe separation
+- **Parity-weighted**: Axis-aligned cluster separation
+- **Trigonometric**: Unit circle mapping with vertical separation
+
+**Mathematical Rigor**: All transformations satisfy Mercer's theorem conditions:
+- Symmetry: $K(x,z) = K(z,x)$
+- Positive semi-definiteness: All eigenvalues $\geq 0$
+- Inner product representation: Explicit feature mappings provided
 
 ### Support Vector Distribution Analysis
 
-**Key Finding**: The number of support vectors varies significantly across transformations:
-- **Primary**: 5 support vectors (most points lie on margin boundaries)
-- **Sign-based**: 7 support vectors (all points are support vectors)
-- **Parity-weighted**: 5 support vectors
-- **Trigonometric**: 7 support vectors (all points are support vectors)
+The number of support vectors varies significantly across transformations:
+- **Primary**: 5/7 points (most points lie on margin boundaries)
+- **Sign-based**: 7/7 points (all points are support vectors)
+- **Parity-weighted**: 5/7 points (axis-aligned separation)
+- **Trigonometric**: 7/7 points (perfect unit circle mapping)
 
-This reveals that some transformations create "tighter" margins where more points become critical for the decision boundary.
-
-### Transformation Comparison
-
-| Transformation | Support Vectors | Margin | Geometric Insight |
-|----------------|-----------------|--------|-------------------|
-| **Primary** | 5/7 points | 0.447 | Diagonal separation with parity scaling |
-| **Sign-based** | 7/7 points | 1.000 | Perfect horizontal stripes |
-| **Parity-weighted** | 5/7 points | 0.500 | Axis-aligned clusters |
-| **Trigonometric** | 7/7 points | 1.000 | Unit circle mapping |
-
-### Step-by-Step Calculation Insights
-
-**Critical Discovery**: Our detailed calculations revealed:
-1. **Decision function values** must be computed individually for each point
-2. **Support vectors** are identified by $|f(x)| \approx 1$, not just SVM indices
-3. **Margin boundaries** contain more points than initially expected
-4. **Kernel matrices** provide validation of transformation validity
-
-### Fundamental Principles
-
-**Pattern Recognition**: The key insight is that successful kernels must capture the **alternating/parity structure** inherent in the data. Simple polynomial transformations fail because they don't encode this critical pattern.
-
-**Mathematical Rigor**: Every successful transformation satisfies:
-- Positive semi-definite kernel matrices (Mercer's theorem)
-- Perfect linear separability in feature space
-- Consistent decision function calculations
-- Proper margin geometry
+This reveals that different kernels create different margin geometries, with some transformations requiring all points to define the optimal boundary.
 
 ### Practical Applications
 
 This analysis demonstrates that:
 - **Multiple valid solutions** exist for the same nonlinear problem
 - **Geometric intuition** guides kernel design more than mathematical complexity
-- **Support vector identification** requires careful analysis of decision boundaries
-- **Kernel validity** can be verified through eigenvalue analysis
+- **Kernel validity** can be rigorously verified through eigenvalue analysis
+- **Pattern-specific transformations** are more effective than generic polynomial kernels
 
-The kernel trick successfully transforms an impossible 1D classification problem into multiple elegant 2D solutions, each providing unique geometric insights while maintaining mathematical rigor.
+The kernel trick successfully transforms an impossible 1D classification problem into multiple elegant 2D solutions, each providing unique geometric insights while maintaining mathematical rigor and achieving perfect classification accuracy.

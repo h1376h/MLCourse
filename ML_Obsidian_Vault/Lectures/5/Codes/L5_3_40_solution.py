@@ -516,7 +516,7 @@ if 'Primary' in successful_transforms:
     print(f"\nDistance between margin boundaries = 2 × margin = 2 × {margin:.6f} = {2*margin:.6f}")
 
     print(f"\n" + "-"*50)
-    print("STEP 10: KERNEL FUNCTION ANALYSIS")
+    print("STEP 10: DETAILED KERNEL FUNCTION ANALYSIS")
     print("-"*50)
 
     print("The kernel function K(x, z) = φ(x)ᵀφ(z) for our transformation:")
@@ -524,11 +524,44 @@ if 'Primary' in successful_transforms:
     print("         = x²z² + (x mod 2 - 0.5)(z mod 2 - 0.5)x²z²")
     print("         = x²z²[1 + (x mod 2 - 0.5)(z mod 2 - 0.5)]")
 
-    print("\nKernel values for our dataset:")
-    print("K(x,z) matrix:")
+    print("\nDetailed kernel calculations for each pair:")
 
-    # Calculate kernel matrix
-    K = primary_transformed @ primary_transformed.T
+    # Calculate kernel matrix with detailed steps
+    K = np.zeros((len(all_points), len(all_points)))
+
+    for i, x in enumerate(all_points):
+        for j, z in enumerate(all_points):
+            # Calculate components step by step
+            phi1_x = x**2
+            phi1_z = z**2
+
+            x_mod = x % 2
+            z_mod = z % 2
+
+            phi2_factor_x = x_mod - 0.5
+            phi2_factor_z = z_mod - 0.5
+
+            phi2_x = phi2_factor_x * x**2
+            phi2_z = phi2_factor_z * z**2
+
+            # Kernel calculation
+            k_val = phi1_x * phi1_z + phi2_x * phi2_z
+            K[i, j] = k_val
+
+            if i <= j:  # Only print upper triangle to avoid repetition
+                print(f"\nK({x}, {z}):")
+                print(f"  φ₁({x}) = {x}² = {phi1_x}")
+                print(f"  φ₁({z}) = {z}² = {phi1_z}")
+                print(f"  φ₂({x}) = ({x} mod 2 - 0.5) × {x}² = ({x_mod} - 0.5) × {phi1_x} = {phi2_factor_x} × {phi1_x} = {phi2_x}")
+                print(f"  φ₂({z}) = ({z} mod 2 - 0.5) × {z}² = ({z_mod} - 0.5) × {phi1_z} = {phi2_factor_z} × {phi1_z} = {phi2_z}")
+                print(f"  K({x}, {z}) = φ₁({x})φ₁({z}) + φ₂({x})φ₂({z})")
+                print(f"           = {phi1_x} × {phi1_z} + {phi2_x} × {phi2_z}")
+                print(f"           = {phi1_x * phi1_z} + {phi2_x * phi2_z}")
+                print(f"           = {k_val}")
+
+    print(f"\n" + "-"*30)
+    print("COMPLETE KERNEL MATRIX:")
+    print("-"*30)
 
     # Print header
     header = "     "
@@ -545,9 +578,76 @@ if 'Primary' in successful_transforms:
     # Verify positive semi-definiteness
     eigenvals = np.linalg.eigvals(K)
     min_eigenval = np.min(eigenvals)
-    print(f"\nKernel matrix eigenvalues: {eigenvals}")
+    max_eigenval = np.max(eigenvals)
+
+    print(f"\n" + "-"*30)
+    print("KERNEL VALIDITY VERIFICATION:")
+    print("-"*30)
+    print(f"Eigenvalues: {eigenvals}")
     print(f"Minimum eigenvalue: {min_eigenval:.10f}")
+    print(f"Maximum eigenvalue: {max_eigenval:.10f}")
     print(f"Positive semi-definite: {'✓' if min_eigenval >= -1e-10 else '✗'}")
+    print(f"Symmetric: {'✓' if np.allclose(K, K.T) else '✗'}")
+
+    # Additional kernel properties
+    print(f"\nKernel matrix properties:")
+    print(f"  - Diagonal elements (self-similarities): {np.diag(K)}")
+    print(f"  - Matrix rank: {np.linalg.matrix_rank(K)}")
+    print(f"  - Condition number: {np.linalg.cond(K):.6f}")
+
+    print(f"\n" + "-"*50)
+    print("STEP 11: ALTERNATIVE KERNEL VALIDITY VERIFICATION")
+    print("-"*50)
+
+    # Verify other kernels
+    other_kernels = {
+        'Sign-based': phi_sign_based,
+        'Parity-weighted': phi_parity_weighted,
+        'Trigonometric': phi_trigonometric
+    }
+
+    for name, phi_func in other_kernels.items():
+        print(f"\n{name.upper()} KERNEL VERIFICATION:")
+        print("-" * (len(name) + 20))
+
+        # Calculate transformed points
+        transformed = phi_func(all_points)
+
+        # Calculate kernel matrix
+        K_alt = transformed @ transformed.T
+
+        # Verify properties
+        eigenvals_alt = np.linalg.eigvals(K_alt)
+        min_eigenval_alt = np.min(eigenvals_alt)
+
+        print(f"Transformation: {phi_func.__doc__.split(': ')[1]}")
+        print(f"Kernel matrix shape: {K_alt.shape}")
+        print(f"Eigenvalues: {eigenvals_alt}")
+        print(f"Minimum eigenvalue: {min_eigenval_alt:.10f}")
+        print(f"Positive semi-definite: {'✓' if min_eigenval_alt >= -1e-10 else '✗'}")
+        print(f"Symmetric: {'✓' if np.allclose(K_alt, K_alt.T) else '✗'}")
+        print(f"Matrix rank: {np.linalg.matrix_rank(K_alt)}")
+
+        # Show a few kernel values as examples
+        print(f"Sample kernel values:")
+        for i in range(min(3, len(all_points))):
+            for j in range(i, min(3, len(all_points))):
+                print(f"  K({all_points[i]}, {all_points[j]}) = {K_alt[i,j]:.6f}")
+
+    print(f"\n" + "-"*50)
+    print("MATHEMATICAL PROOF OF KERNEL VALIDITY")
+    print("-"*50)
+
+    print("A function K(x,z) is a valid kernel if and only if:")
+    print("1. K(x,z) = K(z,x) (symmetry)")
+    print("2. The kernel matrix is positive semi-definite")
+    print("3. K(x,z) = ⟨φ(x), φ(z)⟩ for some feature mapping φ")
+
+    print(f"\nFor our primary transformation φ(x) = [x², (x mod 2 - 0.5)x²]:")
+    print("✓ Condition 1: K(x,z) = φ(x)ᵀφ(z) = φ(z)ᵀφ(x) = K(z,x)")
+    print("✓ Condition 2: All eigenvalues ≥ 0 (verified above)")
+    print("✓ Condition 3: Explicit feature mapping φ provided")
+    print("\nTherefore, our kernel is mathematically valid (Mercer kernel).")
 
 print("\n" + "="*60)
 print("DETAILED ANALYSIS FOR OTHER SUCCESSFUL TRANSFORMATIONS")
