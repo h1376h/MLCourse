@@ -51,7 +51,7 @@ The key mathematical components are:
 
 **Systematic Stump Search:**
 We systematically evaluate all possible decision stumps by:
-1. **Feature 0 ($x_1$)**: Unique values = [-1, -0.5, 0, 0.5, 1]
+1. **Feature 0 ($x_1$)**: Unique values = $[-1, -0.5, 0, 0.5, 1]$
    - Threshold -0.75, Direction -1: Error = 0.6250
    - Threshold -0.75, Direction +1: Error = 0.3750
    - Threshold -0.25, Direction -1: Error = 0.7500
@@ -61,7 +61,7 @@ We systematically evaluate all possible decision stumps by:
    - Threshold 0.75, Direction -1: Error = 0.2500
    - Threshold 0.75, Direction +1: Error = 0.7500
 
-2. **Feature 1 ($x_2$)**: Unique values = [-1, 0, 0.5, 1]
+2. **Feature 1 ($x_2$)**: Unique values = $[-1, 0, 0.5, 1]$
    - Threshold -0.50, Direction -1: Error = 0.5000
    - Threshold -0.50, Direction +1: Error = 0.5000
    - Threshold 0.25, Direction -1: Error = 0.6250
@@ -73,7 +73,7 @@ We systematically evaluate all possible decision stumps by:
 - Feature: 0 ($x_1$)
 - Threshold: -0.25
 - Direction: +1
-- Predictions: [1, 1, -1, -1, -1, -1, -1, -1]
+- Predictions: $[1, 1, -1, -1, -1, -1, -1, -1]$
 
 **Weighted Error Calculation:**
 
@@ -136,8 +136,8 @@ $$\sum_{i=1}^{8} D_1(i) = 8 \times 0.125 = 1.000$$
 We systematically evaluate all possible decision stumps by trying each feature and threshold:
 
 **Feature 0 ($x_1$) Evaluation:**
-- **Unique values**: [-1, -0.5, 0, 0.5, 1]
-- **Thresholds to test**: [-0.75, -0.25, 0.25, 0.75]
+- **Unique values**: $[-1, -0.5, 0, 0.5, 1]$
+- **Thresholds to test**: $[-0.75, -0.25, 0.25, 0.75]$
 
 For each threshold, we test both directions (-1 and +1):
 
@@ -153,8 +153,8 @@ For each threshold, we test both directions (-1 and +1):
 | 0.75 | +1 | [1, 1, 1, 1, -1, -1, 1, 1] | [0, 0, 1, 1, 1, 1, 1, 1] | 0.7500 |
 
 **Feature 1 ($x_2$) Evaluation:**
-- **Unique values**: [-1, 0, 0.5, 1]
-- **Thresholds to test**: [-0.5, 0.25, 0.75]
+- **Unique values**: $[-1, 0, 0.5, 1]$
+- **Thresholds to test**: $[-0.5, 0.25, 0.75]$
 
 | Threshold | Direction | Predictions | Errors | Weighted Error |
 |:---------:|:---------:|:-----------:|:------:|:--------------:|
@@ -169,7 +169,7 @@ For each threshold, we test both directions (-1 and +1):
 - **Feature**: 0 (x₁)
 - **Threshold**: -0.25
 - **Direction**: +1
-- **Predictions**: [1, 1, -1, -1, -1, -1, -1, -1]
+- **Predictions**: $[1, 1, -1, -1, -1, -1, -1, -1]$
 - **Weighted Error**: 0.2500
 
 **Step 3: Weighted Error Calculation**
@@ -306,8 +306,8 @@ $$D_2 = [0.0833, 0.0833, 0.0833, 0.0833, 0.2500, 0.2500, 0.0833, 0.0833]$$
 We evaluate all possible decision stumps with the updated weights:
 
 **Feature 0 ($x_1$) Evaluation:**
-- **Unique values**: [-1, -0.5, 0, 0.5, 1]
-- **Thresholds to test**: [-0.75, -0.25, 0.25, 0.75]
+- **Unique values**: $[-1, -0.5, 0, 0.5, 1]$
+- **Thresholds to test**: $[-0.75, -0.25, 0.25, 0.75]$
 
 | Threshold | Direction | Predictions | Errors | Weighted Error |
 |:---------:|:---------:|:-----------:|:------:|:--------------:|
@@ -321,8 +321,8 @@ We evaluate all possible decision stumps with the updated weights:
 | 0.75 | +1 | [1, 1, 1, 1, -1, -1, 1, 1] | [0, 0, 1, 1, 1, 1, 1, 1] | 0.8333 |
 
 **Feature 1 ($x_2$) Evaluation:**
-- **Unique values**: [-1, 0, 0.5, 1]
-- **Thresholds to test**: [-0.5, 0.25, 0.75]
+- **Unique values**: $[-1, 0, 0.5, 1]$
+- **Thresholds to test**: $[-0.5, 0.25, 0.75]$
 
 | Threshold | Direction | Predictions | Errors | Weighted Error |
 |:---------:|:---------:|:-----------:|:------:|:--------------:|
@@ -337,7 +337,7 @@ We evaluate all possible decision stumps with the updated weights:
 - **Feature**: 0 (x₁)
 - **Threshold**: 0.75
 - **Direction**: -1
-- **Predictions**: [-1, -1, -1, -1, 1, 1, -1, -1]
+- **Predictions**: $[-1, -1, -1, -1, 1, 1, -1, -1]$
 - **Weighted Error**: 0.1667
 
 **Step 3: Weighted Error Calculation**
@@ -471,8 +471,8 @@ $$D_3 = [0.2500, 0.2500, 0.0500, 0.0500, 0.1500, 0.1500, 0.0500, 0.0500]$$
 We evaluate all possible decision stumps with the updated weights:
 
 **Feature 0 ($x_1$) Evaluation:**
-- **Unique values**: [-1, -0.5, 0, 0.5, 1]
-- **Thresholds to test**: [-0.75, -0.25, 0.25, 0.75]
+- **Unique values**: $[-1, -0.5, 0, 0.5, 1]$
+- **Thresholds to test**: $[-0.75, -0.25, 0.25, 0.75]$
 
 | Threshold | Direction | Predictions | Errors | Weighted Error |
 |:---------:|:---------:|:-----------:|:------:|:--------------:|
@@ -486,8 +486,8 @@ We evaluate all possible decision stumps with the updated weights:
 | 0.75 | +1 | [1, 1, 1, 1, -1, -1, 1, 1] | [0, 0, 1, 1, 1, 1, 1, 1] | 0.5000 |
 
 **Feature 1 ($x_2$) Evaluation:**
-- **Unique values**: [-1, 0, 0.5, 1]
-- **Thresholds to test**: [-0.5, 0.25, 0.75]
+- **Unique values**: $[-1, 0, 0.5, 1]$
+- **Thresholds to test**: $[-0.5, 0.25, 0.75]$
 
 | Threshold | Direction | Predictions | Errors | Weighted Error |
 |:---------:|:---------:|:-----------:|:------:|:--------------:|
@@ -502,7 +502,7 @@ We evaluate all possible decision stumps with the updated weights:
 - **Feature**: 1 (x₂)
 - **Threshold**: 0.75
 - **Direction**: +1
-- **Predictions**: [1, 1, -1, -1, 1, 1, 1, 1]
+- **Predictions**: $[1, 1, -1, -1, 1, 1, 1, 1]$
 - **Weighted Error**: 0.1000
 
 **Step 3: Weighted Error Calculation**
