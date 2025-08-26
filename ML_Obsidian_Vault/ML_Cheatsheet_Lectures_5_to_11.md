@@ -4,17 +4,17 @@
 
 ### Lecture 5: Support Vector Machines (SVM)
 
-**Primal Formulation (Hard Margin):**
-$$\min_{\mathbf{w}, b} \frac{1}{2}||\mathbf{w}||^2$$
-$$\text{subject to: } y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1, \quad i = 1, \ldots, n$$
+**Primal Formulation (Hard/Soft Margin):**
+$$\min_{\mathbf{w}, b, \boldsymbol{\xi}} \frac{1}{2}||\mathbf{w}||^2 \color{red}{+ C\sum_{i=1}^n \xi_i}$$
+$$\text{subject to: } y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1 \color{red}{- \xi_i}, \quad \color{red}{\xi_i \geq 0}$$
 
-**Primal Formulation (Soft Margin):**
-$$\min_{\mathbf{w}, b, \boldsymbol{\xi}} \frac{1}{2}||\mathbf{w}||^2 + C\sum_{i=1}^n \xi_i$$
-$$\text{subject to: } y_i(\mathbf{w}^T\mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0$$
+> **Note:** The red parts (slack variables `ξ_i`, regularization term `C∑ξ_i`, and constraint `≥ 1 - ξ_i`) are for **soft margin** only. For **hard margin**, remove these red parts and set `C = ∞`.
 
 **Dual Formulation:**
 $$\max_{\boldsymbol{\alpha}} \sum_{i=1}^n \alpha_i - \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n \alpha_i\alpha_j y_i y_j K(\mathbf{x}_i, \mathbf{x}_j)$$
-$$\text{subject to: } \sum_{i=1}^n \alpha_i y_i = 0, \quad 0 \leq \alpha_i \leq C$$
+$$\text{subject to: } \sum_{i=1}^n \alpha_i y_i = 0, \quad 0 \leq \alpha_i \color{red}{\leq C}$$
+
+> **Note:** The upper bound `≤ C` on Lagrange multipliers is for **soft margin** only. For **hard margin**, remove this upper bound (set `C = ∞`).
 
 **Decision Function:**
 $$f(\mathbf{x}) = \text{sign}\left(\sum_{i=1}^n \alpha_i y_i K(\mathbf{x}_i, \mathbf{x}) + b\right)$$
@@ -35,10 +35,6 @@ $$f(\mathbf{x}) = \text{sign}\left(\sum_{i=1}^n \alpha_i y_i K(\mathbf{x}_i, \ma
 ---
 
 ### Lecture 6: Decision Trees
-
-**Entropy (Binary Classification):**
-$$H(S) = -p_1 \log_2(p_1) - p_2 \log_2(p_2)$$
-where $p_1, p_2$ are class probabilities
 
 **Entropy (Multi-class):**
 $$H(S) = -\sum_{i=1}^{k} p_i \log_2(p_i)$$
@@ -91,7 +87,7 @@ $$Error(S) = 1 - \max_i(p_i)$$
 - **Subsets with k to m features**: $\sum_{i=k}^m \binom{n}{i}$
 
 **Pearson Correlation:**
-$$r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2 \sum_{i=1}^{n}(y_i - \bar{y})^2}}$$
+$$r = \frac{\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\sum_{i=1}^{n}(x_i - \bar{x})^2 \sum_{i=1}^{n}(y_i - \bar{y})^2}} = \frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}(X) \text{Var}(Y)}}$$
 
 **Mutual Information:**
 $$I(X;Y) = \sum_{x,y} p(x,y) \log\left(\frac{p(x,y)}{p(x)p(y)}\right)$$
