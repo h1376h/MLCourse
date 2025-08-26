@@ -362,6 +362,71 @@ def plot_weight_evolution(adaboost, save_dir):
     plt.savefig(os.path.join(save_dir, 'weight_evolution.png'), dpi=300, bbox_inches='tight')
     plt.close()
 
+def plot_margin_confidence_evolution(X, y, adaboost, save_dir):
+    """
+    Plot the margin distribution and confidence evolution across iterations
+    """
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
+    
+    # Calculate margins and confidence for each iteration
+    margins = []
+    confidences = []
+    
+    for t in range(len(adaboost.alphas)):
+        # Get ensemble predictions up to iteration t
+        predictions = np.zeros(len(X))
+        for i in range(t + 1):
+            alpha = adaboost.alphas[i]
+            stump = adaboost.weak_learners[i]
+            stump_pred = np.where(X[:, stump['feature']] <= stump['threshold'], 
+                                stump['direction'], -stump['direction'])
+            predictions += alpha * stump_pred
+        
+        # Calculate margins (y * f(x) where f(x) is the ensemble score)
+        margin = y * predictions
+        margins.append(margin)
+        
+        # Calculate confidence (absolute value of ensemble score)
+        confidence = np.abs(predictions)
+        confidences.append(confidence)
+    
+    # Plot 1: Margin distribution evolution
+    colors = ['red', 'blue', 'green']
+    labels = ['Iteration 1', 'Iteration 2', 'Iteration 3']
+    
+    for t in range(len(margins)):
+        ax1.hist(margins[t], bins=10, alpha=0.6, color=colors[t], 
+                label=labels[t], edgecolor='black', linewidth=0.5)
+    
+    ax1.axvline(x=0, color='black', linestyle='--', linewidth=2, alpha=0.7)
+    ax1.set_xlabel('Margin (y × f(x))')
+    ax1.set_ylabel('Frequency')
+    ax1.set_title('Margin Distribution Evolution')
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+    
+    # Plot 2: Confidence evolution for each sample
+    sample_colors = ['red', 'blue', 'green', 'orange', 'purple', 'brown', 'pink', 'gray']
+    markers = ['o', 's', '^', 'v', '<', '>', 'p', '*']
+    
+    for i in range(len(X)):
+        conf_evolution = [confidences[t][i] for t in range(len(confidences))]
+        ax2.plot(range(1, len(conf_evolution) + 1), conf_evolution, 
+                marker=markers[i], linewidth=2, markersize=8, 
+                color=sample_colors[i], label=f'X{i+1}')
+    
+    ax2.set_xlabel('Iteration')
+    ax2.set_ylabel('Confidence |f(x)|')
+    ax2.set_title('Confidence Evolution per Sample')
+    ax2.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    ax2.grid(True, alpha=0.3)
+    ax2.set_xticks([1, 2, 3])
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, 'margin_confidence_evolution.png'), 
+                dpi=300, bbox_inches='tight')
+    plt.close()
+
 def analyze_new_point(X, y, adaboost, new_point, save_dir):
     """
     Analyze the effect of adding a new point
@@ -478,6 +543,7 @@ def main():
     plot_adaboost_iterations(X, y, adaboost, save_dir)
     plot_final_ensemble(X, y, adaboost, save_dir)
     plot_weight_evolution(adaboost, save_dir)
+    plot_margin_confidence_evolution(X, y, adaboost, save_dir)
     
     # Analyze new point
     new_point = np.array([0.25, 0.25, 1])  # X9
