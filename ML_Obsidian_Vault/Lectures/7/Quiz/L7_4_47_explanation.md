@@ -468,7 +468,7 @@ $$D_3 = [0.2500, 0.2500, 0.0500, 0.0500, 0.1500, 0.1500, 0.0500, 0.0500]$$
 **Step 2: Decision Stump Evaluation**
 We evaluate all possible decision stumps with the updated weights:
 
-**Feature 0 (x₁) Evaluation:**
+**Feature 0 ($x_1$) Evaluation:**
 - **Unique values**: [-1, -0.5, 0, 0.5, 1]
 - **Thresholds to test**: [-0.75, -0.25, 0.25, 0.75]
 
@@ -483,7 +483,7 @@ We evaluate all possible decision stumps with the updated weights:
 | 0.75 | -1 | [-1, -1, -1, -1, 1, 1, -1, -1] | [1, 1, 0, 0, 0, 0, 0, 0] | 0.5000 |
 | 0.75 | +1 | [1, 1, 1, 1, -1, -1, 1, 1] | [0, 0, 1, 1, 1, 1, 1, 1] | 0.5000 |
 
-**Feature 1 (x₂) Evaluation:**
+**Feature 1 ($x_2$) Evaluation:**
 - **Unique values**: [-1, 0, 0.5, 1]
 - **Thresholds to test**: [-0.5, 0.25, 0.75]
 
@@ -509,14 +509,14 @@ $$\epsilon_3 = \sum_{i=1}^{8} D_3(i) \cdot \mathbb{I}[y_i \neq h_3(x_i)]$$
 **Detailed Calculation:**
 | Sample | True Label $y_i$ | Prediction $h_3(x_i)$ | Error $\mathbb{I}[y_i \neq h_3(x_i)]$ | Weight $D_3(i)$ | Contribution $D_3(i) \cdot \mathbb{I}[y_i \neq h_3(x_i)]$ |
 |:------:|:----------------:|:---------------------:|:-------------------------------------:|:---------------:|:-------------------------------------------------------------:|
-| X₁ | +1 | +1 | 0 | 0.2500 | 0.2500 × 0 = 0.0000 |
-| X₂ | +1 | +1 | 0 | 0.2500 | 0.2500 × 0 = 0.0000 |
-| X₃ | -1 | -1 | 0 | 0.0500 | 0.0500 × 0 = 0.0000 |
-| X₄ | -1 | -1 | 0 | 0.0500 | 0.0500 × 0 = 0.0000 |
-| X₅ | +1 | +1 | 0 | 0.1500 | 0.1500 × 0 = 0.0000 |
-| X₆ | +1 | +1 | 0 | 0.1500 | 0.1500 × 0 = 0.0000 |
-| X₇ | -1 | +1 | 1 | 0.0500 | 0.0500 × 1 = 0.0500 |
-| X₈ | -1 | +1 | 1 | 0.0500 | 0.0500 × 1 = 0.0500 |
+| $X_1$ | +1 | +1 | 0 | 0.2500 | 0.2500 × 0 = 0.0000 |
+| $X_2$ | +1 | +1 | 0 | 0.2500 | 0.2500 × 0 = 0.0000 |
+| $X_3$ | -1 | -1 | 0 | 0.0500 | 0.0500 × 0 = 0.0000 |
+| $X_4$ | -1 | -1 | 0 | 0.0500 | 0.0500 × 0 = 0.0000 |
+| $X_5$ | +1 | +1 | 0 | 0.1500 | 0.1500 × 0 = 0.0000 |
+| $X_6$ | +1 | +1 | 0 | 0.1500 | 0.1500 × 0 = 0.0000 |
+| $X_7$ | -1 | +1 | 1 | 0.0500 | 0.0500 × 1 = 0.0500 |
+| $X_8$ | -1 | +1 | 1 | 0.0500 | 0.0500 × 1 = 0.0500 |
 
 **Total Weighted Error:**
 $$\epsilon_3 = 0.0000 + 0.0000 + 0.0000 + 0.0000 + 0.0000 + 0.0000 + 0.0500 + 0.0500 = 0.1000$$
@@ -539,35 +539,35 @@ $$D_4(i) = \frac{D_3(i) \cdot e^{-\alpha_3 y_i h_3(x_i)}}{Z_3}$$
 
 **Sample-by-Sample Calculations:**
 
-**Sample X₁** ($y_1 = +1$, $h_3(x_1) = +1$):
+**Sample $X_1$** ($y_1 = +1$, $h_3(x_1) = +1$):
 - $y_1 \times h_3(x_1) = 1 \times 1 = 1$ (correctly classified)
 - $D_4(1) = \frac{0.2500 \times e^{-1.0986 \times 1 \times 1}}{Z_3} = \frac{0.2500 \times e^{-1.0986}}{Z_3} = \frac{0.2500 \times 0.3333}{Z_3} = \frac{0.0833}{Z_3}$
 
-**Sample X₂** ($y_2 = +1$, $h_3(x_2) = +1$):
+**Sample $X_2$** ($y_2 = +1$, $h_3(x_2) = +1$):
 - $y_2 \times h_3(x_2) = 1 \times 1 = 1$ (correctly classified)
 - $D_4(2) = \frac{0.2500 \times e^{-1.0986 \times 1 \times 1}}{Z_3} = \frac{0.2500 \times e^{-1.0986}}{Z_3} = \frac{0.0833}{Z_3}$
 
-**Sample X₃** ($y_3 = -1$, $h_3(x_3) = -1$):
+**Sample $X_3$** ($y_3 = -1$, $h_3(x_3) = -1$):
 - $y_3 \times h_3(x_3) = (-1) \times (-1) = 1$ (correctly classified)
 - $D_4(3) = \frac{0.0500 \times e^{-1.0986 \times (-1) \times (-1)}}{Z_3} = \frac{0.0500 \times e^{-1.0986}}{Z_3} = \frac{0.0500 \times 0.3333}{Z_3} = \frac{0.0167}{Z_3}$
 
-**Sample X₄** ($y_4 = -1$, $h_3(x_4) = -1$):
+**Sample $X_4$** ($y_4 = -1$, $h_3(x_4) = -1$):
 - $y_4 \times h_3(x_4) = (-1) \times (-1) = 1$ (correctly classified)
 - $D_4(4) = \frac{0.0500 \times e^{-1.0986 \times (-1) \times (-1)}}{Z_3} = \frac{0.0500 \times e^{-1.0986}}{Z_3} = \frac{0.0167}{Z_3}$
 
-**Sample X₅** ($y_5 = +1$, $h_3(x_5) = +1$):
+**Sample $X_5$** ($y_5 = +1$, $h_3(x_5) = +1$):
 - $y_5 \times h_3(x_5) = 1 \times 1 = 1$ (correctly classified)
 - $D_4(5) = \frac{0.1500 \times e^{-1.0986 \times 1 \times 1}}{Z_3} = \frac{0.1500 \times e^{-1.0986}}{Z_3} = \frac{0.1500 \times 0.3333}{Z_3} = \frac{0.0500}{Z_3}$
 
-**Sample X₆** ($y_6 = +1$, $h_3(x_6) = +1$):
+**Sample $X_6$** ($y_6 = +1$, $h_3(x_6) = +1$):
 - $y_6 \times h_3(x_6) = 1 \times 1 = 1$ (correctly classified)
 - $D_4(6) = \frac{0.1500 \times e^{-1.0986 \times 1 \times 1}}{Z_3} = \frac{0.1500 \times e^{-1.0986}}{Z_3} = \frac{0.0500}{Z_3}$
 
-**Sample X₇** ($y_7 = -1$, $h_3(x_7) = +1$):
+**Sample $X_7$** ($y_7 = -1$, $h_3(x_7) = +1$):
 - $y_7 \times h_3(x_7) = (-1) \times 1 = -1$ (misclassified)
 - $D_4(7) = \frac{0.0500 \times e^{-1.0986 \times (-1) \times 1}}{Z_3} = \frac{0.0500 \times e^{1.0986}}{Z_3} = \frac{0.0500 \times 3.0000}{Z_3} = \frac{0.1500}{Z_3}$
 
-**Sample X₈** ($y_8 = -1$, $h_3(x_8) = +1$):
+**Sample $X_8$** ($y_8 = -1$, $h_3(x_8) = +1$):
 - $y_8 \times h_3(x_8) = (-1) \times 1 = -1$ (misclassified)
 - $D_4(8) = \frac{0.0500 \times e^{-1.0986 \times (-1) \times 1}}{Z_3} = \frac{0.0500 \times e^{1.0986}}{Z_3} = \frac{0.1500}{Z_3}$
 
@@ -581,14 +581,14 @@ $$D_4(i) = \frac{D_4(i)_{\text{before normalization}}}{Z_3}$$
 
 | Sample | Weight Before Normalization | Normalized Weight |
 |:------:|:---------------------------:|:-----------------:|
-| X₁ | 0.0833 | 0.0833/0.6000 = 0.1389 |
-| X₂ | 0.0833 | 0.0833/0.6000 = 0.1389 |
-| X₃ | 0.0167 | 0.0167/0.6000 = 0.0278 |
-| X₄ | 0.0167 | 0.0167/0.6000 = 0.0278 |
-| X₅ | 0.0500 | 0.0500/0.6000 = 0.0833 |
-| X₆ | 0.0500 | 0.0500/0.6000 = 0.0833 |
-| X₇ | 0.1500 | 0.1500/0.6000 = 0.2500 |
-| X₈ | 0.1500 | 0.1500/0.6000 = 0.2500 |
+| $X_1$ | 0.0833 | 0.0833/0.6000 = 0.1389 |
+| $X_2$ | 0.0833 | 0.0833/0.6000 = 0.1389 |
+| $X_3$ | 0.0167 | 0.0167/0.6000 = 0.0278 |
+| $X_4$ | 0.0167 | 0.0167/0.6000 = 0.0278 |
+| $X_5$ | 0.0500 | 0.0500/0.6000 = 0.0833 |
+| $X_6$ | 0.0500 | 0.0500/0.6000 = 0.0833 |
+| $X_7$ | 0.1500 | 0.1500/0.6000 = 0.2500 |
+| $X_8$ | 0.1500 | 0.1500/0.6000 = 0.2500 |
 
 **Final Weight Vector:**
 $$D_4 = [0.1389, 0.1389, 0.0278, 0.0278, 0.0833, 0.0833, 0.2500, 0.2500]$$
@@ -597,10 +597,10 @@ $$D_4 = [0.1389, 0.1389, 0.0278, 0.0278, 0.0833, 0.0833, 0.2500, 0.2500]$$
 $$\sum_{i=1}^{8} D_4(i) = 2 \times 0.1389 + 2 \times 0.0278 + 2 \times 0.0833 + 2 \times 0.2500 = 0.2778 + 0.0556 + 0.1666 + 0.5000 = 1.000$$
 
 **Key Insight**: The final weight distribution shows that:
-- **Samples X₇, X₈** (misclassified by $h_3$) have the highest weights (0.2500)
-- **Samples X₁, X₂** (consistently correctly classified) have medium-high weights (0.1389)
-- **Samples X₅, X₆** (consistently correctly classified) have medium weights (0.0833)
-- **Samples X₃, X₄** (consistently correctly classified) have the lowest weights (0.0278)
+- **Samples $X_7$, $X_8$** (misclassified by $h_3$) have the highest weights (0.2500)
+- **Samples $X_1$, $X_2$** (consistently correctly classified) have medium-high weights (0.1389)
+- **Samples $X_5$, $X_6$** (consistently correctly classified) have medium weights (0.0833)
+- **Samples $X_3$, $X_4$** (consistently correctly classified) have the lowest weights (0.0278)
 
 ### Task 2: Training Error Analysis and AdaBoost Advantages
 
