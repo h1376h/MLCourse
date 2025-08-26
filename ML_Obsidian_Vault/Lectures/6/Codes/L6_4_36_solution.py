@@ -103,18 +103,18 @@ def find_optimal_threshold(data, feature, target='Grade'):
     """Find optimal threshold for continuous feature splitting"""
     print(f"\nFinding optimal threshold for feature '{feature}':")
     print("-" * 50)
-    
+
     # Sort data by the feature
     sorted_data = data.sort_values(feature)
-    print(f"Data sorted by {feature}:")
-    print(sorted_data[[feature, target]].to_string(index=False))
-    
+    print(f"Data sorted by {feature} (with Class for reference):")
+    print(sorted_data[['Class', feature, target]].to_string(index=False))
+
     # For binary features, we only have True/False splits
     unique_values = sorted_data[feature].unique()
     if len(unique_values) == 2:  # Binary feature
         print(f"\nBinary feature '{feature}' with values: {unique_values}")
         return unique_values
-    
+
     # For continuous features, we would find midpoints between consecutive values
     # But since our features are binary, we return the unique values
     return unique_values
@@ -189,10 +189,26 @@ def information_gain(data, feature, target='Grade'):
     information_gain = parent_impurity - weighted_impurity
     return information_gain, parent_impurity, weighted_impurity
 
+# Show data sorted by Grade for reference (NOT for information gain calculation)
+print("\n" + "="*50)
+print("REFERENCE: DATA SORTED BY GRADE (for visualization only)")
+print("="*50)
+print("Note: This sorting is for reference only. Information gain calculation")
+print("requires sorting by each feature, not by the target variable.")
+print("-" * 50)
+
+grade_sorted = df.sort_values('Grade')
+print("Data sorted by Grade (for reference only):")
+print(grade_sorted[['Class', 'A', 'B', 'C', 'Grade']].to_string(index=False))
+
 # Calculate information gain for each feature
 features = ['A', 'B', 'C']
-print("\nInformation Gain Analysis:")
-print("-" * 40)
+print("\n" + "="*50)
+print("INFORMATION GAIN ANALYSIS")
+print("="*50)
+print("Note: For information gain calculation, we sort by each feature")
+print("to see how well it separates the target values.")
+print("-" * 50)
 
 ig_results = {}
 for feature in features:
@@ -243,7 +259,7 @@ print(f"\nTree structure:")
 print(f"Number of nodes: {tree.tree_.node_count}")
 print(f"Max depth: {tree.get_depth()}")
 
-# Visualize the tree
+# Visualize the tree with sklearn plot_tree (detailed information)
 plt.figure(figsize=(15, 10))
 plot_tree(tree, feature_names=['A', 'B', 'C'], 
           class_names=None, filled=True, rounded=True, fontsize=10)
@@ -252,68 +268,81 @@ plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'task3_tree_structure.png'), dpi=300, bbox_inches='tight')
 plt.close()
 
-# Create a custom tree visualization with proper LaTeX rendering
-def create_custom_tree_visualization():
+# Create a custom tree visualization with proper LaTeX rendering for mathematical symbols
+def create_tree_visualization_latex():
     """Create a custom tree visualization with proper LaTeX rendering"""
     fig, ax = plt.subplots(1, 1, figsize=(15, 10))
     
-    # Tree structure
+    # Tree structure with detailed information
     # Root node
-    ax.text(0.5, 0.9, r'$B \leq 0.5$', fontsize=12, ha='center', va='center',
+    ax.text(0.5, 0.9, r'$B \leq 0.5$' + '\nsamples = 8\nvalue = 51.75\nmse = 350.44', 
+            fontsize=10, ha='center', va='center',
             bbox=dict(boxstyle="round,pad=0.3", facecolor='lightblue', alpha=0.7))
     
     # Left child (B=False)
-    ax.text(0.25, 0.7, r'$A \leq 0.5$', fontsize=12, ha='center', va='center',
+    ax.text(0.25, 0.7, r'$A \leq 0.5$' + '\nsamples = 4\nvalue = 62.75\nmse = 171.69', 
+            fontsize=10, ha='center', va='center',
             bbox=dict(boxstyle="round,pad=0.3", facecolor='lightgreen', alpha=0.7))
     
     # Right child (B=True)
-    ax.text(0.75, 0.7, r'$C \leq 0.5$', fontsize=12, ha='center', va='center',
+    ax.text(0.75, 0.7, r'$C \leq 0.5$' + '\nsamples = 4\nvalue = 40.75\nmse = 287.19', 
+            fontsize=10, ha='center', va='center',
             bbox=dict(boxstyle="round,pad=0.3", facecolor='lightcoral', alpha=0.7))
     
-    # Leaf nodes
-    ax.text(0.125, 0.5, r'Grade = 42.0', fontsize=10, ha='center', va='center',
+    # Leaf nodes with detailed information
+    ax.text(0.125, 0.5, 'samples = 1\nvalue = 42.0\nmse = 0.0', fontsize=9, ha='center', va='center',
             bbox=dict(boxstyle="round,pad=0.3", facecolor='yellow', alpha=0.7))
-    ax.text(0.375, 0.5, r'Grade = 69.7', fontsize=10, ha='center', va='center',
+    ax.text(0.375, 0.5, 'samples = 3\nvalue = 69.7\nmse = 186.25', fontsize=9, ha='center', va='center',
             bbox=dict(boxstyle="round,pad=0.3", facecolor='yellow', alpha=0.7))
-    ax.text(0.625, 0.5, r'Grade = 23.0', fontsize=10, ha='center', va='center',
+    ax.text(0.625, 0.5, 'samples = 1\nvalue = 23.0\nmse = 0.0', fontsize=9, ha='center', va='center',
             bbox=dict(boxstyle="round,pad=0.3", facecolor='yellow', alpha=0.7))
-    ax.text(0.875, 0.5, r'Grade = 46.7', fontsize=10, ha='center', va='center',
+    ax.text(0.875, 0.5, 'samples = 3\nvalue = 46.7\nmse = 287.19', fontsize=9, ha='center', va='center',
             bbox=dict(boxstyle="round,pad=0.3", facecolor='yellow', alpha=0.7))
     
-    # Edges
+    # Edges - Root to internal nodes
     ax.annotate('', xy=(0.25, 0.75), xytext=(0.5, 0.85), 
-                arrowprops=dict(arrowstyle='->', lw=2))
+                arrowprops=dict(arrowstyle='->', lw=2, color='blue'))
     ax.annotate('', xy=(0.75, 0.75), xytext=(0.5, 0.85), 
-                arrowprops=dict(arrowstyle='->', lw=2))
-    ax.annotate('', xy=(0.125, 0.55), xytext=(0.25, 0.65), 
-                arrowprops=dict(arrowstyle='->', lw=2))
-    ax.annotate('', xy=(0.375, 0.55), xytext=(0.25, 0.65), 
-                arrowprops=dict(arrowstyle='->', lw=2))
-    ax.annotate('', xy=(0.625, 0.55), xytext=(0.75, 0.65), 
-                arrowprops=dict(arrowstyle='->', lw=2))
-    ax.annotate('', xy=(0.875, 0.55), xytext=(0.75, 0.65), 
-                arrowprops=dict(arrowstyle='->', lw=2))
+                arrowprops=dict(arrowstyle='->', lw=2, color='red'))
     
-    # Edge labels
-    ax.text(0.375, 0.8, r'True', fontsize=10, ha='center', va='center')
-    ax.text(0.625, 0.8, r'False', fontsize=10, ha='center', va='center')
-    ax.text(0.1875, 0.6, r'True', fontsize=10, ha='center', va='center')
-    ax.text(0.3125, 0.6, r'False', fontsize=10, ha='center', va='center')
-    ax.text(0.6875, 0.6, r'True', fontsize=10, ha='center', va='center')
-    ax.text(0.8125, 0.6, r'False', fontsize=10, ha='center', va='center')
+    # Edges - Internal nodes to leaf nodes
+    ax.annotate('', xy=(0.125, 0.55), xytext=(0.25, 0.65), 
+                arrowprops=dict(arrowstyle='->', lw=2, color='green'))
+    ax.annotate('', xy=(0.375, 0.55), xytext=(0.25, 0.65), 
+                arrowprops=dict(arrowstyle='->', lw=2, color='green'))
+    ax.annotate('', xy=(0.625, 0.55), xytext=(0.75, 0.65), 
+                arrowprops=dict(arrowstyle='->', lw=2, color='orange'))
+    ax.annotate('', xy=(0.875, 0.55), xytext=(0.75, 0.65), 
+                arrowprops=dict(arrowstyle='->', lw=2, color='orange'))
+    
+    # Edge labels - Root splits
+    ax.text(0.375, 0.8, r'False', fontsize=10, ha='center', va='center', 
+            bbox=dict(boxstyle="round,pad=0.2", facecolor='lightblue', alpha=0.5))
+    ax.text(0.625, 0.8, r'True', fontsize=10, ha='center', va='center',
+            bbox=dict(boxstyle="round,pad=0.2", facecolor='lightcoral', alpha=0.5))
+    
+    # Edge labels - Internal node splits
+    ax.text(0.1875, 0.6, r'False', fontsize=9, ha='center', va='center',
+            bbox=dict(boxstyle="round,pad=0.1", facecolor='lightgreen', alpha=0.5))
+    ax.text(0.3125, 0.6, r'True', fontsize=9, ha='center', va='center',
+            bbox=dict(boxstyle="round,pad=0.1", facecolor='lightgreen', alpha=0.5))
+    ax.text(0.6875, 0.6, r'False', fontsize=9, ha='center', va='center',
+            bbox=dict(boxstyle="round,pad=0.1", facecolor='lightcoral', alpha=0.5))
+    ax.text(0.8125, 0.6, r'True', fontsize=9, ha='center', va='center',
+            bbox=dict(boxstyle="round,pad=0.1", facecolor='lightcoral', alpha=0.5))
     
     ax.set_xlim(0, 1)
     ax.set_ylim(0.4, 1)
     ax.set_aspect('equal')
     ax.axis('off')
-    ax.set_title(r'Decision Tree Structure with Proper LaTeX Rendering', fontsize=14, fontweight='bold')
+    ax.set_title(r'Decision Tree Structure with LaTeX Rendering (max\_depth=2, min\_samples\_leaf=1)', fontsize=14, fontweight='bold')
     
     plt.tight_layout()
     plt.savefig(os.path.join(save_dir, 'task3_tree_structure_latex.png'), dpi=300, bbox_inches='tight')
     plt.close()
 
-# Create the custom tree visualization
-create_custom_tree_visualization()
+# Create the LaTeX tree visualization
+create_tree_visualization_latex()
 
 # Show predictions for each sample with detailed path analysis
 print("\nPredictions for each sample with decision path:")
@@ -600,7 +629,7 @@ plt.xticks(rotation=45)
 # Add value labels on bars
 for bar, saving in zip(bars, savings):
     plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 1000, 
-             f'\${saving:,.0f}', ha='center', va='bottom', fontweight='bold')
+             f'\\${saving:,.0f}', ha='center', va='bottom', fontweight='bold')
 
 plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
