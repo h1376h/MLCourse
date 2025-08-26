@@ -144,7 +144,7 @@ Let's verify that our decision boundary correctly classifies all points using de
 - Apply sign function: $\text{sign}(6.5) = +1$
 - Prediction: +1, True Label: +1 → **Correct** ✓
 
-**Summary Table** (Obsidian format):
+**Summary Table**:
 
 | Point | x | x² | x² - 2.5 | sign(x² - 2.5) | True Label | Correct? |
 |-------|---|----|---------|-----------------|-----------|---------|
@@ -178,7 +178,7 @@ Calculate the distance from each point to our proposed boundary $x^2 = 2.5$:
 - Point 6: $x = 2$, $x^2 = 4$, $|x^2 - 2.5| = |4 - 2.5| = 1.5$
 - Point 7: $x = 3$, $x^2 = 9$, $|x^2 - 2.5| = |9 - 2.5| = 6.5$
 
-**Distance Summary Table** (Obsidian format):
+**Distance Summary Table**:
 
 | Point | x | x² | Label | Distance to Boundary |
 |-------|---|----|---------|--------------------|
