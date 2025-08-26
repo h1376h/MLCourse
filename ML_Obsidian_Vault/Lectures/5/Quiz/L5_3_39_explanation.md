@@ -146,15 +146,15 @@ Let's verify that our decision boundary correctly classifies all points using de
 
 **Summary Table**:
 
-| Point | x | x² | x² - 2.5 | sign(x² - 2.5) | True Label | Correct? |
-|-------|---|----|---------|-----------------|-----------|---------|
-| 1 | -3 | 9 | 6.5 | +1 | +1 | ✓ |
-| 2 | -2 | 4 | 1.5 | +1 | +1 | ✓ |
-| 3 | -1 | 1 | -1.5 | -1 | -1 | ✓ |
-| 4 | 0 | 0 | -2.5 | -1 | -1 | ✓ |
-| 5 | 1 | 1 | -1.5 | -1 | -1 | ✓ |
-| 6 | 2 | 4 | 1.5 | +1 | +1 | ✓ |
-| 7 | 3 | 9 | 6.5 | +1 | +1 | ✓ |
+| Point | x | x² | x² - 2.5 | sign(x² - 2.5) | True Label | Correct? | Support Vector? |
+|-------|---|----|---------|-----------------|-----------|---------|----------------|
+| 1 | -3 | 9 | 6.5 | +1 | +1 | ✓ | No |
+| 2 | -2 | 4 | 1.5 | +1 | +1 | ✓ | **Yes** |
+| 3 | -1 | 1 | -1.5 | -1 | -1 | ✓ | **Yes** |
+| 4 | 0 | 0 | -2.5 | -1 | -1 | ✓ | No |
+| 5 | 1 | 1 | -1.5 | -1 | -1 | ✓ | **Yes** |
+| 6 | 2 | 4 | 1.5 | +1 | +1 | ✓ | **Yes** |
+| 7 | 3 | 9 | 6.5 | +1 | +1 | ✓ | No |
 
 **Result**: All 7 points correctly classified with 100% accuracy!
 
@@ -193,10 +193,16 @@ Calculate the distance from each point to our proposed boundary $x^2 = 2.5$:
 **Step 6.2: Identify Support Vectors**
 
 The support vectors are the points closest to the decision boundary:
-- **From positive class**: Points 2 and 6 with $x = \pm 2$, $x^2 = 4$
-- **From negative class**: Points 3 and 5 with $x = \pm 1$, $x^2 = 1$
+- **From positive class**: Points 2 and 6 with $x = \pm 2$, $x^2 = 4$ (distance = 1.5 from boundary)
+- **From negative class**: Points 3 and 5 with $x = \pm 1$, $x^2 = 1$ (distance = 1.5 from boundary)
 
-All four points are equidistant from the boundary (distance = 1.5).
+**Support Vector Summary**:
+- **Point 2**: $x = -2$, $\phi(x) = (-2, 4)$, label = +1
+- **Point 3**: $x = -1$, $\phi(x) = (-1, 1)$, label = -1  
+- **Point 5**: $x = 1$, $\phi(x) = (1, 1)$, label = -1
+- **Point 6**: $x = 2$, $\phi(x) = (2, 4)$, label = +1
+
+All four support vectors are exactly at distance 1.5 from the decision boundary $x^2 = 2.5$.
 
 **Step 6.3: Calculate Optimal Decision Boundary**
 
@@ -211,6 +217,11 @@ The margin half-width is the distance between the boundary and the support vecto
 $$\text{Margin half-width} = \frac{x^2_{\text{positive}} - x^2_{\text{negative}}}{2} = \frac{4 - 1}{2} = 1.5$$
 
 **Full margin width** = $2 \times 1.5 = 3.0$
+
+**Margin Verification**:
+- **Upper margin boundary**: $x^2 = 2.5 + 1.5 = 4.0$ (passes through positive support vectors)
+- **Lower margin boundary**: $x^2 = 2.5 - 1.5 = 1.0$ (passes through negative support vectors)
+- **Decision boundary**: $x^2 = 2.5$ (exactly halfway between support vectors)
 
 ### Step 7: Calculate the Geometric Margin (Detailed Mathematical Derivation)
 
@@ -253,8 +264,10 @@ With this normalization:
 - **Geometric margin** = $\frac{1}{||\mathbf{w}||} = \frac{1}{2/3} = 1.5$ ✓
 
 **Support vectors** (points on margin boundary):
-- Points 2 and 6: $x = \pm 2$, $x^2 = 4$ (positive class)
-- Points 3 and 5: $x = \pm 1$, $x^2 = 1$ (negative class)
+- **Points 2 and 6**: $x = \pm 2$, $x^2 = 4$ (positive class) - at upper margin boundary
+- **Points 3 and 5**: $x = \pm 1$, $x^2 = 1$ (negative class) - at lower margin boundary
+
+**Verification**: All support vectors are exactly at distance 1.5 from the decision boundary $x^2 = 2.5$.
 
 ### Step 8: Express the Final Decision Function (Complete Mathematical Derivation)
 
@@ -338,12 +351,15 @@ This plot shows the step-by-step mathematical derivation with:
 ### Decision Boundary with Margin
 ![Decision Boundary with Margin](../Images/L5_3_Quiz_39/decision_boundary_with_margin.png)
 
-This detailed view of the transformed space shows:
-- Linear decision boundary $x^2 = 2.5$ as a horizontal line
-- Margin boundaries at distance 1.5 from the decision boundary
-- Support vectors clearly marked with thick borders
-- Classification regions with proper coloring
-- All mathematical parameters and equations overlaid
+This dedicated visualization of the transformed feature space shows:
+- **Linear decision boundary**: $x^2 = 2.5$ as a horizontal green solid line
+- **Margin boundaries**: Dashed green lines at $x^2 = 1.0$ and $x^2 = 4.0$ (distance 1.5 from boundary)
+- **Support vectors**: All 4 support vectors correctly identified at $x = \pm 1$ and $x = \pm 2$ with thick borders
+- **Classification regions**: Light blue for class +1 (above boundary), light red for class -1 (below boundary)
+- **Mathematical annotations**: Clear display of decision boundary equation and margin value
+- **Perfect separation**: All 7 points correctly classified with optimal margin of 1.5 units
+- **Proper region coloring**: Class -1 region (red) extends from $x^2 = 0$ to $x^2 = 2.5$, Class +1 region (blue) extends from $x^2 = 2.5$ to $x^2 = 10$
+- **Complete bottom coloring**: The entire bottom region below the decision boundary (including negative y values from y=-1 to y=2.5) is now properly colored red
 
 ## Key Insights
 
@@ -376,7 +392,7 @@ This detailed view of the transformed space shows:
 **Mathematical Achievement**: We solved this problem completely using pen-and-paper mathematics:
 - **Proved** non-linear separability in 1D through systematic analysis
 - **Derived** the optimal decision boundary $x^2 = 2.5$ analytically
-- **Calculated** the exact margin of 1.0 and identified all support vectors
+- **Calculated** the exact margin of 1.5 and identified all support vectors
 - **Verified** 100% classification accuracy through direct computation
 
 **Practical Significance**: This demonstrates the fundamental principle of kernel methods:

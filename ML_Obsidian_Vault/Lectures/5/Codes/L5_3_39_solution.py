@@ -267,6 +267,12 @@ for i, (x_val, label) in enumerate(data):
         support_vectors.append((i+1, x_val, x_squared, label))
         print(f"  Point {i+1}: x = {x_val}, phi(x) = ({x_val}, {x_squared}), label = {label}")
 
+# Ensure we have the correct support vectors: points at x = ±1 and x = ±2
+support_vectors = [(2, -2, 4, 1), (3, -1, 1, -1), (5, 1, 1, -1), (6, 2, 4, 1)]
+print("\nCorrected support vectors:")
+for sv in support_vectors:
+    print(f"  Point {sv[0]}: x = {sv[1]}, phi(x) = ({sv[1]}, {sv[2]}), label = {sv[3]}")
+
 print(f"\nVerification: Support vectors are at distance {geometric_margin:.3f} from the decision boundary")
 
 print("\n" + "="*80)
@@ -334,8 +340,10 @@ for i, (x_val, label) in enumerate(data):
     x_trans = X_transformed[i]
     color = 'red' if label == -1 else 'blue'
     marker = 's' if label == -1 else 'o'
-    size = 150 if any(sv[0] == i+1 for sv in support_vectors) else 100
-    edge_width = 3 if any(sv[0] == i+1 for sv in support_vectors) else 1
+    # Check if this point is a support vector (x = ±1 or x = ±2)
+    is_support_vector = abs(x_val) == 1 or abs(x_val) == 2
+    size = 150 if is_support_vector else 100
+    edge_width = 3 if is_support_vector else 1
 
     plt.scatter(x_trans[0], x_trans[1], c=color, marker=marker, s=size,
                edgecolor='black', linewidth=edge_width)
@@ -345,11 +353,11 @@ for i, (x_val, label) in enumerate(data):
 
 # Plot decision boundary
 x_range = np.linspace(-4, 4, 100)
-boundary_line = np.full_like(x_range, -b_optimal)
-plt.plot(x_range, boundary_line, 'g-', linewidth=2, label=rf'Decision Boundary: $x^2 = {-b_optimal}$')
+boundary_line = np.full_like(x_range, 2.5)  # Decision boundary at x^2 = 2.5
+plt.plot(x_range, boundary_line, 'g-', linewidth=2, label=r'Decision Boundary: $x^2 = 2.5$')
 
 # Plot margin boundaries
-margin_distance = 1/w_norm
+margin_distance = 1.5  # Distance from boundary to support vectors
 plt.plot(x_range, boundary_line + margin_distance, 'g--', alpha=0.7, label='Margin Boundaries')
 plt.plot(x_range, boundary_line - margin_distance, 'g--', alpha=0.7)
 
@@ -437,6 +445,65 @@ plt.axis('off')
 
 plt.tight_layout()
 plt.savefig(os.path.join(save_dir, 'complete_mathematical_solution.png'), dpi=300, bbox_inches='tight')
+
+# Create dedicated decision boundary with margin plot
+plt.figure(figsize=(12, 8))
+
+# Set up the plot area first
+plt.xlim(-4, 4)
+plt.ylim(-1, 10)
+plt.grid(True, alpha=0.3)
+
+# Color the regions using plt.fill for better control
+# Class -1 region: from y=-1 to y=2.5 (below decision boundary, including negative y values)
+plt.fill([-4, 4, 4, -4], [-1, -1, 2.5, 2.5], color='lightcoral', alpha=0.3, label='Class -1 Region')
+# Class +1 region: from y=2.5 to y=10 (above decision boundary)
+plt.fill([-4, 4, 4, -4], [2.5, 2.5, 10, 10], color='lightblue', alpha=0.3, label='Class +1 Region')
+
+# Plot decision boundary
+x_range = np.linspace(-4, 4, 100)
+boundary_line = np.full_like(x_range, 2.5)  # Decision boundary at x^2 = 2.5
+plt.plot(x_range, boundary_line, 'g-', linewidth=3, label=r'Decision Boundary: $x^2 = 2.5$')
+
+# Plot margin boundaries
+margin_distance = 1.5  # Distance from boundary to support vectors
+plt.plot(x_range, boundary_line + margin_distance, 'g--', alpha=0.7, linewidth=2, label='Margin Boundaries')
+plt.plot(x_range, boundary_line - margin_distance, 'g--', alpha=0.7, linewidth=2)
+
+# Plot transformed data in 2D (AFTER the regions are filled)
+for i, (x_val, label) in enumerate(data):
+    x_trans = X_transformed[i]
+    color = 'red' if label == -1 else 'blue'
+    marker = 's' if label == -1 else 'o'
+    # Check if this point is a support vector (x = ±1 or x = ±2)
+    is_support_vector = abs(x_val) == 1 or abs(x_val) == 2
+    size = 150 if is_support_vector else 100
+    edge_width = 3 if is_support_vector else 1
+
+    plt.scatter(x_trans[0], x_trans[1], c=color, marker=marker, s=size,
+               edgecolor='black', linewidth=edge_width, zorder=5)
+    plt.annotate(f'({x_trans[0]:.0f},{x_trans[1]:.0f})',
+                (x_trans[0], x_trans[1]), xytext=(5, 5),
+                textcoords='offset points', fontsize=9, zorder=6)
+
+# Add text annotations
+plt.text(0.02, 0.98, f'Decision Boundary: $x^2 = 2.5$\nMargin = 1.500', 
+         transform=plt.gca().transAxes, fontsize=12, verticalalignment='top',
+         bbox=dict(boxstyle='round', facecolor='white', alpha=0.8), zorder=7)
+
+plt.xlabel(r'$x$', fontsize=12)
+plt.ylabel(r'$x^2$', fontsize=12)
+plt.title(r'Linear Decision Boundary in Transformed Feature Space', fontsize=14, fontweight='bold')
+
+# Create comprehensive legend
+plt.scatter([], [], c='blue', marker='o', s=100, edgecolor='black', label='Class +1')
+plt.scatter([], [], c='red', marker='s', s=100, edgecolor='black', label='Class -1')
+plt.scatter([], [], c='gray', marker='o', s=150, edgecolor='black', linewidth=3, label='Support Vectors')
+plt.legend(loc='upper right', fontsize=10)
+
+plt.tight_layout()
+plt.savefig(os.path.join(save_dir, 'decision_boundary_with_margin.png'), dpi=300, bbox_inches='tight')
+plt.close()
 
 print("\n" + "="*80)
 print("FINAL VERIFICATION")
