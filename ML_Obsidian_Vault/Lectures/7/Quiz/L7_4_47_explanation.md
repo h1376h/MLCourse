@@ -242,12 +242,13 @@ $$E_{train} \leq \prod_{t=1}^{T} 2\sqrt{\epsilon_t(1-\epsilon_t)}$$
 $$\prod_{t=1}^{3} 2\sqrt{\epsilon_t(1-\epsilon_t)} = 0.8660 \times 0.7454 \times 0.6 = 0.3873$$
 
 **Comparison Results:**
-- **Theoretical Bound**: 0.3873
-- **Actual Training Error**: 0.0000
-- **Bound vs Actual**: 0.3873 vs 0.0000
+- **Theoretical Bound**: $0.3873$
+- **Actual Training Error**: $0.0000$
+- **Bound vs Actual**: $0.3873$ vs $0.0000$
 
 **Discrepancy Analysis:**
-The theoretical bound is a worst-case upper bound that assumes the worst possible scenario for the ensemble. The large discrepancy (0.3873 vs 0.0000) occurs because:
+
+The theoretical bound is a worst-case upper bound that assumes the worst possible scenario for the ensemble. The large discrepancy ($0.3873$ vs $0.0000$) occurs because:
 
 1. **Conservative Nature**: The bound is designed to be conservative and hold for any possible weak learner selection
 2. **Geometric Properties**: The bound doesn't account for the specific geometric properties of the decision boundaries
@@ -256,15 +257,16 @@ The theoretical bound is a worst-case upper bound that assumes the worst possibl
 
 ### Task 4: New Point Analysis
 
-**New Point: X₉ = (0.25, 0.25, +1)**
+**New Point**: $X_9 = (0.25, 0.25, +1)$
 
 **Prediction Analysis:**
-- Prediction: -1
-- True Label: +1
-- Correctly Classified: False
+- **Prediction**: $-1$
+- **True Label**: $+1$
+- **Correctly Classified**: False
 
 **Geometric Analysis:**
-The new point X₉ = (0.25, 0.25) is located in a region that the ensemble classifies as negative. This makes the classification problem **harder** for AdaBoost because:
+
+The new point $X_9 = (0.25, 0.25)$ is located in a region that the ensemble classifies as negative. This makes the classification problem **harder** for AdaBoost because:
 
 1. **Boundary Complexity**: The point lies in a region where the ensemble decision boundary is complex, requiring more iterations to correctly classify
 2. **Mixed Region**: The point is in an area where different weak learners make conflicting predictions
@@ -273,20 +275,22 @@ The new point X₉ = (0.25, 0.25) is located in a region that the ensemble class
 ### Task 5: Linear Separability Analysis
 
 **Minimum Changes for Linear Separability:**
+
 To make the dataset linearly separable, we need to change **2 samples**:
 
 **Option 1:**
-- Change X₃ from (0, 1, -1) to (0, 1, +1)
-- Change X₄ from (0.5, 1, -1) to (0.5, 1, +1)
+- Change $X_3$ from $(0, 1, -1)$ to $(0, 1, +1)$
+- Change $X_4$ from $(0.5, 1, -1)$ to $(0.5, 1, +1)$
 
 **Option 2:**
-- Change X₇ from (0, -1, -1) to (0, -1, +1)
-- Change X₈ from (0, 0, -1) to (0, 0, +1)
+- Change $X_7$ from $(0, -1, -1)$ to $(0, -1, +1)$
+- Change $X_8$ from $(0, 0, -1)$ to $(0, 0, +1)$
 
 **Reasoning:**
-The current dataset has overlapping regions between positive and negative classes. By changing 2 samples, we can create a clear linear separation where:
-- All points with x₂ > 0.5 are positive
-- All points with x₂ ≤ 0.5 are negative
+
+The current dataset has overlapping regions between positive and negative classes. By changing $2$ samples, we can create a clear linear separation where:
+- All points with $x_2 > 0.5$ are positive
+- All points with $x_2 \leq 0.5$ are negative
 
 This would make the problem much easier for AdaBoost, requiring fewer iterations to achieve perfect classification.
 
@@ -298,9 +302,9 @@ This would make the problem much easier for AdaBoost, requiring fewer iterations
 
 The visualization shows:
 1. **Original Dataset**: The initial distribution of points
-2. **Iteration 1**: Decision stump on x₁ = -0.25 with α₁ = 0.549
-3. **Iteration 2**: Decision stump on x₁ = 0.75 with α₂ = 0.805
-4. **Iteration 3**: Decision stump on x₂ = 0.75 with α₃ = 1.099
+2. **Iteration 1**: Decision stump on $x_1 = -0.25$ with $\alpha_1 = 0.549$
+3. **Iteration 2**: Decision stump on $x_1 = 0.75$ with $\alpha_2 = 0.805$
+4. **Iteration 3**: Decision stump on $x_2 = 0.75$ with $\alpha_3 = 1.099$
 
 Each iteration shows how the decision boundary evolves and how the ensemble progressively improves classification.
 
@@ -315,15 +319,15 @@ The final ensemble creates a complex, non-linear decision boundary that perfectl
 ![Weight Evolution](../Images/L7_4_Quiz_47/weight_evolution.png)
 
 The weight evolution shows how AdaBoost focuses on difficult samples:
-- X₅ and X₆ gain weight in iteration 1 (misclassified)
-- X₁ and X₂ gain weight in iteration 2 (misclassified)
-- X₇ and X₈ gain weight in iteration 3 (misclassified)
+- $X_5$ and $X_6$ gain weight in iteration $1$ (misclassified)
+- $X_1$ and $X_2$ gain weight in iteration $2$ (misclassified)
+- $X_7$ and $X_8$ gain weight in iteration $3$ (misclassified)
 
 ### New Point Analysis
 
 ![New Point Analysis](../Images/L7_4_Quiz_47/new_point_analysis.png)
 
-The visualization shows how the new point X₉ = (0.25, 0.25) falls in the negative region of the ensemble decision boundary, demonstrating why it would be misclassified.
+The visualization shows how the new point $X_9 = (0.25, 0.25)$ falls in the negative region of the ensemble decision boundary, demonstrating why it would be misclassified.
 
 ### Margin and Confidence Evolution
 
@@ -332,15 +336,15 @@ The visualization shows how the new point X₉ = (0.25, 0.25) falls in the negat
 This visualization provides two key insights:
 
 **Left Plot - Margin Distribution Evolution:**
-- Shows how the margin distribution (y × f(x)) evolves across iterations
+- Shows how the margin distribution $(y \times f(x))$ evolves across iterations
 - The margin represents the confidence of correct classification
 - Positive margins indicate correct classification, negative margins indicate errors
 - As iterations progress, more samples achieve positive margins, showing improved classification confidence
 
 **Right Plot - Confidence Evolution per Sample:**
-- Tracks how the ensemble confidence |f(x)| changes for each sample across iterations
+- Tracks how the ensemble confidence $|f(x)|$ changes for each sample across iterations
 - Higher confidence values indicate stronger ensemble predictions
-- Samples that were initially misclassified (X₅, X₆, X₁, X₂, X₇, X₈) show increasing confidence as the ensemble learns to classify them correctly
+- Samples that were initially misclassified ($X_5$, $X_6$, $X_1$, $X_2$, $X_7$, $X_8$) show increasing confidence as the ensemble learns to classify them correctly
 - The final ensemble achieves high confidence for all samples, indicating robust classification
 
 ## Key Insights
@@ -372,26 +376,26 @@ This visualization provides two key insights:
 
 ### All Tasks Successfully Completed:
 
-**✅ Task 1:** Manual calculation of εₜ, αₜ, Zₜ, Dₜ for all 3 iterations with detailed step-by-step computations
-- Iteration 1: ε₁ = 0.25, α₁ = 0.5493, Z₁ = 0.8660, D₂ = [0.0833, 0.0833, 0.0833, 0.0833, 0.25, 0.25, 0.0833, 0.0833]
-- Iteration 2: ε₂ = 0.1667, α₂ = 0.8047, Z₂ = 0.7454, D₃ = [0.25, 0.25, 0.05, 0.05, 0.15, 0.15, 0.05, 0.05]
-- Iteration 3: ε₃ = 0.1, α₃ = 1.0986, Z₃ = 0.6, D₄ = [0.1389, 0.1389, 0.0278, 0.0278, 0.0833, 0.0833, 0.25, 0.25]
+**✅ Task 1:** Manual calculation of $\epsilon_t$, $\alpha_t$, $Z_t$, $D_t$ for all $3$ iterations with detailed step-by-step computations
+- **Iteration 1**: $\epsilon_1 = 0.25$, $\alpha_1 = 0.5493$, $Z_1 = 0.8660$, $D_2 = [0.0833, 0.0833, 0.0833, 0.0833, 0.25, 0.25, 0.0833, 0.0833]$
+- **Iteration 2**: $\epsilon_2 = 0.1667$, $\alpha_2 = 0.8047$, $Z_2 = 0.7454$, $D_3 = [0.25, 0.25, 0.05, 0.05, 0.15, 0.15, 0.05, 0.05]$
+- **Iteration 3**: $\epsilon_3 = 0.1$, $\alpha_3 = 1.0986$, $Z_3 = 0.6$, $D_4 = [0.1389, 0.1389, 0.0278, 0.0278, 0.0833, 0.0833, 0.25, 0.25]$
 
 **✅ Task 2:** Training error analysis and explanation of AdaBoost advantages
-- Training Error: 0.0000 (perfect classification)
+- **Training Error**: $0.0000$ (perfect classification)
 - AdaBoost outperforms single decision stumps through non-linear boundaries, focus on hard examples, weighted combination, and margin maximization
 
 **✅ Task 3:** Theoretical bound calculation and comparison
-- Theoretical Bound: 0.3873
-- Actual Training Error: 0.0000
+- **Theoretical Bound**: $0.3873$
+- **Actual Training Error**: $0.0000$
 - Discrepancy explained by conservative nature of theoretical bounds
 
-**✅ Task 4:** New point analysis (X₉ = (0.25, 0.25, +1))
-- Prediction: -1 (incorrect)
+**✅ Task 4:** New point analysis ($X_9 = (0.25, 0.25, +1)$)
+- **Prediction**: $-1$ (incorrect)
 - Makes classification problem harder due to boundary complexity and mixed region positioning
 
 **✅ Task 5:** Linear separability analysis
-- Minimum 2 sample changes required
+- **Minimum** $2$ sample changes required
 - Options provided with geometric reasoning
 
 ## Conclusion
