@@ -455,8 +455,10 @@ plt.ylim(-1, 10)
 plt.grid(True, alpha=0.3)
 
 # Color the regions using plt.fill for better control
-# Class -1 region: from y=-1 to y=2.5 (below decision boundary, including negative y values)
-plt.fill([-4, 4, 4, -4], [-1, -1, 2.5, 2.5], color='lightcoral', alpha=0.3, label='Class -1 Region')
+# Class -1 region: from y=0 to y=2.5 (below decision boundary) - this region exists
+plt.fill([-4, 4, 4, -4], [0, 0, 2.5, 2.5], color='lightcoral', alpha=0.3, label='Class -1 Region (Valid)')
+# Impossible region: from y=-1 to y=0 (where x² < 0) - this region cannot exist
+plt.fill([-4, 4, 4, -4], [-1, -1, 0, 0], color='lightcoral', alpha=0.1, hatch='///', label='Class -1 Region (Impossible)')
 # Class +1 region: from y=2.5 to y=10 (above decision boundary)
 plt.fill([-4, 4, 4, -4], [2.5, 2.5, 10, 10], color='lightblue', alpha=0.3, label='Class +1 Region')
 
@@ -487,7 +489,7 @@ for i, (x_val, label) in enumerate(data):
                 textcoords='offset points', fontsize=9, zorder=6)
 
 # Add text annotations
-plt.text(0.02, 0.98, f'Decision Boundary: $x^2 = 2.5$\nMargin = 1.500', 
+plt.text(0.02, 0.98, f'Decision Boundary: $x^2 = 2.5$\nMargin = 1.500\nNote: Region below y=0 is impossible\n($x^2$ cannot be negative)', 
          transform=plt.gca().transAxes, fontsize=12, verticalalignment='top',
          bbox=dict(boxstyle='round', facecolor='white', alpha=0.8), zorder=7)
 
