@@ -359,9 +359,9 @@ This dedicated visualization of the transformed feature space shows:
 - **Mathematical annotations**: Clear display of decision boundary equation and margin value
 - **Perfect separation**: All 7 points correctly classified with optimal margin of 1.5 units
 - **Proper region coloring**: Class -1 region (red) extends from $x^2 = 0$ to $x^2 = 2.5$, Class +1 region (blue) extends from $x^2 = 2.5$ to $x^2 = 10$
-- **Complete bottom coloring**: The entire bottom region below the decision boundary is now properly colored red using plt.fill method
-- **Impossible region handling**: The region below y=0 (where x² < 0) is colored with a lighter shade and hatched pattern to indicate it's mathematically impossible
-- **Mathematical clarity**: Clear annotation explaining that x² cannot be negative, making the region below y=0 impossible
+- **Complete bottom coloring**: The entire bottom region below the decision boundary is now properly colored red using `plt.fill()` method
+- **Impossible region handling**: The region below $y = 0$ (where $x^2 < 0$) is colored with a lighter shade and hatched pattern to indicate it's mathematically impossible
+- **Mathematical clarity**: Clear annotation explaining that $x^2$ cannot be negative, making the region below $y = 0$ impossible
 
 ## Key Insights
 
