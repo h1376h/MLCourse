@@ -51,7 +51,7 @@ The key mathematical components are:
 
 **Systematic Stump Search:**
 We systematically evaluate all possible decision stumps by:
-1. **Feature 0 (x₁)**: Unique values = [-1, -0.5, 0, 0.5, 1]
+1. **Feature 0 ($x_1$)**: Unique values = [-1, -0.5, 0, 0.5, 1]
    - Threshold -0.75, Direction -1: Error = 0.6250
    - Threshold -0.75, Direction +1: Error = 0.3750
    - Threshold -0.25, Direction -1: Error = 0.7500
@@ -61,7 +61,7 @@ We systematically evaluate all possible decision stumps by:
    - Threshold 0.75, Direction -1: Error = 0.2500
    - Threshold 0.75, Direction +1: Error = 0.7500
 
-2. **Feature 1 (x₂)**: Unique values = [-1, 0, 0.5, 1]
+2. **Feature 1 ($x_2$)**: Unique values = [-1, 0, 0.5, 1]
    - Threshold -0.50, Direction -1: Error = 0.5000
    - Threshold -0.50, Direction +1: Error = 0.5000
    - Threshold 0.25, Direction -1: Error = 0.6250
@@ -70,7 +70,7 @@ We systematically evaluate all possible decision stumps by:
    - Threshold 0.75, Direction +1: Error = 0.2500
 
 **Best Decision Stump Selected:**
-- Feature: 0 (x₁)
+- Feature: 0 ($x_1$)
 - Threshold: -0.25
 - Direction: +1
 - Predictions: [1, 1, -1, -1, -1, -1, -1, -1]
@@ -794,7 +794,7 @@ This visualization provides two key insights:
 - **Decision Boundary Evolution**: The ensemble creates increasingly complex decision boundaries
 - **Non-linear Separation**: The final boundary can separate non-linearly separable data
 - **Margin Maximization**: AdaBoost implicitly maximizes the classification margin
-- **Weight Concentration**: Difficult samples (X₇, X₈) end up with the highest weights (0.25) in the final iteration
+- **Weight Concentration**: Difficult samples ($X_7$, $X_8$) end up with the highest weights (0.25) in the final iteration
 
 ### Theoretical Properties
 - **Convergence**: For linearly separable data, AdaBoost converges to zero training error
