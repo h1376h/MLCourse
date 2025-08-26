@@ -26,6 +26,11 @@ $$f(\mathbf{x}) = \text{sign}\left(\sum_{i=1}^n \alpha_i y_i K(\mathbf{x}_i, \ma
 **Hinge Loss:** $L_h(y, f(x)) = \max(0, 1 - y \cdot f(x))$
 **ε-insensitive Loss:** $L_ε(y, f(x)) = \max(0, |y - f(x)| - ε)$
 
+**Mercer's Theorem:**
+A function $K(\mathbf{x}, \mathbf{z})$ is a valid kernel if and only if:
+1. **Symmetry:** $K(\mathbf{x}, \mathbf{z}) = K(\mathbf{z}, \mathbf{x})$
+2. **Positive Semi-definite:** For any finite set of points $\{\mathbf{x}_1, \ldots, \mathbf{x}_n\}$, the Gram matrix $G_{ij} = K(\mathbf{x}_i, \mathbf{x}_j)$ is positive semi-definite (all eigenvalues ≥ 0)
+
 **Common Kernels:**
 - **Linear:** $K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T\mathbf{z}$
 - **Polynomial:** $K(\mathbf{x}, \mathbf{z}) = (\mathbf{x}^T\mathbf{z} + c)^d$
