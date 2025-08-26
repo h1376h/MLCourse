@@ -72,6 +72,13 @@ $$Error(S) = 1 - \max_i(p_i)$$
 - **Final prediction**: $H(x) = \text{sign}\left(\sum_{t=1}^T \alpha_t h_t(x)\right)$
 - **Training error bound**: $E_{train} \leq \prod_{t=1}^T 2\sqrt{\epsilon_t(1-\epsilon_t)}$
 
+**AdaBoost Stopping Conditions:**
+- **Maximum iterations reached**: $t = T_{max}$
+- **Perfect classification**: $\epsilon_t = 0$ (no misclassifications)
+- **Weak learner error ≥ 0.5**: $\epsilon_t \geq 0.5$ (worse than random)
+- **Convergence**: $|\alpha_t| < \text{tolerance}$ (negligible contribution)
+- **Validation performance**: No improvement on validation set for $k$ iterations
+
 **Combination Strategies:**
 - **Simple averaging**: $\frac{1}{T}\sum_{t=1}^T h_t(x)$
 - **Weighted averaging**: $\sum_{t=1}^T w_t h_t(x)$
@@ -419,3 +426,27 @@ Data Type:
 ├─ Categorical → Hamming, Jaccard
 └─ Mixed types → Weighted combinations
 ```
+
+---
+
+## 📊 Statistics Reference
+
+### Basic Statistical Formulas
+
+**Variance:**
+$$\text{Var}(X) = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2 = \frac{1}{n}\sum_{i=1}^{n}x_i^2 - \bar{x}^2$$
+
+**Sample Variance (Unbiased):**
+$$s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
+
+**Covariance:**
+$$\text{Cov}(X,Y) = \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y}) = \frac{1}{n}\sum_{i=1}^{n}x_i y_i - \bar{x}\bar{y}$$
+
+**Sample Covariance (Unbiased):**
+$$s_{xy} = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})(y_i - \bar{y})$$
+
+**Standard Deviation:**
+$$\sigma = \sqrt{\text{Var}(X)} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2}$$
+
+**Sample Standard Deviation:**
+$$s = \sqrt{s^2} = \sqrt{\frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2}$$
