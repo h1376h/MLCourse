@@ -451,7 +451,7 @@ Given two valid kernels $k_1(x, x')$ and $k_2(x, x')$, and the radial basis kern
 
 #### Task
 1. Show that $k(x, x') = k_1(x, x') + k_2(x, x')$ is a valid kernel.
-2. Show that $k(x, x') = k_1(x, x')k_2(x, x')$ is a valid kernel.
+2. Show that $k(x, x') = k_1(x, x') \odot k_2(x, x')$ is a valid kernel.
 3. Show that for any two input points $x_i$ and $x_j$, $\|\phi(x_i) - \phi(x_j)\|^2 \leq 2$.
 4. Compute the value of $K(x_i, x_j)$ for $\|x_i - x_j\|_2 \in \{0, 1, 10, 100\}$. What do you observe? Use your observation to answer the next part.
 5. Consider a kernel SVM with RBF kernel. The decision function is $f(x; \alpha, b) = \sum_{i \in S} y^i \alpha^i K(x^i, x) + b$ where $S$ is the set of support vectors. Assuming linearly separable training data, prove that for a test point $y_{far}$ far from any training point $x^i$, we have $f(y_{far}; \alpha, b) \approx b$.
