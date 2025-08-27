@@ -47,6 +47,9 @@ A function $K(\mathbf{x}, \mathbf{z})$ is a valid kernel if and only if:
 **Entropy (Multi-class):**
 $$H(S) = -\sum_{i=1}^{k} p_i \log_2(p_i)$$
 
+**Conditional Entropy:**
+$$H(X|Y) = -\sum_{x,y} p(x,y) \log_2(p(x|y)) = \sum_{y} p(y) H(X|Y=y)$$
+
 **Information Gain:**
 $$IG(S, A) = H(S) - \sum_{v \in Values(A)} \frac{|S_v|}{|S|} H(S_v)$$
 
@@ -153,8 +156,10 @@ $$I(X;Y|Z) = \sum_{x,y,z} p(x,y,z) \log\left(\frac{p(x,y|z)}{p(x|z)p(y|z)}\right
 **Classification Metrics:**
 - **Accuracy**: $\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$
 - **Precision**: $\text{Precision} = \frac{TP}{TP + FP}$
-- **Recall**: $\text{Recall} = \frac{TP}{TP + FN}$
+- **Recall/Sensitivity**: $\text{Recall} = \frac{TP}{TP + FN}$
+- **Specificity**: $\text{Specificity} = \frac{TN}{TN + FP}$
 - **F1 Score**: $\text{F1} = \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$
+- **Fβ Score**: $\text{Fβ} = \frac{(1 + β²) \times \text{Precision} \times \text{Recall}}{β² \times \text{Precision} + \text{Recall}}$
 
 **Regression Metrics:**
 - **MSE**: $\text{MSE} = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2$
@@ -179,11 +184,6 @@ $$I(X;Y|Z) = \sum_{x,y,z} p(x,y,z) \log\left(\frac{p(x,y|z)}{p(x|z)p(y|z)}\right
 - **Minority Class Percentage**: $\text{Minority \%} = \frac{\text{Minority Count}}{\text{Total Count}} \times 100\%$
 
 **Evaluation Metrics for Imbalanced Data:**
-- **Precision**: $\text{Precision} = \frac{TP}{TP + FP}$
-- **Recall/Sensitivity**: $\text{Recall} = \frac{TP}{TP + FN}$
-- **Specificity**: $\text{Specificity} = \frac{TN}{TN + FP}$
-- **F1 Score**: $\text{F1} = \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$
-- **Fβ Score**: $\text{Fβ} = \frac{(1 + β²) \times \text{Precision} \times \text{Recall}}{β² \times \text{Precision} + \text{Recall}}$
 - **Balanced Accuracy**: $\text{Balanced Accuracy} = \frac{\text{Sensitivity} + \text{Specificity}}{2}$
 - **G-Mean**: $\text{G-Mean} = \sqrt{\text{Sensitivity} \times \text{Specificity}}$
 
