@@ -16,6 +16,9 @@ $$\text{subject to: } \sum_{i=1}^n \alpha_i y_i = 0, \quad 0 \leq \alpha_i \colo
 
 > **Note:** The upper bound `≤ C` on Lagrange multipliers is for **soft margin** only. For **hard margin**, remove this upper bound (set `C = ∞`).
 
+**Optimal Weight Vector (from Lagrangian derivative):**
+$$\mathbf{w}^* = \sum_{i=1}^n \alpha_i y_i \mathbf{x}_i$$
+
 **Decision Function:**
 $$f(\mathbf{x}) = \text{sign}\left(\sum_{i=1}^n \alpha_i y_i K(\mathbf{x}_i, \mathbf{x}) + b\right)$$
 
