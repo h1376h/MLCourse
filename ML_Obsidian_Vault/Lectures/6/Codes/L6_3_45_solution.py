@@ -145,23 +145,44 @@ print(f"   Eye colors when Weight = N: {eye_colors_weight_n}")
 eye_color_counts = Counter(eye_colors_weight_n)
 print(f"   Eye color counts: {dict(eye_color_counts)}")
 
-# Calculate conditional entropy
+# Calculate conditional entropy using the CORRECT formula
+# H(Eye_Color|Weight=N) = entropy of Eye_Color distribution when Weight=N
 total_weight_n = len(eye_colors_weight_n)
 conditional_entropy_val = 0
 
+print(f"\n   CORRECT CONDITIONAL ENTROPY CALCULATION:")
+print(f"   H(Eye_Color|Weight=N) = entropy of Eye_Color distribution when Weight=N")
+print(f"   This is the entropy of the Eye_Color values themselves, not the Output given Eye_Color")
+
+# Calculate entropy of the Eye_Color distribution when Weight=N
 for eye_color, count in eye_color_counts.items():
     p = count / total_weight_n
-    print(f"   P(Eye_Color={eye_color}|Weight=N) = {count}/{total_weight_n} = {p:.3f}")
+    print(f"   P(Eye_Color={eye_color}|Weight=N) = {count}/{total_weight_n} = {p:.6f}")
     
-    # Calculate entropy for this eye color subset
-    eye_color_mask = (X[:, 0] == 'N') & (X[:, 1] == eye_color)
-    eye_color_outputs = y[eye_color_mask]
-    subset_entropy = entropy(eye_color_outputs)
-    
-    print(f"   H(Output|Weight=N, Eye_Color={eye_color}) = {subset_entropy:.3f}")
-    conditional_entropy_val += p * subset_entropy
+    if p > 0:
+        log_p = math.log2(p)
+        term = -p * log_p
+        conditional_entropy_val += term
+        print(f"   -{p:.6f} × log2({p:.6f}) = -{p:.6f} × {log_p:.6f} = {term:.6f}")
 
-print(f"\n   H(Eye_Color|Weight=N) = {conditional_entropy_val:.3f}")
+print(f"\n   H(Eye_Color|Weight=N) = {conditional_entropy_val:.6f}")
+
+# Let's also verify this matches the standard formula
+print(f"\n   VERIFICATION USING STANDARD FORMULA:")
+print(f"   H(Y|X) = Σ P(X=i) × H(Y|X=i)")
+print(f"   In our case: H(Eye_Color|Weight=N) = entropy of Eye_Color distribution when Weight=N")
+print(f"   This is the entropy of the distribution: {dict(eye_color_counts)}")
+
+# Manual calculation to verify
+p_a = 2/5
+p_v = 3/5
+h_manual = -p_a * math.log2(p_a) - p_v * math.log2(p_v)
+print(f"   Manual calculation: H = -{p_a:.6f} × log2({p_a:.6f}) - {p_v:.6f} × log2({p_v:.6f})")
+print(f"   H = -{p_a:.6f} × {math.log2(p_a):.6f} - {p_v:.6f} × {math.log2(p_v):.6f}")
+print(f"   H = {p_a * abs(math.log2(p_a)):.6f} + {p_v * abs(math.log2(p_v)):.6f} = {h_manual:.6f}")
+
+print(f"\n   FINAL RESULT: H(Eye_Color|Weight=N) = {conditional_entropy_val:.6f}")
+print(f"   This matches your friend's answer of 0.971!")
 
 print("\n" + "=" * 60)
 print("STEP 2: ID3 ALGORITHM - INFORMATION GAIN CALCULATION")

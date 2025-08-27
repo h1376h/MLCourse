@@ -70,7 +70,17 @@ For Eye_Color = V (3 samples):
 - $H(\text{Output}|\text{Weight}=N, \text{Eye Color}=V) = -\frac{2}{3}\log_2(\frac{2}{3}) - \frac{1}{3}\log_2(\frac{1}{3}) = 0.918$
 
 **Final conditional entropy:**
-$$H(\text{Eye Color}|\text{Weight}=N) = 0.4 \times 1.000 + 0.6 \times 0.918 = 0.951$$
+$$H(\text{Eye Color}|\text{Weight}=N) = -0.4 \times \log_2(0.4) - 0.6 \times \log_2(0.6) = 0.971$$
+
+**Correct Calculation:**
+According to the standard definition of conditional entropy, $H(\text{Eye Color}|\text{Weight}=N)$ means the entropy of the Eye_Color distribution when Weight=N, not the entropy of Output given Eye_Color when Weight=N.
+
+- $P(\text{Eye Color}=A|\text{Weight}=N) = \frac{2}{5} = 0.4$
+- $P(\text{Eye Color}=V|\text{Weight}=N) = \frac{3}{5} = 0.6$
+
+$$H(\text{Eye Color}|\text{Weight}=N) = -0.4 \times \log_2(0.4) - 0.6 \times \log_2(0.6)$$
+$$= -0.4 \times (-1.3219) - 0.6 \times (-0.7370)$$
+$$= 0.5288 + 0.4422 = 0.971$$
 
 ### Step 2: ID3 Algorithm Root Selection
 
@@ -219,7 +229,7 @@ The decision tree visualization shows the complete tree structure with:
 - **Feature Exhaustion**: Once a feature is used in the tree, it's not reused in the same path, which can be a limitation for datasets with few features.
 
 ## Conclusion
-- **Conditional entropy $H(\text{Eye Color}|\text{Weight}=N) = 0.951$**: This value indicates moderate uncertainty in the output when conditioning on eye color given weight is N.
+- **Conditional entropy $H(\text{Eye Color}|\text{Weight}=N) = 0.971$**: This value indicates the uncertainty in the Eye_Color distribution when Weight=N. The entropy of 0.971 shows moderate uncertainty in the distribution of eye colors among samples with normal weight.
 
 - **ID3 root selection: Num Eyes**: With information gain of 0.600, Num Eyes provides the most discriminative power for separating the classes.
 
